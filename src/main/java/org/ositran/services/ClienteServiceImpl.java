@@ -251,6 +251,7 @@ public class ClienteServiceImpl implements ClienteService{
          }
           
          public List<Cliente> findClienteFiltroInstitucionesxTipo(String desInstituciones, Integer tipo){
+        	 log.debug("Ingresando a findClienteFiltroInstitucionesxTipo, desInstituciones:"+desInstituciones+",tipo:"+tipo);
             return dao.findClienteFiltroInstitucionesxTipo(desInstituciones, tipo);
          }  
 

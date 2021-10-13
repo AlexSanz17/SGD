@@ -1855,7 +1855,8 @@ public class AutoCompletarAction extends GenericAction {
     } 
      
     public void obtenerConcesionaria() throws Exception {
-    	log.debug("-> [Action] AutoCompletarAction - obtenerConcesionaria():enviaDatos() ");
+    	log.debug("-> [Action] AutoCompletarAction - "
+    			+ "obtenerConcesionaria():enviaDatos(), iWithoutStor:"+iWithoutStor);
 
         List<Cliente> listaCliente = clienteService.findAllConcesionaria(iWithoutStor);
         List<Map<String, String>> l1 = new LinkedList<Map<String, String>>();
@@ -3549,6 +3550,7 @@ public class AutoCompletarAction extends GenericAction {
         try {
             String jsonString = JSONValue.toJSONString(l1);
             jsonString = completaDataJSON(jsonString);
+            //log.debug("enviaDatos,jsonString:"+jsonString);
             HttpServletResponse response;
             response = ServletActionContext.getResponse();
             response.setHeader("Cache-Control", "no-cache"); // HTTP 1.1
@@ -3560,6 +3562,7 @@ public class AutoCompletarAction extends GenericAction {
             out = response.getWriter();
             out.print(jsonString);
         } catch (IOException e) {
+        	e.printStackTrace();
             log.error(e.getMessage(), e);
         }
     }
@@ -3580,6 +3583,7 @@ public class AutoCompletarAction extends GenericAction {
             out = response.getWriter();
             out.print(jsonString);
         } catch (IOException e) {
+        	e.printStackTrace();
             log.error(e.getMessage(), e);
         }
     }
@@ -3840,7 +3844,8 @@ public class AutoCompletarAction extends GenericAction {
     }
     
      public void getParametroActivo() {
-      log.debug("-> [Action] AutoCompletarAction - getParametroActivo():enviaDatos() ");
+      log.debug("-> [Action] AutoCompletarAction - getParametroActivo():enviaDatos, codParametro:"+codParametro);
+      try{
       List<Parametro> listaParametro = srvParametro.findByTipoActivo(codParametro);//Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
       List<Map<String, String>> l1 = new LinkedList<Map<String, String>>();
         
@@ -3857,8 +3862,14 @@ public class AutoCompletarAction extends GenericAction {
             datos.put("label", obj.getDescripcion());
             l1.add(datos);
       }
-       
+      
       enviaDatos(l1);
+      
+      }catch(Exception e){
+    	  e.printStackTrace();
+      }
+       
+      
     }
     
     public void getTipoAdjunto() {

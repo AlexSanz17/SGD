@@ -706,7 +706,7 @@
                             <artifactId>ojdbc14</artifactId>
                             <version>10.2.0.4.0</version>
                         </dependency>
-                        -->                        
+                                                
                         <dependency>
                             <groupId>com.oracle</groupId>
                             <artifactId>ojdbc6</artifactId>
@@ -718,7 +718,14 @@
                             <artifactId>mysql-connector-java</artifactId>
                             <version>5.1.6</version>
                         </dependency>
-
+						-->
+						
+						<dependency>
+						    <groupId>com.microsoft.sqlserver</groupId>
+						    <artifactId>sqljdbc41</artifactId>
+						    <version>8112.200</version>
+						</dependency>
+						
                         <dependency>
                             <groupId>org.eclipse.birt</groupId>
                             <artifactId>coreapi</artifactId>

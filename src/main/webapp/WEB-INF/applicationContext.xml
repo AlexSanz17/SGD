@@ -20,19 +20,6 @@
         <property name="idleConnectionTestPeriod" value="${bd.idleConnectionTestPeriod}" />
     </bean>
 
-    <!-- Datos de la conexion -->
-    <!-- 
-    <bean id="dataSourceSeguridad" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="${bd.seguridad.driver}" />
-        <property name="jdbcUrl" value="${bd.seguridad.url}" />
-        <property name="user" value="${bd.seguridad.usuario}" />
-        <property name="password" value="${bd.seguridad.password}" />
-        <property name="acquireIncrement" value="${bd.seguridad.acquireIncrement}" />
-        <property name="maxPoolSize" value="${bd.seguridad.maxPoolSize}" />
-        <property name="minPoolSize" value="${bd.seguridad.minPoolSize}" />
-        <property name="idleConnectionTestPeriod" value="${bd.seguridad.idleConnectionTestPeriod}" />
-    </bean>
- -->
     <!-- Mapeo y creacion de sesiones -->
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 	
@@ -41,12 +28,12 @@
         <property name="dataSource" ref="dataSource" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="database" value="ORACLE" />
+                <property name="database" value="SQL_SERVER" />
                 <property name="showSql" value="false" />
-                <property name="databasePlatform" value="org.hibernate.dialect.OracleDialect" />
+                <property name="databasePlatform" value="org.hibernate.dialect.SQLServerDialect" />
             </bean>
         </property>
-        <!-- 
+        <!--   
         <property name="jpaProperties">
 	        <props>
 	            <prop key="hibernate.hbm2ddl.auto">create</prop>
@@ -54,23 +41,9 @@
     	</property>
     	 -->
     </bean>
-	<!--
-    <bean id="entityManagerFactorySeguridad" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="seguridadPU"/>
-        <property name="dataSource" ref="dataSourceSeguridad" />
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="database" value="ORACLE" />
-                <property name="showSql" value="false" />
-                <property name="databasePlatform" value="org.hibernate.dialect.Oracle9iDialect" />
-            </bean>
-        </property>
-    </bean>
-    -->
-    <!-- Mapeo y creacion de sesiones -->
 
 
-    <!-- Archivos de Configuracion -->
+    <!-- Properties de Configuracion -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
