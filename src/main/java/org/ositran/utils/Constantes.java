@@ -450,15 +450,15 @@ public class Constantes{
 	public static final String TIPO_GRID_MENSAJERIA_CERRADOS = "17";
 	public static final String TIPO_GRID_DOCUMENTOS_ARCHIVADOS = "18";
 	public static final String TIPO_GRID_SEGUIMIENTO = "22";
-        public static final String TIPO_GRID_PENDIENTES = "24";
-        public static final String TIPO_GRID_ANULADOS = "25";
-        public static final String TIPO_GRID_PARA_FIRMAR = "26";
-        public static final String TIPO_GRID_RECEPCION_VIRTUAL = "27";
-        public static final String TIPO_GRID_DESPACHO_VIRTUAL = "28";
-        public static final String TIPO_GRID_MI_RECEPCION_VIRTUAL = "29";
-        public static final String TIPO_GRID_MI_LEGAJO = "30";
-        public static final String TIPO_GRID_LEGAJO_COMPARTIDO = "31";
-        public static final String TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS = "32";
+    public static final String TIPO_GRID_PENDIENTES = "24";
+    public static final String TIPO_GRID_ANULADOS = "25";
+    public static final String TIPO_GRID_PARA_FIRMAR = "26";
+    public static final String TIPO_GRID_RECEPCION_VIRTUAL = "27";
+    public static final String TIPO_GRID_DESPACHO_VIRTUAL = "28";
+    public static final String TIPO_GRID_MI_RECEPCION_VIRTUAL = "29";
+    public static final String TIPO_GRID_MI_LEGAJO = "30";
+    public static final String TIPO_GRID_LEGAJO_COMPARTIDO = "31";
+    public static final String TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS = "32";
 
 	// Tipos de GRID
 	public static final String BUSQUEDA_AVANZADA_ADICIONAL = "frmBusquedaAvanzadaAdicional";

@@ -47,8 +47,8 @@ var getButtonData = function(recurso) {
       objRecurso.id = "tabNuevoDocumento";
       objRecurso.href = "NuevoDocumento_mostrarVista.action?tipoTransaccion=N";
       objRecurso.iconClass = "dijitEditorIcon dijitEditorIconCopy";
-      objRecurso.label = "Crear Flujo Documental";
-      objRecurso.title = "Crear Flujo Documental";
+      objRecurso.label = "Crear Documento";
+      objRecurso.title = "Crear Documento";
     } else if (recurso == "UsuFinBtnNueDocTra") {
       objRecurso.id = "tabNuevoDocumento";
       objRecurso.href = "NuevoDocumento_mostrarVistaTramite.action?tipoTransaccion=N";

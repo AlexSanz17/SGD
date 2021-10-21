@@ -627,10 +627,13 @@ var removeAndAddToolBarInbox = function(sTipoGrid) {
 //German: me parece que es mejor primero ocultar el toolbar y luego mostrarlo una vez que haya cargado el grid
 var removeToolBarInbox=function(){
 
-   dojo.forEach(dijit.byId("toolBarInbox").getChildren(), function(item) {
-      console.debug("(removeAndAddToolBarInbox) Removiendo del toolBarInbox [%s]", item.id);
-      dijit.byId("toolBarInbox").removeChild(item);
-   });
+   if(dijit.byId("toolBarInbox").hasChildNodes()) {
+		 dojo.forEach(dijit.byId("toolBarInbox").getChildren(), function(item) {
+		      console.debug("(removeAndAddToolBarInbox) Removiendo del toolBarInbox [%s]", item.id);
+		      dijit.byId("toolBarInbox").removeChild(item);
+		 });
+   }
+	  
 };
 
 //*****

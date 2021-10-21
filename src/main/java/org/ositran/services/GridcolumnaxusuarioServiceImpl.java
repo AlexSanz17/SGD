@@ -1649,13 +1649,14 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 	}
 
 	public List<Estructura> getEstructura(String sTipoGrid, Usuario objUsuario) {
-		_log.debug("-> [Service] GridcolumnaxusuarioService - getEstructura():List<Estructura> ,sTipoGrid:"+sTipoGrid);
+		_log.info("-> [Service] GridcolumnaxusuarioService - getEstructura():List<Estructura> ,sTipoGrid:"+sTipoGrid);
                 Integer iIdGrid = null;
 		List<Estructura> estructura = null;
 		List<Gridcolumnaxusuario> lstGridColumnaXUsuario = null;
 		List<GridXGridColumna> columnas = null;
         
 		iIdGrid = gridDao.findIDByCodigo(sTipoGrid);
+		_log.info("-> [Service] GridcolumnaxusuarioService - getEstructura():List<Estructura> ,iIdGrid:"+iIdGrid);
         lstGridColumnaXUsuario = dao.findByIdUsuario(objUsuario.getIdusuario());
         columnas = gridXGridColumnaDao.encontrarPorGrid(iIdGrid);
         estructura = buildEstructura(lstGridColumnaXUsuario, columnas, objUsuario.getIdusuario());

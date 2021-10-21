@@ -39,14 +39,14 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
             List<UsuarioDerivacion> l1 = new ArrayList<UsuarioDerivacion>();
             
             try{
-                 String  sql = "select u.idusuario || '-' || uu.idunidad || '-' || u.idfuncion idp  , uu.nombre  || ' [' ||  u.nombres || ' ' || u.apellidos || ']' as usuario  from usuario u, unidad uu, funcion f " +
+                 String  sql = "select CONCAT(u.idusuario,'-',uu.idunidad,'-',u.idfuncion) idp, CONCAT(uu.nombre,'[',u.nombres,' ',u.apellidos,']') as usuario from usuario u, unidad uu, funcion f " +
                            " where " +
                            "   U.IDUNIDAD = UU.IDUNIDAD and " +
                            "   U.IDFUNCION = F.IDFUNCION and " +
                            "   u.usuariofinal = 'S' AND " +
                            "   u.estado = 'A' and (F.jefe = '1' or  u.idRol = 8) "  +
                            " union "  +
-                           " select u.idusuario || '-' || uu.idunidad || '-' || uf.idfuncion idp, uu.nombre  || ' [' || u.nombres || ' ' || u.apellidos || ']' as usuario   from usuario u, usuarioxunidadxfuncion uf, unidad uu, funcion f " +
+                           " select CONCAT(u.idusuario,'-',uu.idunidad,'-',u.idfuncion) idp, CONCAT(uu.nombre,'[',u.nombres,' ',u.apellidos,']') as usuario from usuario u, usuarioxunidadxfuncion uf, unidad uu, funcion f " +
                            " where " +
                            "   u.estado='A' AND " +
                            "   u.idusuario = uf.idusuario and " +
@@ -208,7 +208,7 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
                             "(select idRol, idusuario from usuario where idUsuario = :idUsuario and idUnidad= :idUnidad and idFuncion= :idFuncion and estado = 'A' " +
                             " union " +
                             " select idRol, idusuario from usuarioxunidadxfuncion where idUsuario= :idUsuario and idUnidad= :idUnidad and idFuncion = :idFuncion and idusuariocargo is null and " +
-                            " estado = 'A' ) ";
+                            " estado = 'A' ) table1";
                
                Query q = em.createNativeQuery(sql.toString());
 	       q.setParameter("idUsuario", usuario.getIdusuario()).setParameter("idUnidad", usuario.getIdUnidadPerfil()).setParameter("idFuncion", usuario.getIdFuncionPerfil()); 
@@ -242,12 +242,16 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
                             "     uf.idunidad = u.idunidad and  " +
                             "      uf.idfuncion   = f.idfuncion "  +
                             "  union " +
-                            "SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, decode(idusuariocargo,null,idusuario,idusuariocargo), f.jefe, uf.idRol, decode(idusuariocargo, null, '', (select uu.nombres || ' ' || uu.apellidos  from usuario uu where uu.idusuario = idusuariocargo)) datos  " +
+                            "SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, "+
+                            " CASE WHEN idusuariocargo is null THEN idusuario ELSE idusuariocargo END, "+
+                            " f.jefe, "+
+                            " uf.idRol, "+
+                            " CASE WHEN idusuariocargo is null THEN '' ELSE (select CONCAT(uu.nombres,' ', uu.apellidos) from usuario uu where uu.idusuario = idusuariocargo) END datos " +
                             "  FROM usuarioxunidadxfuncion uf, unidad u, funcion f " +
                             "   where " + 
                             "      uf.idusuario =:idusuario and " +
                             "      uf.idunidad = u.idunidad and " +
-                            "      uf.idfuncion   = f.idfuncion and uf.estado = 'A' )";
+                            "      uf.idfuncion   = f.idfuncion and uf.estado = 'A' ) tabla1 ";
 
 
              Query q = em.createNativeQuery(sql.toString());

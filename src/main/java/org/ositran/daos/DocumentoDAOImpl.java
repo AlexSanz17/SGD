@@ -747,113 +747,13 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 
 	public Integer findCantByIdPropietario(Integer iIdUsuario, Integer iIdRol, String sPerfil, char cEstado, char cPrincipal, String sTempo,
 			Integer idSede, int accion, int accion2) {
-               log.debug("-> [DAO] DocumentoDAO - findCantByIdPropietario():Integer ");
-
-		// (objUsuario.getIdusuario(),null,null,Constantes.ESTADO_ACTIVO,Constantes.DOCUMENTO_PRINCIPAL,null,null,0,0);
-		/*log.debug("parametros findByIdPropietario \n" + " iIdUsuario: "
-				+ iIdUsuario + " \n" + " iIdRol:" + iIdRol + " \n"
-				+ " sPerfil:" + sPerfil + " \n" + " cEstado:" + cEstado + " \n"
-				+ " cPrincipal:" + cPrincipal + " \n" + " sTempo:" + sTempo
-				+ " \n" + " idSede:" + idSede + " \n" + " accion:" + accion
-				+ " \n" + " accion2:" + accion2 + " \n" + " ");
-
-		String elquery = " SELECT  count( "
-				+ "  d.idDocumento  ) from  Documento d "
-				+ // " LEFT JOIN td.documento d " +
-					// " LEFT JOIN td.remitente u " +
-				" LEFT JOIN d.expediente ex " + " LEFT JOIN ex.proceso pro "
-				+ " LEFT JOIN ex.concesionario co "
-				+ " LEFT JOIN ex.cliente cl "
-				+ " LEFT JOIN cl.tipoIdentificacion ti ";
-		String nombre = null;
-		// CODIGO TEMPORAL
-		if (iIdUsuario != null) {
-			if (sTempo == null) {
-				nombre = "Documento.findByIdUsuario";
-			} else {
-				nombre = "Documento.findByIdUsuarioXX";
-			}
-		} else if (sPerfil != null) {
-			if (sTempo == null) {
-				nombre = "Documento.findByPerfil";
-			} else {
-				nombre = "Documento.findByPerfilTodo";
-			}
-		}
-		if (iIdUsuario != null) {
-			Query q;
-			if (sTempo == null) {
-				q = em.createQuery(elquery
-						+ " "
-						+ "WHERE d.principal = :principal "
-						+ "AND (d.estado = :estado AND ("
-						+ "                              (d.propietario.idusuario = :idusr and (SELECT count(r.idreemplazado) FROM Reemplazo r WHERE r.estado = 'A' AND r.idreemplazado = :idusr and r.idproceso = d.expediente.proceso.idproceso and CURRENT_DATE > r.fechainicialreemplazo and CURRENT_DATE <r.fechafinalreemplazo ) = 0 ) "
-						+ "					OR d.propietario.idusuario in "
-						+ "(SELECT r.idreemplazado FROM Reemplazo r WHERE r.estado = 'A' AND r.idusuario = :idusr and r.idproceso = d.expediente.proceso.idproceso and CURRENT_DATE > r.fechainicialreemplazo and CURRENT_DATE <r.fechafinalreemplazo )"
-						+ ") ) AND d.expediente.estado <>'T'  "
-						+ "  ORDER BY d.fechaAccion ");
-
-				// .setParameter("iddoc",iIdDoc);
-				// (Integer iddocumento, Character leido , String asunto ,
-				// Date fechacreacion ,Date fechalimiteatencion ,
-				// String tipodocumento , String nroexpediente
-				// , String nombreProceso ,String razonsocialConcesionario ,
-				// String clienteNombre , String clienteRazonSocial , String
-				// clienteTipoIdentificacion )
-
-			} else {
-				q = em.createNamedQuery(nombre);
-			}
-
-			q.setParameter("idusr", iIdUsuario);
-			q.setParameter("estado", cEstado);
-			if (sTempo == null) {
-				q.setParameter("principal", cPrincipal);
-			}
-			return Integer.valueOf(((Long) q.getSingleResult()).intValue());
-		} else if (iIdRol != null) {
-			Query q;
-			if (accion2 == 0) {
-				q = em.createQuery(elquery + " "
-						+ " WHERE :idrol in elements(d.propietario.roles) "
-						+ "AND d.estado = :estado "
-						+ "AND d.accion.idAccion=:accion "
-						+ "AND d.propietario.unidad.sede.idsede=:sede "
-						+ "ORDER BY d.idDocumento DESC");
-			} else {
-				q = em.createQuery(elquery
-						+ " "
-						+ " WHERE :idrol in elements(d.propietario.roles) "
-						+ " AND d.estado = :estado "
-						+ " AND d.propietario.unidad.sede.idsede=:sede "
-						+ " AND (d.accion.idAccion=:accion OR d.accion.idAccion=:accion2)"
-						+ " ORDER BY d.idDocumento DESC");
-
-				q.setParameter("accion2", accion2);
-			}
-			q.setParameter("idrol", iIdRol);
-			q.setParameter("estado", cEstado);
-			// q.setParameter("principal", cPrincipal);
-			q.setParameter("accion", accion);
-			q.setParameter("sede", idSede);
-			return Integer.valueOf(((Long) q.getSingleResult()).intValue());
-		} else if (sPerfil != null) {
-			log.debug("sPerfil!=null");
-			Query q = em.createNamedQuery(nombre);
-			q.setParameter("perfil", sPerfil);
-			q.setParameter("estado", cEstado);
-			q.setParameter("idsede", idSede);
-			if (sTempo == null) {
-				q.setParameter("principal", cPrincipal);
-			}
-			return new Integer(((Long) q.getSingleResult()).intValue());
-		} else {
-			return null;
-		}*/
+               log.debug("-> [DAO] DocumentoDAO - findCantByIdPropietario():Integer ,iIdUsuario:"+iIdUsuario);
+        Long count = new Long(0);       
 		if(iIdUsuario != null){
 			String sql = "SELECT COUNT(d.idDocumento) FROM Documento d WHERE d.propietario.idusuario = :idUsuario AND d.estado = :estado AND d.leido = :leido";
 			Query q = em.createQuery(sql).setParameter("idUsuario", iIdUsuario).setParameter("estado", Constantes.ESTADO_ACTIVO).setParameter("leido", Constantes.No);
-			return (Integer)q.getSingleResult();
+			count = (Long)q.getSingleResult();
+			return count.intValue();
 		}
 		return null;
 	}
