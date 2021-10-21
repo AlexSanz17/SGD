@@ -296,7 +296,8 @@ public class ExpedienteDAOImpl implements ExpedienteDAO{
    public Integer generateNroExpedienteProduccion() {
 	   log.debug("-> [DAO] ExpedienteDAO - generateNroExpedienteProduccion():Integer ");
 
-	   String sQuery = "SELECT expedienteproduccion_seq.nextval FROM DUAL";
+	   String sQuery = "SELECT NEXT VALUE FOR expediente_seq_prod";
+	   //String sQuery = "select  ISNULL(max(idexpediente),0)+1 from expediente";
 	   Query qQuery = em.createNativeQuery(sQuery);
 
 	   return Integer.valueOf(qQuery.getResultList().get(0).toString());
@@ -305,7 +306,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO{
    public Integer generateNroExpedienteDesarrollo() {
 	   log.debug("-> [DAO] ExpedienteDAO - generateNroExpedienteDesarrollo():Integer ");
 
-	   String sQuery = "SELECT exp_seq.nextval FROM DUAL";
+	   String sQuery = " SELECT NEXT VALUE FOR expediente_seq_dev";
 	   Query qQuery = em.createNativeQuery(sQuery);
 
 	   return Integer.valueOf(qQuery.getResultList().get(0).toString());

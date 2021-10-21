@@ -309,7 +309,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     @Override
     public String generateNroIdentificacionOtro() {
-        String sQuery = "SELECT tipoidentificacionotro_seq.nextval FROM DUAL";
+        String sQuery = "SELECT NEXT VALUE FOR tipoidentificacionotro_seq";
         Query qQuery = em.createNativeQuery(sQuery);
 
         return qQuery.getResultList().get(0).toString();

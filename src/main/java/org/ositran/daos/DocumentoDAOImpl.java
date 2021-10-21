@@ -199,14 +199,14 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 
 
 	public Integer getNroSiguienteConsultaTramiteDocumentario(){
-		 String sQuery = "SELECT CONSULTA_TRAMITE_SEQ.nextval FROM DUAL";
+		 String sQuery = "SELECT NEXT VALUE FOR consulta_tramite_seq";
 		 Query qQuery = em.createNativeQuery(sQuery);
 
 		 return Integer.valueOf(qQuery.getResultList().get(0).toString());
 	}
         
         public Integer getNroDocumento(){
-		 String sQuery = "SELECT DOCUMENTO_SEQ.nextval FROM DUAL";
+		 String sQuery = "SELECT NEXT VALUE FOR documento_tramite_seq";
 		 Query qQuery = em.createNativeQuery(sQuery);
 
 		 return Integer.valueOf(qQuery.getResultList().get(0).toString());
@@ -215,7 +215,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
         
         public Integer getNroTramiteDocumentario(){
                  
-		 String sQuery = "SELECT NROMP_SEQ.nextval FROM DUAL";
+		 String sQuery = "SELECT NEXT VALUE FOR nromp_tramite_seq";
 		 Query qQuery = em.createNativeQuery(sQuery);
 
 		 return Integer.valueOf(qQuery.getResultList().get(0).toString());
