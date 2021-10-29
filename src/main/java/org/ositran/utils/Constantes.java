@@ -10,10 +10,10 @@ public class Constantes{
 	public static final String AUDITORIA_TIPO_REGISTRO="Registro";
 	public static final String AUDITORIA_TIPO_ACTUALIZACION="Actualizacion";
         
-        public static final String COLOR_DOCUMENTO_ANEXO="#58ACFA";
-        public static final String COLOR_DOCUMENTO_PRINCIPAL="#2E2EFE";
-        public static final String COLOR_DOCUMENTO_CARGO = "#FAAC58";
-        public static final String COLOR_DOCUMENTO_MP_CARGO = "#8850ac";
+    public static final String COLOR_DOCUMENTO_ANEXO="#58ACFA";
+    public static final String COLOR_DOCUMENTO_PRINCIPAL="#2E2EFE";
+    public static final String COLOR_DOCUMENTO_CARGO = "#FAAC58";
+    public static final String COLOR_DOCUMENTO_MP_CARGO = "#8850ac";
 	// ///////////////////////////////////////////////////////////////////////////
 	// ///////////////////////////////////////////////////////////////////////////
 	public static final String ACCION_ARCHIVAR="archivar";
@@ -47,10 +47,10 @@ public class Constantes{
 	public static final String NO_PUEDE_RECHAZAR="N";
 	public static final String ACCION_DESPACHAR="despachar";
 	public static final String ACCION_NOTIFICAR="notificar";
-        public static final String CONCESIONARIA_INI= "999998";
-        public static final String SERIE_INI= "1";
-        
-        public static final String TAB_BUSQUEDA = "TAB_BUSQUEDA";
+    public static final String CONCESIONARIA_INI= "999998";
+    public static final String SERIE_INI= "1";
+    
+    public static final String TAB_BUSQUEDA = "TAB_BUSQUEDA";
 
 	// ///////////////////////////////////////////////////////////////////////////
 	// ///////////////////////////////////////////////////////////////////////////

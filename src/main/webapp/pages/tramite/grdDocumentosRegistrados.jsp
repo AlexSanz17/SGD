@@ -69,7 +69,7 @@
 				$("#doSearchinner").submit(function() {
 		
 					var val = $(".empty").length <= 0;
-					//alert('jojo 1'); 
+					alert('inicio Doc Ingresados'); 
 						if (val) {
 							//alert('jojo 2') ; 
 							dijit.byId('dlgProgresBar').show();
@@ -142,17 +142,8 @@
 								<a style="color: #0099FF;"	href="<s:url action="doLogout" />" target="_parent"	onclick="guardarGrid();">Cerrar Sesi&oacute;n</a>
                         &nbsp;<a href="javascript:showOnlineHelp('<s:property value='#session._USUARIO.rol' />')">Ayuda</a>
 							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="6" height="10"></td>
-			</tr>
-		</table>
-		<table width="99%">
-			<tr>
-				<td><%--s:form name="frmDerivacionMasiva" action="doDerivarMasivamente" method="post" target="frmDerivacionMasiva"--%>
+						<tr>
+				<td>
 					<div dojoType="dijit.Menu" jsid="gridMenu" id="gridMenu" style="display: none;">
 						<div dojoType="dojox.widget.PlaceholderMenuItem" label="GridColumns"></div>
 					</div>
@@ -163,7 +154,16 @@
                </div>
 				<%--/s:form--%>
 				</td>
+			</tr></tr>
+					</table>
+				</td>
 			</tr>
+			<tr>
+				<td colspan="6" height="10"></td>
+			</tr>
+		</table>
+		<table width="99%">
+			
 		</table>
 		<%--@ include file="../util/progressBar.jsp"--%>
 	</body>

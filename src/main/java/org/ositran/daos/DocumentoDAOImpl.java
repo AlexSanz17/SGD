@@ -57,7 +57,7 @@ import com.btg.ositran.siged.domain.Trazabilidaddocumento;
 import com.btg.ositran.siged.domain.Unidad;
 import com.btg.ositran.siged.domain.Usuario;
 import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
-import java.util.LinkedList;
+
 import org.ositran.services.ArchivoService;
 import org.ositran.services.UnidadService;
 import org.ositran.utils.DocumentoPublicar;
@@ -849,10 +849,10 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 			sql += "WHERE f.propietario.idusuario = :idUsuario AND f.unidadpropietario= :idUnidad and f.cargopropietario= :idCargo and f.chrestado in ('A', 'P')  AND f.flagatendido is null AND f.flagmultiple is null AND f.leido = :leido ";
 			sql += "AND f.firmado = 'N' AND (f.autor.idusuario != :idUsuario OR f.numeroTrazabilidad != 1 ) and f.estadorecepcionvirtual ='0'";
 			
-                        if (bandera)
-                           sql += " AND f.despacho = '0' "; 
-                            
-                        q = em.createQuery(sql);
+            if (bandera)
+               sql += " AND f.despacho = '0' "; 
+                
+            q = em.createQuery(sql);
 			log.debug(sql);
 
 			q.setParameter("idUsuario", usuario.getIdUsuarioPerfil());
@@ -3321,7 +3321,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 	 * @param recibidos Boolean que distingue si la bandeja es "Documentos recibidos" o "Mis Documentos"
 	 * */
 	public List findByDataUF(Usuario objUsuario, String bandeja, boolean items) {
-            log.debug("-> [DAO] DocumentoDAO - findByDataUF():List ");
+            log.debug("-> [DAO] DocumentoDAO - findByDataUF():List , bandeja:"+bandeja+", items:"+items);
             
              boolean bandera = false;
              Usuario u = new Usuario();
@@ -3380,12 +3380,17 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                  sql.append("ORDER BY f.fechaaccion desc");        
             }
         
+            log.info("findByDataUF(sql):"+sql);
+                        
             Query q = em.createQuery(sql.toString());
             q.setParameter("idUsuario", objUsuario.getIdUsuarioPerfil());
             q.setParameter("idUnidadPropietario", objUsuario.getIdUnidadPerfil());
             q.setParameter("idCargoPropietario",  objUsuario.getIdFuncionPerfil());
             Calendar fechaDia = Calendar.getInstance();
             q.setParameter("fechaDia", fechaDia.getTime());
+            
+            log.info("idUsuario:"+objUsuario.getIdUsuarioPerfil()+",idUnidadPropietario:"+objUsuario.getIdUnidadPerfil()+
+            		",IdFuncionPerfil:"+objUsuario.getIdFuncionPerfil()+",fechaDia:"+fechaDia.getTime());
 
             if(items == true){
                 try {
@@ -3396,10 +3401,11 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                                                 Set<String> expedientesLista = new HashSet<String>();
                                                 Map<String, Integer> mapCantidades = new HashMap<String, Integer>();
                                                 Map<String, Boolean> mapLeidos = new HashMap<String, Boolean>();
+                                                
+                                                log.info("Rutina para el primer documento, BandejaAgrupada:"+usuario.getBandejaAgrupada());
 
                                                 /**Rutina para el primer documento --------------------------------------------------------------------------------------*/
                                                 FilaBandejaUF fila = temp.get(0);
-
                                                 expedientesLista.add(fila.getExpediente());
                                                 mapCantidades.put(fila.getExpediente(), 1);
                                                 mapLeidos.put(fila.getExpediente(), fila.getLeido().equals(Constantes.No.toString()));

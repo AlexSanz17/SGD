@@ -36,22 +36,22 @@
                   
                   dojo.byId("filamenu"+id).setAttribute("class", "filamenusel");
                    
-                  switch (id){
+           switch (id){
                         
-        	  	case 1 :   
-                                showGridInbox(TIPO_GRID_RECIBIDOS);
-        	  		break;
-        	  	case 2:
-        	  		showGridInbox(TIPO_GRID_EXPEDIENTES);
-        	  		break;
-        	  	case 3:
-        	  		showGridInbox(TIPO_GRID_DOCUMENTOS_ARCHIVADOS);
-        	  		break;
-        	  	case 4:
-        	  		showGridInbox(TIPO_GRID_INFORMATIVOS);
-        	  		break;
+       	  	case 1 :   
+                showGridInbox(TIPO_GRID_RECIBIDOS);
+       	  		break;
+       	  	case 2:
+       	  		showGridInbox(TIPO_GRID_EXPEDIENTES);
+       	  		break;
+       	  	case 3:
+       	  		showGridInbox(TIPO_GRID_DOCUMENTOS_ARCHIVADOS);
+       	  		break;
+       	  	case 4:
+       	  		showGridInbox(TIPO_GRID_INFORMATIVOS);
+       	  		break;
 			case 5:
-                                showGridInbox(TIPO_GRID_PENDIENTES);
+                showGridInbox(TIPO_GRID_PENDIENTES);
 				break;
 			case 6:
 				showGridInbox(TIPO_GRID_ENVIADOS);
@@ -98,32 +98,32 @@
 			case 20:
 				showGridInbox(TIPO_GRID_MENSAJERIA_CERRADOS);
 				break;
-          		case 21:
+       		case 21:
 				showGridInbox(TIPO_GRID_SEGUIMIENTO);
 				break;
-                         case 22:
+           	case 22:
 				showGridInbox(TIPO_GRID_ANULADOS);
 				break;         
-                        case 23:
-                                showGridInbox(TIPO_GRID_FIRMAR);
-                                break; 
-                        case 24:
-                                showGridInbox(TIPO_GRID_RECEPCION_VIRTUAL);
+            case 23:
+                    showGridInbox(TIPO_GRID_FIRMAR);
+                    break; 
+            case 24:
+                    showGridInbox(TIPO_GRID_RECEPCION_VIRTUAL);
 				break; 
                                 
-                        case 25:
-                                showGridInbox(TIPO_GRID_DESPACHO_VIRTUAL);
+            case 25:
+                    showGridInbox(TIPO_GRID_DESPACHO_VIRTUAL);
 				break;    
                             
-                        case 26:
-                                showGridInbox(TIPO_GRID_MI_RECEPCION_VIRTUAL);
+            case 26:
+                    showGridInbox(TIPO_GRID_MI_RECEPCION_VIRTUAL);
 				break;        
                             
-                        case 27:
+            case 27:
 			        showGridInbox(TIPO_GRID_MI_LEGAJO);
 				break; 
                         
-                        case 28:
+             case 28:
 			        showGridInbox(TIPO_GRID_LEGAJO_COMPARTIDO);
 				break; 
                         

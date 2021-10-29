@@ -627,12 +627,13 @@ var removeAndAddToolBarInbox = function(sTipoGrid) {
 //German: me parece que es mejor primero ocultar el toolbar y luego mostrarlo una vez que haya cargado el grid
 var removeToolBarInbox=function(){
 
-   if(dijit.byId("toolBarInbox").hasChildNodes()) {
+	
+   /*if(dijit.byId("toolBarInbox").hasChildNodes()) {
 		 dojo.forEach(dijit.byId("toolBarInbox").getChildren(), function(item) {
 		      console.debug("(removeAndAddToolBarInbox) Removiendo del toolBarInbox [%s]", item.id);
 		      dijit.byId("toolBarInbox").removeChild(item);
 		 });
-   }
+   }*/
 	  
 };
 
@@ -1078,7 +1079,7 @@ var showGridInbox = function(sTipoGrid) {
          structure        : objJSON.structure
       }, document.createElement("div"));
 
-        alert("esto es una alerta de tipo documento    "+objTipoDocumento);
+        //alert("esto es una alerta de tipo documento    "+objTipoDocumento);
 
       //ESTO DEBERIA IR EN GETALLSTRUCTURES(), MEJORAR ESTO!!!tipoalerta
 

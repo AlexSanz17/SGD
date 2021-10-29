@@ -1887,9 +1887,9 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 	@Override //Recibidos
 	public List getBandejaDocUsuarioFinalFiltro(Usuario objUsuario,
 		 String enviados, BusquedaAvanzada objFiltro) {
-		_log.debug("-> [Service] GridcolumnaxusuarioService - getBandejaDocUsuarioFinalFiltro():List<Item> ");
-                if(objFiltro == null){
-                   return documentoService.findDocumentosUsuarioFinal(objUsuario, enviados);
+		_log.debug("-> [Service] GridcolumnaxusuarioService - getBandejaDocUsuarioFinalFiltro():List<Item> , objFiltro:"+objFiltro);
+        if(objFiltro == null){
+           return documentoService.findDocumentosUsuarioFinal(objUsuario, enviados);
 		}else{
 		   return documentoService.findDocumentosUsuarioFinalFiltro(objUsuario, enviados,objFiltro);
 		}

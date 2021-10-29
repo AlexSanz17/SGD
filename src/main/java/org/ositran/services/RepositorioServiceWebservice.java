@@ -41,48 +41,48 @@ public class RepositorioServiceWebservice implements RepositorioService{
 	private ArchivoDAO archivoDAO=null;
 	private ArchivoService archivoService;
         
-        private static String USERCREADOR=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
-        private static String USERCREADOR_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
+    private static String USERCREADOR=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
+    private static String USERCREADOR_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
         
-        //protected String usuarioAlfrescoAdmin = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN);
+    //protected String usuarioAlfrescoAdmin = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN);
 	//protected String claveAlfrescoAdmin   = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN_CLAVE);
         
 	private static final String RUTA_PADRE_EXPEDIENTE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_SPACE);
 	private static final String COMPLETE_PATH_PADRE_EXPEDIENTE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT) ;
-        private AlfrescoConnector alfrescoConnector;
+    private AlfrescoConnector alfrescoConnector;
    	private AlfrescoWSService alfrescoWebServiceClient;
    	private SeguridadService seguridadService;
-        private final String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
-        private  String[] strMonths = new String[]{
-						"ENERO",
-						"FEBRERO",
-						"MARZO",
-						"ABRIL",
-						"MAYO",
-						"JUNIO",
-						"JULIO",
-						"AGOSTO",
-						"SETIEMBRE",
-						"OCTUBRE",
-						"NOVIEMBRE",
-						"DICIEMBRE"};
+    private final String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
+    private String[] strMonths = new String[]{
+					"ENERO",
+					"FEBRERO",
+					"MARZO",
+					"ABRIL",
+					"MAYO",
+					"JUNIO",
+					"JULIO",
+					"AGOSTO",
+					"SETIEMBRE",
+					"OCTUBRE",
+					"NOVIEMBRE",
+					"DICIEMBRE"};
 
-        public RepositorioServiceWebservice(){
-            StringBuilder sb=new StringBuilder();
-            String alfrescoHost=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
-            String alfrescoPort=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
-            sb.append(SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PROTOCOLO) + "://");
-            sb.append(alfrescoHost);
-            sb.append(":");
-            sb.append(alfrescoPort);
-            sb.append("/alfresco");
-            alfrescoConnector = AlfrescoConnector.getInstance();
-            alfrescoConnector.setExternalServerURL(sb.toString());
-            alfrescoConnector.setServerHost(alfrescoHost);
-            alfrescoConnector.setServerPort(alfrescoPort);
-            alfrescoConnector.setServerURL(sb.toString());
-            
-        }
+    public RepositorioServiceWebservice(){
+        StringBuilder sb=new StringBuilder();
+        String alfrescoHost=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
+        String alfrescoPort=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
+        sb.append(SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PROTOCOLO) + "://");
+        sb.append(alfrescoHost);
+        sb.append(":");
+        sb.append(alfrescoPort);
+        sb.append("/alfresco");
+        alfrescoConnector = AlfrescoConnector.getInstance();
+        alfrescoConnector.setExternalServerURL(sb.toString());
+        alfrescoConnector.setServerHost(alfrescoHost);
+        alfrescoConnector.setServerPort(alfrescoPort);
+        alfrescoConnector.setServerURL(sb.toString());
+        
+    }
 
 	public List<EnlaceDocumento> listarDocumentos(Integer idexpediente){
 		return listarDocumentos(getExpedienteDAO().findByIdExpediente(idexpediente));
@@ -209,55 +209,55 @@ public class RepositorioServiceWebservice implements RepositorioService{
                                 
                                 if((result==AlfrescoConnector.RETURN_CODE.SUCCESS)){
                                 	AlfrescoApiWs alfrescoApiWs;
-                                        String alfrescoHostPublico = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
-                                        String alfrescoHostPort = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
-                                        String alfrescoProtocolo = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PROTOCOLO);
-                                        String URL_ALFRESCO = alfrescoProtocolo+"://"+alfrescoHostPublico+":"+alfrescoHostPort+"/alfresco/cmisatom";
-					String sruta[] = arc.getRutaAlfresco().split("/");
-                                        String rutaCarpeta = "/"+sruta[0]+"/"+sruta[1]+"/"+sruta[2]+"/"+sruta[3]+"/"+sruta[4]+"/"+sruta[5]+"/"+sruta[6];
-                                        String idDocumento="";
-                                        Session sesionAlfresco = null;
-                                        
-                                        try{
-                                                alfrescoApiWs = new AlfrescoApiWs(URL_ALFRESCO, USERCREADOR, USERCREADOR_CLAVE, REPOSITORIO_ID);
-                                                sesionAlfresco = alfrescoApiWs.getSessionAlfresco();
-                                                Document carpetaTestSistemas = (Document)sesionAlfresco.getObjectByPath(rutaCarpeta);
-                                                idDocumento = carpetaTestSistemas.getId();
-                                                String idDocRuta[] = idDocumento.split("//");
-                                                String idDocRutaFinal[] = idDocRuta[1].split(";");
-                                                String idDoc[] = idDocRutaFinal[0].split("/");
-                                                Archivo archivo = new Archivo();
-                                                PropertyUtils.copyProperties(archivo, arc);
-                                                archivo.setObjectId(idDoc[1]);
-                                                
-                                                if (idDoc[1] == null || idDoc[1].equals("")){
-                                                  bandera = true;  
-                                                  throw new Exception();  
-                                                }
-                                                archivoService.saveArchivo(archivo);
-                                                sesionAlfresco.clear();
-                                                sesionAlfresco = null;
-                                        }catch(Exception e){
-                                            e.printStackTrace();
+                                    String alfrescoHostPublico = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
+                                    String alfrescoHostPort = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
+                                    String alfrescoProtocolo = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PROTOCOLO);
+                                    String URL_ALFRESCO = alfrescoProtocolo+"://"+alfrescoHostPublico+":"+alfrescoHostPort+"/alfresco/cmisatom";
+                                    String sruta[] = arc.getRutaAlfresco().split("/");
+                                    String rutaCarpeta = "/"+sruta[0]+"/"+sruta[1]+"/"+sruta[2]+"/"+sruta[3]+"/"+sruta[4]+"/"+sruta[5]+"/"+sruta[6];
+                                    String idDocumento="";
+                                    Session sesionAlfresco = null;
+                                    
+                                    try{
+                                            alfrescoApiWs = new AlfrescoApiWs(URL_ALFRESCO, USERCREADOR, USERCREADOR_CLAVE, REPOSITORIO_ID);
+                                            sesionAlfresco = alfrescoApiWs.getSessionAlfresco();
+                                            Document carpetaTestSistemas = (Document)sesionAlfresco.getObjectByPath(rutaCarpeta);
+                                            idDocumento = carpetaTestSistemas.getId();
+                                            String idDocRuta[] = idDocumento.split("//");
+                                            String idDocRutaFinal[] = idDocRuta[1].split(";");
+                                            String idDoc[] = idDocRutaFinal[0].split("/");
+                                            Archivo archivo = new Archivo();
+                                            PropertyUtils.copyProperties(archivo, arc);
+                                            archivo.setObjectId(idDoc[1]);
                                             
-                                            if (sesionAlfresco!=null){
-                                                try{
-                                                     sesionAlfresco.clear();
-                                                     sesionAlfresco = null;
-                                                }catch(Exception ex){
-                                                     ex.printStackTrace();
-                                                }
-                                            }    
-                                            
-                                             bandera = true; 
-                                             break;
-                                        }        
+                                            if (idDoc[1] == null || idDoc[1].equals("")){
+                                              bandera = true;  
+                                              throw new Exception();  
+                                            }
+                                            archivoService.saveArchivo(archivo);
+                                            sesionAlfresco.clear();
+                                            sesionAlfresco = null;
+                                    }catch(Exception e){
+                                        e.printStackTrace();
+                                        
+                                        if (sesionAlfresco!=null){
+                                            try{
+                                                 sesionAlfresco.clear();
+                                                 sesionAlfresco = null;
+                                            }catch(Exception ex){
+                                                 ex.printStackTrace();
+                                            }
+                                        }    
+                                        
+                                         bandera = true; 
+                                         break;
+                                    }        
                                         
                                         
-				}else{
-                                    bandera = true; 
-                                    break; 
-                                }
+								}else{
+				                                    bandera = true; 
+				                                    break; 
+				                }
 			}else{
 				log.warn("Archivo \""+f.getAbsolutePath()+"\" no encontrado");
 			}
@@ -354,7 +354,7 @@ public class RepositorioServiceWebservice implements RepositorioService{
                 if (doc.getTipoDocumento().getNombre()!=null){
                     propiedades.put(Constants.createQNameString(AlfrescoWSService.NAMESPACE_OSINERG_MODEL,"tipoDocumento"),doc.getTipoDocumento().getNombre());
                 }
-		if (doc.getNumeroDocumento()!=null){
+                if (doc.getNumeroDocumento()!=null){
                     propiedades.put(Constants.createQNameString(AlfrescoWSService.NAMESPACE_OSINERG_MODEL,"numDocumento"),doc.getNumeroDocumento());
                 }
                

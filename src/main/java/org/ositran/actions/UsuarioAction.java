@@ -493,14 +493,14 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 	public String runBody() throws Exception{
                 System.out.println("******************************RUN BODY********************************");
 		try{
-			log.debug("En runBody");
+			log.info("En runBody");
 			setMapSession(ActionContext.getContext().getSession());
 			Usuario objUsuario=(Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
 			Map<String,Integer> mapRecurso=new HashMap<String,Integer>();
 			String sOpcionMenu=(String) getMapSession().get("opcionmenu");
 			mapRecurso=(Map<String,Integer>) getMapSession().get(Constantes.SESSION_RECURSO);
 
-			log.debug("Opcion de Menu [" + sOpcionMenu + "]");
+			log.info("Opcion de Menu [" + sOpcionMenu + "]");
 
 			if(mapRecurso.get("MPGrd") == 1 || mapRecurso.get("QASGrd") == 1){
 				getMapSession().put("columnas","\"id\",\"Remitente\",\"Asunto\",\"Fecha\"");
@@ -526,10 +526,6 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 			}
 
 			if(mapRecurso.get("msggrid") == 1){
-				// setLstModulo(getSrvModulo().findAll());
-				// getMapSession().put("columnas", "\"id\",\"Nombre\"");
-				// getMapSession().put("nrocolumnas", 2);
-
 				return "mensajeria";
 			}
 			if(mapRecurso.get("MantGrdMod") == 1 &&  sOpcionMenu!=null && sOpcionMenu.equals("MantMnuMod")){
@@ -565,18 +561,13 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 				getMapSession().put("nrocolumnas",4);
 
 				return "MantMnuUsuComp";
-			}
-
-			else if(mapRecurso.get("MantGrdLogDoc") == 1 &&  sOpcionMenu!=null &&  sOpcionMenu.equals("MantMnuLogDoc")){
+			}else if(mapRecurso.get("MantGrdLogDoc") == 1 &&  sOpcionMenu!=null &&  sOpcionMenu.equals("MantMnuLogDoc")){
 				lstLogOperacion = null;
 				getMapSession().put("columnas","\"id\",\"Documento\",\"Usuario\",\"Fecha\"");
                                 getMapSession().put("nrocolumnas",4);
 
-				return "MantMnuLogDoc";
-			}
-
-
-			else if(mapRecurso.get("MantGrdPro") == 1 &&  sOpcionMenu!=null &&  sOpcionMenu.equals("MantMnuPro")){
+				return "MantMnuLogDoc";				
+			}else if(mapRecurso.get("MantGrdPro") == 1 &&  sOpcionMenu!=null &&  sOpcionMenu.equals("MantMnuPro")){
 				setLstPL(getSrvProceso().getProcesosActivos());
 				getMapSession().put("columnas","\"id\",\"Nombre\",\"Tiempo Atencion\",\"Responsable\"");
 				getMapSession().put("nrocolumnas",4);
@@ -689,9 +680,11 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 				return "MantMnuRee";
 			}
 			else if(sOpcionMenu!=null && sOpcionMenu.equals("MPMnuDocReg")){
+				log.info("Opcion:mp");
 				return "mp";
 			}
 			else if(sOpcionMenu!=null && sOpcionMenu.equals("DigMnuDocIng")){
+				log.info("Opcion:dig");
 				return "dig";
 			}
 			else if(sOpcionMenu!=null && sOpcionMenu.equals("QASMnuDocDig")){
