@@ -40,11 +40,11 @@ public static void main(String[] args) {
 	  // properties
 	  Map<String, Object> properties = new HashMap<String, Object>();
 	  properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:folder");
-	  properties.put(PropertyIds.NAME, "SGD_BASE"); // folder name
+	  properties.put(PropertyIds.NAME, "SGD_BASE_PRUEBA"); // folder name
 	
 	  // create the folder
 	  Folder parent = root.createFolder(properties);
-	  String name = "sgd_test_prueba.txt";
+	  String name = "sgd_test_prueba_2.txt";
 	
 	  // properties
 	  Map<String, Object> properties2 = new HashMap<String, Object>();
@@ -52,7 +52,7 @@ public static void main(String[] args) {
 	  properties2.put(PropertyIds.NAME, name);
 	
 	  // content
-	  byte[] content = "Prueba 2 integracion SGD con alfresco".getBytes();
+	  byte[] content = "Prueba 2 integracion SGD con alfresco parte2".getBytes();
 	  InputStream stream = new ByteArrayInputStream(content);
 	  ContentStream contentStream = new ContentStreamImpl(name, BigInteger.valueOf(content.length), "text/plain", stream);
 	

@@ -226,6 +226,7 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 	private UsuarioService srvUsuario;
 	private List<CarpetaBusqueda> lisbc;
 	private CarpetabusquedaService svrCb;
+	private String sCaptcha;
 
 	// ////////////////////////////////
 	// Constructors //
@@ -299,8 +300,9 @@ public class UsuarioAction implements SessionAware,CookieProvider{
         }
         
         String captchaInput = request.getParameter("codecp");
-        String captcha = (String) mapSession.get("captcha");
+        //String captcha = (String) mapSession.get("captcha");
         String storage  = request.getParameter("storage");
+        //String captcha  = request.getParameter("captcha");
                 
                 /*if(captchaInput.equals(captcha)){
 
@@ -309,11 +311,23 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 		}*/
                   
           //clave siged
-                
+        
+        //System.out.println("sCaptcha:"+sCaptcha);
+        //log.info("sCaptcha:"+sCaptcha);
+        
+        
         if (!getSrvUsuario().findValidarUsuario(getSUsuario(), getSClave())){
 			log.error("No se encontro usuario [" + getSUsuario() + "]");
 			return Action.ERROR;
 		}
+		
+        
+		/*
+        if (!getSrvUsuario().findValidarUsuarioCatpcha(getSUsuario(), getSClave(), getsCaptcha())){
+			log.error("No se encontro usuario [" + getSUsuario() + "]");
+			return Action.ERROR;
+		}
+        */
                 
             /*
             if (!validaUsuarioAD(getSUsuario(),getSClave())){
@@ -1573,5 +1587,15 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 	public void setSeguimientoService(SeguimientoService seguimientoService) {
 		this.seguimientoService = seguimientoService;
 	}
+
+	public String getsCaptcha() {
+		return sCaptcha;
+	}
+
+	public void setsCaptcha(String sCaptcha) {
+		this.sCaptcha = sCaptcha;
+	}
+	
+	
         
 }

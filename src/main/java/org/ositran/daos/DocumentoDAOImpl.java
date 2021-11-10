@@ -2089,13 +2089,15 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 			String propietario, String areaDestino, String tipoDocumento,
 			Date documentoDesde, Date documentoHasta, Date expedienteDesde,
 			Date expedienteHasta, String numeroSuministro, String operador, String areaOrigen, String areaAutor, String sqlQueryDinamico[], String nroHT, String nroRS, String nroLegajo, String tipoLegajo, String tipoConsulta, String unidadUsuario, String cargoUsuario, String autor) {
-		log.debug("-> [DAO] DocumentoDAO - busquedaDocumento():List<Documento> ");
+		log.info("-> [DAO] DocumentoDAO - busquedaDocumento():List<Documento> ");
  
 		SimpleDateFormat fechita = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		log.debug("los campos a buscar: [numeroDocumento:" + numeroDocumento
+		log.info("los campos a buscar: [numeroDocumento:" + numeroDocumento
 				+ ", numeroMesaPartes:" + numeroMesaPartes
 				+ ", asuntoDocumento:" + asuntoDocumento
 				+ ", numeroExpediente:" + numeroExpediente
+				+ ", nroLegajo:" + nroLegajo
+				+ ", tipoLegajo:" + tipoLegajo
 				+ ", asuntoExpediente:" + asuntoExpediente
 				+ ", estadoExpediente:" + estadoExpediente + ", concesionario:"
 				+ concesionario + ", cliente:" + cliente + ", proceso:"
@@ -2114,8 +2116,11 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                 
                 operador = " " + operador + " ";
 		boolean encontrado = false;
-		StringBuilder sql = new StringBuilder(
+		/*StringBuilder sql = new StringBuilder(
 				"SELECT DISTINCT D.* FROM EXPEDIENTESTOR ES ");
+		*/
+		StringBuilder sql = new StringBuilder(
+				"SELECT D.* FROM EXPEDIENTESTOR ES ");
 		sql.append("RIGHT JOIN EXPEDIENTE E ON ES.IDEXPEDIENTE=E.IDEXPEDIENTE ");
 		sql.append("RIGHT JOIN DOCUMENTO D ON E.IDEXPEDIENTE=D.EXPEDIENTE ");
 		sql.append("LEFT JOIN CLIENTE CL ON D.ID_CLIENTE=CL.IDCLIENTE ");
@@ -2407,7 +2412,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 			encontrado = true;
 		}
                 
-                if (nroLegajo != null) {
+        if (nroLegajo != null) {
 			if (encontrado) {
 			    sql.append(operador);
 			}
@@ -2443,32 +2448,34 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 
 		//sql.append(") AND D.CONFIDENCIAL != 'S' ");
 		sql.append(") order by D.fechaCreacion desc"); //x
+		
+		log.info("Query armado:"+sql);
 
 		if (encontrado) {
 			// al menos se ha seleccionado un campo a buscar
-			log.debug("El query a buscar: " + sql);
+			log.info("El query a buscar: " + sql);
 			sqlQueryDinamico[0] = sql.toString();
 			Query q = em.createNativeQuery(sql.toString(), Documento.class);
                         
-                        if (nroLegajo != null){
-                            q.setParameter("nroLegajo", nroLegajo);
-                            sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":nroLegajo", nroLegajo);
-                        }
-                        
-                         if (tipoLegajo != null){
-                            q.setParameter("idTipoLegajo", new Integer(tipoLegajo));
-                            sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":idTipoLegajo", tipoLegajo);
-                        }
-                        
-                        if (nroHT != null){
-                            q.setParameter("nroHT", new Integer(nroHT));
-                            sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":nroHT", nroHT);
-                        }
-                        
-                        if (nroRS != null){
-                           q.setParameter("nroRS", new Integer(nroRS)); 
-                           sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":nroRS", nroRS);
-                        }
+            if (nroLegajo != null){
+                q.setParameter("nroLegajo", nroLegajo);
+                sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":nroLegajo", nroLegajo);
+            }
+            
+             if (tipoLegajo != null){
+                q.setParameter("idTipoLegajo", new Integer(tipoLegajo));
+                sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":idTipoLegajo", tipoLegajo);
+            }
+            
+            if (nroHT != null){
+                q.setParameter("nroHT", new Integer(nroHT));
+                sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":nroHT", nroHT);
+            }
+            
+            if (nroRS != null){
+               q.setParameter("nroRS", new Integer(nroRS)); 
+               sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":nroRS", nroRS);
+            }
 
 			if (numeroDocumento != null) {
 				q.setParameter("numeroDocumento", numeroDocumento);
@@ -2495,13 +2502,13 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 				q.setParameter("estadoExpediente", estadoExpediente);
 				sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":estadoExpediente", "'" + estadoExpediente) + "'";
 			}*/
-                        if (estadoExpediente != null) {
-                            if(tipoConsulta.equals("busqueda"))
-                            {
-                                q.setParameter("estadoExpediente", estadoExpediente);
-                                sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":estadoExpediente", "'" + estadoExpediente) + "'";
-                            }
-                        }
+            if (estadoExpediente != null) {
+                if(tipoConsulta.equals("busqueda"))
+                {
+                    q.setParameter("estadoExpediente", estadoExpediente);
+                    sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":estadoExpediente", "'" + estadoExpediente) + "'";
+                }
+            }
 			if (concesionario != null) {
 				q.setParameter("concesionario", concesionario);
 				sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":concesionario", concesionario);
@@ -2515,13 +2522,13 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 				sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":proceso", proceso);
 			}
 			if (propietario != null) {
-                            q.setParameter("propietario", new Integer(propietario));
-                            sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":propietario", propietario);
-                        }
-                        if (autor != null) {
-                            q.setParameter("autor", new Integer(autor));
-                            sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":autor", autor);
-                        }
+                q.setParameter("propietario", new Integer(propietario));
+                sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":propietario", propietario);
+            }
+            if (autor != null) {
+                q.setParameter("autor", new Integer(autor));
+                sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":autor", autor);
+            }
 			if (areaDestino != null) {
 				q.setParameter("unidad", new Integer(areaDestino));
 				sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":unidad", areaDestino);
@@ -3463,74 +3470,74 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 
 
 	private ItemUF llenarItemUF(FilaBandejaUF fila){
-                ItemUF uuf = new ItemUF();
-                Usuario objUsuario = new Usuario();
-                
-                objUsuario.setIdUsuarioPerfil(fila.getPropietario().getIdusuario());
-                objUsuario.setIdUnidadPerfil(fila.getUnidadpropietario());
-                objUsuario.setIdFuncionPerfil(fila.getCargopropietario());
-                       
-                uuf.setNroTramite(fila.getNroTramite());
-		uuf.setId(fila.getId());
-                uuf.setTipodocumento(fila.getIdtipodocumento().toString());
-                uuf.setOrigen(fila.getOrigen());
-                uuf.setTipoalerta(fila.getTipoalerta());
-                uuf.setRemitente(fila.getRemitente().getNombreCompleto());
-                uuf.setIdPropietario(fila.getPropietario().getIdusuario().toString());
-                uuf.setPropietario(fila.getPropietario().getNombreCompleto());
-                uuf.setArea(fila.getDesunidadremitente());
-                uuf.setAreaAutor("");  
-                uuf.setIdDestinatario("-1");
-                uuf.setIdAreaAutor(fila.getUnidadautor().toString());
-                uuf.setDocumentoreferencia(fila.getDocumentoreferencia());
-                uuf.setIconoArea("images/ed_blank.gif");
-                uuf.setVirtual("X");
-                
-                if (fila.getVirtual()!=null && !fila.getVirtual().equals("")){
-                   if (fila.getVirtual().equals("XX")){
-                     uuf.setVirtual("X");
-                   }else{
-                       if (fila.getVirtual().substring(0, 1).equals("D")){
-                         uuf.setVirtual("D");
-                       }else{
-                          if (fila.getVirtual().substring(1, 2).equals("R")){
-                            uuf.setVirtual("R");
-                          }   
-                       }   
-                   }
-                   
-                }
-                
-                if (fila.getLlave()!=null && !fila.getLlave().trim().equals("")){
-                   String valor = fila.getLlave().trim();
-                   String valorAuxiliar = "";
-                   try{
-                       valor = valor.substring(0, valor.indexOf('|'));
-                       valorAuxiliar = fila.getLlave().trim().substring(fila.getLlave().trim().indexOf('|') + 1, fila.getLlave().trim().length());
-                       valor = valorAuxiliar.substring(0, valorAuxiliar.indexOf('|'));
-                       valor = valorAuxiliar.substring(valorAuxiliar.indexOf('|') + 1, valorAuxiliar.length());
-                       uuf.setIconoDocumento(fila.getLlave().trim());
-                   }catch(Exception e){
-                       uuf.setIconoDocumento("");  
-                   }
-                }else{
-                   uuf.setIconoDocumento("");  
-                }  
-                
-                if (fila.getUnidadautor()!=null){
-                  uuf.setAreaAutor(fila.getDesunidadautor());
-                  if (fila.getIniciales()!=null && !fila.getIniciales().trim().equals(""))
-                     uuf.setIconoArea(fila.getId() + "|" +  fila.getIniciales());
-                }
-                
-                uuf.setAsunto(fila.getAsunto() != null ? fila.getAsunto().replace("*", "") : "");
+        ItemUF uuf = new ItemUF();
+        Usuario objUsuario = new Usuario();
+        
+        objUsuario.setIdUsuarioPerfil(fila.getPropietario().getIdusuario());
+        objUsuario.setIdUnidadPerfil(fila.getUnidadpropietario());
+        objUsuario.setIdFuncionPerfil(fila.getCargopropietario());
+               
+        uuf.setNroTramite(fila.getNroTramite());
+        uuf.setId(fila.getId());
+        uuf.setTipodocumento(fila.getIdtipodocumento().toString());
+        uuf.setOrigen(fila.getOrigen());
+        uuf.setTipoalerta(fila.getTipoalerta());
+        uuf.setRemitente(fila.getRemitente().getNombreCompleto());
+        uuf.setIdPropietario(fila.getPropietario().getIdusuario().toString());
+        uuf.setPropietario(fila.getPropietario().getNombreCompleto());
+        uuf.setArea(fila.getDesunidadremitente());
+        uuf.setAreaAutor("");  
+        uuf.setIdDestinatario("-1");
+        uuf.setIdAreaAutor(fila.getUnidadautor().toString());
+        uuf.setDocumentoreferencia(fila.getDocumentoreferencia());
+        uuf.setIconoArea("images/ed_blank.gif");
+        uuf.setVirtual("X");
+        
+        if (fila.getVirtual()!=null && !fila.getVirtual().equals("")){
+           if (fila.getVirtual().equals("XX")){
+             uuf.setVirtual("X");
+           }else{
+               if (fila.getVirtual().substring(0, 1).equals("D")){
+                 uuf.setVirtual("D");
+               }else{
+                  if (fila.getVirtual().substring(1, 2).equals("R")){
+                    uuf.setVirtual("R");
+                  }   
+               }   
+           }
+           
+        }
+        
+        if (fila.getLlave()!=null && !fila.getLlave().trim().equals("")){
+           String valor = fila.getLlave().trim();
+           String valorAuxiliar = "";
+           try{
+               valor = valor.substring(0, valor.indexOf('|'));
+               valorAuxiliar = fila.getLlave().trim().substring(fila.getLlave().trim().indexOf('|') + 1, fila.getLlave().trim().length());
+               valor = valorAuxiliar.substring(0, valorAuxiliar.indexOf('|'));
+               valor = valorAuxiliar.substring(valorAuxiliar.indexOf('|') + 1, valorAuxiliar.length());
+               uuf.setIconoDocumento(fila.getLlave().trim());
+           }catch(Exception e){
+               uuf.setIconoDocumento("");  
+           }
+        }else{
+           uuf.setIconoDocumento("");  
+        }  
+        
+        if (fila.getUnidadautor()!=null){
+          uuf.setAreaAutor(fila.getDesunidadautor());
+          if (fila.getIniciales()!=null && !fila.getIniciales().trim().equals(""))
+             uuf.setIconoArea(fila.getId() + "|" +  fila.getIniciales());
+        }
+        
+        uuf.setAsunto(fila.getAsunto() != null ? fila.getAsunto().replace("*", "") : "");
 		uuf.setAsuntoExpediente(fila.getAsuntoExpediente() != null ? fila.getAsuntoExpediente().replace("*", "") : "");
 		uuf.setDocumento(fila.getDocumento() != null ? fila.getDocumento().replace("*", "") : "");
 		uuf.setConcesionario(fila.getConcesionario());
 		uuf.setUrlarchivo("");
 		uuf.setFechalimite(fila.getFechalimite());
 		uuf.setEstado(fila.getEstado());
-                uuf.setEtapa(fila.getEtapa());
+        uuf.setEtapa(fila.getEtapa());
 		uuf.setExpediente(fila.getExpediente());
 		uuf.setCliente(fila.getCliente()==null?"":fila.getCliente());
 		uuf.setActividad(fila.getActividad());
@@ -3540,33 +3547,33 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 		uuf.setIdproceso(fila.getProceso() != null ? fila.getProceso().getIdproceso() : 0);
 		uuf.setFecharecepcion(fila.getFechaaccion());
 		uuf.setFechaAccion(fila.getFechaaccion());
-                uuf.setFechacreacion(fila.getFechaaccion());
-                uuf.setFirmado(fila.getFirmado());
-                uuf.setFirma("images/vacio.png");
-                uuf.setExterno(fila.getExterno());
-                uuf.setPrioridad("images/ed_blank.gif");
-                uuf.setNumeroTrazabilidad(fila.getNumeroTrazabilidad().intValue());
-                
-                if (uuf.getFirma()!=null && uuf.getFirmado().equals("S")){
-                    List<String> lsContarFirmas = srvArchivo.contarArchivosxFirmar(fila.getDocumentoreferencia()==null?fila.getId(): new Integer(fila.getDocumentoreferencia()), objUsuario);
+        uuf.setFechacreacion(fila.getFechaaccion());
+        uuf.setFirmado(fila.getFirmado());
+        uuf.setFirma("images/vacio.png");
+        uuf.setExterno(fila.getExterno());
+        uuf.setPrioridad("images/ed_blank.gif");
+        uuf.setNumeroTrazabilidad(fila.getNumeroTrazabilidad().intValue());
+        
+        if (uuf.getFirma()!=null && uuf.getFirmado().equals("S")){
+            List<String> lsContarFirmas = srvArchivo.contarArchivosxFirmar(fila.getDocumentoreferencia()==null?fila.getId(): new Integer(fila.getDocumentoreferencia()), objUsuario);
 
-                    if (Integer.parseInt(lsContarFirmas.get(0))>0){
-                       if (lsContarFirmas.get(0).equals(lsContarFirmas.get(1)))
-                           uuf.setFirma("images/verde.png");
-                       else{
-                            if (lsContarFirmas.get(1).equals("0"))
-                              uuf.setFirma("images/rojo.png");
-                            else
-                              uuf.setFirma("images/ambar.png");
-                           }    
-                    }
-                }
+            if (Integer.parseInt(lsContarFirmas.get(0))>0){
+               if (lsContarFirmas.get(0).equals(lsContarFirmas.get(1)))
+                   uuf.setFirma("images/verde.png");
+               else{
+                    if (lsContarFirmas.get(1).equals("0"))
+                      uuf.setFirma("images/rojo.png");
+                    else
+                      uuf.setFirma("images/ambar.png");
+                   }    
+            }
+        }
                 
                 
 		uuf.setFechalimite(fila.getFechalimitetraza());
               
-                if (fila.getPrioridadtraza()!=null)
-                   uuf.setPrioridad("images/Prioridad_"+fila.getPrioridadtraza()+".png"); 
+        if (fila.getPrioridadtraza()!=null)
+           uuf.setPrioridad("images/Prioridad_"+fila.getPrioridadtraza()+".png"); 
                 
 
 		uuf.setPropietario(fila.getPropietario().getNombreCompleto());
@@ -3585,12 +3592,12 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 			if(index < 0){
 				uuf.setTipoalerta("images/bolitaRoja.png");
 			}else{
-                              String valor  =  parametroService.findByTipo(Constantes.DIAS_LIMITE_AMBAR).get(0).getValor();
-                              if (index<=Integer.parseInt(valor)){
-                                 uuf.setTipoalerta("images/bolitaAmarilla.png"); 
-                              }else{
-                                 uuf.setTipoalerta("images/bolitaVerde.png");
-                              }   
+              String valor  =  parametroService.findByTipo(Constantes.DIAS_LIMITE_AMBAR).get(0).getValor();
+              if (index<=Integer.parseInt(valor)){
+                 uuf.setTipoalerta("images/bolitaAmarilla.png"); 
+              }else{
+                 uuf.setTipoalerta("images/bolitaVerde.png");
+              }   
 			}
 		} else {
 			uuf.setTipoalerta("images/bolita.png");
@@ -3613,14 +3620,14 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 
 		}else{
 			uuf.setAccion("Envio Multiple");
-                        try{
-                                            Documento doc = this.findByIdDocumento(Integer.parseInt(fila.getDocumentoreferencia()));
-                                            if(doc.getArchivos() != null && !doc.getArchivos().isEmpty()){
-                                               uuf.setArchivos("images/sigedIconos/adjuntar.png");
-                                            }
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
+            try{
+                Documento doc = this.findByIdDocumento(Integer.parseInt(fila.getDocumentoreferencia()));
+                if(doc.getArchivos() != null && !doc.getArchivos().isEmpty()){
+                   uuf.setArchivos("images/sigedIconos/adjuntar.png");
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
 		}
 
 		return uuf;

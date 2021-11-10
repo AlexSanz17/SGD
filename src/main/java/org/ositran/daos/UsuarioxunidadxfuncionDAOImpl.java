@@ -168,27 +168,27 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
                String  sql = "SELECT DISTINCT idRol, idusuario from " +
                             "(select idRol, idusuario from usuario where idUsuario = :idUsuario and idUnidad= :idUnidad and idFuncion= :idFuncion and estado = 'A' " +
                             " union " +
-                            " select idRol, decode(idusuariocargo,null,idusuario,idusuariocargo) idusuario from usuarioxunidadxfuncion where idUsuario= :idUsuario and idUnidad= :idUnidad and idFuncion = :idFuncion and  " +
+                            " select idRol, CASE WHEN idusuariocargo is null THEN idusuario ELSE idusuariocargo END as idusuario from usuarioxunidadxfuncion where idUsuario= :idUsuario and idUnidad= :idUnidad and idFuncion = :idFuncion and  " +
                             " estado = 'A'  ";
                        
                
                if (!usuario.getIdusuario().toString().equals(usuario.getIdUsuarioPerfil().toString())){
                    sql = sql +  " and idusuariocargo=" + usuario.getIdUsuarioPerfil() + " ) ";
                }else{
-                   sql = sql + " )";
+                   sql = sql + " ) table1";
                }
                
                
-               Query q = em.createNativeQuery(sql.toString());
-	       q.setParameter("idUsuario", usuario.getIdusuario()).setParameter("idUnidad", usuario.getIdUnidadPerfil()).setParameter("idFuncion", usuario.getIdFuncionPerfil()); 
-               List<Object> res = (List<Object>) q.getResultList();
-	       Usuarioxunidadxfuncion f  = null;
+       Query q = em.createNativeQuery(sql.toString());
+       q.setParameter("idUsuario", usuario.getIdusuario()).setParameter("idUnidad", usuario.getIdUnidadPerfil()).setParameter("idFuncion", usuario.getIdFuncionPerfil()); 
+       List<Object> res = (List<Object>) q.getResultList();
+       Usuarioxunidadxfuncion f  = null;
                
-               for (Object obj : res) {
-		f = new Usuarioxunidadxfuncion();
-                Object[] objectArray = (Object[]) obj;
-                f.setIdrol(Integer.parseInt(objectArray[0].toString())); 
-                lista.add(f);
+         for (Object obj : res) {
+        	f = new Usuarioxunidadxfuncion();
+            Object[] objectArray = (Object[]) obj;
+            f.setIdrol(Integer.parseInt(objectArray[0].toString())); 
+            lista.add(f);
 	     }
                
          }catch(Exception e){
@@ -210,17 +210,17 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
                             " select idRol, idusuario from usuarioxunidadxfuncion where idUsuario= :idUsuario and idUnidad= :idUnidad and idFuncion = :idFuncion and idusuariocargo is null and " +
                             " estado = 'A' ) table1";
                
-               Query q = em.createNativeQuery(sql.toString());
+           Query q = em.createNativeQuery(sql.toString());
 	       q.setParameter("idUsuario", usuario.getIdusuario()).setParameter("idUnidad", usuario.getIdUnidadPerfil()).setParameter("idFuncion", usuario.getIdFuncionPerfil()); 
-               List<Object> res = (List<Object>) q.getResultList();
+           List<Object> res = (List<Object>) q.getResultList();
 	       Usuarioxunidadxfuncion f  = null;
                
-               for (Object obj : res) {
-		 f = new Usuarioxunidadxfuncion();
-                 Object[] objectArray = (Object[]) obj;
-                 f.setIdrol(Integer.parseInt(objectArray[0].toString())); 
-                 lista.add(f);
-	      }
+           for (Object obj : res) {
+        	 f = new Usuarioxunidadxfuncion();
+             Object[] objectArray = (Object[]) obj;
+             f.setIdrol(Integer.parseInt(objectArray[0].toString())); 
+             lista.add(f);
+	       }
                
          }catch(Exception e){
              e.printStackTrace();

@@ -15,6 +15,8 @@ public interface UsuarioDAO{
 	public List<Usuario> findAll();
 
 	public boolean findValidarUsuario(String usuario, String clave);
+	
+	public boolean findValidarUsuarioCaptcha(String usuario, String clave, String captcha);
 
 	public List<Usuario> findListByUsuarioFinal(char cUsuarioFinal);
 

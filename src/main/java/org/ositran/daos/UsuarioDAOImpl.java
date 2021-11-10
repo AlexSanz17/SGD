@@ -256,6 +256,23 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 	    return false; 
    }
+   
+   public boolean findValidarUsuarioCaptcha(String usuario, String clave, String captcha){
+	   try {
+                 String sql = "select idusuario  from usuario where ".concat(
+                       " usuario ='"  +  usuario + "'  and  clave_siged = '" + clave + "'  and  captcha = '" + captcha +"'  and estado='A'"); 
+		  
+	         Query q = em.createNativeQuery(sql);
+	         List temp = q.getResultList();
+ 	         if (temp!=null && temp.size()>0)
+	            return true;
+ 	      } catch (Exception e) {
+	    	 e.printStackTrace();
+	         return false;
+	      }
+
+	    return false; 
+   }
 
    @SuppressWarnings("unchecked")
    public List<Usuario> findByApellidosNombresLike(String like){

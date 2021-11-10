@@ -9,13 +9,15 @@ import com.btg.ositran.siged.domain.Usuario;
 import com.btg.ositran.siged.domain.seguridad.UsuarioSeguridad;
 
 public interface UsuarioService{
-        public List<Usuario> findUsuariosxUnidad(Integer idUnidad);
-        
-        public List<Map<String, String>> findUnidadOrgSession(int id);
-        
-        public Usuario findByUsuarioClave(String strUsuario,String strClave);
-        
-        public boolean findValidarUsuario(String usuario, String clave);
+    public List<Usuario> findUsuariosxUnidad(Integer idUnidad);
+    
+    public List<Map<String, String>> findUnidadOrgSession(int id);
+    
+    public Usuario findByUsuarioClave(String strUsuario,String strClave);
+    
+    public boolean findValidarUsuario(String usuario, String clave);
+    
+    public boolean findValidarUsuarioCatpcha(String usuario, String clave, String captcha);
 
 	public Boolean esResponsableProceso(Integer iIdUsuario);
 

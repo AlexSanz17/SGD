@@ -143,7 +143,7 @@
 									<tr>
 										<td style="height:203px"></td>
 										<td>
-                                                                                    <table border="1" width="100%" cellpadding="0" cellspacing="0"<%--bordercolor="#FFFFFF"--%> align="center" style="background-color: #FFFFFF;">
+                                                <table border="1" width="100%" cellpadding="0" cellspacing="0"<%--bordercolor="#FFFFFF"--%> align="center" style="background-color: #FFFFFF;">
 												<tr>
 													<td></td>
 												</tr>
@@ -152,14 +152,14 @@
 														<s:form action="doLogin" method="post">
 
 															<table width="100%" border="0" cellpadding="0" cellspacing="0">
-                                                                                                                                <tr style="height:20px;">
-                                                                                                                                    <td colspan="5"></td>
-                                                                                                                                </tr>
+                                                                <tr style="height:20px;">
+                                                                    <td colspan="5"></td>
+                                                                </tr>
 																<tr>
 																	<td></td>
-                                                                                                                                        <td colspan="3" class="Estilo15 Estilo16"  align="center">
+                                                                      <td colspan="3" class="Estilo15 Estilo16"  align="center">
 																		<!--<div align="center"> --> 
-                                                                                                                                                <h1>	Sistema de Gesti&oacute;n Documentaria </h1>
+                                                                      <h1>	Sistema de Gesti&oacute;n Documentaria </h1>
 																		<!--</div> -->
 																	</td>
 																	<td width="2%" height="10px" >&nbsp;</td>
@@ -177,7 +177,7 @@
 																	<td align="right" class="Estilo15 Estilo16">Usuario:&nbsp;</td>
 																	<td width="33%" align="center">
 																		<input id="usuario" class="cajaMontoTotal1" name="sUsuario" type="text" size="20px" maxlength="25" />
-                                                                                                                                                <input id="storage"  name="storage" type="hidden" size="20px" maxlength="15" />
+                                                                         <input id="storage"  name="storage" type="hidden" size="20px" maxlength="15" />
 																	</td>
 																	<td width="31%" height="38"></td>
 																</tr>
@@ -186,15 +186,11 @@
 																	<td width="25%" align="right" class="Estilo15 Estilo16">Contrase&ntilde;a:&nbsp;</td>
 																	<td  align="center">
 																		<input class="cajaMontoTotal1" name="sClave" type="password" size="20px" maxlength="25"/>
-
-
 																	</td>
 																	<td width="31%" height="18"></td>
 																</tr>
-
-
-
-
+																
+																
 
 																<tr>
 																	<td width="11%" height="55"></td>

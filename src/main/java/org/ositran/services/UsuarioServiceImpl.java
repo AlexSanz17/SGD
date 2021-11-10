@@ -156,6 +156,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     public boolean findValidarUsuario(String usuario, String clave){
     	return dao.findValidarUsuario(usuario, clave);
     }
+    
+    public boolean findValidarUsuarioCatpcha(String usuario, String clave, String captcha){
+    	return dao.findValidarUsuarioCaptcha(usuario, clave, captcha);
+    }
 
     public List<Usuario> findListByUsuarioFinal(char cUsuarioFinal) {
         return getDao().findListByUsuarioFinal(cUsuarioFinal);

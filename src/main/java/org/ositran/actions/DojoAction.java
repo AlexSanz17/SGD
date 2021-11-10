@@ -2670,8 +2670,10 @@ public class DojoAction {
 		mapSession.put("busquedaAvanzada", "1");
 		mapSession.put("sTipoGrid", "98");
 
-                String[] sqlQueryDinamico = new String[1]; sqlQueryDinamico[0] = "";
+        String[] sqlQueryDinamico = new String[1]; sqlQueryDinamico[0] = "";
 		objJSON.setItems(gridColumnaXUsuarioService.getItems_BusquedaAvanzada(sTipoFiltro, objFiltro, arrFecha, sqlQueryDinamico, "busqueda", null , null));
+		
+		/*
 		if (sqlQueryDinamico[0]!=null && !sqlQueryDinamico[0].trim().equals("")){
 			LogBusquedaAvanzada logBusquedaAvanzada = new LogBusquedaAvanzada();
 			mapSession = ActionContext.getContext().getSession();
@@ -2681,6 +2683,8 @@ public class DojoAction {
 			logBusquedaAvanzada.setFechaoperacion(new Date());
 			logBusquedaAvanzadaService.saveLogBusquedaAvanzada(logBusquedaAvanzada);
 		}
+		*/
+		
 		return objJSON;
 	}
 
