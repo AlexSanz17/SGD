@@ -1131,25 +1131,20 @@ public class DocumentoAction {
                                 Archivo x = archivoService.findById(lst.get(i).getIdArchivo());
                                 String mes = lst.get(i).getFechaCreacion().toString().substring(5,7) ;
                                 String tipo = x.getDocumento().getTipoDocumento().getCodigo().replace("Ã�", "A").replace("Ã‰", "E").replace("Ã�", "I").replace("Ã“", "O").replace("Ãš", "U"); 
-
                                 if (mes.equals("01"))
                                    mes = "ENERO"; 
                                 if (mes.equals("02"))
                                    mes = "FEBRERO";
                                 if (mes.equals("03"))
                                    mes = "MARZO";
-
                                 Document documento = (Document)sesionAlfresco.getObject(x.getObjectId());//(lstArchivo.get(0).getObjectId());
                                 InputStream in = documento.getContentStream().getStream();
-
-
                                 salida = new FileOutputStream("c:\\RECURSOS\\" + mes + "\\" + tipo + "\\" + x.getRutaAlfresco().substring(x.getRutaAlfresco().lastIndexOf("/") + 1, x.getRutaAlfresco().length()));
                                 int data = 999;
                                 while (data >= 0) {
                                      data = in.read();
                                      salida.write(data);
                                 }
-
                                 salida.flush();
                                 if (salida!=null) salida.close();
                                 if (in!=null) in.close();
@@ -1829,21 +1824,17 @@ public class DocumentoAction {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		List<TramiteDocumentario> td = null;
 		String capcha = "VERDADERO";
-
 		String gRecaptchaResponse = request
 				.getParameter("g-recaptcha-response");
-
        if (request.getParameter("nroTramitedocumentario")!=null && !request.getParameter("nroTramitedocumentario").toString().trim().equals("")){
 			  td = documentoService.buscarTramiteDocumentario(request.getParameter("nroTramitedocumentario"));
 			  documentoService.getNroSiguienteConsultaTramiteDocumentario().toString();
        }
-
         request.setAttribute("nroConsultasTD", documentoService.getNroConsultaTramiteDocumentario().toString());
 	    request.setAttribute("tramitedocumentario", td);
 	    request.setAttribute("capcha", capcha);
 		RequestDispatcher rd = ServletActionContext.getServletContext().getRequestDispatcher("/respuestaTramiteDocumentario.jsp");
 		rd.forward(ServletActionContext.getRequest(), ServletActionContext.getResponse());
-
 	    return Action.NONE;
 	}*/
 
@@ -1852,14 +1843,9 @@ public class DocumentoAction {
 	@SuppressWarnings("unused")
 	public String viewDocTramite() throws IOException, ServletException{
 		HttpServletRequest request = ServletActionContext.getRequest();
-
-
         request.setAttribute("nroConsultasTD", documentoService.getNroConsultaTramiteDocumentario().toString());
 		RequestDispatcher rd = ServletActionContext.getServletContext().getRequestDispatcher("/detalleTramiteDocumentario.jsp");
 	    rd.forward(ServletActionContext.getRequest(), ServletActionContext.getResponse());
-
-
-
 	    return Action.SUCCESS;
 	}*/
 
@@ -1973,7 +1959,6 @@ public class DocumentoAction {
         /*
 	private String mostrarDocumentoIntalio() {
 		log.debug("-> [Action] DocumentoAction - mostrarDocumentoIntalio():String ");
-
 		Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 		if (usuario != null) {
 			Cliente cliente = documento.getExpediente().getCliente();
@@ -1996,7 +1981,6 @@ public class DocumentoAction {
         /*
 	private boolean esUsuarioSAS(Usuario usuario) {
 		log.debug("-> [Action] DocumentoAction - esUsuarioSAS():boolean ");
-
 		List<Rol> roles = null;//usuario.getRoles();
 		for (Rol rol : roles) {
 			if (rol.getNombre().equals(Constantes.ROL_USUARIO_SALFE_SAS)
@@ -2656,13 +2640,11 @@ public class DocumentoAction {
 /*
 	public String aprobarQAS() {
 		log.debug("-> [Action] DocumentoAction - aprobarQAS():String ");
-
 		setMapSession(ActionContext.getContext().getSession());
 		if (objDD == null) {
 			log.error("No se recogieron datos del formulario. objDD es null");
 			return Action.ERROR;
 		}
-
 		Usuario usuario = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
 		if (log.isDebugEnabled()) {
 			log.debug("Proceso seleccionado ID [" + getObjDD().getIIdProceso() + "] Nombre [" + getObjDD().getStrUnidad() + "]\nTipo de Documento seleccionado ID [" + objDD.getIIdTipoDocumento() + "]\nCliente seleccionado ID [" + getObjDD().getIIdCliente() + "] Razon Social [" + getObjDD().getStrResponsable() + "] Tipo de Identicacion [" + getObjDD().getIIdTipoIdentificacion() + "]\nAsunto [" + getObjDD().getStrAsunto() + "]\nAccion a tomar [" + getStrAcc() + "]");
@@ -2729,7 +2711,6 @@ public class DocumentoAction {
 							log.error("No se pudo agregar un parametro al iniciar el proceso", e);
 							return Action.ERROR;
 						}
-
 					}
 				}
 			}
@@ -2788,6 +2769,7 @@ public class DocumentoAction {
                                  documentoDerivacion.setTipo("P");
                                  documentoDerivacion.setIddocumento(iIdDoc);
                                  List<DocumentoDerivacion> lista = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
+                                 log.info("(goderivaruser) Tipo P:"+(lista == null?0:lista.size()));
                         
                                  if (lista!=null && lista.size()>0){
                                     listaDerivacionPara = new ArrayList<UsuarioDerivacion>();
@@ -2807,6 +2789,7 @@ public class DocumentoAction {
                                  
                                 documentoDerivacion.setTipo("C");
                                 lista = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
+                                log.info("(goderivaruser) Tipo C:"+(lista == null?0:lista.size()));
                                 if (lista!=null && lista.size()>0){
                                     listaDerivacionCC = new ArrayList<UsuarioDerivacion>();
                                     for(int i=0;i<lista.size();i++){
@@ -3089,8 +3072,6 @@ public class DocumentoAction {
 	}
 
 	/**REN Manda el documento a uno o varios usuarios, maneja solo las remisiones del documento y no puede mandarse copias ----------*
-
-
 	/**REN Devuelve el documento al usuario original, simplemente elimina la copia y crea una notificacion -------------------*/
 	public String finalizarApoyo(){
 		log.debug("-> [Action] DocumentoAction - finalizarApoyo():String ");
@@ -6285,5 +6266,3 @@ public String getIdDoc() {
             this.unidadDAO = unidadDAO;
         }
 }
-
-

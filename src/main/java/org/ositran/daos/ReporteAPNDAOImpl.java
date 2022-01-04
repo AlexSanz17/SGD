@@ -72,7 +72,7 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		String sql = "SELECT f.id, f.anndocumento, f.area, f.codArea, f.grupo,f.cantidad,f.minanno,f.maxanno,f.nroregorden FROM consolidadoreporteapn4 f ";
 
 		if(((idArea.toString().trim()).equals("Todos"))){
-			sql = sql + " INNER JOIN Parametro p ON f.codArea = substr (p.valor, 7, 3)  where p.tipo='DOCUMENTOS_PENDIENTES_GRUPO_AREA' and substr(f.grupo,0,3) = '"   +  String.valueOf(unidad.intValue()) +  "' order by f.grupo desc, f.nroregorden asc  ";
+			sql = sql + " INNER JOIN Parametro p ON f.codArea = substring(p.valor, 7, 3)  where p.tipo='DOCUMENTOS_PENDIENTES_GRUPO_AREA' and substring(f.grupo,0,3) = '"   +  String.valueOf(unidad.intValue()) +  "' order by f.grupo desc, f.nroregorden asc  ";
 		}else{
 			sql = sql + " WHERE f.codArea = " + Integer.parseInt(idArea);
 		}
@@ -646,7 +646,7 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
            try{ 
             StringBuilder sql=new StringBuilder();
             sql.append(" SELECT * FROM (");
-            sql.append("SELECT SUBSTR(A.NOMBRE, INSTR(A.nombre,']') +1, LENGTH(A.NOMBRE)), ");
+            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)), ");
             sql.append(" (SELECT us.nombres || ' '    || us.apellidos  FROM usuario us WHERE  ");
             sql.append(" us.idusuario = F.IDUSUARIO) || ' <br/>Area:'");
             sql.append("       || (SELECT u.nombre     FROM unidad u   ");
@@ -655,7 +655,7 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
             sql.append(idDocumento);
             sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL='S' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO = 'F'  ");
             sql.append(" UNION ");
-            sql.append("SELECT SUBSTR(A.NOMBRE, INSTR(A.nombre,']') +1, LENGTH(A.NOMBRE)), ");
+            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)), ");
             sql.append(" (SELECT us.nombres || ' '    || us.apellidos  FROM usuario us WHERE  ");
             sql.append(" us.idusuario = F.IDUSUARIO) || ' <br/>Area:'");
             sql.append("       || (SELECT u.nombre     FROM unidad u   ");
@@ -664,7 +664,7 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
             sql.append(idDocumento);
             sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL = 'N' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO = 'F'  ");
             sql.append(" UNION ");
-            sql.append("SELECT SUBSTR(A.NOMBRE, INSTR(A.nombre,']') +1, LENGTH(A.NOMBRE)), ");
+            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)), ");
             sql.append(" (SELECT us.nombres || ' '    || us.apellidos  FROM usuario us WHERE  ");
             sql.append(" us.idusuario = F.IDUSUARIO) || ' <br/>Area:'");
             sql.append("       || (SELECT u.nombre     FROM unidad u   ");

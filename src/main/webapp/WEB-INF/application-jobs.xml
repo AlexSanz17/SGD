@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+   ">
+   
+   <bean id="pideDAO" class="com.ositran.siged.pide.daos.PideDAOImpl" />
+   <bean id="recepcionPideDAO" class="org.ositran.daos.RecepcionPideDAOImpl" />
+   
+
+  
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	 <property name="triggers">
+		<list>
+			<ref bean="executeIntegracionMPV"/>
+		</list>
+	 </property>
+   </bean>
+    
+     <bean id="executeIntegracionMPV" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="jobMPV" />
+        <property name="startDelay" value="30000"/>
+        <property name="repeatInterval" value="1200000"/>  
+    </bean>
+    
+    <bean id="jobMPV" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="taskMPV" />
+        <property name="targetMethod" value="procesarRecepcionDespacho" />
+    </bean>
+    
+   <bean id="taskMPV" class="org.ositran.siged.jobs.IntegracionPIDESingleton">
+	 	 <property name="pideDAO" ref="pideDAO" />
+	 	 <property name="recepcionPideDAO" ref="recepcionPideDAO" />
+ 	</bean>
+
+   
+</beans>

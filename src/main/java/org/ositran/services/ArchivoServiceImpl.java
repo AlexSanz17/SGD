@@ -464,10 +464,13 @@ public class ArchivoServiceImpl implements ArchivoService{
 
 	@Transactional
 	public Archivo guardarArchivoTemporal(ArchivoTemporal objArchivoTemporal,Documento objDocumento,Integer iContador, Usuario usuarioSesion, String nombrePDFprincipal, String siglaSite){
+		Archivo archivo = null;
+		try {
 		String nombre_original = nombrePDFprincipal;
                 if(objDocumento==null){
-			throw new RuntimeException();
-		}
+					throw new RuntimeException();
+				}
+        
                 Date d=new Date();
                 
                 if (nombrePDFprincipal!=null && !nombrePDFprincipal.trim().equals("") && objArchivoTemporal.getSNombre().toLowerCase().equals(nombrePDFprincipal.toLowerCase())){
@@ -566,7 +569,12 @@ public class ArchivoServiceImpl implements ArchivoService{
                     objArchivo.setClave(clave);
                 } 
                 
-                return this.saveArchivo(objArchivo);
+             archivo = this.saveArchivo(objArchivo);
+        } catch (Exception e){
+        	e.printStackTrace();
+        }
+		
+		return archivo;
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=true)

@@ -1585,7 +1585,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (!primero) {
 						sql.append(" AND ");
 					}
-					sql.append("instr(lower(d.asunto),'");
+					sql.append("charindex(lower(d.asunto),'");
 					sql.append(palabra);
 					sql.append("')>0");
 					primero = false;
@@ -1625,7 +1625,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (!primero) {
 						sql.append(" AND ");
 					}
-					sql.append("instr(lower(d.expediente.asunto),'");
+					sql.append("charindex(lower(d.expediente.asunto),'");
 					sql.append(palabra);
 					sql.append("')>0");
 					primero = false;
@@ -1665,7 +1665,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (!primero) {
 						sql.append(" AND ");
 					}
-					sql.append("instr(lower(c.razonSocial),'");
+					sql.append("charindex(lower(c.razonSocial),'");
 					sql.append(palabra);
 					sql.append("')>0");
 					primero = false;
@@ -1696,9 +1696,9 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (!primero) {
 						sql.append(" AND ");
 					}
-					sql.append("(instr(lower(d.expediente.cliente.razonSocial),'");
+					sql.append("(charindex(lower(d.expediente.cliente.razonSocial),'");
 					sql.append(palabra);
-					sql.append("')>0 OR instr(lower(d.expediente.cliente.nombres||' '||d.expediente.cliente.apellidoPaterno||' '||d.expediente.cliente.apellidoMaterno),'");
+					sql.append("')>0 OR charindex(lower(d.expediente.cliente.nombres||' '||d.expediente.cliente.apellidoPaterno||' '||d.expediente.cliente.apellidoMaterno),'");
 					sql.append(palabra);
 					sql.append("')>0)");
 					primero = false;
@@ -1729,7 +1729,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (!primero) {
 						sql.append(" AND ");
 					}
-					sql.append("instr(lower(d.expediente.proceso.nombre),'");
+					sql.append("charindex(lower(d.expediente.proceso.nombre),'");
 					sql.append(palabra);
 					sql.append("')>0");
 					primero = false;
@@ -1761,7 +1761,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (!primero) {
 						sql.append(" AND ");
 					}
-					sql.append("instr(lower(d.propietario.nombres||' '||d.propietario.apellidos),'");
+					sql.append("charindex(lower(d.propietario.nombres||' '||d.propietario.apellidos),'");
 					sql.append(palabra);
 					sql.append("')>0");
 					primero = false;
@@ -1801,7 +1801,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (!primero) {
 						sql.append(" AND ");
 					}
-					sql.append("instr(lower(d.tipoDocumento.nombre),'");
+					sql.append("charindex(lower(d.tipoDocumento.nombre),'");
 					sql.append(palabra);
 					sql.append("')>0");
 					primero = false;
@@ -2601,7 +2601,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 	public List<DocumentoPublicar> getDocumentosPorPublicar(Integer idExpediente, Integer idDocumento) {
 		log.debug("-> [DAO] DocumentoDAO - getDocumentosPorPublicar():List<Documento> ");
 
-                String sql =   " SELECT IDREFARC,IDDOCUMENTO, IDDOCUMENTOREF, upper(SUBSTR(nombre, INSTR(nombre,']') + 1, LENGTH(nombre))) AS NOMBRE, IDARCHIVO, ESTADO, ORDEN FROM (" +
+                String sql =   " SELECT IDREFARC,IDDOCUMENTO, IDDOCUMENTOREF, upper(SUBSTRING(nombre, CHARINDEX(nombre,']') + 1, LEN(nombre))) AS NOMBRE, IDARCHIVO, ESTADO, ORDEN FROM (" +
                                " SELECT R.IDREFARC,D.IDDOCUMENTO, D.IDDOCUMENTO IDDOCUMENTOREF,  A.NOMBRE, A.IDARCHIVO, DECODE(R.ESTADO, NULL,'I','I','I','A') as estado,1 as orden " +
                                "   FROM DOCUMENTO D, ARCHIVO A , REFERENCIAARCHIVO R  " +
                                "     WHERE " +
@@ -2622,7 +2622,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                                "       D.IDDOCUMENTO = A.DOCUMENTO AND " + 
                                "       A.ESTADO = 'A' AND " +
                                "       A.PRINCIPAL = 'N' AND " +
-                               "       LOWER(SUBSTR(A.nombre,LENGTH(A.nombre) - 2,3)) = 'pdf' AND " + 
+                               "       LOWER(SUBSTRING(A.nombre,LEN(A.nombre) - 2,3)) = 'pdf' AND " + 
                                "       A.DOCUMENTO = R.IDDOCUMENTO(+) AND " +
                                "       A.DOCUMENTO = R.IDDOCUMENTOREFERENCIA (+) AND " +
                                "       A.IDARCHIVO = R.IDARCHIVO (+) " + 
@@ -2638,7 +2638,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                                "       A.ESTADO = 'A' AND " +
                                "       A.DOCUMENTO = D.IDDOCUMENTO AND D.ESTADO NOT IN ('I','N') AND  " +
                                "       A.IDARCHIVO = F.IDARCHIVO(+) AND " +
-                               "       LOWER(SUBSTR(A.nombre,LENGTH(A.nombre) - 2,3)) = 'pdf' )" +
+                               "       LOWER(SUBSTRING(A.nombre,LEN(A.nombre) - 2,3)) = 'pdf' )" +
                                " order by orden asc, IDDOCUMENTOREF asc";
 
                 

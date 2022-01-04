@@ -19,6 +19,17 @@
         <property name="minPoolSize" value="${bd.minPoolSize}" />
         <property name="idleConnectionTestPeriod" value="${bd.idleConnectionTestPeriod}" />
     </bean>
+    
+    <bean id="dataSourcePide" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${bd.pide.driver}" />
+        <property name="jdbcUrl" value="${bd.pide.url}" />
+        <property name="user" value="${bd.pide.usuario}" />
+        <property name="password" value="${bd.pide.password}" />
+        <property name="acquireIncrement" value="${bd.acquireIncrement}" />
+        <property name="maxPoolSize" value="${bd.maxPoolSize}" />
+        <property name="minPoolSize" value="${bd.minPoolSize}" />
+        <property name="idleConnectionTestPeriod" value="${bd.idleConnectionTestPeriod}" />
+    </bean>
 
     <!-- Mapeo y creacion de sesiones -->
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
@@ -41,6 +52,18 @@
     	</property>
     	 -->
     </bean>
+    
+    <bean id="entityManagerPideFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="pidePU"/>
+        <property name="dataSource" ref="dataSourcePide" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="SQL_SERVER" />
+                <property name="showSql" value="false" />
+                <property name="databasePlatform" value="org.hibernate.dialect.SQLServerDialect" />
+            </bean>
+        </property>
+    </bean>
 
 
     <!-- Properties de Configuracion -->
@@ -56,11 +79,18 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    
+    <bean id="transactionManagerPide" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerPideFactory" />
+    </bean>
+    
+    
+    <tx:annotation-driven />
     <!-- Manejador de transacciones -->
 
     <import resource="application-service.xml" />
     <import resource="application-rest.xml" />
     <import resource="applicationContext-remote.xml" />
+    <import resource="application-jobs.xml" />
 
 </beans>

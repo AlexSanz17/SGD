@@ -743,7 +743,7 @@ public class DocumentoServiceImpl implements DocumentoService {
         
        
 	public Documento findByIdDocumento(Integer iIdDocumento) {
-		log.debug("-> [Service] DocumentoService - findByIdDocumento():Documento ");
+		log.debug("-> [Service] DocumentoService - findByIdDocumento():iIdDocumento: "+iIdDocumento);
 
 		return documentoDao.findByIdDocumento(iIdDocumento);
 	}
@@ -890,7 +890,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 		
 		objDD.setFechacreacion(objD.getFechaCreacion());
 		
-                int tiempoProceso = 100;//procesoService.findByIdProceso(objD.getExpediente().getProceso().getIdproceso()).getTiempoatencion().intValue();
+        int tiempoProceso = 100;//procesoService.findByIdProceso(objD.getExpediente().getProceso().getIdproceso()).getTiempoatencion().intValue();
 		Date dNuevaFechaLimiteAtencion = fechaLimite.calcularFechaLimite(tiempoProceso, 0);
 		objDD.setDateFechaLimiteAtencion(dNuevaFechaLimiteAtencion);
 		objDD.setPropietario(objD.getPropietario());
@@ -934,7 +934,6 @@ public class DocumentoServiceImpl implements DocumentoService {
 					if (objD.getExpediente().getCliente().getUbigeoPrincipal().getProvincia().getDepartamento() != null) {
 						objDD.setIIdDepartamento(objD.getExpediente().getCliente().getUbigeoPrincipal().getProvincia().getDepartamento().getIddepartamento());
 					}
-
 				}
 				objDD.setIIdDistrito(objD.getExpediente().getCliente().getUbigeoPrincipal().getIddistrito());
 			}*/
@@ -2698,7 +2697,6 @@ public class DocumentoServiceImpl implements DocumentoService {
 						notificacionRoja = Double.parseDouble(objProceso.getPorcentajealertaR());
 						break;
 					}
-
 				}
 			}*/
 
@@ -3110,7 +3108,6 @@ public class DocumentoServiceImpl implements DocumentoService {
 	/**
 	 *
 	 *
-
 	/**
 	 * Anula o quita la referencia a un documento para el expediente dado.
 	 *
@@ -5229,6 +5226,9 @@ public class DocumentoServiceImpl implements DocumentoService {
                                             listDocReferenciados =  objDD.getListReferenciados().trim().equals("")?null:StringUtil.stringToArrayPersonalizado(objDD.getListReferenciados().trim(),'|');
                                         if (listDocReferenciados!=null && listDocReferenciados.length>0){
                                             for (int i=0;i<listDocReferenciados.length;i++){
+                                            	log.info("(DocumentoReferencia)IdDocumento:"+objD.getIdDocumento());
+                                            	log.info("(DocumentoReferencia)IdDocumentoReferencia:"+listDocReferenciados[i]);
+                                            	log.info("(DocumentoReferencia)VerDocumento:"+verDocumento(new Integer(listDocReferenciados[i]),objUsuarioSession));
                                                 DocumentoReferencia docReferencia  = new DocumentoReferencia();
                                                 docReferencia.setIdDocumento(objD.getIdDocumento()); 
                                                 docReferencia.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
@@ -5236,6 +5236,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                                                 docReferencia.setFechaCreacion(fecha);
                                                 docReferencia.setVerDocumento(verDocumento(new Integer(listDocReferenciados[i]),objUsuarioSession));
                                                 docReferencia.setEstado("A");
+                                                log.info("(DocumentoReferencia)docReferencia:"+docReferencia.toString());
                                                 documentoReferenciaDAO.saveDocumentoReferencia(docReferencia);
                                                 
                                                 if (objD.getTipoDocumento().getExternoQR()!= null && objD.getTipoDocumento().getExternoQR().equals("1")){
@@ -5409,7 +5410,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                                         }
                                     } ////JBENGOA FIN
                                 }
-                                
+                                log.info("trazabilidadDocumentoService is " + trazabilidadDocumentoService);
                                 trazabilidadDocumentoService.saveTrazabilidadDocumento(objD, objUsuarioSession, false, true);
                                 objDD.setIIdDocumento(objD.getIdDocumento());
                                 objDD.setsNroExpediente(expediente.getNroexpediente());
@@ -6822,4 +6823,3 @@ public class DocumentoServiceImpl implements DocumentoService {
             }
 
 }
-

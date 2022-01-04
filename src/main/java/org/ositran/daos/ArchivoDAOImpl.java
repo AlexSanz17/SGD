@@ -21,7 +21,7 @@ public class ArchivoDAOImpl implements ArchivoDAO{
        private EntityManager em;
         
        public List<Archivo> findArchivosxFirmar(Integer idDocumento , Usuario usuario){
-         String sql = "SELECT c FROM Archivo c where c.documento.idDocumento=:idDocumento and c.estado = 'A' and upper(substr(c.rutaAlfresco, length(c.rutaAlfresco)-2,3)) = 'PDF' and " +
+         String sql = "SELECT c FROM Archivo c where c.documento.idDocumento=:idDocumento and c.estado = 'A' and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF' and " +
                       " c.idArchivo not in (select a.idArchivo from FirmaArchivo a, Archivo aa where aa.documento.idDocumento = :idDocumento " +
                       " and aa.idArchivo = a.idArchivo and a.estado = 'F' and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario) order by c.documento.idDocumento desc , c.principal desc ";
          Query q = em.createQuery(sql);
@@ -32,7 +32,7 @@ public class ArchivoDAOImpl implements ArchivoDAO{
        }
        
        public List<Archivo> findArchivoTipoFirmardo(Integer idDocumento , char tipoArchivo, String tipoFirma){
-         String sql = "SELECT c FROM Archivo c, FirmaArchivo a where c.documento.idDocumento= :idDocumento and c.estado = 'A' and c.principal = :tipoArchivo and upper(substr(c.rutaAlfresco, length(c.rutaAlfresco)-2,3)) = 'PDF' and " +
+         String sql = "SELECT c FROM Archivo c, FirmaArchivo a where c.documento.idDocumento= :idDocumento and c.estado = 'A' and c.principal = :tipoArchivo and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF' and " +
                       " c.idArchivo = a.idArchivo and a.accion = :tipoFirma " ;
          Query q = em.createQuery(sql);
        
@@ -41,7 +41,7 @@ public class ArchivoDAOImpl implements ArchivoDAO{
        }
        
         public List<Archivo> findArchivoPrincipalFirmardo(Integer idDocumento , Usuario usuario){
-         String sql = "SELECT c FROM Archivo c, FirmaArchivo a where c.documento.idDocumento=:idDocumento and c.estado = 'A' and c.principal = 'S'  and upper(substr(c.rutaAlfresco, length(c.rutaAlfresco)-2,3)) = 'PDF' and " +
+         String sql = "SELECT c FROM Archivo c, FirmaArchivo a where c.documento.idDocumento=:idDocumento and c.estado = 'A' and c.principal = 'S'  and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF' and " +
                       " c.idArchivo = a.idArchivo and a.estado = 'F' and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario ";
          Query q = em.createQuery(sql);
        
@@ -52,7 +52,7 @@ public class ArchivoDAOImpl implements ArchivoDAO{
        
        public List<String> contarArchivosxFirmar(Integer idDocumento , Usuario usuario){
            String sql = " SELECT a.c1, b.c2 from " +
-                        "(SELECT count(1) c1 FROM Archivo c where c.documento =:idDocumento and c.estado = 'A' and upper(substr(c.rutaAlfresco, length(c.rutaAlfresco)-2,3)) = 'PDF') a ,  " +
+                        "(SELECT count(1) c1 FROM Archivo c where c.documento =:idDocumento and c.estado = 'A' and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF') a ,  " +
                         "(SELECT count(1) c2 from FirmaArchivo a, Archivo aa where aa.documento = :idDocumento and aa.estado = 'A' " +
                         " and aa.idArchivo = a.idArchivo and a.estado = 'F' and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario) b " ;
                         
@@ -125,7 +125,7 @@ public class ArchivoDAOImpl implements ArchivoDAO{
 	}
         
         public List<Archivo> buscarDocumentosPublicar(String nroTramite){
-           String sql = "SELECT IDARCHIVO, OBJECTID, upper(SUBSTR(nombre, INSTR(nombre,']')  + 1, LENGTH(nombre))) AS NOMBRE, ORDEN, PRINCIPAL FROM (  " +
+           String sql = "SELECT IDARCHIVO, OBJECTID, upper(SUBSTRING(nombre, CHARINDEX(nombre,']')  + 1, LEN(nombre))) AS NOMBRE, ORDEN, PRINCIPAL FROM (  " +
                         "        SELECT A.IDARCHIVO, A.OBJECTID ,  A.NOMBRE, 1 as orden, A.PRINCIPAL   " +
                         "          FROM DOCUMENTO D, ARCHIVO A , REFERENCIAARCHIVO R " +   
                         "            WHERE  " +
@@ -146,7 +146,7 @@ public class ArchivoDAOImpl implements ArchivoDAO{
                         "              D.IDDOCUMENTO = A.DOCUMENTO AND " +   
                         "              A.ESTADO = 'A' AND " +  
                         "              A.PRINCIPAL = 'N' AND " +  
-                        "              LOWER(SUBSTR(A.nombre,LENGTH(A.nombre) - 2,3)) = 'pdf' AND   " +
+                        "              LOWER(SUBSTRING(A.nombre,LEN(A.nombre) - 2,3)) = 'pdf' AND   " +
                         "              A.DOCUMENTO =  R.IDDOCUMENTO AND   " +
                         "              A.DOCUMENTO = R.IDDOCUMENTOREFERENCIA  AND   " +
                         "              A.IDARCHIVO = R.IDARCHIVO  AND R.ESTADO = 'A' " +    
@@ -163,7 +163,7 @@ public class ArchivoDAOImpl implements ArchivoDAO{
 			"              A.ESTADO = 'A'  AND " +
                         "              A.IDARCHIVO = F.IDARCHIVO AND " +
                         "              F.ESTADO = 'A' AND " +
-                        "              LOWER(SUBSTR(A.nombre,LENGTH(A.nombre) - 2,3)) = 'pdf' ) " + 
+                        "              LOWER(SUBSTRING(A.nombre,LEN(A.nombre) - 2,3)) = 'pdf' ) " + 
                         "        order by orden asc ";
            
               Query q = em.createNativeQuery(sql.toString());
@@ -184,50 +184,105 @@ public class ArchivoDAOImpl implements ArchivoDAO{
         }
         
        
-         public List<Archivo> buscarArchivosPorRutaDocumento(Integer idDocumento, String nombre){
-              return em.createNamedQuery("Archivo.buscarArchivosPorRutaDocumento").setParameter("estado", Constantes.ESTADO_ACTIVO).
-                       setParameter("nombre", nombre).setParameter("idDocumento", idDocumento).getResultList();
-         }
+        public List<Archivo> buscarArchivosPorRutaDocumento(Integer idDocumento, String nombre){
+            List<Archivo> archivos = new ArrayList<Archivo>();
+          	
+          	try{
+          		_log.info("buscarArchivosPorRutaDocumento: idDocumento:"+idDocumento+",nombre:"+nombre);
+          		String sql = "SELECT a.* FROM Archivo a inner join documento d on a.documento = d.iddocumento WHERE  d.idDocumento = :idDocumento and a.estado = :estado and LOWER(SUBSTRING(a.NOMBRE, CHARINDEX(a.nombre,']') +1, LEN(a.NOMBRE))) = :nombre";
+          		Query q = em.createNativeQuery(sql).setParameter("nombre", nombre) //.getRutaAlfresco().toLowerCase())
+			    .setParameter("idDocumento", idDocumento)
+			    .setParameter("estado", Constantes.ESTADO_ACTIVO);
+          		
+          		List<Object> res = (List<Object>) q.getResultList();                
+                for (Object obj : res) {                	
+                    Object[] objectArray = (Object[]) obj;
+                    //Archivo archivo = new Archivo();
+                    _log.info("idArchivo:"+objectArray[0].toString());
+                    
+                    /*
+                    archivo.setIdArchivo(Integer.parseInt(objectArray[0].toString()));
+                    archivo.setClave(objectArray[1]==null?"":objectArray[1].toString());
+                    archivo.setDescripcion(objectArray[2]==null?"":objectArray[2].toString());
+                    archivo.setEstado(objectArray[3]==null?Character.valueOf("".charAt(0)):Character.valueOf(objectArray[3].toString().charAt(0)));
+                    archivo.setEstadoDigitalizacion(objectArray[4]==null?"".charAt(0):objectArray[4].toString().charAt(0));
+                    archivo.setNombre(objectArray[7]==null?"":objectArray[7].toString());
+                    archivo.setObjectId(objectArray[8]==null?"":objectArray[8].toString());
+                    archivo.setPrincipal(objectArray[9].toString().charAt(0));
+                    archivo.setRutaAlfresco(objectArray[10]==null?"":objectArray[10].toString());
+                    archivo.setRutaArchivoPdf(objectArray[11]==null?"":objectArray[11].toString());
+                    archivo.setTamano(objectArray[12]==null?0:Integer.parseInt(objectArray[12].toString()));
+                    archivo.setUnidadAutor(objectArray[13]==null?0:Integer.parseInt(objectArray[13].toString()));
+                    //archivo.setAutor(objectArray[16]==null?0:Integer.parseInt(objectArray[13].toString()));
+                    //archivo.setDocumento(objectArray[17]==null?0:Integer.parseInt(objectArray[17].toString()));
+                    */
+                    Archivo archivo = (Archivo)em.createQuery("select a from Archivo a where idArchivo = :idArchivo")
+                    .setParameter("idArchivo", Integer.parseInt(objectArray[0].toString())).getSingleResult();
+                    
+                    archivos.add(archivo);
+                 }
+                                 
+          	}catch(Exception e){         		
+          		e.printStackTrace();
+          	}
+          	
+          	return archivos;
+        }
+        
 
 	public Archivo guardarObj(Archivo objArchivo){
-               if(objArchivo.getRutaAlfresco() != null){
-                 String sql = "SELECT COUNT(ar.idArchivo) FROM Archivo ar WHERE ar.documento.idDocumento = :idDocumento and LOWER(SUBSTR(NOMBRE, INSTR(nombre,']') +1, LENGTH(NOMBRE))) = :nombre and ar.estado =  'A' ";
-		  Long numero = (Long)em.createQuery(sql).setParameter("nombre", objArchivo.getNombreArchivo().toLowerCase()) 
-							 .setParameter("idDocumento", objArchivo.getDocumento().getIdDocumento()).getSingleResult();
-                        
-                  if(numero != null && numero > 0){
-                      sql = "SELECT ar FROM Archivo ar WHERE LOWER(SUBSTR(NOMBRE, INSTR(nombre,']') +1, LENGTH(NOMBRE))) = :nombre AND ar.documento.idDocumento = :idDocumento and ar.estado =  'A'  ";
-		      Archivo archivo = (Archivo)em.createQuery(sql).setParameter("nombre", objArchivo.getNombreArchivo().toLowerCase()) //.getRutaAlfresco().toLowerCase())
-								    .setParameter("idDocumento", objArchivo.getDocumento().getIdDocumento())
-								    .getResultList().get(0);
-                             
-                      archivo.setEstado(objArchivo.getEstado());
-		      archivo.setAutor(objArchivo.getAutor());
-		      archivo.setPrincipal(objArchivo.getPrincipal());
-                      archivo.setFechaModificacion(objArchivo.getFechaCreacion());
-                      archivo.setUsuariomodificacion(objArchivo.getUsuariomodificacion());
-		      archivo.setRutaArchivoPdf(objArchivo.getRutaArchivoPdf());
-		      archivo.setNombre(objArchivo.getNombre());
-                      archivo.setRutaAlfresco(objArchivo.getRutaAlfresco());
-                      archivo.setObjectId(objArchivo.getObjectId());
-                      em.merge(archivo);
-		      em.flush();
-	     	      em.refresh(archivo);
-		      return archivo;
-		  }
-	      }
 		
-              if(objArchivo.getIdArchivo()==null){
-                em.persist(objArchivo);
-		em.flush();
-		em.refresh(objArchivo);
-	      }else{
-                em.merge(objArchivo);
-		em.flush();
-                em.refresh(objArchivo);
-	      }
+		try{
+			_log.info("guardarObj:objArchivo.getRutaAlfresco:"+objArchivo.getRutaAlfresco());
+	          if(objArchivo.getRutaAlfresco() != null){
+	                   String sql = "SELECT COUNT(a.idArchivo) FROM Archivo a inner join documento d on a.documento = d.iddocumento WHERE  d.idDocumento = :idDocumento and LOWER(SUBSTRING(a.NOMBRE, CHARINDEX(a.nombre,']') +1, LEN(a.NOMBRE))) = :nombre and a.estado =  'A' ";
+	         		  Integer numero = (Integer)em.createNativeQuery(sql).setParameter("nombre", objArchivo.getNombreArchivo().toLowerCase()) 
+	         							 .setParameter("idDocumento", objArchivo.getDocumento().getIdDocumento()).getSingleResult();
+	                   
+	         	 _log.info("guardarObj:numero:"+numero);	  
+	             if(numero != null && numero > 0){
+	              sql = "SELECT ar FROM Archivo ar WHERE LOWER(SUBSTRING(NOMBRE, CHARINDEX(nombre,'']'') +1, LEN(NOMBRE))) = :nombre AND ar.documento.idDocumento = :idDocumento and ar.estado =  'A'  ";
+			      Archivo archivo = (Archivo)em.createQuery(sql).setParameter("nombre", objArchivo.getNombreArchivo().toLowerCase()) //.getRutaAlfresco().toLowerCase())
+									    .setParameter("idDocumento", objArchivo.getDocumento().getIdDocumento())
+									    .getResultList().get(0);
+	                             
+	              archivo.setEstado(objArchivo.getEstado());
+			      archivo.setAutor(objArchivo.getAutor());
+			      archivo.setPrincipal(objArchivo.getPrincipal());
+	              archivo.setFechaModificacion(objArchivo.getFechaCreacion());
+	              archivo.setUsuariomodificacion(objArchivo.getUsuariomodificacion());
+			      archivo.setRutaArchivoPdf(objArchivo.getRutaArchivoPdf());
+			      archivo.setNombre(objArchivo.getNombre());
+	              archivo.setRutaAlfresco(objArchivo.getRutaAlfresco());
+	              archivo.setObjectId(objArchivo.getObjectId());
+	              em.merge(archivo);
+			      em.flush();
+		     	  em.refresh(archivo);
+			      return archivo;
+	             }
+		      }
+			
+	          _log.info("guardarObj:objArchivo.getIdArchivo:"+objArchivo.getIdArchivo());
+	          if(objArchivo.getIdArchivo()==null){
+	        	  _log.info("guardarObj:persist:objArchivo.getObjectId:"+objArchivo.getObjectId()+", documento:"+objArchivo.getDocumento());
+	        	  
+	                em.persist(objArchivo);
+					em.flush();
+					em.refresh(objArchivo);
+		      }else{
+		    	  _log.info("guardarObj:merge:objArchivo.getObjectId:"+objArchivo.getObjectId()+", documento:"+objArchivo.getDocumento());
+		    	  
+	                em.merge(objArchivo);
+	                em.flush();
+	                em.refresh(objArchivo);
+		      }
+          
+          
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
-             return objArchivo;
+         return objArchivo;
 	}
 
 	@SuppressWarnings("unchecked")
