@@ -446,32 +446,37 @@ public class ManejoDeEmailServiceImpl implements ManejoDeEmailService{
 					}
 				}
 
-                                for (int i = 0; i < sAParams.length; i++) {
-                                       sAParams[i] = getData(Integer.valueOf(sAParams[i]), objRemitente, objDestinatario, objDocumento);
-                                }
+            for (int i = 0; i < sAParams.length; i++) {
+                   sAParams[i] = getData(Integer.valueOf(sAParams[i]), objRemitente, objDestinatario, objDocumento);
+            }
 
-				sAsunto = String.format(sAsunto, (Object[]) sAParams);
-				
-                           	for (int i = 0; i < sCParams.length; i++) {
-                                  sCParams[i] = getData(Integer.valueOf(sCParams[i]), objRemitente, objDestinatario, objDocumento);
-                                }
-                                String sContenidoFinal = String.format(sContenido.toString(), (Object[]) sCParams);
-                           
-                                if (accion!=null && !accion.trim().equals(""))
-                                   sContenidoFinal = sContenidoFinal.replace("º", "&deg;") + "<br/><b>Acción: </b>" + accion; 
-                                
-                                if (contenido!=null && !contenido.trim().equals(""))
-                                   sContenidoFinal = sContenidoFinal.replace("º", "&deg;") + "<br/><b>Proveido: </b>" + contenido;
-                                
-                                sAsunto = sAsunto.replaceAll("º", "&deg;");
-                                
-                                Correo correo = new Correo();
-                                correo.setPara(objDestinatario.getCorreo());
-                                correo.setFechaCreacion(new Date());
-                                correo.setMsgText(sContenidoFinal);
-                                correo.setEstado("A");
-                                correo.setTema(sAsunto);
-                                manejoDeEmailDAO.guardarCorreo(correo);
+            sAsunto = String.format(sAsunto, (Object[]) sAParams);
+
+            for (int i = 0; i < sCParams.length; i++) {
+              sCParams[i] = getData(Integer.valueOf(sCParams[i]), objRemitente, objDestinatario, objDocumento);
+            }
+            String sContenidoFinal = String.format(sContenido.toString(), (Object[]) sCParams);
+       
+            if (accion!=null && !accion.trim().equals(""))
+               sContenidoFinal = sContenidoFinal.replace("º", "&deg;") + "<br/><b>Acción: </b>" + accion; 
+            
+            if (contenido!=null && !contenido.trim().equals(""))
+               sContenidoFinal = sContenidoFinal.replace("º", "&deg;") + "<br/><b>Proveido: </b>" + contenido;
+            
+            sAsunto = sAsunto.replaceAll("º", "&deg;");
+            
+            _log.info("Registrando correo: "
+            + "Para:"+objDestinatario.getCorreo()
+            +",sContenidoFinal:"+sContenidoFinal
+            +",sAsunto:"+sAsunto);
+            
+            Correo correo = new Correo();
+            correo.setPara(objDestinatario.getCorreo());
+            correo.setFechaCreacion(new Date());
+            correo.setMsgText(sContenidoFinal);
+            correo.setEstado("A");
+            correo.setTema(sAsunto);
+            manejoDeEmailDAO.guardarCorreo(correo);
                                 
 				//EnviarEmail(objDestinatario.getCorreo(), sMailAdmin, sAsunto, sContenidoFinal, SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.SMTP_HOST), true);
 			} catch (ArrayIndexOutOfBoundsException be) {

@@ -645,34 +645,38 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
            List<FilaHojaFirma> dataforward=new ArrayList<FilaHojaFirma>();
            try{ 
             StringBuilder sql=new StringBuilder();
-            sql.append(" SELECT * FROM (");
-            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)), ");
-            sql.append(" (SELECT us.nombres || ' '    || us.apellidos  FROM usuario us WHERE  ");
-            sql.append(" us.idusuario = F.IDUSUARIO) || ' <br/>Area:'");
-            sql.append("       || (SELECT u.nombre     FROM unidad u   ");
-            sql.append("           WHERE u.idunidad = F.unidadPropietario), F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
+            sql.append(" SELECT x.* FROM (");
+            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
+            sql.append(" CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE  ");
+            sql.append(" us.idusuario = F.IDUSUARIO),' <br/>Area:'");
+            sql.append("       , (SELECT u.nombre     FROM unidad u   ");
+            sql.append("           WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
 	    sql.append(" FROM ARCHIVO A, FIRMAARCHIVO F WHERE A.DOCUMENTO =  ");
             sql.append(idDocumento);
             sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL='S' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO = 'F'  ");
             sql.append(" UNION ");
-            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)), ");
-            sql.append(" (SELECT us.nombres || ' '    || us.apellidos  FROM usuario us WHERE  ");
-            sql.append(" us.idusuario = F.IDUSUARIO) || ' <br/>Area:'");
-            sql.append("       || (SELECT u.nombre     FROM unidad u   ");
-            sql.append("           WHERE u.idunidad = F.unidadPropietario), F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
+            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
+            sql.append("CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE  ");
+            sql.append(" us.idusuario = F.IDUSUARIO), ' <br/>Area:'");
+            sql.append("       , (SELECT u.nombre     FROM unidad u   ");
+            sql.append("           WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
 	    sql.append(" FROM ARCHIVO A, FIRMAARCHIVO F WHERE A.DOCUMENTO =  ");
             sql.append(idDocumento);
             sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL = 'N' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO = 'F'  ");
             sql.append(" UNION ");
-            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)), ");
-            sql.append(" (SELECT us.nombres || ' '    || us.apellidos  FROM usuario us WHERE  ");
-            sql.append(" us.idusuario = F.IDUSUARIO) || ' <br/>Area:'");
-            sql.append("       || (SELECT u.nombre     FROM unidad u   ");
-            sql.append("           WHERE u.idunidad = F.unidadPropietario), F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
+            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
+            sql.append(" CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE  ");
+            sql.append(" us.idusuario = F.IDUSUARIO) , ' <br/>Area:'");
+            sql.append("       , (SELECT u.nombre     FROM unidad u   ");
+            sql.append("           WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
 	    sql.append(" FROM ARCHIVO A, FIRMAARCHIVO F WHERE A.DOCUMENTO =  ");
             sql.append(idDocumento);
             sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL = 'M' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO = 'F'  ");
-            sql.append(" ) ORDER BY  to_char(fechacreacion,'YYYYMMDDHH24MI') desc, principal desc");
+            sql.append(" ) x ORDER BY x.fechacreacion desc, x.principal desc ");
+            
+            
+            log.info("getHojaFirma(sql:)"+sql.toString());
+            
             Query q=em.createNativeQuery(sql.toString());
             List data=q.getResultList();
 	    

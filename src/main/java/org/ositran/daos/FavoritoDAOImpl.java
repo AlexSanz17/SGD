@@ -49,20 +49,22 @@ public class FavoritoDAOImpl implements FavoritoDAO {
       
       try {
          StringBuilder sbQuery = new StringBuilder();
-         sbQuery.append("SELECT x.id, x.nombres || ' ' || x.apellidos || ' ['  || x.nombre  || '][' || x.siglaunidad  || ']'  label , x.idusuario,x.idunidad, x.idfuncion, x.nombre FROM  " +
-                        "   (select u.idusuario || '-' || u.idunidad || '-' || u.idfuncion as id, u.nombres, u.apellidos, u.idusuario, u.idunidad, u.idfuncion, f.nombre , xx.siglaunidad " +
+         sbQuery.append("SELECT "
+         				+ " x.id, CONCAT(x.nombres,' ', x.apellidos, ' [' , x.nombre,'][', x.siglaunidad,']') as label, "
+         				+ " x.idusuario,x.idunidad, x.idfuncion, x.nombre FROM  " +
+                        "   (select CONCAT(u.idusuario, '-', u.idunidad, '-', u.idfuncion) id, u.nombres, u.apellidos, u.idusuario, u.idunidad, u.idfuncion, f.nombre , xx.siglaunidad " +
                         "        from usuario u, funcion f, unidad xx " +
                         "             where " +
                         "                 u.estado = 'A' and " +
                         "                 u.idunidad = xx.idunidad  and " +
-                        "                 U.USUARIOFINAL in ('S') and f.idfuncion =  u.idfuncion and FNC_USUARIO_VALIDO(U.IDUNIDAD, F.JEFE, :idunidad, :idjefe, u.idfuncion, :idfuncion)>0 " +
+                        "                 U.USUARIOFINAL in ('S') and f.idfuncion =  u.idfuncion and dbo.FNC_USUARIO_VALIDO(U.IDUNIDAD, F.JEFE, :idunidad, :idjefe, u.idfuncion, :idfuncion)>0 " +
                         "         union  " +
-                        "     select uu.idusuario  || '-' || uu.idunidad || '-' || uu.idfuncion as id, u.nombres, u.apellidos, uu.idusuario, UU.IDUNIDAD, UU.IDFUNCION, f1.nombre, xx.siglaunidad  " +
+                        "     select CONCAT(uu.idusuario,'-',uu.idunidad,'-',uu.idfuncion) id, u.nombres, u.apellidos, uu.idusuario, UU.IDUNIDAD, UU.IDFUNCION, f1.nombre, xx.siglaunidad  " +
                         "        from usuarioxunidadxfuncion uu, usuario u , funcion f1, unidad xx " +
                         "              where " +
                         "                  uu.idusuario = u.idusuario and " +
                         "                  uu.idunidad = xx.idunidad     and     " +
-                        "                  u.estado = 'A' and FNC_USUARIO_VALIDO(UU.IDUNIDAD, F1.JEFE, :idunidad, :idjefe, uu.idfuncion, :idfuncion)>0 AND " +
+                        "                  u.estado = 'A' and dbo.FNC_USUARIO_VALIDO(UU.IDUNIDAD, F1.JEFE, :idunidad, :idjefe, uu.idfuncion, :idfuncion)>0 AND " +
                         "                  uu.ESTADO = 'A' and " +
                         "                  uu.USUARIOFINAL IN ('S') and " +
                         "                  f1.idfuncion = uu.idfuncion       " +
@@ -74,11 +76,11 @@ public class FavoritoDAOImpl implements FavoritoDAO {
          
 
          sbQuery.append(" ");
-         sbQuery.append("ORDER BY LOWER(label) ASC ");
+         sbQuery.append("ORDER BY 1 ASC ");
          
          
-         log.info("findLstBy(Favoritos):"+sbQuery);
-         log.info("findLstBy(Favoritos)idunidad:"+idunidad+",idPropietario:"+idPropietario+",estado:"+estado+",jefe:"+jefe+",idfuncion:"+idfuncion);
+         //log.info("findLstBy(Favoritos):"+sbQuery);
+         //log.info("findLstBy(Favoritos)idunidad:"+idunidad+",idPropietario:"+idPropietario+",estado:"+estado+",jefe:"+jefe+",idfuncion:"+idfuncion);
          
          Query query = em.createNativeQuery(sbQuery.toString(), "favoritoResult")
                          .setParameter("idunidad", idunidad)
