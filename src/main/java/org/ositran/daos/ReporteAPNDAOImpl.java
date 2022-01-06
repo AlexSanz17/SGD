@@ -33,7 +33,6 @@ import com.btg.ositran.siged.domain.ReporteAPN1;
 import com.btg.ositran.siged.domain.ReporteAPN9;
 import com.btg.ositran.siged.domain.ReporteAPN10;
 import com.btg.ositran.siged.domain.TrazabilidadDocumentaria;
-import org.ositran.utils.ObjetoCodigoValor;
 
 public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 
@@ -708,61 +707,35 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
             return dataforward;
         }
         
-	@SuppressWarnings("unchecked")
 	public List<FilaHojaRuta> getHojaRuta(Integer idDocumento){
-                 StringBuilder sql=new StringBuilder();
-		 sql.append("SELECT   ID, NRODOCUMENTO, FECHACREACION, REMITENTE, ");
-		 sql.append("        DESTINATARIO, ACCION, CONTENIDO, DOCUMENTO, TIPO,     ");
-		 sql.append("           PROVEIDO, ESTADO, IDREMITENTE, IDUNIDADREMITENTE ");
+         StringBuilder sql=new StringBuilder();
+         List<FilaHojaRuta> dataforward=new ArrayList<FilaHojaRuta>();
+                 
+         try{
+         
+		 sql.append("SELECT   ID, NRODOCUMENTO, CONVERT(VARCHAR,format(FECHACREACION, 'yyyy-MM-dd HH:mm:ss')) as fechacreacion, REMITENTE ");
+		 sql.append("        , DESTINATARIO, ACCION, CONVERT(VARCHAR,CONTENIDO) as contenido, DOCUMENTO, TIPO     "); 
+		 sql.append("           ,PROVEIDO, ESTADO, IDREMITENTE, IDUNIDADREMITENTE ");
 		 sql.append("      FROM (SELECT td.idtrazabilidaddocumento AS ID,                             ");
-		 sql.append("                   (SELECT    (SELECT td.nombre                                  ");
-		 sql.append("                                 FROM tipodocumento td                           ");
-		 sql.append("                                WHERE td.idtipodocumento =                       ");
-		 sql.append("                                             d.tipodocumento)                    ");
-		 sql.append("                           || ' - '                                              ");
-		 sql.append("                           || d.nrodocumento                                     ");
-		 sql.append("                      FROM documento d                                           ");
-		 sql.append("                     WHERE d.iddocumento = td.documento) AS nrodocumento,        ");
+		 sql.append("                   (SELECT CONCAT( (SELECT td.nombre  FROM tipodocumento td WHERE td.idtipodocumento = d.tipodocumento) , ' - ' , d.nrodocumento ) FROM documento d WHERE d.iddocumento = td.documento) AS nrodocumento, ");
 		 sql.append("                   td.fechacreacion,                                             ");
-		 sql.append("                      ((SELECT us.nombres || ' '                                 ");
-		 sql.append("                               || us.apellidos                                   ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = td.remitente) || ' [' ||           ");
-                 
-                 sql.append("                       (SELECT us.USUARIO                                        ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = td.usuariocreacion)) ||    '] '     ");
-                 
-                 
-		 sql.append("                   || ' <br/>Area: '                                             ");
-		 sql.append("                   || (SELECT u.nombre                                           ");
-		 sql.append("                         FROM unidad u                                           ");
-		 sql.append("                        WHERE u.idunidad = td.unidadremitente)                   ");
-		 sql.append("                                                                AS remitente,    ");
-		 sql.append("                      ((SELECT    us.nombres                                     ");
-		 sql.append("                               || ' '                                            ");
-		 sql.append("                               || us.apellidos                                   ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = td.destinatario))                  ");
-		 sql.append("                   || ' <br/>Area: '                                             ");
-		 sql.append("                   || (SELECT u.nombre                                           ");
-		 sql.append("                         FROM unidad u                                           ");
-		 sql.append("                        WHERE u.idunidad = td.unidaddestinatario)                ");
-		 sql.append("                                                             AS destinatario,    ");
+		 sql.append("                   CONCAT( ( CONCAT( (SELECT CONCAT(us.nombres, ' ', us.apellidos) FROM usuario us WHERE us.idusuario = td.remitente), ' [' , ");
+		 sql.append("					(SELECT us.USUARIO FROM usuario us WHERE us.idusuario = td.usuariocreacion)) ) ,    '] '  , ' <br/>Area: ' ");
+		 sql.append("					, (SELECT u.nombre  FROM unidad u  WHERE u.idunidad = td.unidadremitente) ) AS remitente,");
+		 sql.append("                    CONCAT( ((SELECT CONCAT(us.nombres, ' ', us.apellidos) FROM usuario us  WHERE us.idusuario = td.destinatario)) , ' <br/>Area: ' , (SELECT u.nombre FROM unidad u WHERE u.idunidad = td.unidaddestinatario) ) AS destinatario, ");
 		 sql.append("                   (SELECT ac.descripcion                                        ");
 		 sql.append("                      FROM accion ac                                             ");
 		 sql.append("                     WHERE ac.idaccion = td.accion) AS accion, td.contenido,     ");
 		 sql.append("                   td.documento, 'Transferencia' AS tipo,                        ");
-		// sql.append("                   td.nombrepc AS nombrepc,                                      ");
-                 sql.append("nvl((select p.nombre from proveido p where p.idproveido = td.idproveido),'') proveido,");        
+         sql.append("					ISNULL((select p.nombre from proveido p where p.idproveido = td.idproveido),'') proveido,");        
 		 sql.append("                   (SELECT CASE (d.estado)                                       ");
 		 sql.append("                              WHEN 'A'                                           ");
 		 sql.append("                                 THEN 'Registrado'                               ");
 		 sql.append("                              WHEN 'C'                                           ");
 		 sql.append("                                 THEN 'Archivado'                                ");
-                 sql.append("                              WHEN 'P'                                           ");
+         sql.append("                              WHEN 'P'                                           ");
 		 sql.append("                                 THEN 'Pendiente'                                ");
-                 sql.append("                              WHEN 'T'                                           ");
+         sql.append("                              WHEN 'T'                                           ");
 		 sql.append("                                 THEN 'Atendido'                                ");
 		 sql.append("                              WHEN 'N'                                           ");
 		 sql.append("                                 THEN 'Anulado'                                  ");
@@ -777,204 +750,70 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		 sql.append(idDocumento);
 		 sql.append("            UNION ALL                                                            ");
 		 sql.append("            SELECT ta.idtrazabilidadapoyo AS ID,                                 ");
-		 sql.append("                   (SELECT    (SELECT td.nombre                                  ");
-		 sql.append("                                 FROM tipodocumento td                           ");
-		 sql.append("                                WHERE td.idtipodocumento =                       ");
-		 sql.append("                                             d.tipodocumento)                    ");
-		 sql.append("                           || ' - '                                              ");
-		 sql.append("                           || d.nrodocumento                                     ");
-		 sql.append("                      FROM documento d                                           ");
-		 sql.append("                     WHERE d.iddocumento =                                       ");
-		 sql.append("                                       (SELECT dc.documentoreferencia            ");
-		 sql.append("                                          FROM documento dc                      ");
-		 sql.append("                                         WHERE dc.iddocumento = ta.documento))   ");
-		 sql.append("                                                             AS nrodocumento,    ");
+		 sql.append("                   (SELECT  CONCAT ( (SELECT td.nombre FROM tipodocumento td WHERE td.idtipodocumento = d.tipodocumento) , ' - ' , d.nrodocumento) FROM documento d WHERE d.iddocumento = (SELECT dc.documentoreferencia FROM documento dc WHERE dc.iddocumento = ta.documento))  AS nrodocumento, ");
 		 sql.append("                   ta.fechacreacion,                                             ");
-		 sql.append("                      ((SELECT us.nombres || ' '                                 ");
-		 sql.append("                               || us.apellidos                                   ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = ta.remitente) || ' [' ||           ");
-                 
-                 sql.append("                       (SELECT us.USUARIO                                        ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = ta.usuariocreacion)) ||    '] '     ");
-                 
-                 
-		 sql.append("                   || ' <br/>Area: '                                             ");
-		 sql.append("                   || (SELECT u.nombre                                           ");
-		 sql.append("                         FROM unidad u                                           ");
-		 sql.append("                        WHERE u.idunidad = ta.unidadremitente)                   ");
-		 sql.append("                                                                AS remitente,    ");
-		 sql.append("                      ((SELECT    us.nombres                                     ");
-		 sql.append("                               || ' '                                            ");
-		 sql.append("                               || us.apellidos                                   ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = ta.destinatario))                  ");
-		 sql.append("                   || ' <br/>Area: '                                             ");
-		 sql.append("                   || (SELECT u.nombre                                           ");
-		 sql.append("                         FROM unidad u                                           ");
-		 sql.append("                        WHERE u.idunidad = ta.unidaddestinatario)                ");
-		 sql.append("                                                             AS destinatario,    ");
-		 sql.append("                   (SELECT ac.descripcion                                        ");
-		 sql.append("                      FROM accion ac                                             ");
-		 sql.append("                     WHERE ac.idaccion = ta.accion) AS accion, ta.texto,         ");
-		 sql.append("                   (SELECT d.documentoreferencia                                 ");
-		 sql.append("                      FROM documento d                                           ");
-		 sql.append("                     WHERE d.iddocumento = ta.documento),                        ");
-		 sql.append("                   'Envio Multiple' AS tipo,                                     ");
-                 sql.append("nvl((select p.nombre from proveido p where p.idproveido= ta.idproveido),'') proveido,");                    
-		 sql.append("                   (SELECT e.descripcion                                         ");
-		 sql.append("                      FROM estado e                                              ");
-		 sql.append("                     WHERE e.idestado = ta.estado) AS estado, 2 ,ta.remitente as idremitente,  ta.unidadremitente as idunidadremitente ");
-		 sql.append("              FROM trazabilidadapoyo ta                                          ");
+		 sql.append("                   CONCAT( (CONCAT( (SELECT CONCAT(us.nombres,' ', us.apellidos) FROM usuario us WHERE us.idusuario = ta.remitente), ' [' , ");
+		 sql.append("					(SELECT us.USUARIO FROM usuario us WHERE us.idusuario = ta.usuariocreacion)) ) ,    '] ' , ' <br/>Area: ' ");
+		 sql.append("					, (SELECT u.nombre  FROM unidad u WHERE u.idunidad = ta.unidadremitente) ) AS remitente,    ");
+		 sql.append("                  CONCAT( ((SELECT CONCAT( us.nombres,' ',us.apellidos) FROM usuario us  WHERE us.idusuario = ta.destinatario)) ,' <br/>Area: ' , (SELECT u.nombre FROM unidad u WHERE u.idunidad = ta.unidaddestinatario) ) AS destinatario, ");
+		 sql.append("					(SELECT ac.descripcion FROM accion ac WHERE ac.idaccion = ta.accion) AS accion, ta.texto as contenido, ");
+		 sql.append("					(SELECT d.documentoreferencia FROM documento d WHERE d.iddocumento = ta.documento) as documento, ");
+		 sql.append(" 					'Envio Multiple' AS tipo, ");
+		 sql.append(" 					ISNULL((select p.nombre from proveido p where p.idproveido= ta.idproveido),'') proveido, ");
+		 sql.append(" 					(SELECT e.descripcion FROM estado e WHERE e.idestado = ta.estado) AS estado, 2 as opcion ,ta.remitente as idremitente, "); 
+		 sql.append(" 					ta.unidadremitente as idunidadremitente FROM trazabilidadapoyo ta                                         ");
 		 sql.append("            UNION ALL                                                            ");
 		 sql.append("            SELECT tc.idtrazabilidadcopia AS ID,                                 ");
-		 sql.append("                   (SELECT    (SELECT td.nombre                                  ");
-		 sql.append("                                 FROM tipodocumento td                           ");
-		 sql.append("                                WHERE td.idtipodocumento =                       ");
-		 sql.append("                                             d.tipodocumento)                    ");
-		 sql.append("                           || ' - '                                              ");
-		 sql.append("                           || d.nrodocumento                                     ");
-		 sql.append("                      FROM documento d                                           ");
-		 sql.append("                     WHERE d.iddocumento = tc.documento) AS nrodocumento,        ");
-		 sql.append("                   tc.fechacreacion,                                             ");
-		 sql.append("                      ((SELECT us.nombres || ' '                                 ");
-		 sql.append("                               || us.apellidos                                   ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = tc.remitente) || ' [' ||           ");
-                 
-                 
-                 sql.append("                       (SELECT us.USUARIO                                        ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = tc.usuariocreacion)) ||    '] '     ");
-                 
-                 
-		 sql.append("                   || ' <br/>Area: '                                             ");
-		 sql.append("                   || (SELECT u.nombre                                           ");
-		 sql.append("                         FROM unidad u                                           ");
-		 sql.append("                        WHERE u.idunidad = tc.unidadremitente)                   ");
-		 sql.append("                                                                AS remitente,    ");
-		 sql.append("                      ((SELECT    us.nombres                                     ");
-		 sql.append("                               || ' '                                            ");
-		 sql.append("                               || us.apellidos                                   ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = tc.destinatario))                  ");
-		 sql.append("                   || ' <br/>Area: '                                             ");
-		 sql.append("                   || (SELECT u.nombre                                           ");
-		 sql.append("                         FROM unidad u                                           ");
-		 sql.append("                        WHERE u.idunidad =  tc.unidaddestinatario)               ");
-		 sql.append("                                                             AS destinatario,    ");
-		 sql.append("                   (SELECT ac.descripcion                                        ");
-		 sql.append("                      FROM accion ac                                             ");
-		 sql.append("                     WHERE ac.idaccion = tc.accion) AS accion,                   ");
-		 sql.append("                   (SELECT nc.contenido                                          ");
-		 sql.append("                      FROM notificacion nc                                       ");
-		 sql.append("                     WHERE nc.idnotificacion = tc.idnotificacion),               ");
-		 sql.append("                   tc.documento, 'Copia' AS tipo, '' proveido,                   ");
-		 sql.append("                   (SELECT CASE (d.estado)                                       ");
-		 sql.append("                              WHEN 'A'                                           ");
-		 sql.append("                                 THEN 'Registrado'                               ");
-		 sql.append("                              WHEN 'C'                                           ");
-		 sql.append("                                 THEN 'Archivado'                                ");
-                 sql.append("                              WHEN 'P'                                           ");
-		 sql.append("                                 THEN 'Pendiente'                                ");
-                 sql.append("                              WHEN 'T'                                           ");
-		 sql.append("                                 THEN 'Atendido'                                 ");
-		 sql.append("                              WHEN 'N'                                           ");
-		 sql.append("                                 THEN 'Anulado'                                  ");
-		 sql.append("                              WHEN 'I'                                           ");
-		 sql.append("                                 THEN 'Inactivo'                                 ");
-		 sql.append("                              ELSE '-'                                           ");
-		 sql.append("                           END                                                   ");
-		 sql.append("                      FROM documento d                                           ");
-		 sql.append("                     WHERE tc.documento = d.iddocumento) AS estado,              ");
-		 sql.append("                   3  , tc.remitente idremitente,  tc.unidadremitente as idunidadremitente ");
+		 sql.append("                   (SELECT CONCAT( (SELECT td.nombre FROM tipodocumento td  WHERE td.idtipodocumento = d.tipodocumento) , ' - ' ");  
+		 sql.append("					, d.nrodocumento) FROM documento d WHERE d.iddocumento = tc.documento) AS nrodocumento, tc.fechacreacion, ");
+		 sql.append("						CONCAT( CONCAT((SELECT CONCAT(us.nombres, ' ', us.apellidos)  FROM usuario us WHERE us.idusuario = tc.remitente) , ' [' , ");
+		 sql.append("								(SELECT us.USUARIO FROM usuario us WHERE us.idusuario = tc.usuariocreacion)) ,    '] '  , ' <br/>Area: '   ");
+		 sql.append("								, (SELECT u.nombre  FROM unidad u WHERE u.idunidad = tc.unidadremitente) ) AS remitente, ");
+		 sql.append("					CONCAT((SELECT   CONCAT( us.nombres , ' ' , us.apellidos) FROM usuario us WHERE us.idusuario = tc.destinatario) ");     
+		 sql.append("						, ' <br/>Area: ' , (SELECT u.nombre   FROM unidad u  WHERE u.idunidad =  tc.unidaddestinatario) ) ");
+		 sql.append("					AS destinatario, (SELECT ac.descripcion FROM accion ac WHERE ac.idaccion = tc.accion) AS accion, ");
+		 sql.append("					(SELECT nc.contenido FROM notificacion nc  WHERE nc.idnotificacion = tc.idnotificacion), "); 
+		 sql.append("					tc.documento, 'Copia' AS tipo, '' proveido,  ");
+		 sql.append("					(SELECT CASE (d.estado)   WHEN 'A' THEN 'Registrado'  WHEN 'C' THEN 'Archivado' WHEN 'P' ");    
+		 sql.append("					THEN 'Pendiente' WHEN 'T' THEN 'Atendido'  WHEN 'N'  THEN 'Anulado' ");
+		 sql.append("					WHEN 'I'  THEN 'Inactivo' ELSE '-'  END  FROM documento d  WHERE tc.documento = d.iddocumento) AS estado, ");    
+		 sql.append("					3  , tc.remitente idremitente,  tc.unidadremitente as idunidadremitente  ");
 		 sql.append("              FROM trazabilidadcopia tc where tc.documento =                     ");
 		 sql.append(idDocumento);
-                 sql.append("            UNION ALL                                                            ");
-                 sql.append("            SELECT tc.idtrazabilidadcopia AS ID,                                 ");
-		 sql.append("                   (SELECT    (SELECT td.nombre                                  ");
-		 sql.append("                                 FROM tipodocumento td                           ");
-		 sql.append("                                WHERE td.idtipodocumento =                       ");
-		 sql.append("                                             d.tipodocumento)                    ");
-		 sql.append("                           || ' - '                                              ");
-		 sql.append("                           || d.nrodocumento                                     ");
-		 sql.append("                      FROM documento d                                           ");
-		 sql.append("                     WHERE d.iddocumento = tc.documento) AS nrodocumento,        ");
-		 sql.append("                   tc.fechacreacion,                                             ");
-		 sql.append("                      ((SELECT us.nombres || ' '                                 ");
-		 sql.append("                               || us.apellidos                                   ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = tc.remitente)  || ' [' ||          ");
-                 
-                 
-                 sql.append("                       (SELECT us.USUARIO                                        ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = tc.usuariocreacion)) ||    '] '     ");
-                 
-                 
-		 sql.append("                   || ' <br/>Area: '                                             ");
-		 sql.append("                   || (SELECT u.nombre                                           ");
-		 sql.append("                         FROM unidad u                                           ");
-		 sql.append("                        WHERE u.idunidad = tc.unidadremitente)                   ");
-		 sql.append("                                                                AS remitente,    ");
-		 sql.append("                      ((SELECT    us.nombres                                     ");
-		 sql.append("                               || ' '                                            ");
-		 sql.append("                               || us.apellidos                                   ");
-		 sql.append("                          FROM usuario us                                        ");
-		 sql.append("                         WHERE us.idusuario = tc.destinatario))                  ");
-		 sql.append("                   || ' <br/>Area: '                                             ");
-		 sql.append("                   || (SELECT u.nombre                                           ");
-		 sql.append("                         FROM unidad u                                           ");
-		 sql.append("                        WHERE u.idunidad =  tc.unidaddestinatario)               ");
-		 sql.append("                                                             AS destinatario,    ");
-		 sql.append("                   (SELECT ac.descripcion                                        ");
-		 sql.append("                      FROM accion ac                                             ");
-		 sql.append("                     WHERE ac.idaccion = tc.accion) AS accion,                   ");
-		 sql.append("                   (SELECT nc.contenido                                          ");
-		 sql.append("                      FROM notificacion nc                                       ");
-		 sql.append("                     WHERE nc.idnotificacion = tc.idnotificacion),               ");
-                 sql.append("                     d1.documentoreferencia,                                     ");
-		 sql.append("                    'Copia' AS tipo, '' proveido ,                    ");
-		 sql.append("                   (SELECT CASE (d.estado)                                       ");
-		 sql.append("                              WHEN 'A'                                           ");
-		 sql.append("                                 THEN 'Registrado'                               ");
-		 sql.append("                              WHEN 'P'                                           ");
-		 sql.append("                                 THEN 'Pendiente'                                ");
-                 sql.append("                              WHEN 'C'                                           ");
-		 sql.append("                                 THEN 'Archivado'                                ");
-                 sql.append("                              WHEN 'T'                                           ");
-		 sql.append("                                 THEN 'Atendido'                                 ");
-		 sql.append("                              WHEN 'N'                                           ");
-		 sql.append("                                 THEN 'Anulado'                                  ");
-		 sql.append("                              WHEN 'I'                                           ");
-		 sql.append("                                 THEN 'Inactivo'                                 ");
-		 sql.append("                              ELSE '-'                                           ");
-		 sql.append("                           END                                                   ");
-		 sql.append("                      FROM documento d                                           ");
-		 sql.append("                     WHERE tc.documento = d.iddocumento) AS estado,              ");
-		 sql.append("                   3     ,tc.remitente idremitente,  tc.unidadremitente as idunidadremitente                      ");
-		 sql.append("              FROM trazabilidadcopia tc, documento d1 where tc.documento = d1.iddocumento and d1.documentoreferencia is not null and d1.documentoreferencia = ").append(idDocumento);
-                 
-                  
-                  //jbengoa fin
-		 sql.append(") ");
+         sql.append("            UNION ALL                                                            ");
+         sql.append("            SELECT tc.idtrazabilidadcopia AS ID,                                 ");
+		 sql.append("                  (SELECT CONCAT( (SELECT td.nombre  FROM tipodocumento td WHERE td.idtipodocumento = d.tipodocumento) , ' - ' , d.nrodocumento )  FROM documento d WHERE d.iddocumento = tc.documento) AS nrodocumento, "); 
+		 sql.append("					tc.fechacreacion, ");
+		 sql.append("					CONCAT( CONCAT((SELECT CONCAT (us.nombres , ' ' , us.apellidos ) FROM usuario us WHERE us.idusuario = tc.remitente)  , ' [' , ");
+		 sql.append("					(SELECT us.USUARIO  FROM usuario us WHERE us.idusuario = tc.usuariocreacion)) ,    '] ' , ' <br/>Area: ' ");
+		 sql.append("					, (SELECT u.nombre FROM unidad u WHERE u.idunidad = tc.unidadremitente) ) AS remitente,  "); 
+		 sql.append("					CONCAT((SELECT CONCAT ( us.nombres, ' ', us.apellidos)  FROM usuario us WHERE us.idusuario = tc.destinatario) ");
+		 sql.append("					, ' <br/>Area: ' , (SELECT u.nombre  FROM unidad u  WHERE u.idunidad =  tc.unidaddestinatario) )  ");
+		 sql.append("					AS destinatario,  (SELECT ac.descripcion FROM accion ac WHERE ac.idaccion = tc.accion) AS accion, ");
+		 sql.append("					(SELECT nc.contenido FROM notificacion nc  WHERE nc.idnotificacion = tc.idnotificacion), d1.documentoreferencia, ");  
+		 sql.append("					'Copia' AS tipo, '' proveido , (SELECT CASE (d.estado) WHEN 'A' THEN 'Registrado' ");
+		 sql.append("					WHEN 'P' THEN 'Pendiente'  WHEN 'C' THEN 'Archivado'  WHEN 'T' ");
+		 sql.append("					THEN 'Atendido' WHEN 'N' THEN 'Anulado' WHEN 'I'  THEN 'Inactivo' ELSE '-'  END  ");
+		 sql.append("					FROM documento d WHERE tc.documento = d.iddocumento) AS estado, 3 , ");
+		 sql.append("					tc.remitente idremitente,  tc.unidadremitente as idunidadremitente ");
+		 sql.append("              FROM trazabilidadcopia tc, documento d1 where tc.documento = d1.iddocumento and d1.documentoreferencia is not null and d1.documentoreferencia = ").append(idDocumento);                 
+		 sql.append(") X ");
 		 sql.append("  where documento= ");
 		 sql.append(idDocumento);
 		 sql.append(" and estado not in ('Inactivo')");
 		 sql.append("  ORDER BY fechacreacion, opcion");
-                 
-                 Query q=em.createNativeQuery(sql.toString());
+		 
+         Query q=em.createNativeQuery(sql.toString());
 		 List data=q.getResultList();
-		 List<FilaHojaRuta> dataforward=new ArrayList<FilaHojaRuta>();
+		 
                  
 		 for(int i=0;i<data.size();i++){
-		   try{
+		   
 			Object obj[]=(Object[])data.get(i);
 		        Integer id=Integer.parseInt(obj[0].toString());
 		        String nroDocumento = 	String.valueOf(obj[1]);
-                        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date fechaCreacion = formato.parse(obj[2].toString());
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date fechaCreacion = formato.parse(obj[2].toString());
 		        String remitente = String.valueOf(obj[3]);
 		        String destinatario =  String.valueOf(obj[4]);
 		        String accion = String.valueOf(obj[5]);
@@ -983,8 +822,8 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		        String tipo = String.valueOf(obj[8]);
 		        String proveido = String.valueOf(obj[9]);
 		        String estado = String.valueOf(obj[10]);
-                        String idremitente = String.valueOf(obj[11]);
-                        String idunidadremitente = String.valueOf(obj[12]);
+                String idremitente = String.valueOf(obj[11]);
+                String idunidadremitente = String.valueOf(obj[12]);
                         
 		        FilaHojaRuta f = new FilaHojaRuta();
 		        FilaHojaRutaPK pk = new FilaHojaRutaPK();
@@ -995,41 +834,45 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		        f.setAccion(accion.equals("null")?"":accion);
 		        f.setContenido(contenido.equals("null")?"":contenido);
 		        f.setDocumento(Integer.parseInt(documento));
-                        f.setIdremitente(idremitente.equals("null")?"":idremitente);
-                        f.setIdunidadremitente(idunidadremitente.equals("null")?"":idunidadremitente);
-                        //f.setNombrePC(nombrePC.equals("null")?"":nombrePC);
-                        f.setProveido(proveido.equals("null")?"":proveido);
-                        f.setEstado(estado);
-                        
-                        pk.setTipo(tipo);
-                        pk.setId(id);
-                        f.setPk(pk);
-                        dataforward.add(f);
-		     }catch(Exception ex){
-		        ex.printStackTrace();
-		     }
+                f.setIdremitente(idremitente.equals("null")?"":idremitente);
+                f.setIdunidadremitente(idunidadremitente.equals("null")?"":idunidadremitente);
+                f.setProveido(proveido.equals("null")?"":proveido);
+                f.setEstado(estado);
+                
+                log.info("nroDocumento:"+nroDocumento);
+                
+                pk.setTipo(tipo);
+                pk.setId(id);
+                f.setPk(pk);
+                
+                dataforward.add(f);
+                
 		   }
                  
-                   String temporal = "";
-                   String dato = "";
-                   int contador = 1;
-                   int indice = 0;
-                   
-                   for(int i=0;i<dataforward.size();i++){
-                        dato = dataforward.get(i).getIdremitente() + "-" + dataforward.get(i).getIdunidadremitente();
-                        if (!dato.equals(temporal)){
-                            if (!temporal.equals(""))
-                                dataforward.get(indice).setCantidadhoja(contador+"");
-                            
-                            temporal = dato;
-                            contador = 1;
-                            indice = i;
-                        }else{
-                          contador ++;
-                        }
-                   }
-                   
-                   dataforward.get(indice).setCantidadhoja(contador+"");
+           String temporal = "";
+           String dato = "";
+           int contador = 1;
+           int indice = 0;
+           
+           for(int i=0;i<dataforward.size();i++){
+                dato = dataforward.get(i).getIdremitente() + "-" + dataforward.get(i).getIdunidadremitente();
+                if (!dato.equals(temporal)){
+                    if (!temporal.equals(""))
+                        dataforward.get(indice).setCantidadhoja(contador+"");
+                    
+                    temporal = dato;
+                    contador = 1;
+                    indice = i;
+                }else{
+                  contador ++;
+                }
+           }
+           
+           dataforward.get(indice).setCantidadhoja(contador+"");
+           
+	     }catch(Exception ex){
+		     ex.printStackTrace();
+		 }         
                    
 		   return dataforward;
 	}
@@ -1254,73 +1097,79 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<FilaHojaRuta> getHojaRutaExpediente(Integer idExpediente){
         StringBuilder sql=new StringBuilder();
-		sql.append("SELECT ID,NRODOCUMENTO,FECHACREACION,REMITENTE,DESTINATARIO,ACCION,CONTENIDO,DOCUMENTO,TIPO,PROVEIDO,ESTADO from (");
-		sql.append("SELECT td.idtrazabilidaddocumento AS id, FNC_NRODOCUMENTO(td.documento,1) AS NRODOCUMENTO, td.fechacreacion,  ");
-		sql.append("   FNC_USUARIO_AREA(td.remitente, 1, td.unidadremitente) AS remitente, FNC_USUARIO_AREA(td.destinatario, 1, td.destinatario) AS destinatario, ");
-		sql.append("   FNC_ACCION(td.accion) AS accion, td.contenido AS contenido, td.documento,   ");
-		sql.append("   'Derivar' AS tipo, nvl((select p.nombre from proveido p where p.idproveido= td.idproveido),'') proveido, FNC_ESTADO(td.documento,1) AS estado,   ");
+        List<FilaHojaRuta> dataforward=new ArrayList<FilaHojaRuta>();
+        
+        try{        	
+		sql.append("SELECT ID,NRODOCUMENTO,FECHACREACION,REMITENTE,DESTINATARIO,ACCION,CONVERT(VARCHAR,CONTENIDO),DOCUMENTO,TIPO,PROVEIDO,ESTADO from (");
+		sql.append("SELECT td.idtrazabilidaddocumento AS id, dbo.FNC_NRODOCUMENTO(td.documento,1) AS NRODOCUMENTO, td.fechacreacion,  ");
+		sql.append("   dbo.FNC_USUARIO_AREA(td.remitente, 1, td.unidadremitente) AS remitente, dbo.FNC_USUARIO_AREA(td.destinatario, 1, td.destinatario) AS destinatario, ");
+		sql.append("   dbo.FNC_ACCION(td.accion) AS accion, td.contenido AS contenido, td.documento,   ");
+		sql.append("   'Derivar' AS tipo, isnull((select p.nombre from proveido p where p.idproveido= td.idproveido),'') proveido, dbo.FNC_ESTADO(td.documento,1) AS estado,   ");
 		sql.append("   1 opcion    ");
 		sql.append("  FROM trazabilidaddocumento td  ");
 		sql.append("WHERE td.documento IN (SELECT iddocumento FROM documento WHERE expediente=" + idExpediente + " and estado not in ('I')) ");
 		sql.append("UNION ALL    ");
-		sql.append("SELECT ta.idtrazabilidadapoyo AS id, FNC_NRODOCUMENTO(ta.documento,2) AS NRODOCUMENTO, ta.fechacreacion, ");
-		sql.append("   FNC_USUARIO_AREA (ta.remitente, 1,ta.unidadremitente) AS remitente, FNC_USUARIO_AREA (ta.destinatario, 1,ta.unidaddestinatario) AS destinatario,");
-		sql.append("   FNC_ACCION(ta.accion) AS accion, ta.texto AS contenido,   ");
+		sql.append("SELECT ta.idtrazabilidadapoyo AS id, dbo.FNC_NRODOCUMENTO(ta.documento,2) AS NRODOCUMENTO, ta.fechacreacion, ");
+		sql.append("   dbo.FNC_USUARIO_AREA (ta.remitente, 1,ta.unidadremitente) AS remitente, dbo.FNC_USUARIO_AREA (ta.destinatario, 1,ta.unidaddestinatario) AS destinatario,");
+		sql.append("   dbo.FNC_ACCION(ta.accion) AS accion, ta.texto AS contenido,   ");
 		sql.append("   (SELECT d.documentoreferencia FROM documento d WHERE d.iddocumento = ta.documento) AS documento, ");
-		sql.append("   'Derivar Múltiple' AS tipo, nvl((select p.nombre from proveido p where p.idproveido= ta.idproveido),'') proveido, FNC_ESTADO(ta.estado,2) AS estado,           ");
+		sql.append("   'Derivar Múltiple' AS tipo, isnull((select p.nombre from proveido p where p.idproveido= ta.idproveido),'') proveido, dbo.FNC_ESTADO(ta.estado,2) AS estado,           ");
 		sql.append("   2 opcion        ");
 		sql.append("  FROM trazabilidadapoyo ta   ");
 		sql.append("WHERE ta.documento IN (SELECT iddocumento FROM documento WHERE expediente="+ idExpediente +" and estado not in ('I')) ");
 		sql.append("UNION ALL       ");
-		sql.append("SELECT tc.idtrazabilidadcopia AS id, FNC_NRODOCUMENTO(tc.documento,1) AS NRODOCUMENTO, tc.fechacreacion,          ");
-		sql.append("   FNC_USUARIO_AREA (tc.remitente, 2, tc.unidadremitente) AS remitente, FNC_USUARIO_AREA (tc.destinatario, 1, tc.unidaddestinatario) AS destinatario,        ");
-		sql.append("   FNC_ACCION(tc.accion) AS accion, FNC_NOTIFICACION(tc.idnotificacion) AS contenido, tc.documento,               ");
-		sql.append("   'Copia' AS tipo, '' proveido, FNC_ESTADO(tc.documento,1) AS estado,   ");
+		sql.append("SELECT tc.idtrazabilidadcopia AS id, dbo.FNC_NRODOCUMENTO(tc.documento,1) AS NRODOCUMENTO, tc.fechacreacion,          ");
+		sql.append("   dbo.FNC_USUARIO_AREA (tc.remitente, 2, tc.unidadremitente) AS remitente, dbo.FNC_USUARIO_AREA (tc.destinatario, 1, tc.unidaddestinatario) AS destinatario,        ");
+		sql.append("   dbo.FNC_ACCION(tc.accion) AS accion, dbo.FNC_NOTIFICACION(tc.idnotificacion) AS contenido, tc.documento,               ");
+		sql.append("   'Copia' AS tipo, '' proveido, dbo.FNC_ESTADO(tc.documento,1) AS estado,   ");
 		sql.append("   3 opcion      ");
 		sql.append("  FROM trazabilidadcopia tc      ");
 		sql.append("WHERE tc.documento IN (SELECT iddocumento FROM documento WHERE expediente="+ idExpediente + " and estado not in ('I')) ");
-		sql.append("ORDER BY fechacreacion, opcion)");
+		sql.append(" ) x ");
+		
                 
-                Query q=em.createNativeQuery(sql.toString());
+            Query q=em.createNativeQuery(sql.toString());
 	        List data=q.getResultList();
-                List<FilaHojaRuta> dataforward=new ArrayList<FilaHojaRuta>();
-               
-                for(int i=0;i<data.size();i++){
-		    try{
-                	Object obj[]=(Object[])data.get(i);
-			FilaHojaRuta f = new FilaHojaRuta();
-			FilaHojaRutaPK pk = new FilaHojaRutaPK();
-			Integer id=Integer.parseInt(obj[0].toString());
+                              
+            for(int i=0;i<data.size();i++){
+		    
+	            Object obj[]=(Object[])data.get(i);
+				FilaHojaRuta f = new FilaHojaRuta();
+				FilaHojaRutaPK pk = new FilaHojaRutaPK();
+				Integer id=Integer.parseInt(obj[0].toString());
 		        String nroDocumento = String.valueOf(obj[1]);
 		        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date fechaCreacion = formato.parse(obj[2].toString());
-                        String remitente =  String.valueOf(obj[3]);
-                        String destinatario =   String.valueOf(obj[4]);
-                        String accion =  String.valueOf(obj[5]);
-                        String contenido =  String.valueOf(obj[6]==null?"":obj[6]);
-                        Integer documento =   Integer.parseInt(obj[7].toString());
-                        String tipo =  obj[8].toString();
-                        String proveido =  String.valueOf(obj[9]==null?"":obj[9]);
-                        String estado =  String.valueOf(obj[10]);
-                        f.setNumeroDocumento(nroDocumento);
-                        f.setRemitente(remitente);
-                        f.setDestinatario(destinatario);
-                        f.setAccion(accion);
-                        f.setContenido(contenido);
-                        f.setDocumento(documento);
-                        f.setProveido(proveido);
-                        f.setEstado(estado);
-                        f.setFechaCreacion(fechaCreacion);
-                        pk.setTipo(tipo);
-                        pk.setId(id);
-                        f.setPk(pk);
-                        dataforward.add(f);
-                    }catch(Exception ex){
+        		Date fechaCreacion = formato.parse(obj[2].toString());
+                String remitente =  String.valueOf(obj[3]);
+                String destinatario =   String.valueOf(obj[4]);
+                String accion =  String.valueOf(obj[5]);
+                String contenido =  String.valueOf(obj[6]==null?"":obj[6]);
+                Integer documento =   Integer.parseInt(obj[7].toString());
+                String tipo =  obj[8].toString();
+                String proveido =  String.valueOf(obj[9]==null?"":obj[9]);
+                String estado =  String.valueOf(obj[10]);
+                
+                f.setNumeroDocumento(nroDocumento);
+                f.setRemitente(remitente);
+                f.setDestinatario(destinatario);
+                f.setAccion(accion);
+                f.setContenido(contenido);
+                f.setDocumento(documento);
+                f.setProveido(proveido);
+                f.setEstado(estado);
+                f.setFechaCreacion(fechaCreacion);
+                pk.setTipo(tipo);
+                pk.setId(id);
+                f.setPk(pk);
+                
+                dataforward.add(f);
+            
+            }
+            
+        }catch(Exception ex){
 			  ex.printStackTrace();
-		    }
 		}
 
 		return dataforward;

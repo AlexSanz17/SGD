@@ -39,7 +39,7 @@ public class ReporteAPNServiceImpl implements ReporteAPNService {
 		return reporteAPNDAO.getHojaRuta(idDocumento);
 	}
         
-        public List<FilaHojaFirma> generarHojaFirma(Integer idDocumento){
+    public List<FilaHojaFirma> generarHojaFirma(Integer idDocumento){
 		return reporteAPNDAO.getHojaFirma(idDocumento);
 	}
 

@@ -156,34 +156,39 @@ public class TrazabilidadAction {
         	action = Action.SUCCESS;
         }
         
-        apoyosPendientes = 0l;
-        objDocumento = documentoService.findByIdDocumento(getIIdDocumento());
-
-        Integer idDocumento = objDocumento.getDocumentoreferencia() != null ? objDocumento.getDocumentoreferencia() : objDocumento.getIdDocumento();
-        trazabilidadUnificada = reporteAPNService.generarHojaRuta(idDocumento);
-        Trazabilidaddocumento ultimo = null;
-        if(trazabilidadUnificada != null && !trazabilidadUnificada.isEmpty()){
-        	trazabilidadUnificada.get(0).setDestinatario("-");
-        	for(int i = trazabilidadUnificada.size()-1; i>=0; i--){
-            	if(trazabilidadUnificada.get(i).getPk().getTipo().equalsIgnoreCase("transferencia")){
-            		ultimo = trazabilidadDocumentoService.findTrabilidadbyId(trazabilidadUnificada.get(i).getPk().getId());
-            		break;
-            	}
-            }
-        }
-
-        if(objDocumento.getDocumentoreferencia() == null){
-        	if (ultimo!=null)
-        	   fechaLimite = ultimo.getFechalimiteatencion();
-        }else{
-        	Trazabilidadapoyo ta = trazabilidadapoyoService.buscarUltimaDelegacionUsuario(objDocumento);
-        	fechaLimite = ta.getFechalimiteatencion();
-        }
+        try{
+	        apoyosPendientes = 0l;
+	        objDocumento = documentoService.findByIdDocumento(getIIdDocumento());
+	
+	        Integer idDocumento = objDocumento.getDocumentoreferencia() != null ? objDocumento.getDocumentoreferencia() : objDocumento.getIdDocumento();
+	        trazabilidadUnificada = reporteAPNService.generarHojaRuta(idDocumento);
+	        Trazabilidaddocumento ultimo = null;
+	        if(trazabilidadUnificada != null && !trazabilidadUnificada.isEmpty()){
+	        	trazabilidadUnificada.get(0).setDestinatario("-");
+	        	for(int i = trazabilidadUnificada.size()-1; i>=0; i--){
+	            	if(trazabilidadUnificada.get(i).getPk().getTipo().equalsIgnoreCase("transferencia")){
+	            		ultimo = trazabilidadDocumentoService.findTrabilidadbyId(trazabilidadUnificada.get(i).getPk().getId());
+	            		break;
+	            	}
+	            }
+	        }
+	
+	        if(objDocumento.getDocumentoreferencia() == null){
+	        	if (ultimo!=null)
+	        	   fechaLimite = ultimo.getFechalimiteatencion();
+	        }else{
+	        	Trazabilidadapoyo ta = trazabilidadapoyoService.buscarUltimaDelegacionUsuario(objDocumento);
+	        	fechaLimite = ta.getFechalimiteatencion();
+	        }
+	        
+	        Date f = fechaLimite;
+	
+	        if (f != null) {
+	            fechaEnTexto = DateUtil.getDia(f) + " " + DateUtil.getDiadeMes(f) + " de " + DateUtil.getMes(f) + " del " + DateUtil.getAnio(f) + " a las " + DateUtil.getHora(f) + " horas.";
+	        }
         
-        Date f = fechaLimite;
-
-        if (f != null) {
-            fechaEnTexto = DateUtil.getDia(f) + " " + DateUtil.getDiadeMes(f) + " de " + DateUtil.getMes(f) + " del " + DateUtil.getAnio(f) + " a las " + DateUtil.getHora(f) + " horas.";
+        }catch(Exception e){
+        	e.printStackTrace();
         }
 
         return action;
