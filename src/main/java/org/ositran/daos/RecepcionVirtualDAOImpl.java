@@ -17,7 +17,7 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO{
     private EntityManager em;
     
     public String findByCantidadesDocumentosVirtuales(){
-        String sQuery = "SELECT FN_DOCUMENTOS_VIRTUALES('R') FROM DUAL";
+        String sQuery = "SELECT dbo.FN_DOCUMENTOS_VIRTUALES('R')";
         Query qQuery = em.createNativeQuery(sQuery);
 
         return qQuery.getResultList().get(0).toString();

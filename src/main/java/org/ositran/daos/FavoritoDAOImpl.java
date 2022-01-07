@@ -78,10 +78,7 @@ public class FavoritoDAOImpl implements FavoritoDAO {
          sbQuery.append(" ");
          sbQuery.append("ORDER BY 1 ASC ");
          
-         
-         //log.info("findLstBy(Favoritos):"+sbQuery);
-         //log.info("findLstBy(Favoritos)idunidad:"+idunidad+",idPropietario:"+idPropietario+",estado:"+estado+",jefe:"+jefe+",idfuncion:"+idfuncion);
-         
+                  
          Query query = em.createNativeQuery(sbQuery.toString(), "favoritoResult")
                          .setParameter("idunidad", idunidad)
                          //.setParameter("idpropietario", idPropietario)

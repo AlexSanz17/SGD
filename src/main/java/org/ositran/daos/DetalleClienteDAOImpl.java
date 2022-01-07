@@ -5,7 +5,6 @@
  */
 /*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
 
-import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.DetalleCliente;
 import java.util.List;
 import javax.persistence.EntityManager;

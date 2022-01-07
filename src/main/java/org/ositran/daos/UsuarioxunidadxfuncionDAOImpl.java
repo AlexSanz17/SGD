@@ -77,21 +77,21 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
           List<Map<String, String>> l1 = new LinkedList<Map<String, String>>();
             
           try{
-                 String  sql = "select u.idusuario || '-' || uu.idunidad || '-' || u.idfuncion idp  , u.nombres, u.apellidos , f.nombre as cargo, uu.nombre as area, uu.siglaunidad  from usuario u, unidad uu, funcion f " +
+                 String  sql = "select CONCAT(u.idusuario , '-' , uu.idunidad , '-' , u.idfuncion) idp  , u.nombres, u.apellidos , f.nombre as cargo, uu.nombre as area, uu.siglaunidad  from usuario u, unidad uu, funcion f " +
                            " where " +
                            "   U.IDUNIDAD = UU.IDUNIDAD and " +
                            "   U.IDFUNCION = F.IDFUNCION and " +
                            "   u.usuariofinal in ('S','N') AND " +
-                           "   u.estado = 'A' and FNC_USUARIO_VALIDO(U.IDUNIDAD, F.JEFE, :idunidad, :idjefe, U.IDFUNCION, :idfuncion)>0 "  +
+                           "   u.estado = 'A' and dbo.FNC_USUARIO_VALIDO(U.IDUNIDAD, F.JEFE, :idunidad, :idjefe, U.IDFUNCION, :idfuncion)>0 "  +
                            " union "  +
-                           " select u.idusuario || '-' || uu.idunidad || '-' || uf.idfuncion idp, u.nombres, u.apellidos,f.nombre as cargo, uu.nombre as area, uu.siglaunidad  from usuario u, usuarioxunidadxfuncion uf, unidad uu, funcion f " +
+                           " select CONCAT(u.idusuario, '-' , uu.idunidad , '-' , uf.idfuncion) idp, u.nombres, u.apellidos,f.nombre as cargo, uu.nombre as area, uu.siglaunidad  from usuario u, usuarioxunidadxfuncion uf, unidad uu, funcion f " +
                            " where " +
                            "   u.estado='A' AND " +
                            "   u.idusuario = uf.idusuario and " +
                            "   uf.idunidad = uu.idunidad and " +
                            "   uf.idfuncion = f.idfuncion and " +
                            "   uf.estado = 'A' and " +
-                           "   uf.usuariofinal IN ('S','N') and FNC_USUARIO_VALIDO(UF.IDUNIDAD, F.JEFE, :idunidad, :idjefe, uf.idfuncion, :idfuncion)>0 and uf.idusuariocargo is null";  
+                           "   uf.usuariofinal IN ('S','N') and dbo.FNC_USUARIO_VALIDO(UF.IDUNIDAD, F.JEFE, :idunidad, :idjefe, uf.idfuncion, :idfuncion)>0 and uf.idusuariocargo is null";  
    
              Query q = em.createNativeQuery(sql.toString());
              q.setParameter("idunidad", idunidad).setParameter("idjefe", idjefe).setParameter("idfuncion", idfuncion);
@@ -121,21 +121,21 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
             List<Map<String, String>> l1 = new LinkedList<Map<String, String>>();
             
             try{
-                 String  sql = "select u.idusuario || '-' || uu.idunidad || '-' || u.idfuncion idp  , u.nombres, u.apellidos , f.nombre as cargo, uu.nombre as area, uu.siglaunidad  from usuario u, unidad uu, funcion f " +
+                 String  sql = "select CONCAT(u.idusuario ,'-' , uu.idunidad , '-' , u.idfuncion) idp  , u.nombres, u.apellidos , f.nombre as cargo, uu.nombre as area, uu.siglaunidad  from usuario u, unidad uu, funcion f " +
                            " where " +
                            "   U.IDUNIDAD = UU.IDUNIDAD and " +
                            "   U.IDFUNCION = F.IDFUNCION and " +
                            "   u.usuariofinal = 'S' AND " +
-                           "   u.estado = 'A' and FNC_USUARIO_VALIDO(U.IDUNIDAD, F.JEFE, :idunidad, :idjefe, U.IDFUNCION, :idfuncion)>0 "  +
+                           "   u.estado = 'A' and dbo.FNC_USUARIO_VALIDO(U.IDUNIDAD, F.JEFE, :idunidad, :idjefe, U.IDFUNCION, :idfuncion)>0 "  +
                            " union "  +
-                           " select u.idusuario || '-' || uu.idunidad || '-' || uf.idfuncion idp, u.nombres, u.apellidos,f.nombre as cargo, uu.nombre as area, uu.siglaunidad  from usuario u, usuarioxunidadxfuncion uf, unidad uu, funcion f " +
+                           " select CONCAT(u.idusuario ,'-' ,uu.idunidad ,'-' , uf.idfuncion) idp, u.nombres, u.apellidos,f.nombre as cargo, uu.nombre as area, uu.siglaunidad  from usuario u, usuarioxunidadxfuncion uf, unidad uu, funcion f " +
                            " where " +
                            "   u.estado='A' AND " +
                            "   u.idusuario = uf.idusuario and " +
                            "   uf.idunidad = uu.idunidad and " +
                            "   uf.idfuncion = f.idfuncion and " +
                            "   uf.estado = 'A' and " +
-                           "   uf.usuariofinal = 'S' and FNC_USUARIO_VALIDO(UF.IDUNIDAD, F.JEFE, :idunidad, :idjefe, uf.idfuncion, :idfuncion)>0 and uf.idusuariocargo is null";  
+                           "   uf.usuariofinal = 'S' and dbo.FNC_USUARIO_VALIDO(UF.IDUNIDAD, F.JEFE, :idunidad, :idjefe, uf.idfuncion, :idfuncion)>0 and uf.idusuariocargo is null";  
    
              Query q = em.createNativeQuery(sql.toString());
              q.setParameter("idunidad", idunidad).setParameter("idjefe", idjefe).setParameter("idfuncion", idfuncion);
@@ -305,36 +305,6 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
                             " uf.idunidad = u.idunidad and  " +
                             " uf.idfuncion   = f.idfuncion )" ;   
 
-            
-            /*
-	     String  sql =  "select distinct idunidad,desunidad,idfuncion,desfuncion,idusuario, jefe, idRol from (" +
-                            " SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, decode(idusuariocargo,null,idusuario,idusuariocargo) idusuario, f.jefe, uf.idRol " +
-                            "  FROM usuarioxunidadxfuncion uf, unidad u, funcion f " +
-                            "   where " + 
-                            "      uf.idusuario =:idusuario and " +
-                            "      uf.idunidad = u.idunidad and " +
-                            "      uf.idfuncion   = f.idfuncion and uf.estado = 'A' and uf.idFuncion not in (5) and f.jefe = '1' " +
-                            "  union " +
-                            " SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, decode(idusuariocargo,null,idusuario,idusuariocargo) idusuario, f.jefe, uf.idRol " +
-                            "  FROM usuarioxunidadxfuncion uf, unidad u, funcion f " +
-                            "   where " + 
-                            "      uf.idusuario =:idusuario and " +
-                            "      uf.idunidad = u.idunidad and " +
-                            "      uf.idfuncion   = f.idfuncion and uf.estado = 'A' and uf.idFuncion in (5) " +
-                            "  union " +
-                            " SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, decode(idusuariocargo,null,idusuario,idusuariocargo) idusuario, f.jefe, uf.idRol " +
-                            "  FROM usuarioxunidadxfuncion uf, unidad u, funcion f " +
-                            "   where " + 
-                            "      uf.idusuario =:idusuario and " +
-                            "      uf.idunidad = u.idunidad and " +
-                            "      uf.idfuncion   = f.idfuncion and uf.estado = 'A' and f.jefe = '0' " +
-                            " union " +
-                            " SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion , idusuario, f.jefe, uf.idRol FROM usuario uf, unidad u, funcion f " +
-                            " WHERE " + 
-                            " uf.idusuario =:idusuario and  " +
-                            " uf.idunidad = u.idunidad and  " +
-                            " uf.idfuncion   = f.idfuncion )" ;   
-              */
              Query q = em.createNativeQuery(sql.toString());
 	     q.setParameter("idusuario", usuario.getIdusuario()); 
              List<Object> res = (List<Object>) q.getResultList();

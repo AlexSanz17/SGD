@@ -28,7 +28,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpUtils;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -130,7 +129,6 @@ import com.btg.ositran.siged.domain.Favorito;
 import com.btg.ositran.siged.domain.FilaBandejaUF;
 import com.btg.ositran.siged.domain.GridXGridColumna;
 import com.btg.ositran.siged.domain.Gridcolumnaxusuario;
-import com.btg.ositran.siged.domain.LogBusquedaAvanzada;
 import com.btg.ositran.siged.domain.Mensajeria;
 import com.btg.ositran.siged.domain.Notificacion;
 import com.btg.ositran.siged.domain.Numeracion;
@@ -194,9 +192,6 @@ import org.ositran.services.TrazabilidadapoyoService;
 import org.ositran.utils.StringUtil;
 
 public class DojoAction {
-
-        private static String USERCREADOR=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
-        private static String USERCREADOR_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
         
 	private static Log log = LogFactory.getLog(DojoAction.class);
 	private List<Archivo> listArchivo;
@@ -505,9 +500,6 @@ public class DojoAction {
 		return objJSON;
 	}
 
-	 private Integer compareFechas(Date d1, Date d2){
-	    	return d1.compareTo(d2);
-	    }
 
 	public String getInicioDocumentos(){
 		log.debug("-> [Action] DojoAction - getInicioDocumentos():String ");

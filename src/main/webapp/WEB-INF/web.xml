@@ -286,7 +286,7 @@
      <servlet>
         <display-name>VerDocumento</display-name>
         <servlet-name>VerDocumento</servlet-name>
-        <servlet-class>org.osinerg.actions.VerDocumento</servlet-class>
+        <servlet-class>org.ositran.actions.VerDocumento</servlet-class>
     </servlet>
 
      <servlet-mapping>

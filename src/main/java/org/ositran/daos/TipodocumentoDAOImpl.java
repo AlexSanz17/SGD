@@ -65,6 +65,7 @@ public class TipodocumentoDAOImpl implements TipodocumentoDAO {
    }
    
     public Tipodocumento findByIdTipoDocumentoPIDE(String iIdTipodocumentoPIDE){
+    	_log.info("tipoPIDE:"+iIdTipodocumentoPIDE);
          return (Tipodocumento) em.createNamedQuery("Tipodocumento.findByTipoDocumentoPIDE")
                                .setParameter("tipoPIDE", iIdTipodocumentoPIDE)
                                .getSingleResult();

@@ -877,7 +877,6 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		   return dataforward;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<NodoExpReporteAPN4> getListaReporteAPN4(BusquedaAvanzada objFiltro){
 		 StringBuilder sql=new StringBuilder();
 		 sql.append("select * from( ");

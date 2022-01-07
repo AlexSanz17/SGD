@@ -177,8 +177,10 @@ public class VirtualAction {
         this.despachoVirtualDAO = despachoVirtualDAO;
     }
     
-    @SuppressWarnings("unused")
     public String viewDocDespachoVirtual() {
+    	
+    	try{
+    		
         IotdtmDocExterno despacho = documentoExternoVirtualDAO.buscarDocumentoVirtual(idDespacho);
         Documento d = documentoDAO.findByIdDocumento(despacho.getSidemiext().getIddocumento());
       
@@ -267,14 +269,20 @@ public class VirtualAction {
             }   
         }
         
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+        
         return Action.SUCCESS;
     }
     
      
-    @SuppressWarnings("unused")
     public String viewDocRecepcionVirtual() {
         List<Archivo> lst = null;
         Documento d = null;
+        
+        try{
+        	        
         IotdtmDocExterno recepcion = documentoExternoVirtualDAO.buscarDocumentoVirtual(idRecepcion);
         
         if (recepcion.getSidrecext().getIddocumento()!=null){
@@ -355,6 +363,10 @@ public class VirtualAction {
             }
             
             objDD.setListAnexos(list);
+        }
+        
+        }catch(Exception e){
+        	e.printStackTrace();
         }
         
         return Action.SUCCESS;

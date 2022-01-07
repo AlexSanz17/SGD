@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import com.btg.ositran.siged.domain.Proceso;
 import com.btg.ositran.siged.domain.Usuario;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -103,10 +102,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		return em.find(Usuario.class,iIdU);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Usuario> findByRol(String strR){
                 return null; //JC24
-		//return em.createNamedQuery("Usuario.findByRol").setParameter("rol",strR).getResultList();
 	}
 
 	public Usuario findByUsuario(String sUsuario,Integer iIdSede){
@@ -288,9 +285,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
    }
 
 
-   	@SuppressWarnings("unchecked")
 	public List<Usuario> findJefes() {
-   		//return em.createNamedQuery("Usuario.findJefes").setParameter("esJefe",Constantes.Si.charValue()).getResultList();
 
         try {
             String sql = "select Distinct(u.idusuario), u.nombres, u.apellidos  from usuario u inner join usuarioxrol ur on u.idusuario = ur.idusuario inner join rol r on r.idRol =  ur.idRol where r.esJefe =:esJefe AND u.estado='A' order by apellidos  ";
@@ -318,9 +313,9 @@ public class UsuarioDAOImpl implements UsuarioDAO{
   public List<Usuario> findUsuariosxUnidad(Integer idUnidad){
       List<Usuario> lstUsuario = new ArrayList<Usuario>();
       
-      String sql = "select IDUSUARIO, NOMBRES || ' ' || APELLIDOS AS NOMBRES   from usuario where IDUNIDAD =:idUnidad AND ESTADO = 'A' " +
+      String sql = "select IDUSUARIO, CONCAT(NOMBRES , ' ' , APELLIDOS) AS NOMBRES   from usuario where IDUNIDAD =:idUnidad AND ESTADO = 'A' " +
                    " UNION " +
-                   " SELECT IDUSUARIO, (SELECT U.NOMBRES || ' ' || U.APELLIDOS  AS NOMBRES FROM USUARIO U  WHERE U.IDUSUARIO = UU.IDUSUARIO)  FROM USUARIOXUNIDADXFUNCION UU WHERE UU.IDUNIDAD = :idUnidad AND UU.ESTADO = 'A' AND UU.IDUSUARIOCARGO IS NULL ";
+                   " SELECT IDUSUARIO, (SELECT CONCAT(U.NOMBRES, ' ' , U.APELLIDOS)  AS NOMBRES FROM USUARIO U  WHERE U.IDUSUARIO = UU.IDUSUARIO)  FROM USUARIOXUNIDADXFUNCION UU WHERE UU.IDUNIDAD = :idUnidad AND UU.ESTADO = 'A' AND UU.IDUSUARIOCARGO IS NULL ";
   
       Query q = em.createNativeQuery(sql.toString());
       q.setParameter("idUnidad", idUnidad);
@@ -341,11 +336,11 @@ public class UsuarioDAOImpl implements UsuarioDAO{
          List<Map<String, String>> s = new LinkedList<Map<String, String>>();
          try {
            
-            String sql =" SELECT M.idusuario|| '-' ||M.IDUNIDAD|| '-' ||M.idfuncion, M.nombres, M.apellidos " +
+            String sql =" SELECT CONCAT(M.idusuario, '-' ,M.IDUNIDAD, '-' ,M.idfuncion), M.nombres, M.apellidos " +
                         " FROM USUARIO M " +
                         " WHERE M.ESTADO = 'A' AND M.USUARIOFINAL = 'S' and M.idusuario not in (0) AND M.IDUNIDAD = :uni" +
                         " union " +
-                        " select us.idusuario|| '-' ||us.IDUNIDAD|| '-' ||uf.idfuncion, us.nombres, us.apellidos " +
+                        " select CONCAT(us.idusuario, '-' ,us.IDUNIDAD, '-' ,uf.idfuncion), us.nombres, us.apellidos " +
                         " from usuarioxunidadxfuncion uf, usuario us ,UNIDAD un" +
                         " where " +
                         " uf.idusuario = us.idusuario and uf.estado = 'A' AND " +
