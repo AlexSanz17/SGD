@@ -10,7 +10,6 @@ import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.ositran.siged.pide.daos.PideDAO;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,7 +90,7 @@ public class IntegracionPIDESingleton {
 	            		iotdtcRecepcion.setVusumod(recepcionPide.getVusumod());
 	            		iotdtcRecepcion.setDfecmod(recepcionPide.getDfecmod());
 	            		iotdtcRecepcion.setCflgenvcar(recepcionPide.getCflgenvcar());
-	            		iotdtcRecepcion.setIddocumento(0); // Temporal
+	            		iotdtcRecepcion.setIddocumento(null); 
 	            		
 	            		recepcionPideDAO.registrarDocumento(iotdtcRecepcion);
 	            		

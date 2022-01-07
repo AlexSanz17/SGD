@@ -21,6 +21,9 @@ import org.ositran.daos.DocumentoExternoVirtualDAO;
 import org.ositran.daos.TipodocumentoDAO;
 import org.ositran.services.ClienteService;
 import org.ositran.utils.DocumentoDetail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.Map;
 import org.ositran.daos.DespachoVirtualDAO;
@@ -36,6 +39,9 @@ import org.ositran.utils.Constantes;
  * @author Juan Carlos Bengoa
  */
 public class VirtualAction {
+	
+	private static Logger log = LoggerFactory.getLogger(VirtualAction.class);
+	
     private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
     private RecepcionVirtualDAO recepcionVirtualDAO;
     private DespachoVirtualDAO despachoVirtualDAO;
@@ -282,7 +288,7 @@ public class VirtualAction {
         Documento d = null;
         
         try{
-        	        
+        log.info("viewDocRecepcionVirtual:idRecepcion"+idRecepcion);	        
         IotdtmDocExterno recepcion = documentoExternoVirtualDAO.buscarDocumentoVirtual(idRecepcion);
         
         if (recepcion.getSidrecext().getIddocumento()!=null){
