@@ -2,7 +2,7 @@
 <html>
    <head>
       <meta http-equiv="Refresh" content="0;URL=login.action">
-      <title>Sistema de Gesti&oacute;n Documentaria - OSITRAN</title>
+      <title>Sistema de Gesti&oacute;n Documentaria - Prov&iacute;as Nacional</title>
    </head>
    <body>
       <img alt="Cargando SGD" src="images/cargando.gif" /> Cargando SGD...
