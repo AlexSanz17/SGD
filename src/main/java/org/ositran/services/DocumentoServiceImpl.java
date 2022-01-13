@@ -699,7 +699,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 	@Override
 	@Transactional
 	public void anexarDocumento(Integer iIdDocumentoPrincipal, Integer[] arrIdDocumento) {
-		log.debug("-> [Service] DocumentoService - anexarDocumento():void ");
+		log.info("-> [Service] DocumentoService - anexarDocumento():void ");
 
 		Documento objDocumentoPrincipal = this.findByIdDocumento(iIdDocumentoPrincipal);
 		log.debug("Se asignaran [" + arrIdDocumento.length + "] documentos al expediente [" + objDocumentoPrincipal.getExpediente().getNroexpediente() + "]");
@@ -2926,7 +2926,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 	@Transactional
 	@Override
 	public Documento anexarDocumento (Usuario usuario, Map<String, List<ArchivoTemporal>> mapUpload, Integer idDocumento) {
-		log.debug("-> [Service] DocumentoService - anexarDocumento():Documento ");
+		log.info("-> [Service] DocumentoService - anexarDocumento():Documento ");
                 //Unidad unidad = unidadService.buscarObjPor(usuario.getIdUnidadPerfil());
                 Unidad unidad = null;
                 Documento documento = this.findByIdDocumento(idDocumento);

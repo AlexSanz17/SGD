@@ -72,7 +72,10 @@ public class SigedProperties {
         SIGED_LIBRORECLAMACION("siged.libroreclamacion"),
         
         ALFRESCO_USUARIOCONSULTA("alfresco.USUARIOCONSULTA"),
-        ALFRESCO_USUARIOCONSULTA_CLAVE("alfresco.USUARIOCONSULTA_CLAVE");
+        ALFRESCO_USUARIOCONSULTA_CLAVE("alfresco.USUARIOCONSULTA_CLAVE"),
+    	
+        FIRMAS_RUTA_PORFIRMAR("firmas.RUTAPORFIRMAR"),
+        FIRMAS_RUTA_FIRMADOS("firmas.RUTAFIRMADOS");
 
         private String key;
 

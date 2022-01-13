@@ -12,9 +12,19 @@ import com.btg.ositran.siged.domain.Usuario;
 import com.ositran.cmis.api.AlfrescoApiWs;
 
  import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.client.util.FileUtils;
+
 import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.service.SeguridadService;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,6 +63,9 @@ public class RepositorioServiceWebservice implements RepositorioService{
    	private AlfrescoWSService alfrescoWebServiceClient;
    	private SeguridadService seguridadService;
     private final String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
+    
+    private final String FIRMAS_RUTA_PORFIRMAR  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
+    
     private String[] strMonths = new String[]{
 					"ENERO",
 					"FEBRERO",
@@ -135,7 +148,7 @@ public class RepositorioServiceWebservice implements RepositorioService{
 
    	@Override
 	@Transactional
-	public void subirArchivosTransformadosARepositorio(Documento doc, List<Archivo> listaArchivos,boolean versionar,Usuario usuario, String rutaSite, String tipoDocumento) throws RuntimeException{
+	public void subirArchivosTransformadosARepositorio(Documento doc, final List<Archivo> listaArchivos,boolean versionar,Usuario usuario, String rutaSite, String tipoDocumento) throws RuntimeException{
 	   log.info("RepositorioServiceWebService :: subirArchivosTransformadosARepositorio");
            Map<String,String> propiedades=obtenerMetadata(doc, usuario);
 	   Date inicio = null;
@@ -255,27 +268,80 @@ public class RepositorioServiceWebservice implements RepositorioService{
                                         
                                         
 								}else{
-				                                    bandera = true; 
-				                                    break; 
+	                                    bandera = true; 
+	                                    break; 
 				                }
 			}else{
 				log.warn("Archivo \""+f.getAbsolutePath()+"\" no encontrado");
 			}
 		}
            
-                if (bandera){
-                    for(Archivo arc : listaArchivos){
-                        Archivo archivo = new Archivo();
-                        try{
-                            PropertyUtils.copyProperties(archivo, arc);
-                            archivo.setEstado('I');
-                            archivoService.saveArchivo(archivo);
-                        }catch(Exception e){
-                            e.printStackTrace();                                        
-                        }
-                    }
+        if (bandera){
+            for(Archivo arc : listaArchivos){
+                Archivo archivo = new Archivo();
+                try{
+                    PropertyUtils.copyProperties(archivo, arc);
+                    archivo.setEstado('I');
+                    archivoService.saveArchivo(archivo);
+                }catch(Exception e){
+                    e.printStackTrace();                                        
                 }
-	}
+            }
+        }else{
+        	
+        	new Thread() {
+        	    public void run() {        	    	
+        	    log.info("Copiando archivos a la ruta de pendientes de firmar");
+        	    
+	        	for(Archivo arc : listaArchivos){
+	                File from =new File(arc.getRutaArchivoPdf());
+					if(from.exists() && from.isFile()){
+						String nombreArchivo = arc.getRutaArchivoPdf().substring(arc.getRutaArchivoPdf().indexOf(']')+1);
+						String destination = FIRMAS_RUTA_PORFIRMAR+nombreArchivo;
+						File to = new File(destination);
+	
+						try {							
+							copy(from, to);
+							
+							log.info("Se copio el archivo a "+destination);							
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+												
+					}
+	        	}
+        	
+        	    }  
+        	}.start();
+        	
+        	
+        }
+        
+        
+        
+   	}
+   	
+   	private static void copy(File src, File dest) throws IOException { 
+   		InputStream is = null; OutputStream os = null; 
+   		
+   		try { 
+   			is = new FileInputStream(src); 
+   			os = new FileOutputStream(dest); 
+   		
+	   		// buffer size 1K 
+	   		byte[] buf = new byte[1024]; 
+	   		int bytesRead; 
+	   		
+	   		while ((bytesRead = is.read(buf)) > 0) { 
+	   			os.write(buf, 0, bytesRead); 
+	   		} 
+   		
+   		}finally { 
+   			is.close(); os.close();     		
+   		}
+   		
+   	}
+
 
    public String obtenerRutaExpediente(Expediente objExpediente) {
       String sFecha = new SimpleDateFormat("yyyy/MM/dd").format(objExpediente.getFechacreacion());

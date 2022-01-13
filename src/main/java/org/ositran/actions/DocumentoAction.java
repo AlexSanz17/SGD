@@ -803,7 +803,7 @@ public class DocumentoAction {
 
 
 	public String anexarDocumento() {
-		log.debug("-> [Action] DocumentoAction - anexarDocumento():String ");
+		log.info("-> [Action] DocumentoAction - anexarDocumento():String ");
 
 		if (arrIdDoc == null || arrIdDoc.length < 1) {
 			log.error("No se selecciono ningun Documento a anexar");
@@ -958,7 +958,7 @@ public class DocumentoAction {
 	/**REN Metodo que se encarga de adjuntar archivos adicionales a un documento --------------------------------------------*/
 	@SuppressWarnings("unchecked")
 	public String doAdjuntarArchivo(){
-                log.debug("-> [Action] DocumentoAction - doAdjuntarArchivo():String ");
+                log.info("-> [Action] DocumentoAction - doAdjuntarArchivo():String ");
                 Map<String,Object> sesion=ActionContext.getContext().getSession();
                 Map<String,List<org.ositran.utils.ArchivoTemporal>> upload=(Map<String,List<org.ositran.utils.ArchivoTemporal>>) sesion.get(Constantes.SESSION_UPLOAD_LIST);
                 Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
