@@ -154,7 +154,7 @@
             
     </head>
     <body>
-        <div class="headerUser"><img alt="Logo OSITRAN" src="./images/logo.jpg" width="72px" height="39px" /> </div>
+        <div class="headerUser"><img alt="Logo OSITRAN" src="./images/logo.jpg" width="100px" height="39px" /> </div>
         
         <div class="headerUser">
             

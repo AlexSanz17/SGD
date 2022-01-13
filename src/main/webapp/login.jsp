@@ -117,7 +117,7 @@
              height: 100%;
              width: 100%;
              background: transparent url(images/presentacion-final.jpg) no-repeat;
-             background-size: 80% 100%;
+             background-size: 100% 100%;
          }
          .Estilo15 {color: #FFFFFF; font-weight: bold; font-size: 11px; }
          .Estilo16 {color: #000000}
