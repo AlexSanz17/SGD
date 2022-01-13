@@ -478,6 +478,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
                 documento.setFechaDocumento(recepcionVirtual.getDfecdoc());
                 
                 
+                /*
                 if (recepcionVirtual.getSidrecext().getCtipdociderem() == '1'){
                    try{  
                       PeticionConsulta peticionConsulta = new PeticionConsulta();
@@ -509,7 +510,10 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
                       e.printStackTrace();
                       documento.setDesRemitente("Se produjo un problema en la comunicación con el servidor de RENIEC");
                    }  
-                }  
+                }*/  
+                
+                documento.setDesRemitente("Juan Perez Lopez");
+                documento.setDesRemitente("0000" + documento.getDesRemitente().toUpperCase().toString().trim());
                  
                 if (recepcionVirtual.getSidrecext().getCtipdociderem() == '2'){
                     try{  

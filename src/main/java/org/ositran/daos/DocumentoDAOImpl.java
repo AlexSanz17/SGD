@@ -1181,48 +1181,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 
 		return noti;
 	}
-	/**Metodo Antiguo
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Trazabilidaddocumento> findByfechaLimiteAtencion(Date fechaInicio, Date fechaFin, Integer idUsuario, Integer idProceso, boolean propios) {
-
-		log.debug("-> [DAO] DocumentoDAO - findByfechaLimiteAtencion():List<Trazabilidaddocumento> ");
-
-		String sql = "SELECT DISTINCT td FROM Trazabilidaddocumento td WHERE td.documento.estado = :estado ";
-		sql += "AND td.fechalimiteatencion >= :fechainicio AND td.fechalimiteatencion <= :fechafin ";
-		sql += "AND td.fechacreacion = (SELECT MAX(td2.fechacreacion) FROM Trazabilidaddocumento td2 where td2.documento.idDocumento = td.documento.idDocumento) ";
-
-		if(idProceso != null && idProceso != 0){
-			sql += "AND td.documento.expediente.proceso.idproceso = :idProceso ";
-		}
-
-		if(propios){
-			/**Son los documentos que tengo en la bandeja --------------------------------------------------------------------------------------*
-			sql += "AND td.destinatario.idusuario = :idUsuario ";
-		}else{
-			/**Son los documentos que he enviado -----------------------------------------------------------------------------------------------*
-			sql += "AND (td.remitente.idusuario = :idUsuario OR (td.documento.autor.idusuario = :idUsuario AND td.destinatario.idusuario != :idUsuario)) ";
-		}
-
-		sql += "ORDER BY td.fechacreacion DESC";
-
-		Query q = em.createQuery(sql);
-		q.setParameter("estado", Constantes.ESTADO_ACTIVO)
-		 .setParameter("fechainicio", fechaInicio)
-		 .setParameter("fechafin", fechaFin)
-		 .setParameter("idUsuario", idUsuario);
-
-		log.debug("\n  verSeguimiento " + Constantes.VER_SEGUIMIENTO_SI);
-
-		if(idProceso != null && idProceso != 0){
-			q.setParameter("idProceso", idProceso);
-		}
-
-		List<Trazabilidaddocumento> lista = q.getResultList();
-		log.debug(" tamagno ff de lista <SeguimientoHoraDia> " + lista.size());
-		return lista;
-	}
-	*/
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<FilaSeguimiento> findByfechaLimiteAtencion(Date fechaInicio, Date fechaFin, Integer idUsuario, Integer idProceso, boolean propios) {
@@ -2104,7 +2063,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 				+ proceso + ", propietario:" + propietario + ", areaDestino:"
 				+ areaDestino + ", tipoDocumento:" + tipoDocumento
 				+ ", documentoDesde:" + documentoDesde + ", documentoHasta:"
-				+ documentoHasta + ", expedienteDesde:" + expedienteDesde
+				+ documentoHasta + ", expedienteDesde:" + expedienteDesde+", cargoUsuario:"+cargoUsuario
 				+ ", expedienteHasta:" + expedienteHasta + "]");
 
 		if (operador == null) {
@@ -2120,7 +2079,24 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 				"SELECT DISTINCT D.* FROM EXPEDIENTESTOR ES ");
 		*/
 		StringBuilder sql = new StringBuilder(
-				"SELECT D.* FROM EXPEDIENTESTOR ES ");
+				"SELECT DISTINCT "
+				+ " D.iddocumento	, D.ID_CLIENTE	, D.ID_CODIGO	, D.ID_EXTERNO	, D.aniofiscal	, D.asunto	, D.bandeja"	
+				+ ", D.cargopropietario	, D.codCargoRemitente	, D.codinfraestructura	, D.codmateria"	
+				+ ", D.codRemitente	, D.codTipoInstitucion	, D.confidencial	, CONVERT(VARCHAR,D.contenido) as contenido	"
+				+ ", D.creaexpediente	, D.delexpediente	, D.desCargoRemitente	, D.desRemitente"
+				+ ", D.desUnidadRemitente	, D.despachado	, D.documentoasociado	, D.documentoreferencia	"
+				+ ", D.enumerado	, D.estaenflujo	, D.estado	, D.estadoalarma	, D.estadoplazo	, D.fechaaccion	"
+				+ ", D.fechacargo	, D.fechacreacion	, D.fechacreacionmonth	, D.fechacreacionyear	"
+				+ ", D.fechadocumento	, D.fechalecturadocumento	, D.fechalimiteatencion	, D.fechamodificacion	"
+				+ ", D.fechareunion	, D.firmado	, D.flagMultiple	, D.flagatendido	, D.flaginicioflujo	, D.flagsideco	"
+				+ ", D.idConcesionario	, D.imagenesdigitalizadas	, D.leido	, D.lugar	, D.nombrepclecturadocumento	"
+				+ ", D.nroVirtual	, D.nrocaja	, D.nrodocumento	, D.nrofolios	, D.nrofolioscopias	, D.nrofoliosoriginales	"
+				+ ", D.nrofoliospide	, D.nromesapartes	, D.objetivo	, CONVERT(VARCHAR,D.observacion) as observacion, D.observaciondigitalizador	"
+				+ ", D.observacionrechazo	, D.origen	, D.plazo	, D.principal	, D.prioridad	, D.proyecto	"
+				+ ", D.recepcionado	, D.referenciados	, D.remitente	, D.ultimoasunto	, D.unidadautor	"
+				+ ", D.unidadenumera	, D.unidadpropietario	, D.usuariomodificacion	, D.usuariocreacion	, D.accion	"
+				+ ", D.autor	, D.enumerador	, D.expediente	, D.firmante	, D.propietario	, D.tipodocumento	, D.NROMESAVIRTUAL "
+				+ "FROM EXPEDIENTESTOR ES ");
 		sql.append("RIGHT JOIN EXPEDIENTE E ON ES.IDEXPEDIENTE=E.IDEXPEDIENTE ");
 		sql.append("RIGHT JOIN DOCUMENTO D ON E.IDEXPEDIENTE=D.EXPEDIENTE ");
 		sql.append("LEFT JOIN CLIENTE CL ON D.ID_CLIENTE=CL.IDCLIENTE ");
@@ -2235,14 +2211,14 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                         if(estadoExpediente.equals("T"))
                         {
                             //sql.append(" (EXISTS (SELECT DA.iddocumento from documentoatendido DA inner join usuario up on up.idusuario = da.idusuario where DA.estado = 'A' and DA.iddocumento = D.iddocumento and da.unidadpropietario="+ unidadUsuario +"))");
-                            if(propietario != null)
-                            {
-                                sql.append(" (EXISTS (SELECT e.iddocumento FROM vistabandejaatendidos e WHERE e.iddocumento = D.iddocumento and e.unidadPropietario = "+ unidadUsuario +" and e.codEstado = 'A' and e.usuario = :propietario and e.cargoPropietario  ="+ cargoUsuario +"))");
-                            }
-                            else
-                            {
-                                sql.append(" (EXISTS (SELECT e.iddocumento FROM vistabandejaatendidos e WHERE e.iddocumento = D.iddocumento and e.unidadPropietario = "+ unidadUsuario +" and e.codEstado = 'A'))");
-                            }
+                        if(propietario != null && !propietario.equals("") && !propietario.equals("-1"))
+                        {
+                            sql.append(" (EXISTS (SELECT e.iddocumento FROM vistabandejaatendidos e WHERE e.iddocumento = D.iddocumento and e.unidadPropietario = "+ unidadUsuario +" and e.codEstado = 'A' and e.usuario = :propietario and e.cargoPropietario  ="+ cargoUsuario +"))");
+                        }
+                        else
+                        {
+                            sql.append(" (EXISTS (SELECT e.iddocumento FROM vistabandejaatendidos e WHERE e.iddocumento = D.iddocumento and e.unidadPropietario = "+ unidadUsuario +" and e.codEstado = 'A'))");
+                        }
                         }
                         if(estadoExpediente.equals("N"))
                         {
@@ -2355,7 +2331,6 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 			if (encontrado) {
 				sql.append(operador);
 			}
-			//sql.append(" (T.fechacreacion = (SELECT MAX(TT.fechacreacion) FROM Trazabilidaddocumento TT WHERE TT.documento = D.IDDOCUMENTO AND (SELECT RE.IDUNIDAD FROM USUARIO RE WHERE RE.idusuario = TT.DESTINATARIO) = :unidad) AND (SELECT RE.IDUNIDAD FROM USUARIO RE WHERE RE.idusuario = TT.REMITENTE) = :areaOrigen)) ");
 			 sql.append("  (EXISTS ((SELECT 1 FROM Trazabilidaddocumento TT WHERE TT.documento = D.IDDOCUMENTO AND TT.ACCION NOT IN (31,9) AND  TT.UNIDADDESTINATARIO = :unidad AND TT.UNIDADREMITENTE = :areaOrigen) ");
                          sql.append(" union  ");
                          sql.append("(SELECT 1 FROM Trazabilidadapoyo TT WHERE TT.DOCUMENTO IN (SELECT DD.IDDOCUMENTO FROM DOCUMENTO DD WHERE DD.DOCUMENTOREFERENCIA IS NOT NULL AND DD.DOCUMENTOREFERENCIA = D.IDDOCUMENTO) AND TT.ACCION NOT IN (31,9) AND TT.UNIDADDESTINATARIO= :unidad AND TT.UNIDADREMITENTE= :areaOrigen))) ");
@@ -2365,8 +2340,6 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (encontrado) {
 						sql.append(operador);
 					}
-					//sql.append(" (T.fechacreacion = (SELECT MAX(TT.fechacreacion) FROM Trazabilidaddocumento TT WHERE TT.documento = D.IDDOCUMENTO AND (SELECT RE.IDUNIDAD FROM USUARIO RE WHERE RE.idusuario = TT.DESTINATARIO) = :unidad)) ");
-					//sql.append(" (T.fechacreacion = (SELECT MAX(TT.fechacreacion) FROM Trazabilidaddocumento TT WHERE TT.documento = D.IDDOCUMENTO AND TT.ACCION NOT IN (31,9) AND TT.UNIDADDESTINATARIO = :unidad)) ");
 					sql.append(" (EXISTS ((SELECT 1 FROM Trazabilidaddocumento TT WHERE TT.documento = D.IDDOCUMENTO AND TT.ACCION NOT IN (31,9) AND TT.UNIDADDESTINATARIO = :unidad) ");
 					sql.append(" union  ");
                                         sql.append("(SELECT 1 FROM Trazabilidadapoyo TT WHERE TT.DOCUMENTO IN (SELECT DD.IDDOCUMENTO FROM DOCUMENTO DD WHERE DD.DOCUMENTOREFERENCIA IS NOT NULL AND DD.DOCUMENTOREFERENCIA = D.IDDOCUMENTO) AND TT.ACCION NOT IN (31,9) AND TT.UNIDADDESTINATARIO= :unidad))) ");
@@ -2377,8 +2350,6 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 					if (encontrado) {
 						sql.append(operador);
 					}
-					//sql.append(" (T.fechacreacion = (SELECT MAX(TT.fechacreacion) FROM Trazabilidaddocumento TT WHERE TT.documento = D.IDDOCUMENTO AND (SELECT RE.IDUNIDAD FROM USUARIO RE WHERE RE.idusuario = TT.REMITENTE) = :areaOrigen)) ");
-					//sql.append(" (T.fechacreacion = (SELECT MAX(TT.fechacreacion) FROM Trazabilidaddocumento TT WHERE TT.documento = D.IDDOCUMENTO AND TT.ACCION NOT IN (31,9) AND TT.UNIDADREMITENTE = :areaOrigen)) ");
 					sql.append(" (EXISTS ((SELECT 1 FROM Trazabilidaddocumento TT WHERE TT.documento = D.IDDOCUMENTO AND TT.ACCION NOT IN (31,9) AND TT.UNIDADREMITENTE = :areaOrigen) ");
 					sql.append(" union  ");
                                         sql.append("(SELECT 1 FROM Trazabilidadapoyo TT WHERE TT.DOCUMENTO IN (SELECT DD.IDDOCUMENTO FROM DOCUMENTO DD WHERE DD.DOCUMENTOREFERENCIA IS NOT NULL AND DD.DOCUMENTOREFERENCIA = D.IDDOCUMENTO) AND TT.ACCION NOT IN (31,9) AND TT.UNIDADREMITENTE= :areaOrigen))) ");
@@ -2432,28 +2403,24 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 			if (encontrado) {
 				sql.append(operador);
 			}
-			// sql.append("(year(d.fechaCreacion)>=year(:documentoDesde) AND month(d.fechaCreacion)>=month(:documentoDesde) AND day(d.fechaCreacion)>=day(:documentoDesde)) AND (year(d.fechaCreacion)<=year(:documentoHasta) AND month(d.fechaCreacion)<=month(:documentoHasta) AND day(d.fechaCreacion)<=day(:documentoHasta))");
-			sql.append("D.FECHACREACION BETWEEN TO_DATE(:documentoDesde, 'dd-mm-yyyy hh24:MI:ss') AND TO_DATE(:documentoHasta, 'dd-mm-yyyy hh24:MI:ss')");
+			sql.append("D.FECHACREACION BETWEEN :documentoDesde AND :documentoHasta ");
 			encontrado = true;
 		}
 		if (expedienteDesde != null && expedienteHasta != null) {
 			if (encontrado) {
 				sql.append(operador);
 			}
-			// sql.append("(year(d.expediente.fechacreacion)>=year(:expedienteDesde) AND month(d.expediente.fechacreacion)>=month(:expedienteDesde) AND day(d.expediente.fechacreacion)>=day(:expedienteDesde)) AND (year(d.expediente.fechacreacion)<=year(:expedienteHasta) AND month(d.expediente.fechacreacion)<=month(:expedienteHasta) AND day(d.expediente.fechacreacion)<=day(:expedienteHasta))");
-			sql.append("E.FECHACREACION BETWEEN TO_DATE(:expedienteDesde, 'dd-mm-yyyy hh24:MI:ss') AND TO_DATE(:expedienteHasta, 'dd-mm-yyyy hh24:MI:ss')");
+			sql.append("E.FECHACREACION BETWEEN :expedienteDesde AND :expedienteHasta ");
 			encontrado = true;
 		}
 
 
-		//sql.append(") AND D.CONFIDENCIAL != 'S' ");
 		sql.append(") order by D.fechaCreacion desc"); //x
 		
 		log.info("Query armado:"+sql);
 
 		if (encontrado) {
 			// al menos se ha seleccionado un campo a buscar
-			log.info("El query a buscar: " + sql);
 			sqlQueryDinamico[0] = sql.toString();
 			Query q = em.createNativeQuery(sql.toString(), Documento.class);
                         
@@ -2521,7 +2488,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 				q.setParameter("proceso", new Integer(proceso));
 				sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":proceso", proceso);
 			}
-			if (propietario != null) {
+			if (propietario != null && !propietario.equals("") && !propietario.equals("-1")) {
                 q.setParameter("propietario", new Integer(propietario));
                 sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":propietario", propietario);
             }
@@ -2568,6 +2535,8 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 				sqlQueryDinamico[0] = sqlQueryDinamico[0].replace(":expedienteHasta", "'" + ff + "'");
 			}
 
+			log.info("busquedaDocumento(sqlQueryDinamico): " + sqlQueryDinamico[0]);
+			
 			return q.getResultList();
 		}
 
@@ -2575,28 +2544,8 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 		return null;
 	}
         
-       /* public List<String> buscarPendienteVirtual(String nroTramite){
-            log.debug("-> [DAO] DocumentoDAO - buscarPendienteVirtual():List<String> ");
-            
-             String sql = " SELECT CAST(E.SIDDOCEXT AS VARCHAR2(16)), DP.IDDOCUMENTO FROM IOTDTM_DOC_EXTERNO E, IOTDTC_DESPACHO DP WHERE  ";
-             sql = sql + " DP.CFLGEST NOT IN ('X') AND E.SIDEMIEXT= DP.SIDEMIEXT AND DP.VNUMREGSTD = :nroTramite order by DP.dfecreg desc " ;
-            
-             Query q = em.createNativeQuery(sql.toString());
-             q.setParameter("nroTramite", nroTramite);
-             List<Object> res = (List<Object>) q.getResultList();
-             List<String> lp = new ArrayList<String>();
-          
-             for (Object obj : res) {     
-                Object[] objectArray = (Object[]) obj;
-                String valor = (objectArray[0]!=null?objectArray[0].toString():"0");
-                lp.add(valor);
-             }      
-             
-             return lp;
-            
-        }*/
         
-        @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	@Override
 	public List<DocumentoPublicar> getDocumentosPorPublicar(Integer idExpediente, Integer idDocumento) {
 		log.debug("-> [DAO] DocumentoDAO - getDocumentosPorPublicar():List<Documento> ");
@@ -3878,12 +3827,12 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                 sql.append("    from documento d, usuario u ");
                 sql.append("     , tipodocumento td, expediente ex ,cliente c  where  td.idtipodocumento=d.tipodocumento "); 
                 sql.append("      and ex.idexpediente = d.expediente  and d.propietario = u.idusuario");
-               // sql.append("      and ex.idexpediente = d.expediente  and d.usuariocreacion = u.idusuario");
                 sql.append("      and c.idcliente (+) =  d.id_cliente ");
-                //sql.append("     and d.iddocumento = " + "(SELECT DOCUMENTOREFERENCIA FROM DOCUMENTO WHERE IDDOCUMENTO = " + iddocumento + ")");
                 sql.append("     and d.iddocumento = "  + iddocumento + "");
 
 
+        log.info("obtenerCargo(sql):"+sql.toString());
+        
 		Query q = em.createNativeQuery(sql.toString());
 		Object[] obj = (Object[]) q.getSingleResult();
 		CargoReporte cr = null;

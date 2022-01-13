@@ -1803,39 +1803,40 @@ public class DocumentoServiceImpl implements DocumentoService {
                  IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(idExterno);
                  IotdtcRecepcion iotdtcRecepcion = iotdtmDocExterno.getSidrecext();
                  cargoTramite.setVnumregstd(iotdtcRecepcion.getVnumregstd());
-		 cargoTramite.setVanioregstd(iotdtcRecepcion.getVanioregstd());
-		 ///JC-RUC-X
-                 //cargoTramite.setVrucentrem(parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
-		 //cargoTramite.setVrucentrec(iotdtcRecepcion.getVrucentrem());
+                 cargoTramite.setVanioregstd(iotdtcRecepcion.getVanioregstd());
+				 ///JC-RUC-X
+		         //cargoTramite.setVrucentrem(parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
+				 //cargoTramite.setVrucentrec(iotdtcRecepcion.getVrucentrem());
                  ///JC-RUC
-		 cargoTramite.setVusuregstd(iotdtcRecepcion.getVusuregstd());
-		 cargoTramite.setVuniorgstd(iotdtcRecepcion.getVuniorgstd());
-		 cargoTramite.setBcarstd(Base64.encodeBase64(iotdtcRecepcion.getBcarstd()));
+				 cargoTramite.setVusuregstd(iotdtcRecepcion.getVusuregstd());
+				 cargoTramite.setVuniorgstd(iotdtcRecepcion.getVuniorgstd());
+				 cargoTramite.setBcarstd(Base64.encodeBase64(iotdtcRecepcion.getBcarstd()));
                  
                  cargoTramite.setVcuo(iotdtcRecepcion.getVcuo());
                  cargoTramite.setVcuoref(iotdtcRecepcion.getVcuoref());
-		 cargoTramite.setVobs(iotdtcRecepcion.getVobs());
-		 cargoTramite.setCflgest(iotdtcRecepcion.getCflgest().toString());
+				 cargoTramite.setVobs(iotdtcRecepcion.getVobs());
+				 cargoTramite.setCflgest(iotdtcRecepcion.getCflgest().toString());
                  //cargoTramite.setVdesanxstdrec(iotdtcRecepcion.getVdesanxstd()==null?"":iotdtcRecepcion.getVdesanxstd());
                  
-		 GregorianCalendar gregory = new GregorianCalendar();
-	         gregory.setTime(iotdtcRecepcion.getDfecregstd());
-		 DatatypeFactory df = DatatypeFactory.newInstance();
-		 XMLGregorianCalendar dfecdoc = df.newXMLGregorianCalendar(gregory);
-		 cargoTramite.setDfecregstd(dfecdoc);
+				 GregorianCalendar gregory = new GregorianCalendar();
+				 gregory.setTime(iotdtcRecepcion.getDfecregstd());
+				 DatatypeFactory df = DatatypeFactory.newInstance();
+				 XMLGregorianCalendar dfecdoc = df.newXMLGregorianCalendar(gregory);
+				 cargoTramite.setDfecregstd(dfecdoc);
                  
                  WSPideTramite wsPideTramite = new WSPideTramite();
-	         RespuestaCargoTramite respuestaCargoTramite = new RespuestaCargoTramite();
-		 respuestaCargoTramite = wsPideTramite.cargoTramite(cargoTramite, Constantes.AMBIENTE_WS_PIDE_TRAMIE);
+		         RespuestaCargoTramite respuestaCargoTramite = new RespuestaCargoTramite();
+		         respuestaCargoTramite = wsPideTramite.cargoTramite(cargoTramite, Constantes.AMBIENTE_WS_PIDE_RUC);
 			
 	         if(respuestaCargoTramite.getVcodres().equals("0000")){
                     iotdtcRecepcion.setCflgenvcar('S');
                     iotdtcRecepcion.setDfecmod(new Date());
-		    recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
+                    recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
                     return respuestaCargoTramite.getVdesres();
-                 }else{
-                    return respuestaCargoTramite.getVdesres();
-                 }       
+             }else{
+                return respuestaCargoTramite.getVdesres();
+             }
+	         
             }catch(Exception e){
                 e.printStackTrace();
                 throw e;
