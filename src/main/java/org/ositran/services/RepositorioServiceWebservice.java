@@ -11,8 +11,7 @@ import com.btg.ositran.siged.domain.Unidad;
 import com.btg.ositran.siged.domain.Usuario;
 import com.ositran.cmis.api.AlfrescoApiWs;
 
- import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.client.util.FileUtils;
+import org.apache.chemistry.opencmis.client.api.Session;
 
 import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.service.SeguridadService;
@@ -22,9 +21,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -166,6 +162,10 @@ public class RepositorioServiceWebservice implements RepositorioService{
                                 crearEstructuraDocumento(userName, password, doc.getIdDocumento(), rutaSite, tipoDocumento);
                                 String basePath=obtenerRutaCompletaDocumento(doc, rutaSite, tipoDocumento);
                                 String fullPath=obtenerRutaCompletaDocumento(doc, rutaSite, tipoDocumento) + nombreArchivo;
+                                
+                                log.info("subirArchivos(basePath):"+basePath);
+                                log.info("subirArchivos(fullPath):"+fullPath);
+                                
                                 if (log.isDebugEnabled()) {
                                         inicio = new Date();
                                 }

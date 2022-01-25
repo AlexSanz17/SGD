@@ -2,6 +2,8 @@
 
 import static org.ositran.utils.StringUtil.isEmpty;
 import gob.ositran.siged.config.SigedProperties;
+import gob.ositran.siged.service.SeguridadService;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -102,6 +104,9 @@ import org.ositran.utils.FechaLimite;
 import org.springframework.jms.IllegalStateException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.antartec.alfresco.AlfrescoConnector;
+import com.antartec.alfresco.AlfrescoConnector.RETURN_CODE;
 import com.btg.ositran.siged.domain.Alerta;
 import com.btg.ositran.siged.domain.TipoLegajoUnidad;
 import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
@@ -249,10 +254,10 @@ public class DojoAction {
 	private DocumentoxclienteService documentoxclienteService;
 	private TipoidentificacionService tipoIdentificacionService;
 	private GridcolumnaxusuarioService gridColumnaXUsuarioService;
-        private TrazabilidaddocumentoService trazabilidadDocumentoService;
-        private LogOperacionService logOperacionService;
-        private LogBusquedaAvanzadaService logBusquedaAvanzadaService;
-        private Integer iddestinatario;
+    private TrazabilidaddocumentoService trazabilidadDocumentoService;
+    private LogOperacionService logOperacionService;
+    private LogBusquedaAvanzadaService logBusquedaAvanzadaService;
+    private Integer iddestinatario;
 	private String sTipoDerivacion;
 	private String sOpcion;
 	private String strAcc;
@@ -261,21 +266,46 @@ public class DojoAction {
 	private ProcesoService procesoService;
 	private FechaLimite fechaLimite;
 	private ManejoDeEmailService mailService;
-        private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
-        private SeguimientoXFirmaService seguimientoXFirmaService;
-        private ReferenciaArchivoService referenciaArchivoService;
-        private LegajoService legajoService;
-        private LegajoDocumentoService legajoDocumentoService;
-        private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
-        private DocumentoEnviadoService documentoenviadoService;
-        private TrazabilidadapoyoService trazabilidadapoyoService;
-        private DocumentoPendienteDAO documentoPendienteDAO;
-        private DocumentoAtendidoDAO documentoAtendidoDAO;
-        private TipoLegajoDAO tipoLegajoDAO;
-        private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
-        private RecepcionVirtualDAO recepcionVirtualDAO;
-        private DespachoVirtualDAO despachoVirtualDAO;
+    private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
+    private SeguimientoXFirmaService seguimientoXFirmaService;
+    private ReferenciaArchivoService referenciaArchivoService;
+    private LegajoService legajoService;
+    private LegajoDocumentoService legajoDocumentoService;
+    private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
+    private DocumentoEnviadoService documentoenviadoService;
+    private TrazabilidadapoyoService trazabilidadapoyoService;
+    private DocumentoPendienteDAO documentoPendienteDAO;
+    private DocumentoAtendidoDAO documentoAtendidoDAO;
+    private TipoLegajoDAO tipoLegajoDAO;
+    private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+    private RecepcionVirtualDAO recepcionVirtualDAO;
+    private DespachoVirtualDAO despachoVirtualDAO;
+    
+    private SeguridadService seguridadService;
+    private AlfrescoConnector alfrescoConnector;
+    private static String USERCREADOR=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
+    private static String USERCREADOR_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
 
+    
+    public DojoAction(){
+    	log.info("Iniciando DojoAction");
+    	
+    	StringBuilder sb=new StringBuilder();
+        String alfrescoHost=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
+        String alfrescoPort=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
+        sb.append(SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PROTOCOLO) + "://");
+        sb.append(alfrescoHost);
+        sb.append(":");
+        sb.append(alfrescoPort);
+        sb.append("/alfresco");
+        alfrescoConnector = AlfrescoConnector.getInstance();
+        alfrescoConnector.setExternalServerURL(sb.toString());
+        alfrescoConnector.setServerHost(alfrescoHost);
+        alfrescoConnector.setServerPort(alfrescoPort);
+        alfrescoConnector.setServerURL(sb.toString());
+        
+    }
+    
         public RecepcionVirtualDAO getRecepcionVirtualDAO() {
             return recepcionVirtualDAO;
         }
@@ -516,18 +546,6 @@ public class DojoAction {
 			return null;
 		}
 
-		//List<Documento> listDocumento = documentoService.buscarLstDocumentoExpediente(idExpediente);
-
-
-		//String[] sqlQueryDinamico = new String[1]; sqlQueryDinamico[0] = "";
-		//objJSON.setItems(gridColumnaXUsuarioService.getItems_BusquedaAvanzada(sTipoFiltro, objFiltro, arrFecha, sqlQueryDinamico));
-
-
-		//contDocumentosRecibidos = String.valueOf(documentoService.getContDocUsuarioFinal(objUsuario, true,null).size());
-
-		//listDocumentosRecibidos = gridColumnaXUsuarioService.getContDocUsuarioFinal(objUsuario, true);
-
-        //log.debug("contDocumentosRecibidos"+contDocumentosRecibidos);
 		return "verInicioDocumentos";
 
 	}
@@ -3074,6 +3092,7 @@ public class DojoAction {
         
         @SMDMethod
 	public String respuestaFirmar(String lstRespuesta, String idProceso, String alias, String accion) {
+        	log.debug("respuestaFirmar, lstRespuesta:"+lstRespuesta+", idProceso:"+idProceso+", alias:"+alias+", accion:"+accion);
           String[] respuesta =  StringUtil.stringToArrayPersonalizado(lstRespuesta, ','); 
           mapSession = ActionContext.getContext().getSession();
           Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
@@ -3083,7 +3102,7 @@ public class DojoAction {
               try{ 
                     String[] datos =  StringUtil.stringToArrayPersonalizado(respuesta[i], '|');
                     if (datos==null) continue;
-                    
+                    //datos[0]:String objectId, datos[1]:String fechaFirma(dd/MM/yyyy HH:mm:ss), datos[2]:String estado(1,2), datos[3]:Integer nroTramite
                     FirmaArchivo firmaArchivo = new FirmaArchivo();
                     List<Archivo> list = archivoService.buscarArchivosObjectId(datos[0], Integer.valueOf(datos[3]));
                     firmaArchivo.setIdArchivo(list.get(0).getIdArchivo());
@@ -3107,9 +3126,10 @@ public class DojoAction {
           
           return "1";
         }
-        @SMDMethod
+    
+    @SMDMethod
 	public ArchivoJSON getArchivosFirmar(String parameters) {
-            System.out.println("DojoAction::getArchivosFirmar");
+        	log.info("DojoAction::getArchivosFirmar:"+parameters);
             String[] lista = StringUtil.stringToArray(parameters);
             ArchivoJSON archivosJSON = new ArchivoJSON();
             mapSession = ActionContext.getContext().getSession();
@@ -3137,7 +3157,7 @@ public class DojoAction {
                             if (listArchivos.get(j).getRutaAlfresco().toUpperCase().indexOf(".PDF")!=-1){
                               d =  documentoService.findByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
                               
-                              System.out.println("Entrando...");
+                              log.info("Archivo a firmar (Ruta alfresco):"+listArchivos.get(j).getRutaAlfresco());
                               if (d.getID_EXTERNO()!=null && d.getID_EXTERNO().toString().equals("1") && listArchivos.get(j).getPrincipal()=='S')
                                  continue;
                               
@@ -3149,7 +3169,10 @@ public class DojoAction {
                               
                               Tipodocumento t = srvTipoDocumento.findByIdTipoDocumento(d.getTipoDocumento().getIdtipodocumento());
                               Item item = new Item();
-			      String datos = listArchivos.get(j).getObjectId() + "|" + d.getID_CODIGO().toString() + "|" + (listArchivos.get(j).getClave()==null?"":listArchivos.get(j).getClave()) + "|";
+                              item.setNrodocumento((objUsuario.getNroDocumento()== null || objUsuario.getNroDocumento().equals(""))? "SIN DOCUMENTO":objUsuario.getNroDocumento());
+                              
+                              
+                              String datos = listArchivos.get(j).getObjectId() + "|" + d.getID_CODIGO().toString() + "|" + (listArchivos.get(j).getClave()==null?"":listArchivos.get(j).getClave()) + "|";
 
                               if (t.getExternoQR()!=null && !t.getExternoQR().trim().equals("") && t.getExternoQR().equals("1") && t.getEstado()== 'A' && d.getID_EXTERNO().toString().equals("0") && listArchivos.get(j).getPrincipal()=='S'){
                                  datos = datos + "S";
@@ -3157,13 +3180,19 @@ public class DojoAction {
                                  datos = datos + "N"; 
                               }
                             
+                              log.info("Archivo a firmar (datos):"+datos);
                               item.setIdArchivo(datos);
                               item.setRecepcionado(d.getRecepcionado()==null?"":d.getRecepcionado());
+                              item.setObjectId(listArchivos.get(j).getObjectId());
+                              item.setIdCodigo(d.getID_CODIGO().toString());
+                                                           
                               
                               if (listArchivos.get(j).getPrincipal().toString().equals("S")){
                                 item.setNombre(listArchivos.get(j).getNombre().substring(listArchivos.get(j).getNombre().indexOf(']')+1) + "|S" );
+                                item.setArchivos(listArchivos.get(j).getNombre().substring(listArchivos.get(j).getNombre().indexOf(']')+1));
                               }else{
-                                item.setNombre(listArchivos.get(j).getNombre().substring(listArchivos.get(j).getNombre().indexOf(']')+1) + "|N");  
+                                item.setNombre(listArchivos.get(j).getNombre().substring(listArchivos.get(j).getNombre().indexOf(']')+1) + "|N");
+                                item.setArchivos(listArchivos.get(j).getNombre().substring(listArchivos.get(j).getNombre().indexOf(']')+1));
                               }
                               items.add(item);    
                             }      
@@ -3171,13 +3200,98 @@ public class DojoAction {
                        } 
                     }
                     
+                    mapSession.put("listaDocumentos", items);
+                    
                     archivosJSON.setItems(items);
             }catch(Exception e){
                 e.printStackTrace();
             }
             
             return archivosJSON;
-        }    
+    }
+    
+    @SMDMethod
+	public String validarFirmado(String nombreArchivo, String objectId, String idCodigo) {
+    	log.info("validarFirmado (nombreArchivo):"+nombreArchivo+",(objectId):"+objectId+",(idCodigo):"+idCodigo);
+    	String estado = "0";
+    	
+    	
+    	try{
+    		String ALFRESCO_ROOT  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
+	    	String FIRMAS_FIRMADOS  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_FIRMADOS);
+	    	String TIPOFIRMA  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
+	    	
+	    	String fullPathFirmado = FIRMAS_FIRMADOS+nombreArchivo;
+	    	final File firmado = new File(fullPathFirmado);
+	    	//final String fullPathAlfresco = fullPathAlfrescoOrigin;
+	    	
+	    	log.info("Validando firmado:"+fullPathFirmado); 
+	    	
+	    	if(firmado.isFile()){
+	    		log.info("Documento ha sido firmado:"+firmado.getAbsolutePath()); 
+	    		
+	            mapSession = ActionContext.getContext().getSession();
+	            Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+	    	
+		    	
+		              FirmaArchivo firmaArchivo = new FirmaArchivo();
+		              List<Archivo> list = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
+		              firmaArchivo.setIdArchivo(list.get(0).getIdArchivo());
+		              firmaArchivo.setEstado("F");
+		              firmaArchivo.setFechaCreacion(new Date());
+		              firmaArchivo.setUsuarioCreacion(objUsuario.getIdusuario());
+		              firmaArchivo.setIdUsuario(objUsuario.getIdUsuarioPerfil());
+		              firmaArchivo.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
+		              firmaArchivo.setCargoPropietario(objUsuario.getIdFuncionPerfil());
+		              firmaArchivo.setIdProceso("SigNet");
+		              firmaArchivo.setAlias(objUsuario.getNroDocumento());
+		              firmaArchivo.setAccion(TIPOFIRMA);
+		              firmaArchivo.setFechaFirma(new Date());
+		              firmaArchivoService.saveFirmaArchivo(firmaArchivo);
+		              
+		              estado = "1";
+		              final String fullPathAlfresco = ALFRESCO_ROOT+list.get(0).getRutaAlfresco();
+		              log.info("Se registro firma archivo:"+firmaArchivo.getIdFirmaArchivo());
+		              
+		              
+		              new Thread() {
+		          	    public void run() {        	    	
+		          	      log.info("Subiendo archivo firmado a la ruta de alfresco:"+fullPathAlfresco);		          	    
+			          	  String userName=  USERCREADOR;
+	                      String password=  USERCREADOR_CLAVE;	                      
+		          	      log.info("Subiendo archivo firmado, userName:"+userName+", password:"+password);
+		          	      
+		          	      try{
+		          	    	 	          	      		          	    
+		                      RETURN_CODE result=alfrescoConnector.modifyBinaryContent(userName, seguridadService.desencriptar(userName, password), fullPathAlfresco, firmado, "content");
+		                      
+		                      log.info("RETURN_CODE:"+result);
+		                      
+		                      if(result== AlfrescoConnector.RETURN_CODE.SUCCESS){
+		                    	  log.error("Se subio el documento firmado a alfresco:"+fullPathAlfresco);
+		                      }else
+		                      {
+		                          log.error("No se pudo subir el archivo a alfresco:"+fullPathAlfresco);
+		                      }
+	                      
+		          	      }catch(Exception e){
+		          	    	  log.error("Error al subir el archivo a alfresco:"+fullPathAlfresco+", mensaje:"+e.getLocalizedMessage());
+		          	    	  e.printStackTrace();
+		          	      }
+		          	
+		          	    }  
+		          	}.start();
+		      
+	    	}
+    	
+		}catch(Exception e){
+		       e.printStackTrace();
+		       
+		       estado = "0";
+		}
+    	
+    	return estado;
+    }
         
 	@SuppressWarnings("unchecked")
 	@SMDMethod
@@ -5282,12 +5396,16 @@ public class DojoAction {
 		this.seguimientoService = seguimientoService;
 	}
         
-         public DocumentoAdjuntoService getDocumentoAdjuntoService() {
-           return documentoAdjuntoService;
-        }
+     public DocumentoAdjuntoService getDocumentoAdjuntoService() {
+       return documentoAdjuntoService;
+    }
 
-        public void setDocumentoAdjuntoService(DocumentoAdjuntoService documentoAdjuntoService) {
-            this.documentoAdjuntoService = documentoAdjuntoService;
-        }
+    public void setDocumentoAdjuntoService(DocumentoAdjuntoService documentoAdjuntoService) {
+        this.documentoAdjuntoService = documentoAdjuntoService;
+    }
+    
+    public void setSeguridadService(SeguridadService seguridadService) {
+        this.seguridadService = seguridadService;
+    }
 
 }

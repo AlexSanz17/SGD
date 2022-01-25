@@ -5,16 +5,16 @@ import java.util.Date;
 import org.ositran.utils.Constantes;
 
 public class Item { 
-        private String archivos; 
-        private int nroTramite;
-        private String idArchivo;
-        private String recepcionado;
+    private String archivos; 
+    private int nroTramite;
+    private String idArchivo;
+    private String recepcionado;
 	private Date fecharecepcion;
 	private Character leido;
 	private Integer id;
-        private String externo;
-        private String idPropietario;
-        private String iconoDocumento;
+    private String externo;
+    private String idPropietario;
+    private String iconoDocumento;
 	private String asunto;
 	private String remitente;
 	private String documento;
@@ -23,15 +23,15 @@ public class Item {
 	private String tipoalerta;
 	private Date fechalimite;
 	private String expediente;
-        private String legajo;
+    private String legajo;
 	private String proceso;
 	private String cliente;
 	private Date fechaexpediente;
-        private Date fechaatender;
-        private Date fechaanulacion;
-        private String principal;
-        private String llave;
-        private Date fechaenvio;
+    private Date fechaatender;
+    private Date fechaanulacion;
+    private String principal;
+    private String llave;
+    private Date fechaenvio;
 	private long lfecharecepcion;
 	private long lfechalimite;
 	private long lfechaactual;
@@ -108,164 +108,188 @@ public class Item {
    	private String accion;
 	// para STOR
 	private String nroSuministro;
-        private Integer codTipoInstitucion;
-        private int origen;
-        private String firma;
-        
-        private String asuntolegajo;
-        private String tipolegajo;
-        private String arealegajo;
-        private String autor;
-        private String idProcedimiento;
-        private String idMetodo;
+    private Integer codTipoInstitucion;
+    private int origen;
+    private String firma;
+    
+    private String asuntolegajo;
+    private String tipolegajo;
+    private String arealegajo;
+    private String autor;
+    private String idProcedimiento;
+    private String idMetodo;
+    
+    private String objectId;
+    private String idCodigo;
+    
         
        
 
-        public String getIdProcedimiento() {
-            return idProcedimiento;
-        }
+    public String getIdProcedimiento() {
+        return idProcedimiento;
+    }
 
-        public void setIdProcedimiento(String idProcedimiento) {
-            this.idProcedimiento = idProcedimiento;
-        }
+    public void setIdProcedimiento(String idProcedimiento) {
+        this.idProcedimiento = idProcedimiento;
+    }
 
-        public String getIdMetodo() {
-            return idMetodo;
-        }
+    public String getIdMetodo() {
+        return idMetodo;
+    }
 
-        public void setIdMetodo(String idMetodo) {
-            this.idMetodo = idMetodo;
-        }
-        
-        public String getIconoDocumento() {
-            return iconoDocumento;
-        }
-
-        public void setIconoDocumento(String iconoDocumento) {
-            this.iconoDocumento = iconoDocumento;
-        }
-        
-        public String getExterno() {
-           return externo;
-        }
-
-        public void setExterno(String externo) {
-            this.externo = externo;
-        }
-        
-        public String getIdDestinatario() {
-            return idDestinatario;
-        }
-
-        public void setIdDestinatario(String idDestinatario) {
-            this.idDestinatario = idDestinatario;
-        }
-
-        public void setAutor(String autor) {
-            this.autor = autor;
-        }
-
-        public String getAutor() {
-            return autor;
-        }
-        
-        public String getIdPropietario() {
-            return idPropietario;
-        }
-
-        public void setIdPropietario(String idPropietario) {
-            this.idPropietario = idPropietario;
-        }
-
-        public String getAsuntolegajo() {
-            return asuntolegajo;
-        }
-
-        public void setAsuntolegajo(String asuntolegajo) {
-            this.asuntolegajo = asuntolegajo;
-        }
-
-        public String getTipolegajo() {
-            return tipolegajo;
-        }
-
-        public void setTipolegajo(String tipolegajo) {
-            this.tipolegajo = tipolegajo;
-        }
-
-        public String getArealegajo() {
-            return arealegajo;
-        }
-
-        public void setArealegajo(String arealegajo) {
-            this.arealegajo = arealegajo;
-        }
-        
-         
-        public String getLegajo() {
-            return legajo;
-        }
-
-        public void setLegajo(String legajo) {
-            this.legajo = legajo;
-        }
-        
-        
-        public String getArchivos() {
-            return archivos;
-        }
-
-        public void setArchivos(String archivos) {
-            this.archivos = archivos;
-        }
-        
-        public String getPrincipal() {
-            return principal;
-        }
-
-        public void setPrincipal(String principal) {
-            this.principal = principal;
-        }
+    public void setIdMetodo(String idMetodo) {
+        this.idMetodo = idMetodo;
+    }
     
+    public String getIconoDocumento() {
+        return iconoDocumento;
+    }
+
+    public void setIconoDocumento(String iconoDocumento) {
+        this.iconoDocumento = iconoDocumento;
+    }
+    
+    public String getExterno() {
+       return externo;
+    }
+
+    public void setExterno(String externo) {
+        this.externo = externo;
+    }
+    
+    public String getIdDestinatario() {
+        return idDestinatario;
+    }
+
+    public void setIdDestinatario(String idDestinatario) {
+        this.idDestinatario = idDestinatario;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+    
+    public String getIdPropietario() {
+        return idPropietario;
+    }
+
+    public void setIdPropietario(String idPropietario) {
+        this.idPropietario = idPropietario;
+    }
+
+    public String getAsuntolegajo() {
+        return asuntolegajo;
+    }
+
+    public void setAsuntolegajo(String asuntolegajo) {
+        this.asuntolegajo = asuntolegajo;
+    }
+
+    public String getTipolegajo() {
+        return tipolegajo;
+    }
+
+    public void setTipolegajo(String tipolegajo) {
+        this.tipolegajo = tipolegajo;
+    }
+
+    public String getArealegajo() {
+        return arealegajo;
+    }
+
+    public void setArealegajo(String arealegajo) {
+        this.arealegajo = arealegajo;
+    }
+    
+     
+    public String getLegajo() {
+        return legajo;
+    }
+
+    public void setLegajo(String legajo) {
+        this.legajo = legajo;
+    }
+    
+    
+    public String getArchivos() {
+        return archivos;
+    }
+
+    public void setArchivos(String archivos) {
+        this.archivos = archivos;
+    }
+    
+    public String getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    
+    public String getFirma() {
+        return firma;
+    }
+
+    public void setFirma(String firma) {
+        this.firma = firma;
+    }
+
+
+    public int getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(int origen) {
+        this.origen = origen;
+    }
+
+/*
+ * Constructors
+ */
+    
+     public Date getFechaenvio() {
+        return fechaenvio;
+    }
+
+    public void setFechaenvio(Date fechaenvio) {
+        this.fechaenvio = fechaenvio;
+    }
+
+    public Integer getCodTipoInstitucion() {
+        return codTipoInstitucion;
+    }
+
+    public void setCodTipoInstitucion(Integer codTipoInstitucion) {
+        this.codTipoInstitucion = codTipoInstitucion;
+    }
         
-        public String getFirma() {
-            return firma;
-        }
-
-        public void setFirma(String firma) {
-            this.firma = firma;
-        }
-
-
-        public int getOrigen() {
-            return origen;
-        }
-
-        public void setOrigen(int origen) {
-            this.origen = origen;
-        }
-
-	/*
-	 * Constructors
-	 */
         
-         public Date getFechaenvio() {
-            return fechaenvio;
-        }
-
-        public void setFechaenvio(Date fechaenvio) {
-            this.fechaenvio = fechaenvio;
-        }
-
-        public Integer getCodTipoInstitucion() {
-            return codTipoInstitucion;
-        }
-
-        public void setCodTipoInstitucion(Integer codTipoInstitucion) {
-            this.codTipoInstitucion = codTipoInstitucion;
-        }
 
 	//
+
+	public String getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
+
+	public String getIdCodigo() {
+		return idCodigo;
+	}
+
+	public void setIdCodigo(String idCodigo) {
+		this.idCodigo = idCodigo;
+	}
+
+
 
 	private String ambitoEnvio;
 	private String tipoEnvio;

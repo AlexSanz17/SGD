@@ -284,26 +284,31 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
         List<Usuarioxunidadxfuncion> lista = new ArrayList<Usuarioxunidadxfuncion>();
         
         try{ 
-            String  sql =  "select distinct idunidad,desunidad,idfuncion,desfuncion,idusuario, jefe, idRol, datos from (" +
-                            " SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, decode(idusuariocargo,null,idusuario,idusuariocargo) idusuario, f.jefe, uf.idRol,  decode(idusuariocargo, null, '', (select uu.nombres || ' ' || uu.apellidos  from usuario uu where uu.idusuario = idusuariocargo)) datos " +
-                            "  FROM usuarioxunidadxfuncion uf, unidad u, funcion f " +
-                            "   where " + 
-                            "      uf.idusuario =:idusuario and " +
-                            "      uf.idunidad = u.idunidad and " +
-                            "      uf.idfuncion   = f.idfuncion and uf.estado = 'A'  and f.jefe = '1' " +
-                            "  union " +
-                            " SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, decode(idusuariocargo,null,idusuario,idusuariocargo) idusuario, f.jefe, uf.idRol , decode(idusuariocargo, null, '', (select uu.nombres || ' ' || uu.apellidos  from usuario uu where uu.idusuario = idusuariocargo)) datos " +
-                            "  FROM usuarioxunidadxfuncion uf, unidad u, funcion f " +
-                            "   where " + 
-                            "      uf.idusuario =:idusuario and " +
-                            "      uf.idunidad = u.idunidad and " +
-                            "      uf.idfuncion   = f.idfuncion and uf.estado = 'A' and f.jefe = '0' " +
-                            " union " +
-                            " SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion , idusuario, f.jefe, uf.idRol, '' datos FROM usuario uf, unidad u, funcion f " +
-                            " WHERE " + 
-                            " uf.idusuario =:idusuario and  " +
-                            " uf.idunidad = u.idunidad and  " +
-                            " uf.idfuncion   = f.idfuncion )" ;   
+            String  sql =  "select distinct idunidad,desunidad,idfuncion,desfuncion,idusuario, jefe, idRol, datos from ( "+
+						   " 	SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, "+
+						   " 	case when idusuariocargo is null THEN idusuario ELSE idusuariocargo end idusuario, f.jefe, uf.idRol, "+ 
+						   " 	case when idusuariocargo is null THEN '' ELSE (select concat(uu.nombres , ' ' , uu.apellidos)  from usuario uu where uu.idusuario = idusuariocargo ) end datos "+
+						   " 	FROM usuarioxunidadxfuncion uf, unidad u, funcion f "+
+						   " 	where  "+
+						   "	uf.idusuario = :idusuario and "+
+						   "	uf.idunidad = u.idunidad and "+
+						   "	uf.idfuncion   = f.idfuncion and uf.estado = 'A'  and f.jefe = '1' "+
+						   " 	union "+
+						   "	SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion, "+
+						   "	case when idusuariocargo is null then idusuario else idusuariocargo end idusuario, f.jefe, uf.idRol , "+
+						   "	case when idusuariocargo is null then '' else (select concat(uu.nombres , ' ' , uu.apellidos)  from usuario uu where uu.idusuario = idusuariocargo ) end datos "+
+						   "	FROM usuarioxunidadxfuncion uf, unidad u, funcion f "+
+            			   "	where  "+
+						   "	uf.idusuario = :idusuario and "+
+						   "	uf.idunidad = u.idunidad and "+
+						   "	uf.idfuncion   = f.idfuncion and uf.estado = 'A' and f.jefe = '0' "+
+						   "	union "+
+						   "	SELECT u.idunidad, u.nombre as desunidad, f.idfuncion, f.nombre as desfuncion , idusuario, f.jefe, uf.idRol, '' datos "+
+						   "	FROM usuario uf, unidad u, funcion f "+
+						   "	WHERE "+
+						   "	uf.idusuario = :idusuario and "+ 
+						   "	uf.idunidad = u.idunidad and "+ 
+						   "	uf.idfuncion   = f.idfuncion ) x " ;   
 
              Query q = em.createNativeQuery(sql.toString());
 	     q.setParameter("idusuario", usuario.getIdusuario()); 

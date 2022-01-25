@@ -5112,12 +5112,12 @@ public class DocumentoServiceImpl implements DocumentoService {
                                     }
                                // }
                             
-                               // doc = this.saveDocumento(doc);
+                                //objD = this.saveDocumento(objD);
                                 //TIPO TRANSACCION: NUEVO/AGREGAR/MODIFICAR
                                 //OPCION: QUIEN CREA EL DOCUMENTO INTERNO (AREAS) O EXTERNO(TRAMITE)
                                 //INTERNOEXTERNO: INTERNO SI EL DOCUMENTO VA DENTRO DE LAS AREAS O A UNA INSTITUCION
 
-				if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")){//NUEVO DOCUMENTO 
+                                if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")){//NUEVO DOCUMENTO 
                                       if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_EXTERNO)){ 
                                          List<Item> items = (List<Item>)mapSession.get("AdjuntosDocumento");  
                                 
@@ -5209,7 +5209,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                                           }  
                                       } 
                                       
-				}else{  //AGREGAR DOCUMENTO
+                                }else{  //AGREGAR DOCUMENTO
                                         String[] listDocReferenciados = null; 
                                         objD.setOrigen(objDD.getOrigen());
                                         //fecha = new Date();
@@ -5227,9 +5227,6 @@ public class DocumentoServiceImpl implements DocumentoService {
                                             listDocReferenciados =  objDD.getListReferenciados().trim().equals("")?null:StringUtil.stringToArrayPersonalizado(objDD.getListReferenciados().trim(),'|');
                                         if (listDocReferenciados!=null && listDocReferenciados.length>0){
                                             for (int i=0;i<listDocReferenciados.length;i++){
-                                            	log.info("(DocumentoReferencia)IdDocumento:"+objD.getIdDocumento());
-                                            	log.info("(DocumentoReferencia)IdDocumentoReferencia:"+listDocReferenciados[i]);
-                                            	log.info("(DocumentoReferencia)VerDocumento:"+verDocumento(new Integer(listDocReferenciados[i]),objUsuarioSession));
                                                 DocumentoReferencia docReferencia  = new DocumentoReferencia();
                                                 docReferencia.setIdDocumento(objD.getIdDocumento()); 
                                                 docReferencia.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));

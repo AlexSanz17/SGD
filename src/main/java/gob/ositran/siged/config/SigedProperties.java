@@ -75,7 +75,20 @@ public class SigedProperties {
         ALFRESCO_USUARIOCONSULTA_CLAVE("alfresco.USUARIOCONSULTA_CLAVE"),
     	
         FIRMAS_RUTA_PORFIRMAR("firmas.RUTAPORFIRMAR"),
-        FIRMAS_RUTA_FIRMADOS("firmas.RUTAFIRMADOS");
+        FIRMAS_RUTA_FIRMADOS("firmas.RUTAFIRMADOS"),
+    	
+        FIRMAS_PARAMETROS_RUTAORIGEN("firmas.parametros.rutaOrigen"),
+        FIRMAS_PARAMETROS_RUTADESTINO("firmas.parametros.rutaDestino"),
+        FIRMAS_PARAMETROS_RUTAIMAGEN("firmas.parametros.rutaImagen"),
+        FIRMAS_PARAMETROS_IMAGEN("firmas.parametros.imagen"),
+        FIRMAS_PARAMETROS_USARPERSONALIZADO("firmas.parametros.usarPersonalizado"),
+        FIRMAS_PARAMETROS_TIPOFIRMA("firmas.parametros.tipoFirma"),
+        FIRMAS_PARAMETROS_INVISIBLE("firmas.parametros.invisible"),
+        FIRMAS_PARAMETROS_POSICIONFIRMA("firmas.parametros.posicionFirma"),
+        FIRMAS_PARAMETROS_UBICACIONPAGINA("firmas.parametros.ubicacionPagina"),
+        FIRMAS_PARAMETROS_NUMEROPAGINA("firmas.parametros.numeroPagina"),
+        FIRMAS_PARAMETROS_ESTILOFIRMA("firmas.parametros.estiloFirma"),
+        FIRMAS_PARAMETROS_APLICARIMAGEN("firmas.parametros.aplicarImagen");
 
         private String key;
 
