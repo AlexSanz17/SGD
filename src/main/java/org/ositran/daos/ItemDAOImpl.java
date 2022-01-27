@@ -109,7 +109,7 @@ public class ItemDAOImpl implements ItemDAO {
 		sQuery += "LEFT JOIN d.expediente e ";
 		sQuery += "LEFT JOIN d.cliente cl ";
 		sQuery += "LEFT JOIN cl.tipoIdentificacion ti ";
-		sQuery += "WHERE u.idusuario = :idpropietario AND n.unidadPropietario = :idunidadpropietario AND n.cargoPropietario= :idcargopropietario AND n.tiponotificacion IN (:informativo1 , :informativo2 , :informativo3 , :informativo4 , :informativo5 , :informativo6 , :informativo7,  :informativo8 ) AND n.estado = :estado AND CURRENT_DATE>=n.fechanotificacion ";
+		sQuery += "WHERE u.idusuario = :idpropietario AND n.unidadPropietario = :idunidadpropietario AND n.cargoPropietario= :idcargopropietario AND n.tiponotificacion IN (:informativo1 , :informativo2 , :informativo3 , :informativo4 , :informativo5 , :informativo6 , :informativo7,  :informativo8 ) AND n.estado = :estado AND GETDATE()>=n.fechanotificacion ";
 		sQuery += "AND n.fechanotificacion >= :fechaInicio ";
 		sQuery += "ORDER BY n.fechanotificacion DESC";
 		
@@ -118,6 +118,7 @@ public class ItemDAOImpl implements ItemDAO {
 		inicioDia.set(Calendar.HOUR_OF_DAY, 0);
 		inicioDia.set(Calendar.MINUTE, 0);
 		inicioDia.set(Calendar.SECOND, 0);
+		
 		
 		Query qQuery = em.createQuery(sQuery)
 		.setParameter("idpropietario", objUsuario.getIdUsuarioPerfil())

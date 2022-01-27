@@ -120,15 +120,7 @@
                 }, "divToolBarTop");
                 
                 
-                var child1 = new dijit.form.Button({
-                            iconClass: "siged16 sigedNew16",
-                            label: "Gestor de Documentos",
-                            onClick: function() {
-                                window.open("<%=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_GESTOR)%>","_blank");
-                            },
-                            showLabel: true
-                        });
-                toolBarTop.addChild(child1);
+
 
                 dojo.forEach(arrRecursoTopButton, function(item) {
                     console.debug("top.js Recurso [%s] disponible [%d]", item.codigo, item.valor);

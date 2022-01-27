@@ -5,12 +5,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
    ">
-   
+  
+   <!-- 
    <bean id="pideDAO" class="com.ositran.siged.pide.daos.PideDAOImpl" />
    <bean id="recepcionPideDAO" class="org.ositran.daos.RecepcionPideDAOImpl" />
    
 
-  <!--  
+   
    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 	 <property name="triggers">
 		<list>
@@ -24,7 +25,7 @@
         <property name="startDelay" value="30000"/>
         <property name="repeatInterval" value="1200000"/>  
     </bean>
-    -->
+    
     
     <bean id="jobMPV" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="taskMPV" />
@@ -35,6 +36,6 @@
 	 	 <property name="pideDAO" ref="pideDAO" />
 	 	 <property name="recepcionPideDAO" ref="recepcionPideDAO" />
  	</bean>
-
+	-->
    
 </beans>
