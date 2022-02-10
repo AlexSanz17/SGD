@@ -37,6 +37,7 @@ import com.btg.ositran.siged.domain.Grid;
 import com.btg.ositran.siged.domain.GridColumna;
 import com.btg.ositran.siged.domain.GridXGridColumna;
 import com.btg.ositran.siged.domain.Gridcolumnaxusuario;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Lista;
 import com.btg.ositran.siged.domain.Mensajeria;
@@ -575,10 +576,10 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 	/**REN Se encarga de buscar los expedientes que ir�n en cada bandeja --------------------------*/
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getItems(String sTipoGrid, Usuario objUsuario, BusquedaAvanzada objFiltro) {
-		_log.debug("-> [Service] GridcolumnaxusuarioService - getItems():List ");
+		_log.debug("-> [Service] GridcolumnaxusuarioService - getItems():List, sTipoGrid:"+sTipoGrid);
                 
                 List lstItem = null;
-                if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DOCUMENTO)) {
+         if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DOCUMENTO)) {
                         lstItem = this.getBandejaDocUsuarioFinalFiltro(objUsuario, "R" ,objFiltro); //recibidos
 		} else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DOCUMENTOS_ARCHIVADOS)) {
                         lstItem = this.getBandejaDocAtendidosPendientesUsuarioFinal(objUsuario, objFiltro);//this.getBandejaDocAtendidosUsuarioFinal(objUsuario, objFiltro);
@@ -592,21 +593,21 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                         lstItem = this.getItems_Usuario_Seguimiento(objUsuario);
 		}else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_PENDIENTES)) {
                         lstItem = this.getItems_Pendiente_Respuesta(objUsuario, objFiltro);
-                }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_ANULADOS)) {
-                        lstItem = this.getItems_Anulados(objUsuario, objFiltro);
-                }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_PARA_FIRMAR)) {
-                        lstItem = this.getItems_Firmar(objUsuario, "F" , objFiltro);
-                }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_RECEPCION_VIRTUAL)) {
-                        lstItem = this.getItems_Recepcion_Virtual(objUsuario, objFiltro);
-                }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DESPACHO_VIRTUAL)) {
-                        lstItem = this.getItems_Despacho_Virtual(objUsuario, objFiltro);
-                }if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_MI_LEGAJO)) {
+        }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_ANULADOS)) {
+                lstItem = this.getItems_Anulados(objUsuario, objFiltro);
+        }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_PARA_FIRMAR)) {
+                lstItem = this.getItems_Firmar(objUsuario, "F" , objFiltro);
+        }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_RECEPCION_VIRTUAL)) {
+                lstItem = this.getItems_Recepcion_Virtual(objUsuario, objFiltro);
+        }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DESPACHO_VIRTUAL)) {
+                lstItem = this.getItems_Despacho_Virtual(objUsuario, objFiltro);
+        }if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_MI_LEGAJO)) {
                         lstItem = this.getBandejaLegajo(objUsuario, objFiltro);
 		}else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_LEGAJO_COMPARTIDO)) {
                         lstItem = this.getBandejaLegajoCompartido(objUsuario, objFiltro);
-                }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS)) {
-                         lstItem = this.getBandejaObservadosRecepcionVirtual(objUsuario, "OBR", objFiltro);
-                }
+        }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS)) {
+                 lstItem = this.getBandejaObservadosRecepcionVirtual(objUsuario, "OBR", objFiltro);
+        }
                 
 		return lstItem;
 	}
@@ -919,40 +920,69 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
         @SuppressWarnings("rawtypes")
 	public List getItems_Recepcion_Virtual(Usuario objUsuario, BusquedaAvanzada objFiltro) {
 	      _log.debug("-> [Service] GridcolumnaxusuarioService - getItems_Recepcion_Virtual():List ");
-              List<IotdtmDocExterno> lstRecepcion = null;
-              List data = new ArrayList();
-              
-              if(objFiltro == null){  
-                  lstRecepcion = documentoExternoVirtualDAO.buscarRecepcionVirtual(objUsuario);
-	      }else{
-                  lstRecepcion = documentoExternoVirtualDAO.buscarRecepcionVirtual(objUsuario);
-	      }
-              
-              if (lstRecepcion!=null){
-                for(int i=0; i<lstRecepcion.size();i++){
-                    ItemUF uuf = new ItemUF();
-                    Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(lstRecepcion.get(i).getCcodtipdoc());
-                    uuf.setId(lstRecepcion.get(i).getSiddocext().intValue());
-                    uuf.setDocumento(tipoDocumento.getNombre() + " - " + lstRecepcion.get(i).getVnumdoc());
-                    uuf.setAsunto(lstRecepcion.get(i).getVasu());
-                    uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, lstRecepcion.get(i).getSidrecext().getCflgest().toString()).getDescripcion());
-                    uuf.setIdEstado(lstRecepcion.get(i).getSidrecext().getCflgest().toString());
-                    uuf.setCliente(lstRecepcion.get(i).getVnomentemi());
-                    uuf.setFechacreacion(lstRecepcion.get(i).getSidrecext().getDfecreg());
-                    uuf.setNroTramiteVirtual(lstRecepcion.get(i).getSidrecext().getVnumregstd()==null?"":lstRecepcion.get(i).getSidrecext().getVnumregstd());
-                    uuf.setCuo(lstRecepcion.get(i).getSidrecext().getVcuo());
+          List<IotdtmDocExterno> lstRecepcion = null;
+          List<IotdtcRecepcionMPV> lstRecepcionMPV = null;
+          List data = new ArrayList();
                     
-                    if (lstRecepcion.get(i).getSidrecext().getCflgenvcar()=='S'){
-                        uuf.setCargo("images/cargo.gif");
-                    }else{
-                        uuf.setCargo("images/ed_blank.gif");
-                    }
-                    
-                    data.add(uuf);
+          //Buscar de la tablas de PIDE    
+          lstRecepcion = documentoExternoVirtualDAO.buscarRecepcionVirtual(objUsuario);
+             
+          if (lstRecepcion!=null){
+            for(int i=0; i<lstRecepcion.size();i++){
+                ItemUF uuf = new ItemUF();
+                Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(lstRecepcion.get(i).getCcodtipdoc());
+                uuf.setId(lstRecepcion.get(i).getSiddocext().intValue());
+                uuf.setDocumento(tipoDocumento.getNombre() + " - " + lstRecepcion.get(i).getVnumdoc());
+                uuf.setAsunto(lstRecepcion.get(i).getVasu());
+                uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, lstRecepcion.get(i).getSidrecext().getCflgest().toString()).getDescripcion());
+                uuf.setIdEstado(lstRecepcion.get(i).getSidrecext().getCflgest().toString());
+                uuf.setCliente(lstRecepcion.get(i).getVnomentemi());
+                uuf.setFechacreacion(lstRecepcion.get(i).getSidrecext().getDfecreg());
+                uuf.setNroTramiteVirtual(lstRecepcion.get(i).getSidrecext().getVnumregstd()==null?"":lstRecepcion.get(i).getSidrecext().getVnumregstd());
+                uuf.setCuo(lstRecepcion.get(i).getSidrecext().getVcuo());
+                
+                if (lstRecepcion.get(i).getSidrecext().getCflgenvcar()=='S'){
+                    uuf.setCargo("images/cargo.gif");
+                }else{
+                    uuf.setCargo("images/ed_blank.gif");
                 }
-              }  
-              return data;
-        }
+                
+                data.add(uuf);
+            }
+          }
+          
+
+         //Buscar de la tablas de MPV
+          lstRecepcionMPV = documentoExternoVirtualDAO.buscarRecepcionMPV();
+          
+          if (lstRecepcionMPV!=null){
+            for(IotdtcRecepcionMPV recepcionMpv:lstRecepcionMPV){
+                ItemUF uuf = new ItemUF();
+                Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumento(Integer.parseInt(recepcionMpv.getTipodocumento()));
+                uuf.setId(recepcionMpv.getSidrecext().intValue());
+                uuf.setDocumento(tipoDocumento.getNombre() + " - " + recepcionMpv.getNumerodocumento());
+                uuf.setAsunto(recepcionMpv.getAsunto());
+                uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, recepcionMpv.getCflgest().toString()).getDescripcion());
+                uuf.setIdEstado(recepcionMpv.getCflgest().toString());
+                uuf.setCliente(recepcionMpv.getVuniorgstd());
+                uuf.setFechacreacion(recepcionMpv.getDfecreg());
+                uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
+                uuf.setCuo("");
+                
+                if (recepcionMpv.getCflgenvcar()=='S'){
+                    uuf.setCargo("images/cargo.gif");
+                }else{
+                    uuf.setCargo("images/ed_blank.gif");
+                }
+                
+                data.add(uuf);
+            }
+          }
+          
+          
+              
+         return data;
+    }
         
         @SuppressWarnings("rawtypes")
 	public List getItems_Despacho_Virtual(Usuario objUsuario, BusquedaAvanzada objFiltro) {

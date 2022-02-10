@@ -106,6 +106,19 @@
 		String alias = item.getNrodocumento();
 		String objectId = item.getObjectId();
 		String idCodigo = item.getIdCodigo();
+		String rutaOrigen = item.getRutaOrigen();
+		String rutaDestino = item.getRutaDestino();
+		String rutaImagen = item.getRutaImagen();
+		String imagen = item.getImagen();
+		String usarPersonalizado = item.getUsarPersonalizado();
+		String tipoFirma = item.getTipoFirma();
+		String invisible = item.getInvisible();
+		String posicionFirma = item.getPosicionFirma();
+		String ubicacionPagina = item.getUbicacionPagina();
+		String numeroPagina = item.getNumeroPagina();
+		String estiloFirma = item.getEstiloFirma();
+		String aplicarImagen = item.getAplicarImagen();
+		
 		
 		String idFirmar="id-firmar"+cont;
 		%>
@@ -117,20 +130,20 @@
 			<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio"> 
 				<input type="hidden" name="urlConfigService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/configuracion"/> 
 				<input type="hidden" name="webService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/FirmaDigitalWs?wsdl"/> 
-				<input type="hidden" name="rutaOrigen" value="\\WWWD4\Documentos\PorFirmar"/> 
-				<input type="hidden" name="rutaDestino" value="\\WWWD4\Documentos\Firmados"/> 
-				<input type="hidden" name="rutaImagen" value="\\WWWD4\Documentos\Imagen"/>
-				<input type="hidden" name="imagen" value="sello.jpg"/>
+				<input type="hidden" name="rutaOrigen" value="<%=rutaOrigen%>"/> 
+				<input type="hidden" name="rutaDestino" value="<%=rutaDestino%>"/> 
+				<input type="hidden" name="rutaImagen" value="<%=rutaImagen%>"/>
+				<input type="hidden" name="imagen" value="<%=imagen%>"/>
 				<input type="hidden" name="nombreArchivos" value="<%=archivo%>"/> 
 				<input type="hidden" name="alias" value="<%=alias%>"/>
-				<input type="hidden" name="usarPersonalizado" value="1"/> 
-				<input type="hidden" name="tipoFirma" value="3"/> 
-				<input type="hidden" name="invisible" value="1"/>
-				<input type="hidden" name="posicionFirma" value="SD"/> 
-				<input type="hidden" name="ubicacionPagina" value="PP"/> 
-				<input type="hidden" name="numeroPagina" value="1"/> 
-				<input type="hidden" name="estiloFirma" value="D"/> 
-				<input type="hidden" name="aplicarImagen" value="1"/>
+				<input type="hidden" name="usarPersonalizado" value="<%=usarPersonalizado%>"/> 
+				<input type="hidden" name="tipoFirma" value="<%=tipoFirma%>"/> 
+				<input type="hidden" name="invisible" value="<%=invisible%>"/>
+				<input type="hidden" name="posicionFirma" value="<%=posicionFirma%>"/> 
+				<input type="hidden" name="ubicacionPagina" value="<%=ubicacionPagina%>"/> 
+				<input type="hidden" name="numeroPagina" value="<%=numeroPagina%>"/> 
+				<input type="hidden" name="estiloFirma" value="<%=estiloFirma%>"/> 
+				<input type="hidden" name="aplicarImagen" value="<%=aplicarImagen%>"/>
 				<input type="hidden" name="ubicacion" value=""/>
 
 				<input id="<%=idFirmar%>" type="submit" name="submit" value="Firmar" 

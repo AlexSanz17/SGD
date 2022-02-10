@@ -5,6 +5,7 @@
  */
 /*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
 
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Usuario;
 import java.util.List;
@@ -24,6 +25,8 @@ public interface DocumentoExternoVirtualDAO {
     public List<IotdtmDocExterno> buscarDocumentoProcesadoDespachoVirtual(Integer numero);
     public List<IotdtmDocExterno> buscarDocumentosRecepcionPendientesSubsanacion();
     public List<IotdtmDocExterno> buscarDocumentosDespachoPendientesSubsanacion();
-     public List<IotdtmDocExterno> buscarDocumentoDespachoVirtual(Integer numero);
+    public List<IotdtmDocExterno> buscarDocumentoDespachoVirtual(Integer numero);
     public List<String> buscarTramiteVirtual(String nroTramite);
+    public List<IotdtcRecepcionMPV> buscarRecepcionMPV();
+    public IotdtcRecepcionMPV buscarDocumentoVirtualMPV(Integer nroVirtual);
 }

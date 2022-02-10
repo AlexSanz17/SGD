@@ -294,13 +294,18 @@ public class RepositorioServiceWebservice implements RepositorioService{
         	    log.info("Copiando archivos a la ruta de pendientes de firmar");
         	    
 	        	for(Archivo arc : listaArchivos){
+	        		log.info("Ruta pdf:"+arc.getRutaArchivoPdf());
 	                File from =new File(arc.getRutaArchivoPdf());
 					if(from.exists() && from.isFile()){
 						String nombreArchivo = arc.getRutaArchivoPdf().substring(arc.getRutaArchivoPdf().indexOf(']')+1);
+						log.info("nombreArchivo:"+nombreArchivo);
 						String destination = FIRMAS_RUTA_PORFIRMAR+nombreArchivo;
+						log.info("destination:"+destination);
 						File to = new File(destination);
 	
-						try {							
+						try {		
+							log.info("from:"+from+",to:"+to);
+							
 							copy(from, to);
 							
 							log.info("Se copio el archivo a "+destination);							
