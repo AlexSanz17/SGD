@@ -70,7 +70,7 @@
 			objectid = objectidFirma;
 			idcodigo = idcodigoFirma;
 			idFirmar = idBtnFirmar;
-			dijit.byId("dlgProgresBar").show();
+			//dijit.byId("dlgProgresBar").show();
 		}
 		
 		
@@ -82,8 +82,8 @@
         
 		<table id="tblDocumentos"  class="aTable">
 		<tr>
-			<td>DOCUMENTO</td>
-			<td>ACCION</td>
+			<th>N°</th>	
+			<th>DOCUMENTO</th>
 		</tr>
 		
 		<%!
@@ -94,27 +94,55 @@
 			var nombre = "";	
 			dojo.addOnLoad(function () {
                 service.getArchivosFirmar("<s:property value='arrFileFirmar' />").addCallback(function (objJSON) {
-				   
+                	console.log(objJSON.items);
 				   for(i=0; i<objJSON.items.length;i++){
+					   
 						
 		</script>
 		
 		<%
 		List<Item> listaDocumento = (List<Item>)request.getSession().getAttribute("listaDocumentos");
-		Item item = listaDocumento.get(cont);
-		String archivo= item.getArchivos();	
-		String alias = item.getNrodocumento();
-		String objectId = item.getObjectId();
-		String idCodigo = item.getIdCodigo();
+// 		for(Item item : listaDocumento){
+// 			out.println(item.getArchivos());
+		
+// 		}
+// 		Item item = listaDocumento.get(cont);
+		String archivo= "";
+		out.println(archivo);
+		String alias = "";
+		String objectId = "";
+		String idCodigo = "";
 		
 		String idFirmar="id-firmar"+cont;
+		
+		int contador = 1;
+ 		for(Item item1 : listaDocumento){
+			
+		%>
+		
+		<tr>
+			<td><%=contador%></td>
+			<td><%=item1.getArchivos()%></td>
+		</tr>
+		<%
+				contador ++;
+		cont++;
+			}
 		%>
 		
 		
-		<tr>
-			<td><%=archivo%></td>
-			<td>
-			<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio"> 
+		
+		<script type="text/javascript">			
+				   }  
+				   
+                });
+            });		
+					
+        </script>
+			
+		</table>
+		
+		<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio"> 
 				<input type="hidden" name="urlConfigService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/configuracion"/> 
 				<input type="hidden" name="webService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/FirmaDigitalWs?wsdl"/> 
 				<input type="hidden" name="rutaOrigen" value="\\WWWD4\Documentos\PorFirmar"/> 
@@ -135,23 +163,12 @@
 
 				<input id="<%=idFirmar%>" type="submit" name="submit" value="Firmar" 
 				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>');" />
-			</form>			
-			</td>
-		</tr>
-		
-		
-		<script type="text/javascript">			
-				   }  
-				   
-                });
-            });		
-					
-        </script>
-			
-		</table>
+				
+				<iframe frameborder="0" name="iframeFirma" id="iframeFirma" width="400px" height="220px"></iframe>
+			</form>	
 		
     </body>
 	
-		
+	
 		
 </html>

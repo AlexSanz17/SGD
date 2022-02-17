@@ -9,12 +9,24 @@ import com.btg.ositran.siged.domain.Expediente;
 import com.btg.ositran.siged.domain.Proceso;
 import com.btg.ositran.siged.domain.Unidad;
 import com.btg.ositran.siged.domain.Usuario;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.ositran.cmis.api.AlfrescoApiWs;
 
 import org.apache.chemistry.opencmis.client.api.Session;
 
 import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.service.SeguridadService;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,8 +36,12 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
+
 import org.alfresco.webservice.util.Constants;
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -61,6 +77,7 @@ public class RepositorioServiceWebservice implements RepositorioService{
     private final String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
     
     private final String FIRMAS_RUTA_PORFIRMAR  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
+    private final String FIRMAS_RUTA_QR  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_QR);
     
     private String[] strMonths = new String[]{
 					"ENERO",
@@ -299,10 +316,24 @@ public class RepositorioServiceWebservice implements RepositorioService{
 						String nombreArchivo = arc.getRutaArchivoPdf().substring(arc.getRutaArchivoPdf().indexOf(']')+1);
 						String destination = FIRMAS_RUTA_PORFIRMAR+nombreArchivo;
 						File to = new File(destination);
-	
+						
+//						// TODO Auto-generated method stub
+//						String qrCodeText = "https://www.journaldev.com";
+//						String filePath = "\\\\WWWD4\\Documentos\\PorFirmar\\CodQR\\"+nombreArchivo;
+//						int size = 125;
+//						String fileType = "png";
+//						File qrFile = new File(filePath);
+//						try {
+//							RepositorioServiceWebservice.createQRImage(qrFile, qrCodeText, size, fileType);
+//						} catch (WriterException | IOException e1) {
+//							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+//						}
+//						System.out.println("DONE");
+						
+				
 						try {							
 							copy(from, to);
-							
 							log.info("Se copio el archivo a "+destination);							
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -320,6 +351,34 @@ public class RepositorioServiceWebservice implements RepositorioService{
         
         
    	}
+   	
+	private static void createQRImage(File qrFile, String qrCodeText, int size, String fileType)
+			throws WriterException, IOException {
+		// Create the ByteMatrix for the QR-Code that encodes the given String
+		Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
+		hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+		QRCodeWriter qrCodeWriter = new QRCodeWriter();
+		BitMatrix byteMatrix = qrCodeWriter.encode(qrCodeText, BarcodeFormat.QR_CODE, size, size, hintMap);
+		// Make the BufferedImage that are to hold the QRCode
+		int matrixWidth = byteMatrix.getWidth();
+		BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
+		image.createGraphics();
+
+		Graphics2D graphics = (Graphics2D) image.getGraphics();
+		graphics.setColor(Color.WHITE);
+		graphics.fillRect(0, 0, matrixWidth, matrixWidth);
+		// Paint and save the image using the ByteMatrix
+		graphics.setColor(Color.BLACK);
+
+		for (int i = 0; i < matrixWidth; i++) {
+			for (int j = 0; j < matrixWidth; j++) {
+				if (byteMatrix.get(i, j)) {
+					graphics.fillRect(i, j, 1, 1);
+				}
+			}
+		}
+		ImageIO.write(image, fileType, qrFile);
+	}
    	
    	private static void copy(File src, File dest) throws IOException { 
    		InputStream is = null; OutputStream os = null; 

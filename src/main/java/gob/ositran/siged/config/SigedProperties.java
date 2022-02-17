@@ -75,6 +75,7 @@ public class SigedProperties {
         ALFRESCO_USUARIOCONSULTA_CLAVE("alfresco.USUARIOCONSULTA_CLAVE"),
     	
         FIRMAS_RUTA_PORFIRMAR("firmas.RUTAPORFIRMAR"),
+        FIRMAS_RUTA_QR("firmas.RUTAQR"),
         FIRMAS_RUTA_FIRMADOS("firmas.RUTAFIRMADOS"),
     	
         FIRMAS_PARAMETROS_RUTAORIGEN("firmas.parametros.rutaOrigen"),

@@ -4,8 +4,12 @@ import static org.ositran.utils.StringUtil.isEmpty;
 import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.service.SeguridadService;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import org.ositran.daos.DocumentoExternoVirtualDAO;
 import org.ositran.services.SeguimientoService;
@@ -20,7 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +91,7 @@ import org.ositran.services.MensajeriaService;
 import org.ositran.services.NotificacionService;
 import org.ositran.services.NumeracionService;
 import org.ositran.services.ReferenciaArchivoService;
+import org.ositran.services.RepositorioServiceWebservice;
 import org.ositran.services.ParametroService;
 import org.ositran.services.PlantillaService;
 import org.ositran.services.ProcesoService;
@@ -110,6 +115,21 @@ import com.antartec.alfresco.AlfrescoConnector.RETURN_CODE;
 import com.btg.ositran.siged.domain.Alerta;
 import com.btg.ositran.siged.domain.TipoLegajoUnidad;
 import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfImage;
+import com.itextpdf.text.pdf.PdfIndirectObject;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.Auditoria;
 import com.btg.ositran.siged.domain.Campo;
@@ -160,6 +180,8 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -3058,7 +3080,12 @@ public class DojoAction {
         
         @SMDMethod
 	public String moverFirma(String idDocumento) {
-           try{  
+           try{
+        	   log.info("=============================mover firma===============================");
+        	   log.info("=============================mover firma===============================");
+        	   log.info("=============================mover firma===============================");
+        	   log.info("=============================mover firma===============================");
+        	   
                 mapSession = ActionContext.getContext().getSession();
                 Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
                 Documento d = documentoService.findByIdDocumento(new Integer(idDocumento));
@@ -3097,6 +3124,12 @@ public class DojoAction {
           mapSession = ActionContext.getContext().getSession();
           Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 	  SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	  
+	  log.info("=============================respuesta firmar===============================");
+	  log.info("=============================respuesta firmar===============================");
+	  log.info("=============================respuesta firmar===============================");
+	  log.info("=============================respuesta firmar===============================");
+	  log.info("=============================respuesta firmar===============================");
           
           for (int i=0;i<respuesta.length;i++){
               try{ 
@@ -3202,6 +3235,11 @@ public class DojoAction {
                     
                     mapSession.put("listaDocumentos", items);
                     
+                    log.info("=============================Aqui obtiene los documentos===============================");
+                    log.info("=============================Aqui obtiene los documentos===============================");
+                    log.info("=============================Aqui obtiene los documentos===============================");
+                    log.info("=============================Aqui obtiene los documentos===============================");
+                    
                     archivosJSON.setItems(items);
             }catch(Exception e){
                 e.printStackTrace();
@@ -3215,16 +3253,46 @@ public class DojoAction {
     	log.info("validarFirmado (nombreArchivo):"+nombreArchivo+",(objectId):"+objectId+",(idCodigo):"+idCodigo);
     	String estado = "0";
     	
+    	log.info("=============================Aqui se valida firmado===============================");
+    	log.info("=============================Aqui se valida firmado===============================");
+    	log.info("=============================Aqui se valida firmado===============================");
+    	log.info("=============================Aqui se valida firmado===============================");
+    	log.info("=============================Aqui se valida firmado===============================");
     	
     	try{
     		String ALFRESCO_ROOT  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
 	    	String FIRMAS_FIRMADOS  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_FIRMADOS);
 	    	String TIPOFIRMA  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
+	    	String POR_FIRMAR  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
 	    	
 	    	String fullPathFirmado = FIRMAS_FIRMADOS+nombreArchivo;
+	    	String fullPathPorFirmar = POR_FIRMAR+nombreArchivo;
+	    	
+	    	// aqui empieza qr
+			String qrCodeText = "https://www.journaldev.com";
+			String filePathImagen = POR_FIRMAR+"CodQR\\"+nombreArchivo.replace(".pdf", ".png");
+			int size = 66;
+			String fileType = "png";
+			File qrFile = new File(filePathImagen);
+			try {
+				DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
+			} catch (WriterException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("========== CREANDO QR===========");
+			// aqui termina qr
+			
+			//insertando qr
+//			String fullPathWithQrAndText = POR_FIRMAR+"CodQR\\"+nombreArchivo;
+	        DojoAction.manipulatePdf(fullPathFirmado, fullPathFirmado,filePathImagen);
+			//insertando qr
+	    	
+	    	//final File firmado = new File(fullPathFirmado);
 	    	final File firmado = new File(fullPathFirmado);
 	    	//final String fullPathAlfresco = fullPathAlfrescoOrigin;
 	    	
+	    	//log.info("Validando firmado:"+fullPathFirmado); 
 	    	log.info("Validando firmado:"+fullPathFirmado); 
 	    	
 	    	if(firmado.isFile()){
@@ -3292,6 +3360,69 @@ public class DojoAction {
     	
     	return estado;
     }
+    
+    public static void manipulatePdf(String rutaProcedenciaPdf, String rutaDestinoPdf,String rutaImagen){
+    	try {
+            PdfReader pdfReader = new PdfReader(rutaProcedenciaPdf);
+ 
+            PdfStamper pdfStamper = new PdfStamper(pdfReader,
+                    new FileOutputStream(rutaDestinoPdf));
+ 
+			Image image = Image.getInstance(rutaImagen);
+
+			// put content under
+			PdfContentByte content = pdfStamper.getUnderContent(pdfReader.getNumberOfPages());
+			image.setAbsolutePosition(355f, 0f);
+			content.addImage(image);
+
+			// Text over the existing page
+			BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
+			content.beginText();
+			content.setFontAndSize(bf, 6);
+			content.showTextAligned(PdfContentByte.ALIGN_LEFT, "Esta es una copia auténtica imprimible de un documento electrónico", 160, 50, 0);
+            content.showTextAligned(PdfContentByte.ALIGN_LEFT, "archivado por Provias Nacional, aplicando lo dispuesto por el Art. 25", 160, 40, 0);
+            content.showTextAligned(PdfContentByte.ALIGN_LEFT, "de D.S. 070-2013-PCM y la Tercera Disposición Complementaria Final del", 160, 30, 0);
+            content.showTextAligned(PdfContentByte.ALIGN_LEFT, "D.S. 026-2016-PCM. Su autenticidad e integridad pueden ser contrastadas", 160, 20, 0);
+            content.showTextAligned(PdfContentByte.ALIGN_LEFT, "leyendo el código QR.", 160, 10, 0);
+			content.endText();
+
+			pdfStamper.close();
+			pdfReader.close();
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void createQRImage(File qrFile, String qrCodeText, int size, String fileType)
+			throws WriterException, IOException {
+		// Create the ByteMatrix for the QR-Code that encodes the given String
+		Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
+		hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+		QRCodeWriter qrCodeWriter = new QRCodeWriter();
+		BitMatrix byteMatrix = qrCodeWriter.encode(qrCodeText, BarcodeFormat.QR_CODE, size, size, hintMap);
+		// Make the BufferedImage that are to hold the QRCode
+		int matrixWidth = byteMatrix.getWidth();
+		BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
+		image.createGraphics();
+
+		Graphics2D graphics = (Graphics2D) image.getGraphics();
+		graphics.setColor(Color.WHITE);
+		graphics.fillRect(0, 0, matrixWidth, matrixWidth);
+		// Paint and save the image using the ByteMatrix
+		graphics.setColor(Color.BLACK);
+
+		for (int i = 0; i < matrixWidth; i++) {
+			for (int j = 0; j < matrixWidth; j++) {
+				if (byteMatrix.get(i, j)) {
+					graphics.fillRect(i, j, 1, 1);
+				}
+			}
+		}
+		ImageIO.write(image, fileType, qrFile);
+	}
         
 	@SuppressWarnings("unchecked")
 	@SMDMethod
