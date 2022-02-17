@@ -9,6 +9,7 @@ import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.DocumentoDerivacion;
 import com.btg.ositran.siged.domain.DocumentoReunion;
 import com.btg.ositran.siged.domain.Expediente;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.LegajoDocumento;
 import com.btg.ositran.siged.domain.Parametro;
@@ -120,7 +121,8 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private String origenDerivacion;
 	private List<String> condestinatarios;
 	private List<String> concopias;
-        private IotdtmDocExterno recepcionVirtual;
+    private IotdtmDocExterno recepcionVirtual;
+    private IotdtcRecepcionMPV recepcionMPV;
 	private ArchivopendienteService archivoPendienteService;
 	private DocumentoService documentoService;
 	private PlantillaService plantillaService;
@@ -182,8 +184,8 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private Boolean paraEnumerarArea;
 	private Boolean paraEnumerarGerencia;
 	private Boolean paraEnumerarPresidencia;
-        private Integer codigoVirtual;
-        private String flagVerExpediente;
+    private Integer codigoVirtual;
+    private String flagVerExpediente;
 
         public String getFlagVerExpediente() {
             return flagVerExpediente;
@@ -460,111 +462,153 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 		return "inicio";
 	}
         
-        public String mostrarVistaRecepcion() throws Exception {
-            listaDerivacionPara = new ArrayList<UsuarioDerivacion>(); 
-            listaDerivacionCC   = new ArrayList<UsuarioDerivacion>(); 
-            origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;
-            recepcionVirtual = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
+    public String mostrarVistaRecepcion() throws Exception {
+    	log.info("Ingresando a mostrarVistaRecepcion(codigoVirtual):"+codigoVirtual);
+        listaDerivacionPara = new ArrayList<UsuarioDerivacion>(); 
+        listaDerivacionCC   = new ArrayList<UsuarioDerivacion>(); 
+        origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;
+        
+        
+        try{
+        	
+        	recepcionVirtual = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
+        	log.info("Ingresando a mostrarVistaRecepcion(recepcionVirtual):"+recepcionVirtual);
+        	
+            Map<String,Object> sesion=ActionContext.getContext().getSession();
+            Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
             
-            try{
-                Map<String,Object> sesion=ActionContext.getContext().getSession();
-                Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
-                        
-                Cliente cliente =clienteService.findObjectBy(recepcionVirtual.getSidrecext().getVrucentrem(), 'A');
-                Tipodocumento tipoDocumento = tipodocumentoService.findByIdTipoDocumentoPIDE(recepcionVirtual.getCcodtipdoc());
-                objDD = new DocumentoDetail();
-                objDD.setStrTipoDocumento(tipoDocumento ==null? "":tipoDocumento.getIdtipodocumento().toString());
-                documento = new Documento();
-                documento.setFechaDocumento(recepcionVirtual.getDfecdoc());
-                
-                
-                /*
-                if (recepcionVirtual.getSidrecext().getCtipdociderem() == '1'){
-                   try{  
-                      PeticionConsulta peticionConsulta = new PeticionConsulta();
-                      peticionConsulta.setNuRucUsuario(parametroService.findByTipoUnico("RUC_OSITRAN").getValor());
-                      peticionConsulta.setPassword(usuario.getNroDocumento());
-                      peticionConsulta.setNuDniUsuario(usuario.getNroDocumento());
-                      peticionConsulta.setNuDniConsulta(recepcionVirtual.getSidrecext().getVnumdociderem());
-                      ReniecConsultaDni ws = new ReniecConsultaDni();
-                      ResultadoConsulta respuesta = ws.getReniecConsultaDniHttpsSoap11Endpoint().consultar(peticionConsulta);
-
-                      if (respuesta.getCoResultado().equals("0000")){
-                            String primerApellido = "";
-                            String segundoApellido = "";
-                            String nombres = "";
-
-                            if (respuesta.getDatosPersona().getApPrimer()!=null && !respuesta.getDatosPersona().getApPrimer().trim().equals("")) 
-                                primerApellido = respuesta.getDatosPersona().getApPrimer();
-                            if (respuesta.getDatosPersona().getApSegundo()!=null && !respuesta.getDatosPersona().getApSegundo().equals("")) 
-                                segundoApellido = respuesta.getDatosPersona().getApSegundo();
-                             if (respuesta.getDatosPersona().getPrenombres()!=null && !respuesta.getDatosPersona().getPrenombres().equals(""))
-                                nombres = respuesta.getDatosPersona().getPrenombres();
-
-                            documento.setDesRemitente(nombres + " " + primerApellido + " " + segundoApellido);
-                            documento.setDesRemitente("0000" + documento.getDesRemitente().toUpperCase().toString().trim());
-                      }else{
-                          documento.setDesRemitente(respuesta.getDeResultado());
-                      }
-                   }catch(Exception  e){
-                      e.printStackTrace();
-                      documento.setDesRemitente("Se produjo un problema en la comunicación con el servidor de RENIEC");
-                   }  
-                }*/  
-                
-                documento.setDesRemitente("Juan Perez Lopez");
-                documento.setDesRemitente("0000" + documento.getDesRemitente().toUpperCase().toString().trim());
-                 
-                if (recepcionVirtual.getSidrecext().getCtipdociderem() == '2'){
-                    try{  
-                         SolicitudBean solicitudBean = new SolicitudBean();
-                         solicitudBean.setStrCodInstitucion(parametroService.findByTipoUnico("COD_MIGRACIONES").getValor());
-                         solicitudBean.setStrMac(parametroService.findByTipoUnico("MAC_MIGRACIONES").getValor());
-                         solicitudBean.setStrNroIp(parametroService.findByTipoUnico("IP_MIGRACIONES").getValor());
-                         solicitudBean.setStrNumDocumento(recepcionVirtual.getSidrecext().getVnumdociderem());
-                         solicitudBean.setStrTipoDocumento("CE");
-                         MigraCarnetdeExtrajeria ws = new MigraCarnetdeExtrajeria();
-                         RespuestaBean respuestaBean = ws.getMigraCarnetdeExtrajeriaHttpsSoap11Endpoint().consultarDocumento(solicitudBean);
-                         String primerApellido = "";
-                         String segundoApellido = "";
-                         String nombres = "";
-                         
-                         if (respuestaBean.getStrNumRespuesta().equals("0000")){
-                              if (respuestaBean.getStrNombres()!=null && !respuestaBean.getStrNombres().trim().equals("")){
-                                  nombres = respuestaBean.getStrNombres().trim();
-                              }  
-                              if (respuestaBean.getStrPrimerApellido()!=null && !respuestaBean.getStrPrimerApellido().trim().equals("")){
-                                  primerApellido = respuestaBean.getStrPrimerApellido();
-                              }
-                              if (respuestaBean.getStrSegundoApellido()!=null && !respuestaBean.getStrSegundoApellido().trim().equals("")){
-                                  segundoApellido = respuestaBean.getStrSegundoApellido();
-                              }
-                              
-                              documento.setDesRemitente(nombres + " " + primerApellido + " " + segundoApellido);
-                              documento.setDesRemitente("0000" + documento.getDesRemitente().toUpperCase().trim());
-                         }else{
-                             documento.setDesRemitente(parametroService.findByTipoAndValue("RESPUESTA_MIGRACIONES", respuestaBean.getStrNumRespuesta()).getDescripcion());
-                         }     
-                    }catch(Exception e){
-                       documento.setDesRemitente("Se produjo un problema en la comunicación con el servidor de Migraciones");
-                       e.printStackTrace();
-                    } 
-                }    
-                
-                if (cliente!=null){
-                  objDD.setStrRazonSocial(cliente.getRazonSocial()==null?"":cliente.getRazonSocial());
-                  objDD.setIIdCliente(cliente.getIdCliente()==null? -1 :cliente.getIdCliente());
-                }else{
-                  objDD.setStrRazonSocial("");
-                  objDD.setIIdCliente(-1);
-                }
-            }catch(Exception e){
-                objDD.setStrRazonSocial("");
-                e.printStackTrace();
+            // Traer datos de PIDE
+            if(recepcionVirtual != null){
+                    
+	            Cliente cliente =clienteService.findObjectBy(recepcionVirtual.getSidrecext().getVrucentrem(), 'A');
+	            Tipodocumento tipoDocumento = tipodocumentoService.findByIdTipoDocumentoPIDE(recepcionVirtual.getCcodtipdoc());
+	            objDD = new DocumentoDetail();
+	            objDD.setStrTipoDocumento(tipoDocumento ==null? "":tipoDocumento.getIdtipodocumento().toString());
+	            documento = new Documento();
+	            documento.setFechaDocumento(recepcionVirtual.getDfecdoc());
+	            
+	            
+	            /*
+	            if (recepcionVirtual.getSidrecext().getCtipdociderem() == '1'){
+	               try{  
+	                  PeticionConsulta peticionConsulta = new PeticionConsulta();
+	                  peticionConsulta.setNuRucUsuario(parametroService.findByTipoUnico("RUC_OSITRAN").getValor());
+	                  peticionConsulta.setPassword(usuario.getNroDocumento());
+	                  peticionConsulta.setNuDniUsuario(usuario.getNroDocumento());
+	                  peticionConsulta.setNuDniConsulta(recepcionVirtual.getSidrecext().getVnumdociderem());
+	                  ReniecConsultaDni ws = new ReniecConsultaDni();
+	                  ResultadoConsulta respuesta = ws.getReniecConsultaDniHttpsSoap11Endpoint().consultar(peticionConsulta);
+	
+	                  if (respuesta.getCoResultado().equals("0000")){
+	                        String primerApellido = "";
+	                        String segundoApellido = "";
+	                        String nombres = "";
+	
+	                        if (respuesta.getDatosPersona().getApPrimer()!=null && !respuesta.getDatosPersona().getApPrimer().trim().equals("")) 
+	                            primerApellido = respuesta.getDatosPersona().getApPrimer();
+	                        if (respuesta.getDatosPersona().getApSegundo()!=null && !respuesta.getDatosPersona().getApSegundo().equals("")) 
+	                            segundoApellido = respuesta.getDatosPersona().getApSegundo();
+	                         if (respuesta.getDatosPersona().getPrenombres()!=null && !respuesta.getDatosPersona().getPrenombres().equals(""))
+	                            nombres = respuesta.getDatosPersona().getPrenombres();
+	
+	                        documento.setDesRemitente(nombres + " " + primerApellido + " " + segundoApellido);
+	                        documento.setDesRemitente("0000" + documento.getDesRemitente().toUpperCase().toString().trim());
+	                  }else{
+	                      documento.setDesRemitente(respuesta.getDeResultado());
+	                  }
+	               }catch(Exception  e){
+	                  e.printStackTrace();
+	                  documento.setDesRemitente("Se produjo un problema en la comunicación con el servidor de RENIEC");
+	               }  
+	            }*/  
+	            
+	            documento.setDesRemitente("Juan Perez Lopez");
+	            documento.setDesRemitente("0000" + documento.getDesRemitente().toUpperCase().toString().trim());
+	             
+	            if (recepcionVirtual.getSidrecext().getCtipdociderem() == '2'){
+	                try{  
+	                     SolicitudBean solicitudBean = new SolicitudBean();
+	                     solicitudBean.setStrCodInstitucion(parametroService.findByTipoUnico("COD_MIGRACIONES").getValor());
+	                     solicitudBean.setStrMac(parametroService.findByTipoUnico("MAC_MIGRACIONES").getValor());
+	                     solicitudBean.setStrNroIp(parametroService.findByTipoUnico("IP_MIGRACIONES").getValor());
+	                     solicitudBean.setStrNumDocumento(recepcionVirtual.getSidrecext().getVnumdociderem());
+	                     solicitudBean.setStrTipoDocumento("CE");
+	                     MigraCarnetdeExtrajeria ws = new MigraCarnetdeExtrajeria();
+	                     RespuestaBean respuestaBean = ws.getMigraCarnetdeExtrajeriaHttpsSoap11Endpoint().consultarDocumento(solicitudBean);
+	                     String primerApellido = "";
+	                     String segundoApellido = "";
+	                     String nombres = "";
+	                     
+	                     if (respuestaBean.getStrNumRespuesta().equals("0000")){
+	                          if (respuestaBean.getStrNombres()!=null && !respuestaBean.getStrNombres().trim().equals("")){
+	                              nombres = respuestaBean.getStrNombres().trim();
+	                          }  
+	                          if (respuestaBean.getStrPrimerApellido()!=null && !respuestaBean.getStrPrimerApellido().trim().equals("")){
+	                              primerApellido = respuestaBean.getStrPrimerApellido();
+	                          }
+	                          if (respuestaBean.getStrSegundoApellido()!=null && !respuestaBean.getStrSegundoApellido().trim().equals("")){
+	                              segundoApellido = respuestaBean.getStrSegundoApellido();
+	                          }
+	                          
+	                          documento.setDesRemitente(nombres + " " + primerApellido + " " + segundoApellido);
+	                          documento.setDesRemitente("0000" + documento.getDesRemitente().toUpperCase().trim());
+	                     }else{
+	                         documento.setDesRemitente(parametroService.findByTipoAndValue("RESPUESTA_MIGRACIONES", respuestaBean.getStrNumRespuesta()).getDescripcion());
+	                     }     
+	                }catch(Exception e){
+	                   documento.setDesRemitente("Se produjo un problema en la comunicación con el servidor de Migraciones");
+	                   e.printStackTrace();
+	                } 
+	            }    
+	            
+	            if (cliente!=null){
+	              objDD.setStrRazonSocial(cliente.getRazonSocial()==null?"":cliente.getRazonSocial());
+	              objDD.setIIdCliente(cliente.getIdCliente()==null? -1 :cliente.getIdCliente());
+	            }else{
+	              objDD.setStrRazonSocial("");
+	              objDD.setIIdCliente(-1);
+	            }
+	            
+            }else{
+            	// Traer datos de MPV           	
+            	recepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(codigoVirtual);
+            	
+            	log.info("Traer datos de MPV:"+recepcionMPV);
+            	
+            	if(recepcionMPV != null){
+                	Tipodocumento tipoDocumento = tipodocumentoService.findByIdTipoDocumento(recepcionMPV.getIddocumento()); 
+                	
+                	objDD = new DocumentoDetail();
+    	            objDD.setStrTipoDocumento(tipoDocumento ==null? "":tipoDocumento.getIdtipodocumento().toString());
+    	            documento = new Documento();
+    	            documento.setFechaDocumento(recepcionMPV.getFechadocumento());
+    	            documento.setNumeroDocumento(recepcionMPV.getNumerodocumento());
+    	            
+    	            
+    	            Cliente cliente =clienteService.findObjectBy(recepcionMPV.getVrucentrem(), 'A');
+    	            
+    	            if (recepcionMPV.getCtipdociderem().toString().equals("1") || recepcionMPV.getCtipdociderem().toString().equals("2")){
+		              objDD.setStrRazonSocial(recepcionMPV.getVnomentemi());
+		              objDD.setIIdCliente(cliente.getIdCliente()==null? -1 :cliente.getIdCliente());
+		            
+    	            }else if(recepcionMPV.getCtipdociderem().toString().equals("3")){    	            	
+    	            	documento.setDesRemitente("");
+		            }else{
+		              objDD.setStrRazonSocial("");
+			          objDD.setIIdCliente(-1);
+		            }
+    	            
+            	}
+            		
             }
             
-            return "nuevoRegistroTramite";
+        }catch(Exception e){
+            objDD.setStrRazonSocial("");
+            e.printStackTrace();
         }
+        
+        return "nuevoRegistroTramite";
+    }
 
 	public String mostrarVista() throws Exception {
             log.debug("NuevoDocumentoAction::mostrarVista()");

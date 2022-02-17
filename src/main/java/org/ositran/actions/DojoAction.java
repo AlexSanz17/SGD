@@ -307,8 +307,21 @@ public class DojoAction {
     private AlfrescoConnector alfrescoConnector;
     private static String USERCREADOR=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
     private static String USERCREADOR_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
-
     
+    private static String rutaOrigen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAORIGEN);
+    private static String rutaDestino = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTADESTINO);
+    private static String rutaImagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAIMAGEN);
+    private static String imagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_IMAGEN);
+    private static String usarPersonalizado = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_USARPERSONALIZADO);
+    private static String tipoFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
+    private static String invisible = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_INVISIBLE);
+    private static String posicionFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_POSICIONFIRMA);
+    private static String ubicacionPagina = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_UBICACIONPAGINA);
+    private static String numeroPagina = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_NUMEROPAGINA);
+    private static String estiloFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_ESTILOFIRMA);
+    private static String aplicarImagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_APLICARIMAGEN);
+    
+   
     public DojoAction(){
     	log.info("Iniciando DojoAction");
     	
@@ -1754,19 +1767,21 @@ public class DojoAction {
             return "";
         }
         
-        @SMDMethod
+    @SMDMethod
 	public String validarExistRecepcion(Integer codigoVirtual){
-             try{
-                 List<Documento> lst = documentoService.findByIdDocVirtual(codigoVirtual);
-                 if (lst!=null && lst.size()>0){
-                     return "1";
-                 }
-                 
-                 return "0";
-             }catch(Exception e){
-                 return "-1";
-             }            
-        }
+    	log.info("Ingresando a validarExistRecepcion(codigoVirtual):"+codigoVirtual);
+         try{
+             List<Documento> lst = documentoService.findByIdDocVirtual(codigoVirtual);
+             if (lst!=null && lst.size()>0){
+                 return "1";
+             }
+             
+             return "0";
+         }catch(Exception e){
+        	 e.printStackTrace();
+             return "-1";
+         }            
+    }
         
         @SMDMethod
         public String getCantidadDocumentosVirtuales(String grid){
@@ -3218,6 +3233,20 @@ public class DojoAction {
                               item.setRecepcionado(d.getRecepcionado()==null?"":d.getRecepcionado());
                               item.setObjectId(listArchivos.get(j).getObjectId());
                               item.setIdCodigo(d.getID_CODIGO().toString());
+                              
+                              item.setRutaOrigen(rutaOrigen);
+                              item.setRutaDestino(rutaDestino);
+                              item.setRutaImagen(rutaImagen);
+                              item.setImagen(imagen);
+                              item.setUsarPersonalizado(usarPersonalizado);
+                              item.setTipoFirma(tipoFirma);
+                              item.setInvisible(invisible);
+                              item.setPosicionFirma(posicionFirma);
+                              item.setUbicacionPagina(ubicacionPagina);
+                              item.setNumeroPagina(numeroPagina);
+                              item.setEstiloFirma(estiloFirma);
+                              item.setAplicarImagen(aplicarImagen);
+                              
                                                            
                               
                               if (listArchivos.get(j).getPrincipal().toString().equals("S")){

@@ -122,7 +122,19 @@ public class Item {
     private String objectId;
     private String idCodigo;
     
-        
+    //Campos para firma digital
+    private String rutaOrigen;
+    private String rutaDestino;
+    private String rutaImagen;
+    private String imagen;
+    private String usarPersonalizado;
+    private String tipoFirma;
+    private String invisible;
+    private String posicionFirma;
+    private String ubicacionPagina;
+    private String numeroPagina;
+    private String estiloFirma;
+    private String aplicarImagen;    
        
 
     public String getIdProcedimiento() {
@@ -1271,43 +1283,141 @@ public class Item {
 		this.excprioridad = excprioridad;
 	}
         
-        public int getNroTramite() {
-            return nroTramite;
-        }
+    public int getNroTramite() {
+        return nroTramite;
+    }
 
-        public void setNroTramite(int nroTramite) {
-            this.nroTramite = nroTramite;
-        }
-        
-         public Date getFechaatender() {
-            return fechaatender;
-        }
+    public void setNroTramite(int nroTramite) {
+        this.nroTramite = nroTramite;
+    }
+    
+     public Date getFechaatender() {
+        return fechaatender;
+    }
 
-        public void setFechaatender(Date fechaatender) {
-            this.fechaatender = fechaatender;
-        }
-        
-        public Date getFechaanulacion() {
-            return fechaanulacion;
-        }
+    public void setFechaatender(Date fechaatender) {
+        this.fechaatender = fechaatender;
+    }
+    
+    public Date getFechaanulacion() {
+        return fechaanulacion;
+    }
 
-        public void setFechaanulacion(Date fechaanulacion) {
-            this.fechaanulacion = fechaanulacion;
-        }
-        
-        public String getLlave() {
-            return llave;
-        }
+    public void setFechaanulacion(Date fechaanulacion) {
+        this.fechaanulacion = fechaanulacion;
+    }
+    
+    public String getLlave() {
+        return llave;
+    }
 
-        public void setLlave(String llave) {
-            this.llave = llave;
-        }
-        
-         public String getRecepcionado() {
-            return recepcionado;
-        }
+    public void setLlave(String llave) {
+        this.llave = llave;
+    }
+    
+     public String getRecepcionado() {
+        return recepcionado;
+    }
 
-        public void setRecepcionado(String recepcionado) {
-            this.recepcionado = recepcionado;
-        }
+    public void setRecepcionado(String recepcionado) {
+        this.recepcionado = recepcionado;
+    }
+
+	public String getRutaOrigen() {
+		return rutaOrigen;
+	}
+
+	public void setRutaOrigen(String rutaOrigen) {
+		this.rutaOrigen = rutaOrigen;
+	}
+
+	public String getRutaDestino() {
+		return rutaDestino;
+	}
+
+	public void setRutaDestino(String rutaDestino) {
+		this.rutaDestino = rutaDestino;
+	}
+
+	public String getRutaImagen() {
+		return rutaImagen;
+	}
+
+	public void setRutaImagen(String rutaImagen) {
+		this.rutaImagen = rutaImagen;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
+	public String getUsarPersonalizado() {
+		return usarPersonalizado;
+	}
+
+	public void setUsarPersonalizado(String usarPersonalizado) {
+		this.usarPersonalizado = usarPersonalizado;
+	}
+
+	public String getTipoFirma() {
+		return tipoFirma;
+	}
+
+	public void setTipoFirma(String tipoFirma) {
+		this.tipoFirma = tipoFirma;
+	}
+
+	public String getInvisible() {
+		return invisible;
+	}
+
+	public void setInvisible(String invisible) {
+		this.invisible = invisible;
+	}
+
+	public String getPosicionFirma() {
+		return posicionFirma;
+	}
+
+	public void setPosicionFirma(String posicionFirma) {
+		this.posicionFirma = posicionFirma;
+	}
+
+	public String getUbicacionPagina() {
+		return ubicacionPagina;
+	}
+
+	public void setUbicacionPagina(String ubicacionPagina) {
+		this.ubicacionPagina = ubicacionPagina;
+	}
+
+	public String getNumeroPagina() {
+		return numeroPagina;
+	}
+
+	public void setNumeroPagina(String numeroPagina) {
+		this.numeroPagina = numeroPagina;
+	}
+
+	public String getEstiloFirma() {
+		return estiloFirma;
+	}
+
+	public void setEstiloFirma(String estiloFirma) {
+		this.estiloFirma = estiloFirma;
+	}
+
+	public String getAplicarImagen() {
+		return aplicarImagen;
+	}
+
+	public void setAplicarImagen(String aplicarImagen) {
+		this.aplicarImagen = aplicarImagen;
+	}
+    
+    
 }

@@ -173,7 +173,7 @@ public class UsuarioxunidadxfuncionDAOImpl implements UsuarioxunidadxfuncionDAO{
                        
                
                if (!usuario.getIdusuario().toString().equals(usuario.getIdUsuarioPerfil().toString())){
-                   sql = sql +  " and idusuariocargo=" + usuario.getIdUsuarioPerfil() + " ) ";
+                   sql = sql +  " and idusuariocargo=" + usuario.getIdUsuarioPerfil() + " ) table1";
                }else{
                    sql = sql + " ) table1";
                }

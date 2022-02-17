@@ -631,6 +631,7 @@ public class ArchivoServiceImpl implements ArchivoService{
 
    @Override
    public List<Archivo> findLstByIdDocumento(Integer idDocumento) {
+	   log.info("idDocumento:"+idDocumento);
       return dao.findByIdDocumento(idDocumento);
    }
 

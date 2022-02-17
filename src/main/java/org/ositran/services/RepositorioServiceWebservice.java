@@ -311,11 +311,15 @@ public class RepositorioServiceWebservice implements RepositorioService{
         	    log.info("Copiando archivos a la ruta de pendientes de firmar");
         	    
 	        	for(Archivo arc : listaArchivos){
+	        		log.info("Ruta pdf:"+arc.getRutaArchivoPdf());
 	                File from =new File(arc.getRutaArchivoPdf());
 					if(from.exists() && from.isFile()){
 						String nombreArchivo = arc.getRutaArchivoPdf().substring(arc.getRutaArchivoPdf().indexOf(']')+1);
+						log.info("nombreArchivo:"+nombreArchivo);
 						String destination = FIRMAS_RUTA_PORFIRMAR+nombreArchivo;
+						log.info("destination:"+destination);
 						File to = new File(destination);
+//<<<<<<< HEAD
 						
 //						// TODO Auto-generated method stub
 //						String qrCodeText = "https://www.journaldev.com";
@@ -333,6 +337,12 @@ public class RepositorioServiceWebservice implements RepositorioService{
 						
 				
 						try {							
+//=======
+//	
+//						try {		
+//							log.info("from:"+from+",to:"+to);
+//							
+//>>>>>>> bf7f4f4c441a4fe19a5088eadba2014ef24b4aec
 							copy(from, to);
 							log.info("Se copio el archivo a "+destination);							
 						} catch (IOException e) {

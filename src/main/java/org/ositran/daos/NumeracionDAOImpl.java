@@ -67,11 +67,12 @@ public class NumeracionDAOImpl implements NumeracionDAO {
 
    public String guardarObjProcedure(Numeracion objNumeracion, int area_remitente, int idUsuario) throws Exception{
 	   JDBCCallableStatement jdbc = new JDBCCallableStatement();
-	   //String getDBUSERByUserIdSql = "{call SP_GENERAR_NRO_DOCUMENTO_1(?,?,?,?)}";
-	   String getDBUSERByUserIdSql = "{call SP_GENERAR_NRO_DOCUMENTO(?,?,?,?,?)}";
+	   String getDBUSERByUserIdSql = "{call dbo.sp_generar_nro_documento(?,?,?,?,?)}";
            Connection dbConnection = null;
 	   CallableStatement callableStatement = null;
            int anioFiscal=1;
+           
+       String numeracion = "";    
            
        try{
 
@@ -83,14 +84,15 @@ public class NumeracionDAOImpl implements NumeracionDAO {
     	   dbConnection = jdbc.getDBConnection();
     	   callableStatement = dbConnection.prepareCall(getDBUSERByUserIdSql);
            
-           callableStatement.setInt(1, objNumeracion.getTipodocumento().getIdtipodocumento().intValue());
-           callableStatement.setInt(2, area_remitente);
-           callableStatement.setInt(3, idUsuario);
-           callableStatement.setInt(4, anioFiscal);
-           //callableStatement.registerOutParameter(4, java.sql.Types.VARCHAR);
+           callableStatement.setFloat(1, objNumeracion.getTipodocumento().getIdtipodocumento().intValue());
+           callableStatement.setFloat(2, area_remitente);
+           callableStatement.setFloat(3, idUsuario);
+           callableStatement.setFloat(4, anioFiscal);
            callableStatement.registerOutParameter(5, java.sql.Types.VARCHAR);
 		
            callableStatement.executeUpdate();
+           
+           numeracion = callableStatement.getString(5);
 
            
        } catch (SQLException e) {
@@ -114,9 +116,10 @@ public class NumeracionDAOImpl implements NumeracionDAO {
 			   e.printStackTrace();
 			}
 		}
-	   //return callableStatement.getString(4);
-       return callableStatement.getString(5);
+
+       return numeracion;
    }
+   
 
    public Numeracion guardarObj(Numeracion objNumeracion) {
 	      em.persist(objNumeracion);

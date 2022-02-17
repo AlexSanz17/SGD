@@ -5,6 +5,7 @@
  */
 /*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
 
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Usuario;
 import java.util.ArrayList;
@@ -15,10 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
-/**
- *
- * @author jbengoa (JUAN CARLOS BENGOA)
- */
+
 @Repository
 public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDAO{
     private EntityManager em;
@@ -144,4 +142,22 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
 
         return lp;   
     }
+    
+    public List<IotdtcRecepcionMPV> buscarRecepcionMPV(){
+        String sql = "SELECT e FROM IotdtcRecepcionMPV e where e.cflgest = 'P' order by e.dfecreg desc";
+ 					 
+        return em.createQuery(sql).getResultList();
+    }
+    
+    public IotdtcRecepcionMPV buscarDocumentoVirtualMPV(Integer nroVirtual){
+        String sql = "SELECT e FROM IotdtcRecepcionMPV e where e.sidrecext =" + nroVirtual;
+        try{				
+             return (IotdtcRecepcionMPV)em.createQuery(sql).getSingleResult(); 
+        }catch(EntityNotFoundException e){
+            return null;
+        }catch(Exception e){
+            return null;
+        }     
+     }
+    
 }

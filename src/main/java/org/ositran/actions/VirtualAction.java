@@ -7,6 +7,8 @@
 
 import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.Documento;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+import com.btg.ositran.siged.domain.IotdtdAdjuntoMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Tipodocumento;
 import com.btg.ositran.siged.domain.Usuario;
@@ -288,87 +290,188 @@ public class VirtualAction {
         Documento d = null;
         
         try{
-        log.info("viewDocRecepcionVirtual:idRecepcion"+idRecepcion);	        
+        log.info("viewDocRecepcionVirtual(idRecepcion):"+idRecepcion);	        
         IotdtmDocExterno recepcion = documentoExternoVirtualDAO.buscarDocumentoVirtual(idRecepcion);
         
-        if (recepcion.getSidrecext().getIddocumento()!=null){
-            d = documentoDAO.findByIdDocumento(recepcion.getSidrecext().getIddocumento());
-            lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-        }
         
-        objDD = new DocumentoDetail();
-        objDD.setStrAsunto(recepcion.getVasu());
+        if(recepcion != null){        	
+	        if (recepcion.getSidrecext().getIddocumento()!=null){
+	            d = documentoDAO.findByIdDocumento(recepcion.getSidrecext().getIddocumento());            
+	            lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
+	        }
+	        
+	        objDD = new DocumentoDetail();
+	        objDD.setStrAsunto(recepcion.getVasu());
+	        
+	        try{
+	            objDD.setStrRazonSocial(recepcion.getVnomentemi());
+	        }catch(Exception e){
+	            e.printStackTrace();
+	            objDD.setStrRazonSocial("");
+	        }
+	        
+	        try{
+	            Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(recepcion.getCcodtipdoc());
+	            objDD.setStrNroDocumento(tipoDocumento.getNombre() + " - " + recepcion.getVnumdoc());
+	        }catch(Exception e){
+	            e.printStackTrace();
+	            objDD.setStrNroDocumento("");
+	        }
+	        
+	        objDD.setStrFecha(recepcion.getSidrecext().getDfecreg());
+	        objDD.setIdCodigo(Integer.valueOf(recepcion.getSiddocext().intValue()));
+	        objDD.setArchivoPrincipal(docPrincipalVirtualDAO.buscarPrincipaByDocExterno(idRecepcion).getVnomdoc());
+	        objDD.setArchivoAnexo(recepcion.getVurldocanx()==null?"":recepcion.getVurldocanx().trim());
+	        objDD.setCantAnexos(recepcion.getSnumanx()==null? "0" :recepcion.getSnumanx().toString());
+	        objDD.setNroTramite(recepcion.getSidrecext().getVnumregstd());
+	        objDD.setCEstado(recepcion.getSidrecext().getCflgest());
+	        objDD.setCuo(recepcion.getSidrecext().getVcuo());
+	        objDD.setRuc(recepcion.getSidrecext().getVrucentrem());
+	        objDD.setFlagCodigoVirtual('1');
+	       
+	        try{
+	             objDD.setTamanoPrincipal(objDD.getTamanoFormateado(String.valueOf(recepcion.getIotdtdDocPrincipalList().get(0).getBpdfdoc().length)));
+	        }catch(Exception e){
+	             objDD.setTamanoPrincipal("");
+	        }
+	        
+	        try{
+	             objDD.setTamanoCargo(objDD.getTamanoFormateado(String.valueOf(recepcion.getSidrecext().getBcarstd().length)));
+	        }catch(Exception e){
+	             objDD.setTamanoCargo("");
+	        }
+	        
+	        if (lst!=null && lst.size()>0){
+	            for(int i=0;i<lst.size();i++){
+	                if (lst.get(i).getPrincipal() == 'M'){
+	                    if (recepcion.getSidrecext().getBcarstd()!=null){
+	                        objDD.setArchivoCargo(lst.get(i).getNombreReal());
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	        
+	        if (recepcion.getSidrecext().getIddocumento()==null){
+	            objDD.setFlagCodigoVirtual('0');
+	        }else{
+	            if (objDD.getNroTramite()==null || objDD.getNroTramite().trim().equals("")){
+	                objDD.setFlagCodigoVirtual('1');
+	            }else{
+	                if (recepcion.getSidrecext().getCflgenvcar()=='S'){
+	                  objDD.setFlagCodigoVirtual('2');
+	                }else{
+	                  objDD.setFlagCodigoVirtual('3');
+	                }  
+	            }
+	        }
+	        
+	        if (recepcion.getIotdtdAnexoList()!=null && recepcion.getIotdtdAnexoList().size()>0){
+	            List<String> list = new ArrayList<String>();
+	            for (int i=0;i<recepcion.getIotdtdAnexoList().size();i++){
+	                list.add(recepcion.getIotdtdAnexoList().get(i).getVnomdoc());
+	            }
+	            
+	            objDD.setListAnexos(list);
+	        }
         
-        try{
-            objDD.setStrRazonSocial(recepcion.getVnomentemi());
-        }catch(Exception e){
-            e.printStackTrace();
-            objDD.setStrRazonSocial("");
-        }
-        
-        try{
-            Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(recepcion.getCcodtipdoc());
-            objDD.setStrNroDocumento(tipoDocumento.getNombre() + " - " + recepcion.getVnumdoc());
-        }catch(Exception e){
-            e.printStackTrace();
-            objDD.setStrNroDocumento("");
-        }
-        
-        objDD.setStrFecha(recepcion.getSidrecext().getDfecreg());
-        objDD.setIdCodigo(Integer.valueOf(recepcion.getSiddocext().intValue()));
-        objDD.setArchivoPrincipal(docPrincipalVirtualDAO.buscarPrincipaByDocExterno(idRecepcion).getVnomdoc());
-        objDD.setArchivoAnexo(recepcion.getVurldocanx()==null?"":recepcion.getVurldocanx().trim());
-        objDD.setCantAnexos(recepcion.getSnumanx()==null? "0" :recepcion.getSnumanx().toString());
-        objDD.setNroTramite(recepcion.getSidrecext().getVnumregstd());
-        objDD.setCEstado(recepcion.getSidrecext().getCflgest());
-        objDD.setCuo(recepcion.getSidrecext().getVcuo());
-        objDD.setRuc(recepcion.getSidrecext().getVrucentrem());
-        objDD.setFlagCodigoVirtual('1');
-       
-        try{
-             objDD.setTamanoPrincipal(objDD.getTamanoFormateado(String.valueOf(recepcion.getIotdtdDocPrincipalList().get(0).getBpdfdoc().length)));
-        }catch(Exception e){
-             objDD.setTamanoPrincipal("");
-        }
-        
-        try{
-             objDD.setTamanoCargo(objDD.getTamanoFormateado(String.valueOf(recepcion.getSidrecext().getBcarstd().length)));
-        }catch(Exception e){
-             objDD.setTamanoCargo("");
-        }
-        
-        if (lst!=null && lst.size()>0){
-            for(int i=0;i<lst.size();i++){
-                if (lst.get(i).getPrincipal() == 'M'){
-                    if (recepcion.getSidrecext().getBcarstd()!=null){
-                        objDD.setArchivoCargo(lst.get(i).getNombreReal());
-                        break;
-                    }
-                }
-            }
-        }
-        
-        if (recepcion.getSidrecext().getIddocumento()==null){
-            objDD.setFlagCodigoVirtual('0');
         }else{
-            if (objDD.getNroTramite()==null || objDD.getNroTramite().trim().equals("")){
-                objDD.setFlagCodigoVirtual('1');
-            }else{
-                if (recepcion.getSidrecext().getCflgenvcar()=='S'){
-                  objDD.setFlagCodigoVirtual('2');
-                }else{
-                  objDD.setFlagCodigoVirtual('3');
-                }  
-            }
-        }
-        
-        if (recepcion.getIotdtdAnexoList()!=null && recepcion.getIotdtdAnexoList().size()>0){
-            List<String> list = new ArrayList<String>();
-            for (int i=0;i<recepcion.getIotdtdAnexoList().size();i++){
-                list.add(recepcion.getIotdtdAnexoList().get(i).getVnomdoc());
-            }
-            
-            objDD.setListAnexos(list);
+        	IotdtcRecepcionMPV recepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(idRecepcion);
+        	
+        	if (recepcionMPV.getIddocumento()!=null){
+	            d = documentoDAO.findByIdDocumento(recepcionMPV.getIddocumento());            
+	            lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
+	        }
+	        
+	        objDD = new DocumentoDetail();
+	        objDD.setStrAsunto(recepcionMPV.getAsunto());
+	        
+	        try{
+	            objDD.setStrRazonSocial(recepcionMPV.getVnomentemi());
+	        }catch(Exception e){
+	            e.printStackTrace();
+	            objDD.setStrRazonSocial("");
+	        }
+	        
+	        try{
+	        	Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumento(Integer.parseInt(recepcionMPV.getTipodocumento()));
+	            objDD.setStrNroDocumento(tipoDocumento.getNombre() + " - " + recepcionMPV.getNumerodocumento());
+	        }catch(Exception e){
+	            e.printStackTrace();
+	            objDD.setStrNroDocumento("");
+	        }
+	        
+	        objDD.setStrFecha(recepcionMPV.getFechadocumento());
+	        objDD.setIdCodigo(recepcionMPV.getSidrecext());
+	        
+	        
+	        //Ubicando archivo principal
+	        String archivoPrincipal = "";
+	        String archivoAnexo = "";
+	        int totalAnexos = 0;
+	        for(IotdtdAdjuntoMPV adjunto:recepcionMPV.getArchivos()){
+	        	
+	        	if(adjunto.getTipoarchivo().equals("1")){
+	        		archivoPrincipal = adjunto.getNombrearchivo();	        		
+	        	}	
+	        	
+	        	if(adjunto.getTipoarchivo().equals("2")){
+	        		archivoAnexo = adjunto.getNombrearchivo();
+	        		totalAnexos++;	        		
+	        	}
+	        }
+	        
+	        
+	        objDD.setArchivoPrincipal(archivoPrincipal);
+	        objDD.setArchivoAnexo(archivoAnexo);
+	        objDD.setCantAnexos(String.valueOf(totalAnexos));
+	        objDD.setNroTramite(recepcionMPV.getNumerodocumento());
+	        objDD.setCEstado(recepcionMPV.getCflgest());
+	        objDD.setCuo("");
+	        objDD.setRuc(recepcionMPV.getVrucentrem());
+	        objDD.setFlagCodigoVirtual('1');
+	        objDD.setTamanoPrincipal("");
+	        objDD.setTamanoCargo("");
+	        
+
+	        
+	        if (lst!=null && lst.size()>0){
+	            for(int i=0;i<lst.size();i++){
+	                if (lst.get(i).getPrincipal() == 'M'){
+	                    if (recepcionMPV.getBcarstd()!=null){
+	                        objDD.setArchivoCargo(lst.get(i).getNombreReal());
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	        
+	        if (recepcionMPV.getIddocumento()==null){
+	            objDD.setFlagCodigoVirtual('0');
+	        }else{
+	            if (objDD.getNroTramite()==null || objDD.getNroTramite().trim().equals("")){
+	                objDD.setFlagCodigoVirtual('1');
+	            }else{
+	                if (recepcionMPV.getCflgenvcar()=='S'){
+	                  objDD.setFlagCodigoVirtual('2');
+	                }else{
+	                  objDD.setFlagCodigoVirtual('3');
+	                }  
+	            }
+	        }
+	        
+	        if (recepcionMPV.getArchivos() !=null && recepcionMPV.getArchivos().size()>0){
+	            List<String> list = new ArrayList<String>();
+	            for (IotdtdAdjuntoMPV adjuntoAnexo:recepcionMPV.getArchivos()){	            	
+	            	if(adjuntoAnexo.getTipoarchivo().equals("2")){
+	            		list.add(adjuntoAnexo.getNombrearchivo());
+	            	}	                
+	            }
+	            
+	            objDD.setListAnexos(list);
+	        }
+        	
+        	
         }
         
         }catch(Exception e){
