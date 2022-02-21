@@ -6,6 +6,8 @@
 /*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -36,16 +38,29 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO{
   
     public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion){
 		
-       if(recepcion.getSidrecext() == null){
-	    em.persist(recepcion); 
-	    em.flush();
-	    em.refresh(recepcion);
-	}
-	else{
-	    em.merge(recepcion); 
-	    em.flush();
-	}
+    	if(recepcion.getSidrecext() == null){
+		    em.persist(recepcion); 
+		    em.flush();
+		    em.refresh(recepcion);
+		}else{
+		    em.merge(recepcion); 
+		    em.flush();
+		}
 		
        return recepcion;
+    }
+    
+    public IotdtcRecepcionMPV registrarDocumentoMPV(IotdtcRecepcionMPV recepcionMPV){
+		
+    	if(recepcionMPV == null){
+		    em.persist(recepcionMPV); 
+		    em.flush();
+		    em.refresh(recepcionMPV);
+		}else{
+		    em.merge(recepcionMPV); 
+		    em.flush();
+		}
+		
+       return recepcionMPV;
     }
 }

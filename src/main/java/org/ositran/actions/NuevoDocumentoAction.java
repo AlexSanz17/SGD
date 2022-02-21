@@ -9,6 +9,7 @@ import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.DocumentoDerivacion;
 import com.btg.ositran.siged.domain.DocumentoReunion;
 import com.btg.ositran.siged.domain.Expediente;
+import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.LegajoDocumento;
@@ -576,7 +577,10 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
             	log.info("Traer datos de MPV:"+recepcionMPV);
             	
             	if(recepcionMPV != null){
-                	Tipodocumento tipoDocumento = tipodocumentoService.findByIdTipoDocumento(recepcionMPV.getIddocumento()); 
+            		
+                	Tipodocumento tipoDocumento = tipodocumentoService.findByIdTipoDocumento(Integer.parseInt(recepcionMPV.getTipodocumento())); 
+                	
+                	log.info("MPV tipoDocumento:"+tipoDocumento);
                 	
                 	objDD = new DocumentoDetail();
     	            objDD.setStrTipoDocumento(tipoDocumento ==null? "":tipoDocumento.getIdtipodocumento().toString());
@@ -584,12 +588,15 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     	            documento.setFechaDocumento(recepcionMPV.getFechadocumento());
     	            documento.setNumeroDocumento(recepcionMPV.getNumerodocumento());
     	            
+    	            log.info("MPV FechaDocumento:"+documento.getFechaDocumento()+",MPV NumeroDocumento:"+documento.getNumeroDocumento());
     	            
     	            Cliente cliente =clienteService.findObjectBy(recepcionMPV.getVrucentrem(), 'A');
     	            
+    	            log.info("MPV cliente:"+cliente);
+    	            
     	            if (recepcionMPV.getCtipdociderem().toString().equals("1") || recepcionMPV.getCtipdociderem().toString().equals("2")){
 		              objDD.setStrRazonSocial(recepcionMPV.getVnomentemi());
-		              objDD.setIIdCliente(cliente.getIdCliente()==null? -1 :cliente.getIdCliente());
+		              objDD.setIIdCliente((cliente == null ||cliente.getIdCliente()==null)? -1 :cliente.getIdCliente());
 		            
     	            }else if(recepcionMPV.getCtipdociderem().toString().equals("3")){    	            	
     	            	documento.setDesRemitente("");
@@ -597,6 +604,29 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 		              objDD.setStrRazonSocial("");
 			          objDD.setIIdCliente(-1);
 		            }
+    	            
+    	            log.info("MPV documento:"+documento.toString());
+    	            
+    	            //TODO completar campos
+    	            //TODO tipo de institucion
+    	            recepcionVirtual = new IotdtmDocExterno();
+    	            IotdtcRecepcion sidrecext = new IotdtcRecepcion();
+    	            recepcionVirtual.setVasu(recepcionMPV.getAsunto());
+    	            recepcionVirtual.setVnumdoc(recepcionMPV.getNumerodocumento());
+    	            recepcionVirtual.setVuniorgdst(recepcionMPV.getVuniorgstd());
+    	            recepcionVirtual.setVnomdst(""); //TODO
+    	            recepcionVirtual.setVnomcardst(""); //TODO
+    	            recepcionVirtual.setVnomentemi(recepcionMPV.getVnomentemi());
+    	            
+    	            sidrecext.setVuniorgrem(recepcionMPV.getVuniorgrem());
+    	            sidrecext.setCtipdociderem(recepcionMPV.getCtipdociderem().equals("2")?'1':
+    	            	(recepcionMPV.getCtipdociderem().equals("3")?'2':'0'));  	            
+    	            sidrecext.setVrucentrem(recepcionMPV.getVrucentrem());
+    	            sidrecext.setVnumdociderem(""); //TODO
+    	              	            
+    	            recepcionVirtual.setSidrecext(sidrecext);
+    	            
+
     	            
             	}
             		

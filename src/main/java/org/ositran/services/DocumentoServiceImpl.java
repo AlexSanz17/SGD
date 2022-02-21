@@ -91,6 +91,8 @@ import com.btg.ositran.siged.domain.Expediente;
 import com.btg.ositran.siged.domain.FilaBandejaUF;
 import com.btg.ositran.siged.domain.IotdtcDespacho;
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+import com.btg.ositran.siged.domain.IotdtdAdjuntoMPV;
 import com.btg.ositran.siged.domain.IotdtdAnexo;
 import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
@@ -129,6 +131,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.util.GregorianCalendar;
 import java.util.UUID;
@@ -5320,89 +5326,201 @@ public class DocumentoServiceImpl implements DocumentoService {
                                     String sFormato = formatoAno.format(fecha).concat(parametroService.findByTipoUnico(sPrefijo).getValor());
                                     StringBuilder sbNroTramite = new StringBuilder((StringUtil.isEmpty(sFormato)) ? "" : sFormato);
                                     sbNroTramite.replace(sFormato.length() - nro.toString().length(), sFormato.length(), nro.toString());
+                                    log.info("nro:"+nro+",sFormato:"+sFormato+",sbNroTramite:"+sbNroTramite);
                                     objD.setID_CODIGO(new Integer(sbNroTramite.toString()));
+                                    log.info("ID_CODIGO:"+objD.getID_CODIGO());
                                     objDD.setNroTramite(objD.getID_CODIGO().toString());
                                     documentoDao.saveDocumentoSequence(objD);
                                    
                                     if (objDD.getTipoTransaccion().equals("R") && objDD.getCodigoVirtual()!=null && !objDD.getCodigoVirtual().trim().equals("")){
                                         try{
+                                        	
                                             iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(objDD.getCodigoVirtual().trim()));
-                                            IotdtcRecepcion iotdtcRecepcion = iotdtmDocExterno.getSidrecext();
-                                            iotdtcRecepcion.setIddocumento(objD.getIdDocumento());
-                                            recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
-                                            objD.setNroVirtual(new Integer(objDD.getCodigoVirtual()));
-                                            objD.setFirmado('S');
-
-                                            //JBENGOA INICIO
-                                            List<Archivo> archivosSubidos = new ArrayList<Archivo>();
-                                            Usuario usuario = (Usuario) session.get(Constantes.SESSION_USUARIO);        
-                                            Unidad unidad = null;
-
-                                            if(objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()) ||
-                                               objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor())){
-                                               unidad = unidadService.buscarObjPor(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_GSF").getValor()));
-                                            }else{
-                                               unidad = unidadService.buscarObjPor(usuario.getIdUnidadPerfil());
-                                            }
-
-                                            iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(objDD.getCodigoVirtual().trim()));
-                                            int pos = iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().lastIndexOf(".");
-                                            String extension = iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().substring(pos+1, iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().length());
-
-                                            String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
-                                            String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
-                                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-
-                                            OutputStream out = new FileOutputStream(rutaDig + sNuevoNombrePrincipal); 
-                                            out.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
-                                            out.close();
-
-                                            OutputStream out_ = new FileOutputStream(rutaDig + sNuevoNombreCargo); 
-                                            out_.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
-                                            out_.close();
                                             
-                                            File f=new File(rutaDig,sNuevoNombreCargo);
-
-                                            Archivo objArchivo = new Archivo();
-                                            objArchivo.setDocumento(objD);
-                                            objArchivo.setNombre(sNuevoNombrePrincipal);
-                                            objArchivo.setPrincipal('S');
-                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
-                                            objArchivo.setFechaCreacion(new Date());
-                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombrePrincipal);
-                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+ objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension);
-                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
-                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
-                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
-                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
-                                            objArchivo.setClave(null);
-                                            try{
-                                                objArchivo.setTamano(Integer.valueOf((int)f.length()));
-                                            }catch(Exception e){
-                                                e.printStackTrace();
-                                                objArchivo.setTamano(null);
+                                            if(iotdtmDocExterno!=null){
+                                            	log.info("Subiendo archivos para PIDE (CodigoVirtual):"+objDD.getCodigoVirtual());
+                                            	
+	                                            IotdtcRecepcion iotdtcRecepcion = iotdtmDocExterno.getSidrecext();
+	                                            iotdtcRecepcion.setIddocumento(objD.getIdDocumento());
+	                                            recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
+	                                            objD.setNroVirtual(new Integer(objDD.getCodigoVirtual()));
+	                                            objD.setFirmado('S');
+	
+	                                            //JBENGOA INICIO
+	                                            List<Archivo> archivosSubidos = new ArrayList<Archivo>();
+	                                            Usuario usuario = (Usuario) session.get(Constantes.SESSION_USUARIO);        
+	                                            Unidad unidad = null;
+	
+	                                            if(objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()) ||
+	                                               objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor())){
+	                                               unidad = unidadService.buscarObjPor(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_GSF").getValor()));
+	                                            }else{
+	                                               unidad = unidadService.buscarObjPor(usuario.getIdUnidadPerfil());
+	                                            }
+	
+	                                            iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(objDD.getCodigoVirtual().trim()));
+	                                            int pos = iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().lastIndexOf(".");
+	                                            String extension = iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().substring(pos+1, iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().length());
+	
+	                                            String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
+	                                            String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
+	                                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
+	
+	                                            OutputStream out = new FileOutputStream(rutaDig + sNuevoNombrePrincipal); 
+	                                            out.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
+	                                            out.close();
+	
+	                                            OutputStream out_ = new FileOutputStream(rutaDig + sNuevoNombreCargo); 
+	                                            out_.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
+	                                            out_.close();
+	                                            
+	                                            File f=new File(rutaDig,sNuevoNombreCargo);
+	
+	                                            Archivo objArchivo = new Archivo();
+	                                            objArchivo.setDocumento(objD);
+	                                            objArchivo.setNombre(sNuevoNombrePrincipal);
+	                                            objArchivo.setPrincipal('S');
+	                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+	                                            objArchivo.setFechaCreacion(new Date());
+	                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombrePrincipal);
+	                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+ objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension);
+	                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
+	                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
+	                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
+	                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
+	                                            objArchivo.setClave(null);
+	                                            try{
+	                                                objArchivo.setTamano(Integer.valueOf((int)f.length()));
+	                                            }catch(Exception e){
+	                                                e.printStackTrace();
+	                                                objArchivo.setTamano(null);
+	                                            }
+	                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+	                                            objArchivo = archivoService.saveArchivo(objArchivo);
+	                                            archivosSubidos.add(objArchivo);
+	
+	                                            objArchivo = new Archivo();
+	                                            objArchivo.setDocumento(objD);
+	                                            objArchivo.setNombre(sNuevoNombreCargo);
+	                                            objArchivo.setPrincipal('M');
+	                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+	                                            objArchivo.setFechaCreacion(new Date());
+	                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombreCargo);
+	                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension);
+	                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
+	                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
+	                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
+	                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
+	                                            objArchivo.setClave(null);
+	                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+	                                            objArchivo = archivoService.saveArchivo(objArchivo);
+	                                            archivosSubidos.add(objArchivo);
+	                                            repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
+                                            
+                                            }else{
+                                            	
+                                            	IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
+                                                
+                                                if(iotdtcRecepcionMPV!=null){
+                                                	log.info("Subiendo archivos para MPV (CodigoVirtual):"+objDD.getCodigoVirtual());
+                                                	
+                                                	iotdtcRecepcionMPV.setIddocumento(objD.getIdDocumento());
+    	                                            recepcionVirtualDAO.registrarDocumentoMPV(iotdtcRecepcionMPV);
+    	                                            objD.setNroVirtual(new Integer(objDD.getCodigoVirtual()));
+    	                                            objD.setFirmado('S');
+    	
+    	                                            List<Archivo> archivosSubidos = new ArrayList<Archivo>();
+    	                                            Usuario usuario = (Usuario) session.get(Constantes.SESSION_USUARIO);        
+    	                                            Unidad unidad = null;
+    	
+    	                                            if(objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()) ||
+    	                                               objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor())){
+    	                                               unidad = unidadService.buscarObjPor(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_GSF").getValor()));
+    	                                            }else{
+    	                                               unidad = unidadService.buscarObjPor(usuario.getIdUnidadPerfil());
+    	                                            }
+    	                                            
+    	                                            IotdtdAdjuntoMPV adjuntoPrincipal = null;
+    	                                            for(IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()){    	                                            	
+    	                                            	if(adjunto.getTipoarchivo().equals("1")){
+    	                                            		adjuntoPrincipal = adjunto;
+    	                                            		break;
+    	                                            	}
+    	                                            }
+    	                                                                                  
+    	                                            int pos = adjuntoPrincipal.getNombrearchivo().lastIndexOf(".");
+    	                                            String extension = adjuntoPrincipal.getNombrearchivo().substring(pos+1, adjuntoPrincipal.getNombrearchivo().length());
+    	
+    	                                            String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
+    	                                            String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
+    	                                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
+    	
+    	                                            //Bajar documento de MPV y copiar en carpeta temporal
+    	                                            /*
+    	                                            OutputStream out = new FileOutputStream(rutaDig + sNuevoNombrePrincipal); 
+    	                                            out.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
+    	                                            out.close();
+    	                                            
+    	                                                	                                            OutputStream out_ = new FileOutputStream(rutaDig + sNuevoNombreCargo); 
+    	                                            out_.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
+    	                                            out_.close();
+    	                                            */
+    	                                            
+    	                                            String urlMPV = adjuntoPrincipal.getRutaarchivo()+adjuntoPrincipal.getNombrearchivo();
+    	                                            log.debug("Bajar documento de MPV y copiar en carpeta temporal:"+urlMPV);
+    	                                            
+    	                                            InputStream in = new URL(urlMPV).openStream();
+    	                                            Files.copy(in, Paths.get(rutaDig + sNuevoNombrePrincipal), StandardCopyOption.REPLACE_EXISTING);
+    	
+    	                                            InputStream inCargo = new URL(urlMPV).openStream();
+    	                                            Files.copy(inCargo, Paths.get(rutaDig + sNuevoNombreCargo), StandardCopyOption.REPLACE_EXISTING);
+    	                                            
+    	                                            File f=new File(rutaDig,sNuevoNombreCargo);
+    	                                        	
+    	                                            Archivo objArchivo = new Archivo();
+    	                                            objArchivo.setDocumento(objD);
+    	                                            objArchivo.setNombre(sNuevoNombrePrincipal);
+    	                                            objArchivo.setPrincipal('S');
+    	                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+    	                                            objArchivo.setFechaCreacion(new Date());
+    	                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombrePrincipal);
+    	                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+ objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension);
+    	                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
+    	                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
+    	                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
+    	                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
+    	                                            objArchivo.setClave(null);
+    	                                            try{
+    	                                                objArchivo.setTamano(Integer.valueOf((int)f.length()));
+    	                                            }catch(Exception e){
+    	                                                e.printStackTrace();
+    	                                                objArchivo.setTamano(null);
+    	                                            }
+    	                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+    	                                            objArchivo = archivoService.saveArchivo(objArchivo);
+    	                                            archivosSubidos.add(objArchivo);
+    	
+    	                                            objArchivo = new Archivo();
+    	                                            objArchivo.setDocumento(objD);
+    	                                            objArchivo.setNombre(sNuevoNombreCargo);
+    	                                            objArchivo.setPrincipal('M');
+    	                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+    	                                            objArchivo.setFechaCreacion(new Date());
+    	                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombreCargo);
+    	                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension);
+    	                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
+    	                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
+    	                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
+    	                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
+    	                                            objArchivo.setClave(null);
+    	                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+    	                                            objArchivo = archivoService.saveArchivo(objArchivo);
+    	                                            archivosSubidos.add(objArchivo);
+    	                                            repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
+                                                	
+                                                }
                                             }
-                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
-                                            objArchivo = archivoService.saveArchivo(objArchivo);
-                                            archivosSubidos.add(objArchivo);
-
-                                            objArchivo = new Archivo();
-                                            objArchivo.setDocumento(objD);
-                                            objArchivo.setNombre(sNuevoNombreCargo);
-                                            objArchivo.setPrincipal('M');
-                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
-                                            objArchivo.setFechaCreacion(new Date());
-                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombreCargo);
-                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension);
-                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
-                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
-                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
-                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
-                                            objArchivo.setClave(null);
-                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
-                                            objArchivo = archivoService.saveArchivo(objArchivo);
-                                            archivosSubidos.add(objArchivo);
-                                            repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
+                                            
                                         }catch(Exception e){
                                             throw e;
                                         }

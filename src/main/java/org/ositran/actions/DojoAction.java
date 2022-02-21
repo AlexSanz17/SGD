@@ -217,6 +217,7 @@ import org.ositran.services.PerfilService;
 import org.ositran.services.SeguimientoXFirmaService;
 import org.ositran.services.TrazabilidadapoyoService;
 import org.ositran.utils.StringUtil;
+import org.ositran.utils.UtilOsinerg;
 
 public class DojoAction {
         
@@ -3295,7 +3296,7 @@ public class DojoAction {
 	    	String POR_FIRMAR  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
 	    	
 	    	String fullPathFirmado = FIRMAS_FIRMADOS+nombreArchivo;
-	    	String fullPathPorFirmar = POR_FIRMAR+nombreArchivo;
+	    	final String fullPathPorFirmar = POR_FIRMAR+nombreArchivo;
 	    	
 	    	// aqui empieza qr
 			String qrCodeText = "https://www.journaldev.com";
@@ -3365,9 +3366,23 @@ public class DojoAction {
 		                      log.info("RETURN_CODE:"+result);
 		                      
 		                      if(result== AlfrescoConnector.RETURN_CODE.SUCCESS){
-		                    	  log.error("Se subio el documento firmado a alfresco:"+fullPathAlfresco);
-		                      }else
-		                      {
+		                    	  log.info("Se subio el documento firmado a alfresco:"+fullPathAlfresco);
+		                    	  
+		                    	  
+			      					if(firmado.exists() && firmado.isFile()){
+			      						File to = new File(fullPathPorFirmar);
+
+			      						try {							
+			      							UtilOsinerg.copy(firmado, to);
+			      							firmado.delete();
+			      							log.info("Se copio el archivo firmado a "+fullPathPorFirmar);
+			      						} catch (IOException e) {
+			      							log.error("No se pudo copiar el archivo a a la ruta por firma:"+fullPathPorFirmar);		      						
+			    							e.printStackTrace();
+			    						}
+			      					}
+		                    	  
+		                      }else{
 		                          log.error("No se pudo subir el archivo a alfresco:"+fullPathAlfresco);
 		                      }
 	                      
