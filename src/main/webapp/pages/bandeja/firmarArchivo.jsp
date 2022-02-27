@@ -24,30 +24,48 @@
 
 		var activo = 0;
 		var archivo = "";
+		var archivosFirma = [];
+		var archivosFirmaTemp = [];
+		var archivosFirmaArray = [];
 		var objectid = "";
 		var idcodigo = "";
 		var idfirmar = "";
 		var tid = setTimeout(validarFirmado, 5000);
-		
+		document.getElementById("iframeFirma").style.display = "none";
 		
 		function validarFirmado() {
-		  console.log("Validando firmado(activo):",activo);
+		  //console.log("Validando firmado(activo):",activo);
 		  if(activo == 1){	  
-			console.log("Validando firmado(archivo):",archivo);
+			//console.log("Validando firmado(archivo):",archivo);
 			document.getElementById(idFirmar).disabled = true;
-									
-			service.validarFirmado(archivo, objectid, idcodigo).addCallback(function (respuesta) {
-				console.log("Recibiendo respuesta:",respuesta);
+			var contValidar = 1;
+			if(archivosFirmaTemp.length>0){
+				archivosFirmaArray = archivosFirmaTemp;
+			}
+			for (var i = 0; i < archivosFirmaArray.length; i++) {
+				service.validarFirmado(archivosFirmaArray[i].archivo, archivosFirmaArray[i].objectId, idcodigo).addCallback(function (respuesta) {
+					console.log("Recibiendo respuesta:",respuesta);
+					if(respuesta == "1"){
+						  if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
+							  abortTimer();		
+							  dijit.byId("dlgProgresBar").hide();
+							  alert("Los documentos han sido firmados");
+							  dijit.byId("dlgFirmar").hide();
+							  dijit.byId("dlgFirmar").hide();
+							  return;
+						  }
+						  else
+						  {							  
+						  	contValidar++;
+						  }
+					}
+					 						   
+		        });
 				
-				if(respuesta == "1"){
-					  abortTimer();		
-					  dijit.byId("dlgProgresBar").hide();
-					  alert("El documento "+archivo+" ha sido firmado");
-					  
-					  return;
+				if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
+					return;
 				}
-				 						   
-	        });
+			}
 							
 		  }
 		  
@@ -64,15 +82,80 @@
 		}
 
 		
-		function enviarFirma(archivoFirma, objectidFirma, idcodigoFirma, idBtnFirmar){
+		function enviarFirma(archivoFirma, objectidFirma, idcodigoFirma, idBtnFirmar,archivosFirma){
 			activo = 1;
 			archivo = archivoFirma;
 			objectid = objectidFirma;
 			idcodigo = idcodigoFirma;
 			idFirmar = idBtnFirmar;
-			//dijit.byId("dlgProgresBar").show();
+			//archivosFirma = archivosFirma;
+			//document.getElementById("iframeFirma").style.display = "";
+			dijit.byId("dlgProgresBar").show();
 		}
 		
+		function checkItem(archivoFirma, objectidFirma ,idCheck){
+			var esCheck = document.getElementById(idCheck).checked;
+			console.log(esCheck);
+			if(esCheck){
+				archivosFirmaTemp.push({archivo:archivoFirma,objectId:objectidFirma});
+			}else{
+				//var index = archivosFirmaTemp.indexOf({archivo:archivoFirma,objectId:objectidFirma});
+				var index = archivosFirmaTemp.map(function(e) { return e.objectId; }).indexOf(objectidFirma);
+				if (index !== -1) {
+					archivosFirmaTemp.splice(index, 1);
+				}
+			}
+			//console.log(archivosFirmaTemp);
+			this.generarNombresArchivo(archivosFirmaTemp);
+		}
+		
+		function checkAll(){
+			var esCheck = document.getElementById("selectAll").checked;
+			var rows = document.getElementById("tblDocumentos").rows;
+			
+			for (var i = 1; i < rows.length; i++) {
+                rows[i].getElementsByTagName("INPUT")[0].checked = esCheck;
+            }
+			
+			if(esCheck){
+				archivosFirmaTemp = archivosFirma;
+			}else{
+				archivosFirmaTemp = [];	
+			}
+			//console.log(archivosFirmaTemp);
+			this.generarNombresArchivo(archivosFirmaTemp);
+		}
+		
+		function initCheckAll(){
+			archivosFirmaTemp = [];
+			document.getElementById("selectAll").checked = true;
+			var rows = document.getElementById("tblDocumentos").rows;
+			for (var i = 1; i < rows.length; i++) {
+                rows[i].getElementsByTagName("INPUT")[0].checked = true;
+            }
+			
+			archivosFirmaTemp = archivosFirma;
+			//console.log(archivosFirmaTemp);
+			this.generarNombresArchivo(archivosFirmaTemp);
+		}
+		
+		function generarNombresArchivo(archivosFirmaTemp){
+			var nombresArchivo = "";
+			for (var i = 0; i < archivosFirmaTemp.length; i++) {
+				nombresArchivo = nombresArchivo + archivosFirmaTemp[i].archivo + "|"
+			}
+			console.log(nombresArchivo);
+			document.getElementById("nombreArchivos").value = nombresArchivo;
+			if(archivosFirmaTemp.length > 0){
+				document.getElementById("btnFirmar").disabled = false;
+			}else{
+				document.getElementById("btnFirmar").disabled = true;
+			}
+		}
+		
+		function cerrarModal() {
+			dijit.byId("dlgFirmar").hide();
+		}
 		
 		</script>
 	
@@ -84,6 +167,7 @@
 		<tr>
 			<th>N°</th>	
 			<th>DOCUMENTO</th>
+			<th>Todos <input type="checkbox" name="selectAll" id="selectAll" onclick="checkAll()"></th>
 		</tr>
 		
 		<%!
@@ -94,10 +178,9 @@
 			var nombre = "";	
 			dojo.addOnLoad(function () {
                 service.getArchivosFirmar("<s:property value='arrFileFirmar' />").addCallback(function (objJSON) {
-                	console.log(objJSON.items);
 				   for(i=0; i<objJSON.items.length;i++){
-					   
-						
+					   archivosFirma.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId});
+					   //archivosFirmaArray.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId});
 		</script>
 		
 		<%
@@ -131,6 +214,7 @@
 		String numeroPagina = item.getNumeroPagina();
 		String estiloFirma = item.getEstiloFirma();
 		String aplicarImagen = item.getAplicarImagen();
+		String archivosFirmar = "";
 		
 // >>>>>>> bf7f4f4c441a4fe19a5088eadba2014ef24b4aec
 		
@@ -138,26 +222,28 @@
 		
 		int contador = 1;
  		for(Item item1 : listaDocumento){
-			
 		%>
 		
 		<tr>
 			<td><%=contador%></td>
 			<td><%=item1.getArchivos()%></td>
+			<td><input type="checkbox" id="select-<%=cont%>" name="select-<%=cont%>" onclick="checkItem('<%=archivo%>','<%=objectId%>','select-<%=cont%>')"></td>
 		</tr>
 		<%
 				contador ++;
-		cont++;
+				cont++;
+				if(cont <= listaDocumento.size()){
+					archivosFirmar = archivosFirmar + item1.getArchivos() + "|";
+					//out.println(archivosFirmar);
+				}	
 			}
 		%>
 		
-		
-		
 		<script type="text/javascript">			
 				   }  
-				   
+				   initCheckAll();
                 });
-            });		
+            });			
 					
         </script>
 			
@@ -170,7 +256,7 @@
 				<input type="hidden" name="rutaDestino" value="<%=rutaDestino%>"/> 
 				<input type="hidden" name="rutaImagen" value="<%=rutaImagen%>"/>
 				<input type="hidden" name="imagen" value="<%=imagen%>"/>
-				<input type="hidden" name="nombreArchivos" value="<%=archivo%>"/> 
+				<input type="hidden" name="nombreArchivos" id="nombreArchivos" value="<%=archivosFirmar%>"/> 
 				<input type="hidden" name="alias" value="<%=alias%>"/>
 				<input type="hidden" name="usarPersonalizado" value="<%=usarPersonalizado%>"/> 
 				<input type="hidden" name="tipoFirma" value="<%=tipoFirma%>"/> 
@@ -182,14 +268,13 @@
 				<input type="hidden" name="aplicarImagen" value="<%=aplicarImagen%>"/>
 				<input type="hidden" name="ubicacion" value=""/>
 
-				<input id="<%=idFirmar%>" type="submit" name="submit" value="Firmar" 
-				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>');" />
+				<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar" 
+				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" />
+<!-- 				<input type="button" value="cerrar" onclick="cerrarModal();"/> -->
 				
 				<iframe frameborder="0" name="iframeFirma" id="iframeFirma" width="400px" height="220px"></iframe>
-			</form>	
+			</form>
 		
     </body>
 	
-	
-		
 </html>
