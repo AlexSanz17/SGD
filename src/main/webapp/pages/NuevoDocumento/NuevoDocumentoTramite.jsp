@@ -338,7 +338,7 @@
              */
                      
              dijit.byId("objDD.iNroFoliosPIDETramite").attr("value", "<s:property value='recepcionVirtual.snumfol' />"); 
-             dijit.byId("objDD.iNroFoliosPIDETramite").attr("readOnly", true);
+             dijit.byId("objDD.iNroFoliosPIDETramite").attr("readOnly", false);
              
              dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='recepcionVirtual.sidrecext.vuniorgrem' escape='false' />"); 
              dijit.byId("objDD.desUnidadOrganicaTramite").attr("readOnly", true);
@@ -997,7 +997,7 @@
                            </tr>
                            <tbody id="tbNroFoliosPIDETramite" style="display:none;" >
                                <tr>
-                                   <td colspan="1">Nro Folios PIDE</td>
+                                   <td colspan="1">Nro Folios</td>
                                    <td class="label" colspan="2">
                                       <div id="fsNroFoliosPIDETramite"/>
                                    </td>

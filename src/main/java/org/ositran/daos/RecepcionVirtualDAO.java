@@ -5,9 +5,10 @@
  */
 /*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
 
-import com.btg.ositran.siged.domain.IotdtcRecepcion;
-import com.btg.ositran.siged.domain.Usuario;
 import java.util.List;
+
+import com.btg.ositran.siged.domain.IotdtcRecepcion;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 
 /**
  *
@@ -16,4 +17,6 @@ import java.util.List;
 public interface RecepcionVirtualDAO {
      public String findByCantidadesDocumentosVirtuales();
      public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion);
+     public IotdtcRecepcionMPV registrarDocumentoMPV(IotdtcRecepcionMPV recepcionMPV);
+     public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV();
 }
