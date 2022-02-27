@@ -6,6 +6,10 @@
 package org.ositran.services;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+
+import java.util.List;
+
 import org.ositran.daos.RecepcionVirtualDAO;
 
 /**
@@ -25,5 +29,13 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
 
     public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion){
        return recepcionVirtualDAO.registrarDocumento(recepcion);
+    }
+    
+    public IotdtcRecepcionMPV registrarDocumentoMPV(IotdtcRecepcionMPV recepcionMPV){
+        return recepcionVirtualDAO.registrarDocumentoMPV(recepcionMPV);
+    }
+    
+    public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV(){
+       return recepcionVirtualDAO.consultarDocPendientesAlfrescoMPV();
     }
 }
