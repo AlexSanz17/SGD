@@ -89,8 +89,10 @@ public class SigedProperties {
         FIRMAS_PARAMETROS_UBICACIONPAGINA("firmas.parametros.ubicacionPagina"),
         FIRMAS_PARAMETROS_NUMEROPAGINA("firmas.parametros.numeroPagina"),
         FIRMAS_PARAMETROS_ESTILOFIRMA("firmas.parametros.estiloFirma"),
-        FIRMAS_PARAMETROS_APLICARIMAGEN("firmas.parametros.aplicarImagen");
-
+        FIRMAS_PARAMETROS_APLICARIMAGEN("firmas.parametros.aplicarImagen"),
+    	
+    	MPV_RUTA_ARCHIVO("mpv.rutaArchivo");
+    	
         private String key;
 
         SigedPropertyEnum(String key) {
