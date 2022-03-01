@@ -95,6 +95,7 @@ import org.ositran.services.RepositorioServiceWebservice;
 import org.ositran.services.ParametroService;
 import org.ositran.services.PlantillaService;
 import org.ositran.services.ProcesoService;
+import org.ositran.services.RecepcionVirtualService;
 import org.ositran.services.RolService;
 import org.ositran.services.SupervisorService;
 import org.ositran.services.TipodocumentoService;
@@ -262,6 +263,9 @@ public class DojoAction {
 	private UsuarioService usuarioService;
 	private FavoritoService favoritoService;
 	private DocumentoService documentoService;
+	
+	private RecepcionVirtualService recepcionVirtualService;
+	
 	private ParametroService parametroService;
 	private PlantillaService srvPlantilla;
 	private ExpedienteService expedienteService;
@@ -1798,27 +1802,44 @@ public class DojoAction {
         }
         
         @SMDMethod
-	public String enviarCargo(Integer idExterno, String tipoArchivo, String tipoFirma, String accion){
+    	public String enviarCargo(Integer idExterno, String tipoArchivo, String tipoFirma, String accion){
+			log.info("Dojo action enviarCargo idExterno " + idExterno);
+
+        	boolean esPide = false;
             if (accion.equals("T")){
                 try{
                      IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(idExterno);
-                     Documento d = documentoService.findByIdDocumento(iotdtmDocExterno.getSidrecext().getIddocumento());
-                     List<Archivo> lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "FI");
-
-                     if (lst==null || lst.size()==0){
-                       lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "FIO");  
-                       if (lst==null || lst.size()==0)
-                          return "0";
-                     } 
-                     documentoService.actualizarDatosRecepcionVirtual(idExterno);
+                     if(iotdtmDocExterno != null){//PIDE
+                         Documento d = documentoService.findByIdDocumento(iotdtmDocExterno.getSidrecext().getIddocumento());
+                         List<Archivo> lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "FI");
+                         esPide = true;
+                         log.info("Dojo action enviarCargo ingreso Pide ");
+                         if (lst==null || lst.size()==0){
+                           lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "FIO");
+                           if (lst==null || lst.size()==0)
+                              return "0";
+                         }
+                         documentoService.actualizarDatosRecepcionVirtual(idExterno);
+                         
+                     }else{
+                    	 //la logica para MPV
+                    	 //llamar al servicio
+                    	 
+                    	 log.info("Dojo action enviarCargo ingreso MPV ");;
+                    	 
+                     }
                 }catch(Exception e){
                      e.printStackTrace();
                      return "2";
                 }
-            }    
-            
+            }
             try{
+            	if(esPide){
                  return documentoService.enviarCargoRecepcionVirtual(idExterno);
+            	}else{
+            		return "";
+            	}
+            	
             }catch(Exception e){
                  e.printStackTrace();
                  return "1";
@@ -3278,6 +3299,23 @@ public class DojoAction {
             return archivosJSON;
     }
     
+    @SMDMethod
+	public String getRutaArchivoMPV(String nombreArchivo) {
+    	log.info("getRutaArchivoMPV (nombreArchivo):" + nombreArchivo);
+    	String fullPath = "";
+    	
+    	try{
+    		String mpvRutaArchivo  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.MPV_RUTA_ARCHIVO);
+	    	
+	    	fullPath = mpvRutaArchivo + nombreArchivo;	    	
+	    	
+    	}catch(Exception e){
+		       e.printStackTrace();
+		}
+    	
+    	return fullPath;
+    }
+
     @SMDMethod
 	public String validarFirmado(String nombreArchivo, String objectId, String idCodigo) {
     	log.info("validarFirmado (nombreArchivo):"+nombreArchivo+",(objectId):"+objectId+",(idCodigo):"+idCodigo);

@@ -24,6 +24,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
+import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.daos.AuditoriaDAO;
 import org.ositran.daos.DocumentoDAO;
 import org.ositran.daos.DocumentoEnviadoDAO;
@@ -114,6 +115,7 @@ import com.btg.ositran.siged.domain.Trazabilidaddocumento;
 import com.btg.ositran.siged.domain.Unidad;
 import com.btg.ositran.siged.domain.Usuario;
 import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opensymphony.xwork2.ActionContext;
 import com.ositran.cmis.api.AlfrescoApiWs;
 import com.ositran.pide.EndPoint;
@@ -126,11 +128,16 @@ import com.ositran.ws.RecepcionTramite;
 import com.ositran.ws.RespuestaCargoTramite;
 import com.ositran.ws.RespuestaConsultaTramite;
 import com.ositran.ws.RespuestaTramite;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -143,6 +150,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.logging.Log;
 import org.ositran.daos.DespachoVirtualDAO;
 import org.ositran.daos.DocAnexoVirtualDAO;
 import org.ositran.daos.DocPrincipalVirtualDAO;
@@ -5424,7 +5432,13 @@ public class DocumentoServiceImpl implements DocumentoService {
                                                 if(iotdtcRecepcionMPV!=null){
                                                 	log.info("Subiendo archivos para MPV (CodigoVirtual):"+objDD.getCodigoVirtual());
                                                 	
+                                                	log.info("Numero tramite: "+objDD.getNroTramite());
+                                                	log.info("Numero tramite obj: "+objD.getRecepcionado().charAt(0));
+                                                	
                                                 	iotdtcRecepcionMPV.setIddocumento(objD.getIdDocumento());
+                                                	iotdtcRecepcionMPV.setVnumregstd(objD.getID_CODIGO()+""); 
+                                                	iotdtcRecepcionMPV.setCflgest(objD.getRecepcionado().charAt(0));
+                                                	
     	                                            recepcionVirtualDAO.registrarDocumentoMPV(iotdtcRecepcionMPV);
     	                                            objD.setNroVirtual(new Integer(objDD.getCodigoVirtual()));
     	                                            objD.setFirmado('S');
@@ -5539,6 +5553,119 @@ public class DocumentoServiceImpl implements DocumentoService {
                                 objDD.setStrTelefonoCliente(expediente.getCliente().getTelefono());
                                 objDD.setStrCorreoCliente(expediente.getCliente().getCorreo());
                                 objDD.setStrRepresentanteLegal(expediente.getCliente().getRepresentanteLegal());
+                                
+                                
+                                // ejecutar web service
+//                                String documento = String.valueOf(objD.getIdDocumento());
+                        		IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
+                                String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
+                                
+                        		String expedienteForService = String.valueOf(objD.getID_CODIGO());
+                        		
+                        		Date fechaAccion = objD.getFechaCreacion();                        		
+                        		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+                        		String fechaForService = DATE_FORMAT.format(fechaAccion);
+                        		
+                        		String usuario = String.valueOf(objD.getAutor().getIdusuario());
+                        		
+                        		String estadoDocumento = "";
+                        		String fechaRecepcion = "";
+                        		String fechaRechazado = "";
+                        		
+                        		if (objD.getRecepcionado().equals("R")) {
+                    				estadoDocumento = String.valueOf("1");
+                    				fechaRecepcion = fechaForService;
+                    				fechaRechazado = "";
+                        		} else {
+                        			estadoDocumento = String.valueOf("2");
+                        			fechaRecepcion = "";
+                        			fechaRechazado = fechaForService;
+                        		}
+                        		
+                                CargoRecepcionMPVRequest cargoRecepcionVirtualRequest = new CargoRecepcionMPVRequest();
+
+                                log.info("======================");
+                                log.info("Ejecutar web service");
+                                log.info("======================");
+                                
+                                log.info("Documento: ");
+                                log.info(documento);
+                                
+                                log.info("expediente: ");
+                                log.info(expedienteForService);
+                                log.info("fecha : ");
+                                log.info(fechaForService);
+                                log.info("usuario: ");
+                                log.info(usuario);
+                                
+                                log.info("estado: ");
+                                log.info(objD.getRecepcionado() + "::" + estadoDocumento);
+                                log.info("fecha de recepcion: ");
+                                log.info(fechaRecepcion);
+                                log.info("fecha de rechazo: ");
+                                log.info(fechaRechazado);
+                                
+                                
+                                
+                          	  try {
+
+                          		log.info("webservice: ");
+                          		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
+                            		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            		conn.setDoOutput(true);
+                            		conn.setRequestMethod("POST");
+                            		conn.setRequestProperty("Content-Type", "application/json");
+                            		
+                            		
+                            		cargoRecepcionVirtualRequest.seteDocumento(documento);
+                            		cargoRecepcionVirtualRequest.setcExpediente(expedienteForService);
+                            		cargoRecepcionVirtualRequest.setfFecha(fechaForService);
+                            		cargoRecepcionVirtualRequest.seteUsuario(usuario);
+                            		cargoRecepcionVirtualRequest.seteEstadoDoc(estadoDocumento);
+                            		cargoRecepcionVirtualRequest.setfFechaRecep(fechaRecepcion);
+                            		cargoRecepcionVirtualRequest.setfFechaRecha(fechaRechazado);
+                            		
+//                            		cargoRecepcionVirtualRequest.seteDocumento("151");
+//                            		cargoRecepcionVirtualRequest.setcExpediente("202200000100");
+//                            		cargoRecepcionVirtualRequest.setfFecha("2022/02/21 11:08:26");
+//                            		cargoRecepcionVirtualRequest.seteUsuario("1037");
+//                            		cargoRecepcionVirtualRequest.seteEstadoDoc("R");
+//                            		cargoRecepcionVirtualRequest.setfFechaRecep("2022/02/21 11:08:26");
+//                            		cargoRecepcionVirtualRequest.setfFechaRecha("");
+
+                            		ObjectMapper ow = new ObjectMapper();
+                            		String json = ow.writeValueAsString(cargoRecepcionVirtualRequest);
+
+                          		OutputStream os = conn.getOutputStream();
+                          		os.write(json.getBytes());
+                          		os.flush();
+
+//                          		if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+//                          			throw new RuntimeException("Failed : HTTP error code : "
+//                          				+ conn.getResponseCode());
+//                          		}
+
+                          		BufferedReader br = new BufferedReader(new InputStreamReader(
+                          				(conn.getInputStream())));
+
+                          		String output;
+                          		System.out.println("Output from Server .... \n");
+                          		while ((output = br.readLine()) != null) {
+                          			System.out.println(output);
+                          		}
+
+                          		conn.disconnect();
+
+                          	  } catch (MalformedURLException e) {
+                          		log.error(e.getMessage(), e);
+                          		e.printStackTrace();
+
+                          	  } catch (IOException e) {
+                          		log.error(e.getMessage(), e);
+                          		e.printStackTrace();
+
+                          	 }
+                                
                        }
 		    return objDD;
 		

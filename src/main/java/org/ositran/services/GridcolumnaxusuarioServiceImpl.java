@@ -966,7 +966,8 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 uuf.setIdEstado(recepcionMpv.getCflgest().toString());
                 uuf.setCliente(recepcionMpv.getVnomentemi());
                 uuf.setFechacreacion(recepcionMpv.getDfecreg());
-                uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
+                //uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
+                uuf.setNroTramiteVirtual(recepcionMpv.getVnumregstd()==null?"":recepcionMpv.getVnumregstd());
                 uuf.setCuo("");
                 
                 if (recepcionMpv.getCflgenvcar()=='S'){

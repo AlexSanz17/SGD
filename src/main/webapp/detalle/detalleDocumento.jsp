@@ -101,7 +101,14 @@
             function verArchivo(idArchivo, url, objectId){
               var fecha = new Date();
               window.open("<%=request.getContextPath()%>/verDocumento.png?idArchivo=" +idArchivo + "&url=" + url + "&objectId="+ objectId  + "&accion=abrirDocumento&fecha=" + fecha.getTime());
-            }    
+            }
+            
+            function verArchivoMPV(nombreReal){
+            	var archivo = nombreReal;
+<%--             	console.log(escape("<%=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.MPV_RUTA_ARCHIVO)%>")); --%>
+<%--             	var archivo = "<%=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.MPV_RUTA_ARCHIVO)%>" + nombreReal; --%>
+                window.open('\\\\WWWD4\\Documentos\\PorFirmar\\' + nombreReal);
+             }
             
             function openDialog(varPagina,varTitulo){
                 var popupExternal=dijit.byId('external');
@@ -1079,6 +1086,14 @@
                     <b>Asunto:</b> <s:property value="documento.asunto" />
                     <s:if test="objDD.prioridad != null && objDD.prioridad!=''">
                         <br />  <b>Prioridad:</b> <img src="images/Prioridad_<s:property value="objDD.prioridad" />.png" />
+                    </s:if>
+                    <s:if test="objDD.prioridad != null && objDD.prioridad!=''">
+                        <br />  <b>Archivo Principal:</b>
+                        <s:iterator value="#session._UPLOADLIST.upload1">
+                          <s:if test="principal.equals('S')">
+                          	<a onclick="verArchivoMPV('<s:property value='nombreReal' />');" alt="Ver Archivo"> <b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_PRINCIPAL"/>"><s:property value="nombreReal"/> </font></b> [<s:property value="usuarioCarga.usuario"/>] <br />
+                          </s:if> 
+                        </s:iterator>
                     </s:if>
                     <s:if test="objDD.strFechaLimiteAtencion != null && objDD.strFechaLimiteAtencion!=''">
                         <br /><b>Fecha Limite:</b> <s:property value="objDD.strFechaLimiteAtencion" />
