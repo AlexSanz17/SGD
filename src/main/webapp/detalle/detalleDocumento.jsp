@@ -101,7 +101,7 @@
             function verArchivo(idArchivo, url, objectId){
               var fecha = new Date();
               window.open("<%=request.getContextPath()%>/verDocumento.png?idArchivo=" +idArchivo + "&url=" + url + "&objectId="+ objectId  + "&accion=abrirDocumento&fecha=" + fecha.getTime());
-            }    
+            }
             
             function openDialog(varPagina,varTitulo){
                 var popupExternal=dijit.byId('external');
