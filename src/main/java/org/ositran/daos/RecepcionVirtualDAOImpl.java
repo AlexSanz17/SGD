@@ -8,6 +8,8 @@
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -63,4 +65,12 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO{
 		
        return recepcionMPV;
     }
+    
+
+	public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV() {
+		String sql = "SELECT c FROM IotdtcRecepcionMPV c where c.iddocumento is not null and c.flagalfresco = 'P' order by c.dfecreg asc ";
+		Query q = em.createQuery(sql);
+		
+		return q.getResultList();
+	}
 }

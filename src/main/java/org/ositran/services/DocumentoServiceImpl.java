@@ -5470,15 +5470,6 @@ public class DocumentoServiceImpl implements DocumentoService {
     	                                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
     	
     	                                            //Bajar documento de MPV y copiar en carpeta temporal
-    	                                            /*
-    	                                            OutputStream out = new FileOutputStream(rutaDig + sNuevoNombrePrincipal); 
-    	                                            out.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
-    	                                            out.close();
-    	                                            
-    	                                                	                                            OutputStream out_ = new FileOutputStream(rutaDig + sNuevoNombreCargo); 
-    	                                            out_.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
-    	                                            out_.close();
-    	                                            */
     	                                            
     	                                            String urlMPV = adjuntoPrincipal.getRutaarchivo()+adjuntoPrincipal.getNombrearchivo();
     	                                            log.debug("Bajar documento de MPV y copiar en carpeta temporal:"+urlMPV);

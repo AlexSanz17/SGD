@@ -3334,11 +3334,19 @@ public class DojoAction {
 	    	String POR_FIRMAR  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
 	    	
 	    	String fullPathFirmado = FIRMAS_FIRMADOS+nombreArchivo;
+//<<<<<<< HEAD
+	    	String newNameArchivoFirmado = nombreArchivo.replace(".pdf", "_qr.pdf");
+	    	String newFullPathFirmado = FIRMAS_FIRMADOS+newNameArchivoFirmado;
+//	    	String fullPathPorFirmar = POR_FIRMAR+nombreArchivo;
+//=======
 	    	final String fullPathPorFirmar = POR_FIRMAR+nombreArchivo;
+//>>>>>>> 0bb7ea594ce37345729236c4f800c7cdcf03df5c
 	    	
 	    	// aqui empieza qr
-			String qrCodeText = "https://www.journaldev.com";
-			String filePathImagen = POR_FIRMAR+"CodQR\\"+nombreArchivo.replace(".pdf", ".png");
+	    	List<Archivo> list1 = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
+			String qrCodeText = ALFRESCO_ROOT+list1.get(0).getRutaAlfresco();
+			String nombreArchivoQr = nombreArchivo.replace(".pdf", ".png");
+			String filePathImagen = POR_FIRMAR+"CodQR\\"+nombreArchivoQr;
 			int size = 66;
 			String fileType = "png";
 			File qrFile = new File(filePathImagen);
@@ -3353,15 +3361,15 @@ public class DojoAction {
 			
 			//insertando qr
 //			String fullPathWithQrAndText = POR_FIRMAR+"CodQR\\"+nombreArchivo;
-	        DojoAction.manipulatePdf(fullPathFirmado, fullPathFirmado,filePathImagen);
+	        DojoAction.manipulatePdf(fullPathFirmado, newFullPathFirmado,filePathImagen);
 			//insertando qr
 	    	
 	    	//final File firmado = new File(fullPathFirmado);
-	    	final File firmado = new File(fullPathFirmado);
+	    	final File firmado = new File(newFullPathFirmado);
 	    	//final String fullPathAlfresco = fullPathAlfrescoOrigin;
 	    	
 	    	//log.info("Validando firmado:"+fullPathFirmado); 
-	    	log.info("Validando firmado:"+fullPathFirmado); 
+	    	log.info("Validando firmado:"+newFullPathFirmado); 
 	    	
 	    	if(firmado.isFile()){
 	    		log.info("Documento ha sido firmado:"+firmado.getAbsolutePath()); 
