@@ -293,7 +293,7 @@ public class VirtualAction {
         log.info("viewDocRecepcionVirtual(idRecepcion):"+idRecepcion);	        
         IotdtmDocExterno recepcion = documentoExternoVirtualDAO.buscarDocumentoVirtual(idRecepcion);
         
-        
+        // Si el documento pide ya existe
         if(recepcion != null){        	
 	        if (recepcion.getSidrecext().getIddocumento()!=null){
 	            d = documentoDAO.findByIdDocumento(recepcion.getSidrecext().getIddocumento());            
@@ -376,6 +376,7 @@ public class VirtualAction {
 	        }
         
         }else{
+        	// Si es Datos mpv
         	IotdtcRecepcionMPV recepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(idRecepcion);
         	
         	if (recepcionMPV.getIddocumento()!=null){
@@ -425,7 +426,8 @@ public class VirtualAction {
 	        objDD.setArchivoPrincipal(archivoPrincipal);
 	        objDD.setArchivoAnexo(archivoAnexo);
 	        objDD.setCantAnexos(String.valueOf(totalAnexos));
-	        objDD.setNroTramite(recepcionMPV.getNumerodocumento());
+	      //Numero tramite igual numero expediente
+	        objDD.setNroTramite(recepcionMPV.getVnumregstd());
 	        objDD.setCEstado(recepcionMPV.getCflgest());
 	        objDD.setCuo("");
 	        objDD.setRuc(recepcionMPV.getVrucentrem());
