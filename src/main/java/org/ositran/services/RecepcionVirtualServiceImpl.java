@@ -6,7 +6,7 @@
 package org.ositran.services;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,11 +18,11 @@ import java.net.URL;
 
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.ajax.beans.CargoRecepcionMPVResponse;
-=======
+//=======
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 
 import java.util.List;
->>>>>>> 70ff14af92bcff9a7a59d61735c56e9bbb862597
+//>>>>>>> 70ff14af92bcff9a7a59d61735c56e9bbb862597
 
 import org.ositran.daos.RecepcionVirtualDAO;
 
@@ -41,7 +41,7 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
        return recepcionVirtualDAO.registrarDocumento(recepcion);
     }
     
-<<<<<<< HEAD
+//<<<<<<< HEAD
     public CargoRecepcionMPVResponse enviarCargoRecepcion(CargoRecepcionMPVRequest cargoRecepcionVirtualRequest){
     	CargoRecepcionMPVResponse cargoRecepcionVirtualResponse = null;
     	
@@ -95,7 +95,7 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
     	
         return cargoRecepcionVirtualResponse;
      }
-=======
+//=======
     public IotdtcRecepcionMPV registrarDocumentoMPV(IotdtcRecepcionMPV recepcionMPV){
         return recepcionVirtualDAO.registrarDocumentoMPV(recepcionMPV);
     }
@@ -103,5 +103,5 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
     public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV(){
        return recepcionVirtualDAO.consultarDocPendientesAlfrescoMPV();
     }
->>>>>>> 70ff14af92bcff9a7a59d61735c56e9bbb862597
+//>>>>>>> 70ff14af92bcff9a7a59d61735c56e9bbb862597
 }
