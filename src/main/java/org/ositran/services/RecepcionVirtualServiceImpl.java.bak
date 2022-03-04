@@ -6,6 +6,11 @@
 package org.ositran.services;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
+<<<<<<< HEAD
+
+=======
+//<<<<<<< HEAD
+>>>>>>> a1d999fea30ea6df5d1892639fbb017d861d913f
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,9 +21,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.ajax.beans.CargoRecepcionMPVResponse;
-
+<<<<<<< HEAD
+=======
+//=======
+>>>>>>> a1d999fea30ea6df5d1892639fbb017d861d913f
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import java.util.List;
+<<<<<<< HEAD
+=======
+//>>>>>>> 70ff14af92bcff9a7a59d61735c56e9bbb862597
+
+>>>>>>> a1d999fea30ea6df5d1892639fbb017d861d913f
 import org.ositran.daos.RecepcionVirtualDAO;
 
 public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
@@ -36,6 +49,10 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
        return recepcionVirtualDAO.registrarDocumento(recepcion);
     }
     
+<<<<<<< HEAD
+=======
+//<<<<<<< HEAD
+>>>>>>> a1d999fea30ea6df5d1892639fbb017d861d913f
     public CargoRecepcionMPVResponse enviarCargoRecepcion(CargoRecepcionMPVRequest cargoRecepcionVirtualRequest){
     	CargoRecepcionMPVResponse cargoRecepcionVirtualResponse = null;
     	
@@ -89,6 +106,10 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
     	
         return cargoRecepcionVirtualResponse;
      }
+<<<<<<< HEAD
+=======
+//=======
+>>>>>>> a1d999fea30ea6df5d1892639fbb017d861d913f
     public IotdtcRecepcionMPV registrarDocumentoMPV(IotdtcRecepcionMPV recepcionMPV){
         return recepcionVirtualDAO.registrarDocumentoMPV(recepcionMPV);
     }
@@ -96,4 +117,8 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
     public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV(){
        return recepcionVirtualDAO.consultarDocPendientesAlfrescoMPV();
     }
+<<<<<<< HEAD
+=======
+//>>>>>>> 70ff14af92bcff9a7a59d61735c56e9bbb862597
+>>>>>>> a1d999fea30ea6df5d1892639fbb017d861d913f
 }
