@@ -43,9 +43,21 @@
           }
           
           function verArchivoPrincipal(codigo){
-              var fecha = new Date();
+              var fecha = new Date();              
               window.open("<%=request.getContextPath()%>/verDocumento.png?idCodigo=" +codigo + "&accion=abrirPrincipalVirtual&fecha=" + fecha );
-          }     
+          }    
+          
+          
+          function verArchivoPrincipalMPV(url){
+        	  console.log("VER ARCHIVO PRINCIPAL MPV");
+        	  console.log(url);
+        	  
+              var fecha = new Date();
+              
+              window.open(url);
+              
+             
+          }    
           
           function verArchivoCargo(codigo){
               var fecha = new Date();
@@ -127,10 +139,21 @@
                             </tr>
                             
                              <tr>
-                                <td></td>
+                                <td>
+                                </td>
 
                                 <td height="16" colspan="5" align="left" class="plomo">
-                                    <a onclick="verArchivoPrincipal('<s:property value='objDD.idCodigo' />');" alt="Ver Archivo"> <b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_PRINCIPAL"/>"><s:property value="objDD.archivoPrincipal"/> </font></b> <s:if test="!objDD.tamanoPrincipal.equals('')"> [<s:property value="objDD.tamanoPrincipal"/>] </s:if> <br /> </a>
+                                
+                                    <s:if test="objDD.cuo !=null && objDD.cuo !=''"> 
+                                    	<a onclick="verArchivoPrincipal('<s:property value='objDD.idCodigo' />');" alt="Ver Archivo"> <b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_PRINCIPAL"/>"><s:property value="objDD.archivoPrincipal"/> </font></b> 
+                                    	<s:if test="!objDD.tamanoPrincipal.equals('')"> [<s:property value="objDD.tamanoPrincipal"/>] 
+                                    	</s:if> <br /> </a>
+                                    </s:if>                                   
+                                    <s:else>
+									    <a onclick="verArchivoPrincipalMPV('<s:property value='objDD.rutaArchivoPrincipal' />');" alt="Ver Archivo"> <b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_PRINCIPAL_MPV"/>"><s:property value="objDD.archivoPrincipal"/> </font></b> 
+									    <s:if test="!objDD.tamanoPrincipal.equals('')"> [<s:property value="objDD.tamanoPrincipal"/>] </s:if> <br /> </a>
+									</s:else>
+                                    
                                     <s:if test="objDD.archivoCargo !=null && objDD.archivoCargo!=''"> 
                                        <a onclick="verArchivoCargo('<s:property value='objDD.idCodigo' />');" alt="Ver Archivo"> <b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_MP_CARGO"/>"><s:property value="objDD.archivoCargo"/> </font></b>  <s:if test="!objDD.tamanoCargo.equals('')"> [<s:property value="objDD.tamanoCargo"/>] </s:if> <br /></a>
                                     </s:if>

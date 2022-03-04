@@ -48,6 +48,9 @@
         </bean>
         
    
+   <!-- para job -->
+   <bean id="recepcionPideDaoForJob" class="org.ositran.siged.jobs.RecepcionPideDaoForJob" />
+   
 
     <bean id="documentoFedatarioDAO" class="org.ositran.daos.DocumentoFedatarioDAOImpl">
        <property name="usuarioDAO" ref="usuarioDAO" />
