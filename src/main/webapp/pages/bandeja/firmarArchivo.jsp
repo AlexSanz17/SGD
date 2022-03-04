@@ -158,8 +158,7 @@
 		}
 		
 		</script>
-	
-      
+	      
     </head>
     <body>
         
@@ -170,7 +169,7 @@
 			<th>Todos <input type="checkbox" name="selectAll" id="selectAll" onclick="checkAll()"></th>
 		</tr>
 		
-		<%!
+		<%
 		int cont = 0;		
 		%>
 		

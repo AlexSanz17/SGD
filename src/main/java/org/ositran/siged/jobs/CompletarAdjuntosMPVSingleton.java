@@ -144,8 +144,6 @@ public class CompletarAdjuntosMPVSingleton {
 						
 					}
 					
-					
-					
 					recepcionMPV.setFlagalfresco(ESTADO_PROCESO_TERMINADO);
 					recepcionMPV.setResultadoalfresco(resultadoalfresco.equals("")?"OK":resultadoalfresco);
 					recepcionVirtualService.registrarDocumentoMPV(recepcionMPV);								
