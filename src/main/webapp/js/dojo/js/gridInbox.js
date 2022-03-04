@@ -439,7 +439,9 @@ var procesarFirmas = function(accionEjecutar){
   
    if (parameters.length>0) {
         var servicio = new dojo.rpc.JsonService("SMDAction.action");
-        var defered = servicio.getArchivosFirmar(valores);
+		console.log("get archivos firmar!!!!");
+        var defered = servicio.getArchivosFirmar(valores,accionEjecutar);
+		
         defered.addCallback(function(objJSON){
             if (objJSON.items.length>0){
                 mostrarDocumentosFirmar(valores, accionEjecutar);        

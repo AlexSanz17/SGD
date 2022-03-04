@@ -3198,10 +3198,10 @@ public class DojoAction {
         }
     
     @SMDMethod
-	public ArchivoJSON getArchivosFirmar(String parameters) {
+	public ArchivoJSON getArchivosFirmar(String parameters,String accionEjecutar) {
     	    log.info("======get archivos firmar==========");
     	    log.info("======get archivos firmar==========");
-        	log.info("DojoAction::getArchivosFirmar:"+parameters);
+        	log.info("DojoAction::getArchivosFirmar:"+accionEjecutar);
             log.info("======get archivos firmar==========");
             log.info("======get archivos firmar==========");
             String[] lista = StringUtil.stringToArray(parameters);
@@ -3272,6 +3272,12 @@ public class DojoAction {
                               item.setNumeroPagina(numeroPagina);
                               item.setEstiloFirma(estiloFirma);
                               item.setAplicarImagen(aplicarImagen);
+                              if(accionEjecutar.equals("V")) {
+                            	  item.setEstiloFirma("D");
+                            	  item.setPosicionFirma("SI");
+                            	  item.setUsarPersonalizado("1");
+                            	  item.setRazonsocial("Doy visto bueno");
+                              }
                               
                                                            
                               
@@ -3347,11 +3353,13 @@ public class DojoAction {
 //>>>>>>> 0bb7ea594ce37345729236c4f800c7cdcf03df5c
 	    	
 	    	// aqui empieza qr
-	    	List<Archivo> list1 = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
+	    	//List<Archivo> list1 = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
 			//String qrCodeText = ALFRESCO_ROOT+list1.get(0).getRutaAlfresco();
-			String qrCodeText = getRutaArchivoMPV(nombreArchivo);
-			String nombreArchivoQr = nombreArchivo.replace(".pdf", ".png");
-			String filePathImagen = POR_FIRMAR+"CodQR\\"+nombreArchivoQr;
+			//String qrCodeText = getRutaArchivoMPV(nombreArchivo);
+			String qrCodeText = "https://www.google.com";
+			String nombreArchivoQr = nombreArchivo.replace(".pdf", "_qr.png");
+			//String filePathImagen = POR_FIRMAR+"CodQR\\"+nombreArchivoQr;
+			String filePathImagen = POR_FIRMAR+nombreArchivoQr;
 			int size = 66;
 			String fileType = "png";
 			File qrFile = new File(filePathImagen);
