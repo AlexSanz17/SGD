@@ -12,40 +12,42 @@ import com.btg.ositran.siged.domain.Usuario;
 import java.text.DecimalFormat;
 
 public class DocumentoDetail {
-        private String tamanoPrincipal;
-        private String tamanoCargo;
-        private String archivoPrincipal;
-        private String archivoAnexo;
-        private String archivoCargo;
+	private String tamanoPrincipal;
+	private String tamanoCargo;
+	private String archivoPrincipal;
+	private String rutaArchivoPrincipal;
+
+	private String archivoAnexo;
+	private String archivoCargo;
 	private boolean delegado = false;
-        private String desUnidadOrganica;
-        private String cuo;
-        private char flagCodigoVirtual;
-        private String codigoVirtual;
-        private Accion accion;
+	private String desUnidadOrganica;
+	private String cuo;
+	private char flagCodigoVirtual;
+	private String codigoVirtual;
+	private Accion accion;
 	private Documento doc;
 	private Usuario objAutor;
 	private Integer idCodigo;
 	private String nroDocumentoReferenciado;
 	private String tupa;
-        private String remitente;
-        private String opcion;
-        private String opcionMenu="";
-        private String tipoTransaccion;
-        private String listReferenciados;
-        private String idExterno;
-        private String listaDerivacionPara;
-        private String listaDerivacionCC;
-        private Integer proyecto;
-        private String cantAnexos;
-        private String listaIntegrantesInternos;
-        private String listaIntegrantesExternos;
-        private String raiz;
-        private Integer origen;
-        private Integer bandeja;
-        private String  desDocumentoOrigen;
-        private String cargoRemitente;
-        private char cDisponible;
+	private String remitente;
+	private String opcion;
+	private String opcionMenu = "";
+	private String tipoTransaccion;
+	private String listReferenciados;
+	private String idExterno;
+	private String listaDerivacionPara;
+	private String listaDerivacionCC;
+	private Integer proyecto;
+	private String cantAnexos;
+	private String listaIntegrantesInternos;
+	private String listaIntegrantesExternos;
+	private String raiz;
+	private Integer origen;
+	private Integer bandeja;
+	private String desDocumentoOrigen;
+	private String cargoRemitente;
+	private char cDisponible;
 	private char cEstado;
 	private char cPrincipal;
 	private Integer clienteubigeoalternativo;
@@ -55,7 +57,7 @@ public class DocumentoDetail {
 	private Integer idUsuarioLogeado;
 	private Integer iIdAccion;
 	private Integer iIdCliente;
-        private String  esTipoRecepcion;
+	private String esTipoRecepcion;
 	private Integer iIdCorrentista;
 	private Integer iIdCumpleRequisito;
 	private Integer iIdDepartamento;
@@ -64,16 +66,16 @@ public class DocumentoDetail {
 	private Integer iIdDistrito;
 	private Integer iIdDistritoAlt;
 	private Integer iIdDocumento;
-        private Integer iIdDocumentoReferencia;
+	private Integer iIdDocumentoReferencia;
 	private Integer iIdEtapa;
 	private Integer iIdExpediente;
-        private Integer iIdLegajo;
-        private Integer iIdLegajoOrigen;
+	private Integer iIdLegajo;
+	private Integer iIdLegajoOrigen;
 	private Integer iIdExpedienteClienteUbigeoAlternativo;
 	private Integer iIdExpedienteClienteUbigeoPrincipal;
 	private Integer iIdMotivo;
 	private Integer iIdProceso;
-        private Integer iIdSerie;
+	private Integer iIdSerie;
 	private Integer iIdProvincia;
 	private Integer iIdProvinciaAlt;
 	private Integer iIdRemitente;
@@ -83,23 +85,23 @@ public class DocumentoDetail {
 	private Integer iIdTipoDocumento;
 	private Integer iIdTipoIdentificacion;
 	private Integer iNroFolios;
-        private Integer iNroFoliosPIDE;     
-        private Integer iNroFoliosOriginales;
-        private Integer iNroFoliosCopias;
-        private Integer iNroFoliosDigitalizados;
-        
+	private Integer iNroFoliosPIDE;
+	private Integer iNroFoliosOriginales;
+	private Integer iNroFoliosCopias;
+	private Integer iNroFoliosDigitalizados;
+
 	private Integer iNroResolucion;
 	private String iPlazoDia;
 	private Integer iPlazoHora;
 	private Integer strPlazo;
 	private Integer prioridad;
-        private String plazo;
-        private String  strPrioridad;
+	private String plazo;
+	private String strPrioridad;
 	private Integer[] arrIdSubMotivo;
 	private Integer[] idSubmotivos;
 	private Integer[] idSuministros;
 	private Integer idAreaDerivada;
-        private String listAtendidos;
+	private String listAtendidos;
 
 	private String autor;
 	private String asuntoExpediente;
@@ -126,7 +128,7 @@ public class DocumentoDetail {
 	private String sProvinciaAlt;
 	private String sRequiereVerificacion;
 	private String sSumilla;
-        private String strHoraReunion;
+	private String strHoraReunion;
 	private String strAbreviado;
 	private String strAccion;
 	private String strAnalista;
@@ -178,7 +180,7 @@ public class DocumentoDetail {
 	private String strTipoDocumento;
 	private String strTipoIdentificacion;
 	private String strUnidad;
-        private String concesionario;
+	private String concesionario;
 	private String tipoNumeracion;
 	private String ultimoAsunto;
 	private transient String cadenaCC;
@@ -187,293 +189,289 @@ public class DocumentoDetail {
 	private String[] arrSuministro;
 	private String[] suministros;
 	private String strSinPlazo;
-        private String idDestinatario;
+	private String idDestinatario;
 	private String aprobarIG;
-        private String articulo;
-        private String ley;
-        private String inciso;
-        private String criteriosConfidencialidad;
-        private Character enumerado;
-        private String unidadRemitente;
-        private String unidadDestinatario;
-        public List<String> listAnexos;
-        private String ruc;
-        private Legajo legajo;
+	private String articulo;
+	private String ley;
+	private String inciso;
+	private String criteriosConfidencialidad;
+	private Character enumerado;
+	private String unidadRemitente;
+	private String unidadDestinatario;
+	public List<String> listAnexos;
+	private String ruc;
+	private Legajo legajo;
 
-        //*****************INSTITUCION**********************
-        private Integer  idTipoInstitucion;
-        private Integer  iIdInstitucion;
-        private String  codCargoPersonaInstitucion;
-        private String  idPersonaInstitucion;
+	// *****************INSTITUCION**********************
+	private Integer idTipoInstitucion;
+	private Integer iIdInstitucion;
+	private String codCargoPersonaInstitucion;
+	private String idPersonaInstitucion;
 
-        //*****************PERSONA NATURAL*******************
-        private Integer  idPersonaNatural;
-        private String  codCargoPersonaNatural;
-        
-        //*********************EMPRESA***********************
-        private Integer  idTipoEmpresa;
-        private Integer  iIdEmpresa;
-        private String  codCargoPersonaEmpresa;
-        private String  idPersonaEmpresa;
-        
-        //*******************SICOR**************************
-        
-        private Integer iIdMateria;
-        private Integer iIdInfraestructura;
-        private Integer idInstitucionSicor;
-        private String  strLugar;
-        private String  strObjetivo;
-        private String  strFechaReunion;
-     
-        //**************************************************        
-        
-        private String   idInternoExterno;
-        private String   idTipoCliente; 
+	// *****************PERSONA NATURAL*******************
+	private Integer idPersonaNatural;
+	private String codCargoPersonaNatural;
+
+	// *********************EMPRESA***********************
+	private Integer idTipoEmpresa;
+	private Integer iIdEmpresa;
+	private String codCargoPersonaEmpresa;
+	private String idPersonaEmpresa;
+
+	// *******************SICOR**************************
+
+	private Integer iIdMateria;
+	private Integer iIdInfraestructura;
+	private Integer idInstitucionSicor;
+	private String strLugar;
+	private String strObjetivo;
+	private String strFechaReunion;
+
+	// **************************************************
+
+	private String idInternoExterno;
+	private String idTipoCliente;
 	private Usuario propietario;
 	private Usuario usuarioDelegado;
-        private String listDoc;
+	private String listDoc;
 
 	private Character estaenflujo;
 	private Character historico;
 	private Character confidencial;
 	private String tramite;
-        private String nroTramite;
+	private String nroTramite;
 
 	private Date dateFechaLimiteAtencion;
 	private Date fechacreacion;
 	private Date strFecha;
-        private String numeroReqTributario; 
-        private String anioFiscal;
-        private char flagExpediente;
-        private String flagsideco;
-        
-        public String getFlagsideco() {
-            return flagsideco;
-        }
+	private String numeroReqTributario;
+	private String anioFiscal;
+	private char flagExpediente;
+	private String flagsideco;
 
-        public void setFlagsideco(String flagsideco) {
-            this.flagsideco = flagsideco;
-        }
-        
-        public Integer getiIdLegajo() {
-            return iIdLegajo;
-        }
+	public String getFlagsideco() {
+		return flagsideco;
+	}
 
-        public void setiIdLegajo(Integer iIdLegajo) {
-            this.iIdLegajo = iIdLegajo;
-        }
+	public void setFlagsideco(String flagsideco) {
+		this.flagsideco = flagsideco;
+	}
 
-        public char getFlagExpediente() {
-            return flagExpediente;
-        }
+	public Integer getiIdLegajo() {
+		return iIdLegajo;
+	}
 
-        public void setFlagExpediente(char flagExpediente) {
-            this.flagExpediente = flagExpediente;
-        }
+	public void setiIdLegajo(Integer iIdLegajo) {
+		this.iIdLegajo = iIdLegajo;
+	}
 
-        public String getNumeroReqTributario() {
-            return numeroReqTributario;
-        }
-        
-        public void setNumeroReqTributario(String numeroReqTributario){
-            this.numeroReqTributario = numeroReqTributario;
-        }
-        
-        public String getAnioFiscal() {
-            return anioFiscal;
-        }
-        
-        public void setAnioFiscal(String anioFiscal){
-            this.anioFiscal = anioFiscal;
-        }
-        
-        public String getRuc() {
-            return ruc;
-        }
+	public char getFlagExpediente() {
+		return flagExpediente;
+	}
 
-        public void setRuc(String ruc) {
-            this.ruc = ruc;
-        }
-        
-         public String getCuo() {
-            return cuo;
-        }
+	public void setFlagExpediente(char flagExpediente) {
+		this.flagExpediente = flagExpediente;
+	}
 
-        public void setCuo(String cuo) {
-            this.cuo = cuo;
-        }
-        
-         public String getDesUnidadOrganica() {
-            return desUnidadOrganica;
-        }
+	public String getNumeroReqTributario() {
+		return numeroReqTributario;
+	}
 
-        public void setDesUnidadOrganica(String desUnidadOrganica) {
-            this.desUnidadOrganica = desUnidadOrganica;
-        }
-        
-        public String getCodigoVirtual() {
-            return codigoVirtual;
-        }
+	public void setNumeroReqTributario(String numeroReqTributario) {
+		this.numeroReqTributario = numeroReqTributario;
+	}
 
-        public void setCodigoVirtual(String codigoVirtual) {
-            this.codigoVirtual = codigoVirtual;
-        }
+	public String getAnioFiscal() {
+		return anioFiscal;
+	}
 
-        public List<String> getListAnexos() {
-            return listAnexos;
-        }
+	public void setAnioFiscal(String anioFiscal) {
+		this.anioFiscal = anioFiscal;
+	}
 
-        public void setListAnexos(List<String> listAnexos) {
-            this.listAnexos = listAnexos;
-        }
-        
-        public String getConcesionario() {
-            return concesionario;
-        }
+	public String getRuc() {
+		return ruc;
+	}
 
-        public void setConcesionario(String concesionario) {
-            this.concesionario = concesionario;
-        }
-        
-        public String getCantAnexos() {
-            return cantAnexos;
-        }
+	public void setRuc(String ruc) {
+		this.ruc = ruc;
+	}
 
-        public void setCantAnexos(String cantAnexos) {
-            this.cantAnexos = cantAnexos;
-        }
+	public String getCuo() {
+		return cuo;
+	}
 
-        public String getArchivoAnexo() {
-            return archivoAnexo;
-        }
+	public void setCuo(String cuo) {
+		this.cuo = cuo;
+	}
 
-        public void setArchivoAnexo(String archivoAnexo) {
-            this.archivoAnexo = archivoAnexo;
-        }
-        
-        public Integer getProyecto() {
-            return proyecto;
-        }
+	public String getDesUnidadOrganica() {
+		return desUnidadOrganica;
+	}
 
-        public void setProyecto(Integer proyecto) {
-            this.proyecto = proyecto;
-        }
-        
-        public String getIdExterno() {
-            return idExterno;
-        }
+	public void setDesUnidadOrganica(String desUnidadOrganica) {
+		this.desUnidadOrganica = desUnidadOrganica;
+	}
 
-        public void setIdExterno(String idExterno) {
-            this.idExterno = idExterno;
-        }
-        
-        
-        public String getListaDerivacionPara() {
-            return listaDerivacionPara;
-        }
+	public String getCodigoVirtual() {
+		return codigoVirtual;
+	}
 
-        public void setListaDerivacionPara(String listaDerivacionPara) {
-            this.listaDerivacionPara = listaDerivacionPara;
-        }
+	public void setCodigoVirtual(String codigoVirtual) {
+		this.codigoVirtual = codigoVirtual;
+	}
 
-        public String getListaDerivacionCC() {
-            return listaDerivacionCC;
-        }
+	public List<String> getListAnexos() {
+		return listAnexos;
+	}
 
-        public Integer getOrigen() {
-            return origen;
-        }
+	public void setListAnexos(List<String> listAnexos) {
+		this.listAnexos = listAnexos;
+	}
 
-        public void setOrigen(Integer origen) {
-            this.origen = origen;
-        }
+	public String getConcesionario() {
+		return concesionario;
+	}
 
-        public void setListaDerivacionCC(String listaDerivacionCC) {
-            this.listaDerivacionCC = listaDerivacionCC;
-        }
-       
-        public String getDesDocumentoOrigen() {
-            return desDocumentoOrigen;
-        }
+	public void setConcesionario(String concesionario) {
+		this.concesionario = concesionario;
+	}
 
-        public void setDesDocumentoOrigen(String desDocumentoOrigen) {
-            this.desDocumentoOrigen = desDocumentoOrigen;
-        }
+	public String getCantAnexos() {
+		return cantAnexos;
+	}
 
-        public Integer getBandeja() {
-            return bandeja;
-        }
+	public void setCantAnexos(String cantAnexos) {
+		this.cantAnexos = cantAnexos;
+	}
 
-        public void setBandeja(Integer bandeja) {
-            this.bandeja = bandeja;
-        }
+	public String getArchivoAnexo() {
+		return archivoAnexo;
+	}
 
-        
-        
-        public String getNroTramite() {
-            return nroTramite;
-        }
+	public void setArchivoAnexo(String archivoAnexo) {
+		this.archivoAnexo = archivoAnexo;
+	}
 
-        public void setNroTramite(String nroTramite) {
-            this.nroTramite = nroTramite;
-        }
+	public Integer getProyecto() {
+		return proyecto;
+	}
 
-        public String getPlazo() {
-            return plazo;
-        }
+	public void setProyecto(Integer proyecto) {
+		this.proyecto = proyecto;
+	}
 
-        public void setPlazo(String plazo) {
-            this.plazo = plazo;
-        }
-        
-        
-        public String getEsTipoRecepcion() {
-            return esTipoRecepcion;
-        }
+	public String getIdExterno() {
+		return idExterno;
+	}
 
-        public void setEsTipoRecepcion(String esTipoRecepcion) {
-            this.esTipoRecepcion = esTipoRecepcion;
-        }
-        
-        public String getArchivoPrincipal() {
-            return archivoPrincipal;
-        }
+	public void setIdExterno(String idExterno) {
+		this.idExterno = idExterno;
+	}
 
-        public void setArchivoPrincipal(String archivoPrincipal) {
-            this.archivoPrincipal = archivoPrincipal;
-        }
+	public String getListaDerivacionPara() {
+		return listaDerivacionPara;
+	}
 
-        public String getUnidadDestinatario() {
-            return unidadDestinatario;
-        }
+	public void setListaDerivacionPara(String listaDerivacionPara) {
+		this.listaDerivacionPara = listaDerivacionPara;
+	}
 
-        public void setUnidadDestinatario(String unidadDestinatario) {
-            this.unidadDestinatario = unidadDestinatario;
-        }
+	public String getListaDerivacionCC() {
+		return listaDerivacionCC;
+	}
 
-        public String getUnidadRemitente() {
-            return unidadRemitente;
-        }
+	public Integer getOrigen() {
+		return origen;
+	}
 
-        public void setUnidadRemitente(String unidadRemitente) {
-            this.unidadRemitente = unidadRemitente;
-        }
-        
-        public String getIdDestinatario() {
-            return idDestinatario;
-        }
+	public void setOrigen(Integer origen) {
+		this.origen = origen;
+	}
 
-        public void setIdDestinatario(String idDestinatario) {
-            this.idDestinatario = idDestinatario;
-        }
+	public void setListaDerivacionCC(String listaDerivacionCC) {
+		this.listaDerivacionCC = listaDerivacionCC;
+	}
 
-        public Character getEnumerado() {
-            return enumerado;
-        }
+	public String getDesDocumentoOrigen() {
+		return desDocumentoOrigen;
+	}
 
-        public void setEnumerado(Character enumerado) {
-            this.enumerado = enumerado;
-        }
+	public void setDesDocumentoOrigen(String desDocumentoOrigen) {
+		this.desDocumentoOrigen = desDocumentoOrigen;
+	}
+
+	public Integer getBandeja() {
+		return bandeja;
+	}
+
+	public void setBandeja(Integer bandeja) {
+		this.bandeja = bandeja;
+	}
+
+	public String getNroTramite() {
+		return nroTramite;
+	}
+
+	public void setNroTramite(String nroTramite) {
+		this.nroTramite = nroTramite;
+	}
+
+	public String getPlazo() {
+		return plazo;
+	}
+
+	public void setPlazo(String plazo) {
+		this.plazo = plazo;
+	}
+
+	public String getEsTipoRecepcion() {
+		return esTipoRecepcion;
+	}
+
+	public void setEsTipoRecepcion(String esTipoRecepcion) {
+		this.esTipoRecepcion = esTipoRecepcion;
+	}
+
+	public String getArchivoPrincipal() {
+		return archivoPrincipal;
+	}
+
+	public void setArchivoPrincipal(String archivoPrincipal) {
+		this.archivoPrincipal = archivoPrincipal;
+	}
+
+	public String getUnidadDestinatario() {
+		return unidadDestinatario;
+	}
+
+	public void setUnidadDestinatario(String unidadDestinatario) {
+		this.unidadDestinatario = unidadDestinatario;
+	}
+
+	public String getUnidadRemitente() {
+		return unidadRemitente;
+	}
+
+	public void setUnidadRemitente(String unidadRemitente) {
+		this.unidadRemitente = unidadRemitente;
+	}
+
+	public String getIdDestinatario() {
+		return idDestinatario;
+	}
+
+	public void setIdDestinatario(String idDestinatario) {
+		this.idDestinatario = idDestinatario;
+	}
+
+	public Character getEnumerado() {
+		return enumerado;
+	}
+
+	public void setEnumerado(Character enumerado) {
+		this.enumerado = enumerado;
+	}
 
 	public String getCriteriosConfidencialidad() {
 		return criteriosConfidencialidad;
@@ -519,85 +517,37 @@ public class DocumentoDetail {
 		this.cadenaCC = cadenaCC;
 	}
 
-	public DocumentoDetail(
-			Integer iIdDocumento,
-			Date dFechaAccion,
-			Date dFechaCreacion,
-			Date dFechaLimiteAtencion,
-			Date dFechaDocumento,
-			String sNumeroMesaPartes,
-			Integer iNumeroFolios,
-			String sNumeroCaja,
-			String sNumeroDocumento,
-			String sObservacion,
-			Character cEstado,
-			Character cPrincipal,
-			String sObservacionRechazo,
-			Integer iIdTipoDocumento,
-			String sTipoDocumento,
-			String sPropietarioDocumentoNombres,
-			String sPropietarioDocumentoApellidos,
-			Integer iIdExpediente,
-			String sNroExpediente,
-			Character cEstaEnFlujo,
-			Character cHistorico,
-			String sExpedienteClienteRazonSocial,
-			String sExpedienteClienteNombres,
-			String sExpedienteClienteApellidoPaterno,
-			String sExpedienteClienteApellidoMaterno,
-			String sExpedienteClienteRepresentanteLegal,
-			String sExpedienteClienteDireccionPrincipal,
-			Integer iExpedienteClienteUbigeoPrincipal,
-			String sExpedienteClienteDireccionAlternativa,
-			Integer iExpedienteClienteUbigeoAlternativo,
-			String sExpedienteClienteTelefono,
-			String sExpedienteClienteCorreo,
-			String sPropietarioExpedienteNombres,
-			String sPropietarioExpedienteApellidos,
-			Integer iIdProceso,
-			String sProceso,
-			String sTipoProcesoNombre,
-			Integer iIdResponsableProceso,
-			String sResponsableProcesoNombres,
-			String sResponsableProcesoApellidos,
-			String sResponsableProcesoUnidad,
-			Integer iIdCliente,
-			String sClienteNumeroIdentificacion,
-			String sClienteRazonSocial,
-			String sClienteNombres,
-			String sClienteApellidoPaterno,
-			String sClienteApellidoMaterno,
-			String sClienteRepresentanteLegal,
-			String sClienteDireccionPrincipal,
-			Distrito objClienteUbigeoPrincipal,
-			String sClienteDireccionAlternativa,
-			Distrito objClienteUbigeoAlternativo,
-			String sClienteTelefono,
-			String sClienteCorreo,
-			Integer iIdTipoIdentificacion,
-			String sTipoIdentificacion,
-			Integer iIdConcesionario,
-			String sConcesionarioRazonSocial,
-			String sConcesionarioRuc,
-			String sConcesionarioDireccion,
-			String sConcesionarioCorreo,
-			Integer iIdSala,
-			String sSala,
-			Integer iIdEtapa,
-			String sAsunto,
-			String sContenido,
-			String sRemitenteNombres,
-			String sRemitenteApellidos,
-			String sDestinatarioNombres,
-			String sDestinatarioApellidos,
-			Integer iIdRemitente) {
+	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
+			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
+			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
+			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
+			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
+			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
+			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
+			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
+			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
+			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
+			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
+			String sPropietarioExpedienteApellidos, Integer iIdProceso, String sProceso, String sTipoProcesoNombre,
+			Integer iIdResponsableProceso, String sResponsableProcesoNombres, String sResponsableProcesoApellidos,
+			String sResponsableProcesoUnidad, Integer iIdCliente, String sClienteNumeroIdentificacion,
+			String sClienteRazonSocial, String sClienteNombres, String sClienteApellidoPaterno,
+			String sClienteApellidoMaterno, String sClienteRepresentanteLegal, String sClienteDireccionPrincipal,
+			Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
+			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
+			Integer iIdTipoIdentificacion, String sTipoIdentificacion, Integer iIdConcesionario,
+			String sConcesionarioRazonSocial, String sConcesionarioRuc, String sConcesionarioDireccion,
+			String sConcesionarioCorreo, Integer iIdSala, String sSala, Integer iIdEtapa, String sAsunto,
+			String sContenido, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
+			String sDestinatarioApellidos, Integer iIdRemitente) {
 		this.iIdDocumento = iIdDocumento;
 		this.strFecha = dFechaAccion;
 		this.fechacreacion = dFechaCreacion;
 		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
 		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
 		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaDocumento);
-		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? "" : new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
+		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
+				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
 		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
 		this.iNroFolios = iNumeroFolios;
 		this.strNroCaja = sNumeroCaja;
@@ -616,24 +566,32 @@ public class DocumentoDetail {
 
 		this.strRazonSocial = "";
 
-		if(sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC)){
-			this.strRazonSocial += (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial != null ? sExpedienteClienteRazonSocial : "");
-		}else{
-			if(sExpedienteClienteNombres == null){
+		if (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC)) {
+			this.strRazonSocial += (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial
+					: sExpedienteClienteRazonSocial != null ? sExpedienteClienteRazonSocial : "");
+		} else {
+			if (sExpedienteClienteNombres == null) {
 				this.strRazonSocial += sClienteNombres != null ? sClienteNombres + " " : "";
 				this.strRazonSocial += sClienteApellidoPaterno != null ? sClienteApellidoPaterno + " " : "";
 				this.strRazonSocial += sClienteApellidoMaterno != null ? sClienteApellidoMaterno + " " : "";
-			}else{
+			} else {
 				this.strRazonSocial += sExpedienteClienteNombres != null ? sExpedienteClienteNombres + " " : "";
-				this.strRazonSocial += sExpedienteClienteApellidoPaterno != null ? sExpedienteClienteApellidoPaterno + " " : "";
-				this.strRazonSocial += sExpedienteClienteApellidoMaterno != null ? sExpedienteClienteApellidoMaterno + " " : "";
+				this.strRazonSocial += sExpedienteClienteApellidoPaterno != null
+						? sExpedienteClienteApellidoPaterno + " "
+						: "";
+				this.strRazonSocial += sExpedienteClienteApellidoMaterno != null
+						? sExpedienteClienteApellidoMaterno + " "
+						: "";
 			}
 		}
 
 		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
-		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno : sExpedienteClienteApellidoPaterno;
-		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno : sExpedienteClienteApellidoMaterno;
-		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal : sExpedienteClienteRepresentanteLegal;
+		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
+				: sExpedienteClienteApellidoPaterno;
+		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
+				: sExpedienteClienteApellidoMaterno;
+		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
+				: sExpedienteClienteRepresentanteLegal;
 		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
 		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
 		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
@@ -646,21 +604,32 @@ public class DocumentoDetail {
 		this.iIdCliente = iIdCliente;
 		this.strNroIdentificacion = sClienteNumeroIdentificacion;
 		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
-		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal : sExpedienteClienteDireccionPrincipal;
+		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
+				: sExpedienteClienteDireccionPrincipal;
 		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
 		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
-		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
-		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getNombre();
-		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
-		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
+		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
+		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getNombre();
+		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
+		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
 		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
-		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa : sExpedienteClienteDireccionAlternativa;
-		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getIddistrito();
+		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
+				: sExpedienteClienteDireccionAlternativa;
+		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getIddistrito();
 		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
-		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
-		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getNombre();
-		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
-		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
+		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
+		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getNombre();
+		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
+		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
 		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
 		this.strTipoIdentificacion = sTipoIdentificacion;
 		this.iIdCorrentista = iIdConcesionario;
@@ -678,81 +647,33 @@ public class DocumentoDetail {
 		this.iIdRemitente = iIdRemitente;
 	}
 
-	/**Para agregar la observacion del digitalizador -------------------------------------------------------------------------*/
-	public DocumentoDetail(
-			Integer iIdDocumento,
-			Date dFechaAccion,
-			Date dFechaCreacion,
-			Date dFechaLimiteAtencion,
-			Date dFechaDocumento,
-			String sNumeroMesaPartes,
-			Integer iNumeroFolios,
-			String sNumeroCaja,
-			String sNumeroDocumento,
-			String sObservacion,
-			Character cEstado,
-			Character cPrincipal,
-			String sObservacionRechazo,
-			Integer iIdTipoDocumento,
-			String sTipoDocumento,
-			String sPropietarioDocumentoNombres,
-			String sPropietarioDocumentoApellidos,
-			Integer iIdExpediente,
-			String sNroExpediente,
-			Character cEstaEnFlujo,
-			Character cHistorico,
-			String sExpedienteClienteRazonSocial,
-			String sExpedienteClienteNombres,
-			String sExpedienteClienteApellidoPaterno,
-			String sExpedienteClienteApellidoMaterno,
-			String sExpedienteClienteRepresentanteLegal,
-			String sExpedienteClienteDireccionPrincipal,
-			Integer iExpedienteClienteUbigeoPrincipal,
-			String sExpedienteClienteDireccionAlternativa,
-			Integer iExpedienteClienteUbigeoAlternativo,
-			String sExpedienteClienteTelefono,
-			String sExpedienteClienteCorreo,
-			String sPropietarioExpedienteNombres,
-			String sPropietarioExpedienteApellidos,
-			Integer iIdProceso,
-			String sProceso,
-			String sTipoProcesoNombre,
-			Integer iIdResponsableProceso,
-			String sResponsableProcesoNombres,
-			String sResponsableProcesoApellidos,
-			String sResponsableProcesoUnidad,
-			Integer iIdCliente,
-			String sClienteNumeroIdentificacion,
-			String sClienteRazonSocial,
-			String sClienteNombres,
-			String sClienteApellidoPaterno,
-			String sClienteApellidoMaterno,
-			String sClienteRepresentanteLegal,
-			String sClienteDireccionPrincipal,
-			Distrito objClienteUbigeoPrincipal,
-			String sClienteDireccionAlternativa,
-			Distrito objClienteUbigeoAlternativo,
-			String sClienteTelefono,
-			String sClienteCorreo,
-			Integer iIdTipoIdentificacion,
-			String sTipoIdentificacion,
-			Integer iIdConcesionario,
-			String sConcesionarioRazonSocial,
-			String sConcesionarioRuc,
-			String sConcesionarioDireccion,
-			String sConcesionarioCorreo,
-			Integer iIdSala,
-			String sSala,
-			Integer iIdEtapa,
-			String sAsunto,
-			String sContenido,
-			String sRemitenteNombres,
-			String sRemitenteApellidos,
-			String sDestinatarioNombres,
-			String sDestinatarioApellidos,
-			Integer iIdRemitente,
-			String observacionDigitalizador,
-			String codProceso,
+	/**
+	 * Para agregar la observacion del digitalizador
+	 * -------------------------------------------------------------------------
+	 */
+	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
+			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
+			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
+			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
+			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
+			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
+			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
+			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
+			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
+			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
+			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
+			String sPropietarioExpedienteApellidos, Integer iIdProceso, String sProceso, String sTipoProcesoNombre,
+			Integer iIdResponsableProceso, String sResponsableProcesoNombres, String sResponsableProcesoApellidos,
+			String sResponsableProcesoUnidad, Integer iIdCliente, String sClienteNumeroIdentificacion,
+			String sClienteRazonSocial, String sClienteNombres, String sClienteApellidoPaterno,
+			String sClienteApellidoMaterno, String sClienteRepresentanteLegal, String sClienteDireccionPrincipal,
+			Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
+			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
+			Integer iIdTipoIdentificacion, String sTipoIdentificacion, Integer iIdConcesionario,
+			String sConcesionarioRazonSocial, String sConcesionarioRuc, String sConcesionarioDireccion,
+			String sConcesionarioCorreo, Integer iIdSala, String sSala, Integer iIdEtapa, String sAsunto,
+			String sContenido, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
+			String sDestinatarioApellidos, Integer iIdRemitente, String observacionDigitalizador, String codProceso,
 			Integer prioridad) {
 		this.iIdDocumento = iIdDocumento;
 		this.strFecha = dFechaAccion;
@@ -760,7 +681,8 @@ public class DocumentoDetail {
 		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
 		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
 		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaDocumento);
-		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? "" : new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
+		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
+				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
 		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
 		this.iNroFolios = iNumeroFolios;
 		this.strNroCaja = sNumeroCaja;
@@ -776,11 +698,19 @@ public class DocumentoDetail {
 		this.sNroExpediente = sNroExpediente;
 		this.estaenflujo = cEstaEnFlujo;
 		this.historico = (cHistorico == null) ? 'N' : cHistorico;
-		this.strRazonSocial = (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC)) ? (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial) : (sExpedienteClienteNombres == null ? sClienteNombres + " " + sClienteApellidoPaterno + " " + sClienteApellidoMaterno : sExpedienteClienteNombres + " " + sExpedienteClienteApellidoPaterno + " " + sExpedienteClienteApellidoMaterno);
+		this.strRazonSocial = (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC))
+				? (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial)
+				: (sExpedienteClienteNombres == null
+						? sClienteNombres + " " + sClienteApellidoPaterno + " " + sClienteApellidoMaterno
+						: sExpedienteClienteNombres + " " + sExpedienteClienteApellidoPaterno + " "
+								+ sExpedienteClienteApellidoMaterno);
 		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
-		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno : sExpedienteClienteApellidoPaterno;
-		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno : sExpedienteClienteApellidoMaterno;
-		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal : sExpedienteClienteRepresentanteLegal;
+		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
+				: sExpedienteClienteApellidoPaterno;
+		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
+				: sExpedienteClienteApellidoMaterno;
+		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
+				: sExpedienteClienteRepresentanteLegal;
 		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
 		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
 		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
@@ -793,21 +723,32 @@ public class DocumentoDetail {
 		this.iIdCliente = iIdCliente;
 		this.strNroIdentificacion = sClienteNumeroIdentificacion;
 		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
-		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal : sExpedienteClienteDireccionPrincipal;
+		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
+				: sExpedienteClienteDireccionPrincipal;
 		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
 		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
-		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
-		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getNombre();
-		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
-		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
+		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
+		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getNombre();
+		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
+		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
 		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
-		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa : sExpedienteClienteDireccionAlternativa;
-		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getIddistrito();
+		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
+				: sExpedienteClienteDireccionAlternativa;
+		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getIddistrito();
 		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
-		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
-		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getNombre();
-		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
-		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
+		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
+		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getNombre();
+		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
+		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
 		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
 		this.strTipoIdentificacion = sTipoIdentificacion;
 		this.iIdCorrentista = iIdConcesionario;
@@ -825,94 +766,53 @@ public class DocumentoDetail {
 		this.iIdRemitente = iIdRemitente;
 		this.observacionDigitalizador = observacionDigitalizador;
 		this.prioridad = prioridad;
-		if(codProceso != null){
+		if (codProceso != null) {
 			this.codProceso = codProceso;
-		}else{
+		} else {
 			this.codProceso = "-";
 		}
 	}
-        
-        
-        
-        
-        /**Para agregar la observacion del digitalizador xxx-------------------------------------------------------------------------*/
-	public DocumentoDetail(
-			Integer iIdDocumento,
-			Date dFechaAccion,
-			Date dFechaCreacion,
-			Date dFechaLimiteAtencion,
-			Date dFechaDocumento,
-			String sNumeroMesaPartes,
-			Integer iNumeroFolios,
-			String sNumeroCaja,
-			String sNumeroDocumento,
-			String sObservacion,
-			Character cEstado,
-			Character cPrincipal,
-			String sObservacionRechazo,
-			Integer iIdTipoDocumento,
-			String sTipoDocumento,
-			String sPropietarioDocumentoNombres,
-			String sPropietarioDocumentoApellidos,
-			Integer iIdExpediente,
-			String sNroExpediente,
-			Character cEstaEnFlujo,
-			Character cHistorico,
-			String sExpedienteClienteRazonSocial,
-			String sExpedienteClienteNombres,
-			String sExpedienteClienteApellidoPaterno,
-			String sExpedienteClienteApellidoMaterno,
-			String sExpedienteClienteRepresentanteLegal,
-			String sExpedienteClienteDireccionPrincipal,
-			Integer iExpedienteClienteUbigeoPrincipal,
-			String sExpedienteClienteDireccionAlternativa,
-			Integer iExpedienteClienteUbigeoAlternativo,
-			String sExpedienteClienteTelefono,
-			String sExpedienteClienteCorreo,
-			String sPropietarioExpedienteNombres,
+
+	/**
+	 * Para agregar la observacion del digitalizador
+	 * xxx-------------------------------------------------------------------------
+	 */
+	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
+			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
+			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
+			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
+			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
+			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
+			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
+			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
+			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
+			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
+			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
 			String sPropietarioExpedienteApellidos,
-			//Integer iIdProceso,
-			//String sProceso,
-			//String sTipoProcesoNombre,
-			//Integer iIdResponsableProceso,
-			//String sResponsableProcesoNombres,
-			//String sResponsableProcesoApellidos,
-			//String sResponsableProcesoUnidad,
-			Integer iIdCliente,
-			String sClienteNumeroIdentificacion,
-			String sClienteRazonSocial,
-			String sClienteNombres,
-			String sClienteApellidoPaterno,
-			String sClienteApellidoMaterno,
-			String sClienteRepresentanteLegal,
-			String sClienteDireccionPrincipal,
-			Distrito objClienteUbigeoPrincipal,
-			String sClienteDireccionAlternativa,
-			Distrito objClienteUbigeoAlternativo,
-			String sClienteTelefono,
-			String sClienteCorreo,
-			Integer iIdTipoIdentificacion,
-			String sTipoIdentificacion,
-			String sAsunto,
-			String sContenido,
-                        String strAccion,
-			String sRemitenteNombres,
-			String sRemitenteApellidos,
-			String sDestinatarioNombres,
-			String sDestinatarioApellidos,
-			Integer iIdRemitente,
-			String observacionDigitalizador,
-			//String codProceso,
-			Integer prioridad,
-                        Character  enumerado,
-                        Integer strPlazo) {
-               this.iIdDocumento = iIdDocumento;
+			// Integer iIdProceso,
+			// String sProceso,
+			// String sTipoProcesoNombre,
+			// Integer iIdResponsableProceso,
+			// String sResponsableProcesoNombres,
+			// String sResponsableProcesoApellidos,
+			// String sResponsableProcesoUnidad,
+			Integer iIdCliente, String sClienteNumeroIdentificacion, String sClienteRazonSocial, String sClienteNombres,
+			String sClienteApellidoPaterno, String sClienteApellidoMaterno, String sClienteRepresentanteLegal,
+			String sClienteDireccionPrincipal, Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
+			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
+			Integer iIdTipoIdentificacion, String sTipoIdentificacion, String sAsunto, String sContenido,
+			String strAccion, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
+			String sDestinatarioApellidos, Integer iIdRemitente, String observacionDigitalizador,
+			// String codProceso,
+			Integer prioridad, Character enumerado, Integer strPlazo) {
+		this.iIdDocumento = iIdDocumento;
 		this.strFecha = dFechaAccion;
 		this.fechacreacion = dFechaCreacion;
 		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
 		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
 		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaDocumento);
-		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? "" : new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
+		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
+				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
 		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
 		this.iNroFolios = iNumeroFolios;
 		this.strNroCaja = sNumeroCaja;
@@ -928,34 +828,53 @@ public class DocumentoDetail {
 		this.sNroExpediente = sNroExpediente;
 		this.estaenflujo = cEstaEnFlujo;
 		this.historico = (cHistorico == null) ? 'N' : cHistorico;
-		this.strRazonSocial = (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC)) ? (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial) : (sExpedienteClienteNombres == null ? sClienteNombres + " " + sClienteApellidoPaterno + " " + sClienteApellidoMaterno : sExpedienteClienteNombres + " " + sExpedienteClienteApellidoPaterno + " " + sExpedienteClienteApellidoMaterno);
+		this.strRazonSocial = (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC))
+				? (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial)
+				: (sExpedienteClienteNombres == null
+						? sClienteNombres + " " + sClienteApellidoPaterno + " " + sClienteApellidoMaterno
+						: sExpedienteClienteNombres + " " + sExpedienteClienteApellidoPaterno + " "
+								+ sExpedienteClienteApellidoMaterno);
 		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
-		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno : sExpedienteClienteApellidoPaterno;
-		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno : sExpedienteClienteApellidoMaterno;
-		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal : sExpedienteClienteRepresentanteLegal;
+		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
+				: sExpedienteClienteApellidoPaterno;
+		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
+				: sExpedienteClienteApellidoMaterno;
+		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
+				: sExpedienteClienteRepresentanteLegal;
 		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
 		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
 		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
 		this.iIdProceso = iIdProceso;
-                this.strAccion = strAccion;
+		this.strAccion = strAccion;
 		this.iIdCliente = iIdCliente;
 		this.strNroIdentificacion = sClienteNumeroIdentificacion;
 		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
-		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal : sExpedienteClienteDireccionPrincipal;
+		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
+				: sExpedienteClienteDireccionPrincipal;
 		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
 		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
-		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
-		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getNombre();
-		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
-		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
+		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
+		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getNombre();
+		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
+		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
 		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
-		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa : sExpedienteClienteDireccionAlternativa;
-		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getIddistrito();
+		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
+				: sExpedienteClienteDireccionAlternativa;
+		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getIddistrito();
 		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
-		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
-		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getNombre();
-		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
-		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
+		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
+		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getNombre();
+		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
+		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
 		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
 		this.strTipoIdentificacion = sTipoIdentificacion;
 		this.strAsunto = sAsunto;
@@ -965,16 +884,18 @@ public class DocumentoDetail {
 		this.iIdRemitente = iIdRemitente;
 		this.observacionDigitalizador = observacionDigitalizador;
 		this.prioridad = prioridad;
-                this.enumerado = enumerado;
-                this.strPlazo = strPlazo;
-               
+		this.enumerado = enumerado;
+		this.strPlazo = strPlazo;
+
 	}
 
-	/**Para datos del documento ----------------------------------------------------------------------------------------------*/
-	public DocumentoDetail(Date strF, Integer iIdD, Integer iIdE,
-			Integer iIdTD, Integer iNF, String strA, String strNC,
-			String strND, String strO, String strP, String strR, String strRe,
-			String strRo, String strTD, String strU) {
+	/**
+	 * Para datos del documento
+	 * ----------------------------------------------------------------------------------------------
+	 */
+	public DocumentoDetail(Date strF, Integer iIdD, Integer iIdE, Integer iIdTD, Integer iNF, String strA, String strNC,
+			String strND, String strO, String strP, String strR, String strRe, String strRo, String strTD,
+			String strU) {
 		setStrFecha(strF);
 		setIIdDocumento(iIdD);
 		setIIdExpediente(iIdE);
@@ -992,10 +913,9 @@ public class DocumentoDetail {
 		setStrUnidad(strU);
 	}
 
-	public DocumentoDetail(Date strF, Integer iIdD, Integer iIdE,
-			Integer iIdTD, Integer iNF, String strA, String strNC,
-			String strND, String strO, String strP, String strR, String strRe,
-			String strRo, String strTD, String strU, String strCont) {
+	public DocumentoDetail(Date strF, Integer iIdD, Integer iIdE, Integer iIdTD, Integer iNF, String strA, String strNC,
+			String strND, String strO, String strP, String strR, String strRe, String strRo, String strTD, String strU,
+			String strCont) {
 		setStrFecha(strF);
 		setIIdDocumento(iIdD);
 		setIIdExpediente(iIdE);
@@ -1014,9 +934,12 @@ public class DocumentoDetail {
 		setStrContenido(strCont);
 	}
 
-	/**Cuando se busca un expediente y se obtiene parte de la data del documento ---------------------------------------------*/
-	public DocumentoDetail(Integer iIdE, Integer iIdP, Integer iIdR,
-			String strP, String strRef, String strRes, String strU) {
+	/**
+	 * Cuando se busca un expediente y se obtiene parte de la data del documento
+	 * ---------------------------------------------
+	 */
+	public DocumentoDetail(Integer iIdE, Integer iIdP, Integer iIdR, String strP, String strRef, String strRes,
+			String strU) {
 		setIIdExpediente(iIdE);
 		setIIdProceso(iIdP);
 		setIIdResponsable(iIdR);
@@ -2124,141 +2047,141 @@ public class DocumentoDetail {
 		this.aprobarIG = aprobarIG;
 	}
 
-	  public String getRemitente() {
-            return remitente;
-        }
+	public String getRemitente() {
+		return remitente;
+	}
 
-        public void setRemitente(String remitente) {
-            this.remitente = remitente;
-        }
+	public void setRemitente(String remitente) {
+		this.remitente = remitente;
+	}
 
-        public String getCargoRemitente() {
-            return cargoRemitente;
-        }
+	public String getCargoRemitente() {
+		return cargoRemitente;
+	}
 
-        public void setCargoRemitente(String cargoRemitente) {
-            this.cargoRemitente = cargoRemitente;
-        }
-        
-        public String getOpcion() {
-           return opcion;
-        }
+	public void setCargoRemitente(String cargoRemitente) {
+		this.cargoRemitente = cargoRemitente;
+	}
 
-        public void setOpcion(String opcion) {
-            this.opcion = opcion;
-        }
-        
-         public String getTipoTransaccion() {
-            return tipoTransaccion;
-        }
+	public String getOpcion() {
+		return opcion;
+	}
 
-        public void setTipoTransaccion(String tipoTransaccion) {
-            this.tipoTransaccion = tipoTransaccion;
-        }
-        
-         public String getListReferenciados() {
-        return listReferenciados;
-        }
+	public void setOpcion(String opcion) {
+		this.opcion = opcion;
+	}
 
-        public void setListReferenciados(String listReferenciados) {
-            this.listReferenciados = listReferenciados;
-        }
-        
-        public Integer getIdTipoEmpresa() {
-          return idTipoEmpresa;
-        }
+	public String getTipoTransaccion() {
+		return tipoTransaccion;
+	}
 
-        public void setIdTipoEmpresa(Integer idTipoEmpresa) {
-           this.idTipoEmpresa = idTipoEmpresa;
-        }
-        
-        public Integer getiIdEmpresa() {
-          return iIdEmpresa;
-        }
+	public void setTipoTransaccion(String tipoTransaccion) {
+		this.tipoTransaccion = tipoTransaccion;
+	}
 
-        public void setiIdEmpresa(Integer iIdEmpresa) {
-          this.iIdEmpresa = iIdEmpresa;
-        }
-        public String getCodCargoPersonaInstitucion() {
-          return codCargoPersonaInstitucion;
-        }
+	public String getListReferenciados() {
+		return listReferenciados;
+	}
 
-        public void setCodCargoPersonaInstitucion(String codCargoPersonaInstitucion) {
-           this.codCargoPersonaInstitucion = codCargoPersonaInstitucion;
-        }
+	public void setListReferenciados(String listReferenciados) {
+		this.listReferenciados = listReferenciados;
+	}
 
-        public String getIdPersonaInstitucion() {
-            return idPersonaInstitucion;
-        }
+	public Integer getIdTipoEmpresa() {
+		return idTipoEmpresa;
+	}
 
-        public void setIdPersonaInstitucion(String idPersonaInstitucion) {
-           this.idPersonaInstitucion = idPersonaInstitucion;
-        }
+	public void setIdTipoEmpresa(Integer idTipoEmpresa) {
+		this.idTipoEmpresa = idTipoEmpresa;
+	}
 
-        public String getCodCargoPersonaEmpresa() {
-            return codCargoPersonaEmpresa;
-        }
+	public Integer getiIdEmpresa() {
+		return iIdEmpresa;
+	}
 
-        public void setCodCargoPersonaEmpresa(String codCargoPersonaEmpresa) {
-           this.codCargoPersonaEmpresa = codCargoPersonaEmpresa;
-        }
+	public void setiIdEmpresa(Integer iIdEmpresa) {
+		this.iIdEmpresa = iIdEmpresa;
+	}
 
-        public String getIdPersonaEmpresa() {
-           return idPersonaEmpresa;
-        }
+	public String getCodCargoPersonaInstitucion() {
+		return codCargoPersonaInstitucion;
+	}
 
-        public void setIdPersonaEmpresa(String idPersonaEmpresa) {
-            this.idPersonaEmpresa = idPersonaEmpresa;
-        }
+	public void setCodCargoPersonaInstitucion(String codCargoPersonaInstitucion) {
+		this.codCargoPersonaInstitucion = codCargoPersonaInstitucion;
+	}
 
-        
-        public String getCodCargoPersonaNatural() {
-            return codCargoPersonaNatural;
-        }
+	public String getIdPersonaInstitucion() {
+		return idPersonaInstitucion;
+	}
 
-        public void setCodCargoPersonaNatural(String codCargoPersonaNatural) {
-            this.codCargoPersonaNatural = codCargoPersonaNatural;
-        }
+	public void setIdPersonaInstitucion(String idPersonaInstitucion) {
+		this.idPersonaInstitucion = idPersonaInstitucion;
+	}
 
-        public Integer getIdPersonaNatural() {
-            return idPersonaNatural;
-        }
+	public String getCodCargoPersonaEmpresa() {
+		return codCargoPersonaEmpresa;
+	}
 
-        public void setIdPersonaNatural(Integer idPersonaNatural) {
-            this.idPersonaNatural = idPersonaNatural;
-        }
-        
-        public String getIdTipoCliente() {
-            return idTipoCliente;
-        }
+	public void setCodCargoPersonaEmpresa(String codCargoPersonaEmpresa) {
+		this.codCargoPersonaEmpresa = codCargoPersonaEmpresa;
+	}
 
-        public void setIdTipoCliente(String idTipoCliente) {
-            this.idTipoCliente = idTipoCliente;
-        }
+	public String getIdPersonaEmpresa() {
+		return idPersonaEmpresa;
+	}
 
-        public String getIdInternoExterno() {
-            return idInternoExterno;
-        }
+	public void setIdPersonaEmpresa(String idPersonaEmpresa) {
+		this.idPersonaEmpresa = idPersonaEmpresa;
+	}
 
-        public void setIdInternoExterno(String idInternoExterno) {
-            this.idInternoExterno = idInternoExterno;
-        }
+	public String getCodCargoPersonaNatural() {
+		return codCargoPersonaNatural;
+	}
 
-        public Integer getIdTipoInstitucion() {
-            return idTipoInstitucion;
-        }
+	public void setCodCargoPersonaNatural(String codCargoPersonaNatural) {
+		this.codCargoPersonaNatural = codCargoPersonaNatural;
+	}
 
-        public void setIdTipoInstitucion(Integer idTipoInstitucion) {
-            this.idTipoInstitucion = idTipoInstitucion;
-        }
+	public Integer getIdPersonaNatural() {
+		return idPersonaNatural;
+	}
 
-        public Integer getiIdInstitucion() {
-            return iIdInstitucion;
-        }
+	public void setIdPersonaNatural(Integer idPersonaNatural) {
+		this.idPersonaNatural = idPersonaNatural;
+	}
 
-        public void setiIdInstitucion(Integer iIdInstitucion) {
-            this.iIdInstitucion = iIdInstitucion;
-        }
+	public String getIdTipoCliente() {
+		return idTipoCliente;
+	}
+
+	public void setIdTipoCliente(String idTipoCliente) {
+		this.idTipoCliente = idTipoCliente;
+	}
+
+	public String getIdInternoExterno() {
+		return idInternoExterno;
+	}
+
+	public void setIdInternoExterno(String idInternoExterno) {
+		this.idInternoExterno = idInternoExterno;
+	}
+
+	public Integer getIdTipoInstitucion() {
+		return idTipoInstitucion;
+	}
+
+	public void setIdTipoInstitucion(Integer idTipoInstitucion) {
+		this.idTipoInstitucion = idTipoInstitucion;
+	}
+
+	public Integer getiIdInstitucion() {
+		return iIdInstitucion;
+	}
+
+	public void setiIdInstitucion(Integer iIdInstitucion) {
+		this.iIdInstitucion = iIdInstitucion;
+	}
 
 	public String getTupa() {
 		return tupa;
@@ -2277,253 +2200,265 @@ public class DocumentoDetail {
 	}
 
 	public Integer getIdCodigo() {
-	   return idCodigo;
+		return idCodigo;
 	}
 
 	public void setIdCodigo(Integer idCodigo) {
-	   this.idCodigo = idCodigo;
+		this.idCodigo = idCodigo;
 	}
 
 	private String strRespuesta;
 
 	public String getStrRespuesta() {
-	   return strRespuesta;
+		return strRespuesta;
 	}
 
 	public void setStrRespuesta(String strRespuesta) {
-	   this.strRespuesta = strRespuesta;
+		this.strRespuesta = strRespuesta;
 	}
-        
-        public String getRaiz() {
-	   return raiz;
+
+	public String getRaiz() {
+		return raiz;
 	}
 
 	public void setRaiz(String raiz) {
-	   this.raiz = raiz;
+		this.raiz = raiz;
 	}
 
 	public String getListDoc() {
-	   return listDoc;
+		return listDoc;
 	}
 
 	public void setListDoc(String listDoc) {
-	    this.listDoc = listDoc;
+		this.listDoc = listDoc;
 	}
-        
-        public String getTramite() {
-	    return tramite;
+
+	public String getTramite() {
+		return tramite;
 	}
 
 	public void setTramite(String tramite) {
-	    this.tramite = tramite;
+		this.tramite = tramite;
 	}
-        
-        public Integer getIdAreaDerivada() {
-	    return idAreaDerivada;
+
+	public Integer getIdAreaDerivada() {
+		return idAreaDerivada;
 	}
 
 	public void setIdAreaDerivada(Integer idAreaDerivada) {
-	    this.idAreaDerivada = idAreaDerivada;
+		this.idAreaDerivada = idAreaDerivada;
 	}
-        
-         public String getListAtendidos() {
-            return listAtendidos;
-        }
 
-        public void setListAtendidos(String listAtendidos) {
-            this.listAtendidos = listAtendidos;
-        }
-        public Integer getiIdSerie() {
-            return iIdSerie;
-        }
+	public String getListAtendidos() {
+		return listAtendidos;
+	}
 
-        public void setiIdSerie(Integer iIdSerie) {
-            this.iIdSerie = iIdSerie;
-        }
-        
-        public Integer getiIdMateria() {
-            return iIdMateria;
-        }
+	public void setListAtendidos(String listAtendidos) {
+		this.listAtendidos = listAtendidos;
+	}
 
-        public void setiIdMateria(Integer iIdMateria) {
-            this.iIdMateria = iIdMateria;
-        }
+	public Integer getiIdSerie() {
+		return iIdSerie;
+	}
 
-        public Integer getiIdInfraestructura() {
-            return iIdInfraestructura;
-        }
+	public void setiIdSerie(Integer iIdSerie) {
+		this.iIdSerie = iIdSerie;
+	}
 
-        public void setiIdInfraestructura(Integer iIdInfraestructura) {
-            this.iIdInfraestructura = iIdInfraestructura;
-        }
+	public Integer getiIdMateria() {
+		return iIdMateria;
+	}
 
-        public Integer getIdInstitucionSicor() {
-            return idInstitucionSicor;
-        }
+	public void setiIdMateria(Integer iIdMateria) {
+		this.iIdMateria = iIdMateria;
+	}
 
-        public void setIdInstitucionSicor(Integer idInstitucionSicor) {
-            this.idInstitucionSicor = idInstitucionSicor;
-        }
+	public Integer getiIdInfraestructura() {
+		return iIdInfraestructura;
+	}
 
-        public String getStrLugar() {
-            return strLugar;
-        }
+	public void setiIdInfraestructura(Integer iIdInfraestructura) {
+		this.iIdInfraestructura = iIdInfraestructura;
+	}
 
-        public void setStrLugar(String strLugar) {
-            this.strLugar = strLugar;
-        }
+	public Integer getIdInstitucionSicor() {
+		return idInstitucionSicor;
+	}
 
-        public String getStrObjetivo() {
-            return strObjetivo;
-        }
+	public void setIdInstitucionSicor(Integer idInstitucionSicor) {
+		this.idInstitucionSicor = idInstitucionSicor;
+	}
 
-        public void setStrObjetivo(String strObjetivo) {
-            this.strObjetivo = strObjetivo;
-        }
+	public String getStrLugar() {
+		return strLugar;
+	}
 
-        public String getListaIntegrantesInternos() {
-            return listaIntegrantesInternos;
-        }
+	public void setStrLugar(String strLugar) {
+		this.strLugar = strLugar;
+	}
 
-        public void setListaIntegrantesInternos(String listaIntegrantesInternos) {
-            this.listaIntegrantesInternos = listaIntegrantesInternos;
-        }
+	public String getStrObjetivo() {
+		return strObjetivo;
+	}
 
-        public String getListaIntegrantesExternos() {
-            return listaIntegrantesExternos;
-        }
+	public void setStrObjetivo(String strObjetivo) {
+		this.strObjetivo = strObjetivo;
+	}
 
-        public void setListaIntegrantesExternos(String listaIntegrantesExternos) {
-            this.listaIntegrantesExternos = listaIntegrantesExternos;
-        }
-        
-        public String getStrFechaReunion() {
-            return strFechaReunion;
-        }
+	public String getListaIntegrantesInternos() {
+		return listaIntegrantesInternos;
+	}
 
-        public void setStrFechaReunion(String strFechaReunion) {
-            this.strFechaReunion = strFechaReunion;
-        }
-        
-        public String getStrHoraReunion() {
-            return strHoraReunion;
-        }
+	public void setListaIntegrantesInternos(String listaIntegrantesInternos) {
+		this.listaIntegrantesInternos = listaIntegrantesInternos;
+	}
 
-        public void setStrHoraReunion(String strHoraReunion) {
-            this.strHoraReunion = strHoraReunion;
-        }
-        
-        public String getStrPrioridad() {
-            return strPrioridad;
-        }
+	public String getListaIntegrantesExternos() {
+		return listaIntegrantesExternos;
+	}
 
-        public void setStrPrioridad(String strPrioridad) {
-            this.strPrioridad = strPrioridad;
-        }
-        
-        public Integer getiNroFoliosOriginales() {
-           return iNroFoliosOriginales;
-        }
+	public void setListaIntegrantesExternos(String listaIntegrantesExternos) {
+		this.listaIntegrantesExternos = listaIntegrantesExternos;
+	}
 
-        public void setiNroFoliosOriginales(Integer iNroFoliosOriginales) {
-            this.iNroFoliosOriginales = iNroFoliosOriginales;
-        }
+	public String getStrFechaReunion() {
+		return strFechaReunion;
+	}
 
-        public Integer getiNroFoliosCopias() {
-            return iNroFoliosCopias;
-        }
+	public void setStrFechaReunion(String strFechaReunion) {
+		this.strFechaReunion = strFechaReunion;
+	}
 
-        public void setiNroFoliosCopias(Integer iNroFoliosCopias) {
-            this.iNroFoliosCopias = iNroFoliosCopias;
-        }
+	public String getStrHoraReunion() {
+		return strHoraReunion;
+	}
 
-        public Integer getiNroFoliosDigitalizados() {
-            return iNroFoliosDigitalizados;
-        }
+	public void setStrHoraReunion(String strHoraReunion) {
+		this.strHoraReunion = strHoraReunion;
+	}
 
-        public void setiNroFoliosDigitalizados(Integer iNroFoliosDigitalizados) {
-            this.iNroFoliosDigitalizados = iNroFoliosDigitalizados;
-        }
-        
-         public String getOpcionMenu() {
-            return opcionMenu;
-        }
+	public String getStrPrioridad() {
+		return strPrioridad;
+	}
 
-        public void setOpcionMenu(String opcionMenu) {
-            this.opcionMenu = opcionMenu;
-        }
-        
-         public Integer getiIdLegajoOrigen() {
-            return iIdLegajoOrigen;
-        }
+	public void setStrPrioridad(String strPrioridad) {
+		this.strPrioridad = strPrioridad;
+	}
 
-        public void setiIdLegajoOrigen(Integer iIdLegajoOrigen) {
-            this.iIdLegajoOrigen = iIdLegajoOrigen;
-        }
-        
-        public Legajo getLegajo() {
-            return legajo;
-        }
+	public Integer getiNroFoliosOriginales() {
+		return iNroFoliosOriginales;
+	}
 
-        public void setLegajo(Legajo legajo) {
-            this.legajo = legajo;
-        }
-        
-       public char getFlagCodigoVirtual() {
-            return flagCodigoVirtual;
-        }
+	public void setiNroFoliosOriginales(Integer iNroFoliosOriginales) {
+		this.iNroFoliosOriginales = iNroFoliosOriginales;
+	}
 
-        public void setFlagCodigoVirtual(char flagCodigoVirtual) {
-            this.flagCodigoVirtual = flagCodigoVirtual;
-        }
-        
-        public Integer getiIdDocumentoReferencia() {
-            return iIdDocumentoReferencia;
-        }
+	public Integer getiNroFoliosCopias() {
+		return iNroFoliosCopias;
+	}
 
-        public void setiIdDocumentoReferencia(Integer iIdDocumentoReferencia) {
-            this.iIdDocumentoReferencia = iIdDocumentoReferencia;
-        }
-        public String getArchivoCargo() {
-            return archivoCargo;
-        }
+	public void setiNroFoliosCopias(Integer iNroFoliosCopias) {
+		this.iNroFoliosCopias = iNroFoliosCopias;
+	}
 
-        public void setArchivoCargo(String archivoCargo) {
-            this.archivoCargo = archivoCargo;
-        }
-        
-        public Integer getiNroFoliosPIDE() {
-            return iNroFoliosPIDE;
-        }
+	public Integer getiNroFoliosDigitalizados() {
+		return iNroFoliosDigitalizados;
+	}
 
-        public void setiNroFoliosPIDE(Integer iNroFoliosPIDE) {
-            this.iNroFoliosPIDE = iNroFoliosPIDE;
-        }
-        
-        public String getTamanoPrincipal() {
-            return tamanoPrincipal;
-        }
+	public void setiNroFoliosDigitalizados(Integer iNroFoliosDigitalizados) {
+		this.iNroFoliosDigitalizados = iNroFoliosDigitalizados;
+	}
 
-        public void setTamanoPrincipal(String tamanoPrincipal) {
-            this.tamanoPrincipal = tamanoPrincipal;
-        }
+	public String getOpcionMenu() {
+		return opcionMenu;
+	}
 
-        public String getTamanoCargo() {
-            return tamanoCargo;
-        }
+	public void setOpcionMenu(String opcionMenu) {
+		this.opcionMenu = opcionMenu;
+	}
 
-        public void setTamanoCargo(String tamanoCargo) {
-            this.tamanoCargo = tamanoCargo;
-        }
-        
-        public String getTamanoFormateado(String tamano) {
-            if (tamano == null) return "";
-            
-            DecimalFormat df = new DecimalFormat("#.00");
-            double valorsito = (double) new Integer(tamano)/1024;
-            
-            if (valorsito<1) return "1 KB";
-            return String.valueOf(df.format(valorsito)) + " KB";
-           
-        }
+	public Integer getiIdLegajoOrigen() {
+		return iIdLegajoOrigen;
+	}
+
+	public void setiIdLegajoOrigen(Integer iIdLegajoOrigen) {
+		this.iIdLegajoOrigen = iIdLegajoOrigen;
+	}
+
+	public Legajo getLegajo() {
+		return legajo;
+	}
+
+	public void setLegajo(Legajo legajo) {
+		this.legajo = legajo;
+	}
+
+	public char getFlagCodigoVirtual() {
+		return flagCodigoVirtual;
+	}
+
+	public void setFlagCodigoVirtual(char flagCodigoVirtual) {
+		this.flagCodigoVirtual = flagCodigoVirtual;
+	}
+
+	public Integer getiIdDocumentoReferencia() {
+		return iIdDocumentoReferencia;
+	}
+
+	public void setiIdDocumentoReferencia(Integer iIdDocumentoReferencia) {
+		this.iIdDocumentoReferencia = iIdDocumentoReferencia;
+	}
+
+	public String getArchivoCargo() {
+		return archivoCargo;
+	}
+
+	public void setArchivoCargo(String archivoCargo) {
+		this.archivoCargo = archivoCargo;
+	}
+
+	public Integer getiNroFoliosPIDE() {
+		return iNroFoliosPIDE;
+	}
+
+	public void setiNroFoliosPIDE(Integer iNroFoliosPIDE) {
+		this.iNroFoliosPIDE = iNroFoliosPIDE;
+	}
+
+	public String getTamanoPrincipal() {
+		return tamanoPrincipal;
+	}
+
+	public void setTamanoPrincipal(String tamanoPrincipal) {
+		this.tamanoPrincipal = tamanoPrincipal;
+	}
+
+	public String getTamanoCargo() {
+		return tamanoCargo;
+	}
+
+	public void setTamanoCargo(String tamanoCargo) {
+		this.tamanoCargo = tamanoCargo;
+	}
+
+	public String getRutaArchivoPrincipal() {
+		return rutaArchivoPrincipal;
+	}
+
+	public void setRutaArchivoPrincipal(String rutaArchivoPrincipal) {
+		this.rutaArchivoPrincipal = rutaArchivoPrincipal;
+	}
+
+	public String getTamanoFormateado(String tamano) {
+		if (tamano == null)
+			return "";
+
+		DecimalFormat df = new DecimalFormat("#.00");
+		double valorsito = (double) new Integer(tamano) / 1024;
+
+		if (valorsito < 1)
+			return "1 KB";
+		return String.valueOf(df.format(valorsito)) + " KB";
+
+	}
 }

@@ -409,11 +409,15 @@ public class VirtualAction {
 	        //Ubicando archivo principal
 	        String archivoPrincipal = "";
 	        String archivoAnexo = "";
+	        String rutaArchivoPrincipal  = "";
+	        
+	        
 	        int totalAnexos = 0;
 	        for(IotdtdAdjuntoMPV adjunto:recepcionMPV.getArchivos()){
 	        	
 	        	if(adjunto.getTipoarchivo().equals("1")){
-	        		archivoPrincipal = adjunto.getNombrearchivo();	        		
+	        		archivoPrincipal = adjunto.getNombrearchivo();	
+	        		rutaArchivoPrincipal = adjunto.getRutaarchivo().trim() + archivoPrincipal.trim();
 	        	}	
 	        	
 	        	if(adjunto.getTipoarchivo().equals("2")){
@@ -423,6 +427,9 @@ public class VirtualAction {
 	        }
 	        
 	        
+	        // insertar ruta de archivo
+	        
+	        objDD.setRutaArchivoPrincipal(rutaArchivoPrincipal);
 	        objDD.setArchivoPrincipal(archivoPrincipal);
 	        objDD.setArchivoAnexo(archivoAnexo);
 	        objDD.setCantAnexos(String.valueOf(totalAnexos));

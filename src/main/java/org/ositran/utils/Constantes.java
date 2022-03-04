@@ -11,7 +11,8 @@ public class Constantes{
 	public static final String AUDITORIA_TIPO_ACTUALIZACION="Actualizacion";
         
     public static final String COLOR_DOCUMENTO_ANEXO="#58ACFA";
-    public static final String COLOR_DOCUMENTO_PRINCIPAL="#2E2EFE";
+    public static final String COLOR_DOCUMENTO_PRINCIPAL="#6969fe";
+    public static final String COLOR_DOCUMENTO_PRINCIPAL_MPV="#b469fe";
     public static final String COLOR_DOCUMENTO_CARGO = "#FAAC58";
     public static final String COLOR_DOCUMENTO_MP_CARGO = "#8850ac";
 	// ///////////////////////////////////////////////////////////////////////////
