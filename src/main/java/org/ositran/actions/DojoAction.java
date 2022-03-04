@@ -3514,23 +3514,6 @@ public class DojoAction {
 		ImageIO.write(image, fileType, qrFile);
 	}
        
-    @SMDMethod
-	public String getRutaArchivoMPV(String nombreArchivo) {
-    	log.info("getRutaArchivoMPV (nombreArchivo):" + nombreArchivo);
-    	String fullPath = "";
-    	
-    	try{
-    		String mpvRutaArchivo  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.MPV_RUTA_ARCHIVO);
-	    	
-	    	fullPath = mpvRutaArchivo + nombreArchivo;	    	
-	    	
-    	}catch(Exception e){
-		       e.printStackTrace();
-		}
-    	
-    	return fullPath;
-    }
-    
 	@SuppressWarnings("unchecked")
 	@SMDMethod
 	public List<Recurso> getUnread() {
