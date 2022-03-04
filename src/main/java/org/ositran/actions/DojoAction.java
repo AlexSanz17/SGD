@@ -3299,22 +3299,6 @@ public class DojoAction {
             return archivosJSON;
     }
     
-    @SMDMethod
-	public String getRutaArchivoMPV(String nombreArchivo) {
-    	log.info("getRutaArchivoMPV (nombreArchivo):" + nombreArchivo);
-    	String fullPath = "";
-    	
-    	try{
-    		String mpvRutaArchivo  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.MPV_RUTA_ARCHIVO);
-	    	
-	    	fullPath = mpvRutaArchivo + nombreArchivo;	    	
-	    	
-    	}catch(Exception e){
-		       e.printStackTrace();
-		}
-    	
-    	return fullPath;
-    }
 
     @SMDMethod
 	public String validarFirmado(String nombreArchivo, String objectId, String idCodigo) {
