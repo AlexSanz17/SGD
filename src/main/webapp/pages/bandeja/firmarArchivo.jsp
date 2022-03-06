@@ -213,6 +213,7 @@
 		String numeroPagina = item.getNumeroPagina();
 		String estiloFirma = item.getEstiloFirma();
 		String aplicarImagen = item.getAplicarImagen();
+		String razon = item.getRazonsocial();
 		String archivosFirmar = "";
 		
 // >>>>>>> bf7f4f4c441a4fe19a5088eadba2014ef24b4aec
@@ -266,6 +267,7 @@
 				<input type="hidden" name="estiloFirma" value="<%=estiloFirma%>"/> 
 				<input type="hidden" name="aplicarImagen" value="<%=aplicarImagen%>"/>
 				<input type="hidden" name="ubicacion" value=""/>
+				<input type="hidden" name="razon" value="<%=razon%>"/>
 
 				<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar" 
 				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" />
