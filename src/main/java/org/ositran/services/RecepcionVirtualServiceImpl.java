@@ -18,11 +18,14 @@ import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.ajax.beans.CargoRecepcionMPVResponse;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+import com.btg.ositran.siged.domain.IotdtcRecepcionSchemaIdsgd;
+
 import java.util.List;
 import org.ositran.daos.RecepcionVirtualDAO;
 
 public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
-    RecepcionVirtualDAO recepcionVirtualDAO;
+    
+	RecepcionVirtualDAO recepcionVirtualDAO;
 
     public RecepcionVirtualDAO getRecepcionVirtualDAO() {
         return recepcionVirtualDAO;
@@ -35,6 +38,12 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
     public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion){
        return recepcionVirtualDAO.registrarDocumento(recepcion);
     }
+    
+    public List<IotdtcRecepcion> getAll(){
+        return recepcionVirtualDAO.findAll();
+     }
+    
+    
     
     public CargoRecepcionMPVResponse enviarCargoRecepcion(CargoRecepcionMPVRequest cargoRecepcionVirtualRequest){
     	CargoRecepcionMPVResponse cargoRecepcionVirtualResponse = null;

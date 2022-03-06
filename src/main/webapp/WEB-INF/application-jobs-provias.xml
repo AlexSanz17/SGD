@@ -6,7 +6,9 @@
 
 	<!--Specify Task bean -->
 	<bean id="migrarInformacion" class="org.ositran.siged.jobs.MigrarInformacion" >
-		<property name="recepcionPideDaoForJob" ref="recepcionPideDaoForJob"></property>
+		<property name="recepcionVirtualService" ref="recepcionVirtualService" />
+		<property name="recepcionVirtualServiceMpv" ref="recepcionVirtualServiceMpv" />
+		
 	</bean>
 
 	<!-- JOB -->

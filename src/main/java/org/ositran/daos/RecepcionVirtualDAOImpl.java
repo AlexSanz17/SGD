@@ -7,6 +7,7 @@
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+import com.btg.ositran.siged.domain.IotdtcRecepcionSchemaIdsgd;
 
 import java.util.List;
 
@@ -36,7 +37,65 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO{
          return (IotdtcRecepcion)em.createNamedQuery("IotdtcRecepcion.findByVcuo")
 				.setParameter("vcuo", vcuo).getSingleResult();
      }
-    
+     
+     @SuppressWarnings("unchecked")
+	public List<IotdtcRecepcion> findAll(){
+    	 
+    	 Query query = em.createNamedQuery("IotdtcRecepcion.findAll");
+    	 return query.getResultList();
+         
+     }
+     
+    /*public int insertByInteroperabilidad(IotdtcRecepcionSchemaIdsgd iotdtcRecepcionSchemaIdsgd) {
+    	 int result  = em.createNativeQuery("INSERT INTO IotdtcRecepcion ("
+    	 		+ " SIDRECEXT	,	\r\n"
+    	 		+ " BCARSTD	,	\r\n"
+    	 		+ " CCODUNIORGSTD	,	\r\n"
+    	 		+ " CFLGENVCAR	,	\r\n"
+    	 		+ " CFLGEST	,	\r\n"
+    	 		+ " CFLGESTOBS	,	\r\n"
+    	 		+ " CTIPDOCIDEREM	,	\r\n"
+    	 		+ " DFECMOD	,	\r\n"
+    	 		+ " DFECREG ,	\r\n"
+    	 		+ " DFECREGSTD	,	\r\n"
+    	 		+ " VANIOREGSTD	,	\r\n"
+    	 		+ " VCUO		,	\r\n"
+    	 		+ " VCUOREF	,	\r\n"
+    	 		+ " VDESANXSTD	,	\r\n"
+    	 		+ " VNUMDOCIDEREM	,	\r\n"
+    	 		+ " VNUMREGSTD	,	\r\n"
+    	 		+ " VOBS,	\r\n"
+    	 		+ " VRUCENTREM	,	\r\n"
+    	 		+ " VUNIORGREM	,	\r\n"
+    	 		+ " VUNIORGSTD	,	\r\n"
+    	 		+ " VUSUMOD	,	\r\n"
+    	 		+ " VUSUREGSTD) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
+         .setParameter(1, iotdtcRecepcionSchemaIdsgd.getSidrecext())
+         .setParameter(2, iotdtcRecepcionSchemaIdsgd.getBcarstd())
+         .setParameter(3, iotdtcRecepcionSchemaIdsgd.getCcoduniorgstd())
+         .setParameter(4, iotdtcRecepcionSchemaIdsgd.getCflgenvcar() )
+         .setParameter(5, iotdtcRecepcionSchemaIdsgd.getCflgest())
+         .setParameter(6, iotdtcRecepcionSchemaIdsgd.getCflgestobs())
+         .setParameter(7, iotdtcRecepcionSchemaIdsgd.getCtipdociderem())
+         .setParameter(8, iotdtcRecepcionSchemaIdsgd.getDfecmod())
+         .setParameter(9, iotdtcRecepcionSchemaIdsgd.getDfecreg())
+         .setParameter(10, iotdtcRecepcionSchemaIdsgd.getDfecregstd())
+         .setParameter(11, iotdtcRecepcionSchemaIdsgd.getVanioregstd())
+         .setParameter(12, iotdtcRecepcionSchemaIdsgd.getVcuo())
+         .setParameter(13, iotdtcRecepcionSchemaIdsgd.getVcuoref())
+         .setParameter(14, iotdtcRecepcionSchemaIdsgd.getVdesanxstd())
+         .setParameter(15, iotdtcRecepcionSchemaIdsgd.getVnumdociderem())
+         .setParameter(16, iotdtcRecepcionSchemaIdsgd.getVnumregstd())
+         .setParameter(17, iotdtcRecepcionSchemaIdsgd.getVobs())
+         .setParameter(18, iotdtcRecepcionSchemaIdsgd.getVrucentrem())
+         .setParameter(19, iotdtcRecepcionSchemaIdsgd.getVuniorgrem())
+         .setParameter(20, iotdtcRecepcionSchemaIdsgd.getVuniorgstd())
+         .setParameter(21, iotdtcRecepcionSchemaIdsgd.getVusumod())
+         .setParameter(22, iotdtcRecepcionSchemaIdsgd.getVusuregstd())
+         .executeUpdate();
+    	
+    	 return result;
+    }*/
   
     public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion){
 		

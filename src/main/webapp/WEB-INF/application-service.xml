@@ -135,6 +135,13 @@
            <property name="recepcionVirtualDAO" ref="recepcionVirtualDAO" />
     </bean>
     
+    <bean id="recepcionVirtualMpvDAO" class="org.ositran.daos.RecepcionVirtualMpvDAOImpl">
+    </bean>
+    
+    <bean id="recepcionVirtualServiceMpv" class="org.ositran.services.RecepcionVirtualServiceMpvImpl">
+           <property name="recepcionVirtualMpvDAO" ref="recepcionVirtualMpvDAO" />
+    </bean>
+    
     <bean id="despachoVirtualDAO" class="org.ositran.daos.DespachoVirtualDAOImpl">
     </bean>
     

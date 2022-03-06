@@ -14,8 +14,13 @@ import java.util.List;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+import com.btg.ositran.siged.domain.IotdtcRecepcionSchemaIdsgd;
 
 public interface RecepcionVirtualService {
+	
+	List<IotdtcRecepcion> getAll();
+	
+	
     public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion);
 //<<<<<<< HEAD
     
