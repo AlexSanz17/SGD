@@ -40,13 +40,12 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
     	CargoRecepcionMPVResponse cargoRecepcionVirtualResponse = null;
     	
     	try {
-
     		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
     		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     		conn.setDoOutput(true);
     		conn.setRequestMethod("POST");
     		conn.setRequestProperty("Content-Type", "application/json");
-    		
+
     		cargoRecepcionVirtualRequest.seteDocumento("15909");
     		cargoRecepcionVirtualRequest.setcExpediente("23041983ABC123");
     		cargoRecepcionVirtualRequest.setfFecha("22/02/2022 19:35:00");

@@ -659,9 +659,13 @@ var removeAndAddToolBarInbox = function(sTipoGrid) {
 
 //German: me parece que es mejor primero ocultar el toolbar y luego mostrarlo una vez que haya cargado el grid
 var removeToolBarInbox=function(){
+	dojo.forEach(dijit.byId("toolBarInbox").getChildren(), function(item) {
+      console.debug("(removeAndAddToolBarInbox) Removiendo del toolBarInbox [%s]", item.id);
+      dijit.byId("toolBarInbox").removeChild(item);
+   });
 
-	
-   /*if(dijit.byId("toolBarInbox").hasChildNodes()) {
+	/*
+   if(dijit.byId("toolBarInbox").hasChildNodes()) {
 		 dojo.forEach(dijit.byId("toolBarInbox").getChildren(), function(item) {
 		      console.debug("(removeAndAddToolBarInbox) Removiendo del toolBarInbox [%s]", item.id);
 		      dijit.byId("toolBarInbox").removeChild(item);
@@ -927,7 +931,7 @@ var showGridInbox = function(sTipoGrid) {
    }
 
    if (sTipoGrid == TIPO_GRID_FIRMAR){
-       document.getElementById("filamenu1").onclick = function() {respuesta()};
+	   document.getElementById("filamenu1").onclick = function() {respuesta()};
        document.getElementById("filamenu4").onclick = function() {respuesta()};
        document.getElementById("filamenu2").onclick = function() {respuesta()};
        document.getElementById("filamenu6").onclick = function() {respuesta()};
@@ -940,27 +944,48 @@ var showGridInbox = function(sTipoGrid) {
        if (document.getElementById("filamenu24")!=null){
          document.getElementById("filamenu24").onclick = function() {respuesta()};
        }  
+       if (document.getElementById("filamenu31")!=null){
+         document.getElementById("filamenu31").onclick = function() {respuesta()};
+       }  
+	   if (document.getElementById("filamenu27")!=null){
+         document.getElementById("filamenu27").onclick = function() {respuesta()};
+       } 
+	   if (document.getElementById("filamenu28")!=null){
+         document.getElementById("filamenu28").onclick = function() {respuesta()};
+       } 
    }
     
    if (sTipoGrid == TIPO_GRID_RECIBIDOS){
-       try{
+	   try{
             document.getElementById("filamenu23").onclick = function() {respuesta()};
             document.getElementById("filamenu4").onclick = function() {respuesta()};
             document.getElementById("filamenu2").onclick = function() {respuesta()};
             document.getElementById("filamenu6").onclick = function() {respuesta()};
             if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
                document.getElementById("filamenu5").onclick = function() {respuesta()};
-           }   
+            }   
             document.getElementById("filamenu3").onclick = function() {respuesta()};
             document.getElementById("filamenu21").onclick = function() {respuesta()};
             document.getElementById("filamenu22").onclick = function() {respuesta()};
+			if (document.getElementById("filamenu24")!=null){
+			   document.getElementById("filamenu24").onclick = function() {respuesta()};
+		    }  
+		    if (document.getElementById("filamenu31")!=null){
+			   document.getElementById("filamenu31").onclick = function() {respuesta()};
+		    }  
+			if (document.getElementById("filamenu27")!=null){
+			 document.getElementById("filamenu27").onclick = function() {respuesta()};
+		   } 
+		   if (document.getElementById("filamenu28")!=null){
+			 document.getElementById("filamenu28").onclick = function() {respuesta()};
+		   } 
        }catch(error){
            
        }
    }
    
    if (sTipoGrid == TIPO_GRID_EXPEDIENTES){
-       document.getElementById("filamenu23").onclick = function() {respuesta()};
+	   document.getElementById("filamenu23").onclick = function() {respuesta()};
        document.getElementById("filamenu4").onclick = function() {respuesta()};
        document.getElementById("filamenu1").onclick = function() {respuesta()};
        document.getElementById("filamenu6").onclick = function() {respuesta()};
@@ -970,6 +995,18 @@ var showGridInbox = function(sTipoGrid) {
        document.getElementById("filamenu3").onclick = function() {respuesta()};
        document.getElementById("filamenu21").onclick = function() {respuesta()};
        document.getElementById("filamenu22").onclick = function() {respuesta()};
+	   if (document.getElementById("filamenu24")!=null){
+		 document.getElementById("filamenu24").onclick = function() {respuesta()};
+	   }  
+	   if (document.getElementById("filamenu31")!=null){
+		 document.getElementById("filamenu31").onclick = function() {respuesta()};
+	   }  
+	   if (document.getElementById("filamenu27")!=null){
+         document.getElementById("filamenu27").onclick = function() {respuesta()};
+       } 
+	   if (document.getElementById("filamenu28")!=null){
+         document.getElementById("filamenu28").onclick = function() {respuesta()};
+       } 
    }
    
    if (sTipoGrid == TIPO_GRID_PENDIENTES){
@@ -981,10 +1018,22 @@ var showGridInbox = function(sTipoGrid) {
        document.getElementById("filamenu3").onclick = function() {respuesta()};
        document.getElementById("filamenu21").onclick = function() {respuesta()};
        document.getElementById("filamenu22").onclick = function() {respuesta()};
+	   if (document.getElementById("filamenu24")!=null){
+		 document.getElementById("filamenu24").onclick = function() {respuesta()};
+	   }  
+	   if (document.getElementById("filamenu31")!=null){
+		 document.getElementById("filamenu31").onclick = function() {respuesta()};
+	   }  
+	   if (document.getElementById("filamenu27")!=null){
+         document.getElementById("filamenu27").onclick = function() {respuesta()};
+       } 
+	   if (document.getElementById("filamenu28")!=null){
+         document.getElementById("filamenu28").onclick = function() {respuesta()};
+       } 
    }
    
    if (sTipoGrid == TIPO_GRID_ENVIADOS){
-       document.getElementById("filamenu23").onclick = function() {respuesta()};
+	   document.getElementById("filamenu23").onclick = function() {respuesta()};
        document.getElementById("filamenu4").onclick = function() {respuesta()};
        if (document.getElementById("filamenu24")!=null){
            document.getElementById("filamenu24").onclick = function() {respuesta()};
@@ -994,13 +1043,170 @@ var showGridInbox = function(sTipoGrid) {
        document.getElementById("filamenu3").onclick = function() {respuesta()};
        document.getElementById("filamenu21").onclick = function() {respuesta()};
        document.getElementById("filamenu22").onclick = function() {respuesta()};
+	   if (document.getElementById("filamenu24")!=null){
+		 document.getElementById("filamenu24").onclick = function() {respuesta()};
+	   }  
+	   if (document.getElementById("filamenu31")!=null){
+		 document.getElementById("filamenu31").onclick = function() {respuesta()};
+	   }  
+	   if (document.getElementById("filamenu27")!=null){
+         document.getElementById("filamenu27").onclick = function() {respuesta()};
+       } 
+	   if (document.getElementById("filamenu28")!=null){
+         document.getElementById("filamenu28").onclick = function() {respuesta()};
+       } 
    }
+   
+   if (sTipoGrid == TIPO_GRID_RECEPCION_VIRTUAL){
+	   document.getElementById("filamenu23").onclick = function() {respuesta()};
+	   document.getElementById("filamenu1").onclick = function() {respuesta()};
+       document.getElementById("filamenu4").onclick = function() {respuesta()};
+       document.getElementById("filamenu2").onclick = function() {respuesta()};
+       document.getElementById("filamenu6").onclick = function() {respuesta()};
+       if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+          document.getElementById("filamenu5").onclick = function() {respuesta()};
+       }   
+       document.getElementById("filamenu3").onclick = function() {respuesta()};
+       document.getElementById("filamenu21").onclick = function() {respuesta()};
+       document.getElementById("filamenu22").onclick = function() {respuesta()};
+       if (document.getElementById("filamenu24")!=null){
+         document.getElementById("filamenu24").onclick = function() {respuesta()};
+       }  
+       if (document.getElementById("filamenu31")!=null){
+         document.getElementById("filamenu31").onclick = function() {respuesta()};
+       }  
+	   if (document.getElementById("filamenu27")!=null){
+         document.getElementById("filamenu27").onclick = function() {respuesta()};
+       } 
+	   if (document.getElementById("filamenu28")!=null){
+         document.getElementById("filamenu28").onclick = function() {respuesta()};
+       } 
+   }   
+   
+   if (sTipoGrid == TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS){
+	   document.getElementById("filamenu23").onclick = function() {respuesta()};
+	   document.getElementById("filamenu1").onclick = function() {respuesta()};
+       document.getElementById("filamenu4").onclick = function() {respuesta()};
+       document.getElementById("filamenu2").onclick = function() {respuesta()};
+       document.getElementById("filamenu6").onclick = function() {respuesta()};
+       if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+          document.getElementById("filamenu5").onclick = function() {respuesta()};
+       }   
+       document.getElementById("filamenu3").onclick = function() {respuesta()};
+       document.getElementById("filamenu21").onclick = function() {respuesta()};
+       document.getElementById("filamenu22").onclick = function() {respuesta()};
+       if (document.getElementById("filamenu24")!=null){
+         document.getElementById("filamenu24").onclick = function() {respuesta()};
+       }  
+       if (document.getElementById("filamenu31")!=null){
+         document.getElementById("filamenu31").onclick = function() {respuesta()};
+       }  
+	   if (document.getElementById("filamenu27")!=null){
+         document.getElementById("filamenu27").onclick = function() {respuesta()};
+       } 
+	   if (document.getElementById("filamenu28")!=null){
+         document.getElementById("filamenu28").onclick = function() {respuesta()};
+       } 
+   }   
+   
+   if (sTipoGrid == TIPO_GRID_SEGUIMIENTO){
+	   document.getElementById("filamenu23").onclick = function() {respuesta()};
+	   document.getElementById("filamenu1").onclick = function() {respuesta()};
+       document.getElementById("filamenu4").onclick = function() {respuesta()};
+       document.getElementById("filamenu2").onclick = function() {respuesta()};
+       document.getElementById("filamenu6").onclick = function() {respuesta()};
+       if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+          document.getElementById("filamenu5").onclick = function() {respuesta()};
+       }   
+       document.getElementById("filamenu3").onclick = function() {respuesta()};
+       document.getElementById("filamenu22").onclick = function() {respuesta()};
+       if (document.getElementById("filamenu24")!=null){
+         document.getElementById("filamenu24").onclick = function() {respuesta()};
+       }  
+       if (document.getElementById("filamenu31")!=null){
+         document.getElementById("filamenu31").onclick = function() {respuesta()};
+       }  
+	   if (document.getElementById("filamenu27")!=null){
+         document.getElementById("filamenu27").onclick = function() {respuesta()};
+       } 
+	   if (document.getElementById("filamenu28")!=null){
+         document.getElementById("filamenu28").onclick = function() {respuesta()};
+       } 
+   }	   
+   
+   if (sTipoGrid == TIPO_GRID_DOCUMENTOS_ARCHIVADOS){
+	   document.getElementById("filamenu23").onclick = function() {respuesta()};
+	   document.getElementById("filamenu1").onclick = function() {respuesta()};
+	   document.getElementById("filamenu21").onclick = function() {respuesta()};
+       document.getElementById("filamenu4").onclick = function() {respuesta()};
+       document.getElementById("filamenu2").onclick = function() {respuesta()};
+       document.getElementById("filamenu6").onclick = function() {respuesta()};
+       if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+          document.getElementById("filamenu5").onclick = function() {respuesta()};
+       }   
+       document.getElementById("filamenu3").onclick = function() {respuesta()};
+       document.getElementById("filamenu22").onclick = function() {respuesta()};
+       if (document.getElementById("filamenu24")!=null){
+         document.getElementById("filamenu24").onclick = function() {respuesta()};
+       }  
+       if (document.getElementById("filamenu31")!=null){
+         document.getElementById("filamenu31").onclick = function() {respuesta()};
+       }  
+	   if (document.getElementById("filamenu27")!=null){
+         document.getElementById("filamenu27").onclick = function() {respuesta()};
+       } 
+	   if (document.getElementById("filamenu28")!=null){
+         document.getElementById("filamenu28").onclick = function() {respuesta()};
+       } 
+   }	  
+   
+   if (sTipoGrid == TIPO_GRID_MI_LEGAJO){
+	   document.getElementById("filamenu23").onclick = function() {respuesta()};
+	   document.getElementById("filamenu1").onclick = function() {respuesta()};
+	   document.getElementById("filamenu21").onclick = function() {respuesta()};
+       document.getElementById("filamenu4").onclick = function() {respuesta()};
+       document.getElementById("filamenu2").onclick = function() {respuesta()};
+       document.getElementById("filamenu6").onclick = function() {respuesta()};
+       if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+          document.getElementById("filamenu5").onclick = function() {respuesta()};
+       }   
+       document.getElementById("filamenu3").onclick = function() {respuesta()};
+       document.getElementById("filamenu22").onclick = function() {respuesta()};
+       if (document.getElementById("filamenu24")!=null){
+         document.getElementById("filamenu24").onclick = function() {respuesta()};
+       }  
+       if (document.getElementById("filamenu31")!=null){
+         document.getElementById("filamenu31").onclick = function() {respuesta()};
+       }  
+   }
+
+   if (sTipoGrid == TIPO_GRID_LEGAJO_COMPARTIDO){
+	   document.getElementById("filamenu23").onclick = function() {respuesta()};
+	   document.getElementById("filamenu1").onclick = function() {respuesta()};
+	   document.getElementById("filamenu21").onclick = function() {respuesta()};
+       document.getElementById("filamenu4").onclick = function() {respuesta()};
+       document.getElementById("filamenu2").onclick = function() {respuesta()};
+       document.getElementById("filamenu6").onclick = function() {respuesta()};
+       if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+          document.getElementById("filamenu5").onclick = function() {respuesta()};
+       }   
+       document.getElementById("filamenu3").onclick = function() {respuesta()};
+       document.getElementById("filamenu22").onclick = function() {respuesta()};
+       if (document.getElementById("filamenu24")!=null){
+         document.getElementById("filamenu24").onclick = function() {respuesta()};
+       }  
+       if (document.getElementById("filamenu31")!=null){
+         document.getElementById("filamenu31").onclick = function() {respuesta()};
+       }  
+   }    
+   
    
    console.info("(showGridInbox) Tipo de grid1 a pintar [%d]", sTipoGrid);
 
    console.debug("sTipoGridActual:  "+sTipoGridActual);
    if(!(sTipoGrid==TIPO_GRID_RECIBIDOS) && recursoIG==1 && dijit.byId("borderContainerVisor")){
-                      dijit.byId("borderContainerVisor").removeChild(dijit.byId("contentPaneVisor"));
+	          console.info("Recibidos x1.................");     
+              dijit.byId("borderContainerVisor").removeChild(dijit.byId("contentPaneVisor"));
 		      dijit.byId("contentPaneVisor").destroyDescendants();
 	              dijit.byId("contentPaneVisor").destroy();
 		      dijit.byId("borderContainerVisor").destroy();
@@ -1026,7 +1232,7 @@ var showGridInbox = function(sTipoGrid) {
    //visorGerencial
    //Reconstruye borderContainerVisor, para un grid TIPO_GRID_RECIBIDOS, luego de que destruido
    if((sTipoGrid==TIPO_GRID_RECIBIDOS) && recursoIG==1 && vistaIG==true){
-               dijit.byId("borderContainerInbox").removeChild(dijit.byId("contentPaneGrid"));
+	       dijit.byId("borderContainerInbox").removeChild(dijit.byId("contentPaneGrid"));
 	       dijit.byId("contentPaneGrid").destroyDescendants();
 	       dijit.byId("contentPaneGrid").destroy();
 
@@ -1254,7 +1460,7 @@ var showGridInbox = function(sTipoGrid) {
          }
          
        if (sTipoGrid == TIPO_GRID_FIRMAR){
-         document.getElementById("filamenu1").onclick = function() {accion(1)};
+	     document.getElementById("filamenu1").onclick = function() {accion(1)};
          document.getElementById("filamenu4").onclick = function() {accion(4)};
          document.getElementById("filamenu2").onclick = function() {accion(2)};
          document.getElementById("filamenu6").onclick = function() {accion(6)};
@@ -1267,9 +1473,19 @@ var showGridInbox = function(sTipoGrid) {
          if (document.getElementById("filamenu24")!=null){
            document.getElementById("filamenu24").onclick = function() {accion(24)};
          }
+		 if (document.getElementById("filamenu31")!=null){
+		   document.getElementById("filamenu31").onclick = function() {accion(31)};
+		 }  
+		 if (document.getElementById("filamenu27")!=null){
+		   document.getElementById("filamenu27").onclick = function() {accion(27)};
+		 } 
+		 if (document.getElementById("filamenu28")!=null){
+			 document.getElementById("filamenu28").onclick = function() {accion(28)};
+		 } 
        }
        
        if (sTipoGrid == TIPO_GRID_RECIBIDOS){
+	     console.info("Recibidos 30.................");   
          document.getElementById("filamenu23").onclick = function() {accion(23)};
          document.getElementById("filamenu4").onclick = function() {accion(4)};
          document.getElementById("filamenu2").onclick = function() {accion(2)};
@@ -1279,10 +1495,23 @@ var showGridInbox = function(sTipoGrid) {
          }  
          document.getElementById("filamenu3").onclick = function() {accion(3)};
          document.getElementById("filamenu21").onclick = function() {accion(21)};
-         document.getElementById("filamenu22").onclick = function() {accion(22)};         
+         document.getElementById("filamenu22").onclick = function() {accion(22)}; 
+         if (document.getElementById("filamenu24")!=null){
+			 document.getElementById("filamenu24").onclick = function() {accion(24)};
+		 }  
+		if (document.getElementById("filamenu31")!=null){
+			document.getElementById("filamenu31").onclick = function() {accion(31)};
+		 }  	
+         if (document.getElementById("filamenu27")!=null){
+		   document.getElementById("filamenu27").onclick = function() {accion(27)};
+		 } 
+		 if (document.getElementById("filamenu28")!=null){
+			 document.getElementById("filamenu28").onclick = function() {accion(28)};
+		 } 		 
        }
        
        if (sTipoGrid == TIPO_GRID_EXPEDIENTES){
+	     console.info("Mis documentos 30.................");   
          document.getElementById("filamenu1").onclick = function() {accion(1)};
          document.getElementById("filamenu4").onclick = function() {accion(4)};
          if (document.getElementById("filamenu23")!=null){
@@ -1296,9 +1525,22 @@ var showGridInbox = function(sTipoGrid) {
          document.getElementById("filamenu21").onclick = function() {accion(21)};
          document.getElementById("filamenu22").onclick = function() {accion(22)};  
         // document.getElementById("filamenu2").onclick = function() {accion(2)};
+		 if (document.getElementById("filamenu24")!=null){
+		   document.getElementById("filamenu24").onclick = function() {accion(24)};
+		 }  
+		 if (document.getElementById("filamenu31")!=null){
+		   document.getElementById("filamenu31").onclick = function() {accion(31)};
+		 }
+         if (document.getElementById("filamenu27")!=null){
+	       document.getElementById("filamenu27").onclick = function() {accion(27)};
+	     } 
+		 if (document.getElementById("filamenu28")!=null){
+		   document.getElementById("filamenu28").onclick = function() {accion(28)};
+		  } 		   
        }   
        
        if (sTipoGrid == TIPO_GRID_PENDIENTES){
+	     console.info("Pendientes.................");   
          document.getElementById("filamenu1").onclick = function() {accion(1)};
          document.getElementById("filamenu4").onclick = function() {accion(4)};
          document.getElementById("filamenu23").onclick = function() {accion(23)};
@@ -1306,11 +1548,23 @@ var showGridInbox = function(sTipoGrid) {
          document.getElementById("filamenu2").onclick = function() {accion(2)};
          document.getElementById("filamenu3").onclick = function() {accion(3)};
          document.getElementById("filamenu21").onclick = function() {accion(21)};
-         document.getElementById("filamenu22").onclick = function() {accion(22)};         
+         document.getElementById("filamenu22").onclick = function() {accion(22)};    
+         if (document.getElementById("filamenu24")!=null){
+		   document.getElementById("filamenu24").onclick = function() {accion(24)};
+		 }  
+		 if (document.getElementById("filamenu31")!=null){
+		   document.getElementById("filamenu31").onclick = function() {accion(31)};
+		 }
+         if (document.getElementById("filamenu27")!=null){
+		   document.getElementById("filamenu27").onclick = function() {accion(27)};
+		 } 
+		 if (document.getElementById("filamenu28")!=null){
+			 document.getElementById("filamenu28").onclick = function() {accion(28)};
+		 }     		 
        }   
        
        if (sTipoGrid == TIPO_GRID_ENVIADOS){
-            document.getElementById("filamenu23").onclick = function() {accion(23)};
+	        document.getElementById("filamenu23").onclick = function() {accion(23)};
             document.getElementById("filamenu4").onclick = function() {accion(4)};
             if (document.getElementById("filamenu24")!=null){
               document.getElementById("filamenu24").onclick = function() {accion(24)};
@@ -1320,8 +1574,163 @@ var showGridInbox = function(sTipoGrid) {
             document.getElementById("filamenu3").onclick = function() {accion(3)};
             document.getElementById("filamenu21").onclick = function() {accion(21)};
             document.getElementById("filamenu22").onclick = function() {accion(22)};
-        }
-       
+			if (document.getElementById("filamenu24")!=null){
+			 document.getElementById("filamenu24").onclick = function() {accion(24)};
+		   }  
+		   if (document.getElementById("filamenu31")!=null){
+			 document.getElementById("filamenu31").onclick = function() {accion(31)};
+		   }  
+		   if (document.getElementById("filamenu27")!=null){
+			   document.getElementById("filamenu27").onclick = function() {accion(27)};
+			 } 
+			 if (document.getElementById("filamenu28")!=null){
+				 document.getElementById("filamenu28").onclick = function() {accion(28)};
+			 } 
+       }
+	   
+	   if (sTipoGrid == TIPO_GRID_RECEPCION_VIRTUAL){
+		   document.getElementById("filamenu23").onclick = function() {accion(23)};
+		   document.getElementById("filamenu1").onclick = function() {accion(1)};
+		   document.getElementById("filamenu4").onclick = function() {accion(4)};
+		   document.getElementById("filamenu2").onclick = function() {accion(2)};
+		   document.getElementById("filamenu6").onclick = function() {accion(6)};
+		   if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+			  document.getElementById("filamenu5").onclick = function() {accion(5)};
+		   }   
+		   document.getElementById("filamenu3").onclick = function() {accion(3)};
+		   document.getElementById("filamenu21").onclick = function() {accion(21)};
+		   document.getElementById("filamenu22").onclick = function() {accion(22)};
+		   if (document.getElementById("filamenu24")!=null){
+			 document.getElementById("filamenu24").onclick = function() {accion(24)};
+		   }  
+		   if (document.getElementById("filamenu31")!=null){
+			 document.getElementById("filamenu31").onclick = function() {accion(31)};
+		   }  
+		   if (document.getElementById("filamenu27")!=null){
+			   document.getElementById("filamenu27").onclick = function() {accion(27)};
+			 } 
+			 if (document.getElementById("filamenu28")!=null){
+				 document.getElementById("filamenu28").onclick = function() {accion(28)};
+			 } 
+	   }   
+	   
+	   if (sTipoGrid == TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS){
+			document.getElementById("filamenu23").onclick = function() {accion(23)};
+		   document.getElementById("filamenu1").onclick = function() {accion(1)};
+		   document.getElementById("filamenu4").onclick = function() {accion(4)};
+		   document.getElementById("filamenu2").onclick = function() {accion(2)};
+		   document.getElementById("filamenu6").onclick = function() {accion(6)};
+		   if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+			  document.getElementById("filamenu5").onclick = function() {accion(5)};
+		   }   
+		   document.getElementById("filamenu3").onclick = function() {accion(3)};
+		   document.getElementById("filamenu21").onclick = function() {accion(21)};
+		   document.getElementById("filamenu22").onclick = function() {accion(22)};
+		   if (document.getElementById("filamenu24")!=null){
+			 document.getElementById("filamenu24").onclick = function() {accion(24)};
+		   }  
+		   if (document.getElementById("filamenu31")!=null){
+			 document.getElementById("filamenu31").onclick = function() {accion(31)};
+		   }  
+		   if (document.getElementById("filamenu27")!=null){
+			   document.getElementById("filamenu27").onclick = function() {accion(27)};
+			 } 
+			 if (document.getElementById("filamenu28")!=null){
+				 document.getElementById("filamenu28").onclick = function() {accion(28)};
+			 } 
+	   } 
+
+       if (sTipoGrid == TIPO_GRID_SEGUIMIENTO){
+		   document.getElementById("filamenu23").onclick = function() {accion(23)};
+		   document.getElementById("filamenu1").onclick = function() {accion(1)};
+		   document.getElementById("filamenu4").onclick = function() {accion(4)};
+		   document.getElementById("filamenu2").onclick = function() {accion(2)};
+		   document.getElementById("filamenu6").onclick = function() {accion(6)};
+		   if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+			  document.getElementById("filamenu5").onclick = function() {accion(5)};
+		   }   
+		   document.getElementById("filamenu3").onclick = function() {accion(3)};
+		   document.getElementById("filamenu22").onclick = function() {accion(22)};
+		   if (document.getElementById("filamenu24")!=null){
+			 document.getElementById("filamenu24").onclick = function() {accion(24)};
+		   }  
+		   if (document.getElementById("filamenu31")!=null){
+			 document.getElementById("filamenu31").onclick = function() {accion(31)};
+		   }  
+		   if (document.getElementById("filamenu27")!=null){
+			   document.getElementById("filamenu27").onclick = function() {accion(27)};
+			 } 
+			 if (document.getElementById("filamenu28")!=null){
+				 document.getElementById("filamenu28").onclick = function() {accion(28)};
+			 } 
+	   }	 
+
+       if (sTipoGrid == TIPO_GRID_DOCUMENTOS_ARCHIVADOS){
+		   document.getElementById("filamenu23").onclick = function() {accion(23)};
+		   document.getElementById("filamenu1").onclick = function() {accion(1)};
+		   document.getElementById("filamenu21").onclick = function() {accion(21)};
+		   document.getElementById("filamenu4").onclick = function() {accion(4)};
+		   document.getElementById("filamenu2").onclick = function() {accion(2)};
+		   document.getElementById("filamenu6").onclick = function() {accion(6)};
+		   if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+			  document.getElementById("filamenu5").onclick = function() {accion(5)};
+		   }   
+		   document.getElementById("filamenu3").onclick = function() {accion(3)};
+		   document.getElementById("filamenu22").onclick = function() {accion(22)};
+		   if (document.getElementById("filamenu24")!=null){
+			 document.getElementById("filamenu24").onclick = function() {accion(24)};
+		   }  
+		   if (document.getElementById("filamenu31")!=null){
+			 document.getElementById("filamenu31").onclick = function() {accion(31)};
+		   }  
+		   if (document.getElementById("filamenu27")!=null){
+			   document.getElementById("filamenu27").onclick = function() {accion(27)};
+			 } 
+			 if (document.getElementById("filamenu28")!=null){
+				 document.getElementById("filamenu28").onclick = function() {accion(28)};
+			 } 
+	   }
+
+       if (sTipoGrid == TIPO_GRID_MI_LEGAJO){
+		   document.getElementById("filamenu23").onclick = function() {accion(23)};
+		   document.getElementById("filamenu1").onclick = function() {accion(1)};
+		   document.getElementById("filamenu21").onclick = function() {accion(21)};
+		   document.getElementById("filamenu4").onclick = function() {accion(4)};
+		   document.getElementById("filamenu2").onclick = function() {accion(2)};
+		   document.getElementById("filamenu6").onclick = function() {accion(6)};
+		   if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+			  document.getElementById("filamenu5").onclick = function() {accion(5)};
+		   }   
+		   document.getElementById("filamenu3").onclick = function() {accion(3)};
+		   document.getElementById("filamenu22").onclick = function() {accion(22)};
+		   if (document.getElementById("filamenu24")!=null){
+			 document.getElementById("filamenu24").onclick = function() {accion(24)};
+		   }  
+		   if (document.getElementById("filamenu31")!=null){
+			 document.getElementById("filamenu31").onclick = function() {accion(31)};
+		   }  
+	   }
+
+	   if (sTipoGrid == TIPO_GRID_LEGAJO_COMPARTIDO){
+		   document.getElementById("filamenu23").onclick = function() {accion(23)};
+		   document.getElementById("filamenu1").onclick = function() {accion(1)};
+		   document.getElementById("filamenu21").onclick = function() {accion(21)};
+		   document.getElementById("filamenu4").onclick = function() {accion(4)};
+		   document.getElementById("filamenu2").onclick = function() {accion(2)};
+		   document.getElementById("filamenu6").onclick = function() {accion(6)};
+		   if (bandejaJefe!=null && bandejaJefe!=undefined && bandejaJefe=="4"){
+			  document.getElementById("filamenu5").onclick = function() {accion(5)};
+		   }   
+		   document.getElementById("filamenu3").onclick = function() {accion(3)};
+		   document.getElementById("filamenu22").onclick = function() {accion(22)};
+		   if (document.getElementById("filamenu24")!=null){
+			 document.getElementById("filamenu24").onclick = function() {accion(24)};
+		   }  
+		   if (document.getElementById("filamenu31")!=null){
+			 document.getElementById("filamenu31").onclick = function() {accion(31)};
+		   }  
+	   }	   
+		   
        service.getCantidadDocumentosVirtuales(sTipoGrid).addCallback(function(respuesta){
             if (sTipoGrid == TIPO_GRID_RECEPCION_VIRTUAL){
                 dijit.byId("lblFiltrarContador").attr("label", respuesta);                                                     

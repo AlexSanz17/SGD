@@ -5545,68 +5545,43 @@ public class DocumentoServiceImpl implements DocumentoService {
                                 objDD.setStrCorreoCliente(expediente.getCliente().getCorreo());
                                 objDD.setStrRepresentanteLegal(expediente.getCliente().getRepresentanteLegal());
                                 
-                                
-                                // ejecutar web service
-//                                String documento = String.valueOf(objD.getIdDocumento());
-                        		IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
-                                String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
-                                
-                        		String expedienteForService = String.valueOf(objD.getID_CODIGO());
-                        		
-                        		Date fechaAccion = objD.getFechaCreacion();                        		
-                        		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-                        		String fechaForService = DATE_FORMAT.format(fechaAccion);
-                        		
-                        		String usuario = String.valueOf(objD.getAutor().getIdusuario());
-                        		
-                        		String estadoDocumento = "";
-                        		String fechaRecepcion = "";
-                        		String fechaRechazado = "";
-                        		
-                        		if (objD.getRecepcionado().equals("R")) {
-                    				estadoDocumento = String.valueOf("1");
-                    				fechaRecepcion = fechaForService;
-                    				fechaRechazado = "";
-                        		} else {
-                        			estadoDocumento = String.valueOf("2");
-                        			fechaRecepcion = "";
-                        			fechaRechazado = fechaForService;
-                        		}
-                        		
-                                CargoRecepcionMPVRequest cargoRecepcionVirtualRequest = new CargoRecepcionMPVRequest();
-
-                                log.info("======================");
-                                log.info("Ejecutar web service");
-                                log.info("======================");
-                                
-                                log.info("Documento: ");
-                                log.info(documento);
-                                
-                                log.info("expediente: ");
-                                log.info(expedienteForService);
-                                log.info("fecha : ");
-                                log.info(fechaForService);
-                                log.info("usuario: ");
-                                log.info(usuario);
-                                
-                                log.info("estado: ");
-                                log.info(objD.getRecepcionado() + "::" + estadoDocumento);
-                                log.info("fecha de recepcion: ");
-                                log.info(fechaRecepcion);
-                                log.info("fecha de rechazo: ");
-                                log.info(fechaRechazado);
-                                
-                                
-                                
-                          	  try {
-
-                          		log.info("webservice: ");
-                          		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
+                                if (objDD.getCodigoVirtual() != null) {
+	                                // Ejecutar web service
+//                                	String documento = String.valueOf(objD.getIdDocumento());
+	                        		IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
+	                                String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
+	                                
+	                        		String expedienteForService = String.valueOf(objD.getID_CODIGO());
+	                        		
+	                        		Date fechaAccion = objD.getFechaCreacion();                        		
+	                        		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+	                        		String fechaForService = DATE_FORMAT.format(fechaAccion);
+	                        		
+	                        		String usuario = String.valueOf(objD.getAutor().getIdusuario());
+	                        		
+	                        		String estadoDocumento = "";
+	                        		String fechaRecepcion = "";
+	                        		String fechaRechazado = "";
+	                        		
+	                        		if (objD.getRecepcionado().equals("R")) {
+	                    				estadoDocumento = String.valueOf("1");
+	                    				fechaRecepcion = fechaForService;
+	                    				fechaRechazado = "";
+	                        		} else {
+	                        			estadoDocumento = String.valueOf("2");
+	                        			fechaRecepcion = "";
+	                        			fechaRechazado = fechaForService;
+	                        		}
+	                        		
+	                                CargoRecepcionMPVRequest cargoRecepcionVirtualRequest = new CargoRecepcionMPVRequest();
+	                                
+	                          	  try {
+	
+	                          		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
                             		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                             		conn.setDoOutput(true);
                             		conn.setRequestMethod("POST");
                             		conn.setRequestProperty("Content-Type", "application/json");
-                            		
                             		
                             		cargoRecepcionVirtualRequest.seteDocumento(documento);
                             		cargoRecepcionVirtualRequest.setcExpediente(expedienteForService);
@@ -5615,47 +5590,34 @@ public class DocumentoServiceImpl implements DocumentoService {
                             		cargoRecepcionVirtualRequest.seteEstadoDoc(estadoDocumento);
                             		cargoRecepcionVirtualRequest.setfFechaRecep(fechaRecepcion);
                             		cargoRecepcionVirtualRequest.setfFechaRecha(fechaRechazado);
-                            		
-//                            		cargoRecepcionVirtualRequest.seteDocumento("151");
-//                            		cargoRecepcionVirtualRequest.setcExpediente("202200000100");
-//                            		cargoRecepcionVirtualRequest.setfFecha("2022/02/21 11:08:26");
-//                            		cargoRecepcionVirtualRequest.seteUsuario("1037");
-//                            		cargoRecepcionVirtualRequest.seteEstadoDoc("R");
-//                            		cargoRecepcionVirtualRequest.setfFechaRecep("2022/02/21 11:08:26");
-//                            		cargoRecepcionVirtualRequest.setfFechaRecha("");
 
                             		ObjectMapper ow = new ObjectMapper();
                             		String json = ow.writeValueAsString(cargoRecepcionVirtualRequest);
-
-                          		OutputStream os = conn.getOutputStream();
-                          		os.write(json.getBytes());
-                          		os.flush();
-
-//                          		if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-//                          			throw new RuntimeException("Failed : HTTP error code : "
-//                          				+ conn.getResponseCode());
-//                          		}
-
-                          		BufferedReader br = new BufferedReader(new InputStreamReader(
-                          				(conn.getInputStream())));
-
-                          		String output;
-                          		System.out.println("Output from Server .... \n");
-                          		while ((output = br.readLine()) != null) {
-                          			System.out.println(output);
-                          		}
-
-                          		conn.disconnect();
-
-                          	  } catch (MalformedURLException e) {
-                          		log.error(e.getMessage(), e);
-                          		e.printStackTrace();
-
-                          	  } catch (IOException e) {
-                          		log.error(e.getMessage(), e);
-                          		e.printStackTrace();
-
-                          	 }
+	
+	                          		OutputStream os = conn.getOutputStream();
+	                          		os.write(json.getBytes());
+	                          		os.flush();
+	
+	                          		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+	
+	                          		String output;
+	                          		System.out.println("Output from Server .... \n");
+	                          		
+	                          		while ((output = br.readLine()) != null) {
+	                          			System.out.println(output);
+	                          		}
+	
+	                          		conn.disconnect();
+	
+	                          	  } catch (MalformedURLException e) {
+	                          		log.error(e.getMessage(), e);
+	                          		e.printStackTrace();
+	
+	                          	  } catch (IOException e) {
+	                          		log.error(e.getMessage(), e);
+	                          		e.printStackTrace();
+	                          	  }
+                              }
                                 
                        }
 		    return objDD;

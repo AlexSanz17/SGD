@@ -320,6 +320,7 @@
              
              dijit.byId("objDD.asuntoExpedienteTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
              dijit.byId("objDD.asuntoExpedienteTramite").attr("readOnly", true);
+             dijit.byId("objDD.iIdSerieTramite").attr("value", "1");
              
              dijit.byId("objDD.strAsuntoTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
              dijit.byId("objDD.strAsuntoTramite").attr("readOnly", true);
@@ -335,7 +336,7 @@
              dijit.byId("objDD.iIdInstitucionTramite").attr("value","<s:property value='objDD.iIdCliente' />");
              dijit.byId("objDD.iIdInstitucionTramite").attr("readOnly", true);
              
-             dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("value", "<s:property value='objDD.strTipoDocumento' />");
+             dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("value", "<s:property value='objDD.strTipoDocumento'/>");
              dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("readOnly", true);
              
              /*
