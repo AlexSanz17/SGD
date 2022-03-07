@@ -9,6 +9,7 @@ import org.ositran.services.DocumentoPIDEService;
 import org.ositran.services.RecepcionVirtualService;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.btg.ositran.siged.domain.IotdtcDespacho;
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
 import com.btg.ositran.siged.domain.IotdtdAnexo;
@@ -71,6 +72,10 @@ public class MigrarInformacion {
 		System.out.println("Job migracion");
 		System.out.println("============================");
 
+		try {
+			
+		
+		
 		// tabla de datos IOTDTC_RECEPCION
 		List<IotdtcRecepcionPIDE> listIotdtcRecepcionPIDE = documentoPIDEService.getAllRecepcion();
 
@@ -135,10 +140,28 @@ public class MigrarInformacion {
 			iotdtcDocExterno.setVnomdst(iotdtcDocExternoPIDE.getVnomdst());
 			iotdtcDocExterno.setVnomentemi(iotdtcDocExternoPIDE.getVnomentemi());
 			iotdtcDocExterno.setVnumdoc(iotdtcDocExternoPIDE.getVnumdoc());
+			
+			
+			
+			
 			iotdtcDocExterno.setVuniorgdst(iotdtcDocExternoPIDE.getVuniorgdst());
 			iotdtcDocExterno.setVurldocanx(iotdtcDocExternoPIDE.getVurldocanx());
-			iotdtcDocExterno.setSsidemiext(iotdtcDocExternoPIDE.getSsidemiext());
-			iotdtcDocExterno.setSsidrecext(iotdtcDocExternoPIDE.getSsidrecext());
+			
+			IotdtcDespacho iotdtcDespacho = new IotdtcDespacho();
+			
+			if (iotdtcDocExternoPIDE.getSidemiext() != null) {
+				iotdtcDespacho.setSidemiext(iotdtcDocExternoPIDE.getSidemiext().getSidemiext());
+				iotdtcDocExterno.setSidemiext(iotdtcDespacho); 
+			}
+			
+			
+			IotdtcRecepcion iotdtcRecepcion = new IotdtcRecepcion();
+			if(iotdtcDocExternoPIDE.getSidrecext() != null) {
+				iotdtcRecepcion.setSidrecext(iotdtcDocExternoPIDE.getSidrecext().getSidrecext());
+				iotdtcDocExterno.setSidrecext(iotdtcRecepcion); 
+			}
+			
+			
 			
 			System.out.println("**********");
 			System.out.println("iotdtcDocExternoPIDE");
@@ -192,6 +215,12 @@ public class MigrarInformacion {
 			System.out.println(iotdtcDocAnexoPIDE);
 			
 			IotdtdAnexo iotdtcDocPrincipalInserted = docAnexoVirtualService.registrarAnexo(iotdtcDocAnexo);
+		}
+		
+		} catch (Exception e) {
+			System.out.println("ERROR EN LOS INSERT");
+			System.out.println(e.getMessage()); 
+			// TODO: handle exception
 		}
 		
 	}
