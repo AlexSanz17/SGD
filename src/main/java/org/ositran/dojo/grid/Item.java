@@ -134,8 +134,10 @@ public class Item {
     private String ubicacionPagina;
     private String numeroPagina;
     private String estiloFirma;
-    private String aplicarImagen;    
-       
+    private String aplicarImagen;
+    private String altoRubrica;
+    private String anchoRubrica;
+    
 
     public String getIdProcedimiento() {
         return idProcedimiento;
@@ -1417,6 +1419,22 @@ public class Item {
 
 	public void setAplicarImagen(String aplicarImagen) {
 		this.aplicarImagen = aplicarImagen;
+	}
+
+	public String getAltoRubrica() {
+		return altoRubrica;
+	}
+
+	public void setAltoRubrica(String altoRubrica) {
+		this.altoRubrica = altoRubrica;
+	}
+
+	public String getAnchoRubrica() {
+		return anchoRubrica;
+	}
+
+	public void setAnchoRubrica(String anchoRubrica) {
+		this.anchoRubrica = anchoRubrica;
 	}
     
     

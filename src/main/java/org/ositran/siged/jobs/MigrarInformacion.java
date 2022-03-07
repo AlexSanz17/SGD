@@ -43,7 +43,7 @@ public class MigrarInformacion {
 		recepcionPideDaoForJob.getAllt();
 		
 		System.out.println("leer datos de schema getAllSchemaIdosgd");
-		recepcionPideDaoForJob.getAllSchemaIdosgd();
+//		recepcionPideDaoForJob.getAllSchemaIdosgd();
 
 		
 
