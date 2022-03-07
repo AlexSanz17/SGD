@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
-import com.btg.ositran.siged.domain.IotdtcRecepcionSchemaIdsgd;
+import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
 
 @Repository
 public class RecepcionPideDaoForJob {
@@ -44,8 +44,8 @@ public class RecepcionPideDaoForJob {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public IotdtcRecepcionSchemaIdsgd getAllSchemaIdosgd() {
-		Query query = em.createNamedQuery("IotdtcRecepcionSchemaIdsgd.findAll");
+	public IotdtcRecepcionPIDE getAllSchemaIdosgd() {
+		Query query = em.createNamedQuery("IotdtcRecepcionPIDE.findAll");
 
 		List results = query.getResultList();
 
@@ -55,7 +55,7 @@ public class RecepcionPideDaoForJob {
 		if (!results.isEmpty()) {
 			System.out.println(results.get(0));
 
-			return (IotdtcRecepcionSchemaIdsgd) results.get(0);
+			return (IotdtcRecepcionPIDE) results.get(0);
 		}
 
 		return null;

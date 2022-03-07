@@ -1,24 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtdAnexo;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-/**
- *
- * @author consultor_jti15
- */
+
 public class DocAnexoVirtualDAOImpl implements DocAnexoVirtualDAO{
-    private EntityManager em;
+	@PersistenceContext(unitName="sigedPU")
+	private EntityManager em;
      
-    @PersistenceContext(unitName="sigedPU")
     public void setEm(EntityManager em){
-	this.em=em;
+    	this.em=em;
     }
     
     public List<IotdtdAnexo> buscarAnexoVirtualId(Integer idDocExterno){
