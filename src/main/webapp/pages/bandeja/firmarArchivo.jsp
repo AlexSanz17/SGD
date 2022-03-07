@@ -32,6 +32,7 @@
 		var idfirmar = "";
 		var tid = setTimeout(validarFirmado, 5000);
 		document.getElementById("iframeFirma").style.display = "none";
+		var accionEjecutar = document.getElementById("estado").value;
 		
 		function validarFirmado() {
 		  //console.log("Validando firmado(activo):",activo);
@@ -43,7 +44,7 @@
 				archivosFirmaArray = archivosFirmaTemp;
 			}
 			for (var i = 0; i < archivosFirmaArray.length; i++) {
-				service.validarFirmado(archivosFirmaArray[i].archivo, archivosFirmaArray[i].objectId, idcodigo).addCallback(function (respuesta) {
+				service.validarFirmado(archivosFirmaArray[i].archivo, archivosFirmaArray[i].objectId, idcodigo,accionEjecutar).addCallback(function (respuesta) {
 					console.log("Recibiendo respuesta:",respuesta);
 					if(respuesta == "1"){
 						  if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
@@ -95,7 +96,6 @@
 		
 		function checkItem(archivoFirma, objectidFirma ,idCheck){
 			var esCheck = document.getElementById(idCheck).checked;
-			console.log(esCheck);
 			if(esCheck){
 				archivosFirmaTemp.push({archivo:archivoFirma,objectId:objectidFirma});
 			}else{
@@ -142,7 +142,13 @@
 		function generarNombresArchivo(archivosFirmaTemp){
 			var nombresArchivo = "";
 			for (var i = 0; i < archivosFirmaTemp.length; i++) {
-				nombresArchivo = nombresArchivo + archivosFirmaTemp[i].archivo + "|"
+				if(archivosFirmaTemp.length == 1){
+					nombresArchivo = archivosFirmaTemp[i].archivo;
+				}
+				if(archivosFirmaTemp.length > 1){
+					nombresArchivo = nombresArchivo + archivosFirmaTemp[i].archivo + "|"
+				}
+				
 			}
 			console.log(nombresArchivo);
 			document.getElementById("nombreArchivos").value = nombresArchivo;
@@ -176,10 +182,11 @@
 		<script type="text/javascript">	
 			var nombre = "";	
 			dojo.addOnLoad(function () {
-                service.getArchivosFirmar("<s:property value='arrFileFirmar' />").addCallback(function (objJSON) {
+                service.getArchivosFirmar("<s:property value='arrFileFirmar' />","<s:property value='accion' />").addCallback(function (objJSON) {
 				   for(i=0; i<objJSON.items.length;i++){
+					   console.log(objJSON.items);
 					   archivosFirma.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId});
-					   //archivosFirmaArray.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId});
+					   archivosFirmaArray.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId});
 		</script>
 		
 		<%
@@ -215,6 +222,9 @@
 		String aplicarImagen = item.getAplicarImagen();
 		String razon = item.getRazonsocial();
 		String archivosFirmar = "";
+		String altoRubrica = item.getAltoRubrica();
+		String anchoRubrica = item.getAnchoRubrica();
+		String estado = item.getEstado();
 		
 // >>>>>>> bf7f4f4c441a4fe19a5088eadba2014ef24b4aec
 		
@@ -227,7 +237,7 @@
 		<tr>
 			<td><%=contador%></td>
 			<td><%=item1.getArchivos()%></td>
-			<td><input type="checkbox" id="select-<%=cont%>" name="select-<%=cont%>" onclick="checkItem('<%=archivo%>','<%=objectId%>','select-<%=cont%>')"></td>
+			<td><input type="checkbox" id="select-<%=cont%>" name="select-<%=cont%>" onclick="checkItem('<%=item1.getArchivos()%>','<%=item1.getObjectId()%>','select-<%=cont%>')"></td>
 		</tr>
 		<%
 				contador ++;
@@ -266,8 +276,11 @@
 				<input type="hidden" name="numeroPagina" value="<%=numeroPagina%>"/> 
 				<input type="hidden" name="estiloFirma" value="<%=estiloFirma%>"/> 
 				<input type="hidden" name="aplicarImagen" value="<%=aplicarImagen%>"/>
+				<input type="hidden" name="altoRubrica" value="<%=altoRubrica%>"/>
+				<input type="hidden" name="anchoRubrica" value="<%=anchoRubrica%>"/>
 				<input type="hidden" name="ubicacion" value=""/>
 				<input type="hidden" name="razon" value="<%=razon%>"/>
+				<input type="hidden" name="estado" id="estado" value="<%=estado%>"/>
 
 				<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar" 
 				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" />

@@ -3263,7 +3263,7 @@ public class DojoAction {
                               item.setRutaOrigen(rutaOrigen);
                               item.setRutaDestino(rutaDestino);
                               item.setRutaImagen(rutaImagen);
-                              item.setImagen(imagen);
+                              item.setImagen("escudo-firma.png");
                               item.setUsarPersonalizado(usarPersonalizado);
                               item.setTipoFirma(tipoFirma);
                               item.setInvisible(invisible);
@@ -3272,13 +3272,25 @@ public class DojoAction {
                               item.setNumeroPagina(numeroPagina);
                               item.setEstiloFirma(estiloFirma);
                               item.setAplicarImagen(aplicarImagen);
+                              item.setEstado(accionEjecutar);
                               if(accionEjecutar.equals("V")) {
                             	  item.setEstiloFirma("D");
                             	  item.setPosicionFirma("SI");
                             	  item.setUsarPersonalizado("1");
+                            	  item.setAltoRubrica("50");
+                            	  item.setAnchoRubrica("100");
                             	  item.setRazonsocial("Doy visto bueno");
+                              }else if(accionEjecutar.equals("F")) {
+                            	  item.setAplicarImagen("0");
+                            	  item.setImagen("escudo-firma.png");
+                            	  item.setUsarPersonalizado("1");
+                            	  item.setRazonsocial("Soy el autor del documento");
+                            	  item.setPosicionFirma("SD");
+                            	  item.setUbicacionPagina("PP");
+                            	  item.setAltoRubrica("50");
+                            	  item.setAnchoRubrica("120");
+                            	  item.setEstiloFirma("ID");
                               }
-                              
                                                            
                               
                               if (listArchivos.get(j).getPrincipal().toString().equals("S")){
@@ -3310,7 +3322,7 @@ public class DojoAction {
     }
 
     @SMDMethod
-	public String validarFirmado(String nombreArchivo, String objectId, String idCodigo) {
+	public String validarFirmado(String nombreArchivo, String objectId, String idCodigo, String accionEjecutar) {
     	log.info("validarFirmado (nombreArchivo):"+nombreArchivo+",(objectId):"+objectId+",(idCodigo):"+idCodigo);
     	String estado = "0";
     	
@@ -3377,7 +3389,7 @@ public class DojoAction {
 		              FirmaArchivo firmaArchivo = new FirmaArchivo();
 		              List<Archivo> list = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
 		              firmaArchivo.setIdArchivo(list.get(0).getIdArchivo());
-		              firmaArchivo.setEstado("F");
+		              firmaArchivo.setEstado(accionEjecutar);
 		              firmaArchivo.setFechaCreacion(new Date());
 		              firmaArchivo.setUsuarioCreacion(objUsuario.getIdusuario());
 		              firmaArchivo.setIdUsuario(objUsuario.getIdUsuarioPerfil());
@@ -3411,18 +3423,18 @@ public class DojoAction {
 		                    	  log.info("Se subio el documento firmado a alfresco:"+fullPathAlfresco);
 		                    	  
 		                    	  
-			      					if(firmado.exists() && firmado.isFile()){
-			      						File to = new File(fullPathPorFirmar);
-
-			      						try {							
-			      							UtilOsinerg.copy(firmado, to);
-			      							firmado.delete();
-			      							log.info("Se copio el archivo firmado a "+fullPathPorFirmar);
-			      						} catch (IOException e) {
-			      							log.error("No se pudo copiar el archivo a a la ruta por firma:"+fullPathPorFirmar);		      						
-			    							e.printStackTrace();
-			    						}
-			      					}
+//			      					if(firmado.exists() && firmado.isFile()){
+//			      						File to = new File(fullPathPorFirmar);
+//
+//			      						try {							
+//			      							UtilOsinerg.copy(firmado, to);
+//			      							firmado.delete();
+//			      							log.info("Se copio el archivo firmado a "+fullPathPorFirmar);
+//			      						} catch (IOException e) {
+//			      							log.error("No se pudo copiar el archivo a a la ruta por firma:"+fullPathPorFirmar);		      						
+//			    							e.printStackTrace();
+//			    						}
+//			      					}
 		                    	  
 		                      }else{
 		                          log.error("No se pudo subir el archivo a alfresco:"+fullPathAlfresco);

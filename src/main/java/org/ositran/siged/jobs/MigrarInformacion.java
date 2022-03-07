@@ -118,6 +118,7 @@ public class MigrarInformacion {
 
 		System.out.println(listIotdtcDocExternoPIDE.size());
 		
+<<<<<<< HEAD
 		IotdtmDocExterno iotdtcDocExterno = null;
 		
 		for (int i = 0; i < listIotdtcDocExternoPIDE.size(); i++) {			
@@ -145,6 +146,10 @@ public class MigrarInformacion {
 			
 			IotdtmDocExterno iotdtcDocExternoInserted = docExternoVirtualService.registrarDocumento(iotdtcDocExterno);
 		}
+=======
+		System.out.println("leer datos de schema getAllSchemaIdosgd");
+//		recepcionPideDaoForJob.getAllSchemaIdosgd();
+>>>>>>> bca7b4a1670d733328abeb3b883511101426ded6
 
 		
 		List<IotdtdDocPrincipalPIDE> listIotdtcDocPrincipalPIDE = documentoPIDEService.getAllDocPrincipal();

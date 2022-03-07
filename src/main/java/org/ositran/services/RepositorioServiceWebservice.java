@@ -1,28 +1,4 @@
- package org.ositran.services;
-
-import com.antartec.alfresco.AlfrescoConnector;
-import com.antartec.alfresco.AlfrescoConnector.RETURN_CODE;
-import com.antartec.alfresco.AlfrescoNode;
-import com.btg.ositran.siged.domain.Archivo;
-import com.btg.ositran.siged.domain.Documento;
-import com.btg.ositran.siged.domain.Expediente;
-import com.btg.ositran.siged.domain.Proceso;
-import com.btg.ositran.siged.domain.Unidad;
-import com.btg.ositran.siged.domain.Usuario;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.ositran.cmis.api.AlfrescoApiWs;
-
-import org.apache.chemistry.opencmis.client.api.Session;
-
-import gob.ositran.siged.config.SigedProperties;
-import gob.ositran.siged.service.SeguridadService;
+package org.ositran.services;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -44,19 +20,39 @@ import javax.imageio.ImageIO;
 
 import org.alfresco.webservice.util.Constants;
 import org.apache.chemistry.opencmis.client.api.Document;
+import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
-import org.ositran.siged.service.AlfrescoWSService;
 import org.ositran.daos.ArchivoDAO;
 import org.ositran.daos.DocumentoDAO;
 import org.ositran.daos.ExpedienteDAO;
 import org.ositran.repositorio.EnlaceDocumento;
 import org.ositran.repositorio.RepositorioUtils;
+import org.ositran.siged.service.AlfrescoWSService;
 import org.ositran.utils.Constantes;
 import org.springframework.transaction.annotation.Transactional;
 
-public class RepositorioServiceWebservice implements RepositorioService{
+import com.antartec.alfresco.AlfrescoConnector;
+import com.antartec.alfresco.AlfrescoConnector.RETURN_CODE;
+import com.antartec.alfresco.AlfrescoNode;
+import com.btg.ositran.siged.domain.Archivo;
+import com.btg.ositran.siged.domain.Documento;
+import com.btg.ositran.siged.domain.Expediente;
+import com.btg.ositran.siged.domain.Proceso;
+import com.btg.ositran.siged.domain.Unidad;
+import com.btg.ositran.siged.domain.Usuario;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.ositran.cmis.api.AlfrescoApiWs;
 
+import gob.ositran.siged.config.SigedProperties;
+import gob.ositran.siged.service.SeguridadService;
+
+public class RepositorioServiceWebservice implements RepositorioService {
 	protected Logger log=Logger.getLogger(RepositorioServiceWebservice.class);
 	private ExpedienteDAO expedienteDAO=null;
 	private DocumentoDAO documentoDAO=null;
@@ -500,7 +496,7 @@ public class RepositorioServiceWebservice implements RepositorioService{
                 propiedades.put(Constants.createQNameString(AlfrescoWSService.NAMESPACE_OSINERG_MODEL, "confidencial"), doc.getConfidencial().toString()); 
                 
                 try{
-                        propiedades.put(Constants.createQNameString(AlfrescoWSService.NAMESPACE_OSINERG_MODEL,"fechaCreacionDocumento"),RepositorioUtils.darFormatoFecha(doc.getFechaCreacion()));
+                        propiedades.put(Constants.createQNameString(AlfrescoWSService.NAMESPACE_OSINERG_MODEL,"fechaCreacionDocumento"), RepositorioUtils.darFormatoFecha(doc.getFechaCreacion()));
                 }catch(Exception ex){
                         log.error(ex.getMessage(),ex);
                 }
