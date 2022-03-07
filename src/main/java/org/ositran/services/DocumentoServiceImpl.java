@@ -1841,6 +1841,10 @@ public class DocumentoServiceImpl implements DocumentoService {
                  WSPideTramite wsPideTramite = new WSPideTramite();
 		         RespuestaCargoTramite respuestaCargoTramite = new RespuestaCargoTramite();
 		         respuestaCargoTramite = wsPideTramite.cargoTramite(cargoTramite, Constantes.AMBIENTE_WS_PIDE_RUC);
+		         
+		         log.info("respuestaCargoTramite:"+respuestaCargoTramite);
+		         log.info("codres:"+respuestaCargoTramite.getVcodres());
+		         log.info("desres:"+respuestaCargoTramite.getVdesres());
 			
 	         if(respuestaCargoTramite.getVcodres().equals("0000")){
                     iotdtcRecepcion.setCflgenvcar('S');

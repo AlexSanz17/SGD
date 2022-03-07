@@ -1811,11 +1811,11 @@ public class DojoAction {
                      IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(idExterno);
                      if(iotdtmDocExterno != null){//PIDE
                          Documento d = documentoService.findByIdDocumento(iotdtmDocExterno.getSidrecext().getIddocumento());
-                         List<Archivo> lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "FI");
+                         List<Archivo> lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "3");
                          esPide = true;
                          log.info("Dojo action enviarCargo ingreso Pide ");
                          if (lst==null || lst.size()==0){
-                           lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "FIO");
+                           lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "3");
                            if (lst==null || lst.size()==0)
                               return "0";
                          }
