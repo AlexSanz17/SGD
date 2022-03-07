@@ -9,11 +9,9 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
-<<<<<<< HEAD
+
 import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
-=======
-//import com.btg.ositran.siged.domain.IotdtcRecepcionSchemaIdsgd;
->>>>>>> bca7b4a1670d733328abeb3b883511101426ded6
+
 
 @Repository
 public class RecepcionPideDaoForJob {
@@ -47,8 +45,7 @@ public class RecepcionPideDaoForJob {
 		return null;
 	}
 
-<<<<<<< HEAD
-	@SuppressWarnings("rawtypes")
+
 	public IotdtcRecepcionPIDE getAllSchemaIdosgd() {
 		Query query = em.createNamedQuery("IotdtcRecepcionPIDE.findAll");
 
@@ -65,7 +62,7 @@ public class RecepcionPideDaoForJob {
 
 		return null;
 	}
-=======
+
 //	@SuppressWarnings("rawtypes")
 //	public IotdtcRecepcionSchemaIdsgd getAllSchemaIdosgd() {
 //		Query query = em.createNamedQuery("IotdtcRecepcionSchemaIdsgd.findAll");
@@ -83,6 +80,6 @@ public class RecepcionPideDaoForJob {
 //
 //		return null;
 //	}
->>>>>>> bca7b4a1670d733328abeb3b883511101426ded6
+
 
 }
