@@ -1811,11 +1811,11 @@ public class DojoAction {
                      IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(idExterno);
                      if(iotdtmDocExterno != null){//PIDE
                          Documento d = documentoService.findByIdDocumento(iotdtmDocExterno.getSidrecext().getIddocumento());
-                         List<Archivo> lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "FI");
+                         List<Archivo> lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "3");
                          esPide = true;
                          log.info("Dojo action enviarCargo ingreso Pide ");
                          if (lst==null || lst.size()==0){
-                           lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "FIO");
+                           lst = archivoService.findArchivoTipoFirmardo(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia(), tipoArchivo.charAt(0), "3");
                            if (lst==null || lst.size()==0)
                               return "0";
                          }
@@ -3522,23 +3522,6 @@ public class DojoAction {
 		ImageIO.write(image, fileType, qrFile);
 	}
        
-    @SMDMethod
-	public String getRutaArchivoMPV(String nombreArchivo) {
-    	log.info("getRutaArchivoMPV (nombreArchivo):" + nombreArchivo);
-    	String fullPath = "";
-    	
-    	try{
-    		String mpvRutaArchivo  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.MPV_RUTA_ARCHIVO);
-	    	
-	    	fullPath = mpvRutaArchivo + nombreArchivo;	    	
-	    	
-    	}catch(Exception e){
-		       e.printStackTrace();
-		}
-    	
-    	return fullPath;
-    }
-    
 	@SuppressWarnings("unchecked")
 	@SMDMethod
 	public List<Recurso> getUnread() {

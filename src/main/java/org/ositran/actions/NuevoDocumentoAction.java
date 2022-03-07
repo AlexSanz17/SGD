@@ -4,6 +4,7 @@ import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.ArchivoPendiente;
 import com.btg.ositran.siged.domain.ArchivoTemporal;
 import com.btg.ositran.siged.domain.Campo;
+import com.btg.ositran.siged.domain.CargoAdministrado;
 import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.DocumentoDerivacion;
@@ -574,60 +575,47 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
             	// Traer datos de MPV           	
             	recepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(codigoVirtual);
             	
-            	log.info("Traer datos de MPV:"+recepcionMPV);
-            	
-            	if(recepcionMPV != null){
-            		
+            	if(recepcionMPV != null){            		
                 	Tipodocumento tipoDocumento = tipodocumentoService.findByIdTipoDocumento(Integer.parseInt(recepcionMPV.getTipodocumento())); 
                 	
-                	log.info("MPV tipoDocumento:"+tipoDocumento);
-                	
                 	objDD = new DocumentoDetail();
-    	            objDD.setStrTipoDocumento(tipoDocumento ==null? "":tipoDocumento.getIdtipodocumento().toString());
+    	            objDD.setStrTipoDocumento(tipoDocumento == null ? "" : tipoDocumento.getIdtipodocumento().toString());
+    	            
     	            documento = new Documento();
     	            documento.setFechaDocumento(recepcionMPV.getFechadocumento());
     	            documento.setNumeroDocumento(recepcionMPV.getNumerodocumento());
-    	            
-    	            log.info("MPV FechaDocumento:"+documento.getFechaDocumento()+",MPV NumeroDocumento:"+documento.getNumeroDocumento());
-    	            
-    	            Cliente cliente =clienteService.findObjectBy(recepcionMPV.getVrucentrem(), 'A');
-    	            
-    	            log.info("MPV cliente:"+cliente);
+    	            documento.setDesRemitente(recepcionMPV.getDesRemitente());
+    	            documento.setDesCargoRemitente(recepcionMPV.getDesCargoRemitente());
+  	            
+    	            Cliente cliente = clienteService.findObjectBy(recepcionMPV.getVrucentrem(), 'A');
     	            
     	            if (recepcionMPV.getCtipdociderem().toString().equals("1") || recepcionMPV.getCtipdociderem().toString().equals("2")){
 		              objDD.setStrRazonSocial(recepcionMPV.getVnomentemi());
 		              objDD.setIIdCliente((cliente == null ||cliente.getIdCliente()==null)? -1 :cliente.getIdCliente());
-		            
-    	            }else if(recepcionMPV.getCtipdociderem().toString().equals("3")){    	            	
+    	            }
+    	            else if(recepcionMPV.getCtipdociderem().toString().equals("3")){    	            	
     	            	documento.setDesRemitente("");
-		            }else{
+		            }
+    	            else {
 		              objDD.setStrRazonSocial("");
 			          objDD.setIIdCliente(-1);
 		            }
     	            
-    	            log.info("MPV documento:"+documento.toString());
-    	            
-    	            //TODO completar campos
-    	            //TODO tipo de institucion
     	            recepcionVirtual = new IotdtmDocExterno();
-    	            IotdtcRecepcion sidrecext = new IotdtcRecepcion();
     	            recepcionVirtual.setVasu(recepcionMPV.getAsunto());
     	            recepcionVirtual.setVnumdoc(recepcionMPV.getNumerodocumento());
     	            recepcionVirtual.setVuniorgdst(recepcionMPV.getVuniorgstd());
-    	            recepcionVirtual.setVnomdst(""); //TODO
-    	            recepcionVirtual.setVnomcardst(""); //TODO
+    	            recepcionVirtual.setVnomdst("");
+    	            recepcionVirtual.setVnomcardst("");
     	            recepcionVirtual.setVnomentemi(recepcionMPV.getVnomentemi());
     	            
+    	            IotdtcRecepcion sidrecext = new IotdtcRecepcion();
     	            sidrecext.setVuniorgrem(recepcionMPV.getVuniorgrem());
-    	            sidrecext.setCtipdociderem(recepcionMPV.getCtipdociderem().equals("2")?'1':
-    	            	(recepcionMPV.getCtipdociderem().equals("3")?'2':'0'));  	            
+    	            sidrecext.setCtipdociderem(recepcionMPV.getCtipdociderem());
     	            sidrecext.setVrucentrem(recepcionMPV.getVrucentrem());
-    	            sidrecext.setVnumdociderem(""); //TODO
+    	            sidrecext.setVnumdociderem(recepcionMPV.getVnumdociderem());
     	              	            
     	            recepcionVirtual.setSidrecext(sidrecext);
-    	            
-
-    	            
             	}
             		
             }

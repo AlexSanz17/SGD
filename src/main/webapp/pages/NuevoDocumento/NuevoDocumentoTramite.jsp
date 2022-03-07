@@ -313,6 +313,15 @@
              dijit.byId("objDD.iNroFoliosTramite").attr("required", false);
              dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("required", false);
              
+             dijit.byId("objDD.idPersonaInstitucionTramite").setValue("<s:property value='documento.desRemitente' escape='false'/>");
+             dijit.byId("objDD.idPersonaInstitucionTramite").attr("readOnly", true);
+             dijit.byId("objDD.codCargoPersonaInstitucionTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>"); 
+             dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("readOnly", true);
+             
+             dijit.byId("objDD.asuntoExpedienteTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
+             dijit.byId("objDD.asuntoExpedienteTramite").attr("readOnly", true);
+             dijit.byId("objDD.iIdSerieTramite").attr("value", "1");
+             
              dijit.byId("objDD.strAsuntoTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
              dijit.byId("objDD.strAsuntoTramite").attr("readOnly", true);
                
@@ -327,7 +336,7 @@
              dijit.byId("objDD.iIdInstitucionTramite").attr("value","<s:property value='objDD.iIdCliente' />");
              dijit.byId("objDD.iIdInstitucionTramite").attr("readOnly", true);
              
-             dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("value", "<s:property value='objDD.strTipoDocumento' />");
+             dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("value", "<s:property value='objDD.strTipoDocumento'/>");
              dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("readOnly", true);
              
              /*
@@ -359,12 +368,12 @@
                  }  
              }
             
-             if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '1'){
+             if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '2'){
                valor = "DNI";
              } 
-             if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '2'){
-               valor = "Carnet de Extranjeria";
-             }
+//              if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '2'){
+//                valor = "Carnet de Extranjeria";
+//              }
              
              document.getElementById("datosRemitente").innerHTML = "["  + "<s:property value='recepcionVirtual.vuniorgdst' />" + "]" + "["  + "<s:property value='recepcionVirtual.vnomdst' />" + "]" + "[" + "<s:property value='recepcionVirtual.vnomcardst' />"  +"]";		
              document.getElementById("datosRUC").innerHTML = "[" + "<s:property value='recepcionVirtual.sidrecext.vrucentrem' />"  + "]" + "[" + "<s:property value='recepcionVirtual.vnomentemi' />"  + "]";
