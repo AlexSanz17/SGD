@@ -32,16 +32,10 @@
          #docRef{
          	float: left;
          	width: 170px;
-                
          }
-         
-        
-
       </style>         
        
       <script type="text/javascript">
-        
-          
          var TIPO_TRANSACCION       = "<s:property value='tipoTransaccion' />"; 
          var PROPIETARIO_EXPEDIENTE  = "<s:property value='expediente.idpropietario.idusuario' />";
          var AUTOR_DEFAULTID        = "<s:property  value='#session._USUARIO.nombres' escape='false' /> <s:property  value='#session._USUARIO.apellidos' escape='false' />";
@@ -68,64 +62,56 @@
          var TRAMITE = "<s:property value='@org.ositran.utils.Constantes@COD_TRAMITE_EXTERNO'/>";
          var PRIORIDAD_NORMAL = "<s:property value='@org.ositran.utils.Constantes@PRIORIDAD_NORMAL' />";
          
-         
          if ("<s:property value='documento.idDocumento' />" == ""){
              jsonStoreAdjuntos = new dojo.data.ItemFileWriteStore({url: "setearAdjuntos.action"});    
          }else{
              serviceAdjunto.leerAdjuntos("<s:property value='documento.idDocumento' />").addCallback(function(objJSON) {
-                                    dijit.byId("edGridAdjunto").setStore(new dojo.data.ItemFileWriteStore({
-                                        data : objJSON
-                                    }));
-                                });   
+                 dijit.byId("edGridAdjunto").setStore(new dojo.data.ItemFileWriteStore({
+                     data : objJSON
+                 }));
+             });   
          }
           
-        var estructura = [
-                        {
+        var estructura = [{
 				field: 'idId',
 				name: 'idId',
-                                hidden: true
+                hidden: true
 			},
 			{
 				field: 'tipoAdjunto',
 				name: 'Tipo',
-			        hidden: true
+        		hidden: true
 			},
-                        {
+            {
 				field: 'desTipo',
 				name: 'Tipo',
 				width: "110px"
 			},
-                        {
+            {
 			    field: 'desOrigCop',
 			    name: 'Orig/Cop',
-                            width: "85px"
+                width: "85px"
 			},
-                        
-                        {
+            {
 			    field: 'origcop',
 			    name: 'Orig/Cop',
-                             hidden: true
+                hidden: true
 			},
-                        
-                        {
+            {
 			    field: 'nro',
 			    name: 'Nro',
-                            width: "55px"
+                width: "55px"
 			}
                         
 			];
                     
-                    
-                        new dojox.grid.DataGrid({
-				         id               : "edGridAdjunto",
-				         jsId             : "edGridAdjunto",
-				         store            : jsonStoreAdjuntos,
-				         structure        : estructura,
-				         style	           : "width:274px; height:85px;"
-				      }, "fsGrid").startup();          
-        
-         
-         
+	        new dojox.grid.DataGrid({
+	        	id               : "edGridAdjunto",
+		        jsId             : "edGridAdjunto",
+		        store            : jsonStoreAdjuntos,
+		        structure        : estructura,
+		        style	           : "width:274px; height:85px;"
+		     }, "fsGrid").startup();          
       </script>
       <script type="text/javascript" src="js/busquedaExpediente.js"></script>
       <script type="text/javascript" src="js/siged/upload.js"></script>
@@ -174,14 +160,11 @@
                   alert("El destinatario ya se encuentra agregado.");
                   return;
                }
-	   }
-           
+	   		}
            
            $("#idListaPara").append($("<option></option>")
-                  .attr("value", dijit.byId('objDD.idDestinatarioTramite').attr("value"))
-                  .text(dijit.byId('objDD.idDestinatarioTramite').attr('displayedValue').trim().substr(posicionInicial, posicionFinal)));
-        
-           
+              .attr("value", dijit.byId('objDD.idDestinatarioTramite').attr("value"))
+              .text(dijit.byId('objDD.idDestinatarioTramite').attr('displayedValue').trim().substr(posicionInicial, posicionFinal)));
         }
         
         function agregarCC(){
@@ -199,11 +182,11 @@
                   alert("El destinatario ya se encuentra agregado.");
                   return;
                }
-	   }
+	   		}
+           
            $("#idListaCC").append($("<option></option>")
-                  .attr("value", dijit.byId('objDD.idDestinatarioTramite').attr("value"))
-                  .text(dijit.byId('objDD.idDestinatarioTramite').attr('displayedValue').trim().substr(posicionInicial, posicionFinal)));
-        
+              .attr("value", dijit.byId('objDD.idDestinatarioTramite').attr("value"))
+              .text(dijit.byId('objDD.idDestinatarioTramite').attr('displayedValue').trim().substr(posicionInicial, posicionFinal)));
         }
         
         function borrarPara(){
@@ -244,7 +227,6 @@
           function agregar_(){
             dijit.byId("btn15").attr('disabled', true);
             var valor = "";
-            
            
             if (dijit.byId("idTipoAdjuntoTramite").value.trim()==""){
                 alert("Debe seleccionar el tipo de documento adjunto.");
@@ -266,14 +248,13 @@
             }
                  
             serviceAdjunto.agregarAdjunto(dijit.byId("idTipoAdjuntoTramite").value, valor, dijit.byId("nroTramite").value).addCallback(function(objJSON) {
-                                    dijit.byId("edGridAdjunto").setStore(new dojo.data.ItemFileWriteStore({
-                                        data : objJSON
-                                    }));
-                                });
+               dijit.byId("edGridAdjunto").setStore(new dojo.data.ItemFileWriteStore({
+                   data : objJSON
+               }));
+            });
                                 
             dijit.byId("nroTramite").attr("value","");                    
             dijit.byId("btn15").attr('disabled', false);
-           
           }
          
          function eliminar_(){
@@ -297,13 +278,107 @@
              }
              
              dijit.byId("btn16").attr('disabled', false);
-             
          }
          
          function llenarCamposRecepcionVirtual(){
-             tipoClienteRequerido("0", true);
-             tipoClienteRequerido("1", false);
-             tipoClienteRequerido("2", false);
+             console.log('<s:property value='objDD.iIdCliente'/>');
+        	 if ("<s:property value='documento.codTipoInstitucion'/>"!=null && "<s:property value='documento.codTipoInstitucion'/>"!="" &&
+                     ("<s:property value='documento.codTipoInstitucion'/>"=="1" || "<s:property value='documento.codTipoInstitucion'/>"=="2")){
+        		 
+                  if ("<s:property value='documento.codTipoInstitucion' />"== COD_PERSONA_JURIDICA_INSTITUCION){
+                     dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
+                       if (node.value=="0"){
+                          dijit.byId(node.id).attr("checked", true);
+                          mostrarTipoCliente(node.value);
+                       }
+                     }); 
+                     
+                     var jsonStoreInstitucion = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='objDD.iIdCliente'/>'});
+                     jsonStoreInstitucion.close();
+                     jsonStoreInstitucion.fetch();
+                     
+                     dijit.byId('objDD.iIdInstitucionTramite').store=jsonStoreInstitucion; 
+                     dijit.byId("objDD.iIdInstitucionTramite").attr("value","<s:property value='objDD.iIdCliente' />");
+                     dijit.byId("objDD.iIdInstitucionTramite").attr("readOnly", true);
+                     dijit.byId("objDD.idPersonaInstitucionTramite").setValue("<s:property value='documento.desRemitente' escape='false'/>");
+                     dijit.byId("objDD.idPersonaInstitucionTramite").attr("readOnly", true);
+                     dijit.byId("objDD.codCargoPersonaInstitucionTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");
+                     dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("readOnly", true);
+                     dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='documento.desUnidadRemitente' escape='false' />");
+                     dijit.byId("objDD.desUnidadOrganicaTramite").attr("readOnly", true);
+                     
+                     var remitente = "<s:property value='documento.desRemitente'/>";
+                     var resultado = "";
+                     var valor = "";
+                     
+                     if (remitente.substring(0,4) == "0000"){
+                        dijit.byId("objDD.idPersonaInstitucionTramite").setValue("<s:property value='documento.desRemitente' escape='false'/>".substr(4,remitente.lenght));
+                     }else{
+                        resultado = "[" + remitente + "]";  
+                     }    
+                     
+                     if ("<s:property value='documento.desRemitente'/>" != ""){
+                         if (remitente.substring(0,4) == "0000"){
+                           dijit.byId("objDD.idPersonaInstitucionTramite").attr("readOnly", true);
+                         }  
+                     }
+                    
+                     if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '2'){
+                       valor = "DNI";
+                     } 
+//                      if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '2'){
+//                        valor = "Carnet de Extranjeria";
+//                      }
+                     
+                     document.getElementById("datosRemitente").innerHTML = "["  + "<s:property value='recepcionVirtual.vuniorgdst' />" + "]" + "["  + "<s:property value='recepcionVirtual.vnomdst' />" + "]" + "[" + "<s:property value='recepcionVirtual.vnomcardst' />"  +"]";		
+                     document.getElementById("datosRUC").innerHTML = "[" + "<s:property value='recepcionVirtual.sidrecext.vrucentrem' />"  + "]" + "[" + "<s:property value='recepcionVirtual.vnomentemi' />"  + "]";
+                     document.getElementById("datosDocumento").innerHTML = "[" + valor + "]" + "[" + "<s:property value='recepcionVirtual.sidrecext.vnumdociderem' />"  + "]";
+                     document.getElementById("resultado").innerHTML = resultado;
+                  }
+                  
+                  if ("<s:property value='documento.codTipoInstitucion' />"== COD_PERSONA_JURIDICA_EMPRESA){
+                     dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
+                       if (node.value=="2"){
+                          dijit.byId(node.id).attr("checked", true);
+                          mostrarTipoCliente(node.value);
+                       }
+                     });
+                     
+                     var jsonStoreEmpresa = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='objDD.iIdCliente'/>'});                
+                     jsonStoreEmpresa.close();
+                     jsonStoreEmpresa.fetch();
+                     
+                     dijit.byId('objDD.iIdEmpresaTramite').store=jsonStoreEmpresa; 
+                     dijit.byId("objDD.iIdEmpresaTramite").attr("value","<s:property value='objDD.iIdCliente' />");
+                     dijit.byId("objDD.iIdEmpresaTramite").attr("readOnly", true);
+                     dijit.byId("objDD.idPersonaEmpresaTramite").setValue("<s:property value='documento.desRemitente' escape='false' />");
+                     dijit.byId("objDD.idPersonaEmpresaTramite").attr("readOnly", true);
+                     dijit.byId("objDD.codCargoPersonaEmpresaTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");
+                     dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("readOnly", true);
+                  }
+                 
+             }else{
+                  dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
+                       if (node.value=="1"){
+                          dijit.byId(node.id).attr("checked", true);
+                          mostrarTipoCliente(node.value);
+                       }
+                  });
+                  
+                  var jsonStorePersona = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='objDD.iIdCliente'/>'}); 
+                  jsonStorePersona.close();
+                  jsonStorePersona.fetch();
+                  
+                  dijit.byId('objDD.idPersonaNaturalTramite').store=jsonStorePersona; 
+                  dijit.byId("objDD.idPersonaNaturalTramite").attr("value","<s:property value='objDD.iIdCliente' />");
+                  dijit.byId("objDD.idPersonaNaturalTramite").attr("readOnly", true);
+                  dijit.byId("objDD.codCargoPersonaNaturalTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");
+                  dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("readOnly", true);
+             }
+        	 
+        	 dijit.byId("fsClienteInstitucionTramite").attr("readOnly", true);
+        	 dijit.byId("fsClienteEmpresaTramite").attr("readOnly", true);
+        	 dijit.byId("fsClientePersonaTramite").attr("readOnly", true);
              
              dojo.byId("tbNroFoliosPIDETramite").style.display = "";  
              dijit.byId("objDD.iNroFoliosPIDETramite").attr("required", true);
@@ -312,32 +387,29 @@
              
              dijit.byId("objDD.iNroFoliosTramite").attr("required", false);
              dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("required", false);
-             
-             dijit.byId("objDD.idPersonaInstitucionTramite").setValue("<s:property value='documento.desRemitente' escape='false'/>");
-             dijit.byId("objDD.idPersonaInstitucionTramite").attr("readOnly", true);
-             dijit.byId("objDD.codCargoPersonaInstitucionTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>"); 
-             dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("readOnly", true);
-             
+            
              dijit.byId("objDD.asuntoExpedienteTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
              dijit.byId("objDD.asuntoExpedienteTramite").attr("readOnly", true);
              dijit.byId("objDD.iIdSerieTramite").attr("value", "1");
              
-             dijit.byId("objDD.strAsuntoTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
-             dijit.byId("objDD.strAsuntoTramite").attr("readOnly", true);
-               
+             dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("value", "<s:property value='objDD.strTipoDocumento'/>");
+             dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("readOnly", true);
              dijit.byId("objDD.strNroDocumentoTramite").setValue("<s:property value='recepcionVirtual.vnumdoc' escape='false'/>");
              dijit.byId("objDD.strNroDocumentoTramite").attr("readOnly", true);
+             dijit.byId("objDD.strAsuntoTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
+             dijit.byId("objDD.strAsuntoTramite").attr("readOnly", true);
+             dijit.byId("objDD.prioridadTramite").attr("value","1");
+//              dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
+             
+             dijit.byId("objDD.esTipoRecepcionTramite").attr("value","1");
              
              var jsonStoreInstitucion = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='objDD.iIdCliente'/>'}); 
              jsonStoreInstitucion.close();
              jsonStoreInstitucion.fetch();
              
-             dijit.byId('objDD.iIdInstitucionTramite').store=jsonStoreInstitucion; 
+             dijit.byId('objDD.iIdInstitucionTramite').store=jsonStoreInstitucion;
              dijit.byId("objDD.iIdInstitucionTramite").attr("value","<s:property value='objDD.iIdCliente' />");
              dijit.byId("objDD.iIdInstitucionTramite").attr("readOnly", true);
-             
-             dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("value", "<s:property value='objDD.strTipoDocumento'/>");
-             dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("readOnly", true);
              
              /*
              dijit.byId("objDD.iNroFoliosTramite").attr("value", "s:property value='recepcionVirtual.snumfol' />");
@@ -351,34 +423,6 @@
              
              dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='recepcionVirtual.sidrecext.vuniorgrem' escape='false' />"); 
              dijit.byId("objDD.desUnidadOrganicaTramite").attr("readOnly", true);
-             
-             var remitente = "<s:property value='documento.desRemitente'/>";
-             var resultado = "";
-             var valor = "";
-             
-             if (remitente.substring(0,4) == "0000"){
-                dijit.byId("objDD.idPersonaInstitucionTramite").setValue("<s:property value='documento.desRemitente' escape='false'/>".substr(4,remitente.lenght));
-             }else{
-                resultado = "[" + remitente + "]";  
-             }    
-             
-             if ("<s:property value='documento.desRemitente'/>" != ""){
-                 if (remitente.substring(0,4) == "0000"){
-                   dijit.byId("objDD.idPersonaInstitucionTramite").attr("readOnly", true);
-                 }  
-             }
-            
-             if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '2'){
-               valor = "DNI";
-             } 
-//              if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '2'){
-//                valor = "Carnet de Extranjeria";
-//              }
-             
-             document.getElementById("datosRemitente").innerHTML = "["  + "<s:property value='recepcionVirtual.vuniorgdst' />" + "]" + "["  + "<s:property value='recepcionVirtual.vnomdst' />" + "]" + "[" + "<s:property value='recepcionVirtual.vnomcardst' />"  +"]";		
-             document.getElementById("datosRUC").innerHTML = "[" + "<s:property value='recepcionVirtual.sidrecext.vrucentrem' />"  + "]" + "[" + "<s:property value='recepcionVirtual.vnomentemi' />"  + "]";
-             document.getElementById("datosDocumento").innerHTML = "[" + valor + "]" + "[" + "<s:property value='recepcionVirtual.sidrecext.vnumdociderem' />"  + "]";
-             document.getElementById("resultado").innerHTML = resultado;
          }
           
          function llenarCamposModificarRecepcionVirtual(){ 
@@ -398,6 +442,7 @@
             dijit.byId("objDD.iIdInstitucionTramite").attr("readOnly", true);
             dijit.byId("objDD.strAsuntoTramite").attr("readOnly", true);
             dijit.byId("objDD.strNroDocumentoTramite").attr("readOnly", true);
+            
             if ("<s:property value='recepcionVirtual.sidrecext.cflgest' />" == "R" || "<s:property value='recepcionVirtual.sidrecext.cflgest' />" == "O"){
                dijit.byId("objDD.esTipoRecepcionTramite").attr("readOnly", true);
                dijit.byId("objDD.strObservacionTramite").attr("readOnly", true);
@@ -411,126 +456,123 @@
             if ("<s:property value='recepcionVirtual.sidrecext.ctipdociderem' />" == '2'){
                valor = "Carnet de Extranjeria";
             }
+            
             document.getElementById("datosRemitente").innerHTML = "["  + "<s:property value='recepcionVirtual.vuniorgdst' />" + "]" + "["  + "<s:property value='recepcionVirtual.vnomdst' />" + "]" + "[" + "<s:property value='recepcionVirtual.vnomcardst' />"  +"]";		
             document.getElementById("datosRUC").innerHTML = "[" + "<s:property value='recepcionVirtual.sidrecext.vrucentrem' />"  + "]" + "[" + "<s:property value='recepcionVirtual.vnomentemi' />"  + "]";
             document.getElementById("datosDocumento").innerHTML = "[" + valor + "]" + "[" + "<s:property value='recepcionVirtual.sidrecext.vnumdociderem' />"  + "]" ;
          }    
  
          function llenarCampos(){ //MODIFICAR
-                document.getElementById("mostrarExpedientesAbiertos").value = "HIDE";
-                dijit.byId("objDD.strNroDocumentoTramite").setValue("<s:property value='documento.numeroDocumento' escape='false' />");
-                dijit.byId("objDD.esTipoRecepcionTramite").setValue("<s:property value='documento.recepcionado' />");
-                document.getElementById("objDD.iIdDocumento").value = "<s:property value='idDocumento' />";
-                dijit.byId("objDD.iIdSerieTramite").attr("value", "<s:property value='expediente.serie.idserie' />");
-                
-                if(dijit.byId("objDocumento.expediente.idexpedienteTramite")){
-        	   dijit.byId("objDocumento.expediente.idexpedienteTramite").setValue("<s:property value='expediente.id' />");
-		}
+             document.getElementById("mostrarExpedientesAbiertos").value = "HIDE";
+             dijit.byId("objDD.strNroDocumentoTramite").setValue("<s:property value='documento.numeroDocumento' escape='false' />");
+             dijit.byId("objDD.esTipoRecepcionTramite").setValue("<s:property value='documento.recepcionado' />");
+             document.getElementById("objDD.iIdDocumento").value = "<s:property value='idDocumento' />";
+             dijit.byId("objDD.iIdSerieTramite").attr("value", "<s:property value='expediente.serie.idserie' />");
+             
+            if(dijit.byId("objDocumento.expediente.idexpedienteTramite")){
+     	   		dijit.byId("objDocumento.expediente.idexpedienteTramite").setValue("<s:property value='expediente.id' />");
+			}
         	else if(dijit.byId("objDD.iIdExpedienteTramite")){
         	   dijit.byId("objDD.iIdExpedienteTramite").setValue("<s:property value='expediente.id' />");
         	}
                 
-                fsProcesoFocused = 0;
+            fsProcesoFocused = 0;
         	expedienteNuevo = false;
-                dijit.byId("objDD.asuntoExpedienteTramite").setValue("<s:property value='expediente.getAsuntoHTML()' escape='false'/>");
+            dijit.byId("objDD.asuntoExpedienteTramite").setValue("<s:property value='expediente.getAsuntoHTML()' escape='false'/>");
 	        dijit.byId("objDD.observacionExpedienteTramite").setValue("<s:property value='expediente.getObservacionHTML()' escape='false'/>");
-                dijit.byId("sNroExpedienteTramite").attr("value", "<s:property value='expediente.nroexpediente' />");
+            dijit.byId("sNroExpedienteTramite").attr("value", "<s:property value='expediente.nroexpediente' />");
               
-                dijit.byId("objDD.prioridadTramite").attr("value","<s:property value='documento.prioridad' />");
-                dijit.byId("objDD.strReferenciaTramite").setValue("<s:property value='documento.referenciados'  escape='false' />");
-                dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("value", "<s:property value='documento.tipoDocumento.idtipodocumento' />");
-                dijit.byId("objDD.confidencialTramite").attr("value","<s:property value='documento.confidencial' />");
-                dijit.byId("objDD.strObservacionTramite").setValue("<s:property value='documento.getObservacionHTML()' escape='false'/>");
-                dijit.byId("objDD.strAsuntoTramite").setValue("<s:property value='documento.getAsuntoHTML()' escape='false'/>");
-                dijit.byId("objDD.iNroFoliosTramite").attr("value","<s:property value='documento.numeroFolios'/>");
+            dijit.byId("objDD.prioridadTramite").attr("value","<s:property value='documento.prioridad' />");
+            dijit.byId("objDD.strReferenciaTramite").setValue("<s:property value='documento.referenciados'  escape='false' />");
+            dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("value", "<s:property value='documento.tipoDocumento.idtipodocumento' />");
+            dijit.byId("objDD.confidencialTramite").attr("value","<s:property value='documento.confidencial' />");
+            dijit.byId("objDD.strObservacionTramite").setValue("<s:property value='documento.getObservacionHTML()' escape='false'/>");
+            dijit.byId("objDD.strAsuntoTramite").setValue("<s:property value='documento.getAsuntoHTML()' escape='false'/>");
+            dijit.byId("objDD.iNroFoliosTramite").attr("value","<s:property value='documento.numeroFolios'/>");
+           
+            dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("value","<s:property value='documento.numeroFoliosOriginales'/>");
+            dijit.byId("objDD.iNroFoliosCopiasTramite").attr("value","<s:property value='documento.numeroFoliosCopias'/>"==null?"":"<s:property value='documento.numeroFoliosCopias'/>");
+            dijit.byId("objDD.iNroFoliosDigitalizadosTramite").attr("value","<s:property value='documento.imagenesDigitalizadas'/>"==null?"":"<s:property value='documento.imagenesDigitalizadas'/>");
+            
+            dijit.byId("objDD.iPlazoDiaTramite").attr("value", "<s:property value='documento.plazo'/>"==null?"":"<s:property value='documento.plazo'/>");
+            dijit.byId("objDD.asuntoExpedienteTramite").attr("readOnly", true);
+            dijit.byId("objDD.observacionExpedienteTramite").attr("readOnly", true);
+            dijit.byId("objDD.iIdSerieTramite").attr("readOnly", true);
+           
+            if (dijit.byId("objDD.iPlazoDiaTramite").value!=''){
+                service.getFechaLimite(dijit.byId("objDD.iPlazoDiaTramite").value).addCallback(function(valor){
+                    dijit.byId('sFechaPlazoTramite').attr("value", valor);    
+                });
+            } else {
+                dijit.byId('sFechaPlazoTramite').attr("value", "");
+            }
+            
+            if ("<s:property value='documento.codTipoInstitucion'/>"!=null && "<s:property value='documento.codTipoInstitucion'/>"!="" &&
+                ("<s:property value='documento.codTipoInstitucion'/>"=="1" || "<s:property value='documento.codTipoInstitucion'/>"=="2")){
+               if ("<s:property value='documento.codTipoInstitucion' />"== COD_PERSONA_JURIDICA_INSTITUCION){
+                  dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
+                    if (node.value=="0"){
+                       dijit.byId(node.id).attr("checked", true);
+                       mostrarTipoCliente(node.value);
+                    }
+                  }); 
+                  
+                  var jsonStoreInstitucion = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='documento.ID_CLIENTE'/>'}); 
+             
+                  jsonStoreInstitucion.close();
+                  jsonStoreInstitucion.fetch();
+                  
+                  dijit.byId('objDD.iIdInstitucionTramite').store=jsonStoreInstitucion; 
+                  dijit.byId("objDD.iIdInstitucionTramite").attr("value","<s:property value='documento.ID_CLIENTE' />");
+                  
+                  dijit.byId("objDD.codCargoPersonaInstitucionTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");    
+                  dijit.byId("objDD.idPersonaInstitucionTramite").setValue("<s:property value='documento.desRemitente' escape='false'/>");
+                  dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='documento.desUnidadRemitente' escape='false' />"); 
+                  dijit.byId("objDD.esTipoRecepcionTramite").attr("value", "<s:property value='documento.recepcionado' />")
+               }
                
-                dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("value","<s:property value='documento.numeroFoliosOriginales'/>");
-                dijit.byId("objDD.iNroFoliosCopiasTramite").attr("value","<s:property value='documento.numeroFoliosCopias'/>"==null?"":"<s:property value='documento.numeroFoliosCopias'/>");
-                dijit.byId("objDD.iNroFoliosDigitalizadosTramite").attr("value","<s:property value='documento.imagenesDigitalizadas'/>"==null?"":"<s:property value='documento.imagenesDigitalizadas'/>");
-                
-                dijit.byId("objDD.iPlazoDiaTramite").attr("value", "<s:property value='documento.plazo'/>"==null?"":"<s:property value='documento.plazo'/>");
-                dijit.byId("objDD.asuntoExpedienteTramite").attr("readOnly", true);
-                dijit.byId("objDD.observacionExpedienteTramite").attr("readOnly", true);
-                dijit.byId("objDD.iIdSerieTramite").attr("readOnly", true);
-               
-                if (dijit.byId("objDD.iPlazoDiaTramite").value!=''){
-                    service.getFechaLimite(dijit.byId("objDD.iPlazoDiaTramite").value).addCallback(function(valor){
-                        dijit.byId('sFechaPlazoTramite').attr("value", valor);    
-                    });
-                }else{
-                    dijit.byId('sFechaPlazoTramite').attr("value", "");
-                }
-                
-                if ("<s:property value='documento.codTipoInstitucion'/>"!=null && "<s:property value='documento.codTipoInstitucion'/>"!="" &&
-                    ("<s:property value='documento.codTipoInstitucion'/>"=="1" || "<s:property value='documento.codTipoInstitucion'/>"=="2")){
-                        if ("<s:property value='documento.codTipoInstitucion' />"== COD_PERSONA_JURIDICA_INSTITUCION){
-                           dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
-                             if (node.value=="0"){
-                                dijit.byId(node.id).attr("checked", true);
-                                mostrarTipoCliente(node.value);
-                             }
-                           }); 
-                           
-                           var jsonStoreInstitucion = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='documento.ID_CLIENTE'/>'}); 
-                      
-                           jsonStoreInstitucion.close();
-                           jsonStoreInstitucion.fetch();
-                           
-                           dijit.byId('objDD.iIdInstitucionTramite').store=jsonStoreInstitucion; 
-                           dijit.byId("objDD.iIdInstitucionTramite").attr("value","<s:property value='documento.ID_CLIENTE' />");
-                           
-                           dijit.byId("objDD.codCargoPersonaInstitucionTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");    
-                           dijit.byId("objDD.idPersonaInstitucionTramite").setValue("<s:property value='documento.desRemitente' escape='false'/>");
-                           dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='documento.desUnidadRemitente' escape='false' />"); 
-                           dijit.byId("objDD.esTipoRecepcionTramite").attr("value", "<s:property value='documento.recepcionado' />")
-                        }
-                        
-                        if ("<s:property value='documento.codTipoInstitucion' />"== COD_PERSONA_JURIDICA_EMPRESA){
-                           dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
-                             if (node.value=="2"){
-                                dijit.byId(node.id).attr("checked", true);
-                                mostrarTipoCliente(node.value);
-                             }
-                           });
-                           
-                           var jsonStoreEmpresa = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='documento.ID_CLIENTE'/>'}); 
-                      
-                           jsonStoreEmpresa.close();
-                           jsonStoreEmpresa.fetch();
-                           
-                           dijit.byId('objDD.iIdEmpresaTramite').store=jsonStoreEmpresa; 
-                           dijit.byId("objDD.iIdEmpresaTramite").attr("value","<s:property value='documento.ID_CLIENTE' />");
-                           dijit.byId("objDD.codCargoPersonaEmpresaTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");   
-                           dijit.byId("objDD.idPersonaEmpresaTramite").setValue("<s:property value='documento.desRemitente' escape='false' />"); 
-                        }
-                    
-                }else{
-                        dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
-                             if (node.value=="1"){
-                                dijit.byId(node.id).attr("checked", true);
-                                mostrarTipoCliente(node.value);
-                             }
-                        });
-                        
-                        var jsonStorePersona = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='documento.ID_CLIENTE'/>'}); 
-                        jsonStorePersona.close();
-                        jsonStorePersona.fetch();
-                       // document.getElementById("cargoPersona").value = "<s:property value='documento.codCargoRemitente' />";
-                        dijit.byId("objDD.codCargoPersonaNaturalTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");
-                        dijit.byId('objDD.idPersonaNaturalTramite').store=jsonStorePersona; 
-                        dijit.byId("objDD.idPersonaNaturalTramite").attr("value","<s:property value='documento.ID_CLIENTE' />");
-                }
-        
-               //  dojo.byId("tbAdjuntosTramite").style.display = "";
-               //  dojo.byId("tbAdjuntosGrilla").style.display = "";  
-               
+               if ("<s:property value='documento.codTipoInstitucion' />"== COD_PERSONA_JURIDICA_EMPRESA){
+                  dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
+                    if (node.value=="2"){
+                       dijit.byId(node.id).attr("checked", true);
+                       mostrarTipoCliente(node.value);
+                    }
+                  });
+                  
+                  var jsonStoreEmpresa = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='documento.ID_CLIENTE'/>'}); 
+             
+                  jsonStoreEmpresa.close();
+                  jsonStoreEmpresa.fetch();
+                  
+                  dijit.byId('objDD.iIdEmpresaTramite').store=jsonStoreEmpresa; 
+                  dijit.byId("objDD.iIdEmpresaTramite").attr("value","<s:property value='documento.ID_CLIENTE' />");
+                  dijit.byId("objDD.codCargoPersonaEmpresaTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");   
+                  dijit.byId("objDD.idPersonaEmpresaTramite").setValue("<s:property value='documento.desRemitente' escape='false' />"); 
+               }
+            } else {
+                 dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
+                    if (node.value=="1"){
+                       dijit.byId(node.id).attr("checked", true);
+                       mostrarTipoCliente(node.value);
+                    }
+                 });
+                 
+                 var jsonStorePersona = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='documento.ID_CLIENTE'/>'}); 
+                 jsonStorePersona.close();
+                 jsonStorePersona.fetch();
+                // document.getElementById("cargoPersona").value = "<s:property value='documento.codCargoRemitente' />";
+                 dijit.byId("objDD.codCargoPersonaNaturalTramite").setValue("<s:property value='documento.desCargoRemitente' escape='false'/>");
+                 dijit.byId('objDD.idPersonaNaturalTramite').store=jsonStorePersona; 
+                 dijit.byId("objDD.idPersonaNaturalTramite").attr("value","<s:property value='documento.ID_CLIENTE' />");
+            }
+    
+           //  dojo.byId("tbAdjuntosTramite").style.display = "";
+           //  dojo.byId("tbAdjuntosGrilla").style.display = "";  
          }
          
          dojo.addOnLoad(function() {    
               crearBotonAdjuntar();
          });
-            
-        
       </script>
    </head>
    <body>
@@ -549,7 +591,7 @@
            <input type="hidden" id="listReferenciados" name="listReferenciados"/>
            <input type="hidden" id="raiz" name="raiz"/>
            <input type="hidden" id="persona" value="" name="persona"/>
-            <input type="hidden" id="cargoPersona" value="" name="cargoPersona"/>
+           <input type="hidden" id="cargoPersona" value="" name="cargoPersona"/>
            <input type="hidden" id="entidad" value="" name="entidad"/>
            <input type="hidden" id="mostrarExpedientesAbiertos" value="SHOW" name="mostrarExpedientesAbiertos"/>
            <input type="hidden" id="documentoEnumerado" value="" name="documentoEnumerado"/>
@@ -561,7 +603,6 @@
            <input type="hidden" id="objDD.listaDerivacionCC" name="objDD.listaDerivacionCC" value=""/>
            
             <table width="100%" border="0">
-               
                  <tr>
                    <td>
                       <div class="marcoForm margen5PX">
@@ -624,7 +665,6 @@
                             <tr> 
                                 <td> 
                                     <div>Persona Remitente </div>
-                                    
                                 </td>
                              <td class="label" colspan="2" >  
                                   <div id="fsPersonaInstitucionTramite" name="fsPersonaInstitucionTramite" style="width:200px;"></div>
@@ -729,8 +769,7 @@
                             </tr>
                              
                            <tbody id="tbProcesoTramite">
-                                
-                                <tr>
+                                <tr>        
                                    <td>Asunto de la Carpeta</td>
                                    <td class="label" colspan="2">
                                       <div id="objDD.asuntoExpedienteTramite"/>
@@ -753,16 +792,13 @@
                                </tr>
                           </tbody>
                                   
-                   <!--     <tbody id="tbDocumentoTramite"> -->
                            <tr>
                               <td colspan="3"><hr /></td>
                            </tr>
                            <tr>
                               <td colspan="3" class="titulo">DOCUMENTO</td>
                            </tr>
-                            
-                          
-                            
+
                            <tr>
                               <td>Tipo Documento</td>
                               <td class="label" colspan="2">
@@ -778,9 +814,7 @@
                             <tr id="trNroDocumento">
                               <td>Nro. Documento</td>
                               <td class="label" colspan="2">
-                                 
                                  <div id="divNroDocumento">
-                                  
                                           <input dojoType="dijit.form.TextBox"
                                            id="objDD.tipoNumeracionTramite"
                                            jsId="objDD.tipoNumeracionTramite"
@@ -798,45 +832,47 @@
                                <div id="objDD.strAsuntoTramite"/>
                               </td>
                            </tr>
-                            
-                           <tr>
-                              <td>Prioridad</td>
-                              <td class="label" colspan="2">
-                               <div id="fsPrioridadTramite"/>
-                              </td>
-                           </tr> 
-                            
+                           
                            <tr>
                               <td>Fecha Documento</td>
                               <td width = "200px" class="label" colspan="1">
-                                 <div dojoType="dijit.form.DateTextBox"
+                                 <div dojoType="dijit.form._DateTimeTextBox"
                                       id="objDD.strFechaDocumentoTramite"
                                       jsId="objDD.strFechaDocumentoTramite"
                                       name="objDD.strFechaDocumento"
-                                      constraints="{datePattern:'dd/MM/yyyy'}"
-                                      invalidMessage="Ingrese fecha de Documento dd/MM/yyyy"
+                                      constraints="{datePattern:'dd/MM/yyyy', timePattern:'hh:mm:ss a'}"
+                                      invalidMessage="Ingrese fecha de Documento dd/MM/yyyy hh:mm:ss a.m./p.m."
                                       required="true"
                                       trim="true">
                                     <script type="dojo/method" event="postCreate">
                                        var fechadocumento_year;
                                        var fechadocumento_month;
                                        var fechadocumento_day;
+										var fechadocumento_hour;
+                                        var fechadocumento_minutes;
+                                        var fechadocumento_seconds;
                                        
                                        if ("<s:date name='documento.fechaDocumento' format='dd' />"== null ||
                                            "<s:date name='documento.fechaDocumento' format='dd' />"== ""){ 
                                            fechadocumento_year = parseInt("<s:date name='fecha' format='yyyy' />", 10);
                                            fechadocumento_month = parseInt("<s:date name='fecha' format='MM' />", 10);
                                            fechadocumento_day = parseInt("<s:date name='fecha' format='dd' />", 10);
+                            				fechadocumento_hour = parseInt("<s:date name='fecha' format='HH' />", 10);  
+                            				fechadocumento_minutes = parseInt("<s:date name='fecha' format='mm' />", 10);  
+                            				fechadocumento_seconds = parseInt("<s:date name='fecha' format='ss' />", 10); 
                                        }else{
                                            fechadocumento_year = parseInt("<s:date name='documento.fechaDocumento' format='yyyy' />", 10);
                                            fechadocumento_month = parseInt("<s:date name='documento.fechaDocumento' format='MM' />", 10);
-                                           fechadocumento_day = parseInt("<s:date name='documento.fechaDocumento' format='dd' />", 10);  
+                                           fechadocumento_day = parseInt("<s:date name='documento.fechaDocumento' format='dd' />", 10);
+											fechadocumento_hour = parseInt("<s:date name='documento.fechaDocumento' format='HH' />", 10);  
+                            				fechadocumento_minutes = parseInt("<s:date name='documento.fechaDocumento' format='mm' />", 10);  
+                            				fechadocumento_seconds = parseInt("<s:date name='documento.fechaDocumento' format='ss' />", 10); 
                                         }    
                                        
-                                       console.debug("fechadocumento year [%d] month [%d] day [%d]", fechadocumento_year, fechadocumento_month, fechadocumento_day);
-
                                        if (!isNaN(fechadocumento_year) && !isNaN(fechadocumento_month) && !isNaN(fechadocumento_day)) {
-                                         this.attr("value", new Date(fechadocumento_year, fechadocumento_month - 1, fechadocumento_day));
+                                         	dijit.byId("objDD.strFechaDocumentoTramite").attr("value", new Date(fechadocumento_year, fechadocumento_month - 1, fechadocumento_day,
+                            					fechadocumento_hour, fechadocumento_minutes, fechadocumento_seconds));
+											dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
                                        }
                                        
                                        if (TIPO_TRANSACCION == "MR"){
@@ -845,8 +881,15 @@
                                     </script>
                                  </div>  <span id="datosFechaDocumento" style="color:blue"></span>
                               </td>
-                                            
-                           </tr>           
+                           </tr>
+                           
+                           <tr>
+                              <td>Prioridad</td>
+                              <td class="label" colspan="2">
+                               <div id="fsPrioridadTramite"/>
+                              </td>
+                           </tr> 
+                           
                            <tr>
                                <td>Plazo</td>
                                <td class="label" colspan="1">
@@ -928,8 +971,6 @@
                               </td>
                               <td colspan="1"> </td>
                            </tr>                  
-	                   
-                    <!--    </tbody> -->
                                        
                         <tbody id="tbNroIdentificacionTramite" style="display:none;">            
                             <tr>
@@ -940,7 +981,6 @@
                                         jsId="idclienteTramite"
                                         name="idcliente"
                                         style="display:none;" />
-                                
                               </td>
                               
                              </tr>
@@ -954,16 +994,14 @@
                        </tr>
                                            
                         <tr>
-                              <td>Unidad</td>
-                              <td class="label" colspan="1" width="50px"> 
-                                 <div id="fsDerivacionTramite" name="fsDerivacion" style="width:100px;"></div>
-                              </td>
-                              <td width="500px">
-                                <span id="datosRemitente" style="color:blue"></span>
-                              </td>
-                             
+                           <td>Unidad</td>
+                           <td class="label" colspan="1" width="50px"> 
+                              <div id="fsDerivacionTramite" name="fsDerivacion" style="width:100px;"></div>
+                           </td>
+                           <td width="500px">
+                             <span id="datosRemitente" style="color:blue"></span>
+                           </td>
                        </tr>
-                                           
                        
                            <tr>
                               <td>Para</td>
@@ -1087,7 +1125,6 @@
                                       required="false"
                                       style="width:70px"
                                       trim="true" />
-                                     
                               </td>
                               <td colspan="1"> </td>    
                            </tr>    
@@ -1125,24 +1162,16 @@
                <td align="left">
                   <div class="margen5PX">
                      <button dojoType="dijit.form.Button"
-                             type="button"
-                             id="btnRegistrarDocumentoTramiteBottom"
-                             jsId="btnRegistrarDocumentoTramiteBottom"
-                             iconClass="siged16 sigedSave16"
-                             onClick="submitForm"
-                             showLabel="true">Registrar Documento</button>
+                         type="button"
+                         id="btnRegistrarDocumentoTramiteBottom"
+                         jsId="btnRegistrarDocumentoTramiteBottom"
+                         iconClass="siged16 sigedSave16"
+                         onClick="submitForm"
+                         showLabel="true">Registrar Documento</button>
                   </div>
                </td>
-            </tr>                                                   
-                                                                           
-                              
-                                  
-                                                              
-       
-         </table>
-                                 
-                              
-                  
+            </tr>
+         </table>         
         </form>
           <script type="text/javascript" src="js/siged/registroClienteMP.js"></script> 
           <%@include file="../tramite/registroCliente.jsp" %>   

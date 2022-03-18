@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.services;
+package org.ositran.services;
 
 import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.service.AlfrescoWebscriptService; 
@@ -169,11 +169,6 @@ import org.ositran.daos.SeguimientoXFirmaDAO;
 import org.ositran.daos.UsuarioxunidadxfuncionDAO;
 import org.ositran.dojo.grid.Item; 
 import org.ositran.utils.DocumentoPublicar;
- 
-/**
- *
- * @author jbengoa (JUAN CARLOS BENGOA)
- */
 
 public class DocumentoServiceImpl implements DocumentoService {   
         private String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
@@ -4871,763 +4866,752 @@ public class DocumentoServiceImpl implements DocumentoService {
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public DocumentoDetail saveNuevoDocumentoUserFinal(DocumentoDetail documentoDetail, Map<String, Object> session, String iddestinatario, Integer idccdestinatario, String strAcc, boolean bBandeja, ArchivoPendiente archivoPendiente, String nombrePC, String nombrePDFprincipal) throws RemoteException, InvalidInputMessageFaultException, InvalidParticipantTokenFaultException, UnavailableTaskFaultException, XMLStreamException, Exception {
 		log.debug("-> [Service] DocumentoService - saveNuevoDocumentoUserFinal():DocumentoDetail ");
-                IotdtmDocExterno iotdtmDocExterno = null;
-                DocumentoDetail objDD = documentoDetail;
+        IotdtmDocExterno iotdtmDocExterno = null;
+        DocumentoDetail objDD = documentoDetail;
 
 		try {
-                        Boolean tipoDocReqTri = false;
-                        Integer idDocumento = null;
-                        Date fecha = new Date();
-                        Expediente expediente = null;
-                        Documento objD = new Documento();
-                        Tipodocumento objTD =  tipoDocumentoDao.findByIdTipoDocumento(objDD.getIIdTipoDocumento());
-                        objDD = setearCliente(objDD);
-                        mapSession = ActionContext.getContext().getSession();
-                        Usuario objUsuarioSession = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                        expediente = expedienteService.prepareExpediente(objDD, objUsuarioSession);
-                        objDD.setIIdExpediente(expediente.getIdexpediente());
-                        objDD.setStrFecha(expediente.getFechacreacion());
-                        objDD.setObjAutor(new Usuario(objUsuarioSession.getIdUsuarioPerfil()));
-                        objD.setAutor(objDD.getObjAutor());
-                        objD.setRecepcionado(objDD.getEsTipoRecepcion());
-                        objD.setConfidencial(objDD.getConfidencial());
-                        objD.setIdUsuarioLogeado(objUsuarioSession.getIdusuario());
-                        objD.setUnidadpropietario(objUsuarioSession.getIdUnidadPerfil());
-                        objD.setUnidadautor(objUsuarioSession.getIdUnidadPerfil());
-                        objD.setCargopropietario(objUsuarioSession.getIdFuncionPerfil());
-                        objD.setUsuariocreacion(objUsuarioSession.getIdusuario());
-                        objD.setFechaCreacion(fecha);
-                        objD.setTipoDocumento(objTD);
-                        objD.setPropietario(new Usuario(objUsuarioSession.getIdUsuarioPerfil()));
-                        objD.setExpediente(expediente);
-                        objD.setAccion(accionService.findByNombre(strAcc));
-                        objD.setEstado(objDD.getCEstado());
-                        objD.setAsunto(objDD.getStrAsunto());
-                        objD.setUltimoAsunto(objDD.getStrAsunto());
-                        objD.setEstaEnFlujo(Constantes.ESTAENFLUJO_S);
-                        objD.setReferenciados(objDD.getStrReferencia());
-                        Usuario u = usuarioService.findByIdUsuario(objUsuarioSession.getIdUsuarioPerfil());
-                        objD.setRemitente(u.getNombres() + " " + u.getApellidos());
-                        objD.setContenido(objDD.getStrContenido());
-                        objD.setPrincipal(objDD.getCPrincipal());
-                        objD.setNumeroDocumento(objDD.getStrNroDocumento());
-                        objD.setPrioridad(objDD.getPrioridad());
-                        objD.setProyecto(objDD.getProyecto()==null? Constantes.DOCUMENTO_FINAL: objDD.getProyecto());
-                        objD.setDespachado('N');
-                        objD.setFirmado('N');
-                        objD.setIdConcesionario(null);
-                        objD.setNumeroFoliosPIDE(objDD.getiNroFoliosPIDE());
-                        
-                        List<Parametro> lstParametro = parametroService.findByTipoActivo("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO");
-                        if (lstParametro!=null && lstParametro.size()>0 && objDD.getOpcion().equals(Constantes.COD_TRAMITE_INTERNO)){
-                            for(int i=0;i<lstParametro.size();i++){
-                               if (lstParametro.get(i).getValor().equals(objTD.getIdtipodocumento().toString())){
-                                 //objD.setIdConcesionario(new Integer(objDD.getConcesionario()));
-                                   tipoDocReqTri=true;
-                               }    
+            Boolean tipoDocReqTri = false;
+            Integer idDocumento = null;
+            Date fecha = new Date();
+            Expediente expediente = null;
+            Documento objD = new Documento();
+            Tipodocumento objTD =  tipoDocumentoDao.findByIdTipoDocumento(objDD.getIIdTipoDocumento());
+            objDD = setearCliente(objDD);
+            mapSession = ActionContext.getContext().getSession();
+            Usuario objUsuarioSession = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+            expediente = expedienteService.prepareExpediente(objDD, objUsuarioSession);
+            objDD.setIIdExpediente(expediente.getIdexpediente());
+            objDD.setStrFecha(expediente.getFechacreacion());
+            objDD.setObjAutor(new Usuario(objUsuarioSession.getIdUsuarioPerfil()));
+            objD.setAutor(objDD.getObjAutor());
+            objD.setRecepcionado(objDD.getEsTipoRecepcion());
+            objD.setConfidencial(objDD.getConfidencial());
+            objD.setIdUsuarioLogeado(objUsuarioSession.getIdusuario());
+            objD.setUnidadpropietario(objUsuarioSession.getIdUnidadPerfil());
+            objD.setUnidadautor(objUsuarioSession.getIdUnidadPerfil());
+            objD.setCargopropietario(objUsuarioSession.getIdFuncionPerfil());
+            objD.setUsuariocreacion(objUsuarioSession.getIdusuario());
+            objD.setFechaCreacion(fecha);
+            objD.setTipoDocumento(objTD);
+            objD.setPropietario(new Usuario(objUsuarioSession.getIdUsuarioPerfil()));
+            objD.setExpediente(expediente);
+            objD.setAccion(accionService.findByNombre(strAcc));
+            objD.setEstado(objDD.getCEstado());
+            objD.setAsunto(objDD.getStrAsunto());
+            objD.setUltimoAsunto(objDD.getStrAsunto());
+            objD.setEstaEnFlujo(Constantes.ESTAENFLUJO_S);
+            objD.setReferenciados(objDD.getStrReferencia());
+            Usuario u = usuarioService.findByIdUsuario(objUsuarioSession.getIdUsuarioPerfil());
+            objD.setRemitente(u.getNombres() + " " + u.getApellidos());
+            objD.setContenido(objDD.getStrContenido());
+            objD.setPrincipal(objDD.getCPrincipal());
+            objD.setNumeroDocumento(objDD.getStrNroDocumento());
+            objD.setPrioridad(objDD.getPrioridad());
+            objD.setProyecto(objDD.getProyecto()==null? Constantes.DOCUMENTO_FINAL: objDD.getProyecto());
+            objD.setDespachado('N');
+            objD.setFirmado('N');
+            objD.setIdConcesionario(null);
+            objD.setNumeroFoliosPIDE(objDD.getiNroFoliosPIDE());
+            
+            List<Parametro> lstParametro = parametroService.findByTipoActivo("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO");
+            if (lstParametro!=null && lstParametro.size()>0 && objDD.getOpcion().equals(Constantes.COD_TRAMITE_INTERNO)){
+                for(int i=0;i<lstParametro.size();i++){
+                   if (lstParametro.get(i).getValor().equals(objTD.getIdtipodocumento().toString())){
+                     //objD.setIdConcesionario(new Integer(objDD.getConcesionario()));
+                       tipoDocReqTri=true;
+                   }    
+                }
+            }    
+                
+            if (objDD.getConcesionario()!=null && !objDD.getConcesionario().trim().equals("")){
+              objD.setIdConcesionario(new Integer(objDD.getConcesionario()));
+            }
+            
+            if (objDD.getAnioFiscal()!=null && !objDD.getAnioFiscal().trim().equals(""))
+            {
+                objD.setAnioFiscal(new Integer(objDD.getAnioFiscal()));
+            }
+            
+            if (objDD.getStrUnidad()==null || objDD.getStrUnidad().trim().equals("")){
+              objD.setUnidadenumera(objUsuarioSession.getIdUnidadPerfil());
+            }else{
+                objD.setUnidadenumera(Integer.valueOf(objDD.getStrUnidad()));
+            }
+            
+            if (objDD.getPlazo()!=null){ 
+              if (objDD.getPlazo().equals("0") && objDD.getIPlazoDia()!=null && !objDD.getIPlazoDia().trim().equals("")){
+                objD.setPlazo(new Integer(objDD.getIPlazoDia()));
+                objD.setFechaLimiteAtencion(fechaLimite.getFechaLimite(fecha, Integer.parseInt(objDD.getIPlazoDia()))); 
+              }  
+              if (objDD.getPlazo().equals("1") && objDD.getStrFechaLimiteAtencion()!=null && !objDD.getStrFechaLimiteAtencion().trim().equals("")){
+                objD.setFechaLimiteAtencion(new SimpleDateFormat("yyyy-MM-dd").parse(objDD.getStrFechaLimiteAtencion()));
+                objD.setPlazo(fechaLimite.getPlazo(fecha , objD.getFechaLimiteAtencion()));
+              }
+            }
+            
+            objD.setID_CODIGO(null);
+            objD.setIdUsuarioLogeado(objUsuarioSession.getIdusuario());
+            objD.setCodRemitente(null);
+            objD.setCodTipoInstitucion(null);
+            objD.setCodCargoRemitente(null);
+            objD.setID_CLIENTE(null);
+            objD.setUsuariocreacion(objUsuarioSession.getIdusuario());
+            objD.setUnidadpropietario(objUsuarioSession.getIdUnidadPerfil());
+            objD.setCargopropietario(objUsuarioSession.getIdFuncionPerfil());
+            objD.setUnidadautor(objUsuarioSession.getIdUnidadPerfil());
+            objD.setBandeja(objDD.getBandeja());
+            
+            if(!StringUtils.isBlank(objD.getNumeroDocumento())){
+               objD.setEnumerado(Constantes.Si);
+            }
+
+            objD.setEnumerarDocumento("S".equals(objDD.getEnumerarDocumento()) ? true : false);
+
+            if (objD.getEnumerarDocumento()) {
+               objD.setTiponumeracion(objDD.getTipoNumeracion());
+            }
+
+            objD.setNumeroFolios(objDD.getINroFolios() == null ? 0 : objDD.getINroFolios());                        
+            objD.setNumeroFoliosOriginales(objDD.getiNroFoliosOriginales());
+            objD.setNumeroFoliosCopias(objDD.getiNroFoliosCopias());
+            objD.setImagenesDigitalizadas(objDD.getiNroFoliosDigitalizados());                        
+            objD.setObservacion(objDD.getStrObservacion());
+            objD.setFechaAccion(fecha);
+
+            try {
+                objD.setFechaDocumento(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(objDD.getStrFechaDocumento()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+            objD.setFirmante(new Usuario(objUsuarioSession.getIdUsuarioPerfil()));
+            objD.setFirmado(Constantes.No);
+            objD.setLeido(Constantes.ESTADO_NO_LEIDO);
+            objD.setFechaCreacion(fecha);
+            objD.setCondestinatarios(objDD.getCondestinatarios());
+            objD.setConcopias(objDD.getConcopias());
+
+            if(objD.getEnumerado()==null){
+               objD.setEnumerado(Constantes.No);
+            }
+
+            if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_INTERNO)){
+                if (objTD!=null && objTD.getExterno()!=null && objTD.getExterno().equals("1")){
+                    if (objDD.getIdTipoCliente().equals(Constantes.COD_TIPOCLIENTE_EMPRESA)){
+                        Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
+                        objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
+                        objD.setID_CLIENTE(objDD.getIIdCliente());
+                        objD.setDesRemitente(objDD.getIdPersonaEmpresa());
+                        objD.setDesCargoRemitente(objDD.getCodCargoPersonaEmpresa());
+                    }else{
+                        if (objDD.getIdTipoCliente().equals(Constantes.COD_TIPOCLIENTE_INSTITUCION)){
+                           Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
+                           objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
+                           objD.setID_CLIENTE(objDD.getIIdCliente());
+                           objD.setDesRemitente(objDD.getIdPersonaInstitucion());
+                           objD.setDesCargoRemitente(objDD.getCodCargoPersonaInstitucion()); 
+                           objD.setDesUnidadRemitente(objDD.getDesUnidadOrganica());
+                           objD.setNumeroFolios(objDD.getINroFolios() == null ? 0 : objDD.getINroFolios());
+                        } else{
+                           Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
+                           objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
+                           objD.setID_CLIENTE(objDD.getIIdCliente());
+                           objD.setDesCargoRemitente(objDD.getCodCargoPersonaNatural()); 
+                        }
+                    }
+                }
+            }
+
+            if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_EXTERNO)){
+                if (objDD.getIdTipoCliente().equals(Constantes.COD_TIPOCLIENTE_EMPRESA)){
+                    Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
+                    objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
+                    objD.setID_CLIENTE(objDD.getIIdCliente());
+                    objD.setDesRemitente(objDD.getIdPersonaEmpresa());
+                    objD.setDesCargoRemitente(objDD.getCodCargoPersonaEmpresa());         
+                }else{
+                      if (objDD.getIdTipoCliente().equals(Constantes.COD_TIPOCLIENTE_INSTITUCION)){
+                        Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
+                        objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
+                        objD.setID_CLIENTE(objDD.getIIdCliente());
+                        objD.setDesRemitente(objDD.getIdPersonaInstitucion());
+                        objD.setDesCargoRemitente(objDD.getCodCargoPersonaInstitucion());  
+                        objD.setDesUnidadRemitente(objDD.getDesUnidadOrganica());
+                      } else{
+                             Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
+                             objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
+                             objD.setID_CLIENTE(objDD.getIIdCliente());
+                             objD.setDesCargoRemitente(objDD.getCodCargoPersonaNatural()); 
+                      }
+                }
+            }
+
+            if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")){//NUEVO DOCUMENTO
+               objD.setFlaginicioflujo("1");
+               if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_EXTERNO)){ 
+                 objD.setID_EXTERNO(1);
+               }else{
+                 objD.setID_EXTERNO(0);
+               }
+            }else{
+               objD.setID_EXTERNO(0);   
+            }    
+
+            if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_402)){
+                Cliente c = clienteService.findByIdCliente(objDD.getIdInstitucionSicor());
+                objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
+                
+                objD.setID_CLIENTE(objDD.getIdInstitucionSicor());
+                objD.setCodInfraestructura(objDD.getiIdInfraestructura());
+                objD.setCodMateria(objDD.getiIdMateria());
+            }
+
+            if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_405)){
+                Cliente c = clienteService.findByIdCliente(objDD.getIdInstitucionSicor());
+                objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
+                
+                objD.setID_CLIENTE(objDD.getIdInstitucionSicor());
+                objD.setFechaReunion(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(objDD.getStrFechaReunion() + " " + objDD.getStrHoraReunion().substring(1)));
+                objD.setLugar(objDD.getStrLugar());
+                objD.setObjetivo(objDD.getStrObjetivo());
+            }
+
+            objDD.setIdExterno(objD.getID_EXTERNO().toString());
+            //JCLOG
+            objD.setIdDocumento(documentoDao.getNroDocumento());
+            objDD.setDoc(objD);
+            objDD.setFechacreacion(objD.getFechaCreacion());
+            idDocumento = objD.getIdDocumento();
+            
+            if (idDocumento != null && idDocumento.intValue() != 0) {
+                        //Documento doc = this.findByIdDocumento(idDocumento);
+                        if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_404)){
+                            if (objDD.getListaIntegrantesInternos()!=null && objDD.getListaIntegrantesInternos().trim().length()>0){
+                                 String[] lista = objDD.getListaIntegrantesInternos().trim().equals("")?null: StringUtil.stringToArrayPersonalizado(documentoDetail.getListaIntegrantesInternos().trim(),'|');
+                                for(String fila : lista){
+                                    DocumentoReunion documentoReunion = new DocumentoReunion();
+                                    documentoReunion.setEstado("A");
+                                    documentoReunion.setFechaCreacion(fecha);
+                                    documentoReunion.setIdDocumento(objD.getIdDocumento());
+                                    documentoReunion.setNombres(fila);
+                                    documentoReunion.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+                                    documentoReunion.setTipo("0");
+                                    documentoReunionDAO.saveDocumentoReunion(documentoReunion);
+                                }
                             }
-                        }    
-                            
-                        if (objDD.getConcesionario()!=null && !objDD.getConcesionario().trim().equals("")){
-                          objD.setIdConcesionario(new Integer(objDD.getConcesionario()));
-                        }
-                        
-                        if (objDD.getAnioFiscal()!=null && !objDD.getAnioFiscal().trim().equals(""))
-                        {
-                            objD.setAnioFiscal(new Integer(objDD.getAnioFiscal()));
-                        }
-                        
-                        if (objDD.getStrUnidad()==null || objDD.getStrUnidad().trim().equals("")){
-                          objD.setUnidadenumera(objUsuarioSession.getIdUnidadPerfil());
-                        }else{
-                            objD.setUnidadenumera(Integer.valueOf(objDD.getStrUnidad()));
-                        }
-                        
-                        if (objDD.getPlazo()!=null){ 
-                          if (objDD.getPlazo().equals("0") && objDD.getIPlazoDia()!=null && !objDD.getIPlazoDia().trim().equals("")){
-                            objD.setPlazo(new Integer(objDD.getIPlazoDia()));
-                            objD.setFechaLimiteAtencion(fechaLimite.getFechaLimite(fecha, Integer.parseInt(objDD.getIPlazoDia()))); 
-                          }  
-                          if (objDD.getPlazo().equals("1") && objDD.getStrFechaLimiteAtencion()!=null && !objDD.getStrFechaLimiteAtencion().trim().equals("")){
-                            objD.setFechaLimiteAtencion(new SimpleDateFormat("yyyy-MM-dd").parse(objDD.getStrFechaLimiteAtencion()));
-                            objD.setPlazo(fechaLimite.getPlazo(fecha , objD.getFechaLimiteAtencion()));
-                          }
-                        }
-                        
-                        objD.setID_CODIGO(null);
-                        objD.setIdUsuarioLogeado(objUsuarioSession.getIdusuario());
-                        objD.setCodRemitente(null);
-                        objD.setCodTipoInstitucion(null);
-                        objD.setCodCargoRemitente(null);
-                        objD.setID_CLIENTE(null);
-                        objD.setUsuariocreacion(objUsuarioSession.getIdusuario());
-                        objD.setUnidadpropietario(objUsuarioSession.getIdUnidadPerfil());
-                        objD.setCargopropietario(objUsuarioSession.getIdFuncionPerfil());
-                        objD.setUnidadautor(objUsuarioSession.getIdUnidadPerfil());
-                        objD.setBandeja(objDD.getBandeja());
-                        
-                        if(!StringUtils.isBlank(objD.getNumeroDocumento())){
-                           objD.setEnumerado(Constantes.Si);
-                        }
-
-                        objD.setEnumerarDocumento("S".equals(objDD.getEnumerarDocumento()) ? true : false);
-
-                        if (objD.getEnumerarDocumento()) {
-                           objD.setTiponumeracion(objDD.getTipoNumeracion());
-                        }
-
-                        objD.setNumeroFolios(objDD.getINroFolios() == null ? 0 : objDD.getINroFolios());
-                        
-                        /////////////////////////////
-                        objD.setNumeroFoliosOriginales(objDD.getiNroFoliosOriginales());
-                        objD.setNumeroFoliosCopias(objDD.getiNroFoliosCopias());
-                        objD.setImagenesDigitalizadas(objDD.getiNroFoliosDigitalizados());
-                        ////////////////////////////
-                        
-                        objD.setObservacion(objDD.getStrObservacion());
-                        objD.setFechaAccion(fecha);
-
-                        try {
-                                // Esto porque asi manda la fecha dojo
-                                objD.setFechaDocumento(new SimpleDateFormat("yyyy-MM-dd").parse(objDD.getStrFechaDocumento()));
-                        } catch (ParseException e) {
-                                e.printStackTrace();
-                                throw e;
-                        }
-
-                        objD.setFirmante(new Usuario(objUsuarioSession.getIdUsuarioPerfil()));
-                        objD.setFirmado(Constantes.No);
-                        objD.setLeido(Constantes.ESTADO_NO_LEIDO);
-                        objD.setFechaCreacion(fecha);
-                        objD.setCondestinatarios(objDD.getCondestinatarios());
-                        objD.setConcopias(objDD.getConcopias());
-
-                        if(objD.getEnumerado()==null){
-                           objD.setEnumerado(Constantes.No);
-                        }
-
-                        if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_INTERNO)){
-                            if (objTD!=null && objTD.getExterno()!=null && objTD.getExterno().equals("1")){
-                                if (objDD.getIdTipoCliente().equals(Constantes.COD_TIPOCLIENTE_EMPRESA)){
-                                    Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
-                                    objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
-                                    objD.setID_CLIENTE(objDD.getIIdCliente());
-                                    objD.setDesRemitente(objDD.getIdPersonaEmpresa());
-                                    objD.setDesCargoRemitente(objDD.getCodCargoPersonaEmpresa());
-                                }else{
-                                    if (objDD.getIdTipoCliente().equals(Constantes.COD_TIPOCLIENTE_INSTITUCION)){
-                                       Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
-                                       objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
-                                       objD.setID_CLIENTE(objDD.getIIdCliente());
-                                       objD.setDesRemitente(objDD.getIdPersonaInstitucion());
-                                       objD.setDesCargoRemitente(objDD.getCodCargoPersonaInstitucion()); 
-                                       objD.setDesUnidadRemitente(objDD.getDesUnidadOrganica());
-                                       objD.setNumeroFolios(objDD.getINroFolios() == null ? 0 : objDD.getINroFolios());
-                                    } else{
-                                       Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
-                                       objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
-                                       objD.setID_CLIENTE(objDD.getIIdCliente());
-                                       objD.setDesCargoRemitente(objDD.getCodCargoPersonaNatural()); 
-                                    }
+                            if (objDD.getListaIntegrantesExternos()!=null && objDD.getListaIntegrantesExternos().trim().length()>0){
+                                String[] lista = objDD.getListaIntegrantesExternos().trim().equals("")?null: StringUtil.stringToArrayPersonalizado(documentoDetail.getListaIntegrantesExternos().trim(),'|');
+                                for(String fila : lista){
+                                    //String[] lista = StringUtil.stringToArray(fila);    
+                                    DocumentoReunion documentoReunion = new DocumentoReunion();
+                                    documentoReunion.setEstado("A");
+                                    documentoReunion.setFechaCreacion(fecha);
+                                    documentoReunion.setIdDocumento(objD.getIdDocumento());
+                                    documentoReunion.setNombres(fila);
+                                    documentoReunion.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+                                    documentoReunion.setTipo("1");
+                                    documentoReunionDAO.saveDocumentoReunion(documentoReunion);
                                 }
                             }
                         }
+                   // }
+                
+                    //objD = this.saveDocumento(objD);
+                    //TIPO TRANSACCION: NUEVO/AGREGAR/MODIFICAR
+                    //OPCION: QUIEN CREA EL DOCUMENTO INTERNO (AREAS) O EXTERNO(TRAMITE)
+                    //INTERNOEXTERNO: INTERNO SI EL DOCUMENTO VA DENTRO DE LAS AREAS O A UNA INSTITUCION
 
-                        if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_EXTERNO)){
-                            if (objDD.getIdTipoCliente().equals(Constantes.COD_TIPOCLIENTE_EMPRESA)){
-                                Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
-                                objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
-                                objD.setID_CLIENTE(objDD.getIIdCliente());
-                                objD.setDesRemitente(objDD.getIdPersonaEmpresa());
-                                objD.setDesCargoRemitente(objDD.getCodCargoPersonaEmpresa());         
-                            }else{
-                                  if (objDD.getIdTipoCliente().equals(Constantes.COD_TIPOCLIENTE_INSTITUCION)){
-                                    Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
-                                    objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
-                                    objD.setID_CLIENTE(objDD.getIIdCliente());
-                                    objD.setDesRemitente(objDD.getIdPersonaInstitucion());
-                                    objD.setDesCargoRemitente(objDD.getCodCargoPersonaInstitucion());  
-                                    objD.setDesUnidadRemitente(objDD.getDesUnidadOrganica());
-                                  } else{
-                                         Cliente c = clienteService.findByIdCliente(objDD.getIIdCliente());
-                                         objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
-                                         objD.setID_CLIENTE(objDD.getIIdCliente());
-                                         objD.setDesCargoRemitente(objDD.getCodCargoPersonaNatural()); 
-                                  }
-                            }
-                        }
-
-                        ////////////////////////////////////
-
-                        if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")){//NUEVO DOCUMENTO
-                           objD.setFlaginicioflujo("1");
-                           if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_EXTERNO)){ 
-                             objD.setID_EXTERNO(1);
-                           }else{
-                             objD.setID_EXTERNO(0);
+                    if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")){//NUEVO DOCUMENTO 
+                          if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_EXTERNO)){ 
+                             List<Item> items = (List<Item>)mapSession.get("AdjuntosDocumento");  
+                    
+                             if (items!=null && items.size()>0){
+                                for(int i=0;i<items.size();i++){
+                                    DocumentoAdjunto d = new DocumentoAdjunto();
+                                    d.setCopOrig(items.get(i).getTipoAdjunto());
+                                    d.setCodTipoAdj(items.get(i).getTipo());
+                                    d.setNroAdj(new Integer(items.get(i).getNro()));
+                                    d.setEstado("A");
+                                    d.setIdDocumento(idDocumento);
+                                    d.setFechaCreacion(fecha);
+                                    d.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+                                    documentoAdjuntoDAO.registrarDocumentoAdjunto(d);  
+                               }
+                             }
+                             
+                             String[] listaPrincipal = StringUtil.stringToArrayPersonalizado(objDD.getListaDerivacionPara().trim(),'|');
+                             String[] listaCC        = objDD.getListaDerivacionCC().trim().equals("")? null : StringUtil.stringToArrayPersonalizado(objDD.getListaDerivacionCC().trim(),'|');
+                            
+                             if (listaPrincipal!=null && listaPrincipal.length>0){
+                                for (int i=0;i<listaPrincipal.length;i++){
+                                     String[] datos = listaPrincipal[i].split("-");
+                                     DocumentoDerivacion documentoDerivacion = new DocumentoDerivacion();
+                                     documentoDerivacion.setEstado("A");
+                                     documentoDerivacion.setIddocumento(idDocumento);
+                                     documentoDerivacion.setTipo("P");
+                                     documentoDerivacion.setIdusuario(new Integer(datos[0]));
+                                     documentoDerivacion.setUnidadpropietario(new Integer(datos[1]));
+                                     documentoDerivacion.setCargopropietario(new Integer(datos[2]));
+                                     documentoDerivacion.setFechacreacion(fecha);
+                                     documentoDerivacion.setUsuariocreacion(objUsuarioSession.getIdusuario());
+                                     documentoDerivacionDAO.guardar(documentoDerivacion);
+                                }    
+                             }
+                             if (listaCC!=null && listaCC.length>0){
+                                for(int i=0;i<listaCC.length;i++){
+                                   String[] datos = listaCC[i].split("-");
+                                     DocumentoDerivacion documentoDerivacion = new DocumentoDerivacion();
+                                     documentoDerivacion.setEstado("A");
+                                     documentoDerivacion.setIddocumento(idDocumento);
+                                     documentoDerivacion.setTipo("C");
+                                     documentoDerivacion.setIdusuario(new Integer(datos[0]));
+                                     documentoDerivacion.setUnidadpropietario(new Integer(datos[1]));
+                                     documentoDerivacion.setCargopropietario(new Integer(datos[2]));
+                                     documentoDerivacion.setFechacreacion(fecha);
+                                     documentoDerivacion.setUsuariocreacion(objUsuarioSession.getIdusuario());
+                                     documentoDerivacionDAO.guardar(documentoDerivacion); 
+                                } 
+                             }
+                            
                            }
-                        }else{
-                           objD.setID_EXTERNO(0);   
-                        }    
+                          
+                          objD.setOrigen(objD.getIdDocumento());
+                          String[] listDocReferenciados = null;
+                          //fecha = new Date();
+                          if (objDD.getListReferenciados()!=null){
+                               listDocReferenciados = objDD.getListReferenciados().trim().equals("")?null:StringUtil.stringToArrayPersonalizado(objDD.getListReferenciados().trim(),'|');
+                          }
+                          
+                          if (listDocReferenciados!=null && listDocReferenciados.length>0){
+                              for(int i=0;i<listDocReferenciados.length;i++){
+                                 DocumentoReferencia docReferencia  = new DocumentoReferencia();
+                                 docReferencia.setIdDocumento(idDocumento);
+                                 docReferencia.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
+                                 docReferencia.setEstado("A");
+                                 docReferencia.setFechaCreacion(fecha);
+                                 docReferencia.setVerDocumento(verDocumento(new Integer(listDocReferenciados[i]),objUsuarioSession));
+                                 docReferencia.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+                                 documentoReferenciaDAO.saveDocumentoReferencia(docReferencia);
+                                 
+                                 if (objD.getTipoDocumento().getExternoQR()!= null && objD.getTipoDocumento().getExternoQR().equals("1")){
+                                    Documento d = documentoDao.findByIdDocumento(new Integer(listDocReferenciados[i]));
+                                    List<Archivo> lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
 
-                        if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_402)){
-                            Cliente c = clienteService.findByIdCliente(objDD.getIdInstitucionSicor());
-                            objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
-                            
-                            objD.setID_CLIENTE(objDD.getIdInstitucionSicor());
-                            objD.setCodInfraestructura(objDD.getiIdInfraestructura());
-                            objD.setCodMateria(objDD.getiIdMateria());
-                        }
-
-                        if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_405)){
-                            Cliente c = clienteService.findByIdCliente(objDD.getIdInstitucionSicor());
-                            objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
-                            
-                            objD.setID_CLIENTE(objDD.getIdInstitucionSicor());
-                            objD.setFechaReunion(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(objDD.getStrFechaReunion() + " " + objDD.getStrHoraReunion().substring(1)));
-                            objD.setLugar(objDD.getStrLugar());
-                            objD.setObjetivo(objDD.getStrObjetivo());
-                        }
-
-                        objDD.setIdExterno(objD.getID_EXTERNO().toString());
-                        //JCLOG
-                        objD.setIdDocumento(documentoDao.getNroDocumento());
-                        objDD.setDoc(objD);
-                        objDD.setFechacreacion(objD.getFechaCreacion());
-                        ///////////////////////////////////fin////////////////////////////////////////
-                        idDocumento = objD.getIdDocumento();
-                        
-                        if (idDocumento != null && idDocumento.intValue() != 0) {
-                                    //Documento doc = this.findByIdDocumento(idDocumento);
-                                    if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_404)){
-                                        if (objDD.getListaIntegrantesInternos()!=null && objDD.getListaIntegrantesInternos().trim().length()>0){
-                                             String[] lista = objDD.getListaIntegrantesInternos().trim().equals("")?null: StringUtil.stringToArrayPersonalizado(documentoDetail.getListaIntegrantesInternos().trim(),'|');
-                                            for(String fila : lista){
-                                                DocumentoReunion documentoReunion = new DocumentoReunion();
-                                                documentoReunion.setEstado("A");
-                                                documentoReunion.setFechaCreacion(fecha);
-                                                documentoReunion.setIdDocumento(objD.getIdDocumento());
-                                                documentoReunion.setNombres(fila);
-                                                documentoReunion.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                                documentoReunion.setTipo("0");
-                                                documentoReunionDAO.saveDocumentoReunion(documentoReunion);
-                                            }
-                                        }
-                                        if (objDD.getListaIntegrantesExternos()!=null && objDD.getListaIntegrantesExternos().trim().length()>0){
-                                            String[] lista = objDD.getListaIntegrantesExternos().trim().equals("")?null: StringUtil.stringToArrayPersonalizado(documentoDetail.getListaIntegrantesExternos().trim(),'|');
-                                            for(String fila : lista){
-                                                //String[] lista = StringUtil.stringToArray(fila);    
-                                                DocumentoReunion documentoReunion = new DocumentoReunion();
-                                                documentoReunion.setEstado("A");
-                                                documentoReunion.setFechaCreacion(fecha);
-                                                documentoReunion.setIdDocumento(objD.getIdDocumento());
-                                                documentoReunion.setNombres(fila);
-                                                documentoReunion.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                                documentoReunion.setTipo("1");
-                                                documentoReunionDAO.saveDocumentoReunion(documentoReunion);
-                                            }
-                                        }
-                                    }
-                               // }
-                            
-                                //objD = this.saveDocumento(objD);
-                                //TIPO TRANSACCION: NUEVO/AGREGAR/MODIFICAR
-                                //OPCION: QUIEN CREA EL DOCUMENTO INTERNO (AREAS) O EXTERNO(TRAMITE)
-                                //INTERNOEXTERNO: INTERNO SI EL DOCUMENTO VA DENTRO DE LAS AREAS O A UNA INSTITUCION
-
-                                if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")){//NUEVO DOCUMENTO 
-                                      if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_EXTERNO)){ 
-                                         List<Item> items = (List<Item>)mapSession.get("AdjuntosDocumento");  
-                                
-                                         if (items!=null && items.size()>0){
-                                            for(int i=0;i<items.size();i++){
-                                                DocumentoAdjunto d = new DocumentoAdjunto();
-                                                d.setCopOrig(items.get(i).getTipoAdjunto());
-                                                d.setCodTipoAdj(items.get(i).getTipo());
-                                                d.setNroAdj(new Integer(items.get(i).getNro()));
-                                                d.setEstado("A");
-                                                d.setIdDocumento(idDocumento);
-                                                d.setFechaCreacion(fecha);
-                                                d.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                                documentoAdjuntoDAO.registrarDocumentoAdjunto(d);  
-                                           }
-                                         }
-                                         
-                                         String[] listaPrincipal = StringUtil.stringToArrayPersonalizado(objDD.getListaDerivacionPara().trim(),'|');
-                                         String[] listaCC        = objDD.getListaDerivacionCC().trim().equals("")? null : StringUtil.stringToArrayPersonalizado(objDD.getListaDerivacionCC().trim(),'|');
-                                        
-                                         if (listaPrincipal!=null && listaPrincipal.length>0){
-                                            for (int i=0;i<listaPrincipal.length;i++){
-                                                 String[] datos = listaPrincipal[i].split("-");
-                                                 DocumentoDerivacion documentoDerivacion = new DocumentoDerivacion();
-                                                 documentoDerivacion.setEstado("A");
-                                                 documentoDerivacion.setIddocumento(idDocumento);
-                                                 documentoDerivacion.setTipo("P");
-                                                 documentoDerivacion.setIdusuario(new Integer(datos[0]));
-                                                 documentoDerivacion.setUnidadpropietario(new Integer(datos[1]));
-                                                 documentoDerivacion.setCargopropietario(new Integer(datos[2]));
-                                                 documentoDerivacion.setFechacreacion(fecha);
-                                                 documentoDerivacion.setUsuariocreacion(objUsuarioSession.getIdusuario());
-                                                 documentoDerivacionDAO.guardar(documentoDerivacion);
-                                            }    
-                                         }
-                                         if (listaCC!=null && listaCC.length>0){
-                                            for(int i=0;i<listaCC.length;i++){
-                                               String[] datos = listaCC[i].split("-");
-                                                 DocumentoDerivacion documentoDerivacion = new DocumentoDerivacion();
-                                                 documentoDerivacion.setEstado("A");
-                                                 documentoDerivacion.setIddocumento(idDocumento);
-                                                 documentoDerivacion.setTipo("C");
-                                                 documentoDerivacion.setIdusuario(new Integer(datos[0]));
-                                                 documentoDerivacion.setUnidadpropietario(new Integer(datos[1]));
-                                                 documentoDerivacion.setCargopropietario(new Integer(datos[2]));
-                                                 documentoDerivacion.setFechacreacion(fecha);
-                                                 documentoDerivacion.setUsuariocreacion(objUsuarioSession.getIdusuario());
-                                                 documentoDerivacionDAO.guardar(documentoDerivacion); 
-                                            } 
-                                         }
-                                        
-                                       }
-                                      
-                                      objD.setOrigen(objD.getIdDocumento());
-                                      String[] listDocReferenciados = null;
-                                      //fecha = new Date();
-                                      if (objDD.getListReferenciados()!=null){
-                                           listDocReferenciados = objDD.getListReferenciados().trim().equals("")?null:StringUtil.stringToArrayPersonalizado(objDD.getListReferenciados().trim(),'|');
+                                    if (lst!=null && lst.size()>0){
+                                      for(int k=0;k<lst.size();k++){
+                                          ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
+                                          referenciaArchivo.setIdDocumento(idDocumento);
+                                          referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
+                                          referenciaArchivo.setEstado("A");
+                                          referenciaArchivo.setFechaCreacion(new Date());
+                                          referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+                                          referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
+                                          referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
                                       }
-                                      
-                                      if (listDocReferenciados!=null && listDocReferenciados.length>0){
-                                          for(int i=0;i<listDocReferenciados.length;i++){
-                                             DocumentoReferencia docReferencia  = new DocumentoReferencia();
-                                             docReferencia.setIdDocumento(idDocumento);
-                                             docReferencia.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
-                                             docReferencia.setEstado("A");
-                                             docReferencia.setFechaCreacion(fecha);
-                                             docReferencia.setVerDocumento(verDocumento(new Integer(listDocReferenciados[i]),objUsuarioSession));
-                                             docReferencia.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                             documentoReferenciaDAO.saveDocumentoReferencia(docReferencia);
-                                             
-                                             if (objD.getTipoDocumento().getExternoQR()!= null && objD.getTipoDocumento().getExternoQR().equals("1")){
-                                                Documento d = documentoDao.findByIdDocumento(new Integer(listDocReferenciados[i]));
-                                                List<Archivo> lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
+                                    }
+                                 }
+                              }  
+                          } 
+                          
+                    }else{  //AGREGAR DOCUMENTO
+                            String[] listDocReferenciados = null; 
+                            objD.setOrigen(objDD.getOrigen());
+                            //fecha = new Date();
+                            if (objDD.getiIdLegajo()!=null && objDD.getiIdLegajo()!=0){
+                               LegajoDocumento legajoDocumento = new LegajoDocumento();  
+                               legajoDocumento.setIdLegajo(objDD.getiIdLegajo());
+                               legajoDocumento.setEstado("A");
+                               legajoDocumento.setIdDocumento(idDocumento);
+                               legajoDocumento.setFechaCreacion(new Date());
+                               legajoDocumento.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+                               legajoDocumentoDAO.saveLegajoDocumento(legajoDocumento);
+                            }
+                            
+                            if (objDD.getListReferenciados()!=null)
+                                listDocReferenciados =  objDD.getListReferenciados().trim().equals("")?null:StringUtil.stringToArrayPersonalizado(objDD.getListReferenciados().trim(),'|');
+                            if (listDocReferenciados!=null && listDocReferenciados.length>0){
+                                for (int i=0;i<listDocReferenciados.length;i++){
+                                    DocumentoReferencia docReferencia  = new DocumentoReferencia();
+                                    docReferencia.setIdDocumento(objD.getIdDocumento()); 
+                                    docReferencia.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
+                                    docReferencia.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+                                    docReferencia.setFechaCreacion(fecha);
+                                    docReferencia.setVerDocumento(verDocumento(new Integer(listDocReferenciados[i]),objUsuarioSession));
+                                    docReferencia.setEstado("A");
+                                    log.info("(DocumentoReferencia)docReferencia:"+docReferencia.toString());
+                                    documentoReferenciaDAO.saveDocumentoReferencia(docReferencia);
+                                    
+                                    if (objD.getTipoDocumento().getExternoQR()!= null && objD.getTipoDocumento().getExternoQR().equals("1")){
+                                        Documento d = documentoDao.findByIdDocumento(new Integer(listDocReferenciados[i]));
+                                        List<Archivo> lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
 
-                                                if (lst!=null && lst.size()>0){
-                                                  for(int k=0;k<lst.size();k++){
-                                                      ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
-                                                      referenciaArchivo.setIdDocumento(idDocumento);
-                                                      referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
-                                                      referenciaArchivo.setEstado("A");
-                                                      referenciaArchivo.setFechaCreacion(new Date());
-                                                      referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                                      referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
-                                                      referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
-                                                  }
-                                                }
-                                             }
-                                          }  
-                                      } 
-                                      
-                                }else{  //AGREGAR DOCUMENTO
-                                        String[] listDocReferenciados = null; 
-                                        objD.setOrigen(objDD.getOrigen());
-                                        //fecha = new Date();
-                                        if (objDD.getiIdLegajo()!=null && objDD.getiIdLegajo()!=0){
-                                           LegajoDocumento legajoDocumento = new LegajoDocumento();  
-                                           legajoDocumento.setIdLegajo(objDD.getiIdLegajo());
-                                           legajoDocumento.setEstado("A");
-                                           legajoDocumento.setIdDocumento(idDocumento);
-                                           legajoDocumento.setFechaCreacion(new Date());
-                                           legajoDocumento.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                           legajoDocumentoDAO.saveLegajoDocumento(legajoDocumento);
+                                        if (lst!=null && lst.size()>0){
+                                          for(int k=0;k<lst.size();k++){
+                                              ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
+                                              referenciaArchivo.setIdDocumento(idDocumento);
+                                              referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
+                                              referenciaArchivo.setEstado("A");
+                                              referenciaArchivo.setFechaCreacion(new Date());
+                                              referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+                                              referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
+                                              referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
+                                          }
+                                        } 
+                                    } 
+                                }
+                            }
+                    }
+                    
+                    if (objD.getID_EXTERNO()!=null && objD.getID_EXTERNO()==0){ // && (objTD.getSicor()==null || !objTD.getSicor().equals("1"))){
+                         List<Usuarioxunidadxfuncion> lista =usuarioxunidadxfuncionDAO.getUsuarioByUnidadByFuncionRol(objUsuarioSession);
+                         if (lista!=null && lista.size()>0 && objD.getProyecto()!=null && !objD.getProyecto().toString().equals(Constantes.DOCUMENTO_PROYECTO.toString()) && !lista.get(0).getIdrol().toString().equals(Constantes.COD_ROL_LOCADOR.toString())){
+                              objD.setFirmado('S');
+                         }
+                    }
+                    
+                    /**Numeracion--------------------------------------------------------------------------------------------------------*/
+                    if(objD.getEnumerarDocumento() && objD.getTiponumeracion().equals(Constantes.NUMERACION_AUTOMATICA) && objD.getEnumerado().equals(Constantes.No)){
+                        Unidad unid = null;
+                        if (objDD.getStrUnidad()==null || objDD.getStrUnidad().trim().equals(""))
+                        {
+                            unid = new Unidad(objUsuarioSession.getIdUnidadPerfil());
+                        }
+                        else{
+                            if (objD!=null && objD.getIdConcesionario()!=null && tipoDocReqTri){
+                               //unid = new Unidad(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_REQUERIMIENTO_TRIBUTARIO").getValor()));         
+                               Cliente cliente = clienteService.findByIdCliente(objD.getIdConcesionario());
+                               Integer idUnidad = cliente.getIdUnidad();
+                               unid = new Unidad(idUnidad);
+
+                            }else{
+                               unid = new Unidad(Integer.parseInt(objDD.getStrUnidad()));
+                            }  
+                        }    
+                        
+                        if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.TIPO_INFORME_CONJUNTO) || objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.TIPO_MEMORANDO_CONJUNTO))
+                          unid = new Unidad(new Integer(parametroService.findByTipo(Constantes.PARAMETRO_UNIDAD_INFORME_CONJUNTO).get(0).getValor()));
+                        
+                        //List<Numeracion> listaNum = numeracionDAO.findAllUnidadAndTipoDoc(unid.getIdunidad(),objD.getTipoDocumento().getIdtipodocumento());
+                        List<Numeracion> listaNum = null;
+                        if(objD.getTipoDocumento().getIdtipodocumento().toString().equals(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()))
+                        {
+                            listaNum = numeracionDAO.findAllUnidadAndTipoDocAndAnioFiscal(unid.getIdunidad(),objD.getTipoDocumento().getIdtipodocumento(),objD.getAnioFiscal());
+                        }else
+                        {
+                            listaNum = numeracionDAO.findAllUnidadAndTipoDoc(unid.getIdunidad(),objD.getTipoDocumento().getIdtipodocumento());
+                        }                                    
+                        
+                        if (listaNum != null && listaNum.size() > 0 && listaNum.get(0).getTiponumeracion() != null) {
+                            String nro = numeracionDAO.guardarObjProcedure(listaNum.get(0), unid.getIdunidad(), objUsuarioSession.getIdusuario().intValue());
+                            objD.setNumeroDocumento(nro);
+                            objD.setEnumerado(Constantes.Si);
+                        }
+                           
+                        DateFormat formatoAno = new SimpleDateFormat("yyyy");
+                        String sPrefijo = Constantes.PARAMETRO_TIPO_PREFIJONROTRAMITEPRODUCCION;
+                        Integer nro = documentoDao.getNroTramiteDocumentario();
+                        String sFormato = formatoAno.format(fecha).concat(parametroService.findByTipoUnico(sPrefijo).getValor());
+                        StringBuilder sbNroTramite = new StringBuilder((StringUtil.isEmpty(sFormato)) ? "" : sFormato);
+                        sbNroTramite.replace(sFormato.length() - nro.toString().length(), sFormato.length(), nro.toString());
+                        objD.setID_CODIGO(new Integer(sbNroTramite.toString()));
+                        documentoDao.saveDocumentoSequence(objD);
+                        objDD.setNroTramite(objD.getID_CODIGO().toString());
+                        objDD.setStrNroDocumento(objD.getNumeroDocumento());
+                    }else{
+                        DateFormat formatoAno = new SimpleDateFormat("yyyy");
+                        Integer nro = documentoDao.getNroTramiteDocumentario();
+                        String sPrefijo = Constantes.PARAMETRO_TIPO_PREFIJONROTRAMITEPRODUCCION;
+                        String sFormato = formatoAno.format(fecha).concat(parametroService.findByTipoUnico(sPrefijo).getValor());
+                        StringBuilder sbNroTramite = new StringBuilder((StringUtil.isEmpty(sFormato)) ? "" : sFormato);
+                        sbNroTramite.replace(sFormato.length() - nro.toString().length(), sFormato.length(), nro.toString());
+                        log.info("nro:"+nro+",sFormato:"+sFormato+",sbNroTramite:"+sbNroTramite);
+                        objD.setID_CODIGO(new Integer(sbNroTramite.toString()));
+                        log.info("ID_CODIGO:"+objD.getID_CODIGO());
+                        objDD.setNroTramite(objD.getID_CODIGO().toString());
+                        documentoDao.saveDocumentoSequence(objD);
+                       
+                        if (objDD.getTipoTransaccion().equals("R") && objDD.getCodigoVirtual()!=null && !objDD.getCodigoVirtual().trim().equals("")){
+                            try{
+                            	
+                                iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(objDD.getCodigoVirtual().trim()));
+                                
+                                if(iotdtmDocExterno!=null){
+                                	log.info("Subiendo archivos para PIDE (CodigoVirtual):"+objDD.getCodigoVirtual());
+                                	
+                                    IotdtcRecepcion iotdtcRecepcion = iotdtmDocExterno.getSidrecext();
+                                    iotdtcRecepcion.setIddocumento(objD.getIdDocumento());
+                                    recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
+                                    objD.setNroVirtual(new Integer(objDD.getCodigoVirtual()));
+                                    objD.setFirmado('S');
+
+                                    //JBENGOA INICIO
+                                    List<Archivo> archivosSubidos = new ArrayList<Archivo>();
+                                    Usuario usuario = (Usuario) session.get(Constantes.SESSION_USUARIO);        
+                                    Unidad unidad = null;
+
+                                    if(objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()) ||
+                                       objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor())){
+                                       unidad = unidadService.buscarObjPor(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_GSF").getValor()));
+                                    }else{
+                                       unidad = unidadService.buscarObjPor(usuario.getIdUnidadPerfil());
+                                    }
+
+                                    iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(objDD.getCodigoVirtual().trim()));
+                                    int pos = iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().lastIndexOf(".");
+                                    String extension = iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().substring(pos+1, iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().length());
+
+                                    String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
+                                    String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
+                                    String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
+
+                                    OutputStream out = new FileOutputStream(rutaDig + sNuevoNombrePrincipal); 
+                                    out.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
+                                    out.close();
+
+                                    OutputStream out_ = new FileOutputStream(rutaDig + sNuevoNombreCargo); 
+                                    out_.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
+                                    out_.close();
+                                    
+                                    File f=new File(rutaDig,sNuevoNombreCargo);
+
+                                    Archivo objArchivo = new Archivo();
+                                    objArchivo.setDocumento(objD);
+                                    objArchivo.setNombre(sNuevoNombrePrincipal);
+                                    objArchivo.setPrincipal('S');
+                                    objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+                                    objArchivo.setFechaCreacion(new Date());
+                                    objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombrePrincipal);
+                                    objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+ objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension);
+                                    objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
+                                    objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
+                                    objArchivo.setUsuariocreacion(usuario.getIdusuario());
+                                    objArchivo.setUsuariomodificacion(usuario.getIdusuario());
+                                    objArchivo.setClave(null);
+                                    try{
+                                        objArchivo.setTamano(Integer.valueOf((int)f.length()));
+                                    }catch(Exception e){
+                                        e.printStackTrace();
+                                        objArchivo.setTamano(null);
+                                    }
+                                    objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+                                    objArchivo = archivoService.saveArchivo(objArchivo);
+                                    archivosSubidos.add(objArchivo);
+
+                                    objArchivo = new Archivo();
+                                    objArchivo.setDocumento(objD);
+                                    objArchivo.setNombre(sNuevoNombreCargo);
+                                    objArchivo.setPrincipal('M');
+                                    objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+                                    objArchivo.setFechaCreacion(new Date());
+                                    objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombreCargo);
+                                    objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension);
+                                    objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
+                                    objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
+                                    objArchivo.setUsuariocreacion(usuario.getIdusuario());
+                                    objArchivo.setUsuariomodificacion(usuario.getIdusuario());
+                                    objArchivo.setClave(null);
+                                    objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+                                    objArchivo = archivoService.saveArchivo(objArchivo);
+                                    archivosSubidos.add(objArchivo);
+                                    repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
+                                
+                                }else{
+                                	
+                                	IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
+                                    
+                                    if(iotdtcRecepcionMPV!=null){
+                                    	log.info("Subiendo archivos para MPV (CodigoVirtual):"+objDD.getCodigoVirtual());
+                                    	
+                                    	log.info("Numero tramite: "+objDD.getNroTramite());
+                                    	log.info("Numero tramite obj: "+objD.getRecepcionado().charAt(0));
+                                    	
+                                    	iotdtcRecepcionMPV.setIddocumento(objD.getIdDocumento());
+                                    	iotdtcRecepcionMPV.setVnumregstd(objD.getID_CODIGO()+""); 
+                                    	iotdtcRecepcionMPV.setCflgest(objD.getRecepcionado().charAt(0));
+                                    	
+                                        recepcionVirtualDAO.registrarDocumentoMPV(iotdtcRecepcionMPV);
+                                        objD.setNroVirtual(new Integer(objDD.getCodigoVirtual()));
+                                        objD.setFirmado('S');
+
+                                        List<Archivo> archivosSubidos = new ArrayList<Archivo>();
+                                        Usuario usuario = (Usuario) session.get(Constantes.SESSION_USUARIO);        
+                                        Unidad unidad = null;
+
+                                        if(objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()) ||
+                                           objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor())){
+                                           unidad = unidadService.buscarObjPor(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_GSF").getValor()));
+                                        }else{
+                                           unidad = unidadService.buscarObjPor(usuario.getIdUnidadPerfil());
                                         }
                                         
-                                        if (objDD.getListReferenciados()!=null)
-                                            listDocReferenciados =  objDD.getListReferenciados().trim().equals("")?null:StringUtil.stringToArrayPersonalizado(objDD.getListReferenciados().trim(),'|');
-                                        if (listDocReferenciados!=null && listDocReferenciados.length>0){
-                                            for (int i=0;i<listDocReferenciados.length;i++){
-                                                DocumentoReferencia docReferencia  = new DocumentoReferencia();
-                                                docReferencia.setIdDocumento(objD.getIdDocumento()); 
-                                                docReferencia.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
-                                                docReferencia.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                                docReferencia.setFechaCreacion(fecha);
-                                                docReferencia.setVerDocumento(verDocumento(new Integer(listDocReferenciados[i]),objUsuarioSession));
-                                                docReferencia.setEstado("A");
-                                                log.info("(DocumentoReferencia)docReferencia:"+docReferencia.toString());
-                                                documentoReferenciaDAO.saveDocumentoReferencia(docReferencia);
-                                                
-                                                if (objD.getTipoDocumento().getExternoQR()!= null && objD.getTipoDocumento().getExternoQR().equals("1")){
-                                                    Documento d = documentoDao.findByIdDocumento(new Integer(listDocReferenciados[i]));
-                                                    List<Archivo> lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-
-                                                    if (lst!=null && lst.size()>0){
-                                                      for(int k=0;k<lst.size();k++){
-                                                          ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
-                                                          referenciaArchivo.setIdDocumento(idDocumento);
-                                                          referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
-                                                          referenciaArchivo.setEstado("A");
-                                                          referenciaArchivo.setFechaCreacion(new Date());
-                                                          referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                                          referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
-                                                          referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
-                                                      }
-                                                    } 
-                                                } 
-                                            }
+                                        IotdtdAdjuntoMPV adjuntoPrincipal = null;
+                                        for(IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()){    	                                            	
+                                        	if(adjunto.getTipoarchivo().equals("1")){
+                                        		adjuntoPrincipal = adjunto;
+                                        		break;
+                                        	}
                                         }
-                                }
-                                
-                                if (objD.getID_EXTERNO()!=null && objD.getID_EXTERNO()==0){ // && (objTD.getSicor()==null || !objTD.getSicor().equals("1"))){
-                                     List<Usuarioxunidadxfuncion> lista =usuarioxunidadxfuncionDAO.getUsuarioByUnidadByFuncionRol(objUsuarioSession);
-                                     if (lista!=null && lista.size()>0 && objD.getProyecto()!=null && !objD.getProyecto().toString().equals(Constantes.DOCUMENTO_PROYECTO.toString()) && !lista.get(0).getIdrol().toString().equals(Constantes.COD_ROL_LOCADOR.toString())){
-                                          objD.setFirmado('S');
-                                     }
-                                }
-                                
-                                /**Numeracion--------------------------------------------------------------------------------------------------------*/
-                                if(objD.getEnumerarDocumento() && objD.getTiponumeracion().equals(Constantes.NUMERACION_AUTOMATICA) && objD.getEnumerado().equals(Constantes.No)){
-                                    Unidad unid = null;
-                                    if (objDD.getStrUnidad()==null || objDD.getStrUnidad().trim().equals(""))
-                                    {
-                                        unid = new Unidad(objUsuarioSession.getIdUnidadPerfil());
-                                    }
-                                    else{
-                                        if (objD!=null && objD.getIdConcesionario()!=null && tipoDocReqTri){
-                                           //unid = new Unidad(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_REQUERIMIENTO_TRIBUTARIO").getValor()));         
-                                           Cliente cliente = clienteService.findByIdCliente(objD.getIdConcesionario());
-                                           Integer idUnidad = cliente.getIdUnidad();
-                                           unid = new Unidad(idUnidad);
+                                                                              
+                                        int pos = adjuntoPrincipal.getNombrearchivo().lastIndexOf(".");
+                                        String extension = adjuntoPrincipal.getNombrearchivo().substring(pos+1, adjuntoPrincipal.getNombrearchivo().length());
 
-                                        }else{
-                                           unid = new Unidad(Integer.parseInt(objDD.getStrUnidad()));
-                                        }  
-                                    }    
-                                    
-                                    if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.TIPO_INFORME_CONJUNTO) || objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.TIPO_MEMORANDO_CONJUNTO))
-                                      unid = new Unidad(new Integer(parametroService.findByTipo(Constantes.PARAMETRO_UNIDAD_INFORME_CONJUNTO).get(0).getValor()));
-                                    
-                                    //List<Numeracion> listaNum = numeracionDAO.findAllUnidadAndTipoDoc(unid.getIdunidad(),objD.getTipoDocumento().getIdtipodocumento());
-                                    List<Numeracion> listaNum = null;
-                                    if(objD.getTipoDocumento().getIdtipodocumento().toString().equals(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()))
-                                    {
-                                        listaNum = numeracionDAO.findAllUnidadAndTipoDocAndAnioFiscal(unid.getIdunidad(),objD.getTipoDocumento().getIdtipodocumento(),objD.getAnioFiscal());
-                                    }else
-                                    {
-                                        listaNum = numeracionDAO.findAllUnidadAndTipoDoc(unid.getIdunidad(),objD.getTipoDocumento().getIdtipodocumento());
-                                    }                                    
-                                    
-                                    if (listaNum != null && listaNum.size() > 0 && listaNum.get(0).getTiponumeracion() != null) {
-                                        String nro = numeracionDAO.guardarObjProcedure(listaNum.get(0), unid.getIdunidad(), objUsuarioSession.getIdusuario().intValue());
-                                        objD.setNumeroDocumento(nro);
-                                        objD.setEnumerado(Constantes.Si);
-                                    }
-                                       
-                                    DateFormat formatoAno = new SimpleDateFormat("yyyy");
-                                    String sPrefijo = Constantes.PARAMETRO_TIPO_PREFIJONROTRAMITEPRODUCCION;
-                                    Integer nro = documentoDao.getNroTramiteDocumentario();
-                                    String sFormato = formatoAno.format(fecha).concat(parametroService.findByTipoUnico(sPrefijo).getValor());
-                                    StringBuilder sbNroTramite = new StringBuilder((StringUtil.isEmpty(sFormato)) ? "" : sFormato);
-                                    sbNroTramite.replace(sFormato.length() - nro.toString().length(), sFormato.length(), nro.toString());
-                                    objD.setID_CODIGO(new Integer(sbNroTramite.toString()));
-                                    documentoDao.saveDocumentoSequence(objD);
-                                    objDD.setNroTramite(objD.getID_CODIGO().toString());
-                                    objDD.setStrNroDocumento(objD.getNumeroDocumento());
-                                }else{
-                                    DateFormat formatoAno = new SimpleDateFormat("yyyy");
-                                    Integer nro = documentoDao.getNroTramiteDocumentario();
-                                    String sPrefijo = Constantes.PARAMETRO_TIPO_PREFIJONROTRAMITEPRODUCCION;
-                                    String sFormato = formatoAno.format(fecha).concat(parametroService.findByTipoUnico(sPrefijo).getValor());
-                                    StringBuilder sbNroTramite = new StringBuilder((StringUtil.isEmpty(sFormato)) ? "" : sFormato);
-                                    sbNroTramite.replace(sFormato.length() - nro.toString().length(), sFormato.length(), nro.toString());
-                                    log.info("nro:"+nro+",sFormato:"+sFormato+",sbNroTramite:"+sbNroTramite);
-                                    objD.setID_CODIGO(new Integer(sbNroTramite.toString()));
-                                    log.info("ID_CODIGO:"+objD.getID_CODIGO());
-                                    objDD.setNroTramite(objD.getID_CODIGO().toString());
-                                    documentoDao.saveDocumentoSequence(objD);
-                                   
-                                    if (objDD.getTipoTransaccion().equals("R") && objDD.getCodigoVirtual()!=null && !objDD.getCodigoVirtual().trim().equals("")){
+                                        String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
+                                        String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
+                                        String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
+
+                                        //Bajar documento de MPV y copiar en carpeta temporal
+                                        
+                                        String urlMPV = adjuntoPrincipal.getRutaarchivo()+adjuntoPrincipal.getNombrearchivo();
+                                        log.debug("Bajar documento de MPV y copiar en carpeta temporal:"+urlMPV);
+                                        
+                                        InputStream in = new URL(urlMPV).openStream();
+                                        Files.copy(in, Paths.get(rutaDig + sNuevoNombrePrincipal), StandardCopyOption.REPLACE_EXISTING);
+
+                                        InputStream inCargo = new URL(urlMPV).openStream();
+                                        Files.copy(inCargo, Paths.get(rutaDig + sNuevoNombreCargo), StandardCopyOption.REPLACE_EXISTING);
+                                        
+                                        File f=new File(rutaDig,sNuevoNombreCargo);
+                                    	
+                                        Archivo objArchivo = new Archivo();
+                                        objArchivo.setDocumento(objD);
+                                        objArchivo.setNombre(sNuevoNombrePrincipal);
+                                        objArchivo.setPrincipal('S');
+                                        objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+                                        objArchivo.setFechaCreacion(new Date());
+                                        objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombrePrincipal);
+                                        objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+ objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension);
+                                        objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
+                                        objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
+                                        objArchivo.setUsuariocreacion(usuario.getIdusuario());
+                                        objArchivo.setUsuariomodificacion(usuario.getIdusuario());
+                                        objArchivo.setClave(null);
                                         try{
-                                        	
-                                            iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(objDD.getCodigoVirtual().trim()));
-                                            
-                                            if(iotdtmDocExterno!=null){
-                                            	log.info("Subiendo archivos para PIDE (CodigoVirtual):"+objDD.getCodigoVirtual());
-                                            	
-	                                            IotdtcRecepcion iotdtcRecepcion = iotdtmDocExterno.getSidrecext();
-	                                            iotdtcRecepcion.setIddocumento(objD.getIdDocumento());
-	                                            recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
-	                                            objD.setNroVirtual(new Integer(objDD.getCodigoVirtual()));
-	                                            objD.setFirmado('S');
-	
-	                                            //JBENGOA INICIO
-	                                            List<Archivo> archivosSubidos = new ArrayList<Archivo>();
-	                                            Usuario usuario = (Usuario) session.get(Constantes.SESSION_USUARIO);        
-	                                            Unidad unidad = null;
-	
-	                                            if(objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()) ||
-	                                               objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor())){
-	                                               unidad = unidadService.buscarObjPor(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_GSF").getValor()));
-	                                            }else{
-	                                               unidad = unidadService.buscarObjPor(usuario.getIdUnidadPerfil());
-	                                            }
-	
-	                                            iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(objDD.getCodigoVirtual().trim()));
-	                                            int pos = iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().lastIndexOf(".");
-	                                            String extension = iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().substring(pos+1, iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc().length());
-	
-	                                            String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
-	                                            String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
-	                                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-	
-	                                            OutputStream out = new FileOutputStream(rutaDig + sNuevoNombrePrincipal); 
-	                                            out.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
-	                                            out.close();
-	
-	                                            OutputStream out_ = new FileOutputStream(rutaDig + sNuevoNombreCargo); 
-	                                            out_.write(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()); 
-	                                            out_.close();
-	                                            
-	                                            File f=new File(rutaDig,sNuevoNombreCargo);
-	
-	                                            Archivo objArchivo = new Archivo();
-	                                            objArchivo.setDocumento(objD);
-	                                            objArchivo.setNombre(sNuevoNombrePrincipal);
-	                                            objArchivo.setPrincipal('S');
-	                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
-	                                            objArchivo.setFechaCreacion(new Date());
-	                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombrePrincipal);
-	                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+ objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension);
-	                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
-	                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
-	                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
-	                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
-	                                            objArchivo.setClave(null);
-	                                            try{
-	                                                objArchivo.setTamano(Integer.valueOf((int)f.length()));
-	                                            }catch(Exception e){
-	                                                e.printStackTrace();
-	                                                objArchivo.setTamano(null);
-	                                            }
-	                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
-	                                            objArchivo = archivoService.saveArchivo(objArchivo);
-	                                            archivosSubidos.add(objArchivo);
-	
-	                                            objArchivo = new Archivo();
-	                                            objArchivo.setDocumento(objD);
-	                                            objArchivo.setNombre(sNuevoNombreCargo);
-	                                            objArchivo.setPrincipal('M');
-	                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
-	                                            objArchivo.setFechaCreacion(new Date());
-	                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombreCargo);
-	                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension);
-	                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
-	                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
-	                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
-	                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
-	                                            objArchivo.setClave(null);
-	                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
-	                                            objArchivo = archivoService.saveArchivo(objArchivo);
-	                                            archivosSubidos.add(objArchivo);
-	                                            repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
-                                            
-                                            }else{
-                                            	
-                                            	IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
-                                                
-                                                if(iotdtcRecepcionMPV!=null){
-                                                	log.info("Subiendo archivos para MPV (CodigoVirtual):"+objDD.getCodigoVirtual());
-                                                	
-                                                	log.info("Numero tramite: "+objDD.getNroTramite());
-                                                	log.info("Numero tramite obj: "+objD.getRecepcionado().charAt(0));
-                                                	
-                                                	iotdtcRecepcionMPV.setIddocumento(objD.getIdDocumento());
-                                                	iotdtcRecepcionMPV.setVnumregstd(objD.getID_CODIGO()+""); 
-                                                	iotdtcRecepcionMPV.setCflgest(objD.getRecepcionado().charAt(0));
-                                                	
-    	                                            recepcionVirtualDAO.registrarDocumentoMPV(iotdtcRecepcionMPV);
-    	                                            objD.setNroVirtual(new Integer(objDD.getCodigoVirtual()));
-    	                                            objD.setFirmado('S');
-    	
-    	                                            List<Archivo> archivosSubidos = new ArrayList<Archivo>();
-    	                                            Usuario usuario = (Usuario) session.get(Constantes.SESSION_USUARIO);        
-    	                                            Unidad unidad = null;
-    	
-    	                                            if(objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO").getValor()) ||
-    	                                               objD.getTipoDocumento().getIdtipodocumento() == Integer.parseInt(parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor())){
-    	                                               unidad = unidadService.buscarObjPor(Integer.parseInt(parametroService.findByTipoUnico("UNIDAD_GSF").getValor()));
-    	                                            }else{
-    	                                               unidad = unidadService.buscarObjPor(usuario.getIdUnidadPerfil());
-    	                                            }
-    	                                            
-    	                                            IotdtdAdjuntoMPV adjuntoPrincipal = null;
-    	                                            for(IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()){    	                                            	
-    	                                            	if(adjunto.getTipoarchivo().equals("1")){
-    	                                            		adjuntoPrincipal = adjunto;
-    	                                            		break;
-    	                                            	}
-    	                                            }
-    	                                                                                  
-    	                                            int pos = adjuntoPrincipal.getNombrearchivo().lastIndexOf(".");
-    	                                            String extension = adjuntoPrincipal.getNombrearchivo().substring(pos+1, adjuntoPrincipal.getNombrearchivo().length());
-    	
-    	                                            String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
-    	                                            String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
-    	                                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-    	
-    	                                            //Bajar documento de MPV y copiar en carpeta temporal
-    	                                            
-    	                                            String urlMPV = adjuntoPrincipal.getRutaarchivo()+adjuntoPrincipal.getNombrearchivo();
-    	                                            log.debug("Bajar documento de MPV y copiar en carpeta temporal:"+urlMPV);
-    	                                            
-    	                                            InputStream in = new URL(urlMPV).openStream();
-    	                                            Files.copy(in, Paths.get(rutaDig + sNuevoNombrePrincipal), StandardCopyOption.REPLACE_EXISTING);
-    	
-    	                                            InputStream inCargo = new URL(urlMPV).openStream();
-    	                                            Files.copy(inCargo, Paths.get(rutaDig + sNuevoNombreCargo), StandardCopyOption.REPLACE_EXISTING);
-    	                                            
-    	                                            File f=new File(rutaDig,sNuevoNombreCargo);
-    	                                        	
-    	                                            Archivo objArchivo = new Archivo();
-    	                                            objArchivo.setDocumento(objD);
-    	                                            objArchivo.setNombre(sNuevoNombrePrincipal);
-    	                                            objArchivo.setPrincipal('S');
-    	                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
-    	                                            objArchivo.setFechaCreacion(new Date());
-    	                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombrePrincipal);
-    	                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+ objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension);
-    	                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
-    	                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
-    	                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
-    	                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
-    	                                            objArchivo.setClave(null);
-    	                                            try{
-    	                                                objArchivo.setTamano(Integer.valueOf((int)f.length()));
-    	                                            }catch(Exception e){
-    	                                                e.printStackTrace();
-    	                                                objArchivo.setTamano(null);
-    	                                            }
-    	                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
-    	                                            objArchivo = archivoService.saveArchivo(objArchivo);
-    	                                            archivosSubidos.add(objArchivo);
-    	
-    	                                            objArchivo = new Archivo();
-    	                                            objArchivo.setDocumento(objD);
-    	                                            objArchivo.setNombre(sNuevoNombreCargo);
-    	                                            objArchivo.setPrincipal('M');
-    	                                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
-    	                                            objArchivo.setFechaCreacion(new Date());
-    	                                            objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombreCargo);
-    	                                            objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension);
-    	                                            objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
-    	                                            objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
-    	                                            objArchivo.setUsuariocreacion(usuario.getIdusuario());
-    	                                            objArchivo.setUsuariomodificacion(usuario.getIdusuario());
-    	                                            objArchivo.setClave(null);
-    	                                            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
-    	                                            objArchivo = archivoService.saveArchivo(objArchivo);
-    	                                            archivosSubidos.add(objArchivo);
-    	                                            repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
-                                                	
-                                                }
-                                            }
-                                            
+                                            objArchivo.setTamano(Integer.valueOf((int)f.length()));
                                         }catch(Exception e){
-                                            throw e;
+                                            e.printStackTrace();
+                                            objArchivo.setTamano(null);
                                         }
-                                    } ////JBENGOA FIN
-                                }
-                                log.info("trazabilidadDocumentoService is " + trazabilidadDocumentoService);
-                                trazabilidadDocumentoService.saveTrazabilidadDocumento(objD, objUsuarioSession, false, true);
-                                objDD.setIIdDocumento(objD.getIdDocumento());
-                                objDD.setsNroExpediente(expediente.getNroexpediente());
-                                String nrazon = expediente.getCliente().getNombreRazon();
-                                objDD.setStrTipoIdentificacion(expediente.getCliente().getTipoIdentificacion().getNombre());
-                                objDD.setStrRazonSocial(nrazon);
-                                objDD.setStrNroIdentificacion(expediente.getCliente().getNumeroIdentificacion());
-                                objDD.setStrDireccionPrincipal(expediente.getCliente().getDireccionPrincipal());
-                                objDD.setStrDireccionAlternativa(expediente.getCliente().getDireccionAlternativa());
-                                objDD.setStrTelefonoCliente(expediente.getCliente().getTelefono());
-                                objDD.setStrCorreoCliente(expediente.getCliente().getCorreo());
-                                objDD.setStrRepresentanteLegal(expediente.getCliente().getRepresentanteLegal());
-                                
-                                if (objDD.getCodigoVirtual() != null) {
-	                                // Ejecutar web service
-//                                	String documento = String.valueOf(objD.getIdDocumento());
-	                        		IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
-	                                String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
-	                                
-	                        		String expedienteForService = String.valueOf(objD.getID_CODIGO());
-	                        		
-	                        		Date fechaAccion = objD.getFechaCreacion();                        		
-	                        		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-	                        		String fechaForService = DATE_FORMAT.format(fechaAccion);
-	                        		
-	                        		String usuario = String.valueOf(objD.getAutor().getIdusuario());
-	                        		
-	                        		String estadoDocumento = "";
-	                        		String fechaRecepcion = "";
-	                        		String fechaRechazado = "";
-	                        		
-	                        		if (objD.getRecepcionado().equals("R")) {
-	                    				estadoDocumento = String.valueOf("1");
-	                    				fechaRecepcion = fechaForService;
-	                    				fechaRechazado = "";
-	                        		} else {
-	                        			estadoDocumento = String.valueOf("2");
-	                        			fechaRecepcion = "";
-	                        			fechaRechazado = fechaForService;
-	                        		}
-	                        		
-	                                CargoRecepcionMPVRequest cargoRecepcionVirtualRequest = new CargoRecepcionMPVRequest();
-	                                
-	                          	  try {
-	
-	                          		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
-                            		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                            		conn.setDoOutput(true);
-                            		conn.setRequestMethod("POST");
-                            		conn.setRequestProperty("Content-Type", "application/json");
-                            		
-                            		cargoRecepcionVirtualRequest.seteDocumento(documento);
-                            		cargoRecepcionVirtualRequest.setcExpediente(expedienteForService);
-                            		cargoRecepcionVirtualRequest.setfFecha(fechaForService);
-                            		cargoRecepcionVirtualRequest.seteUsuario(usuario);
-                            		cargoRecepcionVirtualRequest.seteEstadoDoc(estadoDocumento);
-                            		cargoRecepcionVirtualRequest.setfFechaRecep(fechaRecepcion);
-                            		cargoRecepcionVirtualRequest.setfFechaRecha(fechaRechazado);
+                                        objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+                                        objArchivo = archivoService.saveArchivo(objArchivo);
+                                        archivosSubidos.add(objArchivo);
 
-                            		ObjectMapper ow = new ObjectMapper();
-                            		String json = ow.writeValueAsString(cargoRecepcionVirtualRequest);
-	
-	                          		OutputStream os = conn.getOutputStream();
-	                          		os.write(json.getBytes());
-	                          		os.flush();
-	
-	                          		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-	
-	                          		String output;
-	                          		System.out.println("Output from Server .... \n");
-	                          		
-	                          		while ((output = br.readLine()) != null) {
-	                          			System.out.println(output);
-	                          		}
-	
-	                          		conn.disconnect();
-	
-	                          	  } catch (MalformedURLException e) {
-	                          		log.error(e.getMessage(), e);
-	                          		e.printStackTrace();
-	
-	                          	  } catch (IOException e) {
-	                          		log.error(e.getMessage(), e);
-	                          		e.printStackTrace();
-	                          	  }
-                              }
+                                        objArchivo = new Archivo();
+                                        objArchivo.setDocumento(objD);
+                                        objArchivo.setNombre(sNuevoNombreCargo);
+                                        objArchivo.setPrincipal('M');
+                                        objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+                                        objArchivo.setFechaCreacion(new Date());
+                                        objArchivo.setRutaArchivoPdf(rutaDig + sNuevoNombreCargo);
+                                        objArchivo.setRutaAlfresco(repositorioService.obtenerRutaDocumento(objD, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo())+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension);
+                                        objArchivo.setAutor(new Usuario(usuario.getIdUsuarioPerfil()));
+                                        objArchivo.setUnidadAutor(usuario.getIdUnidadPerfil());
+                                        objArchivo.setUsuariocreacion(usuario.getIdusuario());
+                                        objArchivo.setUsuariomodificacion(usuario.getIdusuario());
+                                        objArchivo.setClave(null);
+                                        objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+                                        objArchivo = archivoService.saveArchivo(objArchivo);
+                                        archivosSubidos.add(objArchivo);
+                                        repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
+                                    	
+                                    }
+                                }
                                 
-                       }
+                            }catch(Exception e){
+                                throw e;
+                            }
+                        } ////JBENGOA FIN
+                    }
+                    log.info("trazabilidadDocumentoService is " + trazabilidadDocumentoService);
+                    trazabilidadDocumentoService.saveTrazabilidadDocumento(objD, objUsuarioSession, false, true);
+                    objDD.setIIdDocumento(objD.getIdDocumento());
+                    objDD.setsNroExpediente(expediente.getNroexpediente());
+                    String nrazon = expediente.getCliente().getNombreRazon();
+                    objDD.setStrTipoIdentificacion(expediente.getCliente().getTipoIdentificacion().getNombre());
+                    objDD.setStrRazonSocial(nrazon);
+                    objDD.setStrNroIdentificacion(expediente.getCliente().getNumeroIdentificacion());
+                    objDD.setStrDireccionPrincipal(expediente.getCliente().getDireccionPrincipal());
+                    objDD.setStrDireccionAlternativa(expediente.getCliente().getDireccionAlternativa());
+                    objDD.setStrTelefonoCliente(expediente.getCliente().getTelefono());
+                    objDD.setStrCorreoCliente(expediente.getCliente().getCorreo());
+                    objDD.setStrRepresentanteLegal(expediente.getCliente().getRepresentanteLegal());
+                    
+                    if (objDD.getCodigoVirtual() != null && !objDD.getCodigoVirtual().trim().equals("")) {
+                        // Ejecutar web service
+                		IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
+                        String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
+                		String expedienteForService = String.valueOf(objD.getExpediente().getNroexpediente());	                        		
+                		Date fechaAccion = objD.getFechaCreacion();                     		
+                		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+                		String fechaForService = DATE_FORMAT.format(fechaAccion);	
+                		String usuario = String.valueOf(objD.getAutor().getIdusuario());
+                		
+                		String estadoDocumento = "";
+                		String fechaRecepcion = "";
+                		String fechaRechazado = "";
+                		
+                		if (objD.getRecepcionado().equals("R")) {
+                			// Recepcionado
+            				estadoDocumento = String.valueOf("2");
+            				fechaRecepcion = fechaForService;
+            				fechaRechazado = "";
+                		} else {
+                			// Rechazado
+                			estadoDocumento = String.valueOf("0");
+                			fechaRecepcion = "";
+                			fechaRechazado = fechaForService;
+                		}
+                		
+                        CargoRecepcionMPVRequest cargoRecepcionVirtualRequest = new CargoRecepcionMPVRequest();
+                        
+                  	  try {	
+                  		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
+                		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                		conn.setDoOutput(true);
+                		conn.setRequestMethod("POST");
+                		conn.setRequestProperty("Content-Type", "application/json");
+                		
+                		cargoRecepcionVirtualRequest.setFk_eDocumento(documento);
+                		cargoRecepcionVirtualRequest.setcExpediente(expedienteForService);
+                		cargoRecepcionVirtualRequest.setfFecha(fechaForService);
+                		cargoRecepcionVirtualRequest.setFk_eUsuario(usuario);
+                		cargoRecepcionVirtualRequest.setEstadoDoc(estadoDocumento);
+                		cargoRecepcionVirtualRequest.setcObservacion(objD.getObservacionRechazo());
+                		cargoRecepcionVirtualRequest.setfFechaRecep(fechaRecepcion);
+                		cargoRecepcionVirtualRequest.setfFechaRecha(fechaRechazado);
+
+                		ObjectMapper ow = new ObjectMapper();
+                		String json = ow.writeValueAsString(cargoRecepcionVirtualRequest);
+
+                  		OutputStream os = conn.getOutputStream();
+                  		os.write(json.getBytes());
+                  		os.flush();
+
+                  		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));	
+                  		String output;
+                  		
+                  		while ((output = br.readLine()) != null) {
+                  			System.out.println(output);
+                  		}
+
+                  		conn.disconnect();
+
+                  	  } catch (MalformedURLException e) {
+                  		log.error(e.getMessage(), e);
+                  		e.printStackTrace();
+
+                  	  } catch (IOException e) {
+                  		log.error(e.getMessage(), e);
+                  		e.printStackTrace();
+                  	  }
+                  }
+                    
+           }
+            
 		    return objDD;
 		
 		} catch (Exception e) {
-                    log.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
 		    throw e;
 		}
 	}

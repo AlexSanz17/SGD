@@ -110,13 +110,9 @@ public class MigrarInformacion {
 			System.out.println("INSERT");
 			System.out.println("**********");
 			IotdtcRecepcion iotdtcRecepcionInserted = recepcionVirtualService.registrarDocumento(iotdtcRecepcion);
-
-			System.out.println("resultado: " + iotdtcRecepcionInserted);
 		}
 
 		System.out.println("Total de datos");
-		List<IotdtcRecepcion> ipIotdtcRecepcions = recepcionVirtualService.getAll();
-		System.out.println(ipIotdtcRecepcions.size());
 
 		// TABLA DE DATOS [IOTDTM_DOC_EXTERNO]
 		List<IotdtmDocExternoPIDE> listIotdtcDocExternoPIDE = documentoPIDEService.getAllDocExterno();
@@ -140,10 +136,7 @@ public class MigrarInformacion {
 			iotdtcDocExterno.setVnomdst(iotdtcDocExternoPIDE.getVnomdst());
 			iotdtcDocExterno.setVnomentemi(iotdtcDocExternoPIDE.getVnomentemi());
 			iotdtcDocExterno.setVnumdoc(iotdtcDocExternoPIDE.getVnumdoc());
-			
-			
-			
-			
+		
 			iotdtcDocExterno.setVuniorgdst(iotdtcDocExternoPIDE.getVuniorgdst());
 			iotdtcDocExterno.setVurldocanx(iotdtcDocExternoPIDE.getVurldocanx());
 			
@@ -161,11 +154,8 @@ public class MigrarInformacion {
 				iotdtcDocExterno.setSidrecext(iotdtcRecepcion); 
 			}
 			
-			
-			
 			System.out.println("**********");
 			System.out.println("iotdtcDocExternoPIDE");
-			System.out.println(iotdtcDocExternoPIDE);
 			
 			IotdtmDocExterno iotdtcDocExternoInserted = docExternoVirtualService.registrarDocumento(iotdtcDocExterno);
 		}
@@ -180,18 +170,24 @@ public class MigrarInformacion {
 
 		for (int i = 0; i < listIotdtcDocPrincipalPIDE.size(); i++) {			
 			IotdtdDocPrincipalPIDE iotdtcDocPrincipalPIDE = listIotdtcDocPrincipalPIDE.get(i);
+			
 			IotdtdDocPrincipal iotdtcDocPrincipal = new IotdtdDocPrincipal();
 			iotdtcDocPrincipal.setSiddocpri(iotdtcDocPrincipalPIDE.getSiddocpri());
 			iotdtcDocPrincipal.setBpdfdoc(iotdtcDocPrincipalPIDE.getBpdfdoc());
 			iotdtcDocPrincipal.setCcodest(iotdtcDocPrincipalPIDE.getCcodest());
 			iotdtcDocPrincipal.setDfecreg(iotdtcDocPrincipalPIDE.getDfecreg());
 			iotdtcDocPrincipal.setVnomdoc(iotdtcDocPrincipalPIDE.getVnomdoc());
-			iotdtcDocPrincipal.setSsiddocext(iotdtcDocPrincipalPIDE.getSsiddocext());
-			iotdtcDocPrincipal.setSiddocext(iotdtcDocExterno);
+			
+			
+			IotdtmDocExterno iotdtmDocExterno = new IotdtmDocExterno();
+			if(iotdtcDocPrincipalPIDE.getSiddocext() != null) {
+				iotdtmDocExterno.setSiddocext(iotdtcDocPrincipalPIDE.getSiddocext().getSiddocext()); 
+				iotdtcDocPrincipal.setSiddocext(iotdtmDocExterno); 
+			}
+			
 			
 			System.out.println("**********");
 			System.out.println("iotdtcDocPrincipalPIDE");
-			System.out.println(iotdtcDocPrincipalPIDE);
 			
 			IotdtdDocPrincipal iotdtcDocPrincipalInserted = docPrincipalVirtualService.registrarPrincipal(iotdtcDocPrincipal);
 		}
@@ -207,12 +203,15 @@ public class MigrarInformacion {
 			iotdtcDocAnexo.setSiddocanx(iotdtcDocAnexoPIDE.getSiddocanx());	
 			iotdtcDocAnexo.setDfecreg(iotdtcDocAnexoPIDE.getDfecreg());
 			iotdtcDocAnexo.setVnomdoc(iotdtcDocAnexoPIDE.getVnomdoc());
-			iotdtcDocAnexo.setSsiddocext(iotdtcDocAnexoPIDE.getSsiddocext());
-			iotdtcDocAnexo.setSiddocext(iotdtcDocExterno);
+			
+			IotdtmDocExterno iotdtmDocExterno = new IotdtmDocExterno();
+			if(iotdtcDocAnexoPIDE.getSiddocext() != null) {
+				iotdtmDocExterno.setSiddocext(iotdtcDocAnexoPIDE.getSiddocext().getSiddocext()); 
+				iotdtcDocAnexo.setSiddocext(iotdtmDocExterno); 
+			}
 			
 			System.out.println("**********");
 			System.out.println("iotdtcDocAnexoPIDE");
-			System.out.println(iotdtcDocAnexoPIDE);
 			
 			IotdtdAnexo iotdtcDocPrincipalInserted = docAnexoVirtualService.registrarAnexo(iotdtcDocAnexo);
 		}
@@ -220,7 +219,6 @@ public class MigrarInformacion {
 		} catch (Exception e) {
 			System.out.println("ERROR EN LOS INSERT");
 			System.out.println(e.getMessage()); 
-			// TODO: handle exception
 		}
 		
 	}

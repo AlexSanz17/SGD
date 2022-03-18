@@ -545,7 +545,7 @@ public class DocumentoDetail {
 		this.fechacreacion = dFechaCreacion;
 		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
 		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
-		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaDocumento);
+		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA_HORA).format(dFechaDocumento);
 		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
 				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
 		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
@@ -810,7 +810,7 @@ public class DocumentoDetail {
 		this.fechacreacion = dFechaCreacion;
 		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
 		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
-		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaDocumento);
+		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA_HORA).format(dFechaDocumento);
 		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
 				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
 		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;

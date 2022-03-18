@@ -1,4 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////
 function cancelar() {
    dijit.byId("btnWithoutExpedienteAbierto").attr("disabled", false);
    dijit.byId("btnRegresarAlForm").attr("disabled", false);
@@ -7,10 +6,10 @@ function cancelar() {
 var anioFiscalHasChanged = function (){
     if (!Siged.String.isEmpty(dijit.byId("objDD.concesionario").attr("value")) && !Siged.String.isEmpty(dijit.byId("objDocumento.tipoDocumento.idtipodocumento").attr("value"))){
        Siged.Documento.Numeracion.loadConcesionario(dijit.byId("objDocumento.tipoDocumento.idtipodocumento").attr("value"), 
-                                       dijit.byId("objDD.concesionario").attr("value"),
-                                       "objDD.strNroDocumento", "objDD.tipoNumeracion", 
-                                       document.getElementById("documentoEnumerado").value,
-                                        document.getElementById("nroDocumento").value);
+       dijit.byId("objDD.concesionario").attr("value"),
+       "objDD.strNroDocumento", "objDD.tipoNumeracion", 
+       document.getElementById("documentoEnumerado").value,
+        document.getElementById("nroDocumento").value);
     }
 };
 
@@ -282,17 +281,18 @@ changeStore = function(objFS, sURL) {
 
 function tipoClienteRequerido(tipo , requerido){
     if (tipo == '0'){
-        dijit.byId("objDD.idPersonaInstitucion").attr("required", false);
-        dijit.byId("objDD.codCargoPersonaInstitucion").attr("required", false);
         dijit.byId("objDD.iIdInstitucion").attr("required", requerido);
+		dijit.byId("objDD.idPersonaInstitucion").attr("required", false);
+        dijit.byId("objDD.codCargoPersonaInstitucion").attr("required", false);
+		dijit.byId("objDD.desUnidadOrganica").attr("required", false);
     }
     if (tipo == '1'){
         dijit.byId("objDD.idPersonaNatural").attr("required", requerido);
         dijit.byId("objDD.codCargoPersonaNatural").attr("required", false);
     }
     if (tipo == '2'){
-        dijit.byId("objDD.codCargoPersonaEmpresa").attr("required", false);
         dijit.byId("objDD.iIdEmpresa").attr("required", requerido); 
+        dijit.byId("objDD.codCargoPersonaEmpresa").attr("required", false);
         dijit.byId("objDD.idPersonaEmpresa").attr("required", false);
     }
 };

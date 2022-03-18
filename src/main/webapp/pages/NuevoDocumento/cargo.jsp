@@ -450,7 +450,9 @@
                                                 <td></td>
                                                 <td height="23" align="left">Fecha Documento</td>
                                                 <td align="left" width="17%" class="label"><s:property
-                                                        value="objDD.strFechaDocumento" /></td>
+                                                        value="objDD.strFechaDocumento" />
+                                                	
+                                                </td>
                                                 <td align="left"></td>
                                                 <td align="left" width="45%" class="label"></td>
                                                 <td></td>
@@ -469,9 +471,6 @@
                                                 <td colspan="4"></td>
                                             </tr>
                                         </table>
-
-
-
                                     </td>
                                 </tr>
                             </table>
@@ -483,8 +482,5 @@
                 </table>
             </form>
         </div>
-        <!-- aca lo que se imprimira -->
-
-        
     </body>
 </html>

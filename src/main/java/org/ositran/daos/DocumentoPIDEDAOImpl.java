@@ -38,19 +38,19 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 
 	@Override
 	public List<IotdtmDocExternoPIDE> findAllDocExterno() {
-		Query query = entityManager.createNamedQuery("IotdtmDocExternoPIDE.findAll");
+		Query query = entityManager.createNamedQuery("IotdtmDocExternoPIDE.findAllRecepcion");
 		return query.getResultList();
 	}
 
 	@Override
 	public List<IotdtdDocPrincipalPIDE> findAllDocPrincipal() {
-		Query query = entityManager.createNamedQuery("IotdtdDocPrincipalPIDE.findAll");
+		Query query = entityManager.createNamedQuery("IotdtdDocPrincipalPIDE.findAllRecepcion");
 		return query.getResultList();
 	}
 
 	@Override
 	public List<IotdtdAnexoPIDE> findAllAnexo() {
-		Query query = entityManager.createNamedQuery("IotdtdAnexoPIDE.findAll");
+		Query query = entityManager.createNamedQuery("IotdtdAnexoPIDE.findAllRecepcion");
 		return query.getResultList();
 	}
 

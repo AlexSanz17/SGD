@@ -70,7 +70,7 @@
 							
 		  }
 		  
-		  tid = setTimeout(validarFirmado, 5000);
+ 		  tid = setTimeout(validarFirmado, 5000);
 		}
 		
 		function abortTimer() { 
@@ -81,17 +81,25 @@
 		  idFirmar = "";
 		  clearTimeout(tid);
 		}
-
 		
 		function enviarFirma(archivoFirma, objectidFirma, idcodigoFirma, idBtnFirmar,archivosFirma){
-			activo = 1;
-			archivo = archivoFirma;
-			objectid = objectidFirma;
-			idcodigo = idcodigoFirma;
-			idFirmar = idBtnFirmar;
-			//archivosFirma = archivosFirma;
-			//document.getElementById("iframeFirma").style.display = "";
-			dijit.byId("dlgProgresBar").show();
+			
+			var existeProcesoFirma = false;
+			
+			existeProcesoFirma = !document.getElementById("ssoForm").action.toString().match("https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio");
+			
+			if(existeProcesoFirma){
+                document.getElementById("ssoForm").action = "";
+                alert("No es posible firmar mientras exista un documento en proceso de firma");
+            }else{
+                document.getElementById("ssoForm").action = "https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio";
+                activo = 1;
+    			archivo = archivoFirma;
+    			objectid = objectidFirma;
+    			idcodigo = idcodigoFirma;
+    			idFirmar = idBtnFirmar;
+    			dijit.byId("dlgProgresBar").show();
+            }
 		}
 		
 		function checkItem(archivoFirma, objectidFirma ,idCheck){
@@ -226,6 +234,17 @@
 		String anchoRubrica = item.getAnchoRubrica();
 		String estado = item.getEstado();
 		
+		boolean existenProcesoFirma = false;
+		
+		for(Item item2 : listaDocumento){
+			if(item2.getFlagFirma() == 1){
+				existenProcesoFirma = true;
+				break;
+			}
+		}
+		
+		
+		
 // >>>>>>> bf7f4f4c441a4fe19a5088eadba2014ef24b4aec
 		
 		String idFirmar="id-firmar"+cont;
@@ -259,7 +278,7 @@
 			
 		</table>
 		
-		<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio"> 
+		<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" <%if(!existenProcesoFirma){%> action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio" <%}%>> 
 				<input type="hidden" name="urlConfigService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/configuracion"/> 
 				<input type="hidden" name="webService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/FirmaDigitalWs?wsdl"/> 
 				<input type="hidden" name="rutaOrigen" value="<%=rutaOrigen%>"/> 

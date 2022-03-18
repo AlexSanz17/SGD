@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
 
-<!-- Codigos de error
-		202		:	Alfresco
-		303		:	Intalio
- -->
-
-
 <struts>
 	<constant name="struts.objectFactory" value="spring" />
 	<constant name="struts.devMode" value="false" />
@@ -18,8 +12,6 @@
    <constant name="struts.rest.defaultExtension" value="xml" />
    <constant name="struts.mapper.class" value="gob.ositran.siged.util.CustomStruts2ActionMapper" />
    <constant name="struts.mapper.prefixMapping" value="/service:rest,:struts" />
-
-
 
 	<package name="siged" extends="struts-default">
 		<!-- custom result type for file download -->
@@ -47,8 +39,6 @@
          <result name="false">pages/util/false.jsp</result>
          <result name="error">error.html</result>
       </global-results>
-      
-                  
 
 		<!--default-interceptor-ref name="token" /-->
 

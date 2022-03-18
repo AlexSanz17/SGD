@@ -16,7 +16,7 @@
      <bean id="executeAdjuntosMPV" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
         <property name="jobDetail" ref="jobAdjuntosMPV" />
         <property name="startDelay" value="30000"/>
-        <property name="repeatInterval" value="600000"/>  
+        <property name="repeatInterval" value="180000"/>  
     </bean>  
     
     <bean id="jobAdjuntosMPV" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">

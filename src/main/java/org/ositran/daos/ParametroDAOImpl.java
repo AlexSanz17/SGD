@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -43,22 +43,22 @@ public class ParametroDAOImpl implements ParametroDAO {
 		return getEm().createNamedQuery("Parametro.findByTipo").setParameter("tipo", tipo).getResultList();
 	}
         
-        public List<Parametro> findByTipoActivo(String tipo){
-               return getEm().createNamedQuery("Parametro.findByTipoActivo").setParameter("tipo", tipo).getResultList();
-        }
+    public List<Parametro> findByTipoActivo(String tipo){
+           return getEm().createNamedQuery("Parametro.findByTipoActivo").setParameter("tipo", tipo).getResultList();
+    }
 
-        public Parametro guardarObj(Parametro objParametro) {
-           if (objParametro.getIdparametro() == null) {
-              em.persist(objParametro);
-              em.flush();
-              em.refresh(objParametro);
-           } else {
-              em.merge(objParametro);
-              em.flush();
-           }
+    public Parametro guardarObj(Parametro objParametro) {
+       if (objParametro.getIdparametro() == null) {
+          em.persist(objParametro);
+          em.flush();
+          em.refresh(objParametro);
+       } else {
+          em.merge(objParametro);
+          em.flush();
+       }
 
-           return objParametro;
-        }
+       return objParametro;
+    }
 
 	@Override
 	public Parametro findByTipoUnico(String tipo) {

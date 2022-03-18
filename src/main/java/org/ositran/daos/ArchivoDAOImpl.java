@@ -22,9 +22,21 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 	private EntityManager em;
 
 	public List<Archivo> findArchivosxFirmar(Integer idDocumento, Usuario usuario) {
-		String sql = "SELECT c FROM Archivo c where c.documento.idDocumento=:idDocumento and c.estado = 'A' and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF' and "
+		String sql = "SELECT c FROM Archivo c where c.documento.idDocumento=:idDocumento and c.estado in ('A','V') and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF' and "
 				+ " c.idArchivo not in (select a.idArchivo from FirmaArchivo a, Archivo aa where aa.documento.idDocumento = :idDocumento "
 				+ " and aa.idArchivo = a.idArchivo and a.estado = 'F' and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario) order by c.documento.idDocumento desc , c.principal desc ";
+		Query q = em.createQuery(sql);
+
+		q.setParameter("idDocumento", idDocumento).setParameter("idUsuario", usuario.getIdUsuarioPerfil())
+				.setParameter("unidadPropietario", usuario.getIdUnidadPerfil())
+				.setParameter("cargoPropietario", usuario.getIdFuncionPerfil());
+		return q.getResultList();
+	}
+	
+	public List<Archivo> findArchivosxVisar(Integer idDocumento, Usuario usuario) {
+		String sql = "SELECT c FROM Archivo c where c.documento.idDocumento=:idDocumento and c.estado in ('A','F') and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF' and "
+				+ " c.idArchivo not in (select a.idArchivo from FirmaArchivo a, Archivo aa where aa.documento.idDocumento = :idDocumento "
+				+ " and aa.idArchivo = a.idArchivo and a.estado = 'V' and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario) order by c.documento.idDocumento desc , c.principal desc ";
 		Query q = em.createQuery(sql);
 
 		q.setParameter("idDocumento", idDocumento).setParameter("idUsuario", usuario.getIdUsuarioPerfil())

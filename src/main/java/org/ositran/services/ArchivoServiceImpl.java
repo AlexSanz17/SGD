@@ -80,6 +80,10 @@ public class ArchivoServiceImpl implements ArchivoService{
             return getDao().findArchivosxFirmar(idDocumento, usuario);
         }
         
+        public List<Archivo> findArchivosxVisar(Integer idDocumento , Usuario usuario){
+            return getDao().findArchivosxVisar(idDocumento, usuario);
+        }
+        
         public List<Archivo> buscarArchivoExterno(String objectId, Integer nroTramite, String clave){
             return getDao().buscarArchivoExterno(objectId, nroTramite, clave);
         }
