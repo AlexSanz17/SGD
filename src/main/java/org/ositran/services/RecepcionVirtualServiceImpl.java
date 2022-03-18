@@ -5,8 +5,6 @@
  */
 package org.ositran.services;
 
-import com.btg.ositran.siged.domain.IotdtcRecepcion;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,15 +12,17 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.ajax.beans.CargoRecepcionMPVResponse;
-
-import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
-import java.util.List;
 import org.ositran.daos.RecepcionVirtualDAO;
 
-public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
-    RecepcionVirtualDAO recepcionVirtualDAO;
+import com.btg.ositran.siged.domain.IotdtcRecepcion;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+
+public class RecepcionVirtualServiceImpl implements RecepcionVirtualService {    
+	RecepcionVirtualDAO recepcionVirtualDAO;
 
     public RecepcionVirtualDAO getRecepcionVirtualDAO() {
         return recepcionVirtualDAO;
@@ -36,6 +36,11 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
        return recepcionVirtualDAO.registrarDocumento(recepcion);
     }
     
+
+    public List<IotdtcRecepcion> getAll(){
+        return recepcionVirtualDAO.findAll();
+    }
+        
     public CargoRecepcionMPVResponse enviarCargoRecepcion(CargoRecepcionMPVRequest cargoRecepcionVirtualRequest){
     	CargoRecepcionMPVResponse cargoRecepcionVirtualResponse = null;
     	
@@ -87,7 +92,9 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService{
     	 }
     	
         return cargoRecepcionVirtualResponse;
+ 
      }
+    
     public IotdtcRecepcionMPV registrarDocumentoMPV(IotdtcRecepcionMPV recepcionMPV){
         return recepcionVirtualDAO.registrarDocumentoMPV(recepcionMPV);
     }

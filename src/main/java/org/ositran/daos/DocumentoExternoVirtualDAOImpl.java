@@ -1,27 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Usuario;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import org.springframework.stereotype.Repository;
 
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDAO{
-    private EntityManager em;
+	@PersistenceContext(unitName="sigedPU")
+	private EntityManager em;
      
-    @PersistenceContext(unitName="sigedPU")
     public void setEm(EntityManager em){
         this.em=em;
     }

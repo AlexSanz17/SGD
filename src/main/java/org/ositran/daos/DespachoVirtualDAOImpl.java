@@ -1,25 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtcDespacho;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author Juan Bengoa
- */
 public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
-     private EntityManager em;
-     
-    @PersistenceContext(unitName="sigedPU")
+	@PersistenceContext(unitName="sigedPU")
+	private EntityManager em;
+    
     public void setEm(EntityManager em){
-	this.em=em;
+    	this.em=em;
     }
     
     public String findByCantidadesDocumentosVirtuales(){

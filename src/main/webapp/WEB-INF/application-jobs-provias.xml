@@ -4,44 +4,35 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!--Specify Task bean -->
+	<!--Task bean -->
 	<bean id="migrarInformacion" class="org.ositran.siged.jobs.MigrarInformacion" >
-		<property name="recepcionPideDaoForJob" ref="recepcionPideDaoForJob"></property>
+		<property name="recepcionVirtualService" ref="recepcionVirtualService" />
+		<property name="docExternoVirtualService" ref="docExternoVirtualService" />
+		<property name="docPrincipalVirtualService" ref="docPrincipalVirtualService" />
+		<property name="docAnexoVirtualService" ref="docAnexoVirtualService" />
+		<property name="documentoPIDEService" ref="documentoPIDEService" />		
 	</bean>
 
-	<!-- JOB -->
-	<bean id="jobDetail"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	<!-- Job -->
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="migrarInformacion" />
 		<property name="targetMethod" value="migrar" />
 	</bean>
 
-	<!-- trigger -> Disparador -->
-	<!-- <bean id="cronTrigger" -->
-	<!-- class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> -->
-	<!-- <property name="jobDetail" ref="jobDetail" /> -->
-	<!-- <property name="cronExpression" value="0/5 * * * * ?" /> -->
-	<!-- </bean> -->
-
+	<!-- Trigger -->
 	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
         <property name="jobDetail" ref="jobDetail" />
-        <property name="startDelay" value="30000"/>
-        <property name="repeatInterval" value="600000"/>  
+        <property name="startDelay" value="30000" />
+        <property name="repeatInterval" value="600000" />  
     </bean>
 
-	
-
-
-
-	<!-- Schedular -> programador -->
-	<bean
-		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<!-- Schedular -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<ref bean="simpleTrigger" />
 			</list>
 		</property>
 	</bean>
-
 
 </beans>

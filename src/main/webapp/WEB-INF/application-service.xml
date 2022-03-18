@@ -36,16 +36,16 @@
 	<bean id="diafestivoDAO" class="org.ositran.daos.DiafestivoDAOImpl" />
 	<bean id="distritoDAO" class="org.ositran.daos.DistritoDAOImpl" />
 	<bean id="documentoDAO" class="org.ositran.daos.DocumentoDAOImpl"> 
-            <property name="mailService" ref="mailService" />
-            <property name="accionService" ref="accionService" />
-            <property name="trazabilidadcopiaService" ref="trazabilidadcopiaService" />
-            <property name="trazabilidadapoyoDAO" ref="trazabilidadapoyoDAO" />
-            <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />
-            <property name="parametroService" ref="parametroService" />
-            <property name="usuarioDAO" ref="usuarioDAO" />
-            <property name="unidadService" ref="unidadService" />
-            <property name="srvArchivo" ref="archivoService" />
-        </bean>
+        <property name="mailService" ref="mailService" />
+        <property name="accionService" ref="accionService" />
+        <property name="trazabilidadcopiaService" ref="trazabilidadcopiaService" />
+        <property name="trazabilidadapoyoDAO" ref="trazabilidadapoyoDAO" />
+        <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />
+        <property name="parametroService" ref="parametroService" />
+        <property name="usuarioDAO" ref="usuarioDAO" />
+        <property name="unidadService" ref="unidadService" />
+        <property name="srvArchivo" ref="archivoService" />
+    </bean>
         
    
    <!-- para job -->
@@ -128,13 +128,17 @@
     <bean id="documentoExternoVirtualDAO" class="org.ositran.daos.DocumentoExternoVirtualDAOImpl">
     </bean>
     
+    <bean id="docExternoVirtualService" class="org.ositran.services.DocExternoVirtualServiceImpl">
+		<property name="docExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
+    </bean>
+
     <bean id="recepcionVirtualDAO" class="org.ositran.daos.RecepcionVirtualDAOImpl">
     </bean>
     
-     <bean id="recepcionVirtualService" class="org.ositran.services.RecepcionVirtualServiceImpl">
-           <property name="recepcionVirtualDAO" ref="recepcionVirtualDAO" />
+    <bean id="recepcionVirtualService" class="org.ositran.services.RecepcionVirtualServiceImpl">
+		<property name="recepcionVirtualDAO" ref="recepcionVirtualDAO" />
     </bean>
-    
+     
     <bean id="despachoVirtualDAO" class="org.ositran.daos.DespachoVirtualDAOImpl">
     </bean>
     
@@ -145,12 +149,27 @@
     <bean id="docAnexoVirtualDAO" class="org.ositran.daos.DocAnexoVirtualDAOImpl">
     </bean>
     
+    <bean id="docAnexoVirtualService" class="org.ositran.services.DocAnexoVirtualServiceImpl">
+		<property name="docAnexoVirtualDAO" ref="docAnexoVirtualDAO" />
+    </bean>
+    
     <bean id="docPrincipalVirtualDAO" class="org.ositran.daos.DocPrincipalVirtualDAOImpl">
     </bean>
     
-      <bean id="seguimientoXFirmaService" class="org.ositran.services.SeguimientoXFirmaServiceImpl">
-          <property name="seguimientoXFirmaDAO" ref="seguimientoXFirmaDAO" />
-      </bean>
+    <bean id="docPrincipalVirtualService" class="org.ositran.services.DocPrincipalVirtualServiceImpl">
+		<property name="docPrincipalVirtualDAO" ref="docPrincipalVirtualDAO" />
+    </bean>
+    
+    <bean id="documentoPIDEDAO" class="org.ositran.daos.DocumentoPIDEDAOImpl">
+    </bean>
+    
+    <bean id="documentoPIDEService" class="org.ositran.services.DocumentoPIDEServiceImpl">
+		<property name="documentoPIDEDAO" ref="documentoPIDEDAO" />
+    </bean>
+    
+     <bean id="seguimientoXFirmaService" class="org.ositran.services.SeguimientoXFirmaServiceImpl">
+         <property name="seguimientoXFirmaDAO" ref="seguimientoXFirmaDAO" />
+     </bean>
     
     <bean id="manejoDeEmailDAO" class="org.ositran.daos.ManejoDeEmailDAOImpl" />
 
@@ -374,34 +393,33 @@
 		<property name="srvArchivoPendiente" ref="archivoPendienteService" />
 		<property name="trazabilidadcopiaService" ref="trazabilidadcopiaService" />
 		<property name="trazabilidadapoyoService" ref="trazabilidadapoyoService" />
-                <property name="mailService" ref="mailService"/>
-                <property name="alfrescoWebServiceClient" ref="alfrescoWebServiceClient"/>
-                <!--<property name="intalioService" ref="intalioService" /> -->
-                <property name="clienteService" ref="clienteService" />
-                <property name="documentoxclienteService" ref="documentoxclienteService" />
-                <property name="documentoAdjuntoDAO" ref="documentoAdjuntoDAO" />
-                <property name="notificacionxEnumerarDAO" ref="notificacionxEnumerarDAO" />
-                <property name="numeracionService" ref="numeracionService" />
-                <property name="alfrescoWebscriptClient" ref="alfrescoWebscriptClient" />
-                <property name="estadoService" ref="estadoService" />
-                <property name="unidadService" ref="unidadService" />
-                <property name="parametroService" ref="parametroService" />
-                <property name="procesoService" ref="procesoService" />
-                <property name="trazabilidaddocumentoDAO" ref="trazabilidaddocumentoDAO" />
-                <property name="trazabilidadMovimientoDAO" ref="trazabilidadMovimientoDAO" />
-                <property name="documentoPendienteDAO" ref="documentoPendienteDAO" />
-                <property name="documentoAtendidoDAO" ref="documentoAtendidoDAO" />
-                <property name="documentoAnuladoDAO" ref="documentoAnuladoDAO" />
-                <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />
-                <property name="recepcionVirtualDAO" ref="recepcionVirtualDAO" />
-                <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
-                
-                <property name="docPrincipalVirtualDAO" ref="docPrincipalVirtualDAO" />
-                <property name="docAnexoVirtualDAO" ref="docAnexoVirtualDAO" />
-                <property name="despachoVirtualDAO" ref="despachoVirtualDAO" />
-                <property name="referenciaArchivoDAO" ref="referenciaArchivoDAO" />
-                <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
+        <property name="mailService" ref="mailService"/>
+        <property name="alfrescoWebServiceClient" ref="alfrescoWebServiceClient"/>
+        <!--<property name="intalioService" ref="intalioService" /> -->
+        <property name="clienteService" ref="clienteService" />
+        <property name="documentoxclienteService" ref="documentoxclienteService" />
+        <property name="documentoAdjuntoDAO" ref="documentoAdjuntoDAO" />
+        <property name="notificacionxEnumerarDAO" ref="notificacionxEnumerarDAO" />
+        <property name="numeracionService" ref="numeracionService" />
+        <property name="alfrescoWebscriptClient" ref="alfrescoWebscriptClient" />
+        <property name="estadoService" ref="estadoService" />
+        <property name="unidadService" ref="unidadService" />
+        <property name="parametroService" ref="parametroService" />
+        <property name="procesoService" ref="procesoService" />
+        <property name="trazabilidaddocumentoDAO" ref="trazabilidaddocumentoDAO" />
+        <property name="trazabilidadMovimientoDAO" ref="trazabilidadMovimientoDAO" />
+        <property name="documentoPendienteDAO" ref="documentoPendienteDAO" />
+        <property name="documentoAtendidoDAO" ref="documentoAtendidoDAO" />
+        <property name="documentoAnuladoDAO" ref="documentoAnuladoDAO" />
+        <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />
+        <property name="recepcionVirtualDAO" ref="recepcionVirtualDAO" />
+        <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
         
+        <property name="docPrincipalVirtualDAO" ref="docPrincipalVirtualDAO" />
+        <property name="docAnexoVirtualDAO" ref="docAnexoVirtualDAO" />
+        <property name="despachoVirtualDAO" ref="despachoVirtualDAO" />
+        <property name="referenciaArchivoDAO" ref="referenciaArchivoDAO" />
+        <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
 	</bean>
 
 	<bean id="documentoxexpedienteService" class="org.ositran.services.DocumentoxexpedienteServiceImpl">
@@ -977,30 +995,30 @@
 		<property name="controlDeCalidadService" ref="controlDeCalidadService" />
 		<property name="trazabilidadcopiaService" ref="trazabilidadcopiaService" />
 		<property name="trazabilidadapoyoService" ref="trazabilidadapoyoService" />
-                <property name="documentoenviadoService" ref="documentoEnviadoService" />
-                <property name="resolucionJaruService" ref="resolucionjaruService" />
-                <property name="mailService" ref="mailService" />
-                <property name="gestionDocumentos" ref="gestionDocumentos"/>
-                <property name="listaService" ref="listaService" />
-                <property name="proveidoService" ref="proveidoService" />
-                <property name="seguimientoXUsuarioService" ref="seguimientoXUsuarioService" />
-                <property name="fechaLimite" ref="fechaLimite" />
-                <property name="alfrescoWebServiceClient" ref="alfrescoWebServiceClient" />
-                <property name="rolService" ref="rolService" />
-                <property name="seguimientoService" ref="seguimientoService" />
-                <property name="logOperacionService" ref="logOperacionService" />
-                <property name="funcionService" ref="funcionService" />
-                <property name="documentoReunionDAO" ref="documentoReunionDAO" />
-                <property name="documentoAdjuntoDAO" ref="documentoAdjuntoDAO" />
-                <property name="documentoDerivacionDAO" ref="documentoDerivacionDAO" />
-                <property name="favoritoService" ref="favoritoService" />
-                <property name="proveidoDAO" ref="proveidoDAO" />
-                <property name="unidadDAO" ref="unidadDAO" />
-                <property name="tipoLegajoUnidadDAO" ref="tipoLegajoUnidadDAO" />
-                <property name="legajoDocumentoService" ref="legajoDocumentoService" />
-                <property name="legajoService" ref="legajoService" />
-                <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
-                <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
+        <property name="documentoenviadoService" ref="documentoEnviadoService" />
+        <property name="resolucionJaruService" ref="resolucionjaruService" />
+        <property name="mailService" ref="mailService" />
+        <property name="gestionDocumentos" ref="gestionDocumentos"/>
+        <property name="listaService" ref="listaService" />
+        <property name="proveidoService" ref="proveidoService" />
+        <property name="seguimientoXUsuarioService" ref="seguimientoXUsuarioService" />
+        <property name="fechaLimite" ref="fechaLimite" />
+        <property name="alfrescoWebServiceClient" ref="alfrescoWebServiceClient" />
+        <property name="rolService" ref="rolService" />
+        <property name="seguimientoService" ref="seguimientoService" />
+        <property name="logOperacionService" ref="logOperacionService" />
+        <property name="funcionService" ref="funcionService" />
+        <property name="documentoReunionDAO" ref="documentoReunionDAO" />
+        <property name="documentoAdjuntoDAO" ref="documentoAdjuntoDAO" />
+        <property name="documentoDerivacionDAO" ref="documentoDerivacionDAO" />
+        <property name="favoritoService" ref="favoritoService" />
+        <property name="proveidoDAO" ref="proveidoDAO" />
+        <property name="unidadDAO" ref="unidadDAO" />
+        <property name="tipoLegajoUnidadDAO" ref="tipoLegajoUnidadDAO" />
+        <property name="legajoDocumentoService" ref="legajoDocumentoService" />
+        <property name="legajoService" ref="legajoService" />
+        <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
+        <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
 	</bean>
 
 	<bean id="dojoAction" scope="prototype" class="org.ositran.actions.DojoAction">
@@ -1314,14 +1332,14 @@
 		<constructor-arg ref="trazabilidaddocumentoService" />
 		<property name="parametroService" ref="parametroService" />
 		<property name="srvNotificacion" ref="notificacionService" />
-                <property name="taskExecutor" ref="taskExecutor" />
-                <property name="mailService" ref="mailService" />
-                <property name="messageSource" ref="messageSource" />
-                <property name="rolService" ref="rolService" />
-                <property name="documentoDerivacionDAO" ref="documentoDerivacionDAO" />
-                <property name="documentoReunionDAO" ref="documentoReunionDAO" />
-                <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
-                <property name="legajoDocumentoService" ref="legajoDocumentoService" />
+        <property name="taskExecutor" ref="taskExecutor" />
+        <property name="mailService" ref="mailService" />
+        <property name="messageSource" ref="messageSource" />
+        <property name="rolService" ref="rolService" />
+        <property name="documentoDerivacionDAO" ref="documentoDerivacionDAO" />
+        <property name="documentoReunionDAO" ref="documentoReunionDAO" />
+        <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
+        <property name="legajoDocumentoService" ref="legajoDocumentoService" />
 	</bean>
 
 	<bean id="storAction" scope="prototype" class="org.ositran.actions.StorAction">
@@ -1345,9 +1363,6 @@
 		<property name="concesionarioService" ref="concesionarioService" />
 		<property name="clienteService" ref="clienteService" />
 	</bean>
-        
-        
-        
 
 	<bean id="procedimientoIncAction" scope="prototype"
 		class="org.ositran.actions.ProcedimientoIncAction">
@@ -1376,11 +1391,10 @@
 		<property name="documentoService" ref="documentoService" />
 	</bean>
 
-	<bean id="AutoCompletarAction" scope="prototype"
-		class="org.ositran.actions.dojo.AutoCompletarAction">
-                <property name="plantillaService" ref="plantillaService" />
-                <property name="proveidoDAO" ref="proveidoDAO" />
-                <property name="serieDAO" ref="serieDAO" />
+	<bean id="AutoCompletarAction" scope="prototype" class="org.ositran.actions.dojo.AutoCompletarAction">
+        <property name="plantillaService" ref="plantillaService" />
+        <property name="proveidoDAO" ref="proveidoDAO" />
+        <property name="serieDAO" ref="serieDAO" />
 		<property name="srvDocumento" ref="documentoService" />
 		<property name="srvUsuario" ref="usuarioService" />
 		<property name="expedienteDao" ref="expedienteDAO" />
@@ -1409,20 +1423,20 @@
                 <property name="unidadDAO" ref="unidadDAO" />
 		<property name="tiporesultadoDao" ref="tipoResultadoDAO" />
 		<property name="srvTrazabilidadDocumento" ref="trazabilidaddocumentoService" />
-                <property name="favoritoService" ref="favoritoService" />
-                <property name="salaService" ref="salaService" />
-                <property name="tipoResultadoService" ref="tipoResultadoService" />
-                <property name="vocalService" ref="vocalService" />
-                <property name="usuarioxunidadxfuncionService" ref="usuarioxunidadxfuncionService" /> 
-                <property name="tipoInstitucionService" ref="tipoInstitucionService" /> 
-                <property name="cargoAdministradoService" ref="cargoAdministradoService" /> 
-                <property name="funcionService" ref="funcionService" />
-                <property name="detalleClienteService" ref="detalleClienteService" />
-                <property name="legajoService" ref="legajoService" />
-                <property name="tipoLegajoService" ref="tipoLegajoService" /> 
-                <property name="legajoDocumentoService" ref="legajoDocumentoService" />
-             <!--   <property name="documentoenviadoService" ref="documentoEnviadoService" /> -->
-               <property name="documentoenviadoService" ref="documentoEnviadoService" />
+        <property name="favoritoService" ref="favoritoService" />
+        <property name="salaService" ref="salaService" />
+        <property name="tipoResultadoService" ref="tipoResultadoService" />
+        <property name="vocalService" ref="vocalService" />
+        <property name="usuarioxunidadxfuncionService" ref="usuarioxunidadxfuncionService" /> 
+        <property name="tipoInstitucionService" ref="tipoInstitucionService" /> 
+        <property name="cargoAdministradoService" ref="cargoAdministradoService" /> 
+        <property name="funcionService" ref="funcionService" />
+        <property name="detalleClienteService" ref="detalleClienteService" />
+        <property name="legajoService" ref="legajoService" />
+        <property name="tipoLegajoService" ref="tipoLegajoService" /> 
+        <property name="legajoDocumentoService" ref="legajoDocumentoService" />
+     <!--   <property name="documentoenviadoService" ref="documentoEnviadoService" /> -->
+       <property name="documentoenviadoService" ref="documentoEnviadoService" />
 	</bean>
 
 	<bean id="RetrieveDataAction" scope="prototype"

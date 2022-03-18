@@ -1,24 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
-
-import com.btg.ositran.siged.domain.IotdtcRecepcion;
-import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+package org.ositran.daos;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-/**
- *
- * @author Juan Bengoa
- */
-public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO{
-    private EntityManager em;
+
+import com.btg.ositran.siged.domain.IotdtcRecepcion;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+
+public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
+	@PersistenceContext(unitName="sigedPU")
+	private EntityManager em;
+    
+    public void setEm(EntityManager em){
+    	this.em=em;
+    }
     
     public String findByCantidadesDocumentosVirtuales(){
         String sQuery = "SELECT dbo.FN_DOCUMENTOS_VIRTUALES('R')";
@@ -26,20 +23,20 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO{
 
         return qQuery.getResultList().get(0).toString();
      }
-     
-    @PersistenceContext(unitName="sigedPU")
-    public void setEm(EntityManager em){
-	this.em=em;
-    }
-    
+
      public IotdtcRecepcion findByVcuo(String vcuo){
          return (IotdtcRecepcion)em.createNamedQuery("IotdtcRecepcion.findByVcuo")
-				.setParameter("vcuo", vcuo).getSingleResult();
+			.setParameter("vcuo", vcuo).getSingleResult();
      }
-    
+     
+     @SuppressWarnings("unchecked")
+	public List<IotdtcRecepcion> findAll() {    	 
+    	 Query query = em.createNamedQuery("IotdtcRecepcion.findAll");
+    	 return query.getResultList();
+         
+     }
   
-    public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion){
-		
+    public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion){		
     	if(recepcion.getSidrecext() == null){
 		    em.persist(recepcion); 
 		    em.flush();
@@ -64,8 +61,7 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO{
 		}
 		
        return recepcionMPV;
-    }
-    
+    }  
 
 	public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV() {
 		String sql = "SELECT c FROM IotdtcRecepcionMPV c where c.iddocumento is not null and c.flagalfresco = 'P' order by c.dfecreg asc ";

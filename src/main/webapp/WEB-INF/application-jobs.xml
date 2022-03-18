@@ -4,9 +4,7 @@
         xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-  
     
-   
    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 	 <property name="triggers">
 		<list>
@@ -19,8 +17,7 @@
         <property name="jobDetail" ref="jobAdjuntosMPV" />
         <property name="startDelay" value="30000"/>
         <property name="repeatInterval" value="600000"/>  
-    </bean>
-    
+    </bean>  
     
     <bean id="jobAdjuntosMPV" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="taskAdjuntosMPV" />
@@ -35,6 +32,5 @@
 			<property name="archivoService" ref="archivoService" />
 			<property name="usuarioService" ref="usuarioService" />
  	</bean>
-	
    
 </beans>

@@ -1,19 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Usuario;
+
 import java.util.List;
 
-/**
- *
- * @author jbengoa (JUAN CARLOS BENGOA)
- */
 public interface DocumentoExternoVirtualDAO {
     public List<IotdtmDocExterno> buscarRecepcionVirtual(Usuario objUsuario);
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesCargo();
