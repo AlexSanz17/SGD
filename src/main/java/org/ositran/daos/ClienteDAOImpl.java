@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,7 @@ import org.ositran.utils.Constantes;
 
 @Repository
 public class ClienteDAOImpl implements ClienteDAO {
-
     private EntityManager em;
-    // ////////////////////////////////
-    // Methods //
-    // ////////////////////////////////
     private static Logger log = Logger.getLogger(ClienteDAOImpl.class);
 
     @Override
@@ -340,10 +336,7 @@ public class ClienteDAOImpl implements ClienteDAO {
     	String sql = "SELECT c FROM Cliente c WHERE LOWER(c.razonSocial) LIKE :like OR LOWER(c.nombres) LIKE :like OR LOWER(c.apellidoPaterno) LIKE :like OR LOWER(c.apellidoMaterno) LIKE :like ";
     	return em.createQuery(sql).setParameter("like", like).getResultList();
     }
-    
-    // ////////////////////////////////
-    // Getters and Setters //
-    // ////////////////////////////////
+
     public EntityManager getEm() {
         return em;
     }

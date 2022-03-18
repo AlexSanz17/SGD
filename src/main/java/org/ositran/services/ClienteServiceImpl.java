@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.services;
+package org.ositran.services;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,16 +20,10 @@ public class ClienteServiceImpl implements ClienteService{
 	private AuditoriaService srvAuditoria;
 	private DistritoService distritoService;
 
-	// ////////////////////////////////
-	// Constructors //
-	// ////////////////////////////////
 	public ClienteServiceImpl(ClienteDAO dao){
 		this.dao=dao;
 	}
 
-	// ////////////////////////////////
-	// Methods //
-	// ////////////////////////////////
 	@Transactional
 	public void deleteCliete(Cliente objCliente){
 		objCliente.setEstado(Constantes.ESTADO_INACTIVO);
@@ -137,10 +131,7 @@ public class ClienteServiceImpl implements ClienteService{
 			return null;
 		}
 	}
-	
-	// ////////////////////////////////
-	// Getters and Setters //
-	// ////////////////////////////////
+
 	public ClienteDAO getDao(){
 		return dao;
 	}
@@ -157,14 +148,6 @@ public class ClienteServiceImpl implements ClienteService{
 		this.srvAuditoria=srvAuditoria;
 	}
 
-	/**
-	 * Retorna un objeto Cliente a partir del ruc ingresado. Para esto conulta
-	 * el webserice de la SUNAT.
-	 * 
-	 * @param ruc
-	 * 			el numero de RUC del cliente
-	 * @author German Enriquez
-	 */
 	//@Override
 	//public ClienteJSon getClientePorRUCSunat(String ruc){
 	//	ClienteJSon cliente=null;

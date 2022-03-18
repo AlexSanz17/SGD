@@ -51,13 +51,13 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService {
     		conn.setRequestMethod("POST");
     		conn.setRequestProperty("Content-Type", "application/json");
 
-    		cargoRecepcionVirtualRequest.seteDocumento("15909");
-    		cargoRecepcionVirtualRequest.setcExpediente("23041983ABC123");
-    		cargoRecepcionVirtualRequest.setfFecha("22/02/2022 19:35:00");
-    		cargoRecepcionVirtualRequest.seteUsuario("2");
-    		cargoRecepcionVirtualRequest.seteEstadoDoc("2");
-    		cargoRecepcionVirtualRequest.setfFechaRecep("22/02/2022 19:35:00");
-    		cargoRecepcionVirtualRequest.setfFechaRecha("22/02/2022 19:35:00");
+//    		cargoRecepcionVirtualRequest.seteDocumento("15909");
+//    		cargoRecepcionVirtualRequest.setcExpediente("23041983ABC123");
+//    		cargoRecepcionVirtualRequest.setfFecha("22/02/2022 19:35:00");
+//    		cargoRecepcionVirtualRequest.seteUsuario("2");
+//    		cargoRecepcionVirtualRequest.seteEstadoDoc("2");
+//    		cargoRecepcionVirtualRequest.setfFechaRecep("22/02/2022 19:35:00");
+//    		cargoRecepcionVirtualRequest.setfFechaRecha("22/02/2022 19:35:00");
     		
     		String input = String.valueOf(cargoRecepcionVirtualRequest);
 

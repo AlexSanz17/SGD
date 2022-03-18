@@ -6,15 +6,19 @@ public class CargoRecepcionMPVRequest {
 	public String fFecha;
 	public String Fk_eUsuario;
 	public String EstadoDoc;
+	public String cObservacion;
 	public String fFechaRecep;
 	public String fFechaRecha;
 	
-	public String geteDocumento() {
-		return Fk_eDocumento;
+	public CargoRecepcionMPVRequest() {
 	}
 	
-	public void seteDocumento(String Fk_eDocumento) {
-		this.Fk_eDocumento = Fk_eDocumento;
+	public String getFk_eDocumento() {
+		return Fk_eDocumento;
+	}
+
+	public void setFk_eDocumento(String fk_eDocumento) {
+		Fk_eDocumento = fk_eDocumento;
 	}
 	
 	public String getcExpediente() {
@@ -33,20 +37,28 @@ public class CargoRecepcionMPVRequest {
 		this.fFecha = fFecha;
 	}
 	
-	public String geteUsuario() {
-		return Fk_eUsuario;
-	}
-	
-	public void seteUsuario(String Fk_eUsuario) {
-		this.Fk_eUsuario = Fk_eUsuario;
-	}
-	
-	public String geteEstadoDoc() {
+	public String getEstadoDoc() {
 		return EstadoDoc;
 	}
-	
-	public void seteEstadoDoc(String EstadoDoc) {
-		this.EstadoDoc = EstadoDoc;
+
+	public void setEstadoDoc(String estadoDoc) {
+		EstadoDoc = estadoDoc;
+	}
+
+	public String getFk_eUsuario() {
+		return Fk_eUsuario;
+	}
+
+	public void setFk_eUsuario(String fk_eUsuario) {
+		Fk_eUsuario = fk_eUsuario;
+	}
+
+	public String getcObservacion() {
+		return cObservacion;
+	}
+
+	public void setcObservacion(String cObservacion) {
+		this.cObservacion = cObservacion;
 	}
 	
 	public String getfFechaRecep() {
@@ -65,13 +77,10 @@ public class CargoRecepcionMPVRequest {
 		this.fFechaRecha = fFechaRecha;
 	}
 
-	public CargoRecepcionMPVRequest() {
-	}
-
 	@Override
 	public String toString() {
-		return "CargoRecepcionVirtualRequest [Fk_eDocumento=" + Fk_eDocumento + ", cExpediente=" + cExpediente + ", fFecha=" + fFecha
-			+ ", Fk_eUsuario=" + Fk_eUsuario + ", EstadoDoc=" + EstadoDoc + ", fFechaRecep=" + fFechaRecep
-			+ ", fFechaRecha=" + fFechaRecha + "]";
+		return "CargoRecepcionMPVRequest [Fk_eDocumento=" + Fk_eDocumento + ", cExpediente=" + cExpediente + ", fFecha="
+			+ fFecha + ", Fk_eUsuario=" + Fk_eUsuario + ", EstadoDoc=" + EstadoDoc + ", cObservacion="
+			+ cObservacion + ", fFechaRecep=" + fFechaRecep + ", fFechaRecha=" + fFechaRecha + "]";
 	}
 }

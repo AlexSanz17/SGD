@@ -30,9 +30,7 @@ import com.btg.ositran.siged.domain.Usuario;
 
 import gob.ositran.siged.config.SigedProperties;
 
-
 public class CompletarAdjuntosMPVSingleton {
-
 	private RecepcionVirtualService recepcionVirtualService;
 
 	private RepositorioService repositorioService;
@@ -53,6 +51,54 @@ public class CompletarAdjuntosMPVSingleton {
 	private static final Character ESTADO_PROCESO_TERMINADO = 'T';
 	private static final Character ESTADO_PROCESO_ERROR = 'E';
 	private static final String USUARIO_BANDEJA_MESAPARTES = "MESAPARTES";
+	
+	public RecepcionVirtualService getRecepcionVirtualService() {
+		return recepcionVirtualService;
+	}
+
+	public void setRecepcionVirtualService(RecepcionVirtualService recepcionVirtualService) {
+		this.recepcionVirtualService = recepcionVirtualService;
+	}
+
+	public RepositorioService getRepositorioService() {
+		return repositorioService;
+	}
+
+	public void setRepositorioService(RepositorioService repositorioService) {
+		this.repositorioService = repositorioService;
+	}
+
+	public DocumentoService getDocumentoService() {
+		return documentoService;
+	}
+
+	public void setDocumentoService(DocumentoService documentoService) {
+		this.documentoService = documentoService;
+	}
+
+	public UnidadService getUnidadService() {
+		return unidadService;
+	}
+
+	public void setUnidadService(UnidadService unidadService) {
+		this.unidadService = unidadService;
+	}
+
+	public ArchivoService getArchivoService() {
+		return archivoService;
+	}
+
+	public void setArchivoService(ArchivoService archivoService) {
+		this.archivoService = archivoService;
+	}
+
+	public UsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
 	
 	@Transactional
 	public void subirAlfrescoAdjuntosMPV() {
@@ -111,7 +157,7 @@ public class CompletarAdjuntosMPVSingleton {
 	                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
 	                            objArchivo.setFechaCreacion(new Date());
 	                            objArchivo.setRutaArchivoPdf(rutaDig + "/"+ sNuevoNombreAnexo);
-	                            String rutaAlfresco = repositorioService.obtenerRutaDocumento(doc, rutaSite, doc.getTipoDocumento().getCodigo())+ doc.getID_CODIGO() + "_" + doc.getTipoDocumento().getNombre() + "." + extension;
+	                            String rutaAlfresco = repositorioService.obtenerRutaDocumento(doc, rutaSite, doc.getTipoDocumento().getCodigo()) + doc.getID_CODIGO() + "_ANX_" + adjunto.getNombrearchivo();
 	                            log.info("rutaAlfresco:"+rutaAlfresco);
 	                            objArchivo.setRutaAlfresco(rutaAlfresco);
 	                            objArchivo.setAutor(new Usuario(usuario.getIdusuario()));
@@ -157,54 +203,6 @@ public class CompletarAdjuntosMPVSingleton {
 			e.printStackTrace();
 		}
 
-	}
-
-	public RecepcionVirtualService getRecepcionVirtualService() {
-		return recepcionVirtualService;
-	}
-
-	public void setRecepcionVirtualService(RecepcionVirtualService recepcionVirtualService) {
-		this.recepcionVirtualService = recepcionVirtualService;
-	}
-
-	public RepositorioService getRepositorioService() {
-		return repositorioService;
-	}
-
-	public void setRepositorioService(RepositorioService repositorioService) {
-		this.repositorioService = repositorioService;
-	}
-
-	public DocumentoService getDocumentoService() {
-		return documentoService;
-	}
-
-	public void setDocumentoService(DocumentoService documentoService) {
-		this.documentoService = documentoService;
-	}
-
-	public UnidadService getUnidadService() {
-		return unidadService;
-	}
-
-	public void setUnidadService(UnidadService unidadService) {
-		this.unidadService = unidadService;
-	}
-
-	public ArchivoService getArchivoService() {
-		return archivoService;
-	}
-
-	public void setArchivoService(ArchivoService archivoService) {
-		this.archivoService = archivoService;
-	}
-
-	public UsuarioService getUsuarioService() {
-		return usuarioService;
-	}
-
-	public void setUsuarioService(UsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
 	}
 
 }

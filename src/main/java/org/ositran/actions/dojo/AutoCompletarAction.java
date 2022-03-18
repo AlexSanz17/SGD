@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions.dojo;
+package org.ositran.actions.dojo;
 
 import org.ositran.daos.UnidadDAO;
 import java.io.IOException;
@@ -139,15 +139,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import static org.ositran.utils.StringUtil.isEmpty;
 
 public class AutoCompletarAction extends GenericAction {
-
-    public String getTipoPersonaJuridica() {
-        return tipoPersonaJuridica;
-    }
-
-    public void setTipoPersonaJuridica(String tipoPersonaJuridica) {
-        this.tipoPersonaJuridica = tipoPersonaJuridica;
-    }
-
     private static Logger log = LoggerFactory.getLogger(AutoCompletarAction.class);
     private Map<String, Object> mapSession;
     private String tipoPersonaJuridica;
@@ -253,6 +244,14 @@ public class AutoCompletarAction extends GenericAction {
     private LegajoDocumentoService legajoDocumentoService;
     private DocumentoEnviadoService documentoenviadoService;
 
+    public String getTipoPersonaJuridica() {
+        return tipoPersonaJuridica;
+    }
+
+    public void setTipoPersonaJuridica(String tipoPersonaJuridica) {
+        this.tipoPersonaJuridica = tipoPersonaJuridica;
+    }
+    
     public DocumentoEnviadoService getDocumentoenviadoService() {
         return documentoenviadoService;
     }
@@ -1793,7 +1792,6 @@ public class AutoCompletarAction extends GenericAction {
         }
                 
         enviaDatos(l1);
-        // idPersona
      }
     
      public void obtenerFiltroPersonas() throws Exception {
@@ -3715,8 +3713,6 @@ public class AutoCompletarAction extends GenericAction {
         enviaDatos(l1);
     }
 
-
-
     public void autocompletarAreaDocumentosPendientes() throws Exception {
     	log.debug("-> [Action] AutoCompletarAction - autocompletarAreaDocumentosPendientes():enviaDatos() ");
     	mapSession = ActionContext.getContext().getSession();
@@ -3868,8 +3864,6 @@ public class AutoCompletarAction extends GenericAction {
       }catch(Exception e){
     	  e.printStackTrace();
       }
-       
-      
     }
     
     public void getTipoAdjunto() {
@@ -3901,7 +3895,6 @@ public class AutoCompletarAction extends GenericAction {
         }
         enviaDatos(l1);
     }
-
 
     public void getPrioridades_() {
     	log.debug("-> [Action] AutoCompletarAction - getPrioridades():enviaDatos() ");
@@ -3982,9 +3975,6 @@ public class AutoCompletarAction extends GenericAction {
         }
         enviaDatos(l1);
     }
-
-
-
 
     public void autocompletarQRSUsuarios() throws Exception{
     	log.debug("-> [Action] AutoCompletarAction - autocompletarQRSTipoDocumento():enviaDatos() ");

@@ -230,22 +230,22 @@ public class DojoAction {
 	private String idDoc;
 	private String rutaAlfresco;
 	private String contDocumentosRecibidos;
-        private PerfilService srvPerfil;
-        private DocumentoAdjuntoService documentoAdjuntoService;
-        private DocumentoReferenciaService documentoReferenciaService;
-        private DetalleClienteService detalleClienteService;
-        private CargoAdministradoService cargoAdministradoService;
-        private UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO;
-        private Documento objDocumento;
+    private PerfilService srvPerfil;
+    private DocumentoAdjuntoService documentoAdjuntoService;
+    private DocumentoReferenciaService documentoReferenciaService;
+    private DetalleClienteService detalleClienteService;
+    private CargoAdministradoService cargoAdministradoService;
+    private UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO;
+    private Documento objDocumento;
 	private Archivo archivo;
 	private List<FilaBandejaUF> listDocumentosRecibidos;
 	private List<Documento> listExpedienteDocumentos;
-        private String archivoPrincipal;
+    private String archivoPrincipal;
 	private String PDF;
 	private Boolean paraAprobar;
 	private Character agrupacion;
 	private String iIdExpediente;
-        private CarpetaBusqueda carpetaBusqueda;
+    private CarpetaBusqueda carpetaBusqueda;
 	private List<Item> lstDocumentoGrid;
 	private Map<String, Object> mapSession;
 	private PerfilDAO perfilDao;
@@ -324,8 +324,7 @@ public class DojoAction {
     private static String ubicacionPagina = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_UBICACIONPAGINA);
     private static String numeroPagina = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_NUMEROPAGINA);
     private static String estiloFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_ESTILOFIRMA);
-    private static String aplicarImagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_APLICARIMAGEN);
-    
+    private static String aplicarImagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_APLICARIMAGEN);    
    
     public DojoAction(){
     	log.info("Iniciando DojoAction");
@@ -342,173 +341,173 @@ public class DojoAction {
         alfrescoConnector.setExternalServerURL(sb.toString());
         alfrescoConnector.setServerHost(alfrescoHost);
         alfrescoConnector.setServerPort(alfrescoPort);
-        alfrescoConnector.setServerURL(sb.toString());
-        
+        alfrescoConnector.setServerURL(sb.toString());        
     }
     
-        public RecepcionVirtualDAO getRecepcionVirtualDAO() {
-            return recepcionVirtualDAO;
-        }
+    public RecepcionVirtualDAO getRecepcionVirtualDAO() {
+        return recepcionVirtualDAO;
+    }
 
-        public void setRecepcionVirtualDAO(RecepcionVirtualDAO recepcionVirtualDAO) {
-            this.recepcionVirtualDAO = recepcionVirtualDAO;
-        }
+    public void setRecepcionVirtualDAO(RecepcionVirtualDAO recepcionVirtualDAO) {
+        this.recepcionVirtualDAO = recepcionVirtualDAO;
+    }
 
-        public DespachoVirtualDAO getDespachoVirtualDAO() {
-            return despachoVirtualDAO;
-        }
+    public DespachoVirtualDAO getDespachoVirtualDAO() {
+        return despachoVirtualDAO;
+    }
 
-        public void setDespachoVirtualDAO(DespachoVirtualDAO despachoVirtualDAO) {
-            this.despachoVirtualDAO = despachoVirtualDAO;
-        }
+    public void setDespachoVirtualDAO(DespachoVirtualDAO despachoVirtualDAO) {
+        this.despachoVirtualDAO = despachoVirtualDAO;
+    }
 
-        public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
-            return documentoExternoVirtualDAO;
-        }
+    public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
+        return documentoExternoVirtualDAO;
+    }
 
-        public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
-            this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
-        }
+    public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
+        this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
+    }
 
-        public TipoLegajoDAO getTipoLegajoDAO() {
-            return tipoLegajoDAO;
-                    
-        }
+    public TipoLegajoDAO getTipoLegajoDAO() {
+        return tipoLegajoDAO;
+                
+    }
 
-        public void setTipoLegajoDAO(TipoLegajoDAO tipoLegajoDAO) {
-            this.tipoLegajoDAO = tipoLegajoDAO;
-        }
+    public void setTipoLegajoDAO(TipoLegajoDAO tipoLegajoDAO) {
+        this.tipoLegajoDAO = tipoLegajoDAO;
+    }
 
-        public DocumentoAtendidoDAO getDocumentoAtendidoDAO() {
-            return documentoAtendidoDAO;
-        }
+    public DocumentoAtendidoDAO getDocumentoAtendidoDAO() {
+        return documentoAtendidoDAO;
+    }
 
-        public void setDocumentoAtendidoDAO(DocumentoAtendidoDAO documentoAtendidoDAO) {
-            this.documentoAtendidoDAO = documentoAtendidoDAO;
-        }
+    public void setDocumentoAtendidoDAO(DocumentoAtendidoDAO documentoAtendidoDAO) {
+        this.documentoAtendidoDAO = documentoAtendidoDAO;
+    }
 
-        public DocumentoPendienteDAO getDocumentoPendienteDAO() {
-            return documentoPendienteDAO;
-        }
+    public DocumentoPendienteDAO getDocumentoPendienteDAO() {
+        return documentoPendienteDAO;
+    }
 
-        public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
-            this.documentoPendienteDAO = documentoPendienteDAO;
-        }
+    public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
+        this.documentoPendienteDAO = documentoPendienteDAO;
+    }
 
-        public TrazabilidadapoyoService getTrazabilidadapoyoService() {
-            return trazabilidadapoyoService;
-        }
+    public TrazabilidadapoyoService getTrazabilidadapoyoService() {
+        return trazabilidadapoyoService;
+    }
 
-        public void setTrazabilidadapoyoService(TrazabilidadapoyoService trazabilidadapoyoService) {
-            this.trazabilidadapoyoService = trazabilidadapoyoService;
-        }
+    public void setTrazabilidadapoyoService(TrazabilidadapoyoService trazabilidadapoyoService) {
+        this.trazabilidadapoyoService = trazabilidadapoyoService;
+    }
 
-        public DocumentoEnviadoService getDocumentoenviadoService() {
-            return documentoenviadoService;
-        }
+    public DocumentoEnviadoService getDocumentoenviadoService() {
+        return documentoenviadoService;
+    }
 
-        public void setDocumentoenviadoService(DocumentoEnviadoService documentoenviadoService) {
-            this.documentoenviadoService = documentoenviadoService;
-        }
+    public void setDocumentoenviadoService(DocumentoEnviadoService documentoenviadoService) {
+        this.documentoenviadoService = documentoenviadoService;
+    }
 
-        public TipoLegajoUnidadDAO getTipoLegajoUnidadDAO() {
-            return tipoLegajoUnidadDAO;
-        }
+    public TipoLegajoUnidadDAO getTipoLegajoUnidadDAO() {
+        return tipoLegajoUnidadDAO;
+    }
 
-        public void setTipoLegajoUnidadDAO(TipoLegajoUnidadDAO tipoLegajoUnidadDAO) {
-            this.tipoLegajoUnidadDAO = tipoLegajoUnidadDAO;
-        }
+    public void setTipoLegajoUnidadDAO(TipoLegajoUnidadDAO tipoLegajoUnidadDAO) {
+        this.tipoLegajoUnidadDAO = tipoLegajoUnidadDAO;
+    }
 
-        public LegajoDocumentoService getLegajoDocumentoService() {
-            return legajoDocumentoService;
-        }
+    public LegajoDocumentoService getLegajoDocumentoService() {
+        return legajoDocumentoService;
+    }
 
-        public void setLegajoDocumentoService(LegajoDocumentoService legajoDocumentoService) {
-            this.legajoDocumentoService = legajoDocumentoService;
-        }
+    public void setLegajoDocumentoService(LegajoDocumentoService legajoDocumentoService) {
+        this.legajoDocumentoService = legajoDocumentoService;
+    }
 
-        public LegajoService getLegajoService() {
-            return legajoService;
-        }
+    public LegajoService getLegajoService() {
+        return legajoService;
+    }
 
-        public void setLegajoService(LegajoService legajoService) {
-            this.legajoService = legajoService;
-        }
-        
-        public ReferenciaArchivoService getReferenciaArchivoService() {
-            return referenciaArchivoService;
-        }
-
-        public void setReferenciaArchivoService(ReferenciaArchivoService referenciaArchivoService) {
-            this.referenciaArchivoService = referenciaArchivoService;
-        }
+    public void setLegajoService(LegajoService legajoService) {
+        this.legajoService = legajoService;
+    }
     
-        private final String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
-	private FirmaArchivoService firmaArchivoService;
+    public ReferenciaArchivoService getReferenciaArchivoService() {
+        return referenciaArchivoService;
+    }
 
-        public FirmaArchivoService getFirmaArchivoService() {
-            return firmaArchivoService;
-        }
-        
-        public SeguimientoXFirmaService getSeguimientoXFirmaService() {
-            return seguimientoXFirmaService;
-        }
+    public void setReferenciaArchivoService(ReferenciaArchivoService referenciaArchivoService) {
+        this.referenciaArchivoService = referenciaArchivoService;
+    }
 
-        public void setSeguimientoXFirmaService(SeguimientoXFirmaService seguimientoXFirmaService) {
-            this.seguimientoXFirmaService = seguimientoXFirmaService;
-        }
+    private final String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
+	
+    private FirmaArchivoService firmaArchivoService;
 
-        public void setFirmaArchivoService(FirmaArchivoService firmaArchivoService) {
-            this.firmaArchivoService = firmaArchivoService;
-        }
-        public SeguimientoXFirmaDAO getSeguimientoXFirmaDAO() {
-            return seguimientoXFirmaDAO;
-        }
+    public FirmaArchivoService getFirmaArchivoService() {
+        return firmaArchivoService;
+    }
+    
+    public SeguimientoXFirmaService getSeguimientoXFirmaService() {
+        return seguimientoXFirmaService;
+    }
 
-        public void setSeguimientoXFirmaDAO(SeguimientoXFirmaDAO seguimientoXFirmaDAO) {
-            this.seguimientoXFirmaDAO = seguimientoXFirmaDAO;
-        }
+    public void setSeguimientoXFirmaService(SeguimientoXFirmaService seguimientoXFirmaService) {
+        this.seguimientoXFirmaService = seguimientoXFirmaService;
+    }
 
-        public PerfilService getSrvPerfil() {
-            return srvPerfil;
-        }
+    public void setFirmaArchivoService(FirmaArchivoService firmaArchivoService) {
+        this.firmaArchivoService = firmaArchivoService;
+    }
+    public SeguimientoXFirmaDAO getSeguimientoXFirmaDAO() {
+        return seguimientoXFirmaDAO;
+    }
 
-        public void setSrvPerfil(PerfilService srvPerfil) {
-            this.srvPerfil = srvPerfil;
-        }
+    public void setSeguimientoXFirmaDAO(SeguimientoXFirmaDAO seguimientoXFirmaDAO) {
+        this.seguimientoXFirmaDAO = seguimientoXFirmaDAO;
+    }
 
-        public UsuarioxunidadxfuncionDAO getUsuarioxunidadxfuncionDAO() {
-            return usuarioxunidadxfuncionDAO;
-        }
+    public PerfilService getSrvPerfil() {
+        return srvPerfil;
+    }
 
-        public void setUsuarioxunidadxfuncionDAO(UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO) {
-            this.usuarioxunidadxfuncionDAO = usuarioxunidadxfuncionDAO;
-        }
-        
-        public CargoAdministradoService getCargoAdministradoService() {
-            return cargoAdministradoService;
-        }
+    public void setSrvPerfil(PerfilService srvPerfil) {
+        this.srvPerfil = srvPerfil;
+    }
 
-        public void setCargoAdministradoService(CargoAdministradoService cargoAdministradoService) {
-            this.cargoAdministradoService = cargoAdministradoService;
-        }
+    public UsuarioxunidadxfuncionDAO getUsuarioxunidadxfuncionDAO() {
+        return usuarioxunidadxfuncionDAO;
+    }
+
+    public void setUsuarioxunidadxfuncionDAO(UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO) {
+        this.usuarioxunidadxfuncionDAO = usuarioxunidadxfuncionDAO;
+    }
+    
+    public CargoAdministradoService getCargoAdministradoService() {
+        return cargoAdministradoService;
+    }
+
+    public void setCargoAdministradoService(CargoAdministradoService cargoAdministradoService) {
+        this.cargoAdministradoService = cargoAdministradoService;
+    }
 
 
-        public DetalleClienteService getDetalleClienteService() {
-            return detalleClienteService;
-        }
+    public DetalleClienteService getDetalleClienteService() {
+        return detalleClienteService;
+    }
 
-        public void setDetalleClienteService(DetalleClienteService detalleClienteService) {
-            this.detalleClienteService = detalleClienteService;
-        }
+    public void setDetalleClienteService(DetalleClienteService detalleClienteService) {
+        this.detalleClienteService = detalleClienteService;
+    }
 
-        public DocumentoReferenciaService getDocumentoReferenciaService() {
-            return documentoReferenciaService;
-        }
+    public DocumentoReferenciaService getDocumentoReferenciaService() {
+        return documentoReferenciaService;
+    }
 
-        public void setDocumentoReferenciaService(DocumentoReferenciaService documentoReferenciaService) {
-            this.documentoReferenciaService = documentoReferenciaService;
-        }
+    public void setDocumentoReferenciaService(DocumentoReferenciaService documentoReferenciaService) {
+        this.documentoReferenciaService = documentoReferenciaService;
+    }
    
 	public List<Documento> getListExpedienteDocumentos() {
 		return listExpedienteDocumentos;
@@ -607,21 +606,19 @@ public class DojoAction {
 
 	}
         
-        @SMDMethod
-        public String updateNoLeido(Integer iIdToUpdate){
-            log.debug("-> [Action] DojoAction - updateNoLeido():String ");
-            
-            mapSession = ActionContext.getContext().getSession();
-            Documento objDocumento = null;
-            
-            String nombrePC = (String)mapSession.get("nombrePC");
-            objDocumento = documentoService.updateNoLeido(iIdToUpdate, nombrePC);
-            log.debug("Documento actualizado con ID [" + objDocumento.getIdDocumento() + "] a estado no leido [" + objDocumento.getLeido() + "]");
-            
-            return "done";
-        }
-
-
+    @SMDMethod
+    public String updateNoLeido(Integer iIdToUpdate){
+        log.debug("-> [Action] DojoAction - updateNoLeido():String ");
+        
+        mapSession = ActionContext.getContext().getSession();
+        Documento objDocumento = null;
+        
+        String nombrePC = (String)mapSession.get("nombrePC");
+        objDocumento = documentoService.updateNoLeido(iIdToUpdate, nombrePC);
+        log.debug("Documento actualizado con ID [" + objDocumento.getIdDocumento() + "] a estado no leido [" + objDocumento.getLeido() + "]");
+        
+        return "done";
+    }
 
 	public String getInicioMenuDocumentos(){
 		log.debug("-> [Action] DojoAction - getInicioMenuDocumentos():String ");
@@ -3339,13 +3336,9 @@ public class DojoAction {
 	    	String POR_FIRMAR  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
 	    	
 	    	String fullPathFirmado = FIRMAS_FIRMADOS+nombreArchivo;
-//<<<<<<< HEAD
 	    	String newNameArchivoFirmado = nombreArchivo.replace(".pdf", "_qr.pdf");
 	    	String newFullPathFirmado = FIRMAS_FIRMADOS+newNameArchivoFirmado;
-//	    	String fullPathPorFirmar = POR_FIRMAR+nombreArchivo;
-//=======
 	    	final String fullPathPorFirmar = POR_FIRMAR+nombreArchivo;
-//>>>>>>> 0bb7ea594ce37345729236c4f800c7cdcf03df5c
 	    	
 	    	// aqui empieza qr
 	    	//List<Archivo> list1 = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
