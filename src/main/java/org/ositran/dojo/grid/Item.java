@@ -137,9 +137,20 @@ public class Item {
     private String aplicarImagen;
     private String altoRubrica;
     private String anchoRubrica;
+    private Integer flagFirma;
     
 
-    public String getIdProcedimiento() {
+    
+    
+    public Integer getFlagFirma() {
+		return flagFirma;
+	}
+
+	public void setFlagFirma(Integer flagFirma) {
+		this.flagFirma = flagFirma;
+	}
+
+	public String getIdProcedimiento() {
         return idProcedimiento;
     }
 
