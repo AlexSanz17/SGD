@@ -19,6 +19,7 @@ public interface ArchivoService {
     
    public List<String> contarArchivosxFirmar(Integer idDocumento , Usuario usuario); 
    public List<Archivo> findArchivosxFirmar(Integer idDocumento , Usuario usuario);
+   public List<Archivo> findArchivosxVisar(Integer idDocumento , Usuario usuario);
    public Archivo findByCriteria(Integer iIdDoc, String strNombre) throws RuntimeException;
    public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite);
    public List<Archivo> buscarDocumentosPublicar(String nroTramite);

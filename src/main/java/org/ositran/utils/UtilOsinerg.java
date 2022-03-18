@@ -121,7 +121,6 @@ public class UtilOsinerg {
     
     public static void copy(File src, File dest) throws IOException { 
    		InputStream is = null; OutputStream os = null; 
-   		
    		try { 
    			is = new FileInputStream(src); 
    			os = new FileOutputStream(dest); 

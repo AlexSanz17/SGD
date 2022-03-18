@@ -30,7 +30,7 @@ public static void main(String[] args) {
 	  parameter.put(SessionParameter.PASSWORD, "alfresco");
 	
 	  // connection settings
-	  parameter.put(SessionParameter.ATOMPUB_URL, "http://ec2-18-234-113-30.compute-1.amazonaws.com:8080/alfresco/cmisatom");
+	  parameter.put(SessionParameter.ATOMPUB_URL, "http://cmd1:8080/alfresco/cmisatom");
 	  parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 	
 	  // create session
@@ -44,7 +44,7 @@ public static void main(String[] args) {
 	
 	  // create the folder
 	  Folder parent = root.createFolder(properties);
-	  String name = "sgd_test_prueba_2.txt";
+	  String name = "sgd_test.txt";
 	
 	  // properties
 	  Map<String, Object> properties2 = new HashMap<String, Object>();
@@ -52,7 +52,7 @@ public static void main(String[] args) {
 	  properties2.put(PropertyIds.NAME, name);
 	
 	  // content
-	  byte[] content = "Prueba 2 integracion SGD con alfresco parte2".getBytes();
+	  byte[] content = "Prueba integracion SGD con alfresco".getBytes();
 	  InputStream stream = new ByteArrayInputStream(content);
 	  ContentStream contentStream = new ContentStreamImpl(name, BigInteger.valueOf(content.length), "text/plain", stream);
 	

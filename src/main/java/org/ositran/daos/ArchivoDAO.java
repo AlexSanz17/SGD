@@ -9,6 +9,7 @@ public interface ArchivoDAO {
    public List<Archivo> findArchivoPrincipalFirmardo(Integer idDocumento , Usuario usuario);
    public List<String> contarArchivosxFirmar(Integer idDocumento , Usuario usuario); 
    public List<Archivo> findArchivosxFirmar(Integer idDocumento , Usuario usuario);
+   public List<Archivo> findArchivosxVisar(Integer idDocumento, Usuario usuario);
    public List<Archivo> buscarDocumentosPublicar(String nroTramite);
    public Archivo buscarObjPor(Integer iIdDocumento, String sNombre);
    public Archivo buscarObjPorId(Integer iIdArchivo);
