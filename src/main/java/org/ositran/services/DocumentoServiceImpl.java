@@ -4974,7 +4974,7 @@ public class DocumentoServiceImpl implements DocumentoService {
             objD.setNumeroFolios(objDD.getINroFolios() == null ? 0 : objDD.getINroFolios());                        
             objD.setNumeroFoliosOriginales(objDD.getiNroFoliosOriginales());
             objD.setNumeroFoliosCopias(objDD.getiNroFoliosCopias());
-            objD.setImagenesDigitalizadas(objDD.getiNroFoliosDigitalizados());                        
+            objD.setImagenesDigitalizadas(objDD.getiNroFoliosDigitalizados());
             objD.setObservacion(objDD.getStrObservacion());
             objD.setFechaAccion(fecha);
 
@@ -5540,9 +5540,9 @@ public class DocumentoServiceImpl implements DocumentoService {
                         // Ejecutar web service
                 		IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
                         String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
-                		String expedienteForService = String.valueOf(objD.getExpediente().getNroexpediente());	                        		
-                		Date fechaAccion = objD.getFechaCreacion();                     		
-                		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+                		String expedienteForService = String.valueOf(objD.getExpediente().getNroexpediente());
+                		Date fechaAccion = objD.getFechaCreacion();
+                		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 		String fechaForService = DATE_FORMAT.format(fechaAccion);	
                 		String usuario = String.valueOf(objD.getAutor().getIdusuario());
                 		
@@ -5572,11 +5572,11 @@ public class DocumentoServiceImpl implements DocumentoService {
                 		conn.setRequestProperty("Content-Type", "application/json");
                 		
                 		cargoRecepcionVirtualRequest.setFk_eDocumento(documento);
-                		cargoRecepcionVirtualRequest.setcExpediente(expedienteForService);
+                		cargoRecepcionVirtualRequest.setcExpediente(objD.getExpediente().getNombreExpediente());
                 		cargoRecepcionVirtualRequest.setfFecha(fechaForService);
                 		cargoRecepcionVirtualRequest.setFk_eUsuario(usuario);
                 		cargoRecepcionVirtualRequest.setEstadoDoc(estadoDocumento);
-                		cargoRecepcionVirtualRequest.setcObservacion(objD.getObservacionRechazo());
+                		cargoRecepcionVirtualRequest.setcObservacion(objD.getObservacion() != null ? objD.getObservacion() : "");
                 		cargoRecepcionVirtualRequest.setfFechaRecep(fechaRecepcion);
                 		cargoRecepcionVirtualRequest.setfFechaRecha(fechaRechazado);
 
@@ -5597,11 +5597,9 @@ public class DocumentoServiceImpl implements DocumentoService {
                   		conn.disconnect();
 
                   	  } catch (MalformedURLException e) {
-                  		log.error(e.getMessage(), e);
                   		e.printStackTrace();
 
                   	  } catch (IOException e) {
-                  		log.error(e.getMessage(), e);
                   		e.printStackTrace();
                   	  }
                   }

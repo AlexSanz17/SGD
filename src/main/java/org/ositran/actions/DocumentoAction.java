@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
 
 import gob.ositran.siged.config.SigedProperties;
 import java.io.File;
@@ -3471,14 +3471,14 @@ public class DocumentoAction {
                         Usuario objUsuario = (Usuario) session.get(Constantes.SESSION_USUARIO);
 			objDD.setIdUsuarioLogeado(objUsuario.getIdusuario());
 			
-                        if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("N") || getObjDD().getTipoTransaccion().equals("A") || getObjDD().getTipoTransaccion().equals("R"))) {
-                            objDD = documentoService.saveNuevoDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");
+            if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("N") || getObjDD().getTipoTransaccion().equals("A") || getObjDD().getTipoTransaccion().equals("R"))) {
+                objDD = documentoService.saveNuevoDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");
 			} else {
-                             if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("M") || getObjDD().getTipoTransaccion().equals("MR"))){
-                               objDD = documentoService.updateDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");                     
-                             }else{
-                               this.mensaje = "No se encontraron Datos";
-                             }        
+		         if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("M") || getObjDD().getTipoTransaccion().equals("MR"))){
+		           objDD = documentoService.updateDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");                     
+		         }else{
+		           this.mensaje = "No se encontraron Datos";
+		         }        
 			}
                         
                         this.cerrar = "ok";
@@ -6170,99 +6170,99 @@ public String getIdDoc() {
 		this.logOperacionService = logOperacionService;
 	}
         
-        public FuncionService getFuncionService() {
-            return funcionService;
-        }
+    public FuncionService getFuncionService() {
+        return funcionService;
+    }
 
-        public void setFuncionService(FuncionService funcionService) {
-            this.funcionService = funcionService;
-        }        
-        
-        public Integer getIdpendientes() {
-            return idpendientes;
-        }
+    public void setFuncionService(FuncionService funcionService) {
+        this.funcionService = funcionService;
+    }        
+    
+    public Integer getIdpendientes() {
+        return idpendientes;
+    }
 
-        public void setIdpendientes(Integer idpendientes) {
-            this.idpendientes = idpendientes;
-        }
-        
-        public DocumentoPendienteDAO getDocumentoPendienteDAO() {
-            return documentoPendienteDAO;
-        }
+    public void setIdpendientes(Integer idpendientes) {
+        this.idpendientes = idpendientes;
+    }
+    
+    public DocumentoPendienteDAO getDocumentoPendienteDAO() {
+        return documentoPendienteDAO;
+    }
 
-        public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
-            this.documentoPendienteDAO = documentoPendienteDAO;
-        }
-        
-        public String getStrPrioridad() {
-         return strPrioridad;
-        }
+    public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
+        this.documentoPendienteDAO = documentoPendienteDAO;
+    }
+    
+    public String getStrPrioridad() {
+     return strPrioridad;
+    }
 
-        public void setStrPrioridad(String strPrioridad) {
-            this.strPrioridad = strPrioridad;
-        }
-        
-        public String getStrReferencia() {
-            return strReferencia;
-        }
+    public void setStrPrioridad(String strPrioridad) {
+        this.strPrioridad = strPrioridad;
+    }
+    
+    public String getStrReferencia() {
+        return strReferencia;
+    }
 
-        public void setStrReferencia(String strReferencia) {
-            this.strReferencia = strReferencia;
-        }
-        
-         public Integer getIdserie() {
-            return idserie;
-        }
+    public void setStrReferencia(String strReferencia) {
+        this.strReferencia = strReferencia;
+    }
+    
+     public Integer getIdserie() {
+        return idserie;
+    }
 
-        public void setIdserie(Integer idserie) {
-            this.idserie = idserie;
-        }
-       
-        
-        public List<DocumentoReferencia> getDocumentosReferencia() {
-            return documentosReferencia;
-        }
+    public void setIdserie(Integer idserie) {
+        this.idserie = idserie;
+    }
+   
+    
+    public List<DocumentoReferencia> getDocumentosReferencia() {
+        return documentosReferencia;
+    }
 
-        public void setDocumentosReferencia(List<DocumentoReferencia> documentosReferencia) {
-            this.documentosReferencia = documentosReferencia;
-        }
+    public void setDocumentosReferencia(List<DocumentoReferencia> documentosReferencia) {
+        this.documentosReferencia = documentosReferencia;
+    }
 
-        public List<Parametro> getParametros() {
-            return parametros;
-        }
+    public List<Parametro> getParametros() {
+        return parametros;
+    }
 
-        public void setParametros(List<Parametro> parametros) {
-            this.parametros = parametros;
-        }
-        
-         public DocumentoReunionDAO getDocumentoReunionDAO() {
-            return documentoReunionDAO;
-        }
+    public void setParametros(List<Parametro> parametros) {
+        this.parametros = parametros;
+    }
+    
+     public DocumentoReunionDAO getDocumentoReunionDAO() {
+        return documentoReunionDAO;
+    }
 
-        public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
-            this.documentoReunionDAO = documentoReunionDAO;
-        }
-        
-        public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
-            return documentoAdjuntoDAO;
-        }
+    public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
+        this.documentoReunionDAO = documentoReunionDAO;
+    }
+    
+    public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
+        return documentoAdjuntoDAO;
+    }
 
-        public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
-            this.documentoAdjuntoDAO = documentoAdjuntoDAO;
-        }
-        public Integer getiIdDocEmail() {
-            return iIdDocEmail;
-        }
+    public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
+        this.documentoAdjuntoDAO = documentoAdjuntoDAO;
+    }
+    public Integer getiIdDocEmail() {
+        return iIdDocEmail;
+    }
 
-        public void setiIdDocEmail(Integer iIdDocEmail) {
-            this.iIdDocEmail = iIdDocEmail;
-        }
-        
-        public UnidadDAO getUnidadDAO() {
-            return unidadDAO;
-        }
+    public void setiIdDocEmail(Integer iIdDocEmail) {
+        this.iIdDocEmail = iIdDocEmail;
+    }
+    
+    public UnidadDAO getUnidadDAO() {
+        return unidadDAO;
+    }
 
-        public void setUnidadDAO(UnidadDAO unidadDAO) {
-            this.unidadDAO = unidadDAO;
-        }
+    public void setUnidadDAO(UnidadDAO unidadDAO) {
+        this.unidadDAO = unidadDAO;
+    }
 }
