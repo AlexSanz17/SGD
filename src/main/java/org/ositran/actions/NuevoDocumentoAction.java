@@ -584,7 +584,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     	            
     	            Cliente cliente = new Cliente();
     	            
-    	            if (recepcionMPV.getCodtipoinstitucion().equals("1") || recepcionMPV.getCodtipoinstitucion().equals("2")) {
+    	            if (recepcionMPV.getCodtipoinstitucion().toString().equals("1") || recepcionMPV.getCodtipoinstitucion().toString().equals("2")) {
     	            	cliente = clienteService.findObjectBy(recepcionMPV.getVrucentrem(), 'A');
     	            }
     	            else {
@@ -595,7 +595,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 		              objDD.setStrRazonSocial(recepcionMPV.getVnomentemi());
 		              objDD.setIIdCliente((cliente == null ||cliente.getIdCliente()==null)? -1 :cliente.getIdCliente());
     	            }
-    	            else if(recepcionMPV.getCtipdociderem().toString().equals("3")){    	            	
+    	            else if(recepcionMPV.getCtipdociderem().toString().equals("3")){
     	            	documento.setDesRemitente("");
 		            }
     	            else {

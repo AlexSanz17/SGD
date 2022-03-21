@@ -137,7 +137,8 @@ public class CompletarAdjuntosMPVSingleton {
 	
 	                            String sNuevoNombreAnexo="["+doc.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"2"+"]"+doc.getID_CODIGO() + "_ANX_" + adjunto.getNombrearchivo();
 	                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-	                            	                           	
+	                            String rutaAlfresco = repositorioService.obtenerRutaDocumento(doc, rutaSite, doc.getTipoDocumento().getCodigo()) + doc.getID_CODIGO() + "_ANX_" + adjunto.getNombrearchivo();
+	                           	
 	                            //Bajar documento de MPV y copiar en carpeta temporal	                            
 	                            String urlMPV = adjunto.getRutaarchivo()+adjunto.getNombrearchivo();
 	                            log.debug("Bajar documento de MPV y copiar en carpeta temporal:"+urlMPV);
@@ -146,7 +147,6 @@ public class CompletarAdjuntosMPVSingleton {
 	                            InputStream inAnexo = new URL(urlMPV).openStream();
 	                            Files.copy(inAnexo, Paths.get(rutaDig + "/"+ sNuevoNombreAnexo), StandardCopyOption.REPLACE_EXISTING);
 	                            log.debug("Copiando a ruta temporal:"+rutaDig + "/"+ sNuevoNombreAnexo);
-	                            
 	                            
 	                            File f=new File(rutaDig,sNuevoNombreAnexo);
 	                            log.debug("Generando archivo para subir a alfresco:"+sNuevoNombreAnexo);
@@ -157,8 +157,6 @@ public class CompletarAdjuntosMPVSingleton {
 	                            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
 	                            objArchivo.setFechaCreacion(new Date());
 	                            objArchivo.setRutaArchivoPdf(rutaDig + "/"+ sNuevoNombreAnexo);
-	                            String rutaAlfresco = repositorioService.obtenerRutaDocumento(doc, rutaSite, doc.getTipoDocumento().getCodigo()) + doc.getID_CODIGO() + "_ANX_" + adjunto.getNombrearchivo();
-	                            log.info("rutaAlfresco:"+rutaAlfresco);
 	                            objArchivo.setRutaAlfresco(rutaAlfresco);
 	                            objArchivo.setAutor(new Usuario(usuario.getIdusuario()));
 	                            objArchivo.setUnidadAutor(usuario.getUnidad().getIdunidad());
