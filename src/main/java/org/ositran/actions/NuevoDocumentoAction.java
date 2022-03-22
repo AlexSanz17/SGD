@@ -87,11 +87,11 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 
 	private static final long serialVersionUID=1865395431048493367L;
 	private static Logger log=LoggerFactory.getLogger(NuevoDocumentoAction.class);
-        private List<Documento> listaDocReferenciados;
-        private List<DocumentoReunion> listaIntegrantesInternos;
-        private List<DocumentoReunion> listaIntegrantesExternos;   
-        private List<UsuarioDerivacion> listaDerivacionPara;
-        private List<UsuarioDerivacion> listaDerivacionCC;
+    private List<Documento> listaDocReferenciados;
+    private List<DocumentoReunion> listaIntegrantesInternos;
+    private List<DocumentoReunion> listaIntegrantesExternos;
+    private List<UsuarioDerivacion> listaDerivacionPara;
+    private List<UsuarioDerivacion> listaDerivacionCC;
 	private boolean bBandeja;
 	private int narchivos;
 	private Date fecha ;
@@ -101,7 +101,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private Integer idtipoidentificacion;
 	private Integer idarchivos[];
 	private Integer iIdNotificacion;
-        private String tipoTransaccion;
+    private String tipoTransaccion;
 	private String fullFileName;
 	private String uploadContentType;// The content type of the file
 	private String uploadFileName;// The uploaded file name
@@ -109,8 +109,8 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private String tipodocumento;
 	private String cargarData;
 	private String rutapadre;
-        private DocumentoReferenciaService documentoReferenciaService;
-        private DocumentoDerivacionDAO documentoDerivacionDAO;
+    private DocumentoReferenciaService documentoReferenciaService;
+    private DocumentoDerivacionDAO documentoDerivacionDAO;
 	private String mensaje;
 	private String correntista;
 	private String strDireccion;
@@ -129,7 +129,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private DocumentoService documentoService;
 	private PlantillaService plantillaService;
 	private RepositorioService repositorioService;
-        private LegajoDocumentoService legajoDocumentoService;
+    private LegajoDocumentoService legajoDocumentoService;
 	private UsuarioService usuarioService;
 	private ArchivoService archivoService;
 	private ConcesionarioService concesionarioService;
@@ -146,7 +146,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private ManejoDeEmailService mailService;
 	private SigedMessageSource messageSource;
 	private RolService rolService;
-        private DocumentoReunionDAO documentoReunionDAO;
+    private DocumentoReunionDAO documentoReunionDAO;
 	private Documento objDocumento;
 	private Documento objDocumentoPrincipal;
 	private Expediente expediente;
@@ -155,8 +155,8 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private List<Parametro> listaParametros;
 	private List<Documento> listReferencias;
 	private Integer idINFDocumento;
-        private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
-        private DocumentoDetail objDD;
+    private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+    private DocumentoDetail objDD;
 	private Integer idDocumento;
 	private Integer idExpediente;
 	private Integer idArchivoPendiente;
@@ -189,54 +189,53 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     private Integer codigoVirtual;
     private String flagVerExpediente;
 
-        public String getFlagVerExpediente() {
-            return flagVerExpediente;
-        }
+    public String getFlagVerExpediente() {
+        return flagVerExpediente;
+    }
 
-        public void setFlagVerExpediente(String flagVerExpediente) {
-            this.flagVerExpediente = flagVerExpediente;
-        }
-        
-        public LegajoDocumentoService getLegajoDocumentoService() {
-            return legajoDocumentoService;
-        }
+    public void setFlagVerExpediente(String flagVerExpediente) {
+        this.flagVerExpediente = flagVerExpediente;
+    }
+    
+    public LegajoDocumentoService getLegajoDocumentoService() {
+        return legajoDocumentoService;
+    }
 
-        public void setLegajoDocumentoService(LegajoDocumentoService legajoDocumentoService) {
-            this.legajoDocumentoService = legajoDocumentoService;
-        }
+    public void setLegajoDocumentoService(LegajoDocumentoService legajoDocumentoService) {
+        this.legajoDocumentoService = legajoDocumentoService;
+    }
 
-        public Integer getCodigoVirtual() {
-            return codigoVirtual;
-        }
+    public Integer getCodigoVirtual() {
+        return codigoVirtual;
+    }
 
-        public void setCodigoVirtual(Integer codigoVirtual) {
-            this.codigoVirtual = codigoVirtual;
-        }
-        
-        public IotdtmDocExterno getRecepcionVirtual() {
-            return recepcionVirtual;
-        }
+    public void setCodigoVirtual(Integer codigoVirtual) {
+        this.codigoVirtual = codigoVirtual;
+    }
+    
+    public IotdtmDocExterno getRecepcionVirtual() {
+        return recepcionVirtual;
+    }
 
-        public void setRecepcionVirtual(IotdtmDocExterno recepcionVirtual) {
-            this.recepcionVirtual = recepcionVirtual;
-        }
+    public void setRecepcionVirtual(IotdtmDocExterno recepcionVirtual) {
+        this.recepcionVirtual = recepcionVirtual;
+    }
 
-        public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
-            return documentoExternoVirtualDAO;
-        }
+    public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
+        return documentoExternoVirtualDAO;
+    }
 
-        public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
-            this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
-        }
-        
-        public DocumentoDerivacionDAO getDocumentoDerivacionDAO() {
-           return documentoDerivacionDAO;
-        }
+    public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
+        this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
+    }
+    
+    public DocumentoDerivacionDAO getDocumentoDerivacionDAO() {
+       return documentoDerivacionDAO;
+    }
 
-        public void setDocumentoDerivacionDAO(DocumentoDerivacionDAO documentoDerivacionDAO) {
-            this.documentoDerivacionDAO = documentoDerivacionDAO;
-        }
-
+    public void setDocumentoDerivacionDAO(DocumentoDerivacionDAO documentoDerivacionDAO) {
+        this.documentoDerivacionDAO = documentoDerivacionDAO;
+    }
 
 	public Integer getIdINFDocumento() {
 		return idINFDocumento;
@@ -254,22 +253,21 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 		this.listReferencias = listReferencias;
 	}
         
-        public List<UsuarioDerivacion> getListaDerivacionPara() {
-            return listaDerivacionPara;
-        }
+    public List<UsuarioDerivacion> getListaDerivacionPara() {
+        return listaDerivacionPara;
+    }
 
-        public void setListaDerivacionPara(List<UsuarioDerivacion> listaDerivacionPara) {
-            this.listaDerivacionPara = listaDerivacionPara;
-        }
+    public void setListaDerivacionPara(List<UsuarioDerivacion> listaDerivacionPara) {
+        this.listaDerivacionPara = listaDerivacionPara;
+    }
 
-        public List<UsuarioDerivacion> getListaDerivacionCC() {
-            return listaDerivacionCC;
-        }
+    public List<UsuarioDerivacion> getListaDerivacionCC() {
+        return listaDerivacionCC;
+    }
 
-        public void setListaDerivacionCC(List<UsuarioDerivacion> listaDerivacionCC) {
-            this.listaDerivacionCC = listaDerivacionCC;
-        }
-
+    public void setListaDerivacionCC(List<UsuarioDerivacion> listaDerivacionCC) {
+        this.listaDerivacionCC = listaDerivacionCC;
+    }
 
 	public NuevoDocumentoAction(ArchivopendienteService archivoPendienteService,DocumentoService documentoService,PlantillaService plantillaService,RepositorioService repositorioService,UsuarioService usuarioService,ArchivoService archivoService,ConcesionarioService concesionarioService,ClienteService clienteService,ProcesoService procesoService,TipodocumentoService tipodocumentoService,TipoidentificacionService tipoidentificacionService,ExpedienteService expedienteService,AccionService accionService,TrazabilidaddocumentoService trazabilidaddocumentoService){
 		this.archivoPendienteService=archivoPendienteService;
@@ -287,7 +285,6 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 		this.accionService=accionService;
 		this.trazabilidaddocumentoService=trazabilidaddocumentoService;
 	}
-	
 
 	public Integer getIdtipoid(){
 		return idtipoid;
@@ -468,11 +465,9 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     	log.info("Ingresando a mostrarVistaRecepcion(codigoVirtual):"+codigoVirtual);
         listaDerivacionPara = new ArrayList<UsuarioDerivacion>(); 
         listaDerivacionCC   = new ArrayList<UsuarioDerivacion>(); 
-        origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;
+        origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;     
         
-        
-        try{
-        	
+        try {
         	recepcionVirtual = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
         	log.info("Ingresando a mostrarVistaRecepcion(recepcionVirtual):"+recepcionVirtual);
         	
@@ -488,7 +483,6 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	            objDD.setStrTipoDocumento(tipoDocumento ==null? "":tipoDocumento.getIdtipodocumento().toString());
 	            documento = new Documento();
 	            documento.setFechaDocumento(recepcionVirtual.getDfecdoc());
-	            
 	            
 	            /*
 	            if (recepcionVirtual.getSidrecext().getCtipdociderem() == '1'){
@@ -582,18 +576,26 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     	            objDD.setStrTipoDocumento(tipoDocumento == null ? "" : tipoDocumento.getIdtipodocumento().toString());
     	            
     	            documento = new Documento();
-    	            documento.setFechaDocumento(recepcionMPV.getFechadocumento());
-    	            documento.setNumeroDocumento(recepcionMPV.getNumerodocumento());
+    	            documento.setCodTipoInstitucion(Integer.valueOf(recepcionMPV.getCodtipoinstitucion().toString()));
     	            documento.setDesRemitente(recepcionMPV.getDesRemitente());
     	            documento.setDesCargoRemitente(recepcionMPV.getDesCargoRemitente());
-  	            
-    	            Cliente cliente = clienteService.findObjectBy(recepcionMPV.getVrucentrem(), 'A');
+    	            documento.setFechaDocumento(recepcionMPV.getFechadocumento());
+    	            documento.setNumeroDocumento(recepcionMPV.getNumerodocumento());
+    	            
+    	            Cliente cliente = new Cliente();
+    	            
+    	            if (recepcionMPV.getCodtipoinstitucion().toString().equals("1") || recepcionMPV.getCodtipoinstitucion().toString().equals("2")) {
+    	            	cliente = clienteService.findObjectBy(recepcionMPV.getVrucentrem(), 'A');
+    	            }
+    	            else {
+    	            	cliente = clienteService.findObjectBy(recepcionMPV.getVnumdociderem(), 'A');
+    	            }
     	            
     	            if (recepcionMPV.getCtipdociderem().toString().equals("1") || recepcionMPV.getCtipdociderem().toString().equals("2")){
 		              objDD.setStrRazonSocial(recepcionMPV.getVnomentemi());
 		              objDD.setIIdCliente((cliente == null ||cliente.getIdCliente()==null)? -1 :cliente.getIdCliente());
     	            }
-    	            else if(recepcionMPV.getCtipdociderem().toString().equals("3")){    	            	
+    	            else if(recepcionMPV.getCtipdociderem().toString().equals("3")){
     	            	documento.setDesRemitente("");
 		            }
     	            else {
@@ -1222,7 +1224,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 			log.debug("Enumerar Documento form:"+enumerarDocumento+"  " );
 			objDocumento.setEnumerarDocumento(enumerarDocumento!=null?enumerarDocumento.equals("S"):false);
 			log.debug("Enumerar Documento doc:"+objDocumento.getEnumerarDocumento()+"  " );
-			try{
+			try {
 
 				objDocumento=documentoService.subirConMetadata(usuario,upload,idDocumento,objDocumento,objDD,versionar,idarchivos, "ES_nombrePDFprincipal");
 
@@ -1246,7 +1248,6 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 			return "subirconmetadata";
 	}
 
-
 	public String verVentanaNumeracion(){
 		log.debug("-> [Action] NuevoDocumentoAction - verVentanaNumeracion():String ");
 
@@ -1266,9 +1267,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 
 
 	public String verVentanaFirmar(){
-
-		try{
-
+		try {
 			Map<String,Object> session=ActionContext.getContext().getSession();
 			Usuario logeado=(Usuario) session.get(Constantes.SESSION_USUARIO);
 			this.objDocumentoPrincipal=documentoService.findByIdDocumento(this.idDocumento);
@@ -1285,61 +1284,60 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	 */
 	public void guardarNumeracionFirma() {
 		log.debug("-> [Action] NuevoDocumentoAction - guardarNumeracionFirma():void ");
-                Map<String, Object> sesion = ActionContext.getContext().getSession();
-                String[] documentosPorEnumerar = this.getRequest().getParameterValues("documentosPorEnumerar");
-                Map<Integer, Integer> documentsToModifyA = new HashMap<Integer, Integer>();
-                Map<Integer, Integer> documentsToModifyG = new HashMap<Integer, Integer>();
-                Map<Integer, Integer> documentsToModifyP = new HashMap<Integer, Integer>();
+        Map<String, Object> sesion = ActionContext.getContext().getSession();
+        String[] documentosPorEnumerar = this.getRequest().getParameterValues("documentosPorEnumerar");
+        Map<Integer, Integer> documentsToModifyA = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> documentsToModifyG = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> documentsToModifyP = new HashMap<Integer, Integer>();
 
-                String area = "";
-                String gerencia = "";
-                String presidencia = "";
-                if (documentosPorEnumerar != null && documentosPorEnumerar.length > 0) {
-                   log.info("Enumerando {} documento(s)", documentosPorEnumerar.length);
+        String area = "";
+        String gerencia = "";
+        String presidencia = "";
+        if (documentosPorEnumerar != null && documentosPorEnumerar.length > 0) {
+           log.info("Enumerando {} documento(s)", documentosPorEnumerar.length);
 
-                   for (String idTemp : documentosPorEnumerar) {
-                           String id =idTemp;
-                           String enumerar =idTemp;
-                           enumerar = enumerar.substring(0,1);
-                           id = id.substring(1);
-                           if(enumerar.equals("A")){
-                                   area = "A";
-                                   documentsToModifyA.put(Integer.valueOf(id), Integer.valueOf(Constantes.DO_ENUMERAR));
-                       }
-                           if(enumerar.equals("G")){
-                                   gerencia = "G";
-                                   documentsToModifyG.put(Integer.valueOf(id), Integer.valueOf(Constantes.DO_ENUMERAR));
-                       }
-                           if(enumerar.equals("P")){
-                                   presidencia = "P";
-                                   documentsToModifyP.put(Integer.valueOf(id), Integer.valueOf(Constantes.DO_ENUMERAR));
-                       }
+           for (String idTemp : documentosPorEnumerar) {
+                   String id =idTemp;
+                   String enumerar =idTemp;
+                   enumerar = enumerar.substring(0,1);
+                   id = id.substring(1);
+                   if(enumerar.equals("A")){
+                           area = "A";
+                           documentsToModifyA.put(Integer.valueOf(id), Integer.valueOf(Constantes.DO_ENUMERAR));
+               }
+                   if(enumerar.equals("G")){
+                           gerencia = "G";
+                           documentsToModifyG.put(Integer.valueOf(id), Integer.valueOf(Constantes.DO_ENUMERAR));
+               }
+                   if(enumerar.equals("P")){
+                           presidencia = "P";
+                           documentsToModifyP.put(Integer.valueOf(id), Integer.valueOf(Constantes.DO_ENUMERAR));
+               }
 
-                   }
-                } else {
-                   log.info("Ningun documento por enumerar");
-                }
+           }
+        } else {
+           log.info("Ningun documento por enumerar");
+        }
 
 
-                if(area.equals("A")){
+        if(area.equals("A")){
+          // obtener detalle de autenticacion de alfresco porque se almacena en ThreadLocal y vamos a cambiar de hilo
+            AuthenticationDetails authDetails = AuthenticationUtils.getAuthenticationDetails();
+            // llamada asincrona
+            taskExecutor.execute(new ModifyDocumentsTask(sesion, documentoService, documentsToModifyA, authDetails,"A"));
+        }
+           if(gerencia.equals("G")){
                   // obtener detalle de autenticacion de alfresco porque se almacena en ThreadLocal y vamos a cambiar de hilo
-                    AuthenticationDetails authDetails = AuthenticationUtils.getAuthenticationDetails();
-                    // llamada asincrona
-                    taskExecutor.execute(new ModifyDocumentsTask(sesion, documentoService, documentsToModifyA, authDetails,"A"));
-                }
-                   if(gerencia.equals("G")){
-                          // obtener detalle de autenticacion de alfresco porque se almacena en ThreadLocal y vamos a cambiar de hilo
-                        AuthenticationDetails authDetails = AuthenticationUtils.getAuthenticationDetails();
-                        // llamada asincrona
-                        taskExecutor.execute(new ModifyDocumentsTask(sesion, documentoService, documentsToModifyG, authDetails,"G"));
-                }
-                   if(presidencia.equals("P")){
-                          // obtener detalle de autenticacion de alfresco porque se almacena en ThreadLocal y vamos a cambiar de hilo
-                        AuthenticationDetails authDetails = AuthenticationUtils.getAuthenticationDetails();
-                        // llamada asincrona
-                        taskExecutor.execute(new ModifyDocumentsTask(sesion, documentoService, documentsToModifyP, authDetails,"P"));
-                }
-
+                AuthenticationDetails authDetails = AuthenticationUtils.getAuthenticationDetails();
+                // llamada asincrona
+                taskExecutor.execute(new ModifyDocumentsTask(sesion, documentoService, documentsToModifyG, authDetails,"G"));
+        }
+           if(presidencia.equals("P")){
+                  // obtener detalle de autenticacion de alfresco porque se almacena en ThreadLocal y vamos a cambiar de hilo
+                AuthenticationDetails authDetails = AuthenticationUtils.getAuthenticationDetails();
+                // llamada asincrona
+                taskExecutor.execute(new ModifyDocumentsTask(sesion, documentoService, documentsToModifyP, authDetails,"P"));
+        }
    }
 
    public void modificacionEnProceso() {
@@ -1381,39 +1379,39 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
         this.messageSource = ms;
     }
 
-        public String mostrarCambiarFirmante(){
-        	Integer iddoc=Integer.parseInt(ServletActionContext.getRequest().getParameter("iddoc"));
-        	objDocumento=documentoService.findByIdDocumento(iddoc);
-        	return "editFirmante";
-        }
+    public String mostrarCambiarFirmante(){
+    	Integer iddoc=Integer.parseInt(ServletActionContext.getRequest().getParameter("iddoc"));
+    	objDocumento=documentoService.findByIdDocumento(iddoc);
+    	return "editFirmante";
+    }
 
-        public String validarFirmante(){
-        	String firmante=ServletActionContext.getRequest().getParameter("firmante");
-        	if(firmante!=""){
-	        	mensaje="_1";
-        	}
-        	else{
-        		mensaje="_No selecciono ningun firmante";
-        	}
-        	return "exito";
-        }
+    public String validarFirmante(){
+    	String firmante=ServletActionContext.getRequest().getParameter("firmante");
+    	if(firmante!=""){
+        	mensaje="_1";
+    	}
+    	else{
+    		mensaje="_No selecciono ningun firmante";
+    	}
+    	return "exito";
+    }
 
-        public String guardarFirmante(){
-        	String firmante=ServletActionContext.getRequest().getParameter("firmante");
-        	String id=ServletActionContext.getRequest().getParameter("iddoc");
-        	Integer iddoc=Integer.parseInt(id);
-        	Documento doc=documentoService.findByIdDocumento(iddoc);
-        	Integer idUsuario=Integer.parseInt(firmante.split("_")[1]);
-        	Usuario userFirmante=usuarioService.findByIdUsuario(idUsuario);
-        	doc.setFirmante(userFirmante);
-        	try{
-        	documentoService.guardarDocumento(doc);
-        	mensaje="Se registro el nuevo firmante";
-        	}catch(Exception e){
-        		log.error("Error al guardar Firmante");
-        	}
-        	return "exito";
-        }
+    public String guardarFirmante(){
+    	String firmante=ServletActionContext.getRequest().getParameter("firmante");
+    	String id=ServletActionContext.getRequest().getParameter("iddoc");
+    	Integer iddoc=Integer.parseInt(id);
+    	Documento doc=documentoService.findByIdDocumento(iddoc);
+    	Integer idUsuario=Integer.parseInt(firmante.split("_")[1]);
+    	Usuario userFirmante=usuarioService.findByIdUsuario(idUsuario);
+    	doc.setFirmante(userFirmante);
+    	try{
+    	documentoService.guardarDocumento(doc);
+    	mensaje="Se registro el nuevo firmante";
+    	}catch(Exception e){
+    		log.error("Error al guardar Firmante");
+    	}
+    	return "exito";
+    }
 
 	@SuppressWarnings("unused")
 	private void procesarEmail(Usuario Origen,Usuario Destino){
@@ -1428,7 +1426,6 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	}
 
    private class ModifyDocumentsTask implements Runnable {
-
       private DocumentoService documentoService;
       private Map<String, Object> sesion;
       private Map<Integer, Integer> documentsToModify;
@@ -1446,7 +1443,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
       @Override
       public void run() {
          // setear los detalles de autenticacion de alfresco para que se almacenen en el nuevo hilo
-    	  log.debug("-> [Action] NuevoDocumentoAction - run():void ");
+    	 log.debug("-> [Action] NuevoDocumentoAction - run():void ");
          AuthenticationUtils.setAuthenticationDetails(authDetails);
          Usuario usuario = (Usuario) sesion.get(Constantes.SESSION_USUARIO);
          // es necesario setear el usuario en el ThreadLocal para poder usar los webservices de Alfresco
@@ -1479,8 +1476,8 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
          sesion.put("MODIFICACION_EN_PROCESO", false);
          sesion.put("MODIFICACION_MENSAJE", cadena.toString());
          sesion.put("NUMERO_GENERADO", numero);
-      }
-   }
+      	}
+    }
 
 	public ArchivopendienteService getArchivoPendienteService(){
 		return archivoPendienteService;
@@ -1502,13 +1499,13 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 		return archivopendiente;
 	}
         
-        public List<Documento> getListaDocReferenciados() {
-            return listaDocReferenciados;
-        }
+    public List<Documento> getListaDocReferenciados() {
+        return listaDocReferenciados;
+    }
 
-        public void setListaDocReferenciados(List<Documento> listaDocReferenciados) {
-            this.listaDocReferenciados = listaDocReferenciados;
-        }
+    public void setListaDocReferenciados(List<Documento> listaDocReferenciados) {
+        this.listaDocReferenciados = listaDocReferenciados;
+    }
 
 	public void setArchivopendiente(ArchivoPendiente archivopendiente){
 		this.archivopendiente=archivopendiente;
@@ -1706,13 +1703,13 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 		this.lstRadio=lstRadio;
 	}
         
-         public DocumentoReferenciaService getDocumentoReferenciaService() {
-            return documentoReferenciaService;
-        }
+    public DocumentoReferenciaService getDocumentoReferenciaService() {
+        return documentoReferenciaService;
+    }
 
-        public void setDocumentoReferenciaService(DocumentoReferenciaService documentoReferenciaService) {
-            this.documentoReferenciaService = documentoReferenciaService;
-        }
+    public void setDocumentoReferenciaService(DocumentoReferenciaService documentoReferenciaService) {
+        this.documentoReferenciaService = documentoReferenciaService;
+    }
 
 	public Documento getObjDocumento(){
 		return objDocumento;
@@ -2103,34 +2100,34 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 		this.rolService = rolService;
 	}
 
-         public String getTipoTransaccion() {
-            return tipoTransaccion;
-        }
+    public String getTipoTransaccion() {
+        return tipoTransaccion;
+    }
 
-        public void setTipoTransaccion(String tipoTransaccion) {
-            this.tipoTransaccion = tipoTransaccion;
-        }
-        
-       public List<DocumentoReunion> getListaIntegrantesInternos() {
-            return listaIntegrantesInternos;
-        }
+    public void setTipoTransaccion(String tipoTransaccion) {
+        this.tipoTransaccion = tipoTransaccion;
+    }
+    
+    public List<DocumentoReunion> getListaIntegrantesInternos() {
+        return listaIntegrantesInternos;
+    }
 
-        public void setListaIntegrantesInternos(List<DocumentoReunion> listaIntegrantesInternos) {
-            this.listaIntegrantesInternos = listaIntegrantesInternos;
-        }
+    public void setListaIntegrantesInternos(List<DocumentoReunion> listaIntegrantesInternos) {
+        this.listaIntegrantesInternos = listaIntegrantesInternos;
+    }
 
-        public List<DocumentoReunion> getListaIntegrantesExternos() {
-            return listaIntegrantesExternos;
-        }
+    public List<DocumentoReunion> getListaIntegrantesExternos() {
+        return listaIntegrantesExternos;
+    }
 
-        public void setListaIntegrantesExternos(List<DocumentoReunion> listaIntegrantesExternos) {
-            this.listaIntegrantesExternos = listaIntegrantesExternos;
-        }
-        public DocumentoReunionDAO getDocumentoReunionDAO() {
-            return documentoReunionDAO;
-        }
+    public void setListaIntegrantesExternos(List<DocumentoReunion> listaIntegrantesExternos) {
+        this.listaIntegrantesExternos = listaIntegrantesExternos;
+    }
+    public DocumentoReunionDAO getDocumentoReunionDAO() {
+        return documentoReunionDAO;
+    }
 
-        public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
-            this.documentoReunionDAO = documentoReunionDAO;
-        }
+    public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
+        this.documentoReunionDAO = documentoReunionDAO;
+    }
 }

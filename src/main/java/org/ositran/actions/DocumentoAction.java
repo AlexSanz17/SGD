@@ -3463,14 +3463,14 @@ public class DocumentoAction {
                         Usuario objUsuario = (Usuario) session.get(Constantes.SESSION_USUARIO);
 			objDD.setIdUsuarioLogeado(objUsuario.getIdusuario());
 			
-                        if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("N") || getObjDD().getTipoTransaccion().equals("A") || getObjDD().getTipoTransaccion().equals("R"))) {
-                            objDD = documentoService.saveNuevoDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");
+            if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("N") || getObjDD().getTipoTransaccion().equals("A") || getObjDD().getTipoTransaccion().equals("R"))) {
+                objDD = documentoService.saveNuevoDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");
 			} else {
-                             if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("M") || getObjDD().getTipoTransaccion().equals("MR"))){
-                               objDD = documentoService.updateDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");                     
-                             }else{
-                               this.mensaje = "No se encontraron Datos";
-                             }        
+		         if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("M") || getObjDD().getTipoTransaccion().equals("MR"))){
+		           objDD = documentoService.updateDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");                     
+		         }else{
+		           this.mensaje = "No se encontraron Datos";
+		         }        
 			}
                         
                         this.cerrar = "ok";

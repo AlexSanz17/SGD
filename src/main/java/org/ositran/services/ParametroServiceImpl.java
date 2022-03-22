@@ -39,7 +39,7 @@ public class ParametroServiceImpl implements ParametroService{
 		return this.dao.findByTipo(tipo);
 	}
         
-        public List<Parametro> findByTipoActivo(String tipo){
+    public List<Parametro> findByTipoActivo(String tipo){
 		return this.dao.findByTipoActivo(tipo);
 	}
 

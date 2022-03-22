@@ -81,7 +81,6 @@
 		  idFirmar = "";
 		  clearTimeout(tid);
 		}
-
 		
 		function enviarFirma(archivoFirma, objectidFirma, idcodigoFirma, idBtnFirmar,archivosFirma){
 			

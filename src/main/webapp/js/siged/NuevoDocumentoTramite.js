@@ -1,4 +1,3 @@
-
 var campos;
 
 var tipoDocumentoHasChanged = function(idTipoDocumento) {
@@ -10,13 +9,10 @@ var tipoDocumentoHasChanged = function(idTipoDocumento) {
 };
 
  function tipoClienteRequerido(tipo , requerido){
-  
     if (tipo == '0'){
-      /*  dijit.byId("objDD.idPersonaInstitucionTramite").attr("required", requerido);  jc
-        dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("required", requerido);  */
+        dijit.byId("objDD.iIdInstitucionTramite").attr("required", requerido);
         dijit.byId("objDD.idPersonaInstitucionTramite").attr("required", false);
         dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("required", false); 
-        dijit.byId("objDD.iIdInstitucionTramite").attr("required", requerido);
         dijit.byId("objDD.desUnidadOrganicaTramite").attr("required", false);
     }
     if (tipo == '1'){
@@ -24,68 +20,67 @@ var tipoDocumentoHasChanged = function(idTipoDocumento) {
         dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("required", false);
     }
     if (tipo == '2'){
-        dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("required", false);
         dijit.byId("objDD.iIdEmpresaTramite").attr("required", requerido); 
-        dijit.byId("objDD.idPersonaEmpresaTramite").attr("required", false)
+        dijit.byId("objDD.idPersonaEmpresaTramite").attr("required", false);
+        dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("required", false);
     }
 }
 
-
  mostrarTipoCliente = function(valor){
-             if (valor == "0"){
-                 dojo.byId("tbClienteTramite").style.display = "";
-                 dojo.byId("tbInstitucionTramite").style.display = "";
-                 dojo.byId("tbPersonaNaturalTramite").style.display = "none";
-                 dojo.byId("tbEmpresaTramite").style.display = "none";
-                 
-                 tipoClienteRequerido('0', true);
-                 tipoClienteRequerido('1', false);
-                 tipoClienteRequerido('2', false);
-                 
-                 dijit.byId("objDD.iIdEmpresaTramite").attr("value", "");
-                 dijit.byId("objDD.idPersonaNaturalTramite").attr("value", "");
-                 
-                 dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("value", "");
-                 dijit.byId("objDD.idPersonaEmpresaTramite").attr("value", "");
-                 dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("value", "");
-                 
-                 dijit.byId("objDD.desUnidadOrganicaTramite").attr("value", "");
-             }
-             if (valor == "1"){
-                 dojo.byId("tbInstitucionTramite").style.display = "none";
-                 dojo.byId("tbEmpresaTramite").style.display = "none";
-                 dojo.byId("tbPersonaNaturalTramite").style.display = "";
-                 dojo.byId("tbClienteTramite").style.display = "";
-                 
-                 tipoClienteRequerido('0', false);
-                 tipoClienteRequerido('1', true);
-                 tipoClienteRequerido('2', false);
-                
-                 dijit.byId("objDD.iIdInstitucionTramite").attr("value", "");
-                 dijit.byId("objDD.iIdEmpresaTramite").attr("value", "");
-                 
-                 dijit.byId("objDD.idPersonaInstitucionTramite").attr("value", "");
-                 dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("value", "");
-                 dijit.byId("objDD.idPersonaEmpresaTramite").attr("value", "");
-                 dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("value", "");
-            }
-            if (valor == "2"){
-                 dojo.byId("tbEmpresaTramite").style.display = "";
-                 dojo.byId("tbInstitucionTramite").style.display = "none";
-                 dojo.byId("tbPersonaNaturalTramite").style.display = "none";
-                 dojo.byId("tbClienteTramite").style.display = "";
-                 
-                 tipoClienteRequerido('0', false);
-                 tipoClienteRequerido('1', false);
-                 tipoClienteRequerido('2', true);
-                
-                 dijit.byId("objDD.iIdInstitucionTramite").attr("value", "");
-                 dijit.byId("objDD.idPersonaNaturalTramite").attr("value", "");
-                 
-                 dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("value", "");
-                 dijit.byId("objDD.idPersonaInstitucionTramite").attr("value", "");
-                 dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("value", "");
-            }
+     if (valor == "0"){
+         dojo.byId("tbClienteTramite").style.display = "";
+         dojo.byId("tbInstitucionTramite").style.display = "";
+         dojo.byId("tbPersonaNaturalTramite").style.display = "none";
+         dojo.byId("tbEmpresaTramite").style.display = "none";
+         
+         tipoClienteRequerido('0', true);
+         tipoClienteRequerido('1', false);
+         tipoClienteRequerido('2', false);
+         
+         dijit.byId("objDD.iIdEmpresaTramite").attr("value", "");
+         dijit.byId("objDD.idPersonaNaturalTramite").attr("value", "");
+         
+         dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("value", "");
+         dijit.byId("objDD.idPersonaEmpresaTramite").attr("value", "");
+         dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("value", "");
+         
+         dijit.byId("objDD.desUnidadOrganicaTramite").attr("value", "");
+     }
+     if (valor == "1"){
+         dojo.byId("tbInstitucionTramite").style.display = "none";
+         dojo.byId("tbEmpresaTramite").style.display = "none";
+         dojo.byId("tbPersonaNaturalTramite").style.display = "";
+         dojo.byId("tbClienteTramite").style.display = "";
+         
+         tipoClienteRequerido('0', false);
+         tipoClienteRequerido('1', true);
+         tipoClienteRequerido('2', false);
+        
+         dijit.byId("objDD.iIdInstitucionTramite").attr("value", "");
+         dijit.byId("objDD.iIdEmpresaTramite").attr("value", "");
+         
+         dijit.byId("objDD.idPersonaInstitucionTramite").attr("value", "");
+         dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("value", "");
+         dijit.byId("objDD.idPersonaEmpresaTramite").attr("value", "");
+         dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("value", "");
+    }
+    if (valor == "2"){
+         dojo.byId("tbEmpresaTramite").style.display = "";
+         dojo.byId("tbInstitucionTramite").style.display = "none";
+         dojo.byId("tbPersonaNaturalTramite").style.display = "none";
+         dojo.byId("tbClienteTramite").style.display = "";
+         
+         tipoClienteRequerido('0', false);
+         tipoClienteRequerido('1', false);
+         tipoClienteRequerido('2', true);
+        
+         dijit.byId("objDD.iIdInstitucionTramite").attr("value", "");
+         dijit.byId("objDD.idPersonaNaturalTramite").attr("value", "");
+         
+         dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("value", "");
+         dijit.byId("objDD.idPersonaInstitucionTramite").attr("value", "");
+         dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("value", "");
+    }
  }
 
 fillDataCargoPersona = function(iIdRemitente){
@@ -178,7 +173,6 @@ fillDataCargoPersonaNatural = function(idPersona){
            var strBusquedaExpedienteAbierto = new dojo.data.ItemFileReadStore({
                 url: "buscarExpedienteAbierto.action?iIdCliente=" + parseInt(idPersona)
             });
-
             grdBusquedaExpedienteAbierto.setStore(strBusquedaExpedienteAbierto);
             iExpedientesAbiertos = 0;
             strBusquedaExpedienteAbierto.fetch({
@@ -199,7 +193,6 @@ fillDataCargoPersonaNatural = function(idPersona){
      /*   document.getElementById("cargoPersona").value = "";
    }  
 };*/
-
 
 /*
 fillDataTipoInstitucion = function(iIdTipo){
@@ -227,7 +220,6 @@ fillDataTipoInstitucion = function(iIdTipo){
 };*/
 /*
 fillDataPersona = function(iIdInstitucion){ 
-    
     if (iIdInstitucion!=""){
        //JC 
        var storePersona = new dojo.data.ItemFileWriteStore({url: "autocompletarRemitente.action?iIdCliente=" + parseInt(iIdInstitucion)}); 
@@ -254,7 +246,6 @@ fillDataPersona = function(iIdInstitucion){
             strBusquedaExpedienteAbierto = new dojo.data.ItemFileReadStore({
                  url: "buscarExpedienteAbierto.action?iIdCliente=" + parseInt(iIdInstitucion)
             });
-
             grdBusquedaExpedienteAbierto.setStore(strBusquedaExpedienteAbierto);
             iExpedientesAbiertos = 0;
             strBusquedaExpedienteAbierto.fetch({
@@ -272,7 +263,6 @@ fillDataPersona = function(iIdInstitucion){
       }  */
   //  } 
 //};
-
 
 hideTBODY = function(tbToHide) {
    console.log("[hideTBODY] - tbody a ocultar [" + tbToHide + "]");
@@ -293,7 +283,6 @@ showTBODY = function(tbToShow) {
       console.log("[showTBODY] - [" + tbToShow + "] NO EXISTE");
    }
 };
-
 
 /*fillDataProceso = function(iIdProceso) {
    
@@ -435,7 +424,6 @@ var crearBotonAdjuntar = function() {
 };
 
 dojo.addOnLoad(function() {
-        
         new dijit.form.TextBox({
 	    id : "sNroExpedienteTramite",
 	    jsId : "sNroExpedienteTramite",
@@ -489,7 +477,7 @@ dojo.addOnLoad(function() {
 	    trim : true
 	}, "objDD.asuntoExpedienteTramite");
         
-        new dijit.form.ValidationTextBox({
+    new dijit.form.ValidationTextBox({
 	    id : "objDD.observacionExpedienteTramite",
 	    jsId : "objDD.observacionExpedienteTramite",
 	    name : "objDD.observacionExpediente",
@@ -501,141 +489,139 @@ dojo.addOnLoad(function() {
 	    trim : true
 	}, "objDD.observacionExpedienteTramite");
         
-         new dijit.form.ValidationTextBox({
-             id : "objDD.strAsuntoTramite",
-             jsId :"objDD.strAsuntoTramite",
-             name:  "objDD.strAsunto",
-             invalidMessage:"Ingrese un Asunto",
-             uppercase : true,
-             regExp: ".{1,1500}", 
-             required: "true",
-             style: "width:500px",
-             maxLength : "1500",
-             trim:"true"
+     new dijit.form.ValidationTextBox({
+         id : "objDD.strAsuntoTramite",
+         jsId :"objDD.strAsuntoTramite",
+         name:  "objDD.strAsunto",
+         invalidMessage:"Ingrese un Asunto",
+         uppercase : true,
+         regExp: ".{1,1500}", 
+         required: "true",
+         style: "width:500px",
+         maxLength : "1500",
+         trim:"true"
 	}, "objDD.strAsuntoTramite");
         
-        Siged.Forms.combobox("fsPrioridadTramite", {
-            id             : "objDD.prioridadTramite",
-            jsId           : "objDD.prioridadTramite",
-            name           : "objDD.prioridad",
-            searchAttr     : "label",
-            searchDelay    : 650,
-            queryExpr      : "*${0}*",
-            autoComplete   : false,
-            hasDownArrow   : true,
-            highlightMatch : "all",
-            required       : true,
-            style          : "width:165px;",
-            invalidMessage : "Seleccione una prioridad",
-            storeUrl       : "autocompletarParametroActivo.action?codParametro=prioridad"
-         });
+    Siged.Forms.combobox("fsPrioridadTramite", {
+        id             : "objDD.prioridadTramite",
+        jsId           : "objDD.prioridadTramite",
+        name           : "objDD.prioridad",
+        searchAttr     : "label",
+        searchDelay    : 650,
+        queryExpr      : "*${0}*",
+        autoComplete   : false,
+        hasDownArrow   : true,
+        highlightMatch : "all",
+        required       : true,
+        style          : "width:165px;",
+        invalidMessage : "Seleccione una prioridad",
+        storeUrl       : "autocompletarParametroActivo.action?codParametro=prioridad"
+     });
         
-         Siged.Forms.combobox("fsTipoDocumentoTramite", {
-            id             : "objDocumento.tipoDocumento.idtipodocumentoTramite",
-            jsId           : "objDocumento.tipoDocumento.idtipodocumentoTramite",
-            name           : "objDocumento.tipoDocumento.idtipodocumento",
-            searchAttr     : "label",
-            searchDelay    : 650,
-            queryExpr      : "*${0}*",
-            autoComplete   : false,
-            hasDownArrow   : true,
-            highlightMatch : "all",
-            required       : true,
-            style          : "width:430px;",
-            invalidMessage : "Seleccione un tipo de Documento",
-            onChange       : tipoDocumentoHasChanged,
-            storeUrl       : "autocompletarAllTipoDocumento.action?iWithoutStor=0"
-         });
-
+     Siged.Forms.combobox("fsTipoDocumentoTramite", {
+        id             : "objDocumento.tipoDocumento.idtipodocumentoTramite",
+        jsId           : "objDocumento.tipoDocumento.idtipodocumentoTramite",
+        name           : "objDocumento.tipoDocumento.idtipodocumento",
+        searchAttr     : "label",
+        searchDelay    : 650,
+        queryExpr      : "*${0}*",
+        autoComplete   : false,
+        hasDownArrow   : true,
+        highlightMatch : "all",
+        required       : true,
+        style          : "width:430px;",
+        invalidMessage : "Seleccione un tipo de Documento",
+        onChange       : tipoDocumentoHasChanged,
+        storeUrl       : "autocompletarAllTipoDocumento.action?iWithoutStor=0"
+     });
     
-          Siged.Forms.combobox("fsDerivacionTramite", {
-            id             : "objDD.idDestinatarioTramite",
-            jsId           : "objDD.idDestinatarioTramite",
-            name           : "objDD.idDestinatario",
-            searchAttr     : "label",
-            searchDelay    : 650,
-            queryExpr      : "*${0}*",
-            autoComplete   : false,
-            hasDownArrow   : true,
-            highlightMatch : "all",
-            required       : false,
-            style          : "width:470px;",
-            invalidMessage : "Seleccione un destinatario",
-            storeUrl       : "autocompletarAreaDerivacion.action"
-         });
+      Siged.Forms.combobox("fsDerivacionTramite", {
+        id             : "objDD.idDestinatarioTramite",
+        jsId           : "objDD.idDestinatarioTramite",
+        name           : "objDD.idDestinatario",
+        searchAttr     : "label",
+        searchDelay    : 650,
+        queryExpr      : "*${0}*",
+        autoComplete   : false,
+        hasDownArrow   : true,
+        highlightMatch : "all",
+        required       : false,
+        style          : "width:470px;",
+        invalidMessage : "Seleccione un destinatario",
+        storeUrl       : "autocompletarAreaDerivacion.action"
+     });
          
-         
-         new dijit.form.ValidationTextBox({
-            id : "objDD.strReferenciaTramite",
-            jsId : "objDD.strReferenciaTramite",
-            name : "objDD.strReferencia",
-            invalidMessage : "Revise el dato ingresado",
-            regExp : ".{1,300}",
-            required : false,
-            uppercase : true,
-            maxLength : "80",
-            style : "width:500px",
-            trim : true
-            }, "objDD.strReferenciaTramite");
+     new dijit.form.ValidationTextBox({
+        id : "objDD.strReferenciaTramite",
+        jsId : "objDD.strReferenciaTramite",
+        name : "objDD.strReferencia",
+        invalidMessage : "Revise el dato ingresado",
+        regExp : ".{1,300}",
+        required : false,
+        uppercase : true,
+        maxLength : "80",
+        style : "width:500px",
+        trim : true
+    }, "objDD.strReferenciaTramite");
 
-        var dataConfidencial = {
-          identifier: 'value',
-          items:[
-             {value:'S', label:'Confidencial'},
-             {value:'N', label:'No Confidencial'}
-          ]
-        };
+    var dataConfidencial = {
+      identifier: 'value',
+      items:[
+         {value:'S', label:'Confidencial'},
+         {value:'N', label:'No Confidencial'}
+      ]
+    };
   
-        Siged.Forms.combobox("fsConfidencialTramite", {
-           id             : "objDD.confidencialTramite",
-           jsId           : "objDD.confidencialTramite",
-           name           : "objDD.confidencial",
-           searchAttr     : "label",
-           searchDelay    : 650,
-           queryExpr      : "*${0}*",
-           autoComplete   : false,
-           hasDownArrow   : true,
-           highlightMatch : "all"
-        });
+    Siged.Forms.combobox("fsConfidencialTramite", {
+       id             : "objDD.confidencialTramite",
+       jsId           : "objDD.confidencialTramite",
+       name           : "objDD.confidencial",
+       searchAttr     : "label",
+       searchDelay    : 650,
+       queryExpr      : "*${0}*",
+       autoComplete   : false,
+       hasDownArrow   : true,
+       highlightMatch : "all"
+    });
 
-         var storeConfidencialTramite = new dojo.data.ItemFileWriteStore({data: dataConfidencial});
-         dijit.byId("objDD.confidencialTramite").store = storeConfidencialTramite;
-         dijit.byId("objDD.confidencialTramite").attr('value', 'N');
+     var storeConfidencialTramite = new dojo.data.ItemFileWriteStore({data: dataConfidencial});
+     dijit.byId("objDD.confidencialTramite").store = storeConfidencialTramite;
+     dijit.byId("objDD.confidencialTramite").attr('value', 'N');
          
-          new dijit.form.ValidationTextBox({
-             id : "objDD.strObservacionTramite",
-             jsId :"objDD.strObservacionTramite",
-             name:  "objDD.strObservacion",
-             regExp: ".{1,300}",
-             uppercase : true,
-             required: false,
-             maxLength : "250",
-             style: "width:500px",
-             trim:"true"
+      new dijit.form.ValidationTextBox({
+         id : "objDD.strObservacionTramite",
+         jsId :"objDD.strObservacionTramite",
+         name:  "objDD.strObservacion",
+         regExp: ".{1,300}",
+         uppercase : true,
+         required: false,
+         maxLength : "250",
+         style: "width:500px",
+         trim:"true"
 	}, "fsObservacionesDocumentoTramite");
         
-        new dijit.form.ValidationTextBox({
-             id : "objDD.iPlazoDiaTramite",
-             jsId :"objDD.iPlazoDiaTramite",
-             name:  "objDD.iPlazoDia",
-             maxLength : "2",
-             required: false,
-             invalidMessage:"Ingrese un plazo valido",
-             regExp:"[0-9]{1,4}",
-             style: "width:165px",
-             trim:"true",
-             onBlur: function(){
-                if (dojo.trim(this.value)!=''){
-                  service.getFechaLimite(this.value).addCallback(function(valor){
-                    dijit.byId('sFechaPlazoTramite').attr("value", valor);    
-                  });
-                }else{
-                    dijit.byId('sFechaPlazoTramite').attr("value", "");
-                }
-             }
+    new dijit.form.ValidationTextBox({
+         id : "objDD.iPlazoDiaTramite",
+         jsId :"objDD.iPlazoDiaTramite",
+         name:  "objDD.iPlazoDia",
+         maxLength : "2",
+         required: false,
+         invalidMessage:"Ingrese un plazo valido",
+         regExp:"[0-9]{1,4}",
+         style: "width:165px",
+         trim:"true",
+         onBlur: function(){
+            if (dojo.trim(this.value)!=''){
+              service.getFechaLimite(this.value).addCallback(function(valor){
+                dijit.byId('sFechaPlazoTramite').attr("value", valor);    
+              });
+            }else{
+                dijit.byId('sFechaPlazoTramite').attr("value", "");
+            }
+         }
 	}, "fsPlazoTramite");
         
-         new dijit.form.TextBox({
+     new dijit.form.TextBox({
 	    id : "sFechaPlazoTramite",
 	    jsId : "sFechaPlazoTramite",
 	    name : "sFechaPlazo",
@@ -643,70 +629,67 @@ dojo.addOnLoad(function() {
 	    trim : true
 	},"sFechaPlazoTramite");
         
-        new dijit.form.ValidationTextBox({
-             id : "objDD.iNroFoliosTramite",
-             jsId :"objDD.iNroFoliosTramite",
-             name:  "objDD.iNroFolios",
-             maxLength : "7",
-             required: true,
-             invalidMessage:"Ingrese nro de folios totales del documento",
-             regExp:"[0-9]{1,7}",
-             style: "width:70px",
-             trim:"true"
+    new dijit.form.ValidationTextBox({
+         id : "objDD.iNroFoliosTramite",
+         jsId :"objDD.iNroFoliosTramite",
+         name:  "objDD.iNroFolios",
+         maxLength : "7",
+         required: true,
+         invalidMessage:"Ingrese nro de folios totales del documento",
+         regExp:"[0-9]{1,7}",
+         style: "width:70px",
+         trim:"true"
 	}, "fsNroFoliosTramite");
         
-        
-        new dijit.form.ValidationTextBox({
-             id : "objDD.iNroFoliosPIDETramite",
-             jsId :"objDD.iNroFoliosPIDETramite",
-             name:  "objDD.iNroFoliosPIDE",
-             maxLength : "7",
-             required: false,
-             invalidMessage:"Ingrese nro de folios totales del documento",
-             regExp:"[0-9]{1,7}",
-             style: "width:70px",
-             trim:"true"
+    new dijit.form.ValidationTextBox({
+         id : "objDD.iNroFoliosPIDETramite",
+         jsId :"objDD.iNroFoliosPIDETramite",
+         name:  "objDD.iNroFoliosPIDE",
+         maxLength : "7",
+         required: false,
+         invalidMessage:"Ingrese nro de folios totales del documento",
+         regExp:"[0-9]{1,7}",
+         style: "width:70px",
+         trim:"true"
 	}, "fsNroFoliosPIDETramite");
         
-        /////
-        new dijit.form.ValidationTextBox({
-             id : "objDD.iNroFoliosOriginalesTramite",
-             jsId :"objDD.iNroFoliosOriginalesTramite",
-             name:  "objDD.iNroFoliosOriginales",
-             maxLength : "7",
-             required: true,
-             invalidMessage:"Ingrese nro de folios originales del documento",
-             regExp:"[0-9]{1,7}",
-             style: "width:70px",
-             trim:"true"
+    new dijit.form.ValidationTextBox({
+         id : "objDD.iNroFoliosOriginalesTramite",
+         jsId :"objDD.iNroFoliosOriginalesTramite",
+         name:  "objDD.iNroFoliosOriginales",
+         maxLength : "7",
+         required: true,
+         invalidMessage:"Ingrese nro de folios originales del documento",
+         regExp:"[0-9]{1,7}",
+         style: "width:70px",
+         trim:"true"
 	}, "fsNroFoliosOriginalesTramite");
         
-        new dijit.form.ValidationTextBox({
-             id : "objDD.iNroFoliosCopiasTramite",
-             jsId :"objDD.iNroFoliosCopiasTramite",
-             name:  "objDD.iNroFoliosCopias",
-             maxLength : "7",
-             required: false,
-             invalidMessage:"Ingrese nro de folios copias del documento",
-             regExp:"[0-9]{1,7}",
-             style: "width:70px",
-             trim:"true"
+    new dijit.form.ValidationTextBox({
+         id : "objDD.iNroFoliosCopiasTramite",
+         jsId :"objDD.iNroFoliosCopiasTramite",
+         name:  "objDD.iNroFoliosCopias",
+         maxLength : "7",
+         required: false,
+         invalidMessage:"Ingrese nro de folios copias del documento",
+         regExp:"[0-9]{1,7}",
+         style: "width:70px",
+         trim:"true"
 	}, "fsNroFoliosCopiasTramite");
         
-        new dijit.form.ValidationTextBox({
-             id : "objDD.iNroFoliosDigitalizadosTramite",
-             jsId :"objDD.iNroFoliosDigitalizadosTramite",
-             name:  "objDD.iNroFoliosDigitalizados",
-             maxLength : "7",
-             required: false,
-             invalidMessage:"Ingrese nro de folios digitalizados del documento",
-             regExp:"[0-9]{1,7}",
-             style: "width:70px",
-             trim:"true"
+    new dijit.form.ValidationTextBox({
+         id : "objDD.iNroFoliosDigitalizadosTramite",
+         jsId :"objDD.iNroFoliosDigitalizadosTramite",
+         name:  "objDD.iNroFoliosDigitalizados",
+         maxLength : "7",
+         required: false,
+         invalidMessage:"Ingrese nro de folios digitalizados del documento",
+         regExp:"[0-9]{1,7}",
+         style: "width:70px",
+         trim:"true"
 	}, "fsNroImagenesDigitalizadasTramite");
         
-        /////////
-         new dijit.form.ValidationTextBox({
+     new dijit.form.ValidationTextBox({
         id             : "objDD.desUnidadOrganicaTramite",
         jsId           : "objDD.desUnidadOrganicaTramite",
         name           : "objDD.desUnidadOrganica",
@@ -717,72 +700,68 @@ dojo.addOnLoad(function() {
         invalidMessage : "Ingrese la únidad orgánica" 
      }, "fsUnidadOrganicaTramite");
         
-        Siged.Forms.combobox("fsTipoAdjuntoTramite", {
-            id             : "idTipoAdjuntoTramite",
-            jsId           : "idTipoAdjuntoTramite",
-            name           : "idTipoAdjunto",
-            searchAttr     : "label",
-            searchDelay    : 600,
-            queryExpr      : "*${0}*",
-            autoComplete   : false,
-            hasDownArrow   : true,
-            highlightMatch : "all",
-            required       : false,
-            style          : "width:300px;",
-            invalidMessage : "Seleccione el tipo de adjunto",
-            storeUrl       : "autocompletarTipoAdjunto.action"
-         });
+    Siged.Forms.combobox("fsTipoAdjuntoTramite", {
+        id             : "idTipoAdjuntoTramite",
+        jsId           : "idTipoAdjuntoTramite",
+        name           : "idTipoAdjunto",
+        searchAttr     : "label",
+        searchDelay    : 600,
+        queryExpr      : "*${0}*",
+        autoComplete   : false,
+        hasDownArrow   : true,
+        highlightMatch : "all",
+        required       : false,
+        style          : "width:300px;",
+        invalidMessage : "Seleccione el tipo de adjunto",
+        storeUrl       : "autocompletarTipoAdjunto.action"
+     });
          
-         Siged.Forms.combobox("fsRecepcionTramite", {
-            id             : "objDD.esTipoRecepcionTramite",
-            jsId           : "objDD.esTipoRecepcionTramite",
-            name           : "objDD.esTipoRecepcion",
-            searchAttr     : "label",
-            searchDelay    : 600,
-            queryExpr      : "*${0}*",
-            autoComplete   : false,
-            hasDownArrow   : true,
-            highlightMatch : "all",
-            required       : true,
-            style          : "width:165px;",
-            invalidMessage : "Seleccione el tipo de recepción",
-            storeUrl       : "autocompletarParametroActivo.action?codParametro=ESTADOS_RECEPCION"
-         });
+     Siged.Forms.combobox("fsRecepcionTramite", {
+        id             : "objDD.esTipoRecepcionTramite",
+        jsId           : "objDD.esTipoRecepcionTramite",
+        name           : "objDD.esTipoRecepcion",
+        searchAttr     : "label",
+        searchDelay    : 600,
+        queryExpr      : "*${0}*",
+        autoComplete   : false,
+        hasDownArrow   : true,
+        highlightMatch : "all",
+        required       : true,
+        style          : "width:165px;",
+        invalidMessage : "Seleccione el tipo de recepción",
+        storeUrl       : "autocompletarParametroActivo.action?codParametro=ESTADOS_RECEPCION"
+     });
          
-           new dijit.form.ValidationTextBox({
-             id : "objDD.strNroDocumentoTramite",
-             jsId :"objDD.strNroDocumentoTramite",
-             maxLength : "35",
-             name:  "objDD.strNroDocumento",
-             invalidMessage:"Ingrese un Nro de Documento",
-             regExp: ".{1,45}",
-             required: false,
-             style: "width:165px",
-             trim:"true"
+   new dijit.form.ValidationTextBox({
+         id : "objDD.strNroDocumentoTramite",
+         jsId :"objDD.strNroDocumentoTramite",
+         maxLength : "35",
+         name:  "objDD.strNroDocumento",
+         invalidMessage:"Ingrese un Nro de Documento",
+         regExp: ".{1,45}",
+         required: false,
+         style: "width:165px",
+         trim:"true"
 	}, "fsNroDocumentoTramite");
-        
-      
 
-        new dijit.form.RadioButton({ 
-           checked: true,   
-           value: "0",
-           name: "objDD.idTipoCliente",
-           onClick: function(){mostrarTipoCliente(this.value);}
-         }, "fsClienteInstitucionTramite");
-      
-        new dijit.form.RadioButton({   
-           value: "2",
-           name: "objDD.idTipoCliente",
-           onClick: function(){mostrarTipoCliente(this.value);}
-         }, "fsClienteEmpresaTramite");
-      
-        new dijit.form.RadioButton({
-          value: "1",
-          name: "objDD.idTipoCliente",
-          onClick: function(){mostrarTipoCliente(this.value);}
-        },"fsClientePersonaTramite");
-        
-        
+    new dijit.form.RadioButton({
+       checked: true,   
+       value: "0",
+       name: "objDD.idTipoCliente",
+       onClick: function(){mostrarTipoCliente(this.value);}
+     }, "fsClienteInstitucionTramite");
+  
+    new dijit.form.RadioButton({   
+       value: "2",
+       name: "objDD.idTipoCliente",
+       onClick: function(){mostrarTipoCliente(this.value);}
+     }, "fsClienteEmpresaTramite");
+  
+    new dijit.form.RadioButton({
+      value: "1",
+      name: "objDD.idTipoCliente",
+      onClick: function(){mostrarTipoCliente(this.value);}
+    },"fsClientePersonaTramite");
     
     new dijit.form.FilteringSelect({
             id:   "objDD.iIdEmpresaTramite",
@@ -801,21 +780,19 @@ dojo.addOnLoad(function() {
                       this._timeKey = null;
             },
             _onSuggest: function() {
-                        if(this.attr('displayedValue').length > 2) {
-                                      if(this.store) {
-                                              //var url = 'autocompletarFiltroPersonas.action?desPersona=' + this.attr('displayedValue');
-                                              var url = 'autocompletarFiltroInstitucionesxTipo.action?desInstitucion=' + this.attr('displayedValue') + '&idTipoCliente=2';
-                                              this.store= new dojo.data.ItemFileWriteStore({url: url}); 
-                                              this.store.close();
-                                              this.store.fetch();
-                                              this._startSearch(dojo.trim(this.attr('displayedValue')));
-                                      }
+                if(this.attr('displayedValue').length > 2) {
+                      if(this.store) {
+                          //var url = 'autocompletarFiltroPersonas.action?desPersona=' + this.attr('displayedValue');
+                          var url = 'autocompletarFiltroInstitucionesxTipo.action?desInstitucion=' + this.attr('displayedValue') + '&idTipoCliente=2';
+                          this.store= new dojo.data.ItemFileWriteStore({url: url}); 
+                          this.store.close();
+                          this.store.fetch();
+                          this._startSearch(dojo.trim(this.attr('displayedValue')));
                       }
+                 }
               }
           },"fsEmpresaTramite");
-    
    
-        
        new dijit.form.ValidationTextBox({
        //Siged.Forms.combobox("fsPersonaEmpresaTramite", {
            id             : "objDD.idPersonaEmpresaTramite",
@@ -860,47 +837,44 @@ dojo.addOnLoad(function() {
                       this._timeKey = null;
             },
             _onSuggest: function() {
-                        if(this.attr('displayedValue').length > 2) {
-                                      if(this.store) {
-                                              //var url = 'autocompletarFiltroPersonas.action?desPersona=' + this.attr('displayedValue');
-                                              var url = 'autocompletarFiltroInstitucionesxTipo.action?desInstitucion=' + this.attr('displayedValue') + '&idTipoCliente=1';
-                                              this.store= new dojo.data.ItemFileWriteStore({url: url}); 
-                                              this.store.close();
-                                              this.store.fetch();
-                                              this._startSearch(dojo.trim(this.attr('displayedValue')));
-                                      }
-                      }
+                if(this.attr('displayedValue').length > 2) {
+	                  if(this.store) {
+	                      //var url = 'autocompletarFiltroPersonas.action?desPersona=' + this.attr('displayedValue');
+	                      var url = 'autocompletarFiltroInstitucionesxTipo.action?desInstitucion=' + this.attr('displayedValue') + '&idTipoCliente=1';
+	                      this.store= new dojo.data.ItemFileWriteStore({url: url}); 
+	                      this.store.close();
+	                      this.store.fetch();
+	                      this._startSearch(dojo.trim(this.attr('displayedValue')));
+	                  }
+          		 }
               }
           },"fsInstitucionTramite");
     
    
-       new dijit.form.ValidationTextBox({
-           id             : "objDD.idPersonaInstitucionTramite",
-           jsId           : "objDD.idPersonaInstitucionTramite",
-           name           : "objDD.idPersonaInstitucion",
-           maxLength : "80",
-           required       : true,
-           uppercase : true,
-           style          : "width:300px;",
-           invalidMessage : "Ingrese los nombres de la persona"
-           
-        }, "fsPersonaInstitucionTramite");
+   new dijit.form.ValidationTextBox({
+       id             : "objDD.idPersonaInstitucionTramite",
+       jsId           : "objDD.idPersonaInstitucionTramite",
+       name           : "objDD.idPersonaInstitucion",
+       maxLength : "80",
+       required       : true,
+       uppercase : true,
+       style          : "width:300px;",
+       invalidMessage : "Ingrese los nombres de la persona"
+       
+    }, "fsPersonaInstitucionTramite");
    
-         new dijit.form.ValidationTextBox({
-         //Siged.Forms.combobox("fsCargoPersonaInstitucionTramite", {
-            id             : "objDD.codCargoPersonaInstitucionTramite",
-            jsId           : "objDD.codCargoPersonaInstitucionTramite",
-            name           : "objDD.codCargoPersonaInstitucion",
-            maxLength : "80",
-            uppercase : true,
-            required       : true,
-            style          : "width:300px;",
-            invalidMessage : "Ingrese el cargo del remitente" 
-         }, "fsCargoPersonaInstitucionTramite");
-        
-        
-    /////////////////////  PERSONA NATURAL /////////////////////////// 
-    
+	 new dijit.form.ValidationTextBox({
+	 //Siged.Forms.combobox("fsCargoPersonaInstitucionTramite", {
+	    id             : "objDD.codCargoPersonaInstitucionTramite",
+	    jsId           : "objDD.codCargoPersonaInstitucionTramite",
+	    name           : "objDD.codCargoPersonaInstitucion",
+	    maxLength : "80",
+	    uppercase : true,
+	    required       : true,
+	    style          : "width:300px;",
+	    invalidMessage : "Ingrese el cargo del remitente" 
+	 }, "fsCargoPersonaInstitucionTramite");
+     
    new dijit.form.FilteringSelect({
       id:   "objDD.idPersonaNaturalTramite",
       jsId: "objDD.idPersonaNaturalTramite",
@@ -919,12 +893,12 @@ dojo.addOnLoad(function() {
       },
       _onSuggest: function() {
 	          if(this.attr('displayedValue').length > 2) {
-                                if(this.store) {
-                                	var url = 'autocompletarFiltroPersonas.action?desPersona=' + this.attr('displayedValue');
-                                	this.store= new dojo.data.ItemFileWriteStore({url: url}); 
-                			this.store.close();
-                			this.store.fetch();
-                                        this._startSearch(dojo.trim(this.attr('displayedValue')));
+		            if(this.store) {
+		            	var url = 'autocompletarFiltroPersonas.action?desPersona=' + this.attr('displayedValue');
+		            	this.store= new dojo.data.ItemFileWriteStore({url: url}); 
+						this.store.close();
+						this.store.fetch();
+	                    this._startSearch(dojo.trim(this.attr('displayedValue')));
 				}
 		}
 	}
@@ -943,11 +917,6 @@ dojo.addOnLoad(function() {
         invalidMessage : "Ingrese el cargo del remitente"//,
         //storeUrl       : "autocompletarCargo.action"
      }, "fsCargoPersonaNaturalTramite");
-    
-     
-   
-   
-   
 
    if(TIPO_TRANSACCION+"" == "A"){
        llenarCamposReferencia();
@@ -968,5 +937,4 @@ dojo.addOnLoad(function() {
    }      
    
    //crearBotonAdjuntar(); 
-    
   });

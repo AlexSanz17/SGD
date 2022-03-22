@@ -92,7 +92,6 @@
       <action name="listaSedes" method="listaSedes" class="AutoCompletarAction" />
       <action name="procesoMesaPartes" method="procesoMesaPartes" class="AutoCompletarAction" />
 
-
       <action name="listaMotivos" method="listaMotivos" class="AutoCompletarAction" />
       <action name="listaSubMotivos" method="listaSubMotivos" class="AutoCompletarAction" />
       <action name="listaMonedas" method="listaMonedas" class="AutoCompletarAction" />
@@ -182,6 +181,5 @@
        <action name="autocompletarTipoDocumentoMTC" method="autocompletarTipoDocumentoMTC" class="AutoCompletarAction"></action>
        <action name="autocompletarAno" method="autocompletarAno" class="AutoCompletarAction"></action>
        <action name="autocompletarMes" method="autocompletarMes" class="AutoCompletarAction"></action>
-      
    </package>
 </struts>

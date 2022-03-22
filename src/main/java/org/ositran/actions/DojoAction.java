@@ -1,9 +1,6 @@
-/*LICENCIA DE USO DEL SGD .TXT*/
 package org.ositran.actions;
 
 import static org.ositran.utils.StringUtil.isEmpty;
-import gob.ositran.siged.config.SigedProperties;
-import gob.ositran.siged.service.SeguridadService;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -14,13 +11,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.ositran.daos.DocumentoExternoVirtualDAO;
-import org.ositran.services.SeguimientoService;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
-import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import java.net.URL;
+import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,168 +30,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jxls.transformer.XLSTransformer;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.json.annotations.SMDMethod;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.ositran.daos.AuditoriaDAO;
-import org.ositran.daos.DistritoDAO;
-import org.ositran.daos.DocumentoDAO;
-import org.ositran.daos.PerfilDAO;
-import org.ositran.daos.ReemplazoDAO;
-import org.ositran.dojo.BusquedaAvanzada;
-import org.ositran.dojo.ClienteBeanJson;
-import org.ositran.dojo.ClienteJSon;
-import org.ositran.dojo.NumeracionJSON;
-import org.ositran.dojo.ObjetoJSON;
-import org.ositran.dojo.ProcesoBeanJson;
-import org.ositran.dojo.Recurso;
-import org.ositran.dojo.grid.Estructura;
-import org.ositran.dojo.grid.GridUsuario;
-import org.ositran.dojo.grid.Item;
-import org.ositran.dojo.grid.ItemDocumento;
-import org.ositran.dojo.grid.ItemUF;
-import org.ositran.dojo.tree.ReferenciaArbol;
-import org.ositran.dojo.tree.SimpleNode;
-import org.ositran.dojo.tree.SimpleNode2;
-import org.ositran.dojo.tree.SimpleNodeLeaf;
-import org.ositran.services.AccionService;
-import org.ositran.services.ArchivoService;
-import org.ositran.services.CampoService;
-import org.ositran.services.CarpetabusquedaService;
-import org.ositran.services.ClienteService;
-import org.ositran.services.ConcesionarioService;
-import org.ositran.services.DocumentoService;
-import org.ositran.services.DocumentoxclienteService;
-import org.ositran.services.ExpedienteService;
-import org.ositran.services.ExpedientestorService;
-import org.ositran.services.FavoritoService;
-import org.ositran.services.GridcolumnaxusuarioService;
-import org.ositran.services.ItemService;
-import org.ositran.services.LogBusquedaAvanzadaService;
-import org.ositran.services.LogOperacionService;
-import org.ositran.services.ManejoDeEmailService;
-import org.ositran.services.MensajeriaService;
-import org.ositran.services.NotificacionService;
-import org.ositran.services.NumeracionService;
-import org.ositran.services.ReferenciaArchivoService;
-import org.ositran.services.RepositorioServiceWebservice;
-import org.ositran.services.ParametroService;
-import org.ositran.services.PlantillaService;
-import org.ositran.services.ProcesoService;
-import org.ositran.services.RecepcionVirtualService;
-import org.ositran.services.RolService;
-import org.ositran.services.SupervisorService;
-import org.ositran.services.TipodocumentoService;
-import org.ositran.services.TipoidentificacionService;
-import org.ositran.services.TrazabilidaddocumentoService;
-import org.ositran.services.UnidadService;
-import org.ositran.services.UsuarioService;
-import org.ositran.siged.service.AlfrescoWSService;
-import org.ositran.utils.ArchivoTemporal;
-import org.ositran.utils.Constantes;
-import org.ositran.utils.FechaLimite;
-import org.springframework.jms.IllegalStateException;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.antartec.alfresco.AlfrescoConnector;
-import com.antartec.alfresco.AlfrescoConnector.RETURN_CODE;
-import com.btg.ositran.siged.domain.Alerta;
-import com.btg.ositran.siged.domain.TipoLegajoUnidad;
-import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfImage;
-import com.itextpdf.text.pdf.PdfIndirectObject;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.btg.ositran.siged.domain.Archivo;
-import com.btg.ositran.siged.domain.Auditoria;
-import com.btg.ositran.siged.domain.Campo;
-import com.btg.ositran.siged.domain.FirmaArchivo;
-import com.btg.ositran.siged.domain.CargoAdministrado;
-import com.btg.ositran.siged.domain.LegajoDocumento;
-import com.btg.ositran.siged.domain.CarpetaBusqueda;
-import com.btg.ositran.siged.domain.Cliente;
-import com.btg.ositran.siged.domain.Concesionario;
-import com.btg.ositran.siged.domain.SeguimientoXFirma;
-import com.btg.ositran.siged.domain.DetalleCliente;
-import com.btg.ositran.siged.domain.Distrito;
-import com.btg.ositran.siged.domain.Documento;
-import com.btg.ositran.siged.domain.Legajo;
-import com.btg.ositran.siged.domain.DocumentoAdjunto;
-import com.btg.ositran.siged.domain.DocumentoAtendido;
-import com.btg.ositran.siged.domain.DocumentoPendiente;
-import com.btg.ositran.siged.domain.DocumentoReferencia;
-import com.btg.ositran.siged.domain.Documentoenviado;
-import com.btg.ositran.siged.domain.Expediente;
-import com.btg.ositran.siged.domain.Favorito;
-import com.btg.ositran.siged.domain.FilaBandejaUF;
-import com.btg.ositran.siged.domain.GridXGridColumna;
-import com.btg.ositran.siged.domain.Gridcolumnaxusuario;
-import com.btg.ositran.siged.domain.Mensajeria;
-import com.btg.ositran.siged.domain.Notificacion;
-import com.btg.ositran.siged.domain.Numeracion;
-import com.btg.ositran.siged.domain.Parametro;
-import com.btg.ositran.siged.domain.Perfil;
-import com.btg.ositran.siged.domain.Tipodocumento;
-import com.btg.ositran.siged.domain.Plantilla;
-import com.btg.ositran.siged.domain.Proceso;
-import com.btg.ositran.siged.domain.Reemplazo;
-import com.btg.ositran.siged.domain.ReferenciaArchivo;
-import com.btg.ositran.siged.domain.Rol;
-import com.btg.ositran.siged.domain.Supervisor;
-import com.btg.ositran.siged.domain.TipoLegajo;
-import com.btg.ositran.siged.domain.Tipoidentificacion;
-import com.btg.ositran.siged.domain.Trazabilidadapoyo;
-import com.btg.ositran.siged.domain.Trazabilidaddocumento;
-import com.btg.ositran.siged.domain.Unidad;
-import com.btg.ositran.siged.domain.Usuario;
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
-import com.ositran.cmis.api.AlfrescoApiWs;
-import java.math.BigDecimal;
-import java.net.URLConnection;
-import java.nio.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.text.DateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;
@@ -206,33 +51,175 @@ import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.json.annotations.SMDMethod;
 import org.json.JSONException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.ositran.common.alfresco.AuthThreadLocalHolder;
+import org.ositran.daos.AuditoriaDAO;
 import org.ositran.daos.DespachoVirtualDAO;
+import org.ositran.daos.DistritoDAO;
 import org.ositran.daos.DocumentoAtendidoDAO;
+import org.ositran.daos.DocumentoDAO;
+import org.ositran.daos.DocumentoExternoVirtualDAO;
 import org.ositran.daos.DocumentoPendienteDAO;
+import org.ositran.daos.PerfilDAO;
 import org.ositran.daos.RecepcionVirtualDAO;
+import org.ositran.daos.ReemplazoDAO;
 import org.ositran.daos.SeguimientoXFirmaDAO;
 import org.ositran.daos.TipoLegajoDAO;
 import org.ositran.daos.TipoLegajoUnidadDAO;
 import org.ositran.daos.UsuarioxunidadxfuncionDAO;
 import org.ositran.dojo.ArchivoJSON;
+import org.ositran.dojo.BusquedaAvanzada;
+import org.ositran.dojo.ClienteBeanJson;
+import org.ositran.dojo.ClienteJSon;
+import org.ositran.dojo.NumeracionJSON;
+import org.ositran.dojo.ObjetoJSON;
+import org.ositran.dojo.ProcesoBeanJson;
+import org.ositran.dojo.Recurso;
 import org.ositran.dojo.RemitenteJSON;
 import org.ositran.dojo.TipoDocumentoJSon;
+import org.ositran.dojo.grid.Estructura;
+import org.ositran.dojo.grid.GridUsuario;
+import org.ositran.dojo.grid.Item;
+import org.ositran.dojo.grid.ItemDocumento;
+import org.ositran.dojo.grid.ItemUF;
 import org.ositran.dojo.tree.NodoArbol;
+import org.ositran.dojo.tree.ReferenciaArbol;
+import org.ositran.dojo.tree.SimpleNode;
+import org.ositran.dojo.tree.SimpleNode2;
+import org.ositran.dojo.tree.SimpleNodeLeaf;
+import org.ositran.services.AccionService;
+import org.ositran.services.ArchivoService;
+import org.ositran.services.CampoService;
 import org.ositran.services.CargoAdministradoService;
+import org.ositran.services.CarpetabusquedaService;
+import org.ositran.services.ClienteService;
+import org.ositran.services.ConcesionarioService;
 import org.ositran.services.DetalleClienteService;
 import org.ositran.services.DocumentoAdjuntoService;
 import org.ositran.services.DocumentoEnviadoService;
 import org.ositran.services.DocumentoReferenciaService;
+import org.ositran.services.DocumentoService;
+import org.ositran.services.DocumentoxclienteService;
+import org.ositran.services.ExpedienteService;
+import org.ositran.services.ExpedientestorService;
+import org.ositran.services.FavoritoService;
 import org.ositran.services.FirmaArchivoService;
+import org.ositran.services.GridcolumnaxusuarioService;
+import org.ositran.services.ItemService;
 import org.ositran.services.LegajoDocumentoService;
 import org.ositran.services.LegajoService;
+import org.ositran.services.LogBusquedaAvanzadaService;
+import org.ositran.services.LogOperacionService;
+import org.ositran.services.ManejoDeEmailService;
+import org.ositran.services.MensajeriaService;
+import org.ositran.services.NotificacionService;
+import org.ositran.services.NumeracionService;
+import org.ositran.services.ParametroService;
 import org.ositran.services.PerfilService;
+import org.ositran.services.PlantillaService;
+import org.ositran.services.ProcesoService;
+import org.ositran.services.RecepcionVirtualService;
+import org.ositran.services.ReferenciaArchivoService;
+import org.ositran.services.RolService;
+import org.ositran.services.SeguimientoService;
 import org.ositran.services.SeguimientoXFirmaService;
+import org.ositran.services.SupervisorService;
+import org.ositran.services.TipodocumentoService;
+import org.ositran.services.TipoidentificacionService;
 import org.ositran.services.TrazabilidadapoyoService;
+import org.ositran.services.TrazabilidaddocumentoService;
+import org.ositran.services.UnidadService;
+import org.ositran.services.UsuarioService;
+import org.ositran.siged.service.AlfrescoWSService;
+import org.ositran.utils.ArchivoTemporal;
+import org.ositran.utils.Constantes;
+import org.ositran.utils.FechaLimite;
 import org.ositran.utils.StringUtil;
-import org.ositran.utils.UtilOsinerg;
+import org.springframework.jms.IllegalStateException;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.antartec.alfresco.AlfrescoConnector;
+import com.antartec.alfresco.AlfrescoConnector.RETURN_CODE;
+import com.btg.ositran.siged.domain.Alerta;
+import com.btg.ositran.siged.domain.Archivo;
+import com.btg.ositran.siged.domain.Auditoria;
+import com.btg.ositran.siged.domain.Campo;
+import com.btg.ositran.siged.domain.CargoAdministrado;
+import com.btg.ositran.siged.domain.CarpetaBusqueda;
+import com.btg.ositran.siged.domain.Cliente;
+import com.btg.ositran.siged.domain.Concesionario;
+import com.btg.ositran.siged.domain.DetalleCliente;
+import com.btg.ositran.siged.domain.Distrito;
+import com.btg.ositran.siged.domain.Documento;
+import com.btg.ositran.siged.domain.DocumentoAdjunto;
+import com.btg.ositran.siged.domain.DocumentoAtendido;
+import com.btg.ositran.siged.domain.DocumentoPendiente;
+import com.btg.ositran.siged.domain.DocumentoReferencia;
+import com.btg.ositran.siged.domain.Documentoenviado;
+import com.btg.ositran.siged.domain.Expediente;
+import com.btg.ositran.siged.domain.Favorito;
+import com.btg.ositran.siged.domain.FilaBandejaUF;
+import com.btg.ositran.siged.domain.FirmaArchivo;
+import com.btg.ositran.siged.domain.GridXGridColumna;
+import com.btg.ositran.siged.domain.Gridcolumnaxusuario;
+import com.btg.ositran.siged.domain.IotdtmDocExterno;
+import com.btg.ositran.siged.domain.Legajo;
+import com.btg.ositran.siged.domain.LegajoDocumento;
+import com.btg.ositran.siged.domain.Mensajeria;
+import com.btg.ositran.siged.domain.Notificacion;
+import com.btg.ositran.siged.domain.Numeracion;
+import com.btg.ositran.siged.domain.Parametro;
+import com.btg.ositran.siged.domain.Perfil;
+import com.btg.ositran.siged.domain.Plantilla;
+import com.btg.ositran.siged.domain.Proceso;
+import com.btg.ositran.siged.domain.Reemplazo;
+import com.btg.ositran.siged.domain.ReferenciaArchivo;
+import com.btg.ositran.siged.domain.Rol;
+import com.btg.ositran.siged.domain.SeguimientoXFirma;
+import com.btg.ositran.siged.domain.Supervisor;
+import com.btg.ositran.siged.domain.TipoLegajo;
+import com.btg.ositran.siged.domain.Tipodocumento;
+import com.btg.ositran.siged.domain.Tipoidentificacion;
+import com.btg.ositran.siged.domain.Trazabilidadapoyo;
+import com.btg.ositran.siged.domain.Trazabilidaddocumento;
+import com.btg.ositran.siged.domain.Unidad;
+import com.btg.ositran.siged.domain.Usuario;
+import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
+import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionContext;
+import com.ositran.cmis.api.AlfrescoApiWs;
+
+import gob.ositran.siged.config.SigedProperties;
+import gob.ositran.siged.service.SeguridadService;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jxls.transformer.XLSTransformer;
 
 public class DojoAction {
 
@@ -307,53 +294,42 @@ public class DojoAction {
 	private ProcesoService procesoService;
 	private FechaLimite fechaLimite;
 	private ManejoDeEmailService mailService;
-	private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
-	private SeguimientoXFirmaService seguimientoXFirmaService;
-	private ReferenciaArchivoService referenciaArchivoService;
-	private LegajoService legajoService;
-	private LegajoDocumentoService legajoDocumentoService;
-	private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
-	private DocumentoEnviadoService documentoenviadoService;
-	private TrazabilidadapoyoService trazabilidadapoyoService;
-	private DocumentoPendienteDAO documentoPendienteDAO;
-	private DocumentoAtendidoDAO documentoAtendidoDAO;
-	private TipoLegajoDAO tipoLegajoDAO;
-	private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
-	private RecepcionVirtualDAO recepcionVirtualDAO;
-	private DespachoVirtualDAO despachoVirtualDAO;
+    private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
+    private SeguimientoXFirmaService seguimientoXFirmaService;
+    private ReferenciaArchivoService referenciaArchivoService;
+    private LegajoService legajoService;
+    private LegajoDocumentoService legajoDocumentoService;
+    private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
+    private DocumentoEnviadoService documentoenviadoService;
+    private TrazabilidadapoyoService trazabilidadapoyoService;
+    private DocumentoPendienteDAO documentoPendienteDAO;
+    private DocumentoAtendidoDAO documentoAtendidoDAO;
+    private TipoLegajoDAO tipoLegajoDAO;
+    private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+    private RecepcionVirtualDAO recepcionVirtualDAO;
+    private DespachoVirtualDAO despachoVirtualDAO;
+    
+    private SeguridadService seguridadService;
+    private AlfrescoConnector alfrescoConnector;
+    private static String USERCREADOR=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
+    private static String USERCREADOR_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
+    
+    private static String rutaOrigen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAORIGEN);
+    private static String rutaDestino = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTADESTINO);
+    private static String rutaImagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAIMAGEN);
+    private static String imagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_IMAGEN);
+    private static String usarPersonalizado = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_USARPERSONALIZADO);
+    private static String tipoFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
+    private static String invisible = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_INVISIBLE);
+    private static String posicionFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_POSICIONFIRMA);
+    private static String ubicacionPagina = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_UBICACIONPAGINA);
+    private static String numeroPagina = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_NUMEROPAGINA);
+    private static String estiloFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_ESTILOFIRMA);
+    private static String aplicarImagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_APLICARIMAGEN);    
 
-	private SeguridadService seguridadService;
-	private AlfrescoConnector alfrescoConnector;
-	private static String USERCREADOR = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
-	private static String USERCREADOR_CLAVE = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
-
-	private static String rutaOrigen = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAORIGEN);
-	private static String rutaDestino = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTADESTINO);
-	private static String rutaImagen = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAIMAGEN);
-	private static String imagen = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_IMAGEN);
-	private static String usarPersonalizado = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_USARPERSONALIZADO);
-	private static String tipoFirma = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
-	private static String invisible = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_INVISIBLE);
-	private static String posicionFirma = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_POSICIONFIRMA);
-	private static String ubicacionPagina = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_UBICACIONPAGINA);
-	private static String numeroPagina = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_NUMEROPAGINA);
-	private static String estiloFirma = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_ESTILOFIRMA);
-	private static String aplicarImagen = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_APLICARIMAGEN);
-
+	private final String REPOSITORIO_ID = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
+	private FirmaArchivoService firmaArchivoService;
+	
 	public DojoAction() {
 		log.info("Iniciando DojoAction");
 
@@ -370,7 +346,6 @@ public class DojoAction {
 		alfrescoConnector.setServerHost(alfrescoHost);
 		alfrescoConnector.setServerPort(alfrescoPort);
 		alfrescoConnector.setServerURL(sb.toString());
-
 	}
 
 	public RecepcionVirtualDAO getRecepcionVirtualDAO() {
@@ -470,10 +445,6 @@ public class DojoAction {
 		this.referenciaArchivoService = referenciaArchivoService;
 	}
 
-	private final String REPOSITORIO_ID = SigedProperties
-			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
-	private FirmaArchivoService firmaArchivoService;
-
 	public FirmaArchivoService getFirmaArchivoService() {
 		return firmaArchivoService;
 	}
@@ -561,7 +532,43 @@ public class DojoAction {
 	public void setLogBusquedaAvanzadaService(LogBusquedaAvanzadaService logBusquedaAvanzadaService) {
 		this.logBusquedaAvanzadaService = logBusquedaAvanzadaService;
 	}
+	
+	public LogOperacionService getLogOperacionService() {
+		return logOperacionService;
+	}
 
+	public void setLogOperacionService(LogOperacionService logOperacionService) {
+		this.logOperacionService = logOperacionService;
+	}
+
+	public TrazabilidaddocumentoService getTrazabilidadDocumentoService() {
+		return trazabilidadDocumentoService;
+	}
+
+	public void setTrazabilidadDocumentoService(TrazabilidaddocumentoService trazabilidadDocumentoService) {
+		this.trazabilidadDocumentoService = trazabilidadDocumentoService;
+	}
+
+	public SeguimientoService getSeguimientoService() {
+		return seguimientoService;
+	}
+
+	public void setSeguimientoService(SeguimientoService seguimientoService) {
+		this.seguimientoService = seguimientoService;
+	}
+
+	public DocumentoAdjuntoService getDocumentoAdjuntoService() {
+		return documentoAdjuntoService;
+	}
+
+	public void setDocumentoAdjuntoService(DocumentoAdjuntoService documentoAdjuntoService) {
+		this.documentoAdjuntoService = documentoAdjuntoService;
+	}
+
+	public void setSeguridadService(SeguridadService seguridadService) {
+		this.seguridadService = seguridadService;
+	}
+	
 	public String execute() throws Exception {
 		log.debug("-> [Action] DojoAction - execute():String ");
 		return Action.SUCCESS;
@@ -641,7 +648,7 @@ public class DojoAction {
 		String nombrePC = (String) mapSession.get("nombrePC");
 		objDocumento = documentoService.updateNoLeido(iIdToUpdate, nombrePC);
 		log.debug("Documento actualizado con ID [" + objDocumento.getIdDocumento() + "] a estado no leido ["
-				+ objDocumento.getLeido() + "]");
+			+ objDocumento.getLeido() + "]");
 
 		return "done";
 	}
@@ -3439,7 +3446,7 @@ public class DojoAction {
 	@SMDMethod
 	public String validarFirmado(String nombreArchivo, String objectId, String idCodigo, String accionEjecutar) {
 		log.info("validarFirmado (nombreArchivo):" + nombreArchivo + ",(objectId):" + objectId + ",(idCodigo):"
-				+ idCodigo);
+			+ idCodigo);
 		String estado = "0";
 
 		log.info("=============================Aqui se valida firmado===============================");
@@ -3447,10 +3454,8 @@ public class DojoAction {
 
 		try {
 			String ALFRESCO_ROOT = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
-			String FIRMAS_FIRMADOS = SigedProperties
-					.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_FIRMADOS);
-			String TIPOFIRMA = SigedProperties
-					.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
+			String FIRMAS_FIRMADOS = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_FIRMADOS);
+			String TIPOFIRMA = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
 			String POR_FIRMAR = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
 
 			String fullPathFirmado = FIRMAS_FIRMADOS + nombreArchivo;
@@ -5791,41 +5796,4 @@ public class DojoAction {
 
 		return respuesta;
 	}
-
-	public LogOperacionService getLogOperacionService() {
-		return logOperacionService;
-	}
-
-	public void setLogOperacionService(LogOperacionService logOperacionService) {
-		this.logOperacionService = logOperacionService;
-	}
-
-	public TrazabilidaddocumentoService getTrazabilidadDocumentoService() {
-		return trazabilidadDocumentoService;
-	}
-
-	public void setTrazabilidadDocumentoService(TrazabilidaddocumentoService trazabilidadDocumentoService) {
-		this.trazabilidadDocumentoService = trazabilidadDocumentoService;
-	}
-
-	public SeguimientoService getSeguimientoService() {
-		return seguimientoService;
-	}
-
-	public void setSeguimientoService(SeguimientoService seguimientoService) {
-		this.seguimientoService = seguimientoService;
-	}
-
-	public DocumentoAdjuntoService getDocumentoAdjuntoService() {
-		return documentoAdjuntoService;
-	}
-
-	public void setDocumentoAdjuntoService(DocumentoAdjuntoService documentoAdjuntoService) {
-		this.documentoAdjuntoService = documentoAdjuntoService;
-	}
-
-	public void setSeguridadService(SeguridadService seguridadService) {
-		this.seguridadService = seguridadService;
-	}
-
 }

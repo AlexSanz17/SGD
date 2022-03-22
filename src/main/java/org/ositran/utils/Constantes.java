@@ -3,7 +3,7 @@ package org.ositran.utils;
 import java.text.SimpleDateFormat;
 
 public class Constantes{
-        public static final String AREAS_ACCESO_GENERAL="AREAS_ACCESO_GENERAL";
+    public static final String AREAS_ACCESO_GENERAL="AREAS_ACCESO_GENERAL";
 	// ///////////////////////////////////////////////////////////////////////////
 	// ///////////////////////////////////////////////////////////////////////////
 	public static final String AUDITORIA_OPCION_GUARDAR="Guardar";
@@ -385,15 +385,14 @@ public class Constantes{
 	public static final String NUMERACION_POR_PROCESO="P";
 	public static final String NUMERACION_POR_GRUPO_PROCESO="G";
 	// Envio de correo electronico
-
 	public static final String PARAMETRO_MAIL_ADMIN = "MAIL_ADMIN";
 	public static final String PARAMETRO_MAIL_FILEPATH_CREACION_EXPEDIENTE = "MAIL_FILEPATH_CREACION_EXPEDIENTE";
 	public static final String PARAMETRO_MAIL_FILEPATH_INGRESO_DOCUMENTO_QAS = "MAIL_FILEPATH_INGRESO_DOCUMENTO_QAS";
 	public static final String PARAMETRO_MAIL_FILEPATH_INGRESO_DOCUMENTO_USERFINAL = "MAIL_FILEPATH_INGRESO_DOCUMENTO_USERFINAL";
 	public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_REENVIAR = "MAIL_FILEPATH_DOCUMENTO_REENVIAR";
-        public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_PARTICULAR_MTC = "MAIL_FILEPATH_DOCUMENTO_PARTICULAR_MTC";
-        public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_PARTICULAR_CR = "MAIL_FILEPATH_DOCUMENTO_PARTICULAR_CR";
-        public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_PARTICULAR_PCM = "MAIL_FILEPATH_DOCUMENTO_PARTICULAR_PCM";
+    public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_PARTICULAR_MTC = "MAIL_FILEPATH_DOCUMENTO_PARTICULAR_MTC";
+    public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_PARTICULAR_CR = "MAIL_FILEPATH_DOCUMENTO_PARTICULAR_CR";
+    public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_PARTICULAR_PCM = "MAIL_FILEPATH_DOCUMENTO_PARTICULAR_PCM";
 	public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_RECHAZAR = "MAIL_FILEPATH_DOCUMENTO_RECHAZAR";
 	public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_CCREENVIAR = "MAIL_FILEPATH_DOCUMENTO_CCREENVIAR";
 	public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_PORAPROBAR = "MAIL_FILEPATH_DOCUMENTO_PORAPROBAR";
@@ -469,15 +468,14 @@ public class Constantes{
 	public static final String RECURSO_MIS_EXPEDIENTES = "UsuFinMnuMisExp";
 	public static final String RECURSO_NOTIFICACIONES = "UsuFinMnuNotif";
 	public static final String RECURSO_INFORMATIVOS = "UsuFinMnuInfo";
-        public static final String RECURSO_FIRMA = "UsuFinMnuFirma";
-        public static final String RECURSO_RECEPCION_VIRTUAL_OBSERVADOS = "UsuFinMnuRecObs";
-        
-        
-        public static final String RECURSO_RECEPCION_VIRTUAL = "UsuFinMnuRecVirtual";
-        public static final String RECURSO_DESPACHO_VIRTUAL = "UsuFinMnuDesVirtual";
-        public static final String RECURSO_MIS_RECEPCION_VIRTUAL = "UsuFinMnuMisRecVirtual";
-        
-        public static final String RECURSO_DOC_REGISTADOS = "MPMnuDocReg";
+    public static final String RECURSO_FIRMA = "UsuFinMnuFirma";
+    public static final String RECURSO_RECEPCION_VIRTUAL_OBSERVADOS = "UsuFinMnuRecObs";
+    
+    public static final String RECURSO_RECEPCION_VIRTUAL = "UsuFinMnuRecVirtual";
+    public static final String RECURSO_DESPACHO_VIRTUAL = "UsuFinMnuDesVirtual";
+    public static final String RECURSO_MIS_RECEPCION_VIRTUAL = "UsuFinMnuMisRecVirtual";
+    
+    public static final String RECURSO_DOC_REGISTADOS = "MPMnuDocReg";
 	public static final String RECURSO_DOC_DIGITALIZADOS = "QASMnuDigitalizados";
 	public static final String RECURSO_DOC_DIGITALIZADOR = "DigMnuDocIng";
 	public static final String arrUnreadMenu[] = {RECURSO_DOC_REGISTADOS, RECURSO_NOTIFICACIONES, RECURSO_INFORMATIVOS, RECURSO_DOC_DIGITALIZADOS, RECURSO_DOC_DIGITALIZADOR, RECURSO_DOC_RECIBIDOS, RECURSO_MIS_EXPEDIENTES, RECURSO_FIRMA, RECURSO_MIS_RECEPCION_VIRTUAL, RECURSO_RECEPCION_VIRTUAL_OBSERVADOS};
@@ -487,9 +485,7 @@ public class Constantes{
 	public static final char ESTAENFLUJO_N = 'N';
 	public static final char ENVIADO_OEFA_S = 'S';
 	public static final char ENVIADO_OEFA_N = 'N';
-	/**
-	 * Codigos de error estandar para todo el Siged
-	 */
+	// Codigos de error estandar para todo el Siged
 	public static final String ERROR_ALFRESCO = "202";
 	public static final String ERROR_INTALIO = "303";
 	public static final String UNIDAD_PRESIDENCIA = "Presidencia";
@@ -503,7 +499,9 @@ public class Constantes{
 	public static final String EXPEDIENTE_ESTADO_ANULADO = "Anulado";
 	public static final String NRODCUMENTO_SIN_NUMERO = "SN";
 	public static final String FORMATO_FECHA = "dd/MM/yyyy";
-	public static final SimpleDateFormat FORAMATEADOR_FECHA = new SimpleDateFormat(FORMATO_FECHA);
+	public static final SimpleDateFormat FORAMATEADOR_FECHA = new SimpleDateFormat(FORMATO_FECHA);	
+	public static final String FORMATO_FECHA_HORA = "dd/MM/yyyy HH:mm:ss";
+	public static final SimpleDateFormat FORAMATEADOR_FECHA_HORA = new SimpleDateFormat(FORMATO_FECHA);	
 	public static final String NUEVO = "N";
 	public static final int CONFIGNOTIFMAIL_MAX_LENGTH = 5;
 	public static final int CONFIGNOTIFMAIL_CREACION_EXPEDIENTE = 0;
@@ -520,9 +518,9 @@ public class Constantes{
 	public static final int CONFIGNOTIFMAIL_DOCUMENTO_ARCHIVADO = 5;
 	public static final int CONFIGNOTIFMAIL_DOCUMENTO_OEFA = 6;
 	public static final int CONFIGNOTIFMAIL_DOCUMENTO_REENVIAR = 7;
-        public static final int CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_MTC = 20;
-        public static final int CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_CR = 21;
-        public static final int CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_PCM = 22;
+    public static final int CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_MTC = 20;
+    public static final int CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_CR = 21;
+    public static final int CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_PCM = 22;
 	public static final int CONFIGNOTIFMAIL_DOCUMENTO_PORAPROBAR = 8;
 	public static final int CONFIGNOTIFMAIL_DOCUMENTO_APROBAR = 9;
 	public static final int CONFIGNOTIFMAIL_DOCUMENTO_RECHAZAR = 99;
@@ -538,9 +536,9 @@ public class Constantes{
 	public static final String MAX_SIZE_FILE = "MAX_SIZE_FILE";
 	//Omar
 	/*public static final String RUTA_PADRE_ALFRESCO="Expedientes Osinergmin/";
-   public static final String RUTA_PADRE_ALFRESCO_COMPLETA="/Company Home/Expedientes Osinergmin/";*/
+   	public static final String RUTA_PADRE_ALFRESCO_COMPLETA="/Company Home/Expedientes Osinergmin/";*/
 	/*public static final String RUTA_PADRE_ALFRESCO="Temp/";
-   public static final String RUTA_PADRE_ALFRESCO_COMPLETA="/Company Home/Temp/";*/
+   	public static final String RUTA_PADRE_ALFRESCO_COMPLETA="/Company Home/Temp/";*/
 	public static final char OPERACION_CREATE = 'C';
 	public static final char OPERACION_UPDATE = 'U';
 	/*******************************HORAS DE ENTRADA Y SALIDA*********************************/
@@ -567,8 +565,8 @@ public class Constantes{
 	public static final String RUC_OSINERG1 = "20376082114";
 	public static final String PARAMETRO_TIPO_PREFIJONROEXPEDIENTE = "prefijonroexpediente";
 	public static final String PARAMETRO_TIPO_PREFIJONROEXPEDIENTEPRODUCCION = "prefijonroexpedienteproduccion";
-        public static final String PARAMETRO_TIPO_PREFIJONROLEGAJOPRODUCCION = "prefijonrolegajoproduccion";
-        public static final String PARAMETRO_TIPO_PREFIJONROTRAMITEPRODUCCION = "prefijonrotramiteproduccion";
+    public static final String PARAMETRO_TIPO_PREFIJONROLEGAJOPRODUCCION = "prefijonrolegajoproduccion";
+    public static final String PARAMETRO_TIPO_PREFIJONROTRAMITEPRODUCCION = "prefijonrotramiteproduccion";
 	public static final Integer EXPEDIENTE_FIRST_ID = 1;
 	public static final String PARAMETRO_TIPO_BOOKMARKFIRMA = "bookmarkFirma";
 	public static final String Usuario_SECRETARIA_ALFE = "MGUILLEN";
@@ -602,13 +600,13 @@ public class Constantes{
 	// ///////////////////////////////////////////////////////////////////////////
 	// ///////////////////////////////////////////////////////////////////////////
 	public static final String CODIGO_COMUNICACIONES_INT = "CI";
-        public static final String CODIGO_COMUNICACIONES_DE = "DE";
-        public static final String CODIGO_COMUNICACIONES_TUPA = "TUPA";
+    public static final String CODIGO_COMUNICACIONES_DE = "DE";
+    public static final String CODIGO_COMUNICACIONES_TUPA = "TUPA";
 	public static final String CODIGO_FLUJO_DOC = "ANT";
 
 	public static final String CODIGO_PROVEIDO_TRANSFERENCIA = "transferir";
         
-        public static final String CODIGO_PROVEIDO_FIRMAR = "9";
+    public static final String CODIGO_PROVEIDO_FIRMAR = "9";
 
 	/*************************************/
 	// Filtros Reportes y Consulta APN
@@ -619,12 +617,12 @@ public class Constantes{
 	public static final String ID_AREA="0";
 	public static final String TODOS_PRIORIDAD="TODOS";
 	public static final String ID_PRIORIDAD="-1";
-        public static final String PRIORIDAD_NORMAL= "1";
+    public static final String PRIORIDAD_NORMAL= "1";
 
 	public static final Integer CODIGO_AREA_GERENCIA = 18;
 	public static final Integer CODIGO_AREA_PRESIDENCIA = 13;
 	public static final Integer CODIGO_AREA_SECRETARIA_DIRECTORIO = 275;
-        public static final Integer CODIGO_AREA_GAU = 64;
+    public static final Integer CODIGO_AREA_GAU = 64;
 	/***********************/
 	//Tipo de Envio: TABLA DOCUMENTOENVIO
 	/***********************/
@@ -652,7 +650,7 @@ public class Constantes{
 	public static final String TIPO_DOCUMENTO_CARTA_CLIENTE = "3";
 	public static final String TIPO_DOCUMENTO_OFICIO_CLIENTE = "15";
         
-        public static final String TIPO_DOCUMENTO_HOJA_RECLAMACIONES = "414";
+    public static final String TIPO_DOCUMENTO_HOJA_RECLAMACIONES = "414";
 	public static final String TIPO_DOCUMENTO_SOLICITUD_INFORMACION = "376";
         
 	public static final String ID_PROCESO_DOCUMENTOS_EXTERNOS = "855";
@@ -667,69 +665,69 @@ public class Constantes{
 	public static final String CRITERIOS_CONFIDENCIAL = "CRITERIOS_CONFIDENCIAL";
 	public static final String CRITERIOS_CONFIDENCIAL_MATERIA_EXCEPTUADA = "05";
         
-        public static final String TIPO_INFORME_CONJUNTO = "396";
-        public static final String TIPO_MEMORANDO_CONJUNTO = "442";
-        public static final String PARAMETRO_UNIDAD_INFORME_CONJUNTO = "UNIDAD_INFORME_CONJUNTO";
-        public static final String PARAMETRO_TIPOS_DE_ADJUNTOS_MP = "TIPOS_DE_ADJUNTOS_MP";
-        public static final String PARAMETRO_ADJUNTO_COPIA_ORIGINAL = "ADJUNTO_COPIA_ORIGINAL";
-        public static final Integer TIPO_INSTITUCION_PERSONA = 999999;
-        
-        public static final Integer UNIDAD_TRAMITE = 164; 
-        public static final String COD_TIPOCLIENTE_INSTITUCION = "0";
-        public static final String COD_TIPOCLIENTE_PERSONA_NATUTAL = "1";
-        public static final String COD_TIPOCLIENTE_EMPRESA = "2";
-        
-        public static final String COD_TRAMITE_INTERNO = "0";
-        public static final String COD_TRAMITE_EXTERNO = "1";
-        
-        public static final String COD_TRAMITE_INTERNO_AREAS = "0";
-        public static final String COD_TRAMITE_EXTERNO_INSTITUCION = "1";
-        public static final String COD_TRAMITE_INTERNO_INSTITUCION = "0";
-        
-        public static final String COD_PERSONA_JURIDICA_INSTITUCION = "1";
-        public static final String COD_PERSONA_JURIDICA_EMPRESA = "2";
-        public static final String COD_PERSONA_NATURAL = "3";
-        
-        public static final String COD_TIPODOCUMENTO_402 = "402";
-        public static final String COD_TIPODOCUMENTO_404 = "404";
-        public static final String COD_TIPODOCUMENTO_405 = "405";
-        
-        public static final Integer COD_TIPODOCUMENTO_REQUERIMIENTO_TRIBUTARIO = 460;
-        
-        public static final String DIAS_LIMITE_AMBAR = "DIAS_LIMITE_AMBAR";
-        
-        public static final String COD_SICOR_MATERIA = "MATERIA";
-        public static final String COD_SICOR_INFRAESTRUCTURA = "INFRAESTRUCTURA";
-        
-        public static final Integer COD_CARGO_SECRETARIA = 4;
-        public static final Integer COD_CARGO_ENCARGADO = 7;
-        
-        public static final Integer COD_ROL_LOCADOR = 5;
-        public static final Integer COD_ROL_TRAMITE = 3;
-        public static final Integer COD_ROL_MENSAJERIA = 6;
-        
-        public static final Integer DOCUMENTO_FINAL = 1;
-        public static final Integer DOCUMENTO_PROYECTO = 2;  
-        
-        public static final String ESTADOS_PIDE = "ESTADOS_PIDE";
-        
-        public static final String URL_PIDE_TRAMITE_DESARROLLO = "http://200.48.76.125/wsiopidetramite/IOTramite?wsdl";
-        public static final String URL_PIDE_TRAMITE_PRODUCCION = "https://ws3.pide.gob.pe/services/PcmIMgdTramite?wsdl";
-        public static final String URL_PIDE_TRAMITE_OSITRAN    = "http://100.134.1.191:1050/wsiotramitesgd/Tramite?wsdl"; 
-      
-        public static final String URL_PIDE_RUC_DESARROLLO = "http://200.48.76.125/wsentidad/Entidad?wsdl";
-        public static final String URL_PIDE_RUC_PRODUCCION = "https://ws3.pide.gob.pe/services/PcmIMgdEntidad?wsdl";
-        
-        public static final String URL_PIDE_CUO_PRODUCCION = "https://ws3.pide.gob.pe/services/PcmCuo?wsdl";
-        
-        public static final String AMBIENTE_WS_PIDE_RUC = "D";     //D - ORIGINAL
-        public static final String AMBIENTE_WS_PIDE_TRAMIE = "O";  //O - ORIGINAL
-        
-        public static final Integer SOLICITUD_INFORMACION_PUBLICA = 376;
-        public static final Integer HOJA_RECLAMACIONES = 414;
-        
-        public static final String KEY_SGD = "KEY_SGD";
-        
-        public static final String USUARIO_MENSAJERIA_VIRTUAL = "MENSAJERIAVIRTUAL";
-        public static final String COD_TIPODOCUMENTO_OFICIO_CIRCULAR = "327";
+    public static final String TIPO_INFORME_CONJUNTO = "396";
+    public static final String TIPO_MEMORANDO_CONJUNTO = "442";
+    public static final String PARAMETRO_UNIDAD_INFORME_CONJUNTO = "UNIDAD_INFORME_CONJUNTO";
+    public static final String PARAMETRO_TIPOS_DE_ADJUNTOS_MP = "TIPOS_DE_ADJUNTOS_MP";
+    public static final String PARAMETRO_ADJUNTO_COPIA_ORIGINAL = "ADJUNTO_COPIA_ORIGINAL";
+    public static final Integer TIPO_INSTITUCION_PERSONA = 999999;
+    
+    public static final Integer UNIDAD_TRAMITE = 164; 
+    public static final String COD_TIPOCLIENTE_INSTITUCION = "0";
+    public static final String COD_TIPOCLIENTE_PERSONA_NATUTAL = "1";
+    public static final String COD_TIPOCLIENTE_EMPRESA = "2";
+    
+    public static final String COD_TRAMITE_INTERNO = "0";
+    public static final String COD_TRAMITE_EXTERNO = "1";
+    
+    public static final String COD_TRAMITE_INTERNO_AREAS = "0";
+    public static final String COD_TRAMITE_EXTERNO_INSTITUCION = "1";
+    public static final String COD_TRAMITE_INTERNO_INSTITUCION = "0";
+    
+    public static final String COD_PERSONA_JURIDICA_INSTITUCION = "1";
+    public static final String COD_PERSONA_JURIDICA_EMPRESA = "2";
+    public static final String COD_PERSONA_NATURAL = "3";
+    
+    public static final String COD_TIPODOCUMENTO_402 = "402";
+    public static final String COD_TIPODOCUMENTO_404 = "404";
+    public static final String COD_TIPODOCUMENTO_405 = "405";
+    
+    public static final Integer COD_TIPODOCUMENTO_REQUERIMIENTO_TRIBUTARIO = 460;
+    
+    public static final String DIAS_LIMITE_AMBAR = "DIAS_LIMITE_AMBAR";
+    
+    public static final String COD_SICOR_MATERIA = "MATERIA";
+    public static final String COD_SICOR_INFRAESTRUCTURA = "INFRAESTRUCTURA";
+    
+    public static final Integer COD_CARGO_SECRETARIA = 4;
+    public static final Integer COD_CARGO_ENCARGADO = 7;
+    
+    public static final Integer COD_ROL_LOCADOR = 5;
+    public static final Integer COD_ROL_TRAMITE = 3;
+    public static final Integer COD_ROL_MENSAJERIA = 6;
+    
+    public static final Integer DOCUMENTO_FINAL = 1;
+    public static final Integer DOCUMENTO_PROYECTO = 2;  
+    
+    public static final String ESTADOS_PIDE = "ESTADOS_PIDE";
+    
+    public static final String URL_PIDE_TRAMITE_DESARROLLO = "http://200.48.76.125/wsiopidetramite/IOTramite?wsdl";
+    public static final String URL_PIDE_TRAMITE_PRODUCCION = "https://ws3.pide.gob.pe/services/PcmIMgdTramite?wsdl";
+    public static final String URL_PIDE_TRAMITE_OSITRAN    = "http://100.134.1.191:1050/wsiotramitesgd/Tramite?wsdl"; 
+  
+    public static final String URL_PIDE_RUC_DESARROLLO = "http://200.48.76.125/wsentidad/Entidad?wsdl";
+    public static final String URL_PIDE_RUC_PRODUCCION = "https://ws3.pide.gob.pe/services/PcmIMgdEntidad?wsdl";
+    
+    public static final String URL_PIDE_CUO_PRODUCCION = "https://ws3.pide.gob.pe/services/PcmCuo?wsdl";
+    
+    public static final String AMBIENTE_WS_PIDE_RUC = "D";     //D - ORIGINAL
+    public static final String AMBIENTE_WS_PIDE_TRAMIE = "O";  //O - ORIGINAL
+    
+    public static final Integer SOLICITUD_INFORMACION_PUBLICA = 376;
+    public static final Integer HOJA_RECLAMACIONES = 414;
+    
+    public static final String KEY_SGD = "KEY_SGD";
+    
+    public static final String USUARIO_MENSAJERIA_VIRTUAL = "MENSAJERIAVIRTUAL";
+    public static final String COD_TIPODOCUMENTO_OFICIO_CIRCULAR = "327";
 }
