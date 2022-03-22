@@ -373,7 +373,7 @@ var activarExportarEnviados = function() {
 var mostrarDocumentosFirmar = function(valores, accionEjecutar){
     var cabecera = "";
    
-    if (accionEjecutar== 'F'){
+    if (accionEjecutar == 'F'){
        cabecera = "Firmar"; 
     }else{
        cabecera = "Visar"; 
@@ -385,24 +385,32 @@ var mostrarDocumentosFirmar = function(valores, accionEjecutar){
         		    arrFileFirmar : valores,
                             accion: accionEjecutar
         	   },
-	        	   load: function(data){
-	                if(!dijit.byId("dlgFirmar")){
-	                               new dijit.Dialog({
-	                            id: "dlgFirmar",
-		                	    draggable:"true",
-		                	    style:"height:305px;width:513px;display:none;",
-		                	    title:"Los Documentos a "  + cabecera,  
-				        		    onClose: dojo.hitch(this, function(){
-			                            dijit.byId("dlgFirmar").hide();
-				        		        dijit.byId("dlgFirmar").destroyRecursive();
-				        		    })
-		                        });
-	        		}
-                        
-        	       dijit.byId("dlgFirmar").attr("title", "Documentos a " + cabecera);	
-                   dijit.byId("dlgFirmar").attr("content", data);
-        	       dijit.byId("dlgFirmar").show();
-        	    }
+        	   load: function(data){
+				console.log('data');
+				console.log(data);
+	
+                if(!dijit.byId("dlgFirmar")){
+                               new dijit.Dialog({
+                            id: "dlgFirmar",
+	                	    draggable:"true",
+	                	    style:"height:305px;width:513px;display:none;",
+	                	    title:"Los Documentos a "  + cabecera,  
+			        		    onClose: dojo.hitch(this, function(){
+		                            dijit.byId("dlgFirmar").hide();
+			        		        dijit.byId("dlgFirmar").destroyRecursive();
+			        		    })
+	                        });
+        		}
+                    
+    	       dijit.byId("dlgFirmar").attr("title", "Documentos a " + cabecera);	
+               dijit.byId("dlgFirmar").attr("content", data);
+    	       dijit.byId("dlgFirmar").show();
+        	    },
+				error: function(error){
+						console.log("error================");
+				        console.log(error);
+						console.log("error================");
+			    }
      });
 }
 
@@ -442,7 +450,11 @@ var procesarFirmas = function(accionEjecutar){
 		console.log("get archivos firmar!!!!");
         var defered = servicio.getArchivosFirmar(valores,accionEjecutar);
 		
+		console.log("resultado");
+		console.log(defered);
+		
         defered.addCallback(function(objJSON){
+			console.log(objJSON);
             if (objJSON.items.length>0){
                 mostrarDocumentosFirmar(valores, accionEjecutar);        
             }else{

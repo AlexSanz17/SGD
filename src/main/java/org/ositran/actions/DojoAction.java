@@ -3414,7 +3414,7 @@ public class DojoAction {
 								item.setArchivos(listArchivos.get(j).getNombre()
 										.substring(listArchivos.get(j).getNombre().indexOf(']') + 1));
 							}
-							item.setFlagFirma(listArchivos.get(j).getFlagFirma());
+							item.setFlagFirma(listArchivos.get(j).getFlagFirma() == null ? 0 : listArchivos.get(j).getFlagFirma().intValue());
 							
 							items.add(item);
 						}
@@ -3436,6 +3436,7 @@ public class DojoAction {
 
 			archivosJSON.setItems(items);
 		} catch (Exception e) {
+			log.info("Stacktrace getArchivosFirmar: " + e.getMessage());
 			e.printStackTrace();
 		}
 
