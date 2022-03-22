@@ -24,6 +24,8 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.daos.AuditoriaDAO;
 import org.ositran.daos.DocumentoDAO;
@@ -151,6 +153,19 @@ import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.ositran.daos.DespachoVirtualDAO;
 import org.ositran.daos.DocAnexoVirtualDAO;
 import org.ositran.daos.DocPrincipalVirtualDAO;
@@ -169,6 +184,7 @@ import org.ositran.daos.SeguimientoXFirmaDAO;
 import org.ositran.daos.UsuarioxunidadxfuncionDAO;
 import org.ositran.dojo.grid.Item; 
 import org.ositran.utils.DocumentoPublicar;
+
 
 public class DocumentoServiceImpl implements DocumentoService {   
         private String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
@@ -5602,6 +5618,153 @@ public class DocumentoServiceImpl implements DocumentoService {
                   	  } catch (IOException e) {
                   		e.printStackTrace();
                   	  }
+                  	  
+                  	  System.out.println("Servicio casilla virtual");
+                  	  // Paso 1 : Buscar Casilla Electrónica por Documento de Identidad
+                  	  
+                  	try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+
+            			HttpPost httpPut = new HttpPost(
+            					"https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/buscar-casilla-por-documento");
+
+            			JSONObject jsonObj = new JSONObject();
+
+            			jsonObj.put("eIdTipoDocumento", Integer.valueOf(2));
+            			jsonObj.put("uNroDocumento", "40405068");
+
+            			StringEntity entity = new StringEntity(jsonObj.toString(), ContentType.APPLICATION_JSON);
+            			httpPut.setEntity(entity);
+
+            			System.out.println("Executing PUT request...");
+            			CloseableHttpResponse response = httpclient.execute(httpPut);
+
+            			System.out.println("Status code:" + response.getStatusLine().getStatusCode());
+
+            			HttpEntity responseEntity = response.getEntity();
+            			JSONObject result = new JSONObject(EntityUtils.toString(responseEntity));
+            			System.out.println(result);
+            			boolean success = result.getBoolean("success");
+            			System.out.println(success);
+            		}
+                  	  
+                  	  
+                  	
+                  	// paso 2 : Generar notificacion electronica
+                  	
+                  	try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
+            			
+            			File f = new File("D:\\Frank\\CV\\INCAMAPS\\SGD\\SGD\\Informe de Servicio de Notificación Electrónica V3.pdf");
+            			HttpPost httpPost = new HttpPost("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion");
+
+            			JSONObject notificacion = new JSONObject();
+
+            			JSONObject expedienteJson = new JSONObject();
+            			expedienteJson.put("eIdExpedienteSTD", Integer.valueOf(123456));
+            			expedienteJson.put("uCodExpedienteSTD", "EXPEDIENTE N° 1234-TEST");
+            			expedienteJson.put("eOrden", Integer.valueOf(1));
+
+            			JSONArray expedienteArray = new JSONArray();
+            			expedienteArray.put(expedienteJson);
+
+            			JSONObject doc = new JSONObject();
+            			doc.put("FK_eIdTipoDocNotificacion", Integer.valueOf(1));
+            			doc.put("uNumDocNotificacion", "123-2022/STD");
+            			doc.put("FK_eIdTipoDocNotificacion", Integer.valueOf(123343));
+            			doc.put("Expedientes", expedienteArray);
+
+            			notificacion.put("FK_eIdCasilla", Integer.valueOf(166));
+            			notificacion.put("FK_eIdAplicacion", Integer.valueOf(1));
+            			notificacion.put("FK_eIdTipoNotificacion", Integer.valueOf(1));
+            			notificacion.put("uObservacion", "ESTO ES UNA PRUEBA");
+            			notificacion.put("Documento", doc);
+            			notificacion.put("eUsuarioRegistro", Integer.valueOf(1));
+
+            			String notificacionJson = notificacion.toString();
+
+            			System.out.println(notificacionJson);
+            			
+            			StringBody userBody = new StringBody(notificacionJson, ContentType.MULTIPART_FORM_DATA);
+            			
+            			FileBody fileBody = new FileBody(f, ContentType.DEFAULT_BINARY);
+
+            			MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+            			entityBuilder.addPart("Notificacion", userBody);
+            			entityBuilder.addPart("ArchivoDocumento", fileBody);
+            			HttpEntity entity = entityBuilder.build();
+            			httpPost.setEntity(entity);
+
+            			CloseableHttpResponse response = client.execute(httpPost);
+            			HttpEntity responseEntity = response.getEntity();
+
+            			String sResponse = EntityUtils.toString(responseEntity, "UTF-8");
+            			System.out.println("Resultado posterior a la devolución" + sResponse);
+            		} catch (Exception e) {
+            			e.printStackTrace();
+            		}
+                  	
+                  	
+                  	// paso 3 : Generar cedula de notificacion electronica
+                  	
+                  	try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+
+            			HttpPut httpPut = new HttpPut(
+            					"https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion");
+            			JSONObject jsonObj = new JSONObject();
+            			jsonObj.put("PK_eIdNotificacion", Integer.valueOf(458));
+            			jsonObj.put("uUnidadOrganica", "SUBDIRECCIÓN DE OPERACIONES");
+            			jsonObj.put("uUnidadOrganica", Integer.valueOf(1));
+            			StringEntity entity = new StringEntity(jsonObj.toString(), ContentType.APPLICATION_JSON);
+
+            			httpPut.setEntity(entity);
+
+            			System.out.println("Executing PUT request...");
+            			CloseableHttpResponse response = httpclient.execute(httpPut);
+
+            			System.out.println("Status code:" + response.getStatusLine().getStatusCode());
+
+            			HttpEntity responseEntity = response.getEntity();
+            			JSONObject result = new JSONObject(EntityUtils.toString(responseEntity));
+            			
+            			System.out.println(result.toString());
+            			
+            			boolean success = result.getBoolean("success");
+            			System.out.println(success);
+
+            		}
+                  	
+                  	
+                  	
+                  	// paso 4: Enviar notificacion electronica
+                  	
+                  	try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+
+          		      HttpPut httpPut = new HttpPut("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion");
+          		      JSONObject jsonObj = new JSONObject();
+          		      jsonObj.put("PK_eIdNotificacion", Integer.valueOf(458));
+          		      jsonObj.put("uUnidadOrganica", "123456789");
+          		      jsonObj.put("uUnidadOrganica", Integer.valueOf(1));
+          		      
+          		      StringEntity entity = new StringEntity(jsonObj.toString(),ContentType.APPLICATION_JSON);
+          		      
+          		      httpPut.setEntity(entity);
+
+          		      System.out.println("Executing PUT request...");
+          		      CloseableHttpResponse response = httpclient.execute(httpPut);
+
+          		      System.out.println("Status code:" + response.getStatusLine().getStatusCode());
+          		      
+          		      HttpEntity responseEntity = response.getEntity();
+          		      String sResponse = EntityUtils.toString(responseEntity, "UTF-8");
+          		      System.out.println("RESPUESTA:");
+          		      System.out.println(sResponse);
+          		       
+          		      
+          		    }
+                  	
+                  	
+                  	
+                  	
+                  	  
                   }
                     
            }
@@ -5614,6 +5777,10 @@ public class DocumentoServiceImpl implements DocumentoService {
 		}
 	}
 
+	
+	 
+	
+	
 	public List<Recurso> getCountDocuments(Usuario usuario) {
 		log.debug("-> [Service] DocumentoService - getCountDocuments():List<Recurso> ");
 
