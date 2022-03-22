@@ -1,8 +1,8 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
 
-import gob.ositran.siged.config.SigedProperties;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,11 +13,25 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpUtils;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.ositran.common.alfresco.AuthThreadLocalHolder;
+import org.ositran.daos.DocumentoAdjuntoDAO;
+import org.ositran.daos.DocumentoAnuladoDAO;
+import org.ositran.daos.DocumentoAtendidoDAO;
+import org.ositran.daos.DocumentoDerivacionDAO;
+import org.ositran.daos.DocumentoExternoVirtualDAO;
+import org.ositran.daos.DocumentoPendienteDAO;
+import org.ositran.daos.DocumentoReunionDAO;
+import org.ositran.daos.FirmaArchivoDAO;
+import org.ositran.daos.ProveidoDAO;
+import org.ositran.daos.SeguimientoXFirmaDAO;
+import org.ositran.daos.TipoLegajoUnidadDAO;
+import org.ositran.daos.UnidadDAO;
 import org.ositran.pojos.jasper.CargoReporte;
 import org.ositran.services.AccionService;
 import org.ositran.services.ArchivoService;
@@ -30,7 +44,11 @@ import org.ositran.services.DocumentoService;
 import org.ositran.services.EtapaService;
 import org.ositran.services.ExpedienteService;
 import org.ositran.services.ExpedientestorService;
+import org.ositran.services.FavoritoService;
+import org.ositran.services.FuncionService;
 import org.ositran.services.GestionDocumentos;
+import org.ositran.services.LegajoDocumentoService;
+import org.ositran.services.LegajoService;
 import org.ositran.services.ListaService;
 import org.ositran.services.LogOperacionService;
 import org.ositran.services.ManejoDeEmailService;
@@ -65,20 +83,19 @@ import org.ositran.utils.UtilEncrip;
 import org.ositran.utils.UtilOsinerg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.btg.ositran.siged.domain.Accion;
-import com.btg.ositran.siged.domain.DocumentoPendiente;
 import com.btg.ositran.siged.domain.Alerta;
-import com.btg.ositran.siged.domain.Parametro;
 import com.btg.ositran.siged.domain.Archivo;
-import com.btg.ositran.siged.domain.TipoLegajoUnidad;
-import com.btg.ositran.siged.domain.DocumentoAdjunto;
 import com.btg.ositran.siged.domain.ArchivoPendiente;
 import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.Concesionario;
 import com.btg.ositran.siged.domain.Documento;
+import com.btg.ositran.siged.domain.DocumentoAdjunto;
 import com.btg.ositran.siged.domain.DocumentoAnulado;
-import com.btg.ositran.siged.domain.DocumentoDerivacion;
 import com.btg.ositran.siged.domain.DocumentoAtendido;
+import com.btg.ositran.siged.domain.DocumentoDerivacion;
+import com.btg.ositran.siged.domain.DocumentoPendiente;
 import com.btg.ositran.siged.domain.DocumentoReferencia;
 import com.btg.ositran.siged.domain.DocumentoReunion;
 import com.btg.ositran.siged.domain.Documentoenviado;
@@ -92,6 +109,7 @@ import com.btg.ositran.siged.domain.Legajo;
 import com.btg.ositran.siged.domain.LegajoDocumento;
 import com.btg.ositran.siged.domain.LogOperacion;
 import com.btg.ositran.siged.domain.Notificacion;
+import com.btg.ositran.siged.domain.Parametro;
 import com.btg.ositran.siged.domain.Proceso;
 import com.btg.ositran.siged.domain.Proveido;
 import com.btg.ositran.siged.domain.Resolucionjaru;
@@ -100,6 +118,7 @@ import com.btg.ositran.siged.domain.SeguimientoXUsuario;
 import com.btg.ositran.siged.domain.Serie;
 import com.btg.ositran.siged.domain.Submotivo;
 import com.btg.ositran.siged.domain.Suministro;
+import com.btg.ositran.siged.domain.TipoLegajoUnidad;
 import com.btg.ositran.siged.domain.Tipoidentificacion;
 import com.btg.ositran.siged.domain.Trazabilidadapoyo;
 import com.btg.ositran.siged.domain.Trazabilidadcopia;
@@ -110,41 +129,8 @@ import com.btg.ositran.siged.domain.UsuarioDerivacion;
 import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
-import java.math.BigDecimal;
-import org.ositran.daos.DocumentoAdjuntoDAO;
-import org.ositran.daos.DocumentoAnuladoDAO;
-import org.ositran.daos.DocumentoAtendidoDAO;
-import org.ositran.daos.DocumentoDerivacionDAO;
-import org.ositran.daos.DocumentoExternoVirtualDAO;
-import org.ositran.daos.DocumentoPendienteDAO;
-import org.ositran.daos.DocumentoReunionDAO;
-import org.ositran.daos.ProveidoDAO;
-import org.ositran.daos.SeguimientoXFirmaDAO;
-import org.ositran.daos.TipoLegajoUnidadDAO;
-import org.ositran.daos.UnidadDAO;
-import org.ositran.services.FavoritoService;
-import org.ositran.services.FuncionService;
-import org.ositran.services.LegajoDocumentoService;
-import org.ositran.services.LegajoService;
-import org.ositran.daos.FirmaArchivoDAO;
-import org.ositran.dojo.grid.ItemUF;import java.math.BigDecimal;
-import org.ositran.daos.DocumentoAdjuntoDAO;
-import org.ositran.daos.DocumentoAnuladoDAO;
-import org.ositran.daos.DocumentoAtendidoDAO;
-import org.ositran.daos.DocumentoDerivacionDAO;
-import org.ositran.daos.DocumentoExternoVirtualDAO;
-import org.ositran.daos.DocumentoPendienteDAO;
-import org.ositran.daos.DocumentoReunionDAO;
-import org.ositran.daos.ProveidoDAO;
-import org.ositran.daos.SeguimientoXFirmaDAO;
-import org.ositran.daos.TipoLegajoUnidadDAO;
-import org.ositran.daos.UnidadDAO;
-import org.ositran.services.FavoritoService;
-import org.ositran.services.FuncionService;
-import org.ositran.services.LegajoDocumentoService;
-import org.ositran.services.LegajoService;
-import org.ositran.daos.FirmaArchivoDAO;
-import org.ositran.dojo.grid.ItemUF;
+
+import gob.ositran.siged.config.SigedProperties;
 
 public class DocumentoAction {
 
@@ -338,8 +324,8 @@ public class DocumentoAction {
 	private String[] strAcciones;
 	private String[] strPrioridades;
 	private String[] storsuministro;
-        private String   strPrioridad;
-        private String   strApoyo;
+    private String   strPrioridad;
+    private String   strApoyo;
 	private List<String> conCopia;
 	private List<String> condestinatarios;
 	private List<String> concopias;
@@ -973,17 +959,23 @@ public class DocumentoAction {
 		return Action.SUCCESS;
 	}
         
-        public String goFirmarArchivo(){
+    /*public String goFirmarArchivo(){
 		log.debug("-> [Action] DocumentoAction - goFirmarArchivo():String ");
 		return Action.SUCCESS;
+	}*/
+    
+    
+    public String goFirmarArchivo(){
+		log.debug("-> [Action] DocumentoAction - goFirmarArchivo():String ");
+		return "firmar";
 	}
 
 	/**REN Metodo que se encarga de colocar los archivos seleccionados como inactivos----------------------------------------*/
 	public void doEliminarArchivo(){
 		log.debug("-> [Action] DocumentoAction - doEliminarArchivo():String ");
                 
-                Map<String,Object> sesion=ActionContext.getContext().getSession();
-                Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
+        Map<String,Object> sesion=ActionContext.getContext().getSession();
+        Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
 
 		if(arrIdArchivos != null && arrIdArchivos.length > 0){
 			for(Integer idArchivo : arrIdArchivos){
@@ -6170,99 +6162,99 @@ public String getIdDoc() {
 		this.logOperacionService = logOperacionService;
 	}
         
-        public FuncionService getFuncionService() {
-            return funcionService;
-        }
+    public FuncionService getFuncionService() {
+        return funcionService;
+    }
 
-        public void setFuncionService(FuncionService funcionService) {
-            this.funcionService = funcionService;
-        }        
-        
-        public Integer getIdpendientes() {
-            return idpendientes;
-        }
+    public void setFuncionService(FuncionService funcionService) {
+        this.funcionService = funcionService;
+    }        
+    
+    public Integer getIdpendientes() {
+        return idpendientes;
+    }
 
-        public void setIdpendientes(Integer idpendientes) {
-            this.idpendientes = idpendientes;
-        }
-        
-        public DocumentoPendienteDAO getDocumentoPendienteDAO() {
-            return documentoPendienteDAO;
-        }
+    public void setIdpendientes(Integer idpendientes) {
+        this.idpendientes = idpendientes;
+    }
+    
+    public DocumentoPendienteDAO getDocumentoPendienteDAO() {
+        return documentoPendienteDAO;
+    }
 
-        public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
-            this.documentoPendienteDAO = documentoPendienteDAO;
-        }
-        
-        public String getStrPrioridad() {
-         return strPrioridad;
-        }
+    public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
+        this.documentoPendienteDAO = documentoPendienteDAO;
+    }
+    
+    public String getStrPrioridad() {
+     return strPrioridad;
+    }
 
-        public void setStrPrioridad(String strPrioridad) {
-            this.strPrioridad = strPrioridad;
-        }
-        
-        public String getStrReferencia() {
-            return strReferencia;
-        }
+    public void setStrPrioridad(String strPrioridad) {
+        this.strPrioridad = strPrioridad;
+    }
+    
+    public String getStrReferencia() {
+        return strReferencia;
+    }
 
-        public void setStrReferencia(String strReferencia) {
-            this.strReferencia = strReferencia;
-        }
-        
-         public Integer getIdserie() {
-            return idserie;
-        }
+    public void setStrReferencia(String strReferencia) {
+        this.strReferencia = strReferencia;
+    }
+    
+     public Integer getIdserie() {
+        return idserie;
+    }
 
-        public void setIdserie(Integer idserie) {
-            this.idserie = idserie;
-        }
-       
-        
-        public List<DocumentoReferencia> getDocumentosReferencia() {
-            return documentosReferencia;
-        }
+    public void setIdserie(Integer idserie) {
+        this.idserie = idserie;
+    }
+   
+    
+    public List<DocumentoReferencia> getDocumentosReferencia() {
+        return documentosReferencia;
+    }
 
-        public void setDocumentosReferencia(List<DocumentoReferencia> documentosReferencia) {
-            this.documentosReferencia = documentosReferencia;
-        }
+    public void setDocumentosReferencia(List<DocumentoReferencia> documentosReferencia) {
+        this.documentosReferencia = documentosReferencia;
+    }
 
-        public List<Parametro> getParametros() {
-            return parametros;
-        }
+    public List<Parametro> getParametros() {
+        return parametros;
+    }
 
-        public void setParametros(List<Parametro> parametros) {
-            this.parametros = parametros;
-        }
-        
-         public DocumentoReunionDAO getDocumentoReunionDAO() {
-            return documentoReunionDAO;
-        }
+    public void setParametros(List<Parametro> parametros) {
+        this.parametros = parametros;
+    }
+    
+     public DocumentoReunionDAO getDocumentoReunionDAO() {
+        return documentoReunionDAO;
+    }
 
-        public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
-            this.documentoReunionDAO = documentoReunionDAO;
-        }
-        
-        public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
-            return documentoAdjuntoDAO;
-        }
+    public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
+        this.documentoReunionDAO = documentoReunionDAO;
+    }
+    
+    public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
+        return documentoAdjuntoDAO;
+    }
 
-        public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
-            this.documentoAdjuntoDAO = documentoAdjuntoDAO;
-        }
-        public Integer getiIdDocEmail() {
-            return iIdDocEmail;
-        }
+    public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
+        this.documentoAdjuntoDAO = documentoAdjuntoDAO;
+    }
+    public Integer getiIdDocEmail() {
+        return iIdDocEmail;
+    }
 
-        public void setiIdDocEmail(Integer iIdDocEmail) {
-            this.iIdDocEmail = iIdDocEmail;
-        }
-        
-        public UnidadDAO getUnidadDAO() {
-            return unidadDAO;
-        }
+    public void setiIdDocEmail(Integer iIdDocEmail) {
+        this.iIdDocEmail = iIdDocEmail;
+    }
+    
+    public UnidadDAO getUnidadDAO() {
+        return unidadDAO;
+    }
 
-        public void setUnidadDAO(UnidadDAO unidadDAO) {
-            this.unidadDAO = unidadDAO;
-        }
+    public void setUnidadDAO(UnidadDAO unidadDAO) {
+        this.unidadDAO = unidadDAO;
+    }
 }

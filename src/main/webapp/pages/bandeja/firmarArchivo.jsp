@@ -190,6 +190,7 @@
 		
 		<script type="text/javascript">	
 			var nombre = "";	
+			
 			dojo.addOnLoad(function () {
                 service.getArchivosFirmar("<s:property value='arrFileFirmar' />","<s:property value='accion' />").addCallback(function (objJSON) {
 				   for(i=0; i<objJSON.items.length;i++){
@@ -238,7 +239,7 @@
 		boolean existenProcesoFirma = false;
 		
 		for(Item item2 : listaDocumento){
-			if(item2.getFlagFirma() == 1){
+			if(item2.getFlagFirma().equals(1)){
 				existenProcesoFirma = true;
 				break;
 			}
@@ -279,6 +280,8 @@
 			
 		</table>
 		
+<!-- 		<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio">  -->
+		
 		<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" <%if(!existenProcesoFirma){%> action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio" <%}%>> 
 				<input type="hidden" name="urlConfigService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/configuracion"/> 
 				<input type="hidden" name="webService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/FirmaDigitalWs?wsdl"/> 
@@ -304,7 +307,6 @@
 
 				<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar" 
 				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" />
-<!-- 				<input type="button" value="cerrar" onclick="cerrarModal();"/> -->
 				
 				<iframe frameborder="0" name="iframeFirma" id="iframeFirma" width="400px" height="220px"></iframe>
 			</form>

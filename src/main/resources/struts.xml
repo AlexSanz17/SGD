@@ -564,7 +564,8 @@
       </action>
       
       <action name="goFirmarArchivo" method="goFirmarArchivo" class="documentoAction">
-         <result>pages/bandeja/firmarArchivo.jsp</result>
+         
+         <result name="firmar">pages/bandeja/firmarArchivo.jsp</result>
          <result name="error">error.html</result>
       </action>
       

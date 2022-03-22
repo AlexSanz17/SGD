@@ -93,7 +93,7 @@
     <import resource="application-rest.xml" />
     <import resource="applicationContext-remote.xml" />
     
-    <import resource="application-jobs-provias.xml" />
+<!--     <import resource="application-jobs-provias.xml" /> -->
     
 <!--     <import resource="application-jobs.xml" /> -->
 
