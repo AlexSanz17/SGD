@@ -1179,17 +1179,23 @@ public class DocumentoAction {
 		return Action.SUCCESS;
 	}
         
-        public String goFirmarArchivo(){
+    /*public String goFirmarArchivo(){
 		log.debug("-> [Action] DocumentoAction - goFirmarArchivo():String ");
 		return Action.SUCCESS;
+	}*/
+    
+    
+    public String goFirmarArchivo(){
+		log.debug("-> [Action] DocumentoAction - goFirmarArchivo():String ");
+		return "firmar";
 	}
 
 	/**REN Metodo que se encarga de colocar los archivos seleccionados como inactivos----------------------------------------*/
 	public void doEliminarArchivo(){
 		log.debug("-> [Action] DocumentoAction - doEliminarArchivo():String ");
                 
-                Map<String,Object> sesion=ActionContext.getContext().getSession();
-                Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
+        Map<String,Object> sesion=ActionContext.getContext().getSession();
+        Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
 
 		if(arrIdArchivos != null && arrIdArchivos.length > 0){
 			for(Integer idArchivo : arrIdArchivos){
