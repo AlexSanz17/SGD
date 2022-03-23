@@ -450,8 +450,8 @@ var procesarFirmas = function(accionEjecutar){
 		console.log("get archivos firmar!!!!");
         var defered = servicio.getArchivosFirmar(valores,accionEjecutar);
 		
-		console.log("resultado");
-		console.log(defered);
+//		console.log("resultado");
+//		console.log(defered);
 		
         defered.addCallback(function(objJSON){
 			console.log(objJSON);
