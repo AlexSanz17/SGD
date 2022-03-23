@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -20,6 +20,11 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 
 	private static Logger _log = Logger.getLogger(ArchivoDAOImpl.class);
 	private EntityManager em;
+
+	@PersistenceContext(unitName = "sigedPU")
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
 
 	public List<Archivo> findArchivosxFirmar(Integer idDocumento, Usuario usuario) {
 		String sql = "SELECT c FROM Archivo c where c.documento.idDocumento=:idDocumento and c.estado in ('A','V') and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF' and "
@@ -88,9 +93,6 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 		return resultado;
 	}
 
-	// ////////////////////////////////
-	// Methods //
-	// ////////////////////////////////
 	public Archivo buscarObjPor(Integer iIdDocumento, String sNombre) {
 		Archivo objArchivo = null;
 		try {
@@ -365,12 +367,23 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 				.setParameter("estado", Constantes.ESTADO_ACTIVO).setParameter("ruta", ruta)
 				.setParameter("autor", usuario.getIdUsuarioPerfil()).getSingleResult();
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public List<Archivo> findByIdDocumento(Integer iIdDoc) {
 		return em.createNamedQuery("Archivo.findByIdDocumento").setParameter("estado", Constantes.ESTADO_ACTIVO)
 				.setParameter("iddoc", iIdDoc).getResultList();
 	}
+	
+//	@Override
+//	public List<Archivo> findArchivoPrincipalByIdDocumento1(Integer idDocumento) {
+//		String sql = "select a from Archivo a where a.documento.idDocumento = :idDocumento and a.principal = :principal and a.estado = :eatado";
+//		Query q = em.createQuery(sql);
+//		q.setParameter("idDocumento", idDocumento);
+//		q.setParameter("principal", Constantes.ARCHIVO_PRINCIPAL);
+//		q.setParameter("eatado", Constantes.ESTADO_ACTIVO);
+//		
+//		return q.getResultList();
+//	}
 
 	public int updateEstado(Integer iIdArchivo, Character cEstado) {
 		return em.createNamedQuery("Archivo.updateEstado").setParameter("estado", cEstado)
@@ -390,18 +403,15 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 		}
 	}
 
-	@PersistenceContext(unitName = "sigedPU")
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
-
 	@Override
-	public Archivo findByArchivoPrincipalIdDocumento(Integer iIdDoc) {
+	public Archivo buscarArchivoPrincipalPorDocumento(Integer idDocumento) {
 
 		Archivo objArchivo = null;
 		try {
-			objArchivo = (Archivo) em.createNamedQuery("Archivo.findByArchivoPrincipalIdDocumento")
-					.setParameter("estado", Constantes.ESTADO_ACTIVO).setParameter("iddoc", iIdDoc)
+			objArchivo = (Archivo) em.createNamedQuery("Archivo.buscarArchivoPrincipalPorDocumento")
+					.setParameter("idDocumento", idDocumento)
+					.setParameter("estado", Constantes.ESTADO_ACTIVO)
+					.setParameter("estadoDigitalizacion", 'I')
 					.setParameter("principal", Constantes.ARCHIVO_PRINCIPAL).getSingleResult();
 		} catch (NoResultException e) {
 			_log.error(e.getMessage());

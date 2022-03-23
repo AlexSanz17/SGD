@@ -31,8 +31,6 @@ var cambiarNoLeido=function(){
    }
 };
 
-
-
 var derivarMasivamente = function() {
    var grid = dijit.byId("gridInbox");
    var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=650, height=469, top=20, left=70";
@@ -2731,4 +2729,3 @@ function mostrarVisorPDFXExError(){
     },"divVisorDXE");
 	divVisorDXE.startup();
 }
-//fin

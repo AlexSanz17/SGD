@@ -5767,9 +5767,9 @@ public class DojoAction {
 		String result = "";
 		objDocumento = documentoService.findByIdDocumento(iIdDocAA);
 		if (objDocumento.getDocumentoreferencia() != null) {
-			archivo = archivoService.getArchivoPrincipalPorDocumento(objDocumento.getDocumentoreferencia().intValue());
+			archivo = archivoService.buscarArchivoPrincipalPorDocumento(objDocumento.getDocumentoreferencia().intValue());
 		} else {
-			archivo = archivoService.getArchivoPrincipalPorDocumento(iIdDocAA);
+			archivo = archivoService.buscarArchivoPrincipalPorDocumento(iIdDocAA);
 		}
 		if (archivo == null) {
 			result = "N";

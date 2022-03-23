@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
 
 import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.Documento;
@@ -36,14 +31,9 @@ import org.ositran.daos.RecepcionVirtualDAO;
 import org.ositran.services.ArchivoService;
 import org.ositran.services.DocumentoService;
 import org.ositran.utils.Constantes;
-/**
- *
- * @author Juan Carlos Bengoa
- */
+
 public class VirtualAction {
-	
 	private static Logger log = LoggerFactory.getLogger(VirtualAction.class);
-	
     private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
     private RecepcionVirtualDAO recepcionVirtualDAO;
     private DespachoVirtualDAO despachoVirtualDAO;
@@ -186,97 +176,95 @@ public class VirtualAction {
     }
     
     public String viewDocDespachoVirtual() {
-    	
-    	try{
-    		
-        IotdtmDocExterno despacho = documentoExternoVirtualDAO.buscarDocumentoVirtual(idDespacho);
-        Documento d = documentoDAO.findByIdDocumento(despacho.getSidemiext().getIddocumento());
-      
-        Cliente cliente =clienteService.findObjectBy(despacho.getSidemiext().getVrucentrec(), 'A');
-        Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(despacho.getCcodtipdoc());
-        mapSession = ActionContext.getContext().getSession();
-        Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-        objDD = new DocumentoDetail();
-        objDD.setStrAsunto(despacho.getVasu());
-        objDD.setArchivoCargo("");
-        
-        if (despacho.getSidemiext().getBcarstdrec()!=null){
-            objDD.setArchivoCargo(d.getID_CODIGO() + "_CARGO_VIRTUAL_" + d.getTipoDocumento().getNombre() + ".pdf");  
-        }
-        
-        objDD.setStrRazonSocial(cliente==null?"":cliente.getRazonSocial());
-        objDD.setStrNroDocumento(tipoDocumento.getNombre() + " - " + despacho.getVnumdoc());
-        objDD.setStrFecha(despacho.getSidemiext().getDfecreg());
-        objDD.setIdCodigo(Integer.valueOf(despacho.getSiddocext().intValue()));
-        objDD.setArchivoPrincipal(docPrincipalVirtualDAO.buscarPrincipaByDocExterno(idDespacho).getVnomdoc());
-        objDD.setArchivoAnexo(despacho.getVurldocanx()==null?"":despacho.getVurldocanx().trim());
-        objDD.setCantAnexos(despacho.getSnumanx()==null? "0" : despacho.getSnumanx().toString());
-        objDD.setNroTramite(despacho.getSidemiext().getVnumregstd());
-        objDD.setCEstado(despacho.getSidemiext().getCflgest());
-        objDD.setCuo(despacho.getSidemiext().getVcuo());
-        objDD.setIIdDocumento(despacho.getSidemiext().getIddocumento());
-        objDD.setiIdDocumentoReferencia(d.getDocumentoreferencia());
-        
-        if (despacho.getIotdtdAnexoList()!=null && despacho.getIotdtdAnexoList().size()>0){
-            List<String> list = new ArrayList<String>();
-            for (int i=0;i<despacho.getIotdtdAnexoList().size();i++){
-                list.add(despacho.getIotdtdAnexoList().get(i).getVnomdoc());
-            }
-            
-            objDD.setListAnexos(list);
-        }
-        
-        if (despacho.getSidemiext().getCflgest() == 'P'){
-           if (despacho.getSidemiext().getCflgenv() == 'E'){
-              try{ 
-                    WSPideTramite wsPideTramite = new WSPideTramite();
-                    ConsultaTramite consultaTramite = new ConsultaTramite();
-                    consultaTramite.setVcuo(despacho.getSidemiext().getVcuo());
-                    consultaTramite.setVrucentrec(despacho.getSidemiext().getVrucentrec());
-                    consultaTramite.setVrucentrem(parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
-                    RespuestaConsultaTramite respuestaConsultaTramite =  wsPideTramite.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_TRAMIE);
-                    
-                    if(respuestaConsultaTramite.getVcodres().equals("0000")){
-                       objDD.setFlagCodigoVirtual('3');
-                    }else{
-                          if(respuestaConsultaTramite.getVcodres().equals("0001")){
-                               objDD.setFlagCodigoVirtual('1'); 
-                          }else{
-                               objDD.setFlagCodigoVirtual('4');
-                          }
-                    }
-                    
-              }catch(Exception e){
-                 objDD.setFlagCodigoVirtual('5'); 
-              }      
-           }else{  
-              objDD.setFlagCodigoVirtual('1');
-           }  
-        }  
-        
-        if (despacho.getSidemiext().getCflgest() == 'E')
-          objDD.setFlagCodigoVirtual('0');
-        if (despacho.getSidemiext().getCflgest() == 'R')
-          objDD.setFlagCodigoVirtual('0');
-        if (despacho.getSidemiext().getCflgest() == 'S')
-          objDD.setFlagCodigoVirtual('0');
-        if (despacho.getSidemiext().getCflgest() == 'O'){
-            //JC-RUC ANALIZAR ES IMPORTANTE  
-            List<String> lst = documentoExternoVirtualDAO.buscarTramiteVirtual(d.getID_CODIGO().toString());
-            /////
-            if (lst!=null && lst.size()>0 && lst.get(0)!=null && !lst.get(0).equals("") && lst.get(0).equals(idDespacho.toString())){
-               despacho = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(lst.get(0))); 
-               d = documentoDAO.findByIdDocumento(despacho.getSidemiext().getIddocumento());
-
-               if (d.getPropietario().getIdusuario().toString().equals(usuario.getIdUsuarioPerfil().toString()) && d.getUnidadpropietario().toString().equals(usuario.getIdUnidadPerfil().toString()) && d.getFlagMultiple()==null)
-                 objDD.setFlagCodigoVirtual('2');
-               else
-                 objDD.setFlagCodigoVirtual('0');
-            }else{
-               objDD.setFlagCodigoVirtual('0');
-            }   
-        }
-        
+    	try {
+	        IotdtmDocExterno despacho = documentoExternoVirtualDAO.buscarDocumentoVirtual(idDespacho);
+	        Documento d = documentoDAO.findByIdDocumento(despacho.getSidemiext().getIddocumento());
+	      
+	        Cliente cliente =clienteService.findObjectBy(despacho.getSidemiext().getVrucentrec(), 'A');
+	        Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(despacho.getCcodtipdoc());
+	        mapSession = ActionContext.getContext().getSession();
+	        Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+	        objDD = new DocumentoDetail();
+	        objDD.setStrAsunto(despacho.getVasu());
+	        objDD.setArchivoCargo("");
+	        
+	        if (despacho.getSidemiext().getBcarstdrec()!=null){
+	            objDD.setArchivoCargo(d.getID_CODIGO() + "_CARGO_VIRTUAL_" + d.getTipoDocumento().getNombre() + ".pdf");  
+	        }
+	        
+	        objDD.setStrRazonSocial(cliente==null?"":cliente.getRazonSocial());
+	        objDD.setStrNroDocumento(tipoDocumento.getNombre() + " - " + despacho.getVnumdoc());
+	        objDD.setStrFecha(despacho.getSidemiext().getDfecreg());
+	        objDD.setIdCodigo(Integer.valueOf(despacho.getSiddocext().intValue()));
+	        objDD.setArchivoPrincipal(docPrincipalVirtualDAO.buscarPrincipaByDocExterno(idDespacho).getVnomdoc());
+	        objDD.setArchivoAnexo(despacho.getVurldocanx()==null?"":despacho.getVurldocanx().trim());
+	        objDD.setCantAnexos(despacho.getSnumanx()==null? "0" : despacho.getSnumanx().toString());
+	        objDD.setNroTramite(despacho.getSidemiext().getVnumregstd());
+	        objDD.setCEstado(despacho.getSidemiext().getCflgest());
+	        objDD.setCuo(despacho.getSidemiext().getVcuo());
+	        objDD.setIIdDocumento(despacho.getSidemiext().getIddocumento());
+	        objDD.setiIdDocumentoReferencia(d.getDocumentoreferencia());
+	        
+	        if (despacho.getIotdtdAnexoList()!=null && despacho.getIotdtdAnexoList().size()>0){
+	            List<String> list = new ArrayList<String>();
+	            for (int i=0;i<despacho.getIotdtdAnexoList().size();i++){
+	                list.add(despacho.getIotdtdAnexoList().get(i).getVnomdoc());
+	            }
+	            
+	            objDD.setListAnexos(list);
+	        }
+	        
+	        if (despacho.getSidemiext().getCflgest() == 'P'){
+	           if (despacho.getSidemiext().getCflgenv() == 'E'){
+	              try{ 
+	                    WSPideTramite wsPideTramite = new WSPideTramite();
+	                    ConsultaTramite consultaTramite = new ConsultaTramite();
+	                    consultaTramite.setVcuo(despacho.getSidemiext().getVcuo());
+	                    consultaTramite.setVrucentrec(despacho.getSidemiext().getVrucentrec());
+	                    consultaTramite.setVrucentrem(parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
+	                    RespuestaConsultaTramite respuestaConsultaTramite =  wsPideTramite.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_TRAMIE);
+	                    
+	                    if(respuestaConsultaTramite.getVcodres().equals("0000")){
+	                       objDD.setFlagCodigoVirtual('3');
+	                    }else{
+	                          if(respuestaConsultaTramite.getVcodres().equals("0001")){
+	                               objDD.setFlagCodigoVirtual('1'); 
+	                          }else{
+	                               objDD.setFlagCodigoVirtual('4');
+	                          }
+	                    }
+	                    
+	              }catch(Exception e){
+	                 objDD.setFlagCodigoVirtual('5'); 
+	              }      
+	           }else{  
+	              objDD.setFlagCodigoVirtual('1');
+	           }  
+	        }  
+	        
+	        if (despacho.getSidemiext().getCflgest() == 'E')
+	          objDD.setFlagCodigoVirtual('0');
+	        if (despacho.getSidemiext().getCflgest() == 'R')
+	          objDD.setFlagCodigoVirtual('0');
+	        if (despacho.getSidemiext().getCflgest() == 'S')
+	          objDD.setFlagCodigoVirtual('0');
+	        if (despacho.getSidemiext().getCflgest() == 'O'){
+	            //JC-RUC ANALIZAR ES IMPORTANTE  
+	            List<String> lst = documentoExternoVirtualDAO.buscarTramiteVirtual(d.getID_CODIGO().toString());
+	            /////
+	            if (lst!=null && lst.size()>0 && lst.get(0)!=null && !lst.get(0).equals("") && lst.get(0).equals(idDespacho.toString())){
+	               despacho = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(lst.get(0))); 
+	               d = documentoDAO.findByIdDocumento(despacho.getSidemiext().getIddocumento());
+	
+	               if (d.getPropietario().getIdusuario().toString().equals(usuario.getIdUsuarioPerfil().toString()) && d.getUnidadpropietario().toString().equals(usuario.getIdUnidadPerfil().toString()) && d.getFlagMultiple()==null)
+	                 objDD.setFlagCodigoVirtual('2');
+	               else
+	                 objDD.setFlagCodigoVirtual('0');
+	            }else{
+	               objDD.setFlagCodigoVirtual('0');
+	            }   
+	        }
+	        
     	}catch(Exception e){
     		e.printStackTrace();
     	}
@@ -284,7 +272,6 @@ public class VirtualAction {
         return Action.SUCCESS;
     }
     
-     
     public String viewDocRecepcionVirtual() {
         List<Archivo> lst = null;
         Documento d = null;
@@ -415,13 +402,13 @@ public class VirtualAction {
 	        int totalAnexos = 0;
 	        for(IotdtdAdjuntoMPV adjunto:recepcionMPV.getArchivos()){
 	        	
-	        	if(adjunto.getTipoarchivo().equals("1")){
-	        		archivoPrincipal = adjunto.getNombrearchivo();	
-	        		rutaArchivoPrincipal = adjunto.getRutaarchivo().trim() + archivoPrincipal.trim();
+	        	if(adjunto.getTipoArchivo().equals(1)){
+	        		archivoPrincipal = adjunto.getNombreArchivo();	
+	        		rutaArchivoPrincipal = adjunto.getRutaArchivo().trim() + archivoPrincipal.trim();
 	        	}	
 	        	
-	        	if(adjunto.getTipoarchivo().equals("2")){
-	        		archivoAnexo = adjunto.getNombrearchivo();
+	        	if(adjunto.getTipoArchivo().equals(2)){
+	        		archivoAnexo = adjunto.getNombreArchivo();
 	        		totalAnexos++;	        		
 	        	}
 	        }
@@ -472,15 +459,13 @@ public class VirtualAction {
 	        if (recepcionMPV.getArchivos() !=null && recepcionMPV.getArchivos().size()>0){
 	            List<String> list = new ArrayList<String>();
 	            for (IotdtdAdjuntoMPV adjuntoAnexo:recepcionMPV.getArchivos()){	            	
-	            	if(adjuntoAnexo.getTipoarchivo().equals("2")){
-	            		list.add(adjuntoAnexo.getNombrearchivo());
+	            	if(adjuntoAnexo.getTipoArchivo().equals(2)){
+	            		list.add(adjuntoAnexo.getNombreArchivo());
 	            	}	                
 	            }
 	            
 	            objDD.setListAnexos(list);
 	        }
-        	
-        	
         }
         
         }catch(Exception e){
@@ -489,8 +474,6 @@ public class VirtualAction {
         
         return Action.SUCCESS;
     }
-    
-    
     
     public DocumentoDetail getObjDD() {
         return objDD;

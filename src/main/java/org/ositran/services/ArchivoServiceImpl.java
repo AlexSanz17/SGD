@@ -1,7 +1,5 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.services; 
+package org.ositran.services; 
 
-import gob.ositran.siged.config.SigedProperties;
-import gob.ositran.siged.service.AlfrescoWebscriptService;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,91 +16,115 @@ import javax.persistence.NoResultException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
-import org.ositran.pojos.ArchivoVersionado;
 import org.ositran.daos.ArchivoDAO;
+import org.ositran.daos.DocumentoDAO;
 import org.ositran.daos.SearchMode;
+import org.ositran.daos.TipodocumentoDAO;
 import org.ositran.dojo.grid.Item;
+import org.ositran.pojos.ArchivoVersionado;
 import org.ositran.utils.ArchivoTemporal;
 import org.ositran.utils.Constantes;
+import org.ositran.utils.PasswordGenerator;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.Documento;
-import com.btg.ositran.siged.domain.Usuario;
 import com.btg.ositran.siged.domain.Tipodocumento;
-import java.net.URLEncoder;
-import org.ositran.daos.DocumentoDAO;
-import org.ositran.daos.TipodocumentoDAO;
-import org.ositran.utils.PasswordGenerator;
+import com.btg.ositran.siged.domain.Usuario;
+
+import gob.ositran.siged.config.SigedProperties;
+import gob.ositran.siged.service.AlfrescoWebscriptService;
 
 public class ArchivoServiceImpl implements ArchivoService{
-        private static Logger log=Logger.getLogger(ArchivoServiceImpl.class);
-        private ArchivoDAO dao;
-        private RepositorioService srvRepositorio;
-        private AlfrescoWebscriptService alfrescoWebscriptClient;
-        private TipodocumentoDAO tipoDocumentoDao;
-        private List<Archivo> listArchivo;
-        private DocumentoDAO documentoDAO;
-
-        public DocumentoDAO getDocumentoDAO() {
-            return documentoDAO;
-        }
-
-        public void setDocumentoDAO(DocumentoDAO documentoDAO) {
-            this.documentoDAO = documentoDAO;
-        }
+    private static Logger log=Logger.getLogger(ArchivoServiceImpl.class);
+    private ArchivoDAO archivoDAO;
+    private RepositorioService srvRepositorio;
+    private AlfrescoWebscriptService alfrescoWebscriptClient;
+    private TipodocumentoDAO tipoDocumentoDao;
+    private List<Archivo> listArchivo;
+    private DocumentoDAO documentoDAO;
     
-        public TipodocumentoDAO getTipoDocumentoDao() {
-            return tipoDocumentoDao;
-        }
+    public ArchivoDAO getArchivoDAO(){
+		return archivoDAO;
+	}
 
-        public void setTipoDocumentoDao(TipodocumentoDAO tipoDocumentoDao) {
-            this.tipoDocumentoDao = tipoDocumentoDao;
-        }
+	public void setArchivoDAO(ArchivoDAO archivoDAO){
+		this.archivoDAO=archivoDAO;
+	}
+
+	public RepositorioService getSrvRepositorio(){
+		return srvRepositorio;
+	}
+
+	public void setSrvRepositorio(RepositorioService srvRepositorio){
+		this.srvRepositorio=srvRepositorio;
+	}
+
+    /*
+    public void setAlfrescoWebServiceClient(AlfrescoWSService alfrescoWebServiceClient) {
+        this.alfrescoWebServiceClient = alfrescoWebServiceClient;
+    }*/
+
+    public void setAlfrescoWebscriptClient(AlfrescoWebscriptService alfrescoWebscriptClient) {
+        this.alfrescoWebscriptClient = alfrescoWebscriptClient;
+    }
+    
+    public DocumentoDAO getDocumentoDAO() {
+        return documentoDAO;
+    }
+
+    public void setDocumentoDAO(DocumentoDAO documentoDAO) {
+        this.documentoDAO = documentoDAO;
+    }
+
+    public TipodocumentoDAO getTipoDocumentoDao() {
+        return tipoDocumentoDao;
+    }
+
+    public void setTipoDocumentoDao(TipodocumentoDAO tipoDocumentoDao) {
+        this.tipoDocumentoDao = tipoDocumentoDao;
+    }
         
-	public ArchivoServiceImpl(ArchivoDAO dao){
-		setDao(dao);
+	public ArchivoServiceImpl(ArchivoDAO archivoDAO){
+		setArchivoDAO(archivoDAO);
 	}
         
-        public List<Archivo> findArchivoTipoFirmardo(Integer idDocumento , char tipoArchivo, String tipoFirma){
-            return getDao().findArchivoTipoFirmardo(idDocumento, tipoArchivo, tipoFirma);
-        }
+    public List<Archivo> findArchivoTipoFirmardo(Integer idDocumento , char tipoArchivo, String tipoFirma){
+        return archivoDAO.findArchivoTipoFirmardo(idDocumento, tipoArchivo, tipoFirma);
+    }
+    
+    public List<Archivo> findArchivoPrincipalFirmardo(Integer idDocumento , Usuario usuario){
+        return archivoDAO.findArchivoPrincipalFirmardo(idDocumento, usuario);
+    }
+    
+     public List<Archivo> buscarDocumentosPublicar(String nroTramite){
+         return archivoDAO.buscarDocumentosPublicar(nroTramite);
+     }
+    
+    public List<Archivo> findArchivosxFirmar(Integer idDocumento , Usuario usuario){
+        return archivoDAO.findArchivosxFirmar(idDocumento, usuario);
+    }
+    
+    public List<Archivo> findArchivosxVisar(Integer idDocumento , Usuario usuario){
+        return archivoDAO.findArchivosxVisar(idDocumento, usuario);
+    }
+    
+    public List<Archivo> buscarArchivoExterno(String objectId, Integer nroTramite, String clave){
+        return archivoDAO.buscarArchivoExterno(objectId, nroTramite, clave);
+    }
+    
+    public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite){
+        return archivoDAO.buscarArchivosObjectId(objectId, nroTramite);
+    }
         
-        public List<Archivo> findArchivoPrincipalFirmardo(Integer idDocumento , Usuario usuario){
-            return getDao().findArchivoPrincipalFirmardo(idDocumento, usuario);
-        }
-        
-         public List<Archivo> buscarDocumentosPublicar(String nroTramite){
-             return getDao().buscarDocumentosPublicar(nroTramite);
-         }
-        
-        public List<Archivo> findArchivosxFirmar(Integer idDocumento , Usuario usuario){
-            return getDao().findArchivosxFirmar(idDocumento, usuario);
-        }
-        
-        public List<Archivo> findArchivosxVisar(Integer idDocumento , Usuario usuario){
-            return getDao().findArchivosxVisar(idDocumento, usuario);
-        }
-        
-        public List<Archivo> buscarArchivoExterno(String objectId, Integer nroTramite, String clave){
-            return getDao().buscarArchivoExterno(objectId, nroTramite, clave);
-        }
-        
-        public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite){
-            return getDao().buscarArchivosObjectId(objectId, nroTramite);
-        }
-
-	// ////////////////////////////////
-	// Methods //
-	// ////////////////////////////////
-        
-        public List<String> contarArchivosxFirmar(Integer idDocumento , Usuario usuario){
-           return  getDao().contarArchivosxFirmar(idDocumento, usuario);
-        }
+    public List<String> contarArchivosxFirmar(Integer idDocumento , Usuario usuario){
+       return  archivoDAO.contarArchivosxFirmar(idDocumento, usuario);
+    }
         
 	public Archivo findByCriteria(Integer iIdDoc,String strNombre){
 		try{
-			return getDao().buscarObjPor(iIdDoc,strNombre);
+			return archivoDAO.buscarObjPor(iIdDoc,strNombre);
 		}catch(RuntimeException re){
 			log.error("",re);
 			return null;
@@ -110,50 +132,48 @@ public class ArchivoServiceImpl implements ArchivoService{
 	}
 
 	public List<Archivo> findByIdNombreEstado(Integer idDocumento, String nombre){
-		return getDao().findByIdNombreEstado(idDocumento, nombre);
+		return archivoDAO.findByIdNombreEstado(idDocumento, nombre);
 	}
 
 	public Archivo findById(Integer idArchivo){
-		return getDao().buscarObjPorId(idArchivo);
+		return archivoDAO.buscarObjPorId(idArchivo);
 	}
-        
-  
-        
-         public List<Archivo> buscarArchivosPorRutaDocumento(Integer idDocumento, String nombre){
-              return getDao().buscarArchivosPorRutaDocumento(idDocumento , nombre);
-         }
-        
-        public Long buscarArchivosPorRuta(String ruta, Usuario usuario){
-              return getDao().buscarArchivosPorRuta(ruta, usuario);
-         }
+
+	public List<Archivo> buscarArchivosPorRutaDocumento(Integer idDocumento, String nombre){
+	      return archivoDAO.buscarArchivosPorRutaDocumento(idDocumento , nombre);
+	}
+    
+    public Long buscarArchivosPorRuta(String ruta, Usuario usuario){
+          return archivoDAO.buscarArchivosPorRuta(ruta, usuario);
+     }
 
 	public List<Archivo> buscarPorAutor(Integer idAutor, Integer idDocumento){
-		return dao.buscarPorAutor(idAutor, idDocumento);
+		return archivoDAO.buscarPorAutor(idAutor, idDocumento);
 	}
         
-        public List<Archivo> buscarPorAutor(Usuario usuario, Integer idDocumento){
-		return dao.buscarPorAutor(usuario, idDocumento);
+    public List<Archivo> buscarPorAutor(Usuario usuario, Integer idDocumento){
+		return archivoDAO.buscarPorAutor(usuario, idDocumento);
 	}
         
-        public List<Item> buscarItemArchivoXAutor(Usuario usuario, Integer idDocumento){
+    public List<Item> buscarItemArchivoXAutor(Usuario usuario, Integer idDocumento){
                 List<Archivo> archivos = buscarPorAutor(usuario, idDocumento);
 		List<Item> items = new ArrayList<Item>();
                 Documento d = documentoDAO.findByIdDocumento(idDocumento);
 		if(archivos != null && !archivos.isEmpty()){
 			for(Archivo archivo : archivos){
-                            if (d.getNroVirtual()==null){
-				Item item = new Item();
-				item.setId(archivo.getIdArchivo());
-				item.setNombre(archivo.getNombreArchivo());
-				items.add(item);
-                            }else{
-                                if (archivo.getPrincipal()!= 'S' && archivo.getPrincipal()!= 'M'){
-                                    Item item = new Item();
-                                    item.setId(archivo.getIdArchivo());
-                                    item.setNombre(archivo.getNombreArchivo());
-                                    items.add(item);
-                                }    
-                            }    
+                if (d.getNroVirtual()==null){
+					Item item = new Item();
+					item.setId(archivo.getIdArchivo());
+					item.setNombre(archivo.getNombreArchivo());
+					items.add(item);
+                }else{
+                    if (archivo.getPrincipal()!= 'S' && archivo.getPrincipal()!= 'M'){
+                        Item item = new Item();
+                        item.setId(archivo.getIdArchivo());
+                        item.setNombre(archivo.getNombreArchivo());
+                        items.add(item);
+                    }    
+                }    
 			}
 		}
 
@@ -179,11 +199,11 @@ public class ArchivoServiceImpl implements ArchivoService{
 	@Transactional
 	public void eliminarArchivo(Integer idArchivo, Usuario usuario){
 		try{
-			Archivo archivo = dao.buscarObjPorId(idArchivo);
+			Archivo archivo = archivoDAO.buscarObjPorId(idArchivo);
 			archivo.setEstado(Constantes.ESTADO_INACTIVO);
                         archivo.setFechaModificacion(new Date());
                         archivo.setUsuariomodificacion(usuario.getIdusuario());
-			dao.guardarObj(archivo);
+                        archivoDAO.guardarObj(archivo);
 		}catch(NoResultException e){
 			e.printStackTrace();
 		}
@@ -191,11 +211,11 @@ public class ArchivoServiceImpl implements ArchivoService{
 
 	@Transactional
 	public Archivo saveArchivo(Archivo objA){
-                return getDao().guardarObj(objA);
+                return archivoDAO.guardarObj(objA);
 	}
 
 	public File getFile(Integer idArchivo,char tipo) throws FileNotFoundException{
-		Archivo archivo=getDao().buscarObjPorId(idArchivo);
+		Archivo archivo=archivoDAO.buscarObjPorId(idArchivo);
 		if(archivo!=null){
 			File f=null;
 			if(tipo==Archivo.ESTADO_REGISTRADO){
@@ -247,8 +267,8 @@ public class ArchivoServiceImpl implements ArchivoService{
 
 	public Integer checkEstadoDigitalizacion(Integer iIdDoc){
 		try{
-			List<Archivo> lstArch1=getDao().findByIdDocumento(iIdDoc);
-			List<Archivo> lstArch2=getDao().checkEstadoDigitalizacion(iIdDoc);
+			List<Archivo> lstArch1=archivoDAO.findByIdDocumento(iIdDoc);
+			List<Archivo> lstArch2=archivoDAO.checkEstadoDigitalizacion(iIdDoc);
 			if(lstArch1==null){
 				return 1;
 			}
@@ -267,7 +287,7 @@ public class ArchivoServiceImpl implements ArchivoService{
 
 	@Override
 	public Map<String,List<Archivo>> findByIdDocumento(Integer idDocumento){
-		List<Archivo> archivos=dao.findByIdDocumento(idDocumento);
+		List<Archivo> archivos=archivoDAO.findByIdDocumento(idDocumento);
 		List<Archivo> alfrescados;
 		if(archivos!=null){
 			alfrescados=new ArrayList<Archivo>();
@@ -288,10 +308,9 @@ public class ArchivoServiceImpl implements ArchivoService{
 		return null;
 	}
 
-
 	public Map<String,List<Archivo>> getArchivoList(Integer iIdExpediente,Integer iIdDocumento,String strRol){
 		//int iBracket;
-		List<Archivo> lstArch=getDao().findByIdDocumentoOrderDesc(iIdExpediente,iIdDocumento,strRol);
+		List<Archivo> lstArch=archivoDAO.findByIdDocumentoOrderDesc(iIdExpediente,iIdDocumento,strRol);
 		for(Archivo objA : lstArch){
 			/*iBracket=objA.getNombre().indexOf("]");
 			if(iBracket!=-1){
@@ -315,7 +334,7 @@ public class ArchivoServiceImpl implements ArchivoService{
 	}
 
 	public Map<String,List<Archivo>> getArchivoListPorDocumento(Integer iIdDocumento){
-		List<Archivo> lstArch=getDao().findByIdDocumento(iIdDocumento);
+		List<Archivo> lstArch=archivoDAO.findByIdDocumento(iIdDocumento);
                 Map<String,List<Archivo>> salida=new HashMap<String,List<Archivo>>();
 		salida.put("upload1",lstArch);
 		return salida;
@@ -335,9 +354,9 @@ public class ArchivoServiceImpl implements ArchivoService{
 		List<Archivo> archivos;
                 
                 if (documento.getDocumentoreferencia()==null){
-                    archivos=dao.findByIdDocumento(documento.getIdDocumento());
+                    archivos=archivoDAO.findByIdDocumento(documento.getIdDocumento());
                 }else{
-                    archivos=dao.findByIdDocumento(documento.getDocumentoreferencia());
+                    archivos=archivoDAO.findByIdDocumento(documento.getDocumentoreferencia());
                 }
                
                 for(Archivo archivo : archivos){
@@ -354,7 +373,7 @@ public class ArchivoServiceImpl implements ArchivoService{
 	@Transactional
 	public void updateEstadoByArchivo(Integer iIdArchivo,Character cEstado){
 		int iUpdates=0;
-		iUpdates=dao.updateEstado(iIdArchivo,cEstado);
+		iUpdates=archivoDAO.updateEstado(iIdArchivo,cEstado);
 		log.debug("Numero de archivos actualizados ["+iUpdates+"]");
 	}
 
@@ -373,7 +392,7 @@ public class ArchivoServiceImpl implements ArchivoService{
 				}
 			}
 			for(Archivo objArchivo : lstArchivo){
-				if(dao.updateEstado(objArchivo.getIdArchivo(),cEstado)>0){
+				if(archivoDAO.updateEstado(objArchivo.getIdArchivo(),cEstado)>0){
 					iUpdates++;
 				}
 			}
@@ -388,6 +407,7 @@ public class ArchivoServiceImpl implements ArchivoService{
 		int iContador=0;
 		for(ArchivoTemporal objArchivoTemporal : lstArchivoTemporal){
 			File fArchivo=this.renombrarArchivoDigitalizacion(objDocumento,objArchivoTemporal,iContador);
+			
 			if(fArchivo!=null&&fArchivo.exists()){
 				Archivo objArchivo=new Archivo();
 				objArchivo.setDocumento(objDocumento);
@@ -400,8 +420,8 @@ public class ArchivoServiceImpl implements ArchivoService{
 				// if(tmpExtension.equalsIgnoreCase("tif") ||
 				// tmpExtension.equalsIgnoreCase("tiff")){
 				//objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_NO);
-            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
-            objArchivo.setRutaArchivoPdf(fArchivo.getAbsolutePath());
+	            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+	            objArchivo.setRutaArchivoPdf(fArchivo.getAbsolutePath());
 				// }else{
 				// objArchivo.setEstadodigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
 				// }
@@ -469,111 +489,113 @@ public class ArchivoServiceImpl implements ArchivoService{
 	@Transactional
 	public Archivo guardarArchivoTemporal(ArchivoTemporal objArchivoTemporal,Documento objDocumento,Integer iContador, Usuario usuarioSesion, String nombrePDFprincipal, String siglaSite){
 		Archivo archivo = null;
+		
 		try {
-		String nombre_original = nombrePDFprincipal;
-                if(objDocumento==null){
-					throw new RuntimeException();
-				}
-        
-                Date d=new Date();
-                
-                if (nombrePDFprincipal!=null && !nombrePDFprincipal.trim().equals("") && objArchivoTemporal.getSNombre().toLowerCase().equals(nombrePDFprincipal.toLowerCase())){
-                    int contcadena = objArchivoTemporal.getSNombre().lastIndexOf(".");
-                    String extension = "";
-                    if (contcadena>0)
-                      extension = objArchivoTemporal.getSNombre().substring(contcadena, objArchivoTemporal.getSNombre().length());
-                   
-                    if (objDocumento.getID_EXTERNO().toString().equals("1")){
-                       objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + extension.toLowerCase());
-                       nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + extension.toLowerCase();
-                    }else{  
-                       if(String.valueOf(objDocumento.getTipoDocumento().getIdtipodocumento()).equals(Constantes.COD_TIPODOCUMENTO_OFICIO_CIRCULAR))
-                       {
-                            objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + objDocumento.getNumeroDocumento().replace("N°", "").trim() +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase());
-                            nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  objDocumento.getNumeroDocumento().replace("N°", "").trim() +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase();  
-                       }else{
-                            objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + objDocumento.getNumeroDocumento().replace("N°", "").trim() + extension.toLowerCase());
-                            nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  objDocumento.getNumeroDocumento().replace("N°", "").trim() + extension.toLowerCase();  
-                       }
-                    }
-                }else{
-                    int contcadena = objArchivoTemporal.getSNombre().lastIndexOf(".");
-                    String extension = "";
-                    String nombre = objArchivoTemporal.getSNombre().toUpperCase();
-                    
-                    if (contcadena>0){
-                      nombre =  objArchivoTemporal.getSNombre().toUpperCase().substring(0, contcadena).replace(" ", "_").replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("N°", "N").replace("°", "");
-                      extension = objArchivoTemporal.getSNombre().substring(contcadena, objArchivoTemporal.getSNombre().length()).toLowerCase();
-                    }
-                    
-                    if (objArchivoTemporal.getPrincipal().equals("C"))
-                       objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_CARGO_" + nombre + extension);
-                    if (objArchivoTemporal.getPrincipal().equals("A"))
-                       objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_ANX_" + nombre + extension);
-                    if (objArchivoTemporal.getPrincipal().equals("Y"))
-                       objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_PROYECTO_" + nombre + extension);
-                }
-                
-                ///////////////////////jc fin ///////
-                String sNuevoNombre="["+objDocumento.getIdDocumento()+"_"+DateFormatUtils.format(d,"yyyyMMddHHmmss")+"_"+iContador+"]"+objArchivoTemporal.getSNombre();
-		String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
+			String nombre_original = nombrePDFprincipal;
 		
-                File f=new File(rutaDig,sNuevoNombre);
-		
-                try{
-		    FileUtils.moveFile(objArchivoTemporal.getFArchivo(),f);
-		}catch(Exception ex){
-		    log.error(ex.getMessage(),ex);
-		}
-		// Registrando el archivo en SIGED y subiendo al Alfresco
-		Archivo objArchivo=new Archivo();
-		String ruta=f.getAbsolutePath();
-		objArchivo.setDocumento(objDocumento);
-		objArchivo.setNombre(f.getName());
-		String sNombreReal = f.getName();
-		Integer i = sNombreReal.indexOf("]");
-		sNombreReal= sNombreReal.substring(i+1);
+	        if(objDocumento==null){
+				throw new RuntimeException();
+			}
+	
+	        Date d=new Date();
+	        
+	        if (nombrePDFprincipal!=null && !nombrePDFprincipal.trim().equals("") && objArchivoTemporal.getSNombre().toLowerCase().equals(nombrePDFprincipal.toLowerCase())){
+	            int contcadena = objArchivoTemporal.getSNombre().lastIndexOf(".");
+	            String extension = "";
+	            if (contcadena>0)
+	              extension = objArchivoTemporal.getSNombre().substring(contcadena, objArchivoTemporal.getSNombre().length());
+	           
+	            if (objDocumento.getID_EXTERNO().toString().equals("1")){
+	               objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + extension.toLowerCase());
+	               nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + extension.toLowerCase();
+	            }else{  
+	               if(String.valueOf(objDocumento.getTipoDocumento().getIdtipodocumento()).equals(Constantes.COD_TIPODOCUMENTO_OFICIO_CIRCULAR))
+	               {
+	                    objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + objDocumento.getNumeroDocumento().replace("N°", "").trim() +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase());
+	                    nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  objDocumento.getNumeroDocumento().replace("N°", "").trim() +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase();  
+	               }else{
+	                    objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + objDocumento.getNumeroDocumento().replace("N°", "").trim() + extension.toLowerCase());
+	                    nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  objDocumento.getNumeroDocumento().replace("N°", "").trim() + extension.toLowerCase();  
+	               }
+	            }
+	        }else{
+	            int contcadena = objArchivoTemporal.getSNombre().lastIndexOf(".");
+	            String extension = "";
+	            String nombre = objArchivoTemporal.getSNombre().toUpperCase();
+	            
+	            if (contcadena>0){
+	              nombre =  objArchivoTemporal.getSNombre().toUpperCase().substring(0, contcadena).replace(" ", "_").replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("N°", "N").replace("°", "");
+	              extension = objArchivoTemporal.getSNombre().substring(contcadena, objArchivoTemporal.getSNombre().length()).toLowerCase();
+	            }
+	            
+	            if (objArchivoTemporal.getPrincipal().equals("C"))
+	               objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_CARGO_" + nombre + extension);
+	            if (objArchivoTemporal.getPrincipal().equals("A"))
+	               objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_ANX_" + nombre + extension);
+	            if (objArchivoTemporal.getPrincipal().equals("Y"))
+	               objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_PROYECTO_" + nombre + extension);
+	        }
+	        
+	        String sNuevoNombre="["+objDocumento.getIdDocumento()+"_"+DateFormatUtils.format(d,"yyyyMMddHHmmss")+"_"+iContador+"]"+objArchivoTemporal.getSNombre();
+	        String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
+	
+	        File f=new File(rutaDig,sNuevoNombre);
+
+	        try{
+	        	FileUtils.moveFile(objArchivoTemporal.getFArchivo(),f);
+			}catch(Exception ex){
+			    log.error(ex.getMessage(),ex);
+			}
+	        
+			// Registrando el archivo en SIGED y subiendo al Alfresco
+			Archivo objArchivo=new Archivo();
+			String ruta=f.getAbsolutePath();
+			objArchivo.setDocumento(objDocumento);
+			objArchivo.setNombre(f.getName());
+			String sNombreReal = f.getName();
+			Integer i = sNombreReal.indexOf("]");
+			sNombreReal= sNombreReal.substring(i+1);
                 
-               if((sNombreReal.toString().trim().toLowerCase()).equals(nombrePDFprincipal.toString().trim().toLowerCase())){
-                   objArchivo.setPrincipal('S');
-	       }else{
-                   if (objArchivoTemporal.getPrincipal().equals("C"))
-                      objArchivo.setPrincipal('C');
-                   if (objArchivoTemporal.getPrincipal().equals("A"))
-                      objArchivo.setPrincipal('N');
-                   if (objArchivoTemporal.getPrincipal().equals("Y"))
-                      objArchivo.setPrincipal('Y');
-	       }
-                
-                objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
-		objArchivo.setFechaCreacion(new Date());
-                objArchivo.setRutaArchivoPdf(ruta);
-		objArchivo.setRutaAlfresco(srvRepositorio.obtenerRutaDocumento(objDocumento, siglaSite, objDocumento.getTipoDocumento().getCodigo())+objArchivoTemporal.getSNombre());
-		objArchivo.setAutor(new Usuario(usuarioSesion.getIdUsuarioPerfil()));
-                objArchivo.setUnidadAutor(usuarioSesion.getIdUnidadPerfil());
-                objArchivo.setUsuariocreacion(usuarioSesion.getIdusuario());
-                objArchivo.setUsuariomodificacion(usuarioSesion.getIdusuario());
-                objArchivo.setClave(null);
-                
-                try{
-                    objArchivo.setTamano(Integer.valueOf((int)f.length()));
-                }catch(Exception e){
-                    objArchivo.setTamano(null);
-                }
-                
-		objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
-                Tipodocumento t = tipoDocumentoDao.findByIdTipoDocumento(objDocumento.getTipoDocumento().getIdtipodocumento());
-              
-                if (objDocumento.getID_EXTERNO().toString().equals("0") && t.getExternoQR() !=null && t.getExternoQR().toString().equals("1") && objArchivo.getPrincipal()=='S'){
-                    String clave = PasswordGenerator.getPassword(
-		    PasswordGenerator.MINUSCULAS+
-		    PasswordGenerator.MAYUSCULAS+
-		    PasswordGenerator.NUMEROS, 7);   
-                    clave = clave.replaceAll("i", "U").replaceAll("I", "2").replaceAll("l", "U").replaceAll("L", "2");
-                    objArchivo.setClave(clave);
-                } 
-                
-             archivo = this.saveArchivo(objArchivo);
+           if((sNombreReal.toString().trim().toLowerCase()).equals(nombrePDFprincipal.toString().trim().toLowerCase())){
+               objArchivo.setPrincipal('S');
+           }else{
+               if (objArchivoTemporal.getPrincipal().equals("C"))
+                  objArchivo.setPrincipal('C');
+               if (objArchivoTemporal.getPrincipal().equals("A"))
+                  objArchivo.setPrincipal('N');
+               if (objArchivoTemporal.getPrincipal().equals("Y"))
+                  objArchivo.setPrincipal('Y');
+       		}
+            
+            objArchivo.setEstadoDigitalizacion(Constantes.ARCHIVO_ESTADO_DIGITALIZACION_YES);
+            objArchivo.setFechaCreacion(new Date());
+            objArchivo.setRutaArchivoPdf(ruta);
+            objArchivo.setRutaAlfresco(srvRepositorio.obtenerRutaDocumento(objDocumento, siglaSite, objDocumento.getTipoDocumento().getCodigo())+objArchivoTemporal.getSNombre());
+            objArchivo.setAutor(new Usuario(usuarioSesion.getIdUsuarioPerfil()));
+            objArchivo.setUnidadAutor(usuarioSesion.getIdUnidadPerfil());
+            objArchivo.setUsuariocreacion(usuarioSesion.getIdusuario());
+            objArchivo.setUsuariomodificacion(usuarioSesion.getIdusuario());
+            objArchivo.setClave(null);
+            
+            try{
+                objArchivo.setTamano(Integer.valueOf((int)f.length()));
+            }catch(Exception e){
+                objArchivo.setTamano(null);
+            }
+            
+            objArchivo.setEstado(Constantes.ESTADO_ACTIVO);
+            Tipodocumento t = tipoDocumentoDao.findByIdTipoDocumento(objDocumento.getTipoDocumento().getIdtipodocumento());
+          
+            if (objDocumento.getID_EXTERNO().toString().equals("0") && t.getExternoQR() !=null && t.getExternoQR().toString().equals("1") && objArchivo.getPrincipal()=='S'){
+                String clave = PasswordGenerator.getPassword(
+			    PasswordGenerator.MINUSCULAS+
+			    PasswordGenerator.MAYUSCULAS+
+			    PasswordGenerator.NUMEROS, 7);   
+                clave = clave.replaceAll("i", "U").replaceAll("I", "2").replaceAll("l", "U").replaceAll("L", "2");
+                objArchivo.setClave(clave);
+            } 
+            
+            archivo = this.saveArchivo(objArchivo);
         } catch (Exception e){
         	e.printStackTrace();
         }
@@ -583,7 +605,7 @@ public class ArchivoServiceImpl implements ArchivoService{
 
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=true)
 	public List<Archivo> buscarLstPor(Integer iIdDocumento,String sNombre,SearchMode sm){
-		return dao.findByCriteria(iIdDocumento,sNombre,sm);
+		return archivoDAO.findByCriteria(iIdDocumento,sNombre,sm);
 	}
 
 	public Map<String,List<ArchivoTemporal>> obtenerArchivosRechazados(Integer iIdDocumento){
@@ -620,12 +642,11 @@ public class ArchivoServiceImpl implements ArchivoService{
 		return mapUpload;
 	}
 
-    
    @Override
    public List<Archivo> findLstByExpediente(Integer idExpediente) {
       try {
          //TODO Mejorar los parametros de busqueda, deberia ser un Map
-         return dao.findlstByExpediente(idExpediente);
+         return archivoDAO.findlstByExpediente(idExpediente);
       } catch (Exception e) {
          log.error(e.getMessage(), e);
 
@@ -636,54 +657,19 @@ public class ArchivoServiceImpl implements ArchivoService{
    @Override
    public List<Archivo> findLstByIdDocumento(Integer idDocumento) {
 	   log.info("idDocumento:"+idDocumento);
-      return dao.findByIdDocumento(idDocumento);
+      return archivoDAO.findByIdDocumento(idDocumento);
    }
 
-	// ////////////////////////////////
-	// Getters and Setters //
-	// ////////////////////////////////
-	public ArchivoDAO getDao(){
-		return dao;
-	}
-
-	public void setDao(ArchivoDAO dao){
-		this.dao=dao;
-	}
-
-	public RepositorioService getSrvRepositorio(){
-		return srvRepositorio;
-	}
-
-	public void setSrvRepositorio(RepositorioService srvRepositorio){
-		this.srvRepositorio=srvRepositorio;
-	}
-
-	
-
-        /*
-    public void setAlfrescoWebServiceClient(AlfrescoWSService alfrescoWebServiceClient) {
-        this.alfrescoWebServiceClient = alfrescoWebServiceClient;
-    }*/
-
-    public void setAlfrescoWebscriptClient(AlfrescoWebscriptService alfrescoWebscriptClient) {
-        this.alfrescoWebscriptClient = alfrescoWebscriptClient;
-    }
-
-	@Override
-	public Archivo getArchivoPrincipalPorDocumento(
-			Integer iIdDocumento) {
-		try{
-			return getDao().findByArchivoPrincipalIdDocumento(iIdDocumento);
-		}catch(RuntimeException re){
-			log.error("",re);
-			return null;
-		}
+    @Transactional
+    @Override
+	public Archivo buscarArchivoPrincipalPorDocumento(Integer idDocumento) {
+    	return archivoDAO.buscarArchivoPrincipalPorDocumento(idDocumento);
 	}
 
 	@Override
 	public List<Archivo> getArchivoListPorDocumentoIG(Integer iIdDocumento) {
 		try{
-			return getDao().findByIdDocumento(iIdDocumento);
+			return archivoDAO.findByIdDocumento(iIdDocumento);
 		}catch(RuntimeException re){
 			log.error("",re);
 			return null;
@@ -724,7 +710,7 @@ public class ArchivoServiceImpl implements ArchivoService{
  			for (int i=(extensionTemp.length()-1);i+1>0;i--) {
  	            extension +=extensionTemp.charAt(i);
  	        }
- 				return extension;
+		return extension;
 
  	}
 
@@ -735,19 +721,17 @@ public class ArchivoServiceImpl implements ArchivoService{
 		int iUpdates=0;
 		Archivo objArchivo=null;
 		try{
-			objArchivo=dao.buscarObjPorId(iIdArchivo);
+			objArchivo=archivoDAO.buscarObjPorId(iIdArchivo);
 			if(objArchivo !=null ){
 				objArchivo.setPrincipal(principal);
 				log.debug("objArchivo.getIdArchivo()"+objArchivo.getIdArchivo()+ "objArchivo.getNombreReal()"+objArchivo.getNombreReal()+ "objArchivo.getPrincipal()"+ objArchivo.getPrincipal() );
-				dao.updateArchivo(objArchivo);
+				archivoDAO.updateArchivo(objArchivo);
 			}
 			iUpdates = 1;
 		}catch(NoResultException e){
 			log.error(e.getMessage());
 			iUpdates = 0;
 		}
-
-		log.debug("Numero de archivos actualizados ["+iUpdates+"]");
 	}
 
 	@Override

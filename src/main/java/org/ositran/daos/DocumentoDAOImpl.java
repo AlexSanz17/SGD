@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -5596,98 +5596,98 @@ log.debug("-> [DAO] DocumentoDAO - findByDataUF():List ");
 		this.parametroService = parametroService;
 	}
 
-        ////////////CAMBIO PARA RESULTADO TRIBUTARIO///////////////////////////////////////////////
-        public List<Documento> getDocumentoByTipoByUnidad(String tipodocumento, String unidadautor, Integer expediente) {
-                               log.debug("-> [DAO] DocumentoDAO - getDocumentoByTipoByUnidad():List<Documento> ");
-                
-                String sql = "select d.iddocumento, d.nrodocumento, t.descripcion, d.expediente, e.nroexpediente, e.asunto, e.observacion, e.serie"
-                        + " from documento d " +
-                        "inner join tipodocumento t on t.idtipodocumento = d.tipodocumento " +
-                        "inner join expediente e on e.idexpediente = d.expediente " +
-                        "where d.tipodocumento = "+tipodocumento+" and d.unidadautor = "+unidadautor+" and d.expediente = "+expediente+" order by d.iddocumento";
-                               Query q = em.createNativeQuery(sql);
-                
-                List<Documento> listaDocuemnto = null;
-                List<Object> res = (List<Object>) q.getResultList();
-                if (res!=null && res.size()>0){
-                    listaDocuemnto =  new ArrayList<Documento>();
-                    for (Object obj : res) {
-                                               Documento documento = new Documento();
-                                               Object[] objectArray = (Object[]) obj;
+    ////////////CAMBIO PARA RESULTADO TRIBUTARIO///////////////////////////////////////////////
+    public List<Documento> getDocumentoByTipoByUnidad(String tipodocumento, String unidadautor, Integer expediente) {
+       log.debug("-> [DAO] DocumentoDAO - getDocumentoByTipoByUnidad():List<Documento> ");
+        
+        String sql = "select d.iddocumento, d.nrodocumento, t.descripcion, d.expediente, e.nroexpediente, e.asunto, e.observacion, e.serie"
+                + " from documento d " +
+                "inner join tipodocumento t on t.idtipodocumento = d.tipodocumento " +
+                "inner join expediente e on e.idexpediente = d.expediente " +
+                "where d.tipodocumento = "+tipodocumento+" and d.unidadautor = "+unidadautor+" and d.expediente = "+expediente+" order by d.iddocumento";
+                       Query q = em.createNativeQuery(sql);
+        
+        List<Documento> listaDocuemnto = null;
+        List<Object> res = (List<Object>) q.getResultList();
+        if (res!=null && res.size()>0){
+            listaDocuemnto =  new ArrayList<Documento>();
+            for (Object obj : res) {
+                                       Documento documento = new Documento();
+                                       Object[] objectArray = (Object[]) obj;
+                if (objectArray[1]!=null)
+                {
+                    if(validarDocumentoRequerimiento(objectArray[1].toString(), expediente))
+                    {
+                        documento.setIdDocumento(Integer.valueOf(objectArray[0].toString()));
+                        String nroDocDes = "";
+                        String nroExpe = "";
+                        if (objectArray[2]!=null)
+                        {
+                            nroDocDes = objectArray[2].toString();
+                            nroExpe = objectArray[2].toString();
+                        }
+                        else
+                        {
+                            nroDocDes = " ";
+                            nroExpe = " ";
+                        }
                         if (objectArray[1]!=null)
                         {
-                            if(validarDocumentoRequerimiento(objectArray[1].toString(), expediente))
-                            {
-                                documento.setIdDocumento(Integer.valueOf(objectArray[0].toString()));
-                                String nroDocDes = "";
-                                String nroExpe = "";
-                                if (objectArray[2]!=null)
-                                {
-                                    nroDocDes = objectArray[2].toString();
-                                    nroExpe = objectArray[2].toString();
-                                }
-                                else
-                                {
-                                    nroDocDes = " ";
-                                    nroExpe = " ";
-                                }
-                                if (objectArray[1]!=null)
-                                {
-                                    nroDocDes = nroDocDes + " - " +objectArray[1].toString();
-                                    nroExpe = nroExpe + " /-/ " +objectArray[1].toString();
-                                }else
-                                {
-                                    nroDocDes = nroDocDes + " - " +" ";
-                                    nroExpe = nroExpe + " /-/ " +" ";
-                                }
-
-                                documento.setNumeroDocumento(nroDocDes);
-
-                                if (objectArray[3]!=null)
-                                    nroExpe = nroExpe + " /-/ " +objectArray[3].toString();
-                                else
-                                    nroExpe = nroExpe + " /-/ " +" ";
-                                
-                                if (objectArray[4]!=null)
-                                    nroExpe = nroExpe + " /-/ " +objectArray[4].toString();
-                                else
-                                    nroExpe = nroExpe + " /-/ " +" ";
-                                
-                                if (objectArray[5]!=null)
-                                    nroExpe = nroExpe + " /-/ " +objectArray[5].toString();
-                                else
-                                    nroExpe = nroExpe + " /-/ " +" ";
-                                
-                                if (objectArray[6]!=null)
-                                    nroExpe = nroExpe + " /-/ " +objectArray[6].toString();
-                                else
-                                    nroExpe = nroExpe + " /-/ " +" ";
-                                
-                                if (objectArray[7]!=null)
-                                    nroExpe = nroExpe + " /-/ " +objectArray[7].toString();
-                                else
-                                    nroExpe = nroExpe + " /-/ " +" ";
-                                
-                                documento.setNroexpediente(nroExpe);
-
-                                listaDocuemnto.add(documento);
-                            }
+                            nroDocDes = nroDocDes + " - " +objectArray[1].toString();
+                            nroExpe = nroExpe + " /-/ " +objectArray[1].toString();
+                        }else
+                        {
+                            nroDocDes = nroDocDes + " - " +" ";
+                            nroExpe = nroExpe + " /-/ " +" ";
                         }
-                                               
+
+                        documento.setNumeroDocumento(nroDocDes);
+
+                        if (objectArray[3]!=null)
+                            nroExpe = nroExpe + " /-/ " +objectArray[3].toString();
+                        else
+                            nroExpe = nroExpe + " /-/ " +" ";
+                        
+                        if (objectArray[4]!=null)
+                            nroExpe = nroExpe + " /-/ " +objectArray[4].toString();
+                        else
+                            nroExpe = nroExpe + " /-/ " +" ";
+                        
+                        if (objectArray[5]!=null)
+                            nroExpe = nroExpe + " /-/ " +objectArray[5].toString();
+                        else
+                            nroExpe = nroExpe + " /-/ " +" ";
+                        
+                        if (objectArray[6]!=null)
+                            nroExpe = nroExpe + " /-/ " +objectArray[6].toString();
+                        else
+                            nroExpe = nroExpe + " /-/ " +" ";
+                        
+                        if (objectArray[7]!=null)
+                            nroExpe = nroExpe + " /-/ " +objectArray[7].toString();
+                        else
+                            nroExpe = nroExpe + " /-/ " +" ";
+                        
+                        documento.setNroexpediente(nroExpe);
+
+                        listaDocuemnto.add(documento);
                     }
-                               }               
-                               return listaDocuemnto;
                 }
+                                       
+            }
+	   }
         
-        private boolean validarDocumentoRequerimiento(String nrodocumento, Integer expediente){
-            boolean estado = true;
-            String sql = "select * from documento where nrodocumento='"+nrodocumento+"' "
-                    + "and tipodocumento='"+parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor()+"' "
-                    + "and expediente = "+expediente;
-            Query q = em.createNativeQuery(sql);
-            if(q.getResultList()!=null && q.getResultList().size() > 0)    
-                estado = false;
-            return estado;
-        }
+	   return listaDocuemnto;
+    }
         
+    private boolean validarDocumentoRequerimiento(String nrodocumento, Integer expediente){
+        boolean estado = true;
+        String sql = "select * from documento where nrodocumento='"+nrodocumento+"' "
+                + "and tipodocumento='"+parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor()+"' "
+                + "and expediente = "+expediente;
+        Query q = em.createNativeQuery(sql);
+        if(q.getResultList()!=null && q.getResultList().size() > 0)    
+            estado = false;
+        return estado;
+    }
 }

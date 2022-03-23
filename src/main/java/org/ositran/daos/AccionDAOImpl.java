@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

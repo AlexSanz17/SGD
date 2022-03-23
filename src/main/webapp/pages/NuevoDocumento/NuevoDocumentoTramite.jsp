@@ -379,15 +379,7 @@
         	 dijit.byId("fsClienteInstitucionTramite").attr("readOnly", true);
         	 dijit.byId("fsClienteEmpresaTramite").attr("readOnly", true);
         	 dijit.byId("fsClientePersonaTramite").attr("readOnly", true);
-             
-             dojo.byId("tbNroFoliosPIDETramite").style.display = "";  
-             dijit.byId("objDD.iNroFoliosPIDETramite").attr("required", true);
-             dojo.byId("tbDetalleAdjuntosTramite").style.display = "none";
-             dojo.byId("tbAdjuntosGrilla").style.display = "none";
-             
-             dijit.byId("objDD.iNroFoliosTramite").attr("required", false);
-             dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("required", false);
-            
+
              dijit.byId("objDD.asuntoExpedienteTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
              dijit.byId("objDD.asuntoExpedienteTramite").attr("readOnly", true);
              dijit.byId("objDD.iIdSerieTramite").attr("value", "1");
@@ -403,26 +395,22 @@
              
              dijit.byId("objDD.esTipoRecepcionTramite").attr("value","1");
              
-             var jsonStoreInstitucion = new dojo.data.ItemFileWriteStore({url: 'obtenerCliente.action?iIdCliente=' + '<s:property value='objDD.iIdCliente'/>'}); 
-             jsonStoreInstitucion.close();
-             jsonStoreInstitucion.fetch();
-             
-             dijit.byId('objDD.iIdInstitucionTramite').store=jsonStoreInstitucion;
-             dijit.byId("objDD.iIdInstitucionTramite").attr("value","<s:property value='objDD.iIdCliente' />");
-             dijit.byId("objDD.iIdInstitucionTramite").attr("readOnly", true);
-             
-             /*
-             dijit.byId("objDD.iNroFoliosTramite").attr("value", "s:property value='recepcionVirtual.snumfol' />");
-             dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("value", "s:property value='recepcionVirtual.snumfol' />"); 
-             dijit.byId("objDD.iNroFoliosTramite").attr("readOnly", true);
-             dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("readOnly", true);
-             */
-                     
-             dijit.byId("objDD.iNroFoliosPIDETramite").attr("value", "<s:property value='recepcionVirtual.snumfol' />"); 
-             dijit.byId("objDD.iNroFoliosPIDETramite").attr("readOnly", false);
-             
              dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='recepcionVirtual.sidrecext.vuniorgrem' escape='false' />"); 
              dijit.byId("objDD.desUnidadOrganicaTramite").attr("readOnly", true);
+             
+             dijit.byId("objDD.iNroFoliosPIDETramite").attr("value", "<s:property value='documento.numeroFoliosPIDE' />");
+             dijit.byId("objDD.iNroFoliosTramite").attr("value","<s:property value='documento.numeroFolios'/>");
+             dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("value","<s:property value='documento.numeroFoliosOriginales'/>");
+             dijit.byId("objDD.iNroFoliosCopiasTramite").attr("value","<s:property value='documento.numeroFoliosCopias'/>"==null?"":"<s:property value='documento.numeroFoliosCopias'/>");
+//              dijit.byId("objDD.iNroFoliosDigitalizadosTramite").attr("value","<s:property value='documento.imagenesDigitalizadas'/>"==null?"":"<s:property value='documento.imagenesDigitalizadas'/>");
+             
+             dijit.byId("objDD.iNroFoliosPIDETramite").attr("required", true);
+             dijit.byId("objDD.iNroFoliosTramite").attr("required", true);
+//              dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("required", false);
+             
+             dojo.byId("tbNroFoliosPIDETramite").style.display = "";  
+             dojo.byId("tbDetalleAdjuntosTramite").style.display = "none";
+             dojo.byId("tbAdjuntosGrilla").style.display = "none";
          }
           
          function llenarCamposModificarRecepcionVirtual(){ 

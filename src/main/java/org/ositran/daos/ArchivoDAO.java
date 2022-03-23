@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.util.List;
 import com.btg.ositran.siged.domain.Usuario;
@@ -23,9 +23,9 @@ public interface ArchivoDAO {
    public List<Archivo> findByIdDocumentoOrderDesc(Integer iIdExpediente, Integer iIdDocumento, String sRol);
    public List<Archivo> findByEstado(char estado);
    public List<Archivo> findByIdDocumento(Integer iIdDoc);
+   public Archivo buscarArchivoPrincipalPorDocumento(Integer idDocumento);
    public int updateEstado(Integer iIdArchivo, Character cEstado);
    List<Archivo> findlstByExpediente(Integer idExpediente);
-   public Archivo findByArchivoPrincipalIdDocumento(Integer iIdDoc);
    public int updatePrincipal(Integer iIdArchivo , Character principal);
    public Archivo updateArchivo( Archivo objT);
    public List<Archivo> findByIdNombreEstado(Integer idDocumento, String nombre);
