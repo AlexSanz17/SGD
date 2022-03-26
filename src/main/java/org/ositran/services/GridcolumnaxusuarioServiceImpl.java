@@ -1949,5 +1949,4 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
     public void setDocumentoAnuladoDAO(DocumentoAnuladoDAO documentoAnuladoDAO) {
         this.documentoAnuladoDAO = documentoAnuladoDAO;
     }
-
 }

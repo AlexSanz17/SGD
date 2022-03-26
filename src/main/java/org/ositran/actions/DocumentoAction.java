@@ -145,33 +145,33 @@ public class DocumentoAction {
 	private Date fechaNotiReclamante;
 	private Date fechaNotiConcesionario;
 	private Date fecha;
-        private String bandeja;
-        private String fechaDetalle;
-        private DocumentoReunionDAO documentoReunionDAO;
-        private DocumentoAdjuntoDAO documentoAdjuntoDAO;
+    private String bandeja;
+    private String fechaDetalle;
+    private DocumentoReunionDAO documentoReunionDAO;
+    private DocumentoAdjuntoDAO documentoAdjuntoDAO;
 	private String executeAccion;
 	private boolean destinatarioIgualRemitente;
-        private boolean controlDevolver;
+    private boolean controlDevolver;
 	private boolean paraAprobar;
 	private boolean paraAlerta;
 	private boolean enVentana;
 	private boolean bBandeja;
 	private boolean bResponsable;
 	private boolean ownerproceso;
-        private String strReferencia;
-        private String strSeguimiento;
+    private String strReferencia;
+    private String strSeguimiento;
 	private boolean documentoStor;
 	private boolean mostrarEtapa;
 	private boolean desactivado;
-        private ProveidoDAO proveidoDAO;
-        private UnidadDAO unidadDAO;
+    private ProveidoDAO proveidoDAO;
+    private UnidadDAO unidadDAO;
 	private boolean unico;
-        private String accion;
+    private String accion;
 	private boolean flagMensaje;
 	private boolean deMail;
 	private boolean apelacion;
 	private boolean agregar;
-        private FuncionService funcionService;
+    private FuncionService funcionService;
 	private String ordenarFechaLimite;
 	private ExpedienteSearch objExpedienteSearch;
 	private Concesionario objConcesionario = null;
@@ -179,16 +179,16 @@ public class DocumentoAction {
 	private Documento documento;
 	private DocumentoDetail objDD;
 	private Documentofedateado objDF;
-        private DocumentoPendienteDAO documentoPendienteDAO;
-        private DocumentoAtendidoDAO documentoAtendidoDAO;
-        private DocumentoAnuladoDAO documentoAnuladoDAO;
-        private List<UsuarioDerivacion> listaDerivacionPara;
-        private FavoritoService favoritoService;
-        private List<UsuarioDerivacion> listaDerivacionCC;
+    private DocumentoPendienteDAO documentoPendienteDAO;
+    private DocumentoAtendidoDAO documentoAtendidoDAO;
+    private DocumentoAnuladoDAO documentoAnuladoDAO;
+    private List<UsuarioDerivacion> listaDerivacionPara;
+    private FavoritoService favoritoService;
+    private List<UsuarioDerivacion> listaDerivacionCC;
 	private Documento objDocumento;
 	private Boolean bBotonHabilitado;
 	private Expediente objExpediente;
-        private Legajo objLegajo;
+    private Legajo objLegajo;
 	private Cliente objCliente;
 	private ArchivoPendiente archivopendiente;
 	private Expedientestor expedienteStor;
@@ -201,16 +201,16 @@ public class DocumentoAction {
 	private List<Submotivo> submotivos;
 	private List<Suministro> suministros;
 	private List<Proveido> proveidos;
-        private List<Parametro> parametros;
-        private List<DocumentoReferencia> documentosReferencia;
-        private SeguimientoService seguimientoService;
+    private List<Parametro> parametros;
+    private List<DocumentoReferencia> documentosReferencia;
+    private SeguimientoService seguimientoService;
 	private DocumentoReferenciaService documentoReferenciaService;
 	private Integer iIdDoc;
-        private Integer iIdDocEmail;
+    private Integer iIdDocEmail;
 	private Integer iIdPro;
 	private Integer avisopermiso;
 	private Integer iIdExp;
-        private Integer iIdLegajo;
+    private Integer iIdLegajo;
 	private Integer idtrazabilidaddocumento;
 	private Integer idTrazabilidadapoyo;
 	private Integer idDocumentoSeleccionado;
@@ -223,10 +223,10 @@ public class DocumentoAction {
 	private Integer idprovincia;
 	private Integer iddistrito;
 	private Integer idproceso;
-        private Integer idserie;
+    private Integer idserie;
 	private Integer idconcesionario;
 	private Integer idDocumento;
-        private Integer idDocumentoLegajo;
+    private Integer idDocumentoLegajo;
 	private Integer idmotivo;
 	private Integer idsubmotivo;
 	private Integer idsala;
@@ -242,11 +242,11 @@ public class DocumentoAction {
 	private Integer iIdDocumento;
 	private String sObservacionAnular;
 	private Integer idenv;
-        private Integer idpendientes;
-        private Integer idatendidos;
-        private Integer idanulados;
-        private Integer idfirmados;
-        private Integer idseguimientos;
+    private Integer idpendientes;
+    private Integer idatendidos;
+    private Integer idanulados;
+    private Integer idfirmados;
+    private Integer idseguimientos;
 	private Integer idDocPrincipalExpediente;
 	private Integer[] storidsubmotivo;
 	private Integer[] arrIdDoc;
@@ -365,8 +365,8 @@ public class DocumentoAction {
 	private TrazabilidadcopiaService trazabilidadcopiaService;
 	private RolService rolService;
 	private LogOperacionService logOperacionService;
-        private List<TrazabilidadEnlace> trazabilidadenlace;
-        private DocumentoDerivacionDAO documentoDerivacionDAO;
+    private List<TrazabilidadEnlace> trazabilidadenlace;
+    private DocumentoDerivacionDAO documentoDerivacionDAO;
 	private String idDoc;
 	private String rutaAlfresco;
 	private Archivo archivo;
@@ -379,196 +379,204 @@ public class DocumentoAction {
 	private Boolean boVisor;
 	private String nombrePDFprincipal;
 	private Boolean bPDFprincipal;
-        private String arrFileFirmar;
+    private String arrFileFirmar;
 	private SeguimientoXUsuarioService seguimientoXUsuarioService;
-        private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
-        private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
-        private Integer proyecto;
-        private char flagBusqueda;
-        private char flagExpediente;
-        private LegajoService legajoService;
-        private LegajoDocumentoService legajoDocumentoService;
-        private FirmaArchivoDAO firmaArchivoDAO;
-        private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
-        private Integer codigoVirtual;
+    private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
+    private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
+    private Integer proyecto;
+    private char flagBusqueda;
+    private char flagExpediente;
+    private LegajoService legajoService;
+    private LegajoDocumentoService legajoDocumentoService;
+    private FirmaArchivoDAO firmaArchivoDAO;
+    private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+    private Integer codigoVirtual;
+    private Archivo archivoPrincipal;
         
-        public String getStrSeguimiento() {
-            return strSeguimiento;
-        }
+    public String getStrSeguimiento() {
+        return strSeguimiento;
+    }
 
-        public void setStrSeguimiento(String strSeguimiento) {
-            this.strSeguimiento = strSeguimiento;
-        }
-        
-        public String getFechaDetalle() {
-            return fechaDetalle;
-        }
+    public void setStrSeguimiento(String strSeguimiento) {
+        this.strSeguimiento = strSeguimiento;
+    }
+    
+    public Archivo getArchivoPrincipal() {
+		return archivoPrincipal;
+	}
 
-        public void setFechaDetalle(String fechaDetalle) {
-            this.fechaDetalle = fechaDetalle;
-        }
+	public void setArchivoPrincipal(Archivo archivoPrincipal) {
+		this.archivoPrincipal = archivoPrincipal;
+	}
 
-        public Integer getCodigoVirtual() {
-            return codigoVirtual;
-        }
+	public String getFechaDetalle() {
+        return fechaDetalle;
+    }
 
-        public void setCodigoVirtual(Integer codigoVirtual) {
-            this.codigoVirtual = codigoVirtual;
-        }
+    public void setFechaDetalle(String fechaDetalle) {
+        this.fechaDetalle = fechaDetalle;
+    }
 
-        public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
-            return documentoExternoVirtualDAO;
-        }
+    public Integer getCodigoVirtual() {
+        return codigoVirtual;
+    }
 
-        public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
-            this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
-        }
-        
-         public String getBandeja() {
-            return bandeja;
-        }
+    public void setCodigoVirtual(Integer codigoVirtual) {
+        this.codigoVirtual = codigoVirtual;
+    }
 
-        public void setBandeja(String bandeja) {
-            this.bandeja = bandeja;
-        }
-        
-        public boolean isControlDevolver() {
-            return controlDevolver;
-        }
+    public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
+        return documentoExternoVirtualDAO;
+    }
 
-        public void setControlDevolver(boolean controlDevolver) {
-            this.controlDevolver = controlDevolver;
-        }
+    public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
+        this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
+    }
+    
+     public String getBandeja() {
+        return bandeja;
+    }
 
-        public FirmaArchivoDAO getFirmaArchivoDAO() {
-            return firmaArchivoDAO;
-        }
+    public void setBandeja(String bandeja) {
+        this.bandeja = bandeja;
+    }
+    
+    public boolean isControlDevolver() {
+        return controlDevolver;
+    }
 
-        public void setFirmaArchivoDAO(FirmaArchivoDAO firmaArchivoDAO) {
-            this.firmaArchivoDAO = firmaArchivoDAO;
-        }
-        
-        public Legajo getObjLegajo() {
-            return objLegajo;
-        }
+    public void setControlDevolver(boolean controlDevolver) {
+        this.controlDevolver = controlDevolver;
+    }
 
-        public void setObjLegajo(Legajo objLegajo) {
-            this.objLegajo = objLegajo;
-        }
-        
-        public Integer getIdDocumentoLegajo() {
-            return idDocumentoLegajo;
-        }
+    public FirmaArchivoDAO getFirmaArchivoDAO() {
+        return firmaArchivoDAO;
+    }
 
-        public void setIdDocumentoLegajo(Integer idDocumentoLegajo) {
-            this.idDocumentoLegajo = idDocumentoLegajo;
-        }
+    public void setFirmaArchivoDAO(FirmaArchivoDAO firmaArchivoDAO) {
+        this.firmaArchivoDAO = firmaArchivoDAO;
+    }
+    
+    public Legajo getObjLegajo() {
+        return objLegajo;
+    }
 
-        public LegajoDocumentoService getLegajoDocumentoService() {
-            return legajoDocumentoService;
-        }
+    public void setObjLegajo(Legajo objLegajo) {
+        this.objLegajo = objLegajo;
+    }
+    
+    public Integer getIdDocumentoLegajo() {
+        return idDocumentoLegajo;
+    }
 
-        public void setLegajoDocumentoService(LegajoDocumentoService legajoDocumentoService) {
-            this.legajoDocumentoService = legajoDocumentoService;
-        }
-        
-        public Integer getiIdLegajo() {
-            return iIdLegajo;
-        }
+    public void setIdDocumentoLegajo(Integer idDocumentoLegajo) {
+        this.idDocumentoLegajo = idDocumentoLegajo;
+    }
 
-        public void setiIdLegajo(Integer iIdLegajo) {
-            this.iIdLegajo = iIdLegajo;
-        }
+    public LegajoDocumentoService getLegajoDocumentoService() {
+        return legajoDocumentoService;
+    }
 
-        public LegajoService getLegajoService() {
-            return legajoService;
-        }
+    public void setLegajoDocumentoService(LegajoDocumentoService legajoDocumentoService) {
+        this.legajoDocumentoService = legajoDocumentoService;
+    }
+    
+    public Integer getiIdLegajo() {
+        return iIdLegajo;
+    }
 
-        public void setLegajoService(LegajoService legajoService) {
-            this.legajoService = legajoService;
-        }
-        
-        public TipoLegajoUnidadDAO getTipoLegajoUnidadDAO() {
-            return tipoLegajoUnidadDAO;
-        }
+    public void setiIdLegajo(Integer iIdLegajo) {
+        this.iIdLegajo = iIdLegajo;
+    }
 
-        public void setTipoLegajoUnidadDAO(TipoLegajoUnidadDAO tipoLegajoUnidadDAO) {
-            this.tipoLegajoUnidadDAO = tipoLegajoUnidadDAO;
-        }
+    public LegajoService getLegajoService() {
+        return legajoService;
+    }
 
-        public char getFlagExpediente() {
-            return flagExpediente;
-        }
+    public void setLegajoService(LegajoService legajoService) {
+        this.legajoService = legajoService;
+    }
+    
+    public TipoLegajoUnidadDAO getTipoLegajoUnidadDAO() {
+        return tipoLegajoUnidadDAO;
+    }
 
-        public void setFlagExpediente(char flagExpediente) {
-            this.flagExpediente = flagExpediente;
-        }
+    public void setTipoLegajoUnidadDAO(TipoLegajoUnidadDAO tipoLegajoUnidadDAO) {
+        this.tipoLegajoUnidadDAO = tipoLegajoUnidadDAO;
+    }
 
-        public char getFlagBusqueda() {
-            return flagBusqueda;
-        }
+    public char getFlagExpediente() {
+        return flagExpediente;
+    }
 
-        public void setFlagBusqueda(char flagBusqueda) {
-            this.flagBusqueda = flagBusqueda;
-        }
-        
-        public ProveidoDAO getProveidoDAO() {
-            return proveidoDAO;
-        }
+    public void setFlagExpediente(char flagExpediente) {
+        this.flagExpediente = flagExpediente;
+    }
 
-        public void setProveidoDAO(ProveidoDAO proveidoDAO) {
-            this.proveidoDAO = proveidoDAO;
-        }
+    public char getFlagBusqueda() {
+        return flagBusqueda;
+    }
 
-        public Integer getProyecto() {
-            return proyecto;
-        }
+    public void setFlagBusqueda(char flagBusqueda) {
+        this.flagBusqueda = flagBusqueda;
+    }
+    
+    public ProveidoDAO getProveidoDAO() {
+        return proveidoDAO;
+    }
 
-        public void setProyecto(Integer proyecto) {
-            this.proyecto = proyecto;
-        }
-        
-        public String getArrFileFirmar() {
-            return arrFileFirmar;
-        }
+    public void setProveidoDAO(ProveidoDAO proveidoDAO) {
+        this.proveidoDAO = proveidoDAO;
+    }
 
-        public void setArrFileFirmar(String arrFileFirmar) {
-            this.arrFileFirmar = arrFileFirmar;
-        }
-        
-        public FavoritoService getFavoritoService() {
-          return favoritoService;
-        }
+    public Integer getProyecto() {
+        return proyecto;
+    }
 
-        public void setFavoritoService(FavoritoService favoritoService) {
-            this.favoritoService = favoritoService;
-        }
-        
-       
-        public List<UsuarioDerivacion> getListaDerivacionPara() {
-            return listaDerivacionPara;
-        }
+    public void setProyecto(Integer proyecto) {
+        this.proyecto = proyecto;
+    }
+    
+    public String getArrFileFirmar() {
+        return arrFileFirmar;
+    }
 
-        public void setListaDerivacionPara(List<UsuarioDerivacion> listaDerivacionPara) {
-            this.listaDerivacionPara = listaDerivacionPara;
-        }
+    public void setArrFileFirmar(String arrFileFirmar) {
+        this.arrFileFirmar = arrFileFirmar;
+    }
+    
+    public FavoritoService getFavoritoService() {
+      return favoritoService;
+    }
 
-        public List<UsuarioDerivacion> getListaDerivacionCC() {
-            return listaDerivacionCC;
-        }
-        
-        public String getAccion() {
-            return accion;
-        }
+    public void setFavoritoService(FavoritoService favoritoService) {
+        this.favoritoService = favoritoService;
+    }
+    
+   
+    public List<UsuarioDerivacion> getListaDerivacionPara() {
+        return listaDerivacionPara;
+    }
 
-        public void setAccion(String accion) {
-            this.accion = accion;
-        }
+    public void setListaDerivacionPara(List<UsuarioDerivacion> listaDerivacionPara) {
+        this.listaDerivacionPara = listaDerivacionPara;
+    }
 
-        public void setListaDerivacionCC(List<UsuarioDerivacion> listaDerivacionCC) {
-            this.listaDerivacionCC = listaDerivacionCC;
-        }
-        
+    public List<UsuarioDerivacion> getListaDerivacionCC() {
+        return listaDerivacionCC;
+    }
+    
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+
+    public void setListaDerivacionCC(List<UsuarioDerivacion> listaDerivacionCC) {
+        this.listaDerivacionCC = listaDerivacionCC;
+    }
        
 	public DocumentoReferenciaService getDocumentoReferenciaService() {
 		return documentoReferenciaService;
@@ -579,25 +587,25 @@ public class DocumentoAction {
 		this.documentoReferenciaService = documentoReferenciaService;
 	}
         
-        public DocumentoAnuladoDAO getDocumentoAnuladoDAO() {
-            return documentoAnuladoDAO;
-        }
+    public DocumentoAnuladoDAO getDocumentoAnuladoDAO() {
+        return documentoAnuladoDAO;
+    }
 
-        public void setDocumentoAnuladoDAO(DocumentoAnuladoDAO documentoAnuladoDAO) {
-            this.documentoAnuladoDAO = documentoAnuladoDAO;
-        }
+    public void setDocumentoAnuladoDAO(DocumentoAnuladoDAO documentoAnuladoDAO) {
+        this.documentoAnuladoDAO = documentoAnuladoDAO;
+    }
 
-        public DocumentoAtendidoDAO getDocumentoAtendidoDAO() {
-            return documentoAtendidoDAO;
-        }
+    public DocumentoAtendidoDAO getDocumentoAtendidoDAO() {
+        return documentoAtendidoDAO;
+    }
 
-        public void setDocumentoAtendidoDAO(DocumentoAtendidoDAO documentoAtendidoDAO) {
-            this.documentoAtendidoDAO = documentoAtendidoDAO;
-        }
+    public void setDocumentoAtendidoDAO(DocumentoAtendidoDAO documentoAtendidoDAO) {
+        this.documentoAtendidoDAO = documentoAtendidoDAO;
+    }
 
-        
-        public Integer getIdAreaDerivada() {
-		return idAreaDerivada;
+    
+    public Integer getIdAreaDerivada() {
+    	return idAreaDerivada;
 	}
 
 	public Documentofedateado getObjDF() {
@@ -612,56 +620,54 @@ public class DocumentoAction {
 		this.idAreaDerivada = idAreaDerivada;
 	}
 
-        
-        public Integer getIdseguimientos() {
-            return idseguimientos;
-        }
+    public Integer getIdseguimientos() {
+        return idseguimientos;
+    }
 
-        public void setIdseguimientos(Integer idseguimientos) {
-            this.idseguimientos = idseguimientos;
-        }
+    public void setIdseguimientos(Integer idseguimientos) {
+        this.idseguimientos = idseguimientos;
+    }
 
-        public Integer getIdfirmados() {
-            return idfirmados;
-        }
+    public Integer getIdfirmados() {
+        return idfirmados;
+    }
 
-        public void setIdfirmados(Integer idfirmados) {
-            this.idfirmados = idfirmados;
-        }
-        
-         
-        public Integer getIdanulados() {
-            return idanulados;
-        }
+    public void setIdfirmados(Integer idfirmados) {
+        this.idfirmados = idfirmados;
+    }
+    
+     
+    public Integer getIdanulados() {
+        return idanulados;
+    }
 
-        public void setIdanulados(Integer idanulados) {
-            this.idanulados = idanulados;
-        }
-        
-        public Integer getIdatendidos() {
-            return idatendidos;
-        }
+    public void setIdanulados(Integer idanulados) {
+        this.idanulados = idanulados;
+    }
+    
+    public Integer getIdatendidos() {
+        return idatendidos;
+    }
 
-        public void setIdatendidos(Integer idatendidos) {
-            this.idatendidos = idatendidos;
-        }
-        
-        public String getStrApoyo() {
-            return strApoyo;
-        }
+    public void setIdatendidos(Integer idatendidos) {
+        this.idatendidos = idatendidos;
+    }
+    
+    public String getStrApoyo() {
+        return strApoyo;
+    }
 
-        public void setStrApoyo(String strApoyo) {
-            this.strApoyo = strApoyo;
-        }
-        
-         public DocumentoDerivacionDAO getDocumentoDerivacionDAO() {
-            return documentoDerivacionDAO;
-        }
+    public void setStrApoyo(String strApoyo) {
+        this.strApoyo = strApoyo;
+    }
+    
+     public DocumentoDerivacionDAO getDocumentoDerivacionDAO() {
+        return documentoDerivacionDAO;
+    }
 
-        public void setDocumentoDerivacionDAO(DocumentoDerivacionDAO documentoDerivacionDAO) {
-            this.documentoDerivacionDAO = documentoDerivacionDAO;
-        }
-
+    public void setDocumentoDerivacionDAO(DocumentoDerivacionDAO documentoDerivacionDAO) {
+        this.documentoDerivacionDAO = documentoDerivacionDAO;
+    }
 
 	public List<TrazabilidadEnlace> getTrazabilidadenlace() {
 		return trazabilidadenlace;
@@ -671,14 +677,222 @@ public class DocumentoAction {
 		this.trazabilidadenlace = trazabilidadenlace;
 	}
 
-        public SeguimientoXFirmaDAO getSeguimientoXFirmaDAO() {
-            return seguimientoXFirmaDAO;
-        }
+    public SeguimientoXFirmaDAO getSeguimientoXFirmaDAO() {
+        return seguimientoXFirmaDAO;
+    }
 
-        public void setSeguimientoXFirmaDAO(SeguimientoXFirmaDAO seguimientoXFirmaDAO) {
-            this.seguimientoXFirmaDAO = seguimientoXFirmaDAO;
-        }
+    public void setSeguimientoXFirmaDAO(SeguimientoXFirmaDAO seguimientoXFirmaDAO) {
+        this.seguimientoXFirmaDAO = seguimientoXFirmaDAO;
+    }
 
+    public RolService getRolService() {
+		return rolService;
+	}
+
+	public void setRolService(RolService rolService) {
+		this.rolService = rolService;
+	}
+
+	public Boolean getBoVisor() {
+		return boVisor;
+	}
+
+	public void setBoVisor(Boolean boVisor) {
+		this.boVisor = boVisor;
+	}
+
+	public String getClaveUsuario() {
+		return claveUsuario;
+	}
+
+	public void setClaveUsuario(String claveUsuario) {
+		this.claveUsuario = claveUsuario;
+	}
+
+	public String getNombrePDFprincipal() {
+		return nombrePDFprincipal;
+	}
+
+	public void setNombrePDFprincipal(String nombrePDFprincipal) {
+		this.nombrePDFprincipal = nombrePDFprincipal;
+	}
+
+	public Boolean getbPDFprincipal() {
+		return bPDFprincipal;
+	}
+
+	public void setbPDFprincipal(Boolean bPDFprincipal) {
+		this.bPDFprincipal = bPDFprincipal;
+	}
+
+	public boolean isParaAlerta() {
+		return paraAlerta;
+	}
+
+	public void setParaAlerta(boolean paraAlerta) {
+		this.paraAlerta = paraAlerta;
+	}
+
+	public String[] getArrDocumentArea() {
+		return arrDocumentArea;
+	}
+
+	public void setArrDocumentArea(String[] arrDocumentArea) {
+		this.arrDocumentArea = arrDocumentArea;
+	}
+
+	public SeguimientoService getSeguimientoService() {
+		return seguimientoService;
+	}
+
+	public void setSeguimientoService(SeguimientoService seguimientoService) {
+		this.seguimientoService = seguimientoService;
+	}
+
+	public String getExecuteAccion() {
+		return executeAccion;
+	}
+
+	public void setExecuteAccion(String executeAccion) {
+		this.executeAccion = executeAccion;
+	}
+
+	public String getOrdenarFechaLimite() {
+		return ordenarFechaLimite;
+	}
+
+	public void setOrdenarFechaLimite(String ordenarFechaLimite) {
+		this.ordenarFechaLimite = ordenarFechaLimite;
+	}
+
+	public Character getConfidencialDocMod() {
+		return confidencialDocMod;
+	}
+
+	public void setConfidencialDocMod(Character confidencialDocMod) {
+		this.confidencialDocMod = confidencialDocMod;
+	}
+
+	public String getsObservacionAnular() {
+		return sObservacionAnular;
+	}
+
+	public void setsObservacionAnular(String sObservacionAnular) {
+		this.sObservacionAnular = sObservacionAnular;
+	}
+
+	public Integer getIdDocumentoAnular() {
+		return idDocumentoAnular;
+	}
+
+	public void setIdDocumentoAnular(Integer idDocumentoAnular) {
+		this.idDocumentoAnular = idDocumentoAnular;
+	}
+
+	public LogOperacionService getLogOperacionService() {
+		return logOperacionService;
+	}
+
+	public void setLogOperacionService(LogOperacionService logOperacionService) {
+		this.logOperacionService = logOperacionService;
+	}
+        
+    public FuncionService getFuncionService() {
+        return funcionService;
+    }
+
+    public void setFuncionService(FuncionService funcionService) {
+        this.funcionService = funcionService;
+    }        
+    
+    public Integer getIdpendientes() {
+        return idpendientes;
+    }
+
+    public void setIdpendientes(Integer idpendientes) {
+        this.idpendientes = idpendientes;
+    }
+    
+    public DocumentoPendienteDAO getDocumentoPendienteDAO() {
+        return documentoPendienteDAO;
+    }
+
+    public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
+        this.documentoPendienteDAO = documentoPendienteDAO;
+    }
+    
+    public String getStrPrioridad() {
+     return strPrioridad;
+    }
+
+    public void setStrPrioridad(String strPrioridad) {
+        this.strPrioridad = strPrioridad;
+    }
+    
+    public String getStrReferencia() {
+        return strReferencia;
+    }
+
+    public void setStrReferencia(String strReferencia) {
+        this.strReferencia = strReferencia;
+    }
+    
+     public Integer getIdserie() {
+        return idserie;
+    }
+
+    public void setIdserie(Integer idserie) {
+        this.idserie = idserie;
+    }
+   
+    
+    public List<DocumentoReferencia> getDocumentosReferencia() {
+        return documentosReferencia;
+    }
+
+    public void setDocumentosReferencia(List<DocumentoReferencia> documentosReferencia) {
+        this.documentosReferencia = documentosReferencia;
+    }
+
+    public List<Parametro> getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(List<Parametro> parametros) {
+        this.parametros = parametros;
+    }
+    
+     public DocumentoReunionDAO getDocumentoReunionDAO() {
+        return documentoReunionDAO;
+    }
+
+    public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
+        this.documentoReunionDAO = documentoReunionDAO;
+    }
+    
+    public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
+        return documentoAdjuntoDAO;
+    }
+
+    public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
+        this.documentoAdjuntoDAO = documentoAdjuntoDAO;
+    }
+    public Integer getiIdDocEmail() {
+        return iIdDocEmail;
+    }
+
+    public void setiIdDocEmail(Integer iIdDocEmail) {
+        this.iIdDocEmail = iIdDocEmail;
+    }
+    
+    public UnidadDAO getUnidadDAO() {
+        return unidadDAO;
+    }
+
+    public void setUnidadDAO(UnidadDAO unidadDAO) {
+        this.unidadDAO = unidadDAO;
+    }
+    
 	public DocumentoAction(DocumentoService srvD, ProcesoService srvP, ClienteService srvS, TipodocumentoService srvTD, TipoidentificacionService srvTI, UsuarioService srvU, ExpedientestorService expedienteStorservice) {
 		documentoService = srvD;
 		procesoService = srvP;
@@ -917,29 +1131,35 @@ public class DocumentoAction {
 
 		return Action.SUCCESS;
 	}
+	
 	/**REN Metodo que llama al adjuntar del detalle de la lista de documentos -----------------------------------------------*/
 	public String goAdjuntarArchivo(){
-                log.debug("-> [Action] DocumentoAction - goAdjuntarArchivo():String ");
-                Documento d = documentoService.findByIdDocumento(iIdDoc);
-                proyecto = d.getProyecto();
-                codigoVirtual = d.getNroVirtual();
-                try{
-                     destinatarioIgualRemitente = false;
-                     mapSession = ActionContext.getContext().getSession();
-		     Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+        log.debug("-> [Action] DocumentoAction - goAdjuntarArchivo():String ");
+        Documento d = documentoService.findByIdDocumento(iIdDoc);
+        proyecto = d.getProyecto();
+        codigoVirtual = d.getNroVirtual();
+        
+        archivoPrincipal = archivoService.buscarArchivoPrincipalPorDocumento(d.getIdDocumento());
+        log.info("archivoPrincipal" + archivoPrincipal);
+//        log.info("archivoPrincipal" + archivoPrincipal.getClass());
+        try{
+             destinatarioIgualRemitente = false;
+             mapSession = ActionContext.getContext().getSession();
+             Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 
-                      if(d.getAutor().getIdusuario().intValue() == objUsuario.getIdUsuarioPerfil().intValue() &&
-                         d.getUnidadautor().intValue() == objUsuario.getIdUnidadPerfil())
-                         destinatarioIgualRemitente = true; 
-			     
-                }catch(Exception e){
-                      e.printStackTrace();
-                      destinatarioIgualRemitente = false;
-                }
-                
-                Map<String,Object> sesion=ActionContext.getContext().getSession();
-                sesion.put(Constantes.SESSION_UPLOAD_LIST, new HashMap<String,List<org.ositran.utils.ArchivoTemporal>>());
-		return Action.SUCCESS;
+              if(d.getAutor().getIdusuario().intValue() == objUsuario.getIdUsuarioPerfil().intValue() &&
+            		  d.getUnidadautor().intValue() == objUsuario.getIdUnidadPerfil())
+                 destinatarioIgualRemitente = true; 
+	     
+        }catch(Exception e){
+              e.printStackTrace();
+              destinatarioIgualRemitente = false;
+        }
+        
+        Map<String,Object> sesion=ActionContext.getContext().getSession();
+        sesion.put(Constantes.SESSION_UPLOAD_LIST, new HashMap<String,List<org.ositran.utils.ArchivoTemporal>>());
+		
+        return Action.SUCCESS;
 	}
 	/**REN Metodo que se encarga de adjuntar archivos adicionales a un documento --------------------------------------------*/
 	@SuppressWarnings("unchecked")
@@ -6023,8 +6243,6 @@ public String getIdDoc() {
 		}
 	}
 
-
-
 	/**
 	 * [ACTION]
 	 * Metodo que llama a la ventana de cambiar clave de acceso.
@@ -6048,213 +6266,4 @@ public String getIdDoc() {
 		objUsuario.setClaveSiged(claveUsuario);
 		usuarioService.guardarUsuario(objUsuario);
 	}
-        
-
-	public RolService getRolService() {
-		return rolService;
-	}
-
-	public void setRolService(RolService rolService) {
-		this.rolService = rolService;
-	}
-
-	public Boolean getBoVisor() {
-		return boVisor;
-	}
-
-	public void setBoVisor(Boolean boVisor) {
-		this.boVisor = boVisor;
-	}
-
-	public String getClaveUsuario() {
-		return claveUsuario;
-	}
-
-	public void setClaveUsuario(String claveUsuario) {
-		this.claveUsuario = claveUsuario;
-	}
-
-	public String getNombrePDFprincipal() {
-		return nombrePDFprincipal;
-	}
-
-	public void setNombrePDFprincipal(String nombrePDFprincipal) {
-		this.nombrePDFprincipal = nombrePDFprincipal;
-	}
-
-	public Boolean getbPDFprincipal() {
-		return bPDFprincipal;
-	}
-
-	public void setbPDFprincipal(Boolean bPDFprincipal) {
-		this.bPDFprincipal = bPDFprincipal;
-	}
-
-	public boolean isParaAlerta() {
-		return paraAlerta;
-	}
-
-	public void setParaAlerta(boolean paraAlerta) {
-		this.paraAlerta = paraAlerta;
-	}
-
-	public String[] getArrDocumentArea() {
-		return arrDocumentArea;
-	}
-
-	public void setArrDocumentArea(String[] arrDocumentArea) {
-		this.arrDocumentArea = arrDocumentArea;
-	}
-
-	public SeguimientoService getSeguimientoService() {
-		return seguimientoService;
-	}
-
-	public void setSeguimientoService(SeguimientoService seguimientoService) {
-		this.seguimientoService = seguimientoService;
-	}
-
-	public String getExecuteAccion() {
-		return executeAccion;
-	}
-
-	public void setExecuteAccion(String executeAccion) {
-		this.executeAccion = executeAccion;
-	}
-
-	public String getOrdenarFechaLimite() {
-		return ordenarFechaLimite;
-	}
-
-	public void setOrdenarFechaLimite(String ordenarFechaLimite) {
-		this.ordenarFechaLimite = ordenarFechaLimite;
-	}
-
-	public Character getConfidencialDocMod() {
-		return confidencialDocMod;
-	}
-
-	public void setConfidencialDocMod(Character confidencialDocMod) {
-		this.confidencialDocMod = confidencialDocMod;
-	}
-
-	public String getsObservacionAnular() {
-		return sObservacionAnular;
-	}
-
-	public void setsObservacionAnular(String sObservacionAnular) {
-		this.sObservacionAnular = sObservacionAnular;
-	}
-
-	public Integer getIdDocumentoAnular() {
-		return idDocumentoAnular;
-	}
-
-	public void setIdDocumentoAnular(Integer idDocumentoAnular) {
-		this.idDocumentoAnular = idDocumentoAnular;
-	}
-
-	public LogOperacionService getLogOperacionService() {
-		return logOperacionService;
-	}
-
-	public void setLogOperacionService(LogOperacionService logOperacionService) {
-		this.logOperacionService = logOperacionService;
-	}
-        
-    public FuncionService getFuncionService() {
-        return funcionService;
-    }
-
-    public void setFuncionService(FuncionService funcionService) {
-        this.funcionService = funcionService;
-    }        
-    
-    public Integer getIdpendientes() {
-        return idpendientes;
-    }
-
-    public void setIdpendientes(Integer idpendientes) {
-        this.idpendientes = idpendientes;
-    }
-    
-    public DocumentoPendienteDAO getDocumentoPendienteDAO() {
-        return documentoPendienteDAO;
-    }
-
-    public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
-        this.documentoPendienteDAO = documentoPendienteDAO;
-    }
-    
-    public String getStrPrioridad() {
-     return strPrioridad;
-    }
-
-    public void setStrPrioridad(String strPrioridad) {
-        this.strPrioridad = strPrioridad;
-    }
-    
-    public String getStrReferencia() {
-        return strReferencia;
-    }
-
-    public void setStrReferencia(String strReferencia) {
-        this.strReferencia = strReferencia;
-    }
-    
-     public Integer getIdserie() {
-        return idserie;
-    }
-
-    public void setIdserie(Integer idserie) {
-        this.idserie = idserie;
-    }
-   
-    
-    public List<DocumentoReferencia> getDocumentosReferencia() {
-        return documentosReferencia;
-    }
-
-    public void setDocumentosReferencia(List<DocumentoReferencia> documentosReferencia) {
-        this.documentosReferencia = documentosReferencia;
-    }
-
-    public List<Parametro> getParametros() {
-        return parametros;
-    }
-
-    public void setParametros(List<Parametro> parametros) {
-        this.parametros = parametros;
-    }
-    
-     public DocumentoReunionDAO getDocumentoReunionDAO() {
-        return documentoReunionDAO;
-    }
-
-    public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
-        this.documentoReunionDAO = documentoReunionDAO;
-    }
-    
-    public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
-        return documentoAdjuntoDAO;
-    }
-
-    public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
-        this.documentoAdjuntoDAO = documentoAdjuntoDAO;
-    }
-    public Integer getiIdDocEmail() {
-        return iIdDocEmail;
-    }
-
-    public void setiIdDocEmail(Integer iIdDocEmail) {
-        this.iIdDocEmail = iIdDocEmail;
-    }
-    
-    public UnidadDAO getUnidadDAO() {
-        return unidadDAO;
-    }
-
-    public void setUnidadDAO(UnidadDAO unidadDAO) {
-        this.unidadDAO = unidadDAO;
-    }
 }

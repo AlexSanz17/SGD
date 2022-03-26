@@ -410,8 +410,6 @@
                     </table>     
                   </div>       
             </s:if>  
-            
-            
         </div>
     </body>
 </html>

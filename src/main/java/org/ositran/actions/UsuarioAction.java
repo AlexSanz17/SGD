@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
    
 import com.btg.ositran.siged.domain.Alerta;
 import com.btg.ositran.siged.domain.ArchivoPendiente;
@@ -93,11 +93,11 @@ import org.ositran.utils.DocumentoList;
 
 public class UsuarioAction implements SessionAware,CookieProvider{
     
-        private static DirContext ldapContext;
-        private String domainName = "ositranorg.gob.pe";
-        private String serverName = "osidc02";
-        private String principalName = null;
-        private Hashtable<String, String> ldapEnv = new Hashtable<String, String>(11);
+    private static DirContext ldapContext;
+    private String domainName = "ositranorg.gob.pe";
+    private String serverName = "osidc02";
+    private String principalName = null;
+    private Hashtable<String, String> ldapEnv = new Hashtable<String, String>(11);
 	private static Log log=LogFactory.getLog(UsuarioAction.class);
 	private ArchivopendienteService srvArchivoPendiente;
 	private ClienteService srvCliente;
@@ -1595,7 +1595,4 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 	public void setsCaptcha(String sCaptcha) {
 		this.sCaptcha = sCaptcha;
 	}
-	
-	
-        
 }

@@ -57,6 +57,7 @@ import org.ositran.daos.DocumentoDerivacionDAO;
 import org.ositran.daos.DocumentoExternoVirtualDAO;
 import org.ositran.daos.DocumentoReunionDAO;
 import org.ositran.services.AccionService;
+import org.ositran.services.AdjuntoMPVService;
 import org.ositran.services.ArchivoService;
 import org.ositran.services.ArchivopendienteService;
 import org.ositran.services.ClienteService;
@@ -188,8 +189,17 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private Boolean paraEnumerarPresidencia;
     private Integer codigoVirtual;
     private String flagVerExpediente;
+    private AdjuntoMPVService adjuntoMPVService;
 
-    public String getFlagVerExpediente() {
+    public AdjuntoMPVService getAdjuntoMPVService() {
+		return adjuntoMPVService;
+	}
+
+	public void setAdjuntoMPVService(AdjuntoMPVService adjuntoMPVService) {
+		this.adjuntoMPVService = adjuntoMPVService;
+	}
+
+	public String getFlagVerExpediente() {
         return flagVerExpediente;
     }
 
@@ -581,16 +591,20 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     	            documento.setDesCargoRemitente(recepcionMPV.getDesCargoRemitente());
     	            documento.setFechaDocumento(recepcionMPV.getFechadocumento());
     	            documento.setNumeroDocumento(recepcionMPV.getNumerodocumento());
-    	            
+    	            documento.setNumeroFoliosPIDE(adjuntoMPVService.buscarNumFoliosPorIdRecepcion(recepcionMPV.getSidrecext(), 1));
+    	            documento.setNumeroFolios(adjuntoMPVService.buscarNumFoliosTotalesPorIdRecepcion(recepcionMPV.getSidrecext()));
+    	            documento.setNumeroFoliosOriginales(0);
+    	            documento.setNumeroFoliosCopias(0);
+
     	            Cliente cliente = new Cliente();
-    	            
+
     	            if (recepcionMPV.getCodtipoinstitucion().toString().equals("1") || recepcionMPV.getCodtipoinstitucion().toString().equals("2")) {
     	            	cliente = clienteService.findObjectBy(recepcionMPV.getVrucentrem(), 'A');
     	            }
     	            else {
     	            	cliente = clienteService.findObjectBy(recepcionMPV.getVnumdociderem(), 'A');
     	            }
-    	            
+
     	            if (recepcionMPV.getCtipdociderem().toString().equals("1") || recepcionMPV.getCtipdociderem().toString().equals("2")){
 		              objDD.setStrRazonSocial(recepcionMPV.getVnomentemi());
 		              objDD.setIIdCliente((cliente == null ||cliente.getIdCliente()==null)? -1 :cliente.getIdCliente());
