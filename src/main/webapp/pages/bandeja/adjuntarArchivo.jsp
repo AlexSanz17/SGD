@@ -11,9 +11,9 @@
 			var i =0;
 			function AA_Adjuntar(tipo) {
                 if(dijit.byId("dlgProgresBar")!=null){
-					dijit.byId("dlgProgresBar").show() ;
+					dijit.byId("dlgProgresBar").show();
 				}
-                                
+
                 dojo.io.iframe.send({
 					handleAs: "text/html",
 				    form: dojo.byId("AA_frmUploadFile"),
@@ -170,26 +170,26 @@
                return counter;
 			};
 
-			var divId = function (textDivCadena) {
-				var textDiv = "";
-				textDiv = textDivCadena;
-				var inicio = textDiv.lastIndexOf('id=');
-				var nuevaCadena = textDivCadena.substring(inicio + 4, textDivCadena.length);
-				var fin = nuevaCadena.indexOf('"');
-				myId = nuevaCadena.substring(0, fin);
-				console.debug("Estamos contruyendo un Id : " + myId);
-				return myId;
-			};
+// 			var divId = function (textDivCadena) {
+// 				var textDiv = "";
+// 				textDiv = textDivCadena;
+// 				var inicio = textDiv.lastIndexOf('id=');
+// 				var nuevaCadena = textDivCadena.substring(inicio + 4, textDivCadena.length);
+// 				var fin = nuevaCadena.indexOf('"');
+// 				myId = nuevaCadena.substring(0, fin);
+// 				console.log("Estamos contruyendo un Id : " + myId);
+// 				return myId;
+// 			};
 
-			var nombreArchivo = function(textDivCadena) {
-				var textDiv = "";
-				textDiv = textDivCadena;
-				var fin = textDiv.lastIndexOf('</a>');
-				var inicio = textDiv.lastIndexOf('>',fin);
-				nombre = textDiv.substring(inicio+1, fin);
-				console.debug("Estamos contruyendo nombre : " + nombre);
-				return nombre;
-			};
+// 			var nombreArchivo = function(textDivCadena) {
+// 				var textDiv = "";
+// 				textDiv = textDivCadena;
+// 				var fin = textDiv.lastIndexOf('</a>');
+// 				var inicio = textDiv.lastIndexOf('>',fin);
+// 				nombre = textDiv.substring(inicio+1, fin);
+// 				console.log("Estamos contruyendo nombre : " + nombre);
+// 				return nombre;
+// 			};
 
 			var funcExtension = function(miString){
                var extensionTemp = "";
@@ -218,7 +218,7 @@
                         <table  border="1" bordercolor="#669BCD" bgcolor="#ffffff">
                            <s:if test="#session._USUARIO.idRolPerfil != @org.ositran.utils.Constantes@COD_ROL_MENSAJERIA">   
                               <s:if test="proyecto != @org.ositran.utils.Constantes@DOCUMENTO_PROYECTO || (proyecto == @org.ositran.utils.Constantes@DOCUMENTO_PROYECTO && destinatarioIgualRemitente == false)">   
-                                  <s:if test="codigoVirtual==null">
+                                  <s:if test="codigoVirtual == null && archivoPrincipal == null">
                                         <tr>
                                              <td width="8px"></td>
                                              <td width="165px" align="left"> 

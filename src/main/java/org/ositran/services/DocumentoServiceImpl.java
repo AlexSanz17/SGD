@@ -4999,7 +4999,7 @@ public class DocumentoServiceImpl implements DocumentoService {
             objD.setFechaAccion(fecha);
 
             try {
-                objD.setFechaDocumento(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(objDD.getStrFechaDocumento()));
+                objD.setFechaDocumento(new SimpleDateFormat("yyyy-MM-dd").parse(objDD.getStrFechaDocumento()));
             } catch (ParseException e) {
                 e.printStackTrace();
                 throw e;
@@ -5468,14 +5468,14 @@ public class DocumentoServiceImpl implements DocumentoService {
                                         
                                         IotdtdAdjuntoMPV adjuntoPrincipal = null;
                                         for(IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()){    	                                            	
-                                        	if(adjunto.getTipoarchivo().equals("1")){
+                                        	if(adjunto.getTipoArchivo().equals(1)){
                                         		adjuntoPrincipal = adjunto;
                                         		break;
                                         	}
                                         }
                                                                               
-                                        int pos = adjuntoPrincipal.getNombrearchivo().lastIndexOf(".");
-                                        String extension = adjuntoPrincipal.getNombrearchivo().substring(pos+1, adjuntoPrincipal.getNombrearchivo().length());
+                                        int pos = adjuntoPrincipal.getNombreArchivo().lastIndexOf(".");
+                                        String extension = adjuntoPrincipal.getNombreArchivo().substring(pos+1, adjuntoPrincipal.getNombreArchivo().length());
 
                                         String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
                                         String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
@@ -5483,7 +5483,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 
                                         //Bajar documento de MPV y copiar en carpeta temporal
                                         
-                                        String urlMPV = adjuntoPrincipal.getRutaarchivo()+adjuntoPrincipal.getNombrearchivo();
+                                        String urlMPV = adjuntoPrincipal.getRutaArchivo()+adjuntoPrincipal.getNombreArchivo();
                                         log.debug("Bajar documento de MPV y copiar en carpeta temporal:"+urlMPV);
                                         
                                         InputStream in = new URL(urlMPV).openStream();

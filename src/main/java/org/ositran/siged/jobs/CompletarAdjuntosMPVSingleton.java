@@ -32,21 +32,14 @@ import gob.ositran.siged.config.SigedProperties;
 
 public class CompletarAdjuntosMPVSingleton {
 	private RecepcionVirtualService recepcionVirtualService;
-
 	private RepositorioService repositorioService;
-	
 	private DocumentoService documentoService;
-	
 	private UnidadService unidadService;
-	
 	private ArchivoService archivoService;
-	
 	private UsuarioService usuarioService;
-
 	private static Log log = LogFactory.getLog(CompletarAdjuntosMPVSingleton.class);
 	
 	private static final String TIPO_ADJUNTO_ANEXO = "2";
-	
 	private static final Character ESTADO_PROCESO_EJECUCION = 'R';
 	private static final Character ESTADO_PROCESO_TERMINADO = 'T';
 	private static final Character ESTADO_PROCESO_ERROR = 'E';
@@ -127,20 +120,20 @@ public class CompletarAdjuntosMPVSingleton {
 					
 					for(IotdtdAdjuntoMPV adjunto:recepcionMPV.getArchivos()){
 																
-						if(adjunto.getTipoarchivo().equals(TIPO_ADJUNTO_ANEXO)){
+						if(adjunto.getTipoArchivo().equals(TIPO_ADJUNTO_ANEXO)){
 							
 							try{						
-								log.info("Subiendo archivo adjunto (idAdjuntompv):"+adjunto.getIdadjuntompv());	
+								log.info("Subiendo archivo adjunto (idAdjuntompv):"+adjunto.getIdAdjunto());	
 															
-	                            int pos = adjunto.getNombrearchivo().lastIndexOf(".");
-	                            String extension = adjunto.getNombrearchivo().substring(pos+1, adjunto.getNombrearchivo().length());
+	                            int pos = adjunto.getNombreArchivo().lastIndexOf(".");
+	                            String extension = adjunto.getNombreArchivo().substring(pos+1, adjunto.getNombreArchivo().length());
 	
-	                            String sNuevoNombreAnexo="["+doc.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"2"+"]"+doc.getID_CODIGO() + "_ANX_" + adjunto.getNombrearchivo();
+	                            String sNuevoNombreAnexo="["+doc.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"2"+"]"+doc.getID_CODIGO() + "_ANX_" + adjunto.getNombreArchivo();
 	                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-	                            String rutaAlfresco = repositorioService.obtenerRutaDocumento(doc, rutaSite, doc.getTipoDocumento().getCodigo()) + doc.getID_CODIGO() + "_ANX_" + adjunto.getNombrearchivo();
+	                            String rutaAlfresco = repositorioService.obtenerRutaDocumento(doc, rutaSite, doc.getTipoDocumento().getCodigo()) + doc.getID_CODIGO() + "_ANX_" + adjunto.getNombreArchivo();
 	                           	
 	                            //Bajar documento de MPV y copiar en carpeta temporal	                            
-	                            String urlMPV = adjunto.getRutaarchivo()+adjunto.getNombrearchivo();
+	                            String urlMPV = adjunto.getRutaArchivo()+adjunto.getNombreArchivo();
 	                            log.debug("Bajar documento de MPV y copiar en carpeta temporal:"+urlMPV);
 	                            
 	                            
@@ -180,8 +173,8 @@ public class CompletarAdjuntosMPVSingleton {
 							}catch(Exception ex){
 								ex.printStackTrace();
 								
-								resultadoalfresco+="Error subiendo archivo adjunto (idAdjuntompv):"+adjunto.getIdadjuntompv();
-								log.error("Error subiendo archivo adjunto (idAdjuntompv):"+adjunto.getIdadjuntompv());
+								resultadoalfresco+="Error subiendo archivo adjunto (idAdjuntompv):"+adjunto.getIdAdjunto();
+								log.error("Error subiendo archivo adjunto (idAdjuntompv):"+adjunto.getIdAdjunto());
 							}
 							
 						}
@@ -200,7 +193,5 @@ public class CompletarAdjuntosMPVSingleton {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }

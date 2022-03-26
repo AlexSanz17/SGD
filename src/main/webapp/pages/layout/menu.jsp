@@ -127,19 +127,18 @@
 			        showGridInbox(TIPO_GRID_LEGAJO_COMPARTIDO);
 				break; 
                         
-          		case 29:
-          			document.location="http://www.google.com.pe";
-          			break;
+       		 case 29:
+       			document.location="http://www.google.com.pe";
+       			break;
                                 
-                        case 30:
-                                buildTabsFromToolBarTop('ReporteVista', null);
-                                break;
-                                
-                        case 31:
-                                showGridInbox(TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS);
-                                break;        
+              case 30:
+                 buildTabsFromToolBarTop('ReporteVista', null);
+                 break;
+                      
+              case 31:
+                 showGridInbox(TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS);
+                 break;        
 		     }
-                               
 		}
 		</script>
         <style type="text/css">
@@ -406,12 +405,10 @@
                                   <b><span id="UsuFinMnuComLeg"></span></b>
                                </td>
                           </tr>
-                      </s:if>    
+                      </s:if>
                     </table>     
                   </div>       
             </s:if>  
-            
-            
         </div>
     </body>
 </html>

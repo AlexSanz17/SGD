@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-   ">
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<!-- Definicion de DAOs -->
     <bean id="seguimientoXFirmaDAO" class="org.ositran.daos.SeguimientoXFirmaDAOImpl" />
@@ -46,7 +44,6 @@
         <property name="unidadService" ref="unidadService" />
         <property name="srvArchivo" ref="archivoService" />
     </bean>
-        
    
    <!-- para job -->
    <bean id="recepcionPideDaoForJob" class="org.ositran.siged.jobs.RecepcionPideDaoForJob" />
@@ -70,7 +67,10 @@
      </bean> 
      
      <bean id="cargoAdministradoDAO" class="org.ositran.daos.CargoAdministradoDAOImpl">  
-     </bean>  
+     </bean>
+     
+     <bean id="adjuntoMPVDAO" class="org.ositran.daos.AdjuntoMPVDAOImpl">  
+     </bean>
      
      <bean id="cargoAdministradoService" class="org.ositran.services.CargoAdministradoServiceImpl">
 		<property name="cargoAdministradoDAO" ref="cargoAdministradoDAO" />
@@ -314,8 +314,8 @@
 		<constructor-arg ref="archivoDAO" />
 		<property name="srvRepositorio" ref="repositorioService" />
 		<property name="alfrescoWebscriptClient" ref="alfrescoWebscriptClient" />
-                <property name="tipoDocumentoDao" ref="tipodocumentoDAO" />
-                 <property name="documentoDAO" ref="documentoDAO" />
+        <property name="tipoDocumentoDao" ref="tipodocumentoDAO" />
+         <property name="documentoDAO" ref="documentoDAO" />
 	</bean>
 
 	<bean id="carpetabusquedaService" class="org.ositran.services.CarpetabusquedaServiceImpl">
@@ -355,11 +355,11 @@
 	</bean>
 
 	<bean id="documentoService" class="org.ositran.services.DocumentoServiceImpl">
-                <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
-	        <property name="documentoReferenciaDAO" ref="documentoReferenciaDAO" />
-                <property name="documentoDerivacionDAO" ref="documentoDerivacionDAO" />
-                <property name="documentoReunionDAO" ref="documentoReunionDAO" />
-	        <property name="documentoFedatarioDao" ref="documentoFedatarioDAO" />
+       <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
+       <property name="documentoReferenciaDAO" ref="documentoReferenciaDAO" />
+       <property name="documentoDerivacionDAO" ref="documentoDerivacionDAO" />
+       <property name="documentoReunionDAO" ref="documentoReunionDAO" />
+       <property name="documentoFedatarioDao" ref="documentoFedatarioDAO" />
 		<property name="auditoriaDao" ref="auditoriaDAO" />
 		<property name="documentoDao" ref="documentoDAO" />
 		<property name="documentoEnviadoDao" ref="documentoEnviadoDAO" />
@@ -967,8 +967,6 @@
 		<constructor-arg ref="clienteService" />
 	</bean>
 
-
-
 	<bean id="documentoAction" scope="prototype" class="org.ositran.actions.DocumentoAction">
 		<constructor-arg ref="documentoService" />
 		<constructor-arg ref="procesoService" />
@@ -977,10 +975,10 @@
 		<constructor-arg ref="tipoidentificacionService" />
 		<constructor-arg ref="usuarioService" />
 		<constructor-arg ref="expedientestorService" />
-                <property name="documentoPendienteDAO" ref="documentoPendienteDAO" />
-                <property name="documentoAtendidoDAO" ref="documentoAtendidoDAO" />
-                <property name="documentoAnuladoDAO" ref="documentoAnuladoDAO" />               
-                <property name="seguimientoXFirmaDAO" ref="seguimientoXFirmaDAO" />
+        <property name="documentoPendienteDAO" ref="documentoPendienteDAO" />
+        <property name="documentoAtendidoDAO" ref="documentoAtendidoDAO" />
+        <property name="documentoAnuladoDAO" ref="documentoAnuladoDAO" />               
+        <property name="seguimientoXFirmaDAO" ref="seguimientoXFirmaDAO" />
 		<property name="accionService" ref="accionService" />
 		<property name="documentoReferenciaService" ref="documentoReferenciaService" />
 		<property name="archivoService" ref="archivoService" />
@@ -1268,12 +1266,12 @@
 
 	<bean id="uploadAction" scope="prototype" class="org.ositran.actions.UploadAction">
 		<property name="uploadService" ref="uploadService" />
-                <property name="messageSource" ref="messageSource" />
-                <property name="archivoDAO" ref="archivoDAO" />
-                <property name="unidadDAO" ref="unidadDAO" />
-                <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
-                <property name="repositorioService" ref="repositorioService" />
-                <property name="documentoService" ref="documentoService" />
+        <property name="messageSource" ref="messageSource" />
+        <property name="archivoDAO" ref="archivoDAO" />
+        <property name="unidadDAO" ref="unidadDAO" />
+        <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
+        <property name="repositorioService" ref="repositorioService" />
+        <property name="documentoService" ref="documentoService" />
 	</bean>
 
 	<bean id="usuarioAction" scope="prototype" class="org.ositran.actions.UsuarioAction">
@@ -1304,16 +1302,20 @@
 		<property name="srvReemplazo" ref="reemplazoService" />
 		<property name="seguimientoService" ref="seguimientoService" />
 		<property name="logOperacionService" ref="logOperacionService" />
-                <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />
+        <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />
 	</bean>
         
-          <bean id="usuarioxunidadxfuncionService" class="org.ositran.services.UsuarioxunidadxfuncionServiceImpl">
-            <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />  
-        </bean> 
+    <bean id="usuarioxunidadxfuncionService" class="org.ositran.services.UsuarioxunidadxfuncionServiceImpl">
+        <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />  
+    </bean> 
+    
+    <bean id="usuarioxunidadxfuncionDAO" class="org.ositran.daos.UsuarioxunidadxfuncionDAOImpl" />
+     <bean id="detalleClienteDAO" class="org.ositran.daos.DetalleClienteDAOImpl" />
+    <bean id="tipoInstitucionDAO" class="org.ositran.daos.TipoInstitucionDAOImpl" />
         
-        <bean id="usuarioxunidadxfuncionDAO" class="org.ositran.daos.UsuarioxunidadxfuncionDAOImpl" />
-         <bean id="detalleClienteDAO" class="org.ositran.daos.DetalleClienteDAOImpl" />
-        <bean id="tipoInstitucionDAO" class="org.ositran.daos.TipoInstitucionDAOImpl" />
+    <bean id="adjuntoMPVService" class="org.ositran.services.AdjuntoMPVServiceImpl">
+        <property name="adjuntoMPVDAO" ref="adjuntoMPVDAO" />  
+    </bean> 
            
 	<bean id="nuevoDocumentoAction" scope="prototype" class="org.ositran.actions.NuevoDocumentoAction">
 		<constructor-arg ref="archivoPendienteService" />
@@ -1340,6 +1342,7 @@
         <property name="documentoReunionDAO" ref="documentoReunionDAO" />
         <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
         <property name="legajoDocumentoService" ref="legajoDocumentoService" />
+        <property name="adjuntoMPVService" ref="adjuntoMPVService" />
 	</bean>
 
 	<bean id="storAction" scope="prototype" class="org.ositran.actions.StorAction">
@@ -1571,5 +1574,4 @@
                 method="preHandle"/>
         </aop:aspect> -->
     </aop:config>
-   
 </beans>

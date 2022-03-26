@@ -30,48 +30,86 @@
 		var objectid = "";
 		var idcodigo = "";
 		var idfirmar = "";
-		var tid = setTimeout(validarFirmado, 5000);
+		var tieneQr = false;
+// 		var tid = setTimeout(validarFirmado, 5000);
 		document.getElementById("iframeFirma").style.display = "none";
 		var accionEjecutar = document.getElementById("estado").value;
+		var procesoFirmado = 0;
 		
-		function validarFirmado() {
-		  //console.log("Validando firmado(activo):",activo);
-		  if(activo == 1){	  
-			//console.log("Validando firmado(archivo):",archivo);
-			document.getElementById(idFirmar).disabled = true;
-			var contValidar = 1;
-			if(archivosFirmaTemp.length>0){
-				archivosFirmaArray = archivosFirmaTemp;
-			}
-			for (var i = 0; i < archivosFirmaArray.length; i++) {
-				service.validarFirmado(archivosFirmaArray[i].archivo, archivosFirmaArray[i].objectId, idcodigo,accionEjecutar).addCallback(function (respuesta) {
+		function enviarArchivosAlfresco(){		
+				service.uploadFilesToAlfrescoPostSignet(archivosFirmaArray,accionEjecutar).addCallback(function (respuesta) {
 					console.log("Recibiendo respuesta:",respuesta);
 					if(respuesta == "1"){
-						  if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
-							  abortTimer();		
-							  dijit.byId("dlgProgresBar").hide();
-							  alert("Los documentos han sido firmados");
-							  dijit.byId("dlgFirmar").hide();
-							  dijit.byId("dlgFirmar").hide();
-							  return;
-						  }
-						  else
-						  {							  
-						  	contValidar++;
-						  }
+						dijit.byId("dlgProgresBar").hide();
+						alert("Los documentos han sido firmados");
+						dijit.byId("dlgFirmar").hide();
+					}else{
+						alert("Ocurrió un error al subir a alfresco");
 					}
-					 						   
+				 						   
 		        });
-				
-				if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
-					return;
-				}
-			}
-							
-		  }
-		  
- 		  tid = setTimeout(validarFirmado, 5000);
 		}
+		
+		function generateQrPreFirmado(){
+	 		validarProcesoFirma();
+			 service.generateQrPreSignet(archivosFirmaArray,accionEjecutar).addCallback(function (respuesta) {
+					console.log("Recibiendo respuesta:",respuesta);
+					if(respuesta == "1"){
+						document.getElementById("ssoForm").submit();
+					}else{
+						alert("Ocurrió un error al subir a alfresco");
+					}
+		        });
+		}
+		
+// 		document.getElementById("ssoForm").addEventListener("submit", function (evt) {
+// 			if(!tieneQr){
+// 				evt.preventDefault();				
+// 			}
+// 		});
+		
+		
+		window.addEventListener("message", function (e) {
+			var rptJSON = JSON.parse(e.data);
+			console.log(rptJSON);
+			if(rptJSON.resultado == "0"){
+				enviarArchivosAlfresco();
+			}			
+		},{once : true});
+		
+// 		function validarFirmado() {
+		  
+// 		  if(activo == 1){	  
+			
+// 			document.getElementById(idFirmar).disabled = true;
+// 			var contValidar = 1;
+// 			if(archivosFirmaTemp.length>0){
+// 				archivosFirmaArray = archivosFirmaTemp;
+// 			}
+// 			for (var i = 0; i < archivosFirmaArray.length; i++) {
+// 				service.validarFirmado(archivosFirmaArray[i].archivo, archivosFirmaArray[i].objectId, idcodigo,accionEjecutar).addCallback(function (respuesta) {
+// 					console.log("Recibiendo respuesta:",respuesta);
+// 					if(respuesta == "1"){
+// 						  if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
+// 							  abortTimer();
+// 							  procesoFirmado = 1;		        
+// 							  return;
+// 						  }
+// 						  else
+// 						  {							  
+// 						  	contValidar++;
+// 						  }
+// 					}
+					 						   
+// 		        });
+				
+// 				if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
+// 					return;
+// 				}
+// 			}				
+// 		  }
+//  		  tid = setTimeout(validarFirmado, 5000);
+// 		}
 		
 		function abortTimer() { 
 		  activo = 0;
@@ -82,7 +120,7 @@
 		  clearTimeout(tid);
 		}
 		
-		function enviarFirma(archivoFirma, objectidFirma, idcodigoFirma, idBtnFirmar,archivosFirma){
+		function validarProcesoFirma(){
 			
 			var existeProcesoFirma = false;
 			
@@ -93,27 +131,25 @@
                 alert("No es posible firmar mientras exista un documento en proceso de firma");
             }else{
                 document.getElementById("ssoForm").action = "https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio";
-                activo = 1;
-    			archivo = archivoFirma;
-    			objectid = objectidFirma;
-    			idcodigo = idcodigoFirma;
-    			idFirmar = idBtnFirmar;
+//                 activo = 1;
+//     			archivo = archivoFirma;
+//     			objectid = objectidFirma;
+//     			idcodigo = idcodigoFirma;
+//     			idFirmar = idBtnFirmar;
     			dijit.byId("dlgProgresBar").show();
             }
 		}
 		
-		function checkItem(archivoFirma, objectidFirma ,idCheck){
+		function checkItem(archivoFirma, objectidFirma ,idCheck,codigoId){
 			var esCheck = document.getElementById(idCheck).checked;
 			if(esCheck){
-				archivosFirmaTemp.push({archivo:archivoFirma,objectId:objectidFirma});
+				archivosFirmaTemp.push({archivo:archivoFirma,objectId:objectidFirma,codigoId:codigoId});
 			}else{
-				//var index = archivosFirmaTemp.indexOf({archivo:archivoFirma,objectId:objectidFirma});
 				var index = archivosFirmaTemp.map(function(e) { return e.objectId; }).indexOf(objectidFirma);
 				if (index !== -1) {
 					archivosFirmaTemp.splice(index, 1);
 				}
 			}
-			//console.log(archivosFirmaTemp);
 			this.generarNombresArchivo(archivosFirmaTemp);
 		}
 		
@@ -130,7 +166,6 @@
 			}else{
 				archivosFirmaTemp = [];	
 			}
-			//console.log(archivosFirmaTemp);
 			this.generarNombresArchivo(archivosFirmaTemp);
 		}
 		
@@ -143,7 +178,6 @@
             }
 			
 			archivosFirmaTemp = archivosFirma;
-			//console.log(archivosFirmaTemp);
 			this.generarNombresArchivo(archivosFirmaTemp);
 		}
 		
@@ -158,7 +192,6 @@
 				}
 				
 			}
-			console.log(nombresArchivo);
 			document.getElementById("nombreArchivos").value = nombresArchivo;
 			if(archivosFirmaTemp.length > 0){
 				document.getElementById("btnFirmar").disabled = false;
@@ -175,7 +208,7 @@
 	      
     </head>
     <body>
-        
+    
 		<table id="tblDocumentos"  class="aTable">
 		<tr>
 			<th>N°</th>	
@@ -193,25 +226,16 @@
 			dojo.addOnLoad(function () {
                 service.getArchivosFirmar("<s:property value='arrFileFirmar' />","<s:property value='accion' />").addCallback(function (objJSON) {
 				   for(i=0; i<objJSON.items.length;i++){
-					   console.log(objJSON.items);
-					   archivosFirma.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId});
-					   archivosFirmaArray.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId});
+					   archivosFirma.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId,codigoId:objJSON.items[i].idCodigo});
+					   archivosFirmaArray.push({
+						       archivo:objJSON.items[i].archivos,
+							   objectId:objJSON.items[i].objectId,
+							   codigoId:objJSON.items[i].idCodigo
+						       });
 		</script>
 		
 		<%
 		List<Item> listaDocumento = (List<Item>)request.getSession().getAttribute("listaDocumentos");
-// <<<<<<< HEAD
-// // 		for(Item item : listaDocumento){
-// // 			out.println(item.getArchivos());
-		
-// // 		}
-// // 		Item item = listaDocumento.get(cont);
-// 		String archivo= "";
-// 		out.println(archivo);
-// 		String alias = "";
-// 		String objectId = "";
-// 		String idCodigo = "";
-// =======
 		Item item = listaDocumento.get(cont);
 		String archivo= item.getArchivos();	
 		String alias = item.getNrodocumento();
@@ -243,11 +267,7 @@
 				break;
 			}
 		}
-		
-		
-		
-// >>>>>>> bf7f4f4c441a4fe19a5088eadba2014ef24b4aec
-		
+
 		String idFirmar="id-firmar"+cont;
 		
 		int contador = 1;
@@ -257,14 +277,13 @@
 		<tr>
 			<td><%=contador%></td>
 			<td><%=item1.getArchivos()%></td>
-			<td><input type="checkbox" id="select-<%=cont%>" name="select-<%=cont%>" onclick="checkItem('<%=item1.getArchivos()%>','<%=item1.getObjectId()%>','select-<%=cont%>')"></td>
+			<td><input type="checkbox" id="select-<%=cont%>" name="select-<%=cont%>" onclick="checkItem('<%=item1.getArchivos()%>','<%=item1.getObjectId()%>','select-<%=cont%>','<%=item1.getIdCodigo()%>')"></td>
 		</tr>
 		<%
 				contador ++;
 				cont++;
 				if(cont <= listaDocumento.size()){
 					archivosFirmar = archivosFirmar + item1.getArchivos() + "|";
-					//out.println(archivosFirmar);
 				}	
 			}
 		%>
@@ -278,9 +297,7 @@
         </script>
 			
 		</table>
-		
-<!-- 		<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio">  -->
-		
+				
 		<form method="POST" id="ssoForm" name="ssoForm" target="iframeFirma" <%if(!existenProcesoFirma){%> action="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio" <%}%>> 
 				<input type="hidden" name="urlConfigService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/configuracion"/> 
 				<input type="hidden" name="webService" value="https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/FirmaDigitalWs?wsdl"/> 
@@ -304,8 +321,10 @@
 				<input type="hidden" name="razon" value="<%=razon%>"/>
 				<input type="hidden" name="estado" id="estado" value="<%=estado%>"/>
 
-				<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar" 
-				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" />
+<%-- 				<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar"  --%>
+<%-- 				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" /> --%>
+
+				<input type="button" class="btn btn-primary" style="width: 100px !important;" id="btnFirmar" name="btnFirmar" value="Firmar" onclick="javascript:generateQrPreFirmado()"/>
 				
 				<iframe frameborder="0" name="iframeFirma" id="iframeFirma" width="400px" height="220px"></iframe>
 			</form>

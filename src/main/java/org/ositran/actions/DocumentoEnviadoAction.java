@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
 
 import java.util.List;
 import java.util.Map;
@@ -344,6 +344,4 @@ public class DocumentoEnviadoAction{
 			DocumentoEnviadoTemporal documentoEnviadoTemporal) {
 		this.documentoEnviadoTemporal = documentoEnviadoTemporal;
 	}
-
-
 }

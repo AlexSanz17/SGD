@@ -31,8 +31,6 @@ var cambiarNoLeido=function(){
    }
 };
 
-
-
 var derivarMasivamente = function() {
    var grid = dijit.byId("gridInbox");
    var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=650, height=469, top=20, left=70";
@@ -386,8 +384,8 @@ var mostrarDocumentosFirmar = function(valores, accionEjecutar){
                             accion: accionEjecutar
         	   },
         	   load: function(data){
-				console.log('data');
-				console.log(data);
+//				console.log('data');
+//				console.log(data);
 	
                 if(!dijit.byId("dlgFirmar")){
                                new dijit.Dialog({
@@ -450,8 +448,8 @@ var procesarFirmas = function(accionEjecutar){
 		console.log("get archivos firmar!!!!");
         var defered = servicio.getArchivosFirmar(valores,accionEjecutar);
 		
-		console.log("resultado");
-		console.log(defered);
+//		console.log("resultado");
+//		console.log(defered);
 		
         defered.addCallback(function(objJSON){
 			console.log(objJSON);
@@ -2743,4 +2741,3 @@ function mostrarVisorPDFXExError(){
     },"divVisorDXE");
 	divVisorDXE.startup();
 }
-//fin

@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.dojo.grid;
+package org.ositran.dojo.grid;
 
 import java.util.Date;
 
@@ -1449,6 +1449,7 @@ public class Item {
 	public void setAnchoRubrica(String anchoRubrica) {
 		this.anchoRubrica = anchoRubrica;
 	}
+<<<<<<< HEAD
     
 	@Override
 	public String toString() {
@@ -1498,4 +1499,6 @@ public class Item {
 				+ ", nro=" + nro + "]";
 	}
 
+=======
+>>>>>>> fc306482de749ef29664ee1b53aed4ab840b98fe
 }

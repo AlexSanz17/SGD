@@ -3,16 +3,12 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
-
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
 	<head>
 		<title>Bienvenido </title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-
- <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE" >
-
+ 		<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE" >
 
 		<link href="css/estilo1.css" rel="stylesheet" type="text/css" />
 		<link type="image/x-icon" href="favicon.ico" rel="shortcut icon"/>
@@ -38,10 +34,6 @@
 
 		<script type="text/javascript">
 
-
-
-
-
          function init(){
                  <% try{
 			//session.invalidate();
@@ -64,12 +56,8 @@
                       parent.location.href ="login.action?" + Math.random();
                  }else{
                  }*/
-      
-                 
-               
              }   
                
-
         /* function Inicio(){
             location.href="inicio.html";
          }
@@ -96,8 +84,6 @@
 
          </script>
 	 <style type="text/css">
-               
-
                 /*.theme-company-logo
                 {
                    height: 133px;
@@ -105,7 +91,6 @@
                    background: transparent url(images/logo.jpg) no-repeat;
                 }*/
    
-                    
          <!--
          .Estilo8 {
             color: #FFFFFF;
@@ -125,9 +110,7 @@
 	</style>
 	</head>
 
-                 <body onload="init();" style="height: 100%;">
-
-           
+    <body onload="init();" style="height: 100%;">
 		<table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top:14.5%; margin-bottom: 21.5%;">
                     <tr style="height: 100%;">
 				<td align="center" valign="middle">
@@ -225,11 +208,6 @@
 					</table>
 				</td>
 			</tr>
-                        
 		</table>
-
-
-                                                                                               
 	</body>
-
 </html>

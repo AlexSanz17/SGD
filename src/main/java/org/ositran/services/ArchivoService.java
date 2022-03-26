@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.services;
+package org.ositran.services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +16,6 @@ import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.Usuario;
 
 public interface ArchivoService {
-    
    public List<String> contarArchivosxFirmar(Integer idDocumento , Usuario usuario); 
    public List<Archivo> findArchivosxFirmar(Integer idDocumento , Usuario usuario);
    public List<Archivo> findArchivosxVisar(Integer idDocumento , Usuario usuario);
@@ -38,6 +37,7 @@ public interface ArchivoService {
    public File renombrarArchivoDigitalizacion(Documento objD, ArchivoTemporal archivo, int contador);
    public Integer checkEstadoDigitalizacion(Integer iIdDoc) throws RuntimeException;
    public Map<String,List<Archivo>> findByIdDocumento(Integer iIdDocumento);
+   public Archivo buscarArchivoPrincipalPorDocumento(Integer idDocumento);
    public Map<String,List<Archivo>> getArchivoList(Integer iIdExpediente, Integer iIdDocumento, String strRol);
    public void saveArhivoFromSessionToDB(List<ArchivoTemporal> lstArchivoTemporal, Documento objDocumento, Usuario usuario);
    public void updateEstadoByArchivo(Integer iIdArchivo, Character cEstado);
@@ -52,7 +52,6 @@ public interface ArchivoService {
    List<Archivo> findLstByExpediente(Integer idExpediente);
    List<Archivo> findLstByIdDocumento(Integer idDocumento);
    public Map<String,List<Archivo>> getArchivoListPorDocumento(Integer iIdDocumento);
-   public Archivo getArchivoPrincipalPorDocumento(Integer iIdDocumento);
    public List<Archivo> getArchivoListPorDocumentoIG(Integer iIdDocumento);
    public List<Item> buscarItemArchivoXAutorPDF(Integer idAutor, Integer idDocumento);
    public List<Archivo> buscarArchivoXAutorPDF(Integer idAutor, Integer idDocumento);
