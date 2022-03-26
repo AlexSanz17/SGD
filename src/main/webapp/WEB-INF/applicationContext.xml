@@ -95,10 +95,9 @@
     
 <!--     <import resource="application-jobs-provias.xml" /> -->
     
-<<<<<<< HEAD
-   <!--   <import resource="application-jobs.xml" /> -->
-=======
+
+  
 <!--     <import resource="application-jobs.xml" /> -->
->>>>>>> fc306482de749ef29664ee1b53aed4ab840b98fe
+
 
 </beans>
