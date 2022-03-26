@@ -386,8 +386,8 @@ var mostrarDocumentosFirmar = function(valores, accionEjecutar){
                             accion: accionEjecutar
         	   },
         	   load: function(data){
-				console.log('data');
-				console.log(data);
+//				console.log('data');
+//				console.log(data);
 	
                 if(!dijit.byId("dlgFirmar")){
                                new dijit.Dialog({
