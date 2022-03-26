@@ -30,25 +30,14 @@
 		var objectid = "";
 		var idcodigo = "";
 		var idfirmar = "";
-		var tid = setTimeout(validarFirmado, 5000);
+		var tieneQr = false;
+// 		var tid = setTimeout(validarFirmado, 5000);
 		document.getElementById("iframeFirma").style.display = "none";
 		var accionEjecutar = document.getElementById("estado").value;
 		var procesoFirmado = 0;
 		
-		function enviarArchivos(){
-// 			service.validarFirmado(null, null, null,"PF").addCallback(function (respuesta) {
-// 				console.log("Recibiendo respuesta:",respuesta);
-// 				if(respuesta == "1"){
-// 					dijit.byId("dlgProgresBar").hide();
-// 					alert("Los documentos han sido firmados");
-// 					dijit.byId("dlgFirmar").hide();
-// 				}else{
-// 					alert("Ocurrió un error al subir a alfresco");
-// 				}
-				 						   
-// 	        });
-		
-				service.uploadFilesToAlfrescoPostSignet("DATO 11111",archivosFirmaArray).addCallback(function (respuesta) {
+		function enviarArchivosAlfresco(){		
+				service.uploadFilesToAlfrescoPostSignet(archivosFirmaArray,accionEjecutar).addCallback(function (respuesta) {
 					console.log("Recibiendo respuesta:",respuesta);
 					if(respuesta == "1"){
 						dijit.byId("dlgProgresBar").hide();
@@ -61,53 +50,66 @@
 		        });
 		}
 		
+		function generateQrPreFirmado(){
+	 		validarProcesoFirma();
+			 service.generateQrPreSignet(archivosFirmaArray,accionEjecutar).addCallback(function (respuesta) {
+					console.log("Recibiendo respuesta:",respuesta);
+					if(respuesta == "1"){
+						document.getElementById("ssoForm").submit();
+					}else{
+						alert("Ocurrió un error al subir a alfresco");
+					}
+		        });
+		}
+		
+// 		document.getElementById("ssoForm").addEventListener("submit", function (evt) {
+// 			if(!tieneQr){
+// 				evt.preventDefault();				
+// 			}
+// 		});
+		
+		
 		window.addEventListener("message", function (e) {
 			var rptJSON = JSON.parse(e.data);
 			console.log(rptJSON);
-			alert(rptJSON.estado);
 			if(rptJSON.resultado == "0"){
-// 				enviarArchivos();
-				document.getElementById("buttonEnviarArchivos").click(); 
-			}
-// 			if(procesoFirmado == 1){
-// 				enviarArchivos();
-// 			}
-			
-		});
+				enviarArchivosAlfresco();
+			}			
+		},{once : true});
 		
-		function validarFirmado() {
+// 		function validarFirmado() {
 		  
-		  if(activo == 1){	  
+// 		  if(activo == 1){	  
 			
-			document.getElementById(idFirmar).disabled = true;
-			var contValidar = 1;
-			if(archivosFirmaTemp.length>0){
-				archivosFirmaArray = archivosFirmaTemp;
-			}
-			for (var i = 0; i < archivosFirmaArray.length; i++) {
-				service.validarFirmado(archivosFirmaArray[i].archivo, archivosFirmaArray[i].objectId, idcodigo,accionEjecutar).addCallback(function (respuesta) {
-					console.log("Recibiendo respuesta:",respuesta);
-					if(respuesta == "1"){
-						  if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
-							  abortTimer();
-							  procesoFirmado = 1;		        
-							  return;
-						  }
-						  else
-						  {							  
-						  	contValidar++;
-						  }
-					}
+// 			document.getElementById(idFirmar).disabled = true;
+// 			var contValidar = 1;
+// 			if(archivosFirmaTemp.length>0){
+// 				archivosFirmaArray = archivosFirmaTemp;
+// 			}
+// 			for (var i = 0; i < archivosFirmaArray.length; i++) {
+// 				service.validarFirmado(archivosFirmaArray[i].archivo, archivosFirmaArray[i].objectId, idcodigo,accionEjecutar).addCallback(function (respuesta) {
+// 					console.log("Recibiendo respuesta:",respuesta);
+// 					if(respuesta == "1"){
+// 						  if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
+// 							  abortTimer();
+// 							  procesoFirmado = 1;		        
+// 							  return;
+// 						  }
+// 						  else
+// 						  {							  
+// 						  	contValidar++;
+// 						  }
+// 					}
 					 						   
-		        });
+// 		        });
 				
-				if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
-					return;
-				}
-			}				
-		  }
- 		  tid = setTimeout(validarFirmado, 5000);
-		}
+// 				if(parseInt(contValidar) === parseInt(archivosFirmaArray.length)){
+// 					return;
+// 				}
+// 			}				
+// 		  }
+//  		  tid = setTimeout(validarFirmado, 5000);
+// 		}
 		
 		function abortTimer() { 
 		  activo = 0;
@@ -118,7 +120,7 @@
 		  clearTimeout(tid);
 		}
 		
-		function enviarFirma(archivoFirma, objectidFirma, idcodigoFirma, idBtnFirmar,archivosFirma){
+		function validarProcesoFirma(){
 			
 			var existeProcesoFirma = false;
 			
@@ -129,11 +131,11 @@
                 alert("No es posible firmar mientras exista un documento en proceso de firma");
             }else{
                 document.getElementById("ssoForm").action = "https://wsfirmadigital.pvn.gob.pe:8443/SignnetSignature/Servicio";
-                activo = 1;
-    			archivo = archivoFirma;
-    			objectid = objectidFirma;
-    			idcodigo = idcodigoFirma;
-    			idFirmar = idBtnFirmar;
+//                 activo = 1;
+//     			archivo = archivoFirma;
+//     			objectid = objectidFirma;
+//     			idcodigo = idcodigoFirma;
+//     			idFirmar = idBtnFirmar;
     			dijit.byId("dlgProgresBar").show();
             }
 		}
@@ -207,8 +209,6 @@
     </head>
     <body>
     
-    	<input type="hidden" id="buttonEnviarArchivos" onclick="enviarArchivos();">
-        
 		<table id="tblDocumentos"  class="aTable">
 		<tr>
 			<th>N°</th>	
@@ -226,7 +226,6 @@
 			dojo.addOnLoad(function () {
                 service.getArchivosFirmar("<s:property value='arrFileFirmar' />","<s:property value='accion' />").addCallback(function (objJSON) {
 				   for(i=0; i<objJSON.items.length;i++){
-					   console.log(objJSON.items);
 					   archivosFirma.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId,codigoId:objJSON.items[i].idCodigo});
 					   archivosFirmaArray.push({
 						       archivo:objJSON.items[i].archivos,
@@ -285,7 +284,6 @@
 				cont++;
 				if(cont <= listaDocumento.size()){
 					archivosFirmar = archivosFirmar + item1.getArchivos() + "|";
-					//out.println(archivosFirmar);
 				}	
 			}
 		%>
@@ -323,8 +321,10 @@
 				<input type="hidden" name="razon" value="<%=razon%>"/>
 				<input type="hidden" name="estado" id="estado" value="<%=estado%>"/>
 
-				<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar" 
-				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" />
+<%-- 				<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar"  --%>
+<%-- 				onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" /> --%>
+
+				<input type="button" class="btn btn-primary" style="width: 100px !important;" id="btnFirmar" name="btnFirmar" value="Firmar" onclick="javascript:generateQrPreFirmado()"/>
 				
 				<iframe frameborder="0" name="iframeFirma" id="iframeFirma" width="400px" height="220px"></iframe>
 			</form>

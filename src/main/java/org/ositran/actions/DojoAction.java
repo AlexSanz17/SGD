@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -295,42 +296,57 @@ public class DojoAction {
 	private ProcesoService procesoService;
 	private FechaLimite fechaLimite;
 	private ManejoDeEmailService mailService;
-    private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
-    private SeguimientoXFirmaService seguimientoXFirmaService;
-    private ReferenciaArchivoService referenciaArchivoService;
-    private LegajoService legajoService;
-    private LegajoDocumentoService legajoDocumentoService;
-    private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
-    private DocumentoEnviadoService documentoenviadoService;
-    private TrazabilidadapoyoService trazabilidadapoyoService;
-    private DocumentoPendienteDAO documentoPendienteDAO;
-    private DocumentoAtendidoDAO documentoAtendidoDAO;
-    private TipoLegajoDAO tipoLegajoDAO;
-    private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
-    private RecepcionVirtualDAO recepcionVirtualDAO;
-    private DespachoVirtualDAO despachoVirtualDAO;
-    
-    private SeguridadService seguridadService;
-    private AlfrescoConnector alfrescoConnector;
-    private static String USERCREADOR=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
-    private static String USERCREADOR_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
-    
-    private static String rutaOrigen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAORIGEN);
-    private static String rutaDestino = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTADESTINO);
-    private static String rutaImagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAIMAGEN);
-    private static String imagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_IMAGEN);
-    private static String usarPersonalizado = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_USARPERSONALIZADO);
-    private static String tipoFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
-    private static String invisible = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_INVISIBLE);
-    private static String posicionFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_POSICIONFIRMA);
-    private static String ubicacionPagina = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_UBICACIONPAGINA);
-    private static String numeroPagina = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_NUMEROPAGINA);
-    private static String estiloFirma = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_ESTILOFIRMA);
-    private static String aplicarImagen = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_APLICARIMAGEN);    
+	private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
+	private SeguimientoXFirmaService seguimientoXFirmaService;
+	private ReferenciaArchivoService referenciaArchivoService;
+	private LegajoService legajoService;
+	private LegajoDocumentoService legajoDocumentoService;
+	private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
+	private DocumentoEnviadoService documentoenviadoService;
+	private TrazabilidadapoyoService trazabilidadapoyoService;
+	private DocumentoPendienteDAO documentoPendienteDAO;
+	private DocumentoAtendidoDAO documentoAtendidoDAO;
+	private TipoLegajoDAO tipoLegajoDAO;
+	private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+	private RecepcionVirtualDAO recepcionVirtualDAO;
+	private DespachoVirtualDAO despachoVirtualDAO;
 
-	private final String REPOSITORIO_ID = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
+	private SeguridadService seguridadService;
+	private AlfrescoConnector alfrescoConnector;
+	private static String USERCREADOR = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
+	private static String USERCREADOR_CLAVE = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
+
+	private static String rutaOrigen = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAORIGEN);
+	private static String rutaDestino = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTADESTINO);
+	private static String rutaImagen = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAIMAGEN);
+	private static String imagen = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_IMAGEN);
+	private static String usarPersonalizado = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_USARPERSONALIZADO);
+	private static String tipoFirma = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
+	private static String invisible = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_INVISIBLE);
+	private static String posicionFirma = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_POSICIONFIRMA);
+	private static String ubicacionPagina = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_UBICACIONPAGINA);
+	private static String numeroPagina = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_NUMEROPAGINA);
+	private static String estiloFirma = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_ESTILOFIRMA);
+	private static String aplicarImagen = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_APLICARIMAGEN);
+
+	private final String REPOSITORIO_ID = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
 	private FirmaArchivoService firmaArchivoService;
-	
+
 	public DojoAction() {
 		log.info("Iniciando DojoAction");
 
@@ -533,7 +549,7 @@ public class DojoAction {
 	public void setLogBusquedaAvanzadaService(LogBusquedaAvanzadaService logBusquedaAvanzadaService) {
 		this.logBusquedaAvanzadaService = logBusquedaAvanzadaService;
 	}
-	
+
 	public LogOperacionService getLogOperacionService() {
 		return logOperacionService;
 	}
@@ -569,7 +585,7 @@ public class DojoAction {
 	public void setSeguridadService(SeguridadService seguridadService) {
 		this.seguridadService = seguridadService;
 	}
-	
+
 	public String execute() throws Exception {
 		log.debug("-> [Action] DojoAction - execute():String ");
 		return Action.SUCCESS;
@@ -649,7 +665,7 @@ public class DojoAction {
 		String nombrePC = (String) mapSession.get("nombrePC");
 		objDocumento = documentoService.updateNoLeido(iIdToUpdate, nombrePC);
 		log.debug("Documento actualizado con ID [" + objDocumento.getIdDocumento() + "] a estado no leido ["
-			+ objDocumento.getLeido() + "]");
+				+ objDocumento.getLeido() + "]");
 
 		return "done";
 	}
@@ -3372,7 +3388,7 @@ public class DojoAction {
 							item.setObjectId(listArchivos.get(j).getObjectId());
 							item.setIdCodigo(d.getID_CODIGO().toString());
 
-							item.setRutaOrigen(rutaOrigen);
+							item.setRutaOrigen(rutaOrigen + File.separator + "ConCodigoQr");
 							item.setRutaDestino(rutaDestino);
 							item.setRutaImagen(rutaImagen);
 							item.setImagen("escudo-firma.png");
@@ -3415,8 +3431,9 @@ public class DojoAction {
 								item.setArchivos(listArchivos.get(j).getNombre()
 										.substring(listArchivos.get(j).getNombre().indexOf(']') + 1));
 							}
-							item.setFlagFirma(listArchivos.get(j).getFlagFirma() == null ? 0 : listArchivos.get(j).getFlagFirma().intValue());
-							
+							item.setFlagFirma(listArchivos.get(j).getFlagFirma() == null ? 0
+									: listArchivos.get(j).getFlagFirma().intValue());
+
 							items.add(item);
 						}
 					}
@@ -3427,7 +3444,7 @@ public class DojoAction {
 
 			for (Item item : items) {
 				downloadDocumentByID("http://cmd1:8080/alfresco/cmisatom", "admin", "alfresco", item.getObjectId(),
-						item.getNombre().replace("|S", "").replace("|N", ""), "\\\\WWWD4\\Documentos\\PorFirmar\\");
+						item.getNombre().replace("|S", "").replace("|N", ""), rutaOrigen+File.separator);
 			}
 
 			log.info("=============================Aqui obtiene los documentos===============================");
@@ -3444,177 +3461,235 @@ public class DojoAction {
 		return archivosJSON;
 	}
 
-	@SMDMethod
-	public String validarFirmado(String nombreArchivo, String objectId, String idCodigo, String accionEjecutar) {
-//		if(accionEjecutar.equals("PF")) {
-//			
-//			return "1";
+//	@SMDMethod
+//	public String validarFirmado(String nombreArchivo, String objectId, String idCodigo, String accionEjecutar) {
+//		log.info("validarFirmado (nombreArchivo):" + nombreArchivo + ",(objectId):" + objectId + ",(idCodigo):"
+//				+ idCodigo);
+//		String estado = "0";
+//
+//		log.info("=============================Aqui se valida firmado===============================");
+//		log.info("=============================Aqui se valida firmado===============================");
+//
+//		try {
+//			String ALFRESCO_ROOT = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
+//			String FIRMAS_FIRMADOS = SigedProperties
+//					.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_FIRMADOS);
+//			String TIPOFIRMA = SigedProperties
+//					.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
+//			String POR_FIRMAR = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
+//
+//			String fullPathFirmado = FIRMAS_FIRMADOS + nombreArchivo;
+//			final String fullPathPorFirmar = POR_FIRMAR + nombreArchivo;
+//			String newNameArchivoFirmado = nombreArchivo.replace(".pdf", "_qr.pdf");
+//			String newFullPathFirmado = FIRMAS_FIRMADOS + newNameArchivoFirmado;
+//
+//			List<Archivo> list1 = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
+//			list1.get(0).setFlagFirma(1);
+//			archivoService.saveArchivo(list1.get(0));
+//
+//			if (!list1.get(0).getEstado().equals("F") && !list1.get(0).getEstado().equals("V")) {
+//				log.info("=============================Aqui se crea el QR===============================");
+//				log.info("=============================Aqui se crea el QR===============================");
+//				// aqui empieza qr
+//				String qrCodeText = ALFRESCO_ROOT + list1.get(0).getRutaAlfresco();
+//				// String qrCodeText = getRutaArchivoMPV(nombreArchivo);
+//				// String qrCodeText = "https://www.google.com";
+//				String nombreArchivoQr = nombreArchivo.replace(".pdf", "_qr.png");
+//				String filePathImagen = POR_FIRMAR + nombreArchivoQr;
+//				int size = 66;
+//				String fileType = "png";
+//				File qrFile = new File(filePathImagen);
+//				try {
+//					DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
+//				} catch (WriterException | IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//				System.out.println("========== CREANDO QR===========");
+//				// aqui termina qr
+//
+//				// insertando qr a pdf
+//				DojoAction.manipulatePdf(fullPathFirmado, newFullPathFirmado, filePathImagen);
+//				// termina insertando qr a pdf
+//			}
+//
+//			// final File firmado = new File(fullPathFirmado);
+//			final File firmado = new File(newFullPathFirmado);
+//
+//			// final String fullPathAlfresco = fullPathAlfrescoOrigin;
+//
+//			// log.info("Validando firmado:"+fullPathFirmado);
+//			log.info("Validando firmado:" + newFullPathFirmado);
+//
+//			if (firmado.isFile()) {
+//				log.info("Documento ha sido firmado:" + firmado.getAbsolutePath().toString());
+//
+//				mapSession = ActionContext.getContext().getSession();
+//				Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+//
+//				FirmaArchivo firmaArchivo = new FirmaArchivo();
+//				List<Archivo> list = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
+//				list.get(0).setFlagFirma(0);
+//				archivoService.saveArchivo(list.get(0));
+//				firmaArchivo.setIdArchivo(list.get(0).getIdArchivo());
+//				firmaArchivo.setEstado(accionEjecutar);
+//				firmaArchivo.setFechaCreacion(new Date());
+//				firmaArchivo.setUsuarioCreacion(objUsuario.getIdusuario());
+//				firmaArchivo.setIdUsuario(objUsuario.getIdUsuarioPerfil());
+//				firmaArchivo.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
+//				firmaArchivo.setCargoPropietario(objUsuario.getIdFuncionPerfil());
+//				firmaArchivo.setIdProceso("SigNet");
+//				firmaArchivo.setAlias(objUsuario.getNroDocumento());
+//				firmaArchivo.setAccion(TIPOFIRMA);
+//				firmaArchivo.setFechaFirma(new Date());
+//				firmaArchivoService.saveFirmaArchivo(firmaArchivo);
+//
+//				estado = "1";
+//				final String fullPathAlfresco = ALFRESCO_ROOT + list.get(0).getRutaAlfresco();
+//				log.info("Se registro firma archivo:" + firmaArchivo.getIdFirmaArchivo());
+//
+//				new Thread() {
+//					public void run() {
+//						log.info("Subiendo archivo firmado a la ruta de alfresco:" + fullPathAlfresco);
+//						String userName = USERCREADOR;
+//						String password = USERCREADOR_CLAVE;
+//						log.info("Subiendo archivo firmado, userName:" + userName + ", password:" + password);
+//
+//						try {
+//
+//							RETURN_CODE result = alfrescoConnector.modifyBinaryContent(userName,
+//									seguridadService.desencriptar(userName, password), fullPathAlfresco, firmado,
+//									"content");
+//
+//							log.info("RETURN_CODE:" + result);
+//
+//							if (result == AlfrescoConnector.RETURN_CODE.SUCCESS) {
+//								log.info("Se subio el documento firmado a alfresco:" + fullPathAlfresco);
+//
+//							} else {
+//								log.error("No se pudo subir el archivo a alfresco:" + fullPathAlfresco);
+//							}
+//
+//						} catch (Exception e) {
+//							log.error("Error al subir el archivo a alfresco:" + fullPathAlfresco + ", mensaje:"
+//									+ e.getLocalizedMessage());
+//							e.printStackTrace();
+//						}
+//
+//					}
+//				}.start();
+//
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//
+//			estado = "0";
 //		}
-		log.info("validarFirmado (nombreArchivo):" + nombreArchivo + ",(objectId):" + objectId + ",(idCodigo):"
-			+ idCodigo);
-		String estado = "0";
+//
+//		return estado;
+//	}
 
-		log.info("=============================Aqui se valida firmado===============================");
-		log.info("=============================Aqui se valida firmado===============================");
+	@SMDMethod
+	public String generateQrPreSignet(List<ItemFirmar> items, String accionEjecutar) {
+		String ALFRESCO_ROOT = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
+		String POR_FIRMAR = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
 
 		try {
-			String ALFRESCO_ROOT = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
-			String FIRMAS_FIRMADOS = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_FIRMADOS);
-			String TIPOFIRMA = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
-			String POR_FIRMAR = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
+			for (ItemFirmar itemFirmar : items) {
+				String nombreArchivo = itemFirmar.getArchivo();
+				String fullPathPorFirmar = POR_FIRMAR + nombreArchivo;
+				String fullPathPorFirmarQr = POR_FIRMAR + "ConCodigoQr" + File.separator +  nombreArchivo;
 
-			String fullPathFirmado = FIRMAS_FIRMADOS + nombreArchivo;
-			final String fullPathPorFirmar = POR_FIRMAR + nombreArchivo;
-			String newNameArchivoFirmado = nombreArchivo.replace(".pdf", "_qr.pdf");
-			String newFullPathFirmado = FIRMAS_FIRMADOS + newNameArchivoFirmado;
+				List<Archivo> list1 = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(),
+						Integer.valueOf(itemFirmar.getCodigoId()));
+				list1.get(0).setFlagFirma(1);
+				archivoService.saveArchivo(list1.get(0));
 
-			List<Archivo> list1 = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
-			list1.get(0).setFlagFirma(1);
-			archivoService.saveArchivo(list1.get(0));
-
-			if (!list1.get(0).getEstado().equals("F") && !list1.get(0).getEstado().equals("V")) {
-				log.info("=============================Aqui se crea el QR===============================");
-				log.info("=============================Aqui se crea el QR===============================");
-				// aqui empieza qr
-				String qrCodeText = ALFRESCO_ROOT + list1.get(0).getRutaAlfresco();
-				// String qrCodeText = getRutaArchivoMPV(nombreArchivo);
-				// String qrCodeText = "https://www.google.com";
-				String nombreArchivoQr = nombreArchivo.replace(".pdf", "_qr.png");
-				String filePathImagen = POR_FIRMAR + nombreArchivoQr;
-				int size = 66;
-				String fileType = "png";
-				File qrFile = new File(filePathImagen);
-				try {
-					DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
-				} catch (WriterException | IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				System.out.println("========== CREANDO QR===========");
-				// aqui termina qr
-
-				// insertando qr a pdf
-				DojoAction.manipulatePdf(fullPathFirmado, newFullPathFirmado, filePathImagen);
-				// termina insertando qr a pdf
-			}
-
-			// final File firmado = new File(fullPathFirmado);
-			final File firmado = new File(newFullPathFirmado);
-
-			// final String fullPathAlfresco = fullPathAlfrescoOrigin;
-
-			// log.info("Validando firmado:"+fullPathFirmado);
-			log.info("Validando firmado:" + newFullPathFirmado);
-
-			if (firmado.isFile()) {
-				log.info("Documento ha sido firmado:" + firmado.getAbsolutePath().toString());
-
-				mapSession = ActionContext.getContext().getSession();
-				Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-
-				FirmaArchivo firmaArchivo = new FirmaArchivo();
-				List<Archivo> list = archivoService.buscarArchivosObjectId(objectId, Integer.valueOf(idCodigo));
-				list.get(0).setFlagFirma(0);
-				archivoService.saveArchivo(list.get(0));
-				firmaArchivo.setIdArchivo(list.get(0).getIdArchivo());
-				firmaArchivo.setEstado(accionEjecutar);
-				firmaArchivo.setFechaCreacion(new Date());
-				firmaArchivo.setUsuarioCreacion(objUsuario.getIdusuario());
-				firmaArchivo.setIdUsuario(objUsuario.getIdUsuarioPerfil());
-				firmaArchivo.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
-				firmaArchivo.setCargoPropietario(objUsuario.getIdFuncionPerfil());
-				firmaArchivo.setIdProceso("SigNet");
-				firmaArchivo.setAlias(objUsuario.getNroDocumento());
-				firmaArchivo.setAccion(TIPOFIRMA);
-				firmaArchivo.setFechaFirma(new Date());
-				firmaArchivoService.saveFirmaArchivo(firmaArchivo);
-
-				estado = "1";
-				final String fullPathAlfresco = ALFRESCO_ROOT + list.get(0).getRutaAlfresco();
-				log.info("Se registro firma archivo:" + firmaArchivo.getIdFirmaArchivo());
-
-				new Thread() {
-					public void run() {
-						log.info("Subiendo archivo firmado a la ruta de alfresco:" + fullPathAlfresco);
-						String userName = USERCREADOR;
-						String password = USERCREADOR_CLAVE;
-						log.info("Subiendo archivo firmado, userName:" + userName + ", password:" + password);
-
-						try {
-
-							RETURN_CODE result = alfrescoConnector.modifyBinaryContent(userName,
-									seguridadService.desencriptar(userName, password), fullPathAlfresco, firmado,
-									"content");
-
-							log.info("RETURN_CODE:" + result);
-
-							if (result == AlfrescoConnector.RETURN_CODE.SUCCESS) {
-								log.info("Se subio el documento firmado a alfresco:" + fullPathAlfresco);
-
-							} else {
-								log.error("No se pudo subir el archivo a alfresco:" + fullPathAlfresco);
-							}
-
-						} catch (Exception e) {
-							log.error("Error al subir el archivo a alfresco:" + fullPathAlfresco + ", mensaje:"
-									+ e.getLocalizedMessage());
-							e.printStackTrace();
-						}
-
+				if (!list1.get(0).getEstado().equals("F") && !list1.get(0).getEstado().equals("V")) {
+					log.info("============================= Aqui se crea el QR ===============================");
+					String qrCodeText = ALFRESCO_ROOT + list1.get(0).getRutaAlfresco();
+					String nombreArchivoQr = nombreArchivo.replace(".pdf", "_qr.png");
+					String filePathImagen = POR_FIRMAR + nombreArchivoQr;
+					int size = 66;
+					String fileType = "png";
+					File qrFile = new File(filePathImagen);
+					try {
+						DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
+					} catch (WriterException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				}.start();
-
+					log.info("========== Aqui se pega el Qr en el documento ===========");
+					DojoAction.manipulatePdf(fullPathPorFirmar, fullPathPorFirmarQr, filePathImagen);
+				}
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
-
-			estado = "0";
+			return "0";
 		}
 
-		return estado;
+		return "1";
 	}
-	
+
 	@SMDMethod
-	public String uploadFilesToAlfrescoPostSignet(String request,List<ItemFirmar> items) {
-		
-		log.info("============uploadFilesToAlfrescoPostSignet============");
-		log.info("============uploadFilesToAlfrescoPostSignet============:" + request);
-		
+	public String uploadFilesToAlfrescoPostSignet(List<ItemFirmar> items, String accionEjecutar) {
+
+		log.info("============uploadFilesToAlfrescoPostSignet============:" + accionEjecutar);
+
 		String ALFRESCO_ROOT = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
 		String FIRMAS_FIRMADOS = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_FIRMADOS);
+		String TIPOFIRMA = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_TIPOFIRMA);
 
 		for (ItemFirmar itemFirmar : items) {
-		
+
 			String newNameArchivoFirmado = itemFirmar.getArchivo();
 			String newFullPathFirmado = FIRMAS_FIRMADOS + newNameArchivoFirmado;
-			
+
 			final File firmado = new File(newFullPathFirmado);
-	
-			List<Archivo> list = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(), Integer.valueOf(itemFirmar.getCodigoId()));
-			
+
+			List<Archivo> list = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(),
+					Integer.valueOf(itemFirmar.getCodigoId()));
+
+			mapSession = ActionContext.getContext().getSession();
+			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+
+			FirmaArchivo firmaArchivo = new FirmaArchivo();
+			list.get(0).setFlagFirma(0);
+			archivoService.saveArchivo(list.get(0));
+			firmaArchivo.setIdArchivo(list.get(0).getIdArchivo());
+			firmaArchivo.setEstado(accionEjecutar);
+			firmaArchivo.setFechaCreacion(new Date());
+			firmaArchivo.setUsuarioCreacion(objUsuario.getIdusuario());
+			firmaArchivo.setIdUsuario(objUsuario.getIdUsuarioPerfil());
+			firmaArchivo.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
+			firmaArchivo.setCargoPropietario(objUsuario.getIdFuncionPerfil());
+			firmaArchivo.setIdProceso("SigNet");
+			firmaArchivo.setAlias(objUsuario.getNroDocumento());
+			firmaArchivo.setAccion(TIPOFIRMA);
+			firmaArchivo.setFechaFirma(new Date());
+			firmaArchivoService.saveFirmaArchivo(firmaArchivo);
+
 			final String fullPathAlfresco = ALFRESCO_ROOT + list.get(0).getRutaAlfresco();
-			
+
 			log.info("Subiendo archivo firmado a la ruta de alfresco:" + fullPathAlfresco);
 			String userName = USERCREADOR;
 			String password = USERCREADOR_CLAVE;
 			log.info("Subiendo archivo firmado, userName:" + userName + ", password:" + password);
-	
+
 			try {
-	
+
 				RETURN_CODE result = alfrescoConnector.modifyBinaryContent(userName,
-						seguridadService.desencriptar(userName, password), fullPathAlfresco, firmado,
-						"content");
-	
+						seguridadService.desencriptar(userName, password), fullPathAlfresco, firmado, "content");
+
 				log.info("RETURN_CODE:" + result);
-	
+
 				if (result == AlfrescoConnector.RETURN_CODE.SUCCESS) {
 					log.info("Se subio el documento firmado a alfresco:" + fullPathAlfresco);
-	
+
 				} else {
 					log.error("No se pudo subir el archivo a alfresco:" + fullPathAlfresco);
 				}
-	
+
 			} catch (Exception e) {
 				log.error("Error al subir el archivo a alfresco:" + fullPathAlfresco + ", mensaje:"
 						+ e.getLocalizedMessage());
@@ -3622,14 +3697,11 @@ public class DojoAction {
 				return "0";
 			}
 		}
-		
+
 		return "1";
 	}
 
-//	public int crearPreFirmado() {
-//		
-//	}
-	
+
 	public static void manipulatePdf(String rutaProcedenciaPdf, String rutaDestinoPdf, String rutaImagen) {
 		try {
 			PdfReader pdfReader = new PdfReader(rutaProcedenciaPdf);
