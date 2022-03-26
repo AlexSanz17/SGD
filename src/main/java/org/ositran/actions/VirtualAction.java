@@ -365,12 +365,12 @@ public class VirtualAction {
         }else{
         	// Si es Datos mpv
         	IotdtcRecepcionMPV recepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(idRecepcion);
-        	
+        	log.info("documentoDAO recepcionMPV...................." + recepcionMPV.getIddocumento());
         	if (recepcionMPV.getIddocumento()!=null){
 	            d = documentoDAO.findByIdDocumento(recepcionMPV.getIddocumento());            
 	            lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
 	        }
-	        
+	        log.info("documentoDAO mpvvvv...................." + d);
 	        objDD = new DocumentoDetail();
 	        objDD.setStrAsunto(recepcionMPV.getAsunto());
 	        

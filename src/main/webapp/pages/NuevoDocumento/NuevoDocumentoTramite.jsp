@@ -824,42 +824,32 @@
                            <tr>
                               <td>Fecha Documento</td>
                               <td width = "200px" class="label" colspan="1">
-                                 <div dojoType="dijit.form._DateTimeTextBox"
+                                 <div dojoType="dijit.form.DateTextBox"
                                       id="objDD.strFechaDocumentoTramite"
                                       jsId="objDD.strFechaDocumentoTramite"
                                       name="objDD.strFechaDocumento"
-                                      constraints="{datePattern:'dd/MM/yyyy', timePattern:'hh:mm:ss a'}"
-                                      invalidMessage="Ingrese fecha de Documento dd/MM/yyyy hh:mm:ss a.m./p.m."
+                                      constraints="{datePattern:'dd/MM/yyyy'}"
+                                      invalidMessage="Ingrese fecha de Documento dd/MM/yyyy"
                                       required="true"
                                       trim="true">
                                     <script type="dojo/method" event="postCreate">
                                        var fechadocumento_year;
                                        var fechadocumento_month;
                                        var fechadocumento_day;
-										var fechadocumento_hour;
-                                        var fechadocumento_minutes;
-                                        var fechadocumento_seconds;
                                        
                                        if ("<s:date name='documento.fechaDocumento' format='dd' />"== null ||
                                            "<s:date name='documento.fechaDocumento' format='dd' />"== ""){ 
                                            fechadocumento_year = parseInt("<s:date name='fecha' format='yyyy' />", 10);
                                            fechadocumento_month = parseInt("<s:date name='fecha' format='MM' />", 10);
                                            fechadocumento_day = parseInt("<s:date name='fecha' format='dd' />", 10);
-                            				fechadocumento_hour = parseInt("<s:date name='fecha' format='HH' />", 10);  
-                            				fechadocumento_minutes = parseInt("<s:date name='fecha' format='mm' />", 10);  
-                            				fechadocumento_seconds = parseInt("<s:date name='fecha' format='ss' />", 10); 
                                        }else{
                                            fechadocumento_year = parseInt("<s:date name='documento.fechaDocumento' format='yyyy' />", 10);
                                            fechadocumento_month = parseInt("<s:date name='documento.fechaDocumento' format='MM' />", 10);
                                            fechadocumento_day = parseInt("<s:date name='documento.fechaDocumento' format='dd' />", 10);
-											fechadocumento_hour = parseInt("<s:date name='documento.fechaDocumento' format='HH' />", 10);  
-                            				fechadocumento_minutes = parseInt("<s:date name='documento.fechaDocumento' format='mm' />", 10);  
-                            				fechadocumento_seconds = parseInt("<s:date name='documento.fechaDocumento' format='ss' />", 10); 
                                         }    
                                        
                                        if (!isNaN(fechadocumento_year) && !isNaN(fechadocumento_month) && !isNaN(fechadocumento_day)) {
-                                         	dijit.byId("objDD.strFechaDocumentoTramite").attr("value", new Date(fechadocumento_year, fechadocumento_month - 1, fechadocumento_day,
-                            					fechadocumento_hour, fechadocumento_minutes, fechadocumento_seconds));
+                                         	dijit.byId("objDD.strFechaDocumentoTramite").attr("value", new Date(fechadocumento_year, fechadocumento_month - 1, fechadocumento_day));
 											dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
                                        }
                                        

@@ -258,14 +258,14 @@
 			<result name="error">error.html</result>
 		</action>
                 
-                <action name="doViewDocFirmado" method="viewDocFirmado" class="pendienteAction">
-                         <result name="errorsession">login.jsp</result>
+        <action name="doViewDocFirmado" method="viewDocFirmado" class="pendienteAction">
+            <result name="errorsession">login.jsp</result>
 			<result  name="success">detalle/detalleDocumentoFirmado.jsp</result>
 			<result name="error">error.html</result>
 		</action>
                 
-                <action name="doViewDocRecepcionVirtual" method="viewDocRecepcionVirtual" class="virtualAction">
-                         <result name="errorsession">login.jsp</result>
+        <action name="doViewDocRecepcionVirtual" method="viewDocRecepcionVirtual" class="virtualAction">
+            <result name="errorsession">login.jsp</result>
 			<result  name="success">detalle/detalleRecepcionVirtual.jsp</result>
 			<result name="error">error.html</result>
 		</action>
@@ -1122,13 +1122,11 @@
 			<result name="verMenuInfRec">pages/layout/informativosRecibidos.jsp</result>
 		</action>
                 
-                
-                <!--
-                <action name="getDataGrid" method="getDataGrid" class="org.ositran.actions.DojoAction">
+        <!--
+        <action name="getDataGrid" method="getDataGrid" class="org.ositran.actions.DojoAction">
 			 <interceptor-ref name="defaultSessionCheckInterceptor"></interceptor-ref>
                          <result name="success">/login.jsp</result>
 		</action> -->
-                
                 
 		<action name="inicioMenu" method="getInicioMenu" class="dojoAction">
 			<result name="verInicioMenu">pages/layout/menu.jsp</result>

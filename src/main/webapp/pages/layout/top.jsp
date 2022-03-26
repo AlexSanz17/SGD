@@ -11,8 +11,6 @@
         <title>Sistema de Gesti&oacute;n Documentaria - Top Bar</title>
                  
         <script type="text/javascript">
-
-    
              if (sessionStorage.tabID!='<s:property value='#session.storage' />'){
                 document.location.href = "<%=request.getContextPath()%>/activa.html" ;
              }
@@ -91,7 +89,6 @@
             
            }
            
-           
             function openNuevoCliente(){
             	resetRegistroCliente();
             	dijit.byId("dlgNuevoCliente").show();
@@ -111,16 +108,13 @@
 			             window.open("goViewAlerta.action", "", opciones);
 				    });
             }
+            
             dojo.addOnLoad(function() {
-               
                 var btnData = null;
 
                 var toolBarTop = new dijit.Toolbar({
                     style: "text-align:right;float:right;"
                 }, "divToolBarTop");
-                
-                
-
 
                 dojo.forEach(arrRecursoTopButton, function(item) {
                     console.debug("top.js Recurso [%s] disponible [%d]", item.codigo, item.valor);
@@ -167,8 +161,6 @@
                 </s:if>
             </span>
             
-           
-            
             <div dojoType="dijit.Menu" leftClickToOpen="true" style="display:none;" targetNodeIds="idOpciones">
                 <div dojoType="dijit.PopupMenuItem">
                     <span>Temas</span>
@@ -187,10 +179,7 @@
             </div>
             <span class="headerSeparator"><a id="idOpciones" class="headerLink" style="font-size:11px;">Opciones</a></span>
             <a class="headerLink" href="doLogout.action" title="Salir del SIGED" style="font-size:11px;">Cerrar Sesi&oacute;n</a>
-            
-         
             <br/>
-            
              <span style="font-size:11px;">
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rol:</span> 
             </span>
@@ -223,7 +212,6 @@
            
         </div>
                                                 
-                                               
         <div id="divToolBarTop" style="margin-top: 0px;"></div>
         
         <div class="headerBusquedaAvanzada">       
@@ -233,16 +221,9 @@
                 <!--|
                 <a class="headerLink" href="javascript:buildTabsFromToolBarTop('ReporteVista', null);" title="Reportes">Reportes</a>-->
             </s:if>
-               
         </div>
         
 	 <script type="text/javascript" src="js/siged/registroClienteMP.js"></script>
-         <%@ include file="../util/progressBar.jsp" %>
-         
+     <%@ include file="../util/progressBar.jsp" %>
     </body>
 </html>
-
-
-
-
-

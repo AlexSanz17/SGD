@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
 
 import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.Departamento;
@@ -2717,6 +2717,4 @@ public class MantenimientoAction{
 	public void setbEsJefe(Boolean bEsJefe) {
 		this.bEsJefe = bEsJefe;
 	}
-
-
 }

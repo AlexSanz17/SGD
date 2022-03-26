@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
 
 import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.ArchivoPendiente;

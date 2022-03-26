@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.dojo.grid;
+package org.ositran.dojo.grid;
 
 public class Estructura{
 
@@ -117,10 +117,9 @@ public class Estructura{
 	@Override
 	public String toString() {
 		return "Estructura [idGridColumnaPorGrid=" + idGridColumnaPorGrid
-				+ ", field=" + field + ", name=" + name + ", noresize="
-				+ noresize + ", width=" + width + ", hidden=" + hidden
-				+ ", formato=" + formato + ", ordenado=" + ordenado
-				+ ", ascendente=" + ascendente + "]";
+			+ ", field=" + field + ", name=" + name + ", noresize="
+			+ noresize + ", width=" + width + ", hidden=" + hidden
+			+ ", formato=" + formato + ", ordenado=" + ordenado
+			+ ", ascendente=" + ascendente + "]";
 	}
-
 }

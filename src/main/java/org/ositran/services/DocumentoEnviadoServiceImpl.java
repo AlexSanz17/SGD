@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.services;
+package org.ositran.services;
 
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -76,6 +76,5 @@ public class DocumentoEnviadoServiceImpl implements DocumentoEnviadoService {
 	
 	public AuditoriaDAO getDaoauditoria() {
 		return daoauditoria;
-	}	
-
+	}
 }

@@ -4979,7 +4979,7 @@ public class DocumentoServiceImpl implements DocumentoService {
             objD.setFechaAccion(fecha);
 
             try {
-                objD.setFechaDocumento(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(objDD.getStrFechaDocumento()));
+                objD.setFechaDocumento(new SimpleDateFormat("yyyy-MM-dd").parse(objDD.getStrFechaDocumento()));
             } catch (ParseException e) {
                 e.printStackTrace();
                 throw e;
