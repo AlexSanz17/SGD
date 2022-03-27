@@ -72,4 +72,11 @@ public class ObjetoJSON {
 		this.parametroalerta2 = parametroAlerta2;
 	}
 	
+	@Override
+	public String toString() {
+		return "ObjetoJSON [identifier=" + identifier + ", label=" + label + ", items=" + items + ", structure="
+				+ structure + ", horaservidor=" + horaservidor + ", parametroalerta1=" + parametroalerta1
+				+ ", parametroalerta2=" + parametroalerta2 + "]";
+	}
+	
 }
