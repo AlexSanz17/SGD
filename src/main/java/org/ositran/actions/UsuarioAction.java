@@ -1,35 +1,5 @@
 package org.ositran.actions;
    
-import com.btg.ositran.siged.domain.Alerta;
-import com.btg.ositran.siged.domain.ArchivoPendiente;
-import com.btg.ositran.siged.domain.CarpetaBusqueda;
-import com.btg.ositran.siged.domain.Cliente;
-import com.btg.ositran.siged.domain.Departamento;
-import com.btg.ositran.siged.domain.Distrito;   
-import com.btg.ositran.siged.domain.Documento;
-import com.btg.ositran.siged.domain.Documentoenviado;
-import com.btg.ositran.siged.domain.Expediente;
-import com.btg.ositran.siged.domain.Grupoproceso;  
-import com.btg.ositran.siged.domain.Lista;
-import com.btg.ositran.siged.domain.LogOperacion;
-import com.btg.ositran.siged.domain.Modulo;
-import com.btg.ositran.siged.domain.Numeracion;
-import com.btg.ositran.siged.domain.Parametro;
-import com.btg.ositran.siged.domain.Perfil;
-import com.btg.ositran.siged.domain.Plantilla;
-import com.btg.ositran.siged.domain.Proceso;
-import com.btg.ositran.siged.domain.Provincia;
-import com.btg.ositran.siged.domain.Recurso;
-import com.btg.ositran.siged.domain.Reemplazo;
-import com.btg.ositran.siged.domain.Rol;
-import com.btg.ositran.siged.domain.Sede;
-import com.btg.ositran.siged.domain.Tipodocumento;
-import com.btg.ositran.siged.domain.Unidad;
-import com.btg.ositran.siged.domain.Usuario;
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
-import javax.servlet.http.Cookie;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.Format;
@@ -38,25 +8,27 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.AuthenticationException;
+import javax.naming.AuthenticationNotSupportedException;
+import javax.naming.Context;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alfresco.webservice.util.AuthenticationUtils;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
-import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
-import com.ositran.pide.WSPideTramite;
-import com.ositran.ws.ConsultaTramite;
-import com.ositran.ws.RespuestaConsultaTramite;
-import com.sun.jndi.ldap.LdapCtxFactory;
-import java.util.Hashtable;
-import javax.naming.Context;
-import javax.naming.directory.DirContext;
-import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.struts2.interceptor.SessionAware;
 import org.ositran.cookies.CookieBean;
 import org.ositran.cookies.CookieProvider;
@@ -90,6 +62,37 @@ import org.ositran.services.UnidadService;
 import org.ositran.services.UsuarioService;
 import org.ositran.utils.Constantes;
 import org.ositran.utils.DocumentoList;
+
+import com.btg.ositran.siged.domain.Alerta;
+import com.btg.ositran.siged.domain.ArchivoPendiente;
+import com.btg.ositran.siged.domain.CarpetaBusqueda;
+import com.btg.ositran.siged.domain.Cliente;
+import com.btg.ositran.siged.domain.Departamento;
+import com.btg.ositran.siged.domain.Distrito;
+import com.btg.ositran.siged.domain.Documento;
+import com.btg.ositran.siged.domain.Documentoenviado;
+import com.btg.ositran.siged.domain.Expediente;
+import com.btg.ositran.siged.domain.Grupoproceso;
+import com.btg.ositran.siged.domain.Lista;
+import com.btg.ositran.siged.domain.LogOperacion;
+import com.btg.ositran.siged.domain.Modulo;
+import com.btg.ositran.siged.domain.Numeracion;
+import com.btg.ositran.siged.domain.Parametro;
+import com.btg.ositran.siged.domain.Perfil;
+import com.btg.ositran.siged.domain.Plantilla;
+import com.btg.ositran.siged.domain.Proceso;
+import com.btg.ositran.siged.domain.Provincia;
+import com.btg.ositran.siged.domain.Recurso;
+import com.btg.ositran.siged.domain.Reemplazo;
+import com.btg.ositran.siged.domain.Rol;
+import com.btg.ositran.siged.domain.Sede;
+import com.btg.ositran.siged.domain.Tipodocumento;
+import com.btg.ositran.siged.domain.Unidad;
+import com.btg.ositran.siged.domain.Usuario;
+import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
+import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionContext;
+import com.sun.jndi.ldap.LdapCtxFactory;
 
 public class UsuarioAction implements SessionAware,CookieProvider{
     
@@ -136,15 +139,15 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 	private int nroDocDigitalizados;
 	private LogOperacionService logOperacionService;
 	private List<LogOperacion> lstLogOperacion;
-        private UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO;
+    private UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO;
         
-        public UsuarioxunidadxfuncionDAO getUsuarioxunidadxfuncionDAO() {
-            return usuarioxunidadxfuncionDAO;
-        }
+    public UsuarioxunidadxfuncionDAO getUsuarioxunidadxfuncionDAO() {
+        return usuarioxunidadxfuncionDAO;
+    }
 
-        public void setUsuarioxunidadxfuncionDAO(UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO) {
-            this.usuarioxunidadxfuncionDAO = usuarioxunidadxfuncionDAO;
-        }
+    public void setUsuarioxunidadxfuncionDAO(UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO) {
+        this.usuarioxunidadxfuncionDAO = usuarioxunidadxfuncionDAO;
+    }
 
 	public LogOperacionService getLogOperacionService() {
 		return logOperacionService;
@@ -216,8 +219,6 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 		this.nroNotificacionesNL=nroNotificacionesNL;
 	}
 
-
-
 	private String sClave;
 	private String sOpcion;
 	private String sTipoFrame;
@@ -239,8 +240,8 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 		return "blank";
 	}
         
-        public String remover(){
-            getMapSession().remove(Constantes.SESSION_ALFRESCO);
+    public String remover(){
+        getMapSession().remove(Constantes.SESSION_ALFRESCO);
 	    getMapSession().remove(Constantes.SESSION_AUDITABLE);
 	    getMapSession().remove(Constantes.SESSION_FORWARD_TO_URL);
 	    getMapSession().remove(Constantes.SESSION_IDDOCUMENTO);
@@ -248,45 +249,46 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 	    getMapSession().remove(Constantes.SESSION_UPLOAD_LIST);
 	    getMapSession().remove(Constantes.SESSION_USUARIO);
 	   // ((org.apache.struts2.dispatcher.SessionMap) getMapSession()).invalidate();
-            
-            return "";                    
-        }
+        return "";                    
+    }
         
-        @SuppressWarnings("unused")
+    @SuppressWarnings("unused")
 	public String loginSession(){
-            return Action.SUCCESS;
-        }
+        return Action.SUCCESS;
+    }
         
-        public boolean validaUsuarioAD(String strUser, String strPassword) {
-            
-            strUser = strUser.trim().toUpperCase();
-            
-           /* if(!strUser.matches("[a-zA-Z0-9]+(_|.)?[a-zA-Z0-9]+ ")){
-                 return false;
-            }*/
-            principalName = strUser + "@" + domainName;
+    public boolean validaUsuarioAD(String strUser, String strPassword) {
+        
+        strUser = strUser.trim().toUpperCase();
+        
+       /* if(!strUser.matches("[a-zA-Z0-9]+(_|.)?[a-zA-Z0-9]+ ")){
+             return false;
+        }*/
+        principalName = strUser + "@" + domainName;
 
-            try {
-                  if(strPassword == null || strPassword.equals(""))
-                        return false;
-                  ldapEnv.put(Context.SECURITY_PRINCIPAL, principalName);
-                  ldapEnv.put(Context.SECURITY_CREDENTIALS, strPassword);
-                  ldapContext = LdapCtxFactory.getLdapCtxInstance("ldap://"
-                              + serverName + "." + domainName + '/', ldapEnv);
+        try {
+              if(strPassword == null || strPassword.equals(""))
+                    return false;
+              ldapEnv.put(Context.SECURITY_PRINCIPAL, principalName);
+              ldapEnv.put(Context.SECURITY_CREDENTIALS, strPassword);
+              ldapContext = LdapCtxFactory.getLdapCtxInstance("ldap://"
+                          + serverName + "." + domainName + '/', ldapEnv);
 
-                  System.out.println("Authentication succeeded!" + strUser);
-                  return true;
-            } catch (Exception e) {
-                  System.out.println("Authentication failed!");
-                  System.out.println(" Search error: " + e.toString());
-                  return false;
-            }
-      }
+              System.out.println("Authentication succeeded!" + strUser);
+              return true;
+        } catch (Exception e) {
+              System.out.println("Authentication failed!");
+              System.out.println(" Search error: " + e.toString());
+              return false;
+        }
+    }
 
-
-	@SuppressWarnings("unused")
-	public String login(){
-		log.debug("-> [Action] UsuarioAction - login():String ");
+    public String login() {
+    	return loginSQL();
+    }
+    
+    public String loginSQL() {
+    	log.debug("-> [Action] UsuarioAction - login():String ");
 
 		try{
         Usuario objUsuario=null;
@@ -431,12 +433,352 @@ public class UsuarioAction implements SessionAware,CookieProvider{
             e.printStackTrace();
         }
                 
-                return Action.SUCCESS;
+		return Action.SUCCESS;
+    }
+    
+    @SuppressWarnings("unused")
+	public String loginActiveDirectory() {
+		log.debug("-> [Action] UsuarioAction - login():String ");
+
+		try {
+			// usado para acceso por db
+			// Usuario objUsuario=null;
+
+			//Usuario objUsuarioLdap = null;
+			Usuario usuarioAutenticado = null;
+			
+			HttpServletRequest request = ServletActionContext.getRequest();
+			mapSession = ActionContext.getContext().getSession();
+
+			if (mapSession.get(Constantes.SESSION_USUARIO) != null) {
+				return "activa";
+			}
+
+			String captchaInput = request.getParameter("codecp");
+			// String captcha = (String) mapSession.get("captcha");
+			String storage = request.getParameter("storage");
+			// String captcha = request.getParameter("captcha");
+
+			/*
+			 * if(captchaInput.equals(captcha)){
+			 * 
+			 * }else{ return Action.ERROR; }
+			 */
+
+			// clave siged
+
+			// System.out.println("sCaptcha:"+sCaptcha);
+			// log.info("sCaptcha:"+sCaptcha);
+
+			System.out.println("USUARIO Y CLAVEO");
+			System.out.println(getSUsuario());
+			System.out.println(getSClave());
+
+			// bind by using the specified username/password
+
+			// autorizacion por ACTIVE DIRECTORY
+			Map<String, Object> result = null;
+
+			// String url = "ldap://172.27.0.54:389";
+
+			String username = getSUsuario();
+			String password = getSClave();
+
+			String url = "ldap://172.27.0.54:389/DC=proviasnac,DC=dom";
+
+			Hashtable env = new Hashtable();
+			env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+			env.put(Context.PROVIDER_URL, url);
+			env.put(Context.SECURITY_AUTHENTICATION, "simple");
+			/*
+			 * env.put(Context.SECURITY_PRINCIPAL, "uid=admin,ou=system");
+			 * env.put(Context.SECURITY_CREDENTIALS, "secret");
+			 */
+
+			env.put(Context.SECURITY_PRINCIPAL, username + "@proviasnac.dom");
+
+			env.put(Context.SECURITY_CREDENTIALS, password);
+
+			env.put(Context.REFERRAL, "follow");
+
+			try {
+				DirContext ctx = new InitialDirContext(env);
+				System.out.println("connected");
+				System.out.println(ctx.getEnvironment());
+
+				// se valido la autenticacion
+				
+
+				SearchControls ctrl = new SearchControls();
+
+				ctrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+				NamingEnumeration<SearchResult> enumeration = ctx.search("", "(SAMAccountName=" + username + ")", ctrl);
+
+				Attributes attrs;
+
+				Attribute attr;
+
+				while (enumeration.hasMore()) {
+
+					SearchResult sr = enumeration.next();
+
+					attrs = sr.getAttributes();
+
+					result = new HashMap<String, Object>();
+
+					attr = attrs.get("sn");
+
+					result.put("apellidos", attr.get(0));
+
+					attr = attrs.get("givenName");
+
+					result.put("nombres", attr.get(0));
+
+					attr = attrs.get("mail");
+
+					result.put("mail", attr.get(0));
+
+					attr = attrs.get("department");
+
+					if (attr != null)
+						result.put("departamento", attr.get(0));
+
+					result.put("username", username);
+
+					System.out.println(result);
+
+				}
+
+				
+				usuarioAutenticado = validarExistenciaUsuario(username ,  result);
+				
+				
+				if(usuarioAutenticado == null) {
+					return Action.ERROR;
+				}
+				
+				// do something useful with the context...
+
+				ctx.close();
+
+			} catch (AuthenticationNotSupportedException ex) {
+				System.out.println("No se pudo soportar la autenticacion");
+				return Action.ERROR;
+			} catch (AuthenticationException ex) {
+				System.out.println("Usuario o password incorrecto");
+				
+				return Action.ERROR;
+				
+			} catch (NamingException ex) {
+				System.out.println("Error creando el contexto");
+				return Action.ERROR;
+			}
+
+			// comentado solo para db
+			/*
+			 * if (!getSrvUsuario().findValidarUsuario(getSUsuario(), getSClave())){
+			 * log.error("No se encontro usuario [" + getSUsuario() + "]"); return
+			 * Action.ERROR; }
+			 * 
+			 * if((objUsuario=getSrvUsuario().findByUsuarioClave(getSUsuario(),getSClave()))
+			 * == null){ log.error("No se encontro usuario [" + getSUsuario() + "]"); return
+			 * Action.ERROR; }
+			 */
+
+			// ----
+			/*
+			 * if (!getSrvUsuario().findValidarUsuarioCatpcha(getSUsuario(), getSClave(),
+			 * getsCaptcha())){ log.error("No se encontro usuario [" + getSUsuario() + "]");
+			 * return Action.ERROR; }
+			 */
+
+			/*
+			 * if (!validaUsuarioAD(getSUsuario(),getSClave())){
+			 * log.error("No se encontro usuario [" + getSUsuario() + "]"); return
+			 * Action.ERROR; }
+			 */
+
+			Date hoy = Calendar.getInstance().getTime();
+
+			mapSession.put("idusuario", usuarioAutenticado.getIdusuario());
+			mapSession.put("usuario", usuarioAutenticado.getUsuario());
+			mapSession.put("clave", usuarioAutenticado.getClave());
+
+			mapSession.put("context", hoy);
+			mapSession.put("nombres", usuarioAutenticado.getNombres() + "-" + usuarioAutenticado.getApellidos());
+
+			mapSession.put(Constantes.SESSION_USUARIO, usuarioAutenticado);
+			mapSession.put("storage", storage);
+
+			String nombrePC = "";
+
+			try {
+				InetAddress inetAddress = InetAddress.getByName(request.getRemoteAddr());
+				log.debug("IP origen: " + inetAddress);
+				nombrePC = inetAddress.getHostName();
+				log.debug("Nombre origen: " + nombrePC);
+				if (nombrePC.equalsIgnoreCase("localhost")) {
+					nombrePC = java.net.InetAddress.getLocalHost().getCanonicalHostName();
+				}
+			} catch (UnknownHostException e) {
+				log.error("No se pudo encontrar el nombre para el ip determinado ", e);
+				nombrePC = request.getRemoteAddr();
+			} catch (NullPointerException e) {
+				log.error("Hubo un error de puntero nulo al buscar la IP origen", e);
+				nombrePC = "Indeterminado";
+			}
+
+			mapSession.put("nombrePC", nombrePC);
+
+			// Asignar informacion asociada
+			/*Rol roles = objUsuario.getRolUsuario();
+
+			objUsuario.setIdUnidadPerfil(new Integer(objUsuario.getUnidad().getIdunidad()));
+			objUsuario.setIdFuncionPerfil(new Integer(objUsuario.getIdfuncion()));
+			objUsuario.setIdUsuarioPerfil(new Integer(objUsuario.getIdusuario()));
+
+			if (objUsuario.getIdfuncion().toString().equals(Constantes.COD_CARGO_SECRETARIA.toString())) {
+				List<Usuarioxunidadxfuncion> list = usuarioxunidadxfuncionDAO
+						.getUsuarioByUnidadByFuncionDelegado(objUsuario);
+				if (list != null) {
+					objUsuario.setIdUnidadPerfil(list.get(0).getIdunidad());
+					objUsuario.setIdFuncionPerfil(list.get(0).getIdfuncion());
+					objUsuario.setIdUsuarioPerfil(list.get(0).getIdusuariocargo());
+					roles = srvRol.findByIdRol(list.get(0).getIdrol());
+				} else {
+					objUsuario.setIdUnidadPerfil(new Integer(objUsuario.getUnidad().getIdunidad()));
+					objUsuario.setIdFuncionPerfil(new Integer(objUsuario.getIdfuncion()));
+					objUsuario.setIdUsuarioPerfil(new Integer(objUsuario.getIdusuario()));
+				}
+			} else {
+				objUsuario.setIdUnidadPerfil(new Integer(objUsuario.getUnidad().getIdunidad()));
+				objUsuario.setIdFuncionPerfil(new Integer(objUsuario.getIdfuncion()));
+				objUsuario.setIdUsuarioPerfil(new Integer(objUsuario.getIdusuario()));
+			}
+
+			objUsuario.setIdRolPerfil(roles.getIdrol());*/
+
+			Rol roles = usuarioAutenticado.getRolUsuario();
+
+			usuarioAutenticado.setIdUnidadPerfil(new Integer(usuarioAutenticado.getUnidad().getIdunidad()));
+			usuarioAutenticado.setIdFuncionPerfil(new Integer(usuarioAutenticado.getIdfuncion()));
+			usuarioAutenticado.setIdUsuarioPerfil(new Integer(usuarioAutenticado.getIdusuario()));
+
+			if (usuarioAutenticado.getIdfuncion().toString().equals(Constantes.COD_CARGO_SECRETARIA.toString())) {
+				List<Usuarioxunidadxfuncion> list = usuarioxunidadxfuncionDAO
+						.getUsuarioByUnidadByFuncionDelegado(usuarioAutenticado);
+				if (list != null) {
+					usuarioAutenticado.setIdUnidadPerfil(list.get(0).getIdunidad());
+					usuarioAutenticado.setIdFuncionPerfil(list.get(0).getIdfuncion());
+					usuarioAutenticado.setIdUsuarioPerfil(list.get(0).getIdusuariocargo());
+					roles = srvRol.findByIdRol(list.get(0).getIdrol());
+				} else {
+					usuarioAutenticado.setIdUnidadPerfil(new Integer(usuarioAutenticado.getUnidad().getIdunidad()));
+					usuarioAutenticado.setIdFuncionPerfil(new Integer(usuarioAutenticado.getIdfuncion()));
+					usuarioAutenticado.setIdUsuarioPerfil(new Integer(usuarioAutenticado.getIdusuario()));
+				}
+			} else {
+				usuarioAutenticado.setIdUnidadPerfil(new Integer(usuarioAutenticado.getUnidad().getIdunidad()));
+				usuarioAutenticado.setIdFuncionPerfil(new Integer(usuarioAutenticado.getIdfuncion()));
+				usuarioAutenticado.setIdUsuarioPerfil(new Integer(usuarioAutenticado.getIdusuario()));
+			}
+
+			usuarioAutenticado.setIdRolPerfil(roles.getIdrol());
+			
+
+			mapSession.put(Constantes.SESSION_ROLCARGO, roles.getIdrol().toString());
+			Map<String, Integer> recursos;
+
+			List<Perfil> perfiles = new ArrayList<Perfil>();
+			perfiles.add(roles.getIdperfil());
+			log.debug("IdPerfil:" + roles.getIdperfil());
+
+			recursos = srvPerfil.getRecursosPorPerfiles(perfiles);
+			log.debug("Recurso por perfil:" + recursos == null ? 0 : recursos.size());
+			mapSession.put(Constantes.SESSION_RECURSO, recursos);
+			String sURL = (String) mapSession.get(Constantes.SESSION_FORWARD_TO_URL);
+
+			List<Parametro> lst = srvParametro.findByTipo("PERMISO_CARGO");
+			usuarioAutenticado.setPermisoCargo('0');
+			if (lst != null && lst.size() > 0) {
+				for (int i = 0; i < lst.size(); i++) {
+					if (usuarioAutenticado.getIdusuario().toString().equals(lst.get(i).getValor())) {
+						usuarioAutenticado.setPermisoCargo('1');
+						break;
+					}
+				}
+			}
+
+			if (sURL != null) {
+				mapSession.remove(Constantes.SESSION_FORWARD_TO_URL);
+				sForwardToURL = sURL;
+				return "forwardToURL";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return Action.SUCCESS;
+	}
+    
+    private Usuario validarExistenciaUsuario(String username, Map<String, Object> result) {
+		
+		System.out.println("Validar usuario " + username); 
+		
+		Usuario usuario = getSrvUsuario().findByUsuario(username);
+		
+		
+		
+		if(usuario == null) {
+			/**System.out.println("usuario nulo");
+			Usuario newUser = new Usuario(); 			
+			
+			newUser.setApellidos((String) result.get("apellidos")); 
+			newUser.setNombres((String) result.get("nombres"));
+			newUser.setCorreo((String) result.get("mail"));
+			newUser.setUsuario((String) result.get("username")); 
+			
+			newUser.setEstado("A");
+			newUser.setEnviocorreo("S".charAt(0));
+			newUser.setUsuariofinal("S".charAt(0));
+			newUser.setBandejaAgrupada("N".charAt(0));
+			newUser.setClave("");
+			newUser.setClaveSiged("");
+			newUser.setFlagdocumentocf("0");
+			newUser.setFlagviewtrazabilidad("0");
+			
+			
+			newUser.setIdfuncion(5); 
+			
+			newUser.setRolUsuario(new Rol(2));  
+			newUser.setUnidad(new Unidad(455)); 
+			
+			newUser.setCaptcha("");
+			
+			Usuario usuarioSaved = new Usuario();
+			System.out.println("usuario a guardar");
+			System.out.println(newUser); 
+			try {
+				usuarioSaved = getSrvUsuario().guardarUsuario(newUser);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("error al guardarss");
+				System.out.println(e.getMessage()); 
+			}*/
+			
+			return usuario;
+		}
+		
+		System.out.println("usuario no nulo ");
+		System.out.println(usuario); 
+		return usuario;
 	}
         
-        public String prueba(){
-            return Action.LOGIN;
-        }
+    public String prueba(){
+        return Action.LOGIN;
+    }
 
 	public String buscarLogOperacion() throws Exception{
 		try{

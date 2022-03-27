@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	private static Logger _log=Logger.getLogger(UsuarioDAOImpl.class);
 	private EntityManager em;
 
-	// ////////////////////////////////
-	// Methods //
-	// ////////////////////////////////
 	@SuppressWarnings("unchecked")
 	public List<Usuario> findAll(){
 		return em.createNamedQuery("Usuario.findAll").getResultList();
@@ -36,21 +33,21 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		return em.createNamedQuery("Usuario.findAllUF").getResultList();
 	}
         
-        public Usuario buscarObjPor(String sUsuario,String sClave){
+    public Usuario buscarObjPor(String sUsuario,String sClave){
 		Usuario objUsuario=null;
 		
 		try{
-                     objUsuario=(Usuario) em.createNamedQuery("Usuario.autenticarClaveSiged").setParameter("usr",sUsuario).getSingleResult();
+             objUsuario=(Usuario) em.createNamedQuery("Usuario.autenticarClaveSiged").setParameter("usr",sUsuario).getSingleResult();
 
 		}catch(NoResultException e){
 			e.printStackTrace();
 			_log.warn("No se encontró el usuario: "+sUsuario+" con contraseña: "+sClave);
 		}
                 
-                return objUsuario;
+        return objUsuario;
 	}
         
-        public List<Map<String, String>> findUnidadOrgSession(int id){
+    public List<Map<String, String>> findUnidadOrgSession(int id){
          List<Map<String, String>> s = new LinkedList<Map<String, String>>();
          try {
            
@@ -78,10 +75,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
              _log.error(UsuarioDAOImpl.class.toString().concat(": ").concat(e.getMessage()));
              return null;
           }
-          return s;
-        }     
-
-
+         return s;
+    }     
 
 	@SuppressWarnings("unchecked")
 	public List<Usuario> findListByUsuarioFinal(char cUsuarioFinal){
@@ -103,7 +98,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	}
 
 	public List<Usuario> findByRol(String strR){
-                return null; //JC24
+        return null; //JC24
 	}
 
 	public Usuario findByUsuario(String sUsuario,Integer iIdSede){
@@ -150,8 +145,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		Usuario usuario=null;
 		try{
 			usuario=(Usuario) em.createNamedQuery("Usuario.findByUnidad")
-			                    .setParameter("idunidad",Integer.parseInt(unidad))
-			                    .getSingleResult();
+                .setParameter("idunidad",Integer.parseInt(unidad))
+                .getSingleResult();
 		}catch(NoResultException e){
 			_log.warn("La Unidad  buscado ("+unidad+") no se puedo lograr encontrar");
 		}
@@ -196,9 +191,9 @@ public class UsuarioDAOImpl implements UsuarioDAO{
    public Usuario findObjectBy(String usuario, Character estado) {
       try {
          return (Usuario) em.createNamedQuery("Usuario.findByUsuarioEstado")
-                            .setParameter("usuario", usuario.toLowerCase())
-                            .setParameter("estado", String.valueOf(estado))
-                            .getSingleResult();
+            .setParameter("usuario", usuario.toLowerCase())
+            .setParameter("estado", String.valueOf(estado))
+            .getSingleResult();
       } catch (NoResultException nre) {
          _log.warn("No se encontro registro con usuario [" + usuario + "] estado [" + estado + "]");
 
@@ -222,12 +217,12 @@ public class UsuarioDAOImpl implements UsuarioDAO{
         Usuario u = null;
         List<Usuario> data = new ArrayList<Usuario>();
         for (int i = 0; i < temp.size(); i++) {
-                u = new Usuario();
-                Object obj[] = (Object[]) temp.get(i);
-                u.setIdusuario(Integer.parseInt(obj[0].toString()));
-                u.setNombres(obj[1].toString());
-                u.setApellidos(obj[2].toString());
-                data.add(u);
+            u = new Usuario();
+            Object obj[] = (Object[]) temp.get(i);
+            u.setIdusuario(Integer.parseInt(obj[0].toString()));
+            u.setNombres(obj[1].toString());
+            u.setApellidos(obj[2].toString());
+            data.add(u);
           }
         return data;
       } catch (Exception e) {
@@ -239,8 +234,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
    public boolean findValidarUsuario(String usuario, String clave){
 	   try {
-                 String sql = "select idusuario  from usuario where ".concat(
-                       " usuario ='"  +  usuario + "'  and  clave_siged = '" + clave + "'  and estado='A'"); 
+	         String sql = "select idusuario  from usuario where ".concat(
+	               " usuario ='"  +  usuario + "'  and  clave_siged = '" + clave + "'  and estado='A'"); 
 		  
 	         Query q = em.createNativeQuery(sql);
 	         List temp = q.getResultList();
@@ -256,8 +251,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
    
    public boolean findValidarUsuarioCaptcha(String usuario, String clave, String captcha){
 	   try {
-                 String sql = "select idusuario  from usuario where ".concat(
-                       " usuario ='"  +  usuario + "'  and  clave_siged = '" + clave + "'  and  captcha = '" + captcha +"'  and estado='A'"); 
+             String sql = "select idusuario  from usuario where ".concat(
+                   " usuario ='"  +  usuario + "'  and  clave_siged = '" + clave + "'  and  captcha = '" + captcha +"'  and estado='A'"); 
 		  
 	         Query q = em.createNativeQuery(sql);
 	         List temp = q.getResultList();
@@ -279,14 +274,13 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	   String sql = "SELECT u FROM Usuario u WHERE (LOWER(u.nombres) LIKE :like OR LOWER(u.apellidos) LIKE :like) AND u.usuariofinal = :usuarioFinal";
 
 	   return em.createQuery(sql)
-	   			.setParameter("like", "%"+like.toLowerCase()+"%")
-	   			.setParameter("usuarioFinal", Constantes.Si.charValue())
-	   			.getResultList();
+			.setParameter("like", "%"+like.toLowerCase()+"%")
+			.setParameter("usuarioFinal", Constantes.Si.charValue())
+			.getResultList();
    }
 
 
 	public List<Usuario> findJefes() {
-
         try {
             String sql = "select Distinct(u.idusuario), u.nombres, u.apellidos  from usuario u inner join usuarioxrol ur on u.idusuario = ur.idusuario inner join rol r on r.idRol =  ur.idRol where r.esJefe =:esJefe AND u.estado='A' order by apellidos  ";
             Query q = em.createNativeQuery(sql);
@@ -314,8 +308,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
       List<Usuario> lstUsuario = new ArrayList<Usuario>();
       
       String sql = "select IDUSUARIO, CONCAT(NOMBRES , ' ' , APELLIDOS) AS NOMBRES   from usuario where IDUNIDAD =:idUnidad AND ESTADO = 'A' " +
-                   " UNION " +
-                   " SELECT IDUSUARIO, (SELECT CONCAT(U.NOMBRES, ' ' , U.APELLIDOS)  AS NOMBRES FROM USUARIO U  WHERE U.IDUSUARIO = UU.IDUSUARIO)  FROM USUARIOXUNIDADXFUNCION UU WHERE UU.IDUNIDAD = :idUnidad AND UU.ESTADO = 'A' AND UU.IDUSUARIOCARGO IS NULL ";
+           " UNION " +
+           " SELECT IDUSUARIO, (SELECT CONCAT(U.NOMBRES, ' ' , U.APELLIDOS)  AS NOMBRES FROM USUARIO U  WHERE U.IDUSUARIO = UU.IDUSUARIO)  FROM USUARIOXUNIDADXFUNCION UU WHERE UU.IDUNIDAD = :idUnidad AND UU.ESTADO = 'A' AND UU.IDUSUARIOCARGO IS NULL ";
   
       Query q = em.createNativeQuery(sql.toString());
       q.setParameter("idUnidad", idUnidad);
@@ -337,16 +331,16 @@ public class UsuarioDAOImpl implements UsuarioDAO{
          try {
            
             String sql =" SELECT CONCAT(M.idusuario, '-' ,M.IDUNIDAD, '-' ,M.idfuncion), M.nombres, M.apellidos " +
-                        " FROM USUARIO M " +
-                        " WHERE M.ESTADO = 'A' AND M.USUARIOFINAL = 'S' and M.idusuario not in (0) AND M.IDUNIDAD = :uni" +
-                        " union " +
-                        " select CONCAT(us.idusuario, '-' ,us.IDUNIDAD, '-' ,uf.idfuncion), us.nombres, us.apellidos " +
-                        " from usuarioxunidadxfuncion uf, usuario us ,UNIDAD un" +
-                        " where " +
-                        " uf.idusuario = us.idusuario and uf.estado = 'A' AND " +
-                        " uf.IDUNIDAD  = un.IDUNIDAD  and un.ESTADO = 'A' AND " +
-                        " uf.USUARIOFINAL = 'S' and uf.idusuariocargo is null and " +
-                        " un.unidadgrupo = :uni";
+                " FROM USUARIO M " +
+                " WHERE M.ESTADO = 'A' AND M.USUARIOFINAL = 'S' and M.idusuario not in (0) AND M.IDUNIDAD = :uni" +
+                " union " +
+                " select CONCAT(us.idusuario, '-' ,us.IDUNIDAD, '-' ,uf.idfuncion), us.nombres, us.apellidos " +
+                " from usuarioxunidadxfuncion uf, usuario us ,UNIDAD un" +
+                " where " +
+                " uf.idusuario = us.idusuario and uf.estado = 'A' AND " +
+                " uf.IDUNIDAD  = un.IDUNIDAD  and un.ESTADO = 'A' AND " +
+                " uf.USUARIOFINAL = 'S' and uf.idusuariocargo is null and " +
+                " un.unidadgrupo = :uni";
             
             Query q = em.createNativeQuery(sql);
             q.setParameter("uni",id);          
@@ -355,14 +349,14 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	            Map<String, String> datos = null;
               
              for (Object obj : res) {     
-		datos = new HashMap<String, String>();
-		Object[] objectArray = (Object[]) obj;
+				datos = new HashMap<String, String>();
+				Object[] objectArray = (Object[]) obj;
             	datos.put("id", objectArray[0].toString());
                 //datos.put("label", objectArray[1].toString() + " " + objectArray[2].toString() + " [" + objectArray[3].toString() + "][" + objectArray[5].toString() + "]");
                 datos.put("nombres", objectArray[1].toString() + " " + objectArray[2].toString());
                
                 s.add(datos);
-	     }
+             }
            
           } catch (Exception e) {
               e.printStackTrace();
@@ -370,5 +364,5 @@ public class UsuarioDAOImpl implements UsuarioDAO{
              return null;
           }
           return s;
-        }
+    }
 }
