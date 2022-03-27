@@ -3625,6 +3625,12 @@ public class DojoAction {
 				}
 			}
 		} catch (Exception e) {
+			for (ItemFirmar itemFirmar1 : items) {
+				List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar1.getObjectId(),Integer.valueOf(itemFirmar1.getCodigoId()));
+				list2.get(0).setFlagFirma(0);
+				archivoService.saveArchivo(list2.get(0));
+			}
+			
 			return "0";
 		}
 
@@ -3691,6 +3697,13 @@ public class DojoAction {
 				}
 
 			} catch (Exception e) {
+				
+				for (ItemFirmar itemFirmar2 : items) {
+					List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar2.getObjectId(),Integer.valueOf(itemFirmar2.getCodigoId()));
+					list2.get(0).setFlagFirma(0);
+					archivoService.saveArchivo(list2.get(0));
+				}
+				
 				log.error("Error al subir el archivo a alfresco:" + fullPathAlfresco + ", mensaje:"
 						+ e.getLocalizedMessage());
 				e.printStackTrace();

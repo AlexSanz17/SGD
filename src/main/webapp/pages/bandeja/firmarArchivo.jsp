@@ -31,6 +31,7 @@
 		var idcodigo = "";
 		var idfirmar = "";
 		var tieneQr = false;
+		var enviadoAlfresco = false;
 // 		var tid = setTimeout(validarFirmado, 5000);
 		document.getElementById("iframeFirma").style.display = "none";
 		var accionEjecutar = document.getElementById("estado").value;
@@ -73,7 +74,9 @@
 			var rptJSON = JSON.parse(e.data);
 			console.log(rptJSON);
 			if(rptJSON.resultado == "0"){
-				enviarArchivosAlfresco();
+				if(!enviadoAlfresco){
+					enviarArchivosAlfresco();
+				}
 			}			
 		},{once : true});
 		
