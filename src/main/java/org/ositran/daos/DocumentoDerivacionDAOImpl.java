@@ -29,7 +29,7 @@ public class DocumentoDerivacionDAOImpl implements DocumentoDerivacionDAO{
 	    em.refresh(documentoDerivacion);
         }else{
 	    em.merge(documentoDerivacion);
-	    em.flush();
+	    em.flush(); 
 	    em.refresh(documentoDerivacion);
 	}
 	

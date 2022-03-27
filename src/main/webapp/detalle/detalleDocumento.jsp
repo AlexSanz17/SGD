@@ -464,19 +464,19 @@
                 defered.addCallback(function(respuesta){
                                      
                      if (respuesta == '-1'){
-                        alert("El documento ya fue derivado");   
+                        alert("El documento ya fue derivado");
                         showGridInbox(sTipoGridActual);
                         return;
                      }
                      
                      if (respuesta == '-2'){
-                        alert("El documento ya fue atendido");    
+                        alert("El documento ya fue atendido");
                         showGridInbox(sTipoGridActual);
                         return;
                      }
 
                     if (respuesta == '-3'){
-                        alert("El documento ya fue anulado");    
+                        alert("El documento ya fue anulado");
                         showGridInbox(sTipoGridActual);
                         return;
                     }

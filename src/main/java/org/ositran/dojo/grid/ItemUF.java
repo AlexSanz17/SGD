@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.dojo.grid;
+package org.ositran.dojo.grid;
 
 import java.util.Date;
 
@@ -501,19 +501,19 @@ public class ItemUF {
 		this.fechadocumento = fechadocumento;
 	}
 
-        public String getAreaAutor() {
-              return areaAutor;
-        }
+    public String getAreaAutor() {
+          return areaAutor;
+    }
 
-        public void setAreaAutor(String areaAutor) {
-            this.areaAutor = areaAutor;
-        }
-        
-        public String getIconoArea() {
-            return iconoArea;
-        }
+    public void setAreaAutor(String areaAutor) {
+        this.areaAutor = areaAutor;
+    }
+    
+    public String getIconoArea() {
+        return iconoArea;
+    }
 
-        public void setIconoArea(String iconoArea) {
-            this.iconoArea = iconoArea;
-        }
+    public void setIconoArea(String iconoArea) {
+        this.iconoArea = iconoArea;
+    }
 }

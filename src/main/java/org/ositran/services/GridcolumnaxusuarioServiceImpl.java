@@ -1149,8 +1149,9 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 		}
 
 		_log.debug("Se encontraron [" + lstEnviados.size() + "] documentos enviados pertenecientes al usuario [" + objUsuario.getUsuario() + "]");
-
+				
                 for (FilaBandejaEnviados fila : lstEnviados) {
+//                	System.out.println("-------------------------------------------Datos fila: " +fila.getFechaRecepcion());
                       Item objItem = new Item();
                 	objItem.setAsunto(fila.getAsunto());
                         objItem.setCliente("");
@@ -1166,15 +1167,15 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                         }
                         objItem.setDocumento(fila.getNroDocumento());
                         objItem.setFechaenvio(fila.getFechaRecepcion());
-			objItem.setId(fila.getId());
+                        objItem.setId(fila.getId());
                         objItem.setDestinatario(fila.getDestinatario());
                         objItem.setIdDestinatario(fila.getIdDestinatario().toString());
-			objItem.setExpediente(fila.getNroExpediente());
+                        objItem.setExpediente(fila.getNroExpediente());
                         objItem.setNroTramite(fila.getNroTramite());
                         objItem.setAsuntoExpediente(fila.getAsuntoExpediente());
                         objItem.setTipoEnvio(fila.getTipoEnvio());
                         objItem.setEstado(fila.getEstado());
-			objItem.setTipodocumento(fila.getIdTipoDocumento().toString());
+                        objItem.setTipodocumento(fila.getIdTipoDocumento().toString());
                         objItem.setExterno("-1");  
                         
                         if (fila.getLlave()!=null && !fila.getLlave().trim().equals("")){

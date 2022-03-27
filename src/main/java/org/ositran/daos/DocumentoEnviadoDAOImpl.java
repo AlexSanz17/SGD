@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -317,5 +317,4 @@ public class DocumentoEnviadoDAOImpl implements DocumentoEnviadoDAO{
 	public void setEm(EntityManager em){
 		this.em=em;
 	}
-
 }

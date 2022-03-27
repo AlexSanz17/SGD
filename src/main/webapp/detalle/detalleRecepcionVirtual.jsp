@@ -20,33 +20,32 @@
                dijit.byId("dlgProgresBar").show();
                var service = new dojo.rpc.JsonService("SMDAction.action");
                var defered = service.enviarCargo(idExterno, "M", "FI", accion);
-                    defered.addCallback(function(respuesta){
-                         dijit.byId("dlgProgresBar").hide() ;
-                         if (respuesta == "0"){ 
-                           alert("El Cargo debe ser Firmado");
-                           return;
-                         }else{
-                                if (respuesta == "2"){ 
-                                    alert("No se pudo procesar su solicitud. Vuelva a intentarlo.");   
-                                   return; 
-                                }else{
-                                        if (respuesta == "1"){
-                                           alert("Su información se registro satisfactoriamente, pero hubo un error en la comunicación con la entidad emisora.");
-                                        }else{
-                                            alert(respuesta);
-                                        }
-                                 }       
-                         
-                         }
-                         showGridInbox(sTipoGridActual);
-                    })
+               defered.addCallback(function(respuesta){
+                    dijit.byId("dlgProgresBar").hide() ;
+                    if (respuesta == "0"){ 
+                      alert("El Cargo debe ser Firmado");
+                      return;
+                    }else{
+                           if (respuesta == "2"){ 
+                               alert("No se pudo procesar su solicitud. Vuelva a intentarlo.");   
+                              return; 
+                           }else{
+                                   if (respuesta == "1"){
+                                      alert("Su información se registro satisfactoriamente, pero hubo un error en la comunicación con la entidad emisora.");
+                                   }else{
+                                       alert(respuesta);
+                                   }
+                            }       
+                    
+                    }
+                    showGridInbox(sTipoGridActual);
+               })
           }
           
           function verArchivoPrincipal(codigo){
               var fecha = new Date();              
               window.open("<%=request.getContextPath()%>/verDocumento.png?idCodigo=" +codigo + "&accion=abrirPrincipalVirtual&fecha=" + fecha );
           }    
-          
           
           function verArchivoPrincipalMPV(url){
         	  console.log("VER ARCHIVO PRINCIPAL MPV");
@@ -55,8 +54,6 @@
               var fecha = new Date();
               
               window.open(url);
-              
-             
           }    
           
           function verArchivoCargo(codigo){
@@ -107,17 +104,68 @@
                  }
              }); 
           }
+          
+//           function rechazar(tipoArchivar) {
+//               var service = new dojo.rpc.JsonService("SMDAction.action");
+//               var defered = service.validarEnvio(<s:property value='documento.idDocumento' />, "", "", "");
+//               defered.addCallback(function(respuesta){
+                                   
+//                    if (respuesta == '-1'){
+//                       alert("El documento ya fue derivado");
+//                       showGridInbox(sTipoGridActual);
+//                       return;
+//                    }
+                   
+//                    if (respuesta == '-2'){
+//                       alert("El documento ya fue atendido");
+//                       showGridInbox(sTipoGridActual);
+//                       return;
+//                    }
+
+//                   if (respuesta == '-3'){
+//                       alert("El documento ya fue anulado");
+//                       showGridInbox(sTipoGridActual);
+//                       return;
+//                   }
+                  
+//                   if (respuesta == "-5"){
+//                       alert("Se ha producido un error inesperado. Intente procesar su solicitud nuevamente."); 
+//                       return;
+//                    }
+                                      
+//                    var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=750, height=440, top=20, left=70";
+//                    var pagina = "AnularPrevioDocumento_inicioAnular.action?idDocumentoAnular=" + <s:property value='documento.idDocumento' />+ "&tipoArchivar="+tipoArchivar;
+//                    window.open(pagina, "Ventana", opciones);
+//                });
+//           }
+          
+//           function anularDocumento(){
+//           	if(confirm("¿Desea anular el Documento "+"<s:property value='objDD.strNroDocumento' escape='false' />"+"?")){
+//           		dojo.xhrPost({
+//           			url : "anularDocumento.action",
+//           			content : {
+//           				iIdDoc : "<s:property value='iIdDoc' />"
+//           			},
+//           			load : function(){
+//           				alert("El documento "+"<s:property value='objDD.strNroDocumento' escape='false' />"+" ha sido anulado");
+//           				showGridInbox(sTipoGridActual);
+//           				if(dijit.byId("tabDXE")){
+//           					dijit.byId("tabDXE").attr("href", dijit.byId("tabDXE").attr("href"));
+//           				}
+//           			}
+//           		});
+//           	}
+//           }
         </script>
     </head>
     <body class="soria">
-        
           <table width="100%">
             <tr>
-                
                 <td colspan="6" align="left">
                     <div dojoType="dijit.Toolbar"> 
                             <s:if test="objDD.flagCodigoVirtual == '0'"> 
-                              <div dojoType="dijit.form.Button"  onClick="recepcionar('<s:property value="objDD.idCodigo" />')" iconClass="siged16 iconoOk">Registrar en SGD</div>    
+                              <div dojoType="dijit.form.Button"  onClick="recepcionar('<s:property value="objDD.idCodigo" />')" iconClass="siged16 iconoOk">Registrar en SGD</div>
+                              <div dojoType="dijit.form.Button"  onClick="rechazar('<s:property value="objDD.idCodigo" />')" iconClass="siged16 iconoAnular">Rechazar</div>
                             </s:if>
                             <s:if test="objDD.flagCodigoVirtual == '1'"> 
                                <div dojoType="dijit.form.Button"  onClick="enviarCargo('<s:property value="objDD.idCodigo" />', 'T')" iconClass="siged16 iconoOk">Recepcionar - Enviar Cargo</div>    
@@ -210,7 +258,6 @@
                 </td>
             </tr>
                                     
-                                    
              <tr>
                 <td height="50" colspan="6">
                     <table width="100%"  border="1" align="center" bordercolor="#669BCD" bgcolor="#ffffff">
@@ -226,17 +273,16 @@
                                         <td width="91%"></td>
                                     </tr>
                                     
-                                    
                                     <tr>
                                         <td width="1px"></td>
                                         <td colspan="5">
                                             <div>  
-                                                    <p>
-                                                        Ud. ha recibido un Documento Virtual con
-                                                        Nro. <font class="negrita"><s:property value="objDD.strNroDocumento" /></font>
-                                                        el dia <font class="negrita"><s:date name="objDD.strFecha" format="dd/MM/yyyy" /></font>
-                                                        a las <font class="negrita"><s:date name="objDD.strFecha" format="HH:mm" /></font>
-                                                    </p>
+                                               <p>
+                                                   Ud. ha recibido un Documento Virtual con
+                                                   Nro. <font class="negrita"><s:property value="objDD.strNroDocumento" /></font>
+                                                   el dia <font class="negrita"><s:date name="objDD.strFecha" format="dd/MM/yyyy" /></font>
+                                                   a las <font class="negrita"><s:date name="objDD.strFecha" format="HH:mm" /></font>
+                                               </p>
                                             </div>  
                                         </td>
                                     </tr>                

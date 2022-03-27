@@ -4227,9 +4227,9 @@ public class DocumentoAction {
 		}
 		Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 		usuarioLogueado = objUsuario.getNombres() + " " + objUsuario.getApellidos();
-
+		
 		List<Trazabilidaddocumento> listaTrazabilidad = trazabilidadDocumentoService.findByIdDocumento(iIdDoc);
-
+		
 		if (listaTrazabilidad != null && listaTrazabilidad.size() > 0) {
 			objUsuario = listaTrazabilidad.get(0).getRemitente();
 			usuarioRegistro = objUsuario.getNombres() + " " + objUsuario.getApellidos();

@@ -2684,6 +2684,9 @@ public class DojoAction {
 		}
 
 		List lstItem = gridColumnaXUsuarioService.getItems(sTipoGrid, objUsuario, null);
+		
+		List<Item> list1 = lstItem;
+		
 
 		if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DOCUMENTO_RECIBIDO)
 				|| sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DOCUMENTO)) {
@@ -2706,6 +2709,7 @@ public class DojoAction {
 			Collections.sort(lstItem, Collections.reverseOrder(cmp));
 		}
 
+
 		objJSON.setItems(lstItem);
 		if (sTipoGrid.equals(Constantes.TIPO_GRID_DOCUMENTOS_ARCHIVADOS)) {
 			mapSession.put("flagBtnReAbrir", true);
@@ -2714,7 +2718,10 @@ public class DojoAction {
 		}
 
 		mapSession.put("listRecibidos", lstItem);
+
+
 		objJSON.setStructure(gridColumnaXUsuarioService.getEstructura(sTipoGrid, objUsuario));
+
 		return objJSON;
 	}
 
@@ -2734,6 +2741,7 @@ public class DojoAction {
 		mapSession.put("sTipoGrid", "77");
 
 		List lstItem = gridColumnaXUsuarioService.getItemsSinBandejaCompartida(objUsuario);
+		log.info("JSON de documentos recibidos-----------------");
 		objJSON.setItems(lstItem);
 		objJSON.setStructure(gridColumnaXUsuarioService.getEstructura(sTipoGrid, objUsuario));
 		mapSession.put("listCompartidos" + idUsuario + "", lstItem);

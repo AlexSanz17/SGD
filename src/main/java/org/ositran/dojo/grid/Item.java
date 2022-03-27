@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.dojo.grid;
+package org.ositran.dojo.grid;
 
 import java.util.Date;
 
@@ -430,7 +430,9 @@ public class Item {
 		this.propietario = propietarioNombres + " " + propietarioApellidos;
 		this.responsable = responsableNombres + " " + responsableApellidos;
 	}
-
+	
+	
+	
 	// Informativos
 	public Item(Integer iIdNotificacion, Character cLeido, String sAsunto,
 			Date dFechaNotificacion, int iTipoNotificacion,
@@ -1447,6 +1449,55 @@ public class Item {
 	public void setAnchoRubrica(String anchoRubrica) {
 		this.anchoRubrica = anchoRubrica;
 	}
+
     
-    
+	@Override
+	public String toString() {
+		return "Item [archivos=" + archivos + ", nroTramite=" + nroTramite + ", idArchivo=" + idArchivo
+				+ ", recepcionado=" + recepcionado + ", fecharecepcion=" + fecharecepcion + ", leido=" + leido + ", id="
+				+ id + ", externo=" + externo + ", idPropietario=" + idPropietario + ", iconoDocumento="
+				+ iconoDocumento + ", asunto=" + asunto + ", remitente=" + remitente + ", documento=" + documento
+				+ ", concesionario=" + concesionario + ", urlarchivo=" + urlarchivo + ", tipoalerta=" + tipoalerta
+				+ ", fechalimite=" + fechalimite + ", expediente=" + expediente + ", legajo=" + legajo + ", proceso="
+				+ proceso + ", cliente=" + cliente + ", fechaexpediente=" + fechaexpediente + ", fechaatender="
+				+ fechaatender + ", fechaanulacion=" + fechaanulacion + ", principal=" + principal + ", llave=" + llave
+				+ ", fechaenvio=" + fechaenvio + ", lfecharecepcion=" + lfecharecepcion + ", lfechalimite="
+				+ lfechalimite + ", lfechaactual=" + lfechaactual + ", usuario=" + usuario + ", nrointerno="
+				+ nrointerno + ", tipodocumento=" + tipodocumento + ", destinatario=" + destinatario
+				+ ", idDestinatario=" + idDestinatario + ", estado=" + estado + ", etapa=" + etapa + ", area=" + area
+				+ ", asuntoExpediente=" + asuntoExpediente + ", asuntodocumento=" + asuntodocumento
+				+ ", estadoexpediente=" + estadoexpediente + ", nombre=" + nombre + ", tiempoatencion=" + tiempoatencion
+				+ ", fechainicio=" + fechainicio + ", fechafin=" + fechafin + ", usuarioreemplazante="
+				+ usuarioreemplazante + ", nrodocumento=" + nrodocumento + ", idproceso=" + idproceso
+				+ ", tiponotificacion=" + tiponotificacion + ", codigo=" + codigo + ", descripcion=" + descripcion
+				+ ", tipo=" + tipo + ", valor=" + valor + ", propietario=" + propietario + ", numeroMesaPartes="
+				+ numeroMesaPartes + ", historico=" + historico + ", fechacreacion=" + fechacreacion + ", reemplazado="
+				+ reemplazado + ", reemplazante=" + reemplazante + ", porcentajealertaA=" + porcentajealertaA
+				+ ", porcentajealertaR=" + porcentajealertaR + ", identificacion=" + identificacion + ", razonsocial="
+				+ razonsocial + ", direccion=" + direccion + ", departamento=" + departamento + ", provincia="
+				+ provincia + ", distrito=" + distrito + ", horarioReporte=" + horarioReporte + ", reporteMP="
+				+ reporteMP + ", reporteDIG=" + reporteDIG + ", reporteQAS=" + reporteQAS + ", reporteFolios="
+				+ reporteFolios + ", responsable=" + responsable + ", correo=" + correo + ", representante="
+				+ representante + ", direccionAlternativa=" + direccionAlternativa + ", departamentoAlternativo="
+				+ departamentoAlternativo + ", provinciaAlternativa=" + provinciaAlternativa + ", distritoAlternativo="
+				+ distritoAlternativo + ", ubigeo=" + ubigeo + ", ubigeoAlternativo=" + ubigeoAlternativo
+				+ ", telefono=" + telefono + ", motivo=" + motivo + ", submotivo=" + submotivo + ", monto=" + monto
+				+ ", actividad=" + actividad + ", accion=" + accion + ", nroSuministro=" + nroSuministro
+				+ ", codTipoInstitucion=" + codTipoInstitucion + ", origen=" + origen + ", firma=" + firma
+				+ ", asuntolegajo=" + asuntolegajo + ", tipolegajo=" + tipolegajo + ", arealegajo=" + arealegajo
+				+ ", autor=" + autor + ", idProcedimiento=" + idProcedimiento + ", idMetodo=" + idMetodo + ", objectId="
+				+ objectId + ", idCodigo=" + idCodigo + ", rutaOrigen=" + rutaOrigen + ", rutaDestino=" + rutaDestino
+				+ ", rutaImagen=" + rutaImagen + ", imagen=" + imagen + ", usarPersonalizado=" + usarPersonalizado
+				+ ", tipoFirma=" + tipoFirma + ", invisible=" + invisible + ", posicionFirma=" + posicionFirma
+				+ ", ubicacionPagina=" + ubicacionPagina + ", numeroPagina=" + numeroPagina + ", estiloFirma="
+				+ estiloFirma + ", aplicarImagen=" + aplicarImagen + ", altoRubrica=" + altoRubrica + ", anchoRubrica="
+				+ anchoRubrica + ", flagFirma=" + flagFirma + ", ambitoEnvio=" + ambitoEnvio + ", tipoEnvio="
+				+ tipoEnvio + ", referencia=" + referencia + ", iddocumento=" + iddocumento + ", areadestino="
+				+ areadestino + ", prioridad=" + prioridad + ", areaorigen=" + areaorigen + ", documentoReferencia="
+				+ documentoReferencia + ", excprioridad=" + excprioridad + ", idId=" + idId + ", tipoAdjunto="
+				+ tipoAdjunto + ", desTipo=" + desTipo + ", desOrigCop=" + desOrigCop + ", origcop=" + origcop
+				+ ", nro=" + nro + "]";
+	}
+
+
 }
