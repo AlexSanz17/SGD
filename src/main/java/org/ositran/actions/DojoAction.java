@@ -318,6 +318,14 @@ public class DojoAction {
 	private static String USERCREADOR_CLAVE = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
 
+	private static String ALFRESCO_CMIS = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_CMIS);
+	private static String USERADMIN = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN);
+	private static String USERADMIN_CLAVE = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN_CLAVE);
+	
+	
 	private static String rutaOrigen = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAORIGEN);
 	private static String rutaDestino = SigedProperties
@@ -3443,7 +3451,7 @@ public class DojoAction {
 			mapSession.put("listaDocumentos", items);
 
 			for (Item item : items) {
-				downloadDocumentByID("http://cmd1:8080/alfresco/cmisatom", "admin", "alfresco", item.getObjectId(),
+				downloadDocumentByID(ALFRESCO_CMIS, USERADMIN, USERADMIN_CLAVE, item.getObjectId(),
 						item.getNombre().replace("|S", "").replace("|N", ""), rutaOrigen+File.separator);
 			}
 
@@ -3789,11 +3797,11 @@ public class DojoAction {
 		Map<String, String> parameter = new HashMap<String, String>();
 
 		// user credentials
-		parameter.put(SessionParameter.USER, "admin");
-		parameter.put(SessionParameter.PASSWORD, "alfresco");
+		parameter.put(SessionParameter.USER, username);
+		parameter.put(SessionParameter.PASSWORD, password);
 
 		// connection settings
-		parameter.put(SessionParameter.ATOMPUB_URL, "http://cmd1:8080/alfresco/cmisatom");
+		parameter.put(SessionParameter.ATOMPUB_URL, serverUrl);
 		parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 
 		// create session

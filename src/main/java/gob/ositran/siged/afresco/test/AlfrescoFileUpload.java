@@ -17,7 +17,15 @@ import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.enums.VersioningState;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class AlfrescoFileUpload {
+	private static String ALFRESCO_CMIS = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_CMIS);
+	private static String USERADMIN = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN);
+	private static String USERADMIN_CLAVE = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN_CLAVE);
 	
 public static void main(String[] args) {
 	
@@ -26,11 +34,11 @@ public static void main(String[] args) {
 	  Map<String, String> parameter = new HashMap<String, String>();
 	
 	  // user credentials
-	  parameter.put(SessionParameter.USER, "admin");
-	  parameter.put(SessionParameter.PASSWORD, "alfresco");
+	  parameter.put(SessionParameter.USER, USERADMIN);
+	  parameter.put(SessionParameter.PASSWORD, USERADMIN_CLAVE);
 	
 	  // connection settings
-	  parameter.put(SessionParameter.ATOMPUB_URL, "http://cmd1:8080/alfresco/cmisatom");
+	  parameter.put(SessionParameter.ATOMPUB_URL, ALFRESCO_CMIS);
 	  parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 	
 	  // create session

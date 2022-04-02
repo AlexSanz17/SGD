@@ -1,7 +1,9 @@
 package org.ositran.services;
 
 import gob.ositran.siged.config.SigedProperties;
-import gob.ositran.siged.service.AlfrescoWebscriptService; 
+import gob.ositran.siged.service.AlfrescoWebscriptService;
+import gob.pe.pvn.NotificacionCasillaVirtual;
+
 import org.ositran.daos.TrazabilidaddocumentoDAO;
 import java.io.File; 
 import java.io.FileOutputStream;
@@ -24,6 +26,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
+import org.json.JSONObject;
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.daos.AuditoriaDAO;
 import org.ositran.daos.DocumentoDAO;
@@ -5602,6 +5605,41 @@ public class DocumentoServiceImpl implements DocumentoService {
                   	  } catch (IOException e) {
                   		e.printStackTrace();
                   	  }
+                  	  
+                  	  
+                    	System.out.println("Servicio casilla virtual");
+                        // Paso 1 : Buscar Casilla Electrónica por Documento de Identidad
+
+                            
+                        log.info("--------------------Primer servicio");
+                        NotificacionCasillaVirtual notificacion = new NotificacionCasillaVirtual();
+                        notificacion.servicio1("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/buscar-casilla-por-documento");	          	    	
+                      
+                        // paso 2 : Generar notificacion electronica
+
+                        final String observacion = objDD.getStrObservacion();
+                        final Integer tipoDocumento = objDD.getIIdTipoDocumento();
+                        final String nroDocumento = objD.getExpediente().getNombreExpediente();
+                        
+                         
+                       String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
+       	 						"D:\\Frank\\CV\\INCAMAPS\\SGD\\manual\\SignNet - Manual de Usuario Firmante.pdf",
+       	 						observacion,tipoDocumento, nroDocumento);	          	    	
+       	 				
+        				JSONObject jsonObject = new JSONObject(response);
+        				Integer pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
+        				 
+//        				System.out.println(pK_eIdNotificacion);       	    	
+                       // paso 3 : Generar cedula de notificacion electronica
+                         
+                        log.info("---------------------------Tercer Servicio");
+                              
+                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
+                        // paso 4: Enviar notificacion electronica
+                       
+                        log.info("---------------------------------Cuarto Servicio");
+                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
+                  	  
                   }
                     
            }
