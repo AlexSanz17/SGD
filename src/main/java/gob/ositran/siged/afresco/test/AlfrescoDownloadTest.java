@@ -17,8 +17,8 @@ import org.apache.chemistry.opencmis.commons.enums.BindingType;
 
 public class AlfrescoDownloadTest {
 	public static void main(String[] args) {
-		downloadDocumentByID("http://cmd1:8080/alfresco/cmisatom", "admin", "alfresco", "6722bef4-ba1d-49e6-b32c-6aeb7468c2fa",
-			"alfresco_download_test.pdf", "\\\\WWWD4\\Documentos\\PorFirmar\\");
+//		downloadDocumentByID("http://cmd1:8080/alfresco/cmisatom", "admin", "alfresco", "6722bef4-ba1d-49e6-b32c-6aeb7468c2fa",
+//			"alfresco_download_test.pdf", "\\\\WWWD4\\Documentos\\PorFirmar\\");
 	}
 	
 	public static void downloadDocumentByID(String serverUrl, String username, String password ,String documentID,String fileName,String destinationFolder){
@@ -27,11 +27,11 @@ public class AlfrescoDownloadTest {
 	  Map<String, String> parameter = new HashMap<String, String>();
 	
 	  // user credentials
-	  parameter.put(SessionParameter.USER, "admin");
-	  parameter.put(SessionParameter.PASSWORD, "alfresco");
+	  parameter.put(SessionParameter.USER, username);
+	  parameter.put(SessionParameter.PASSWORD, password);
 	
 	  // connection settings
-	  parameter.put(SessionParameter.ATOMPUB_URL, "http://cmd1:8080/alfresco/cmisatom");
+	  parameter.put(SessionParameter.ATOMPUB_URL, serverUrl);
 	  parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 	
 	  // create session

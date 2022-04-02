@@ -315,11 +315,15 @@ public class DojoAction {
 	private AlfrescoConnector alfrescoConnector;
 	private static String USERCREADOR = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR);
 	private static String USERCREADOR_CLAVE = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOCREADOR_CLAVE);
-	private static String USERADMIN = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN);
-	private static String USERADMIN_CLAVE = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN_CLAVE);
-	
-	private static String ALFRESCO_CMIS = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_CMIS);
 
+	private static String ALFRESCO_CMIS = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_CMIS);
+	private static String USERADMIN = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN);
+	private static String USERADMIN_CLAVE = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOADMIN_CLAVE);
+	
+	
 	private static String rutaOrigen = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTAORIGEN);
 	private static String rutaDestino = SigedProperties

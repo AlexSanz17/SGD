@@ -66,6 +66,7 @@ public class SigedProperties {
         ALFRESCO_GESTOR("alfresco.gestor"),
         ALFRESCO_USUARIOADMIN("alfresco.USUARIOADMIN"),
         ALFRESCO_USUARIOADMIN_CLAVE("alfresco.USUARIOADMIN_CLAVE"),
+        ALFRESCO_CMIS("alfresco.cmis"),
         
         SIGED_INFOPUBLICA("siged.infopublica"),
         SIGED_LIBRORECLAMACION("siged.libroreclamacion"),
