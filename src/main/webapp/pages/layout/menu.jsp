@@ -362,7 +362,7 @@
                           
                            <tr>
                             <td id="filamenu31" name="filamenu" class="filamenu" onClick="accion(31)">
-                                 Observados
+                                 Rechazados
                                  <b><span id="UsuFinMnuRecObs"></span></b>
                             </td>
                           </tr>

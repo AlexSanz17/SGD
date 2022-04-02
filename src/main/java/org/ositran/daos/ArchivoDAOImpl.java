@@ -73,10 +73,10 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 
 	public List<String> contarArchivosxFirmar(Integer idDocumento, Usuario usuario) {
 		String sql = " SELECT a.c1, b.c2 from "
-				+ "(SELECT count(1) c1 FROM Archivo c where c.documento =:idDocumento and c.estado = 'A' and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF') a ,  "
-				+ "(SELECT count(1) c2 from FirmaArchivo a, Archivo aa where aa.documento = :idDocumento and aa.estado = 'A' "
-				+ " and aa.idArchivo = a.idArchivo and a.estado = 'F' and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario) b ";
-
+			+ "(SELECT count(1) c1 FROM Archivo c where c.documento =:idDocumento and c.estado = 'A' and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF') a ,  "
+			+ "(SELECT count(1) c2 from FirmaArchivo a, Archivo aa where aa.documento = :idDocumento and aa.estado = 'A' "
+			+ " and aa.idArchivo = a.idArchivo and a.estado in ('F', 'V') and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario) b ";
+		
 		Query q = em.createNativeQuery(sql.toString());
 		q.setParameter("idDocumento", idDocumento).setParameter("idUsuario", usuario.getIdUsuarioPerfil())
 				.setParameter("unidadPropietario", usuario.getIdUnidadPerfil())

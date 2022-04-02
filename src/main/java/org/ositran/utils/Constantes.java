@@ -1,6 +1,8 @@
 package org.ositran.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Constantes{
     public static final String AREAS_ACCESO_GENERAL="AREAS_ACCESO_GENERAL";
@@ -730,4 +732,6 @@ public class Constantes{
     
     public static final String USUARIO_MENSAJERIA_VIRTUAL = "MENSAJERIAVIRTUAL";
     public static final String COD_TIPODOCUMENTO_OFICIO_CIRCULAR = "327";
+    
+    public static Map<String,String> ESTADO_FIRMA = new HashMap<String,String>();
 }

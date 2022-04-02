@@ -21,4 +21,5 @@ public interface DocumentoExternoVirtualDAO {
     public List<String> buscarTramiteVirtual(String nroTramite);
     public List<IotdtcRecepcionMPV> buscarRecepcionMPV();
     public IotdtcRecepcionMPV buscarDocumentoVirtualMPV(Integer nroVirtual);
+	public List<IotdtcRecepcionMPV> buscarObservadosMPV();
 }

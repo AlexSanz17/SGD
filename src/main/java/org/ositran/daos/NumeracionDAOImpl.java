@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -31,7 +31,6 @@ public class NumeracionDAOImpl implements NumeracionDAO {
 		   return null;
 	   }
    }
-
 
    public Numeracion findByIdNumeracionbyUnidad(Unidad idUnidad, Integer IdTipoDocumento) {
 
@@ -175,5 +174,4 @@ public class NumeracionDAOImpl implements NumeracionDAO {
                .getResultList();
        return listaNum;
    }
-
 }

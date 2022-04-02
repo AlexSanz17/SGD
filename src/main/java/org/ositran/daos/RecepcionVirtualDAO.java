@@ -1,5 +1,6 @@
 package org.ositran.daos;
 
+import java.util.Date;
 import java.util.List;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
@@ -11,4 +12,5 @@ public interface RecepcionVirtualDAO {
      public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion);
      public IotdtcRecepcionMPV registrarDocumentoMPV(IotdtcRecepcionMPV recepcionMPV);
      public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV();
+     public void rechazarDocumentoMPV(Integer idDocumento, String observacion, String estado, Date fecha, String usuario);
 }

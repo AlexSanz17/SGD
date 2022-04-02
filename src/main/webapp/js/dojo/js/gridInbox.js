@@ -53,10 +53,13 @@ var derivarMasivamente = function() {
 };
 
 var refrescarPagina = function(tipoRefrescar) {
-    dojo.byId("filamenu"+tipoRefrescar).setAttribute("class", "filamenusel");
+	console.log("filamenu" + tipoRefrescar);    
+	dojo.byId("filamenu"+tipoRefrescar).setAttribute("class", "filamenusel");
+//	service.deleteFirmaArchivo().addCallback(function(result) {
+//		console.log("Eliminar duplicados");
+//    });
     accion(tipoRefrescar);
 };
-
 
 var derivarMasivamenteDoc = function() {
    var grid = dijit.byId("gridInbox");
@@ -266,11 +269,8 @@ var cambiarAgrupacionBandeja = function(){
       //dijit.byId("dlgProgresBar").show() ;
       //dojo.style(dijit.byId("dlgProgresBar").closeButtonNode,"display","none");
 }
- 
   
  var enviarMensaje = function() {
-	 
-	 
     var respuesta = obtenerRespuestaFirma(document.getElementById("respuesta").value);
     
     if (respuesta[0] == "CANCELADO") {
@@ -283,39 +283,35 @@ var cambiarAgrupacionBandeja = function(){
         var defered = servicio.respuestaFirmar(respuesta[2], respuesta[0], respuesta[3], document.getElementById("tipoFirma").value);
         defered.addCallback(function(){
             showGridInbox(TIPO_GRID_FIRMAR);
-            dijit.byId("dlgProgresBar").hide() ;
+            dijit.byId("dlgProgresBar").hide();
         });
         
         //dijit.byId("dlgProgresBar").hide() ;
     }
-    
 }
  
- 
-var enviarMensajeRespuesta = function(respuesta, lstRespuesta,idProceso,alias) {
+var enviarMensajeRespuesta = function(respuesta, lstRespuesta, idProceso, alias) {
 	//String lstRespuesta, String idProceso, String alias, String accion
 	//datos[0]:String objectId, datos[1]:String fechaFirma(dd/MM/yyyy HH:mm:ss), datos[2]:String estado(1,2), datos[3]:Integer nroTramite
 	 	 
-	    //var respuesta = [ idProceso, accion, lstRespuesta, alias ];
-	    
-	    if (respuesta == "CANCELADO") {
-	        //alert("El usuario ha cancelado el procesode firma.  procesamiento: " + respuesta[1]);
-	        dijit.byId("dlgProgresBar").hide() ;
-	    } else {
-	        //alert(UNIDAD_USUARIO);
-	        //alert("Se ha iniciado el proceso de firma digital con el numero de procesamiento: " + respuesta[1]); 
-	        var servicio = new dojo.rpc.JsonService("SMDAction.action");
-	        var defered = servicio.respuestaFirmar(lstRespuesta, idProceso, alias, document.getElementById("tipoFirma").value);
-	        defered.addCallback(function(){
-	            showGridInbox(TIPO_GRID_FIRMAR);
-	            dijit.byId("dlgProgresBar").hide() ;
-	        });
-	        
-	        //dijit.byId("dlgProgresBar").hide() ;
-	    }
-	    
+    //var respuesta = [ idProceso, accion, lstRespuesta, alias ];
+    
+    if (respuesta == "CANCELADO") {
+        //alert("El usuario ha cancelado el procesode firma.  procesamiento: " + respuesta[1]);
+        dijit.byId("dlgProgresBar").hide();
+    } else {
+        //alert(UNIDAD_USUARIO);
+        //alert("Se ha iniciado el proceso de firma digital con el numero de procesamiento: " + respuesta[1]); 
+        var servicio = new dojo.rpc.JsonService("SMDAction.action");
+        var defered = servicio.respuestaFirmar(lstRespuesta, idProceso, alias, document.getElementById("tipoFirma").value);
+        defered.addCallback(function(){
+            showGridInbox(TIPO_GRID_FIRMAR);
+            dijit.byId("dlgProgresBar").hide();
+        });
+        
+        //dijit.byId("dlgProgresBar").hide() ;
+    }
 } 
- 
 
 var visarDocumentos = function(){
     procesarFirmas("V");

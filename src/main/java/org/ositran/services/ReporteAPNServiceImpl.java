@@ -503,5 +503,4 @@ public class ReporteAPNServiceImpl implements ReporteAPNService {
 	public void setFechaLimite(FechaLimite fechaLimite) {
 		this.fechaLimite = fechaLimite;
 	}
-
 }

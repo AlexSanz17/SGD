@@ -765,5 +765,4 @@ public class ArchivoServiceImpl implements ArchivoService{
 	public void setListArchivo(List<Archivo> listArchivo) {
 		this.listArchivo = listArchivo;
 	}
-
 }

@@ -20,12 +20,12 @@
 		<%
 			//Trazabilidaddocumento traza = (Trazabilidaddocumento)request.getAttribute("trazabilidad");
 			Documento documento = (Documento)request.getAttribute("documento");
-                        List<IotdtcDespacho> lstIotdtcDespacho = (List<IotdtcDespacho>)request.getAttribute("listIotdtcDespacho");
+            List<IotdtcDespacho> lstIotdtcDespacho = (List<IotdtcDespacho>)request.getAttribute("listIotdtcDespacho");
 			Expediente expediente = documento.getExpediente();
 			List<FilaHojaRuta> hojaRuta = (List<FilaHojaRuta>)request.getAttribute("hojaRuta");
 			SimpleDateFormat formato = new SimpleDateFormat("dd - MM - yyyy");
-                        List<Parametro> lstPrioridad = (List<Parametro>)request.getAttribute("lstPrioridad");
-                        List<String> lstAdjuntos = ( List<String>)request.getAttribute("lstAdjuntos");
+            List<Parametro> lstPrioridad = (List<Parametro>)request.getAttribute("lstPrioridad");
+            List<String> lstAdjuntos = ( List<String>)request.getAttribute("lstAdjuntos");
 		%> 
 		<script type="text/javascript">
                     
@@ -196,186 +196,184 @@
 			       <td colspan="3"><%=documento.getObservacion() == null ? "": documento.getObservacion() %></td> 
 			</tr>
                         
-                        <%if (lstAdjuntos!=null && lstAdjuntos.size()>0){%> 
-                           <tr>
-                              
-                              <td class="datos_cajetin" COLSPAN="1">Adjuntos:</td>
-                              <td class="datos_cajetin" COLSPAN="3"></td>
-		           </tr>
-                           <%for(int i=0;i<lstAdjuntos.size();i++){%>
-                              <tr>
-                                
-                                 <td class="datos_cajetin"></td>
-                                 <td><%=lstAdjuntos.get(i)%></td>	
-                             </tr> 
-                           <%}%>
+            <%if (lstAdjuntos!=null && lstAdjuntos.size()>0){%> 
+               <tr>
+                  
+                  <td class="datos_cajetin" COLSPAN="1">Adjuntos:</td>
+                  <td class="datos_cajetin" COLSPAN="3"></td>
+ 				</tr>
+               <%for(int i=0;i<lstAdjuntos.size();i++){%>
+                  <tr>
+                    
+                     <td class="datos_cajetin"></td>
+                     <td><%=lstAdjuntos.get(i)%></td>	
+                 </tr> 
+               <%}%>
 			<%}%>
-                        
-                        <%if (documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_402) ||
-                          documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_404) ||
-                          documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_405)){%>
-                          
-                        <%}else{%>
-                               <%if (documento.getID_CLIENTE()!=null){%>
-                                  <%if (documento.getID_EXTERNO().toString().equals("0")){%>
-                                        <tr>
-                                            <td colspan="4" style="height:1px"></td>
-                                        </tr> 
-                                        <tr>
-                                             <td colspan="2" class="datos_cajetin">DATOS DEL DESTINATARIO</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" style="height:1px"> <hr/> </td>
-                                        </tr>  
-                                   <%}else{%>
-                                        <tr>
-                                            <td colspan="4" style="height:1px"></td>
-                                        </tr>
-                                        <tr>
-                                             <td colspan="2" class="datos_cajetin">DATOS DEL REMITENTE</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" style="height:1px"> <hr/> </td>
-                                        </tr>
-                                   <%}%>
-                                   
-                                   <% if (documento.getCodTipoInstitucion()!=null){%>
-                                       <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_JURIDICA_INSTITUCION)){%>
-                                           
-                                           <tr>
-                                                <td class="datos_cajetin">Instituci&oacute;n:</td>
-                                                <td colspan="3"><%=documento.getCliente().getRazonSocial()==null?"":documento.getCliente().getRazonSocial()%></td>	
-                                           </tr>
-                                           <% if (documento.getDesRemitente()!=null){%>
-                                                <tr>
-                                                     <td class="datos_cajetin">Persona:</td>
-                                                     <td><%=documento.getDesRemitente()%></td>	
-                                                </tr>
-                                           <%}%>
-                                           <%if (documento.getDesCargoRemitente()!=null){%>
-                                                <tr>
-                                                    <td class="datos_cajetin">Cargo:</td>
-                                                    <td><%=documento.getDesCargoRemitente()%></td>	
-                                               </tr>
-                                           <%}%>    
-                                       <%}%>
-                                       <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_JURIDICA_EMPRESA)){%>
-                                           
-                                           <tr>
-                                                <td class="datos_cajetin">Empresa:</td>
-                                                <td colspan="3"><%=documento.getCliente().getRazonSocial()==null?"":documento.getCliente().getRazonSocial()%></td>	
-                                           </tr>
-                                           <% if (documento.getDesRemitente()!=null){%>
-                                             <tr>
-                                                <td class="datos_cajetin">Persona:</td>
-                                                <td><%=documento.getDesRemitente()%></td>	
-                                             </tr>
-                                           <%}%>
-                                           <%if (documento.getDesCargoRemitente()!=null){%>
-                                                <tr>
-                                                    <td class="datos_cajetin">Cargo:</td>
-                                                    <td><%=documento.getDesCargoRemitente()%></td>	
-                                               </tr>
-                                           <%}%>
-                                       <%}%>
-                                        <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_NATURAL)){%>
-                                          <tr>
-                                                <td class="datos_cajetin">Persona Natutal:</td>
-                                                <td><%=(documento.getCliente().getNombres()==null?"":documento.getCliente().getNombres()) + " " + (documento.getCliente().getApellidoPaterno()==null?"":documento.getCliente().getApellidoPaterno()) + " " +  (documento.getCliente().getApellidoMaterno()==null?"":documento.getCliente().getApellidoMaterno())%></td>	
-                                           </tr>
-                                           <%if (documento.getDesCargoRemitente()!=null){%>
-                                                <tr>
-                                                    <td class="datos_cajetin">Cargo:</td>
-                                                    <td><%=documento.getDesCargoRemitente()%></td>	
-                                               </tr>
-                                           <%}%>
-                                        <%}%>   
-                                   <%}%>                                                               
-                            <%}%>
-                        <%}%>
-                        
-                         <tr>
-                            <td colspan="4" style="height:1px"></td>
-                         </tr>  
-                         
-                         <%  if (documento.getNroVirtual()!=null && documento.getID_EXTERNO()!=null && documento.getID_EXTERNO().toString().equals("1")){%>
-                              <tr>
-                                 <td colspan="2" class="datos_cajetin"> <font color="#2E2EFE">DATOS DE LA RECEPCION VIRTUAL</font></td>
-                                 <td colspan="2"></td>
-                              </tr>
+            
+            <%if (documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_402) ||
+              documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_404) ||
+              documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_405)){%>
+              
+            <%}else{%>
+                   <%if (documento.getID_CLIENTE()!=null){%>
+                      <%if (documento.getID_EXTERNO().toString().equals("0")){%>
+                            <tr>
+                                <td colspan="4" style="height:1px"></td>
+                            </tr> 
+                            <tr>
+                                 <td colspan="2" class="datos_cajetin">DATOS DEL DESTINATARIO</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="height:1px"> <hr/> </td>
+                            </tr>  
+                       <%}else{%>
+                            <tr>
+                                <td colspan="4" style="height:1px"></td>
+                            </tr>
+                            <tr>
+                                 <td colspan="2" class="datos_cajetin">DATOS DEL REMITENTE</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="height:1px"> <hr/> </td>
+                            </tr>
+                       <%}%>
+                       
+                       <% if (documento.getCodTipoInstitucion()!=null){%>
+                           <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_JURIDICA_INSTITUCION)){%>
+                               
                                <tr>
-                                    <td colspan="4" style="height:1px"> <hr/> </td>
-                                </tr>
-                              
-                               <tr>				
-                                    <td class="datos_cajetin">N&ordm; de CUO:</td>
-                                    <td colspan="1"><%=documento.getVcuo()==null?"":documento.getVcuo() %></td>  
-                                    
-                                    <td class="datos_cajetin">Estado:</td>
-                                    <% if (documento.getRecepcionado()!=null && documento.getRecepcionado().equals("R")) {%> 
-                                       <td colspan="1">Recepcionado</td> 
-                                    <%}%>
-                                    <% if (documento.getRecepcionado()!=null && documento.getRecepcionado().equals("O")) {%> 
-                                       <td colspan="1">Observado</td> 
-                                    <%}%>
-                                    <% if (documento.getRecepcionado()!=null && documento.getRecepcionado().equals("S")) {%> 
-                                       <td colspan="1">Subsanado</td> 
-                                    <%}%>
+                                    <td class="datos_cajetin">Instituci&oacute;n:</td>
+                                    <td colspan="3"><%=documento.getCliente().getRazonSocial()==null?"":documento.getCliente().getRazonSocial()%></td>	
+                               </tr>
+                               <% if (documento.getDesRemitente()!=null){%>
+                                    <tr>
+                                         <td class="datos_cajetin">Persona:</td>
+                                         <td><%=documento.getDesRemitente()%></td>	
+                                    </tr>
+                               <%}%>
+                               <%if (documento.getDesCargoRemitente()!=null){%>
+                                    <tr>
+                                        <td class="datos_cajetin">Cargo:</td>
+                                        <td><%=documento.getDesCargoRemitente()%></td>	
+                                   </tr>
+                               <%}%>    
+                           <%}%>
+                           <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_JURIDICA_EMPRESA)){%>
+                               
+                               <tr>
+                                    <td class="datos_cajetin">Empresa:</td>
+                                    <td colspan="3"><%=documento.getCliente().getRazonSocial()==null?"":documento.getCliente().getRazonSocial()%></td>	
+                               </tr>
+                               <% if (documento.getDesRemitente()!=null){%>
+                                 <tr>
+                                    <td class="datos_cajetin">Persona:</td>
+                                    <td><%=documento.getDesRemitente()%></td>	
                                  </tr>
-                                 <tr>	
-                                    <td class="datos_cajetin">Observaciones:</td>
-                                    <td colspan="3"><%=documento.getObservacion()==null?"":documento.getObservacion() %></td>    
-                                </tr>
-                        <%}%>
-                        
-                        <%  if (lstIotdtcDespacho!=null && lstIotdtcDespacho.size()>0){%>
-                           
+                               <%}%>
+                               <%if (documento.getDesCargoRemitente()!=null){%>
+                                    <tr>
+                                        <td class="datos_cajetin">Cargo:</td>
+                                        <td><%=documento.getDesCargoRemitente()%></td>	
+                                   </tr>
+                               <%}%>
+                           <%}%>
+                            <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_NATURAL)){%>
                               <tr>
-                                  <td colspan="2" class="datos_cajetin"> <font color="#2E2EFE">DATOS DEL CARGO VIRTUAL</font></td>
-                                <td colspan="2"></td>
-                              </tr>  
-                             <%for(int i=0;i<lstIotdtcDespacho.size();i++){ %>
+                                    <td class="datos_cajetin">Persona Natutal:</td>
+                                    <td><%=(documento.getCliente().getNombres()==null?"":documento.getCliente().getNombres()) + " " + (documento.getCliente().getApellidoPaterno()==null?"":documento.getCliente().getApellidoPaterno()) + " " +  (documento.getCliente().getApellidoMaterno()==null?"":documento.getCliente().getApellidoMaterno())%></td>	
+                               </tr>
+                               <%if (documento.getDesCargoRemitente()!=null){%>
                                     <tr>
-                                       <td colspan="4" style="height:1px"> <hr/>  </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                         <td class="datos_cajetin" style="width:10em;">N&ordm; de CUO:</td>
-                                         <td colspan="3"><%=lstIotdtcDespacho.get(i).getVcuo() == null ? "": lstIotdtcDespacho.get(i).getVcuo() %></td>
-                                    </tr>
-
-                                    <tr>				
-                                         <td class="datos_cajetin">N&ordm; de Tr&aacute;mite:</td>
-                                         <td><%=lstIotdtcDespacho.get(i).getVnumregstdrec() %></td>
-                                         <td class="datos_cajetin">Estado:</td>
-                                         <% if (lstIotdtcDespacho.get(i).getCflgest() == 'R') {%> 
-                                            <td>Recepcionado</td> 
-                                         <%}%>
-                                         <% if (lstIotdtcDespacho.get(i).getCflgest() == 'O') {%> 
-                                            <td>Observado</td> 
-                                         <%}%>
-                                         <% if (lstIotdtcDespacho.get(i).getCflgest() == 'S') {%> 
-                                            <td>Subsanado</td> 
-                                         <%}%>
-                                     </tr>
-
-                                     <tr>
-                                          <td class="datos_cajetin">Unidad Organica:</td>
-                                          <td><%=lstIotdtcDespacho.get(i).getVuniorgstdrec() %></td>
-                                          <td class="datos_cajetin">Usuario Registro:</td>
-                                          <td><%= lstIotdtcDespacho.get(i).getVusuregstdrec() %></td>
-                                     </tr>
-
-                                   <tr>
-                                         <td class="datos_cajetin" style="width:10em;">Observaciones:</td>
-                                         <td colspan="3"><%=lstIotdtcDespacho.get(i).getVobs() == null ? "": lstIotdtcDespacho.get(i).getVobs() %></td>
-                                  </tr>
-                               <%}%>   
+                                        <td class="datos_cajetin">Cargo:</td>
+                                        <td><%=documento.getDesCargoRemitente()%></td>	
+                                   </tr>
+                               <%}%>
+                            <%}%>   
+                       <%}%>                                                               
+                <%}%>
+            <%}%>
+            
+             <tr>
+                <td colspan="4" style="height:1px"></td>
+             </tr>  
+             
+             <%  if (documento.getNroVirtual()!=null && documento.getID_EXTERNO()!=null && documento.getID_EXTERNO().toString().equals("1")){%>
+                  <tr>
+                     <td colspan="2" class="datos_cajetin"> <font color="#2E2EFE">DATOS DE LA RECEPCION VIRTUAL</font></td>
+                     <td colspan="2"></td>
+                  </tr>
+                   <tr>
+                        <td colspan="4" style="height:1px"> <hr/> </td>
+                    </tr>
+                  
+                   <tr>				
+                        <td class="datos_cajetin">N&ordm; de CUO:</td>
+                        <td colspan="1"><%=documento.getVcuo()==null?"":documento.getVcuo() %></td>  
+                        
+                        <td class="datos_cajetin">Estado:</td>
+                        <% if (documento.getRecepcionado()!=null && documento.getRecepcionado().equals("R")) {%> 
+                           <td colspan="1">Recepcionado</td> 
                         <%}%>
+                        <% if (documento.getRecepcionado()!=null && documento.getRecepcionado().equals("O")) {%> 
+                           <td colspan="1">Observado</td> 
+                        <%}%>
+                        <% if (documento.getRecepcionado()!=null && documento.getRecepcionado().equals("S")) {%> 
+                           <td colspan="1">Subsanado</td> 
+                        <%}%>
+                     </tr>
+                     <tr>	
+                        <td class="datos_cajetin">Observaciones:</td>
+                        <td colspan="3"><%=documento.getObservacion()==null?"":documento.getObservacion() %></td>    
+                    </tr>
+            <%}%>
+            
+            <%  if (lstIotdtcDespacho!=null && lstIotdtcDespacho.size()>0){%>
+               
+                  <tr>
+                      <td colspan="2" class="datos_cajetin"> <font color="#2E2EFE">DATOS DEL CARGO VIRTUAL</font></td>
+                    <td colspan="2"></td>
+                  </tr>  
+                 <%for(int i=0;i<lstIotdtcDespacho.size();i++){ %>
+                        <tr>
+                           <td colspan="4" style="height:1px"> <hr/>  </td>
+                        </tr>
+                        
+                        <tr>
+                             <td class="datos_cajetin" style="width:10em;">N&ordm; de CUO:</td>
+                             <td colspan="3"><%=lstIotdtcDespacho.get(i).getVcuo() == null ? "": lstIotdtcDespacho.get(i).getVcuo() %></td>
+                        </tr>
+
+                        <tr>				
+                             <td class="datos_cajetin">N&ordm; de Tr&aacute;mite:</td>
+                             <td><%=lstIotdtcDespacho.get(i).getVnumregstdrec() %></td>
+                             <td class="datos_cajetin">Estado:</td>
+                             <% if (lstIotdtcDespacho.get(i).getCflgest() == 'R') {%> 
+                                <td>Recepcionado</td> 
+                             <%}%>
+                             <% if (lstIotdtcDespacho.get(i).getCflgest() == 'O') {%> 
+                                <td>Observado</td> 
+                             <%}%>
+                             <% if (lstIotdtcDespacho.get(i).getCflgest() == 'S') {%> 
+                                <td>Subsanado</td> 
+                             <%}%>
+                         </tr>
+
+                         <tr>
+                              <td class="datos_cajetin">Unidad Organica:</td>
+                              <td><%=lstIotdtcDespacho.get(i).getVuniorgstdrec() %></td>
+                              <td class="datos_cajetin">Usuario Registro:</td>
+                              <td><%= lstIotdtcDespacho.get(i).getVusuregstdrec() %></td>
+                         </tr>
+
+                       <tr>
+                             <td class="datos_cajetin" style="width:10em;">Observaciones:</td>
+                             <td colspan="3"><%=lstIotdtcDespacho.get(i).getVobs() == null ? "": lstIotdtcDespacho.get(i).getVobs() %></td>
+                      </tr>
+                   <%}%>   
+            <%}%>
                      
 		</table>
-		
-                        
                         
 		<p>
 		<%if(hojaRuta != null && !hojaRuta.isEmpty()){ %>
@@ -385,20 +383,19 @@
 					<td class="datos_subtitulo" style="width:15em;">Remitente (Area)</td>
 					<td class="datos_subtitulo" style="width:15em;">Destinatario (Area)</td>
 					<td class="datos_subtitulo" style="width:5em;">Movimiento</td>
-                                        <td class="datos_subtitulo" style="width:5em;">Acci&oacute;n</td>
-                                        <td class="datos_subtitulo" style="width:12em;">Prove&iacute;do</td>
+                    <td class="datos_subtitulo" style="width:5em;">Acci&oacute;n</td>
+                    <td class="datos_subtitulo" style="width:12em;">Prove&iacute;do</td>
 				</tr>
 				<%for(FilaHojaRuta fila : hojaRuta){ %>
 				<tr>
 					<td class="datos_contenido"><%=new SimpleDateFormat("dd-MM-yyyy HH:mm").format(fila.getFechaCreacion())%></td>
 					<% if (fila.getCantidadhoja()!=null){%>
-                                          <td class="datos_contenido" rowspan= "<%=fila.getCantidadhoja()%>" > <%=fila.getRemitente() %></td>
+                      	<td class="datos_contenido" rowspan= "<%=fila.getCantidadhoja()%>" > <%=fila.getRemitente() %></td>
 					<%}%>
-                                        <td class="datos_contenido"><%=fila.getDestinatario() %></td>
+                    <td class="datos_contenido"><%=fila.getDestinatario() %></td>
 					<td class="datos_contenido"><%=fila.getAccion() %></td>
-                                        <td class="datos_contenido" ><%=fila.getProveido() %></td>
+                    <td class="datos_contenido" ><%=fila.getProveido() %></td>
 					<td class="datos_contenido" ><%=fila.getContenido() %></td>
-                                        
 				</tr>
 				<%} %>
 			</table>

@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.util.Date;
 import java.util.List;
@@ -21,43 +21,43 @@ import com.btg.ositran.siged.domain.Usuario;
 import org.ositran.utils.DocumentoPublicar;
 
 public interface DocumentoDAO{
-       // public List<String> buscarPendienteVirtual(String nroTramite);
-       
-        public List<Documento> buscarPendientePorDocumentoMultiple(Documento d);
+   // public List<String> buscarPendienteVirtual(String nroTramite);
+   
+    public List<Documento> buscarPendientePorDocumentoMultiple(Documento d);
+
+    public List<Documento> getDocumentosPorLegajo(int idLegajo);
+
+    public DocumentoDetail findDocumentoDetailByUser(Integer iIdDocumento, Usuario usuario);
     
-        public List<Documento> getDocumentosPorLegajo(int idLegajo);
+    public Documento findByIdNroTramite(Integer nroTramite);
+    
+    public DocumentoDetail findDocumentoDetailByPendiente(DocumentoPendiente documentoPendiente);
 
-        public DocumentoDetail findDocumentoDetailByUser(Integer iIdDocumento, Usuario usuario);
-        
-        public Documento findByIdNroTramite(Integer nroTramite);
-        
-        public DocumentoDetail findDocumentoDetailByPendiente(DocumentoPendiente documentoPendiente);
-
-        public List<Documento> findByIdDocVirtual(Integer codigoVirtual);
-        
-        public Integer getNroTramiteDocumentario();
+    public List<Documento> findByIdDocVirtual(Integer codigoVirtual);
+    
+    public Integer getNroTramiteDocumentario();
         
 	public Documento buscarDocumentoMasAntiguoPor(Integer iIdExpediente);
 
-        public Integer findCantMisRecepcionVirtual(Usuario usuario, char estado, char docPrincipal);
+    public Integer findCantMisRecepcionVirtual(Usuario usuario, char estado, char docPrincipal);
         
 	public Documento findByFechaCreacion(Date datFechaCreacion);
         
-        public DocumentoDetail findDocumentoDetailByAR(Integer iIdDocumento);
+    public DocumentoDetail findDocumentoDetailByAR(Integer iIdDocumento);
 
 	public List<Documento> buscarLstDocumentoPorExpediente(Integer iIdExpediente);
         
-        public List<Documento> consultaDocumentoMultipleAtendido(Integer idDocumento);
-        
-        public List<Documento> consultaDocumentoReferencia(Integer idDocumento);
-        
-         public List<Documento> consultaDocumentoReferenciaMover(Integer idDocumento);
+    public List<Documento> consultaDocumentoMultipleAtendido(Integer idDocumento);
+    
+    public List<Documento> consultaDocumentoReferencia(Integer idDocumento);
+    
+    public List<Documento> consultaDocumentoReferenciaMover(Integer idDocumento);
 
 	public Integer getNroConsultaTramiteDocumentario();
 
 	public Integer getNroSiguienteConsultaTramiteDocumentario();
         
-        public List<Documento> consultaDocumentoOrigen(Integer idDocumento);
+    public List<Documento> consultaDocumentoOrigen(Integer idDocumento);
 
 	public List<Documento> backup();
 
@@ -69,9 +69,9 @@ public interface DocumentoDAO{
 
 	public Documento findDocExpedienteByIdDocumento(Integer iIdDocumento);
         
-        public List<DocumentoPublicar> getDocumentosPorPublicar(Integer idExpediente, Integer idDocumento);
-        
-        public List<Documento> findDocumentoPorNumerar(Usuario objUsuario, Documento d);
+    public List<DocumentoPublicar> getDocumentosPorPublicar(Integer idExpediente, Integer idDocumento);
+    
+    public List<Documento> findDocumentoPorNumerar(Usuario objUsuario, Documento d);
 
 	public Documento findDocumentoPrincipal(Integer iIdExpediente);
 
@@ -154,12 +154,12 @@ public interface DocumentoDAO{
    public CargoReporte obtenerCargo(Integer iddocumento);
 
    public List<Documento> busquedaDocumento(List<Integer> idDocumentos,
-            String numeroDocumento, String numeroMesaPartes, String asuntoDocumento,
-            String numeroExpediente, String asuntoExpediente, String estadoExpediente,
-            String concesionario, String cliente, String proceso, String propietario,
-            String areaDestino, String tipoDocumento, Date documentoDesde,
-            Date documentoHasta, Date expedienteDesde, Date expedienteHasta,
-            String numeroSuministro, String operador, String areaOrigen, String areaAutor, String sqlQueryDinamico[], String nroHT, String nroRS,String nroLegajo, String tipoLegajo, String tipoConsulta, String unidadUsuario, String cargoUsuario, String autor);
+        String numeroDocumento, String numeroMesaPartes, String asuntoDocumento,
+        String numeroExpediente, String asuntoExpediente, String estadoExpediente,
+        String concesionario, String cliente, String proceso, String propietario,
+        String areaDestino, String tipoDocumento, Date documentoDesde,
+        Date documentoHasta, Date expedienteDesde, Date expedienteHasta,
+        String numeroSuministro, String operador, String areaOrigen, String areaAutor, String sqlQueryDinamico[], String nroHT, String nroRS,String nroLegajo, String tipoLegajo, String tipoConsulta, String unidadUsuario, String cargoUsuario, String autor);
 
    @SuppressWarnings("rawtypes")
    public List findByDataAttendedUF(Usuario objUsuario);
@@ -185,13 +185,13 @@ public interface DocumentoDAO{
    public Integer findCantMisExpedientes(Usuario usuario, char estadoActivo, char documentoPrincipal);
 
    public List<Documento> busquedaCarpeta(String sNumeroDocumento,
-		   String sNumeroMesaPartes, String sAsuntoDocumento,
-		   String sNumeroExpediente, String sAsuntoExpediente,
-		   String sEstadoExpediente, String sConcesionario, String sCliente,
-		   Integer proceso, String sPropietario, Integer areaDestino,
-		   Integer tipoDocumento, Date fechaDocumentoInicio,
-		   Date fechaDocumentoFinal, Date fechaExpedienteInicio,
-		   Date fechaExpedienteFinal, Integer areaOrigen, String remitente, String pendiente);
+	   String sNumeroMesaPartes, String sAsuntoDocumento,
+	   String sNumeroExpediente, String sAsuntoExpediente,
+	   String sEstadoExpediente, String sConcesionario, String sCliente,
+	   Integer proceso, String sPropietario, Integer areaDestino,
+	   Integer tipoDocumento, Date fechaDocumentoInicio,
+	   Date fechaDocumentoFinal, Date fechaExpedienteInicio,
+	   Date fechaExpedienteFinal, Integer areaOrigen, String remitente, String pendiente);
 
    public List<Documento> busquedaRapidaDocumento(String asunto);
 
@@ -224,5 +224,4 @@ public interface DocumentoDAO{
     public List<Documento> getDocumentoByTipoByUnidad(String tipodocuento, String unidadautor, Integer expediente);
     
     public List findByPendientesDataUFFiltro(Usuario objUsuario, BusquedaAvanzada objFiltro);
-
 }

@@ -107,8 +107,6 @@
               arrRecursoTopButton.push({codigo:"UsuFinBtnFedatario", valor:<s:property value="#session._RECURSO.UsuFinBtnFedatario"/>});
            </s:if>
 
-
-
             <s:if test="#session._RECURSO.QASMnuDigitalizados != null">
                 arrRecursoFirstGrid.push({codigo:"QASMnuDigitalizados", valor:<s:property value="#session._RECURSO.QASMnuDigitalizados"/>, grid:TIPO_GRID_QAS_DIGITALIZADOS});
             </s:if>
@@ -117,11 +115,6 @@
             arrRecursoFirstGrid.push({codigo:"MensMnuDocRec", valor:<s:property value="#session._RECURSO.MensMnuDocRec"/>, grid:TIPO_GRID_MENSAJERIA_RECIBIDOS});
 
             var recursoBusqueda = {codigo:"UsuFinBtnBus", valor:<s:property value="#session._RECURSO.UsuFinBtnBus"/>};
-
-
-
-
-
         </script>
 
         <%-- Desarrollo - API Siged --%>
@@ -143,8 +136,6 @@
         <script type="text/javascript" src="js/siged/siged.documento.js"></script>
         <script type="text/javascript" src="js/siged/siged.documento.numeracion.js"></script>
         
-       
-        
         <script type="text/javascript" src="js/siged/siged.forms.js"></script>
         <script type="text/javascript" src="js/siged/siged.string.js"></script>
         <%-- Produccion - API Siged --%>
@@ -154,7 +145,6 @@
         <script type="text/javascript" src="js/jquery-validate.js"></script>
     </head>
     <body >
-        
         <div dojoType="dijit.Menu"
              id="gridMenu"
              jsId="gridMenu"

@@ -33,6 +33,10 @@
          	float: left;
          	width: 170px;
          }
+         
+         .tr-hide {
+         	display: none;
+         }
       </style>         
        
       <script type="text/javascript">
@@ -393,7 +397,7 @@
              dijit.byId("objDD.prioridadTramite").attr("value","1");
 //              dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
              
-             dijit.byId("objDD.esTipoRecepcionTramite").attr("value","1");
+             dijit.byId("objDD.esTipoRecepcionTramite").attr("value","R");
              
              dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='recepcionVirtual.sidrecext.vuniorgrem' escape='false' />"); 
              dijit.byId("objDD.desUnidadOrganicaTramite").attr("readOnly", true);
@@ -572,7 +576,7 @@
                  jsId="btnRegistrarDocumentoTramiteTop"
                  iconClass="siged16 sigedSave16"
                  onClick="submitForm"
-                 showLabel="true">Registrar Documento</button>
+                 showLabel="true">Recepcionar</button>
          <!-- <div id="divShowFile2"></div> --> 
       </div>
       <form dojoType="dijit.form.Form" id="frmNuevoDocumentoTramite" jsId="frmNuevoDocumentoTramite" action="NuevoDocumentoEnviarArchivo.action" method="post">
@@ -942,13 +946,13 @@
                               </td>
                            </tr>
                                              
-                           <tr>
+                           <tr class="tr-hide">
                               <td>Recepción</td>
                               <td class="label" colspan="2">
                                  <div id="fsRecepcionTramite" name="fsRecepcionTramite" style="width:200px;"></div>
                               </td>
                               <td colspan="1"> </td>
-                           </tr>                  
+                           </tr>                 
                                        
                         <tbody id="tbNroIdentificacionTramite" style="display:none;">            
                             <tr>
@@ -1145,7 +1149,7 @@
                          jsId="btnRegistrarDocumentoTramiteBottom"
                          iconClass="siged16 sigedSave16"
                          onClick="submitForm"
-                         showLabel="true">Registrar Documento</button>
+                         showLabel="true">Recepcionar</button>
                   </div>
                </td>
             </tr>

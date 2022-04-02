@@ -105,7 +105,6 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
        }     
     }
     
-    
     public IotdtmDocExterno registrarDocumento(IotdtmDocExterno docExterno){
 		
        if(docExterno.getSiddocext() == null){
@@ -141,6 +140,13 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
     
     public List<IotdtcRecepcionMPV> buscarRecepcionMPV(){
         String sql = "SELECT e FROM IotdtcRecepcionMPV e where e.cflgest = 'P' order by e.dfecreg desc";
+ 					 
+        return em.createQuery(sql).getResultList();
+    }
+    
+    @Override
+    public List<IotdtcRecepcionMPV> buscarObservadosMPV(){
+        String sql = "SELECT e FROM IotdtcRecepcionMPV e where e.cflgest = 'O' order by e.dfecreg desc";
  					 
         return em.createQuery(sql).getResultList();
     }

@@ -145,106 +145,103 @@
 			       <td colspan="3"><%=documento.getObservacion() == null ? "": documento.getObservacion() %></td> 
 			</tr>
                         
-                        <%if (lstAdjuntos!=null && lstAdjuntos.size()>0){%> 
-                           <tr>
-                              
-                              <td class="datos_cajetin" COLSPAN="1">Adjuntos:</td>
-                              <td class="datos_cajetin" COLSPAN="3"></td>
-		           </tr>
-                           <%for(int i=0;i<lstAdjuntos.size();i++){%>
-                              <tr>
-                                
-                                 <td class="datos_cajetin"></td>
-                                 <td><%=lstAdjuntos.get(i)%></td>	
-                             </tr> 
-                           <%}%>
+             <%if (lstAdjuntos!=null && lstAdjuntos.size()>0){%> 
+               <tr>
+                  
+                  <td class="datos_cajetin" COLSPAN="1">Adjuntos:</td>
+                  <td class="datos_cajetin" COLSPAN="3"></td>
+        	</tr>
+              <%for(int i=0;i<lstAdjuntos.size();i++){%>
+                 <tr>
+                   
+                    <td class="datos_cajetin"></td>
+                    <td><%=lstAdjuntos.get(i)%></td>	
+                </tr> 
+              <%}%>
 			<%}%>
                         
-                        <%if (documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_402) ||
-                          documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_404) ||
-                          documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_405)){%>
-                          
-                        <%}else{%>
-                               <%if (documento.getID_CLIENTE()!=null){%>
-                                  <%if (documento.getID_EXTERNO().toString().equals("0")){%>
+                  <%if (documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_402) ||
+                  documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_404) ||
+                  documento.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_405)){%>
+                  
+                <%}else{%>
+                       <%if (documento.getID_CLIENTE()!=null){%>
+                          <%if (documento.getID_EXTERNO().toString().equals("0")){%>
+                                <tr>
+                                    <td colspan="4" style="height:1px"></td>
+                                </tr> 
+                                <tr>
+                                     <td colspan="2" class="datos_cajetin">DATOS DEL DESTINATARIO</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="height:1px"> <hr/> </td>
+                                </tr>  
+                           <%}else{%>
+                                <tr>
+                                    <td colspan="4" style="height:1px"></td>
+                                </tr>
+                                <tr>
+                                     <td colspan="2" class="datos_cajetin">DATOS DEL REMITENTE</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="height:1px"> <hr/> </td>
+                                </tr>
+                           <%}%>
+                           
+                           <% if (documento.getCodTipoInstitucion()!=null){%>
+                               <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_JURIDICA_INSTITUCION)){%>
+                                   
+                                   <tr>
+                                        <td class="datos_cajetin">Instituci&oacute;n:</td>
+                                        <td><%=documento.getCliente().getRazonSocial()==null?"":documento.getCliente().getRazonSocial()%></td>	
+                                   </tr>
+                                   <% if (documento.getDesRemitente()!=null){%>
                                         <tr>
-                                            <td colspan="4" style="height:1px"></td>
-                                        </tr> 
-                                        <tr>
-                                             <td colspan="2" class="datos_cajetin">DATOS DEL DESTINATARIO</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" style="height:1px"> <hr/> </td>
-                                        </tr>  
-                                   <%}else{%>
-                                        <tr>
-                                            <td colspan="4" style="height:1px"></td>
-                                        </tr>
-                                        <tr>
-                                             <td colspan="2" class="datos_cajetin">DATOS DEL REMITENTE</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" style="height:1px"> <hr/> </td>
+                                             <td class="datos_cajetin">Persona:</td>
+                                             <td><%=documento.getDesRemitente()%></td>	
                                         </tr>
                                    <%}%>
+                                   <%if (documento.getDesCargoRemitente()!=null){%>
+                                        <tr>
+                                            <td class="datos_cajetin">Cargo:</td>
+                                            <td><%=documento.getDesCargoRemitente()%></td>	
+                                       </tr>
+                                   <%}%>    
+                               <%}%>
+                               <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_JURIDICA_EMPRESA)){%>
                                    
-                                   <% if (documento.getCodTipoInstitucion()!=null){%>
-                                       <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_JURIDICA_INSTITUCION)){%>
-                                           
-                                           <tr>
-                                                <td class="datos_cajetin">Instituci&oacute;n:</td>
-                                                <td><%=documento.getCliente().getRazonSocial()==null?"":documento.getCliente().getRazonSocial()%></td>	
-                                           </tr>
-                                           <% if (documento.getDesRemitente()!=null){%>
-                                                <tr>
-                                                     <td class="datos_cajetin">Persona:</td>
-                                                     <td><%=documento.getDesRemitente()%></td>	
-                                                </tr>
-                                           <%}%>
-                                           <%if (documento.getDesCargoRemitente()!=null){%>
-                                                <tr>
-                                                    <td class="datos_cajetin">Cargo:</td>
-                                                    <td><%=documento.getDesCargoRemitente()%></td>	
-                                               </tr>
-                                           <%}%>    
-                                       <%}%>
-                                       <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_JURIDICA_EMPRESA)){%>
-                                           
-                                           <tr>
-                                                <td class="datos_cajetin">Empresa:</td>
-                                                <td><%=documento.getCliente().getRazonSocial()==null?"":documento.getCliente().getRazonSocial()%></td>	
-                                           </tr>
-                                           <% if (documento.getDesRemitente()!=null){%>
-                                             <tr>
-                                                <td class="datos_cajetin">Persona:</td>
-                                                <td><%=documento.getDesRemitente()%></td>	
-                                             </tr>
-                                           <%}%>
-                                           <%if (documento.getDesCargoRemitente()!=null){%>
-                                                <tr>
-                                                    <td class="datos_cajetin">Cargo:</td>
-                                                    <td><%=documento.getDesCargoRemitente()%></td>	
-                                               </tr>
-                                           <%}%>
-                                       <%}%>
-                                        <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_NATURAL)){%>
-                                          <tr>
-                                                <td class="datos_cajetin">Persona Natutal:</td>
-                                                <td><%=(documento.getCliente().getNombres()==null?"":documento.getCliente().getNombres()) + " " + (documento.getCliente().getApellidoPaterno()==null?"":documento.getCliente().getApellidoPaterno()) + " " +  (documento.getCliente().getApellidoMaterno()==null?"":documento.getCliente().getApellidoMaterno())%></td>	
-                                           </tr>
-                                           <%if (documento.getDesCargoRemitente()!=null){%>
-                                                <tr>
-                                                    <td class="datos_cajetin">Cargo:</td>
-                                                    <td><%=documento.getDesCargoRemitente()%></td>	
-                                               </tr>
-                                           <%}%>
-                                        <%}%>   
-                                   <%}%>                                                               
-                            <%}%>
-                        <%}%>
-                        
-                       
-
+                                   <tr>
+                                        <td class="datos_cajetin">Empresa:</td>
+                                        <td><%=documento.getCliente().getRazonSocial()==null?"":documento.getCliente().getRazonSocial()%></td>	
+                                   </tr>
+                                   <% if (documento.getDesRemitente()!=null){%>
+                                     <tr>
+                                        <td class="datos_cajetin">Persona:</td>
+                                        <td><%=documento.getDesRemitente()%></td>	
+                                     </tr>
+                                   <%}%>
+                                   <%if (documento.getDesCargoRemitente()!=null){%>
+                                        <tr>
+                                            <td class="datos_cajetin">Cargo:</td>
+                                            <td><%=documento.getDesCargoRemitente()%></td>	
+                                       </tr>
+                                   <%}%>
+                               <%}%>
+                                <%if (documento.getCodTipoInstitucion().toString().equals(Constantes.COD_PERSONA_NATURAL)){%>
+                                  <tr>
+                                        <td class="datos_cajetin">Persona Natutal:</td>
+                                        <td><%=(documento.getCliente().getNombres()==null?"":documento.getCliente().getNombres()) + " " + (documento.getCliente().getApellidoPaterno()==null?"":documento.getCliente().getApellidoPaterno()) + " " +  (documento.getCliente().getApellidoMaterno()==null?"":documento.getCliente().getApellidoMaterno())%></td>	
+                                   </tr>
+                                   <%if (documento.getDesCargoRemitente()!=null){%>
+                                        <tr>
+                                            <td class="datos_cajetin">Cargo:</td>
+                                            <td><%=documento.getDesCargoRemitente()%></td>	
+                                       </tr>
+                                   <%}%>
+                                <%}%>   
+                           <%}%>                                                               
+                    <%}%>
+                <%}%>
 			<%--
 			<tr>
 				<td><strong>Fecha Registro: </strong><%=formato.format(documento.getFechaCreacion()) %></td>
@@ -274,42 +271,42 @@
 			--%>
 		</table>
 		
-                        <br/>
+        <br/>
 		
 		<%if(hojaFirma != null && !hojaFirma.isEmpty()){ %>
 			<table class="datos">
 				<tr>
-                                        <td class="datos_subtitulo" style="width:7em;">Fecha/Hora-Firma</td>
+                    <td class="datos_subtitulo" style="width:7em;">Fecha/Hora-Firma</td>
 					<td class="datos_subtitulo" style="width:20em;">Usuario (Area)</td>
 					<td class="datos_subtitulo" style="width:20em;">Archivo</td>
-                                        <td class="datos_subtitulo" style="width:20em;">Certificado Digital</td>
+                    <td class="datos_subtitulo" style="width:20em;">Certificado Digital</td>
 					<td class="datos_subtitulo" style="width:20em;">Tipo</td>
 				</tr>
 				<%for(FilaHojaFirma fila : hojaFirma){ %>
 				<tr>
-                                        <td class="datos_contenido"><%=new SimpleDateFormat("dd-MM-yyyy HH:mm").format(fila.getFechaFirma())%></td>
+                    <td class="datos_contenido"><%=new SimpleDateFormat("dd-MM-yyyy HH:mm").format(fila.getFechaFirma())%></td>
 					<td class="datos_contenido"><%=fila.getUsuario() %></td>
-                                        <%if (fila.getPrincipal().equals("S")){%>
-                                        <td class="datos_contenido"><b><font color="blue"><%=fila.getNombreFile()%></font></b></td>             
-                                        <%}else{%>
-                                          <td class="datos_contenido"><%=fila.getNombreFile() %></td>
-                                        <%}%>
-                                        <td class="datos_contenido"><%=fila.getAlias()%></td>
-                                        <td class="datos_contenido"><%=fila.getTipo().equals("")?"": (fila.getTipo().equals("V")?"Visado":"Firmado") %></td>
+                    <%if (fila.getPrincipal().equals("S")){%>
+                    	<td class="datos_contenido"><b><font color="blue"><%=fila.getNombreFile()%></font></b></td>             
+                    <%}else{%>
+                     	<td class="datos_contenido"><%=fila.getNombreFile() %></td>
+                    <%}%>
+                    <td class="datos_contenido"><%=fila.getAlias()%></td>
+                    <td class="datos_contenido"><%=fila.getTipo().equals("")?"": (fila.getTipo().equals("V")?"Visado":"Firmado") %></td>
 				</tr>
 				<%} %>
 			</table>
 		<%}else{ %>
-                      <table class="resume">
-                                <tr>
-                                    <td></td>
-                                </tr>    
-				<tr>
-                                    <td align="center" class="datos_cajetin" style="width:7em;">
-                                        No existen registros en la HOJA DE FIRMA para este documento.
-                                    </td>
-                                </tr>
-                      </table>          
+        <table class="resume">
+            <tr>
+                <td></td>
+            </tr>    
+			<tr>
+               <td align="center" class="datos_cajetin" style="width:7em;">
+                   No existen registros en la HOJA DE FIRMA para este documento.
+               </td>
+           </tr>
+        </table>          
 		<%} %>
 		
 		</div>

@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,8 +76,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.ositran.daos.DocumentoAdjuntoDAO;
 import org.ositran.daos.DocumentoExternoVirtualDAO;
 import org.ositran.services.ParametroService;
-public class ReporteAPNAction {
 
+public class ReporteAPNAction {
 	private static Logger log = Logger.getLogger(ReporteSigedAction.class);
 	private Integer idDocumento;
 	private Integer size;
@@ -453,119 +453,116 @@ public class ReporteAPNAction {
 		return "TrazabilidadDocumentaria";
 	}
 
-        public String verHojaFirma() {
+    public String verHojaFirma() {
+	  try {
+      	Map<String, Object> mapSession = ActionContext.getContext().getSession();
+      	Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+      	if (usuario==null)
+      	   return Action.ERROR;
 
-    	  try {
-          	Map<String, Object> mapSession = ActionContext.getContext().getSession();
-          	Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-          	if (usuario==null)
-          	   return Action.ERROR;
-
-          }catch (Exception e){
-              e.printStackTrace();
-          }
+      }catch (Exception e){
+          e.printStackTrace();
+      }
 
 	  documento = documentoService.findByIdDocumento(idDocumento);
 	  int iddoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia() : idDocumento;
 	  hojaFirma = reporteAPNService.generarHojaFirma(iddoc);
-          //trazabilidad = reporteAPNService.buscarUltimaTraza(iddoc);
-          lstPrioridad = parametroService.findByTipo(Constantes.PARAMETRO_TIPO_PRIORIDAD);
-                
-          lstAdjuntos = new ArrayList<String>();
-          List<DocumentoAdjunto> lstDocumentoAdjunto =documentoAdjuntoDAO.findByListDocumentoAdjunto(iddoc);
-          List<Parametro> lstTipoAdjunto = parametroService.findByTipo(Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
-          List<Parametro> lstCopia = parametroService.findByTipo(Constantes.PARAMETRO_ADJUNTO_COPIA_ORIGINAL);
+      //trazabilidad = reporteAPNService.buscarUltimaTraza(iddoc);
+      lstPrioridad = parametroService.findByTipo(Constantes.PARAMETRO_TIPO_PRIORIDAD);
             
-          if (lstDocumentoAdjunto!=null){
-                  for(int i=0;i<lstDocumentoAdjunto.size();i++){
-                     String valor = ""; 
-                     for(int j=0;j<lstTipoAdjunto.size();j++){
-                       if (lstTipoAdjunto.get(j).getValor().equals(lstDocumentoAdjunto.get(i).getCodTipoAdj())){
-                           valor = lstTipoAdjunto.get(j).getDescripcion();
-                           for(int k=0;k<lstCopia.size();k++){
-                              if (lstCopia.get(k).getValor().equals(lstDocumentoAdjunto.get(i).getCopOrig())){
-                                  valor = valor + " " + lstCopia.get(k).getDescripcion() + " (" + lstDocumentoAdjunto.get(i).getNroAdj() + ")";
-                                  lstAdjuntos.add(valor);
-                                  break;
-                              }
-                           }
-                           break;
-                       } 
-                     }      
-                  }    
-           }
-                  
-	    return "HojaFirma";
-	}
-
+      lstAdjuntos = new ArrayList<String>();
+      List<DocumentoAdjunto> lstDocumentoAdjunto =documentoAdjuntoDAO.findByListDocumentoAdjunto(iddoc);
+      List<Parametro> lstTipoAdjunto = parametroService.findByTipo(Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
+      List<Parametro> lstCopia = parametroService.findByTipo(Constantes.PARAMETRO_ADJUNTO_COPIA_ORIGINAL);
         
-        public String verHojaRuta() {
+      if (lstDocumentoAdjunto!=null){
+          for(int i=0;i<lstDocumentoAdjunto.size();i++){
+             String valor = ""; 
+             for(int j=0;j<lstTipoAdjunto.size();j++){
+               if (lstTipoAdjunto.get(j).getValor().equals(lstDocumentoAdjunto.get(i).getCodTipoAdj())){
+                   valor = lstTipoAdjunto.get(j).getDescripcion();
+                   for(int k=0;k<lstCopia.size();k++){
+                      if (lstCopia.get(k).getValor().equals(lstDocumentoAdjunto.get(i).getCopOrig())){
+                          valor = valor + " " + lstCopia.get(k).getDescripcion() + " (" + lstDocumentoAdjunto.get(i).getNroAdj() + ")";
+                          lstAdjuntos.add(valor);
+                          break;
+                      }
+                   }
+                   break;
+               }
+             }
+          }
+       }
+                  
+      	return "HojaFirma";
+	}
+        
+    public String verHojaRuta() {
+	    try {
+      	Map<String, Object> mapSession = ActionContext.getContext().getSession();
+      	Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+      	if (usuario==null)
+      	   return Action.ERROR;
 
-    	    try {
-          	Map<String, Object> mapSession = ActionContext.getContext().getSession();
-          	Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-          	if (usuario==null)
-          	   return Action.ERROR;
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
             
             documento = documentoService.findByIdDocumento(idDocumento);
 	    int iddoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia() : idDocumento;
             hojaRuta = reporteAPNService.generarHojaRuta(iddoc);
 	    lstPrioridad = parametroService.findByTipo(Constantes.PARAMETRO_TIPO_PRIORIDAD);
                 
-            lstAdjuntos = new ArrayList<String>();
-            List<DocumentoAdjunto> lstDocumentoAdjunto =documentoAdjuntoDAO.findByListDocumentoAdjunto(iddoc);
-            List<Parametro> lstTipoAdjunto = parametroService.findByTipo(Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
-            List<Parametro> lstCopia = parametroService.findByTipo(Constantes.PARAMETRO_ADJUNTO_COPIA_ORIGINAL);
-            
-            if (lstDocumentoAdjunto!=null){
-                  for(int i=0;i<lstDocumentoAdjunto.size();i++){
-                     String valor = ""; 
-                     for(int j=0;j<lstTipoAdjunto.size();j++){
-                       if (lstTipoAdjunto.get(j).getValor().equals(lstDocumentoAdjunto.get(i).getCodTipoAdj())){
-                           valor = lstTipoAdjunto.get(j).getDescripcion();
-                           for(int k=0;k<lstCopia.size();k++){
-                              if (lstCopia.get(k).getValor().equals(lstDocumentoAdjunto.get(i).getCopOrig())){
-                                  valor = valor + " " + lstCopia.get(k).getDescripcion() + " (" + lstDocumentoAdjunto.get(i).getNroAdj() + ")";
-                                  lstAdjuntos.add(valor);
-                                  break;
-                              }
-                           }
-                           break;
-                       } 
-                     }      
-                  }    
+        lstAdjuntos = new ArrayList<String>();
+        List<DocumentoAdjunto> lstDocumentoAdjunto =documentoAdjuntoDAO.findByListDocumentoAdjunto(iddoc);
+        List<Parametro> lstTipoAdjunto = parametroService.findByTipo(Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
+        List<Parametro> lstCopia = parametroService.findByTipo(Constantes.PARAMETRO_ADJUNTO_COPIA_ORIGINAL);
+        
+        if (lstDocumentoAdjunto!=null){
+              for(int i=0;i<lstDocumentoAdjunto.size();i++){
+                 String valor = ""; 
+                 for(int j=0;j<lstTipoAdjunto.size();j++){
+                   if (lstTipoAdjunto.get(j).getValor().equals(lstDocumentoAdjunto.get(i).getCodTipoAdj())){
+                       valor = lstTipoAdjunto.get(j).getDescripcion();
+                       for(int k=0;k<lstCopia.size();k++){
+                          if (lstCopia.get(k).getValor().equals(lstDocumentoAdjunto.get(i).getCopOrig())){
+                              valor = valor + " " + lstCopia.get(k).getDescripcion() + " (" + lstDocumentoAdjunto.get(i).getNroAdj() + ")";
+                              lstAdjuntos.add(valor);
+                              break;
+                          }
+                       }
+                       break;
+                   } 
+                 }      
+              }    
+        }
+        
+        if (codigoVirtual!=null){
+            IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
+            if (iotdtmDocExterno!=null && (iotdtmDocExterno.getSidemiext().getCflgest()=='R' || iotdtmDocExterno.getSidemiext().getCflgest()=='O' || iotdtmDocExterno.getSidemiext().getCflgest()=='S')){
+                listIotdtcDespacho = new ArrayList<IotdtcDespacho>();
+                listIotdtcDespacho.add(iotdtmDocExterno.getSidemiext());
             }
-            
-            if (codigoVirtual!=null){
-                IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
-                if (iotdtmDocExterno!=null && (iotdtmDocExterno.getSidemiext().getCflgest()=='R' || iotdtmDocExterno.getSidemiext().getCflgest()=='O' || iotdtmDocExterno.getSidemiext().getCflgest()=='S')){
-                    listIotdtcDespacho = new ArrayList<IotdtcDespacho>();
-                    listIotdtcDespacho.add(iotdtmDocExterno.getSidemiext());
+        }else{
+            List<IotdtmDocExterno> lstIotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoProcesadoDespachoVirtual(documento.getID_CODIGO());
+            if (lstIotdtmDocExterno!=null && lstIotdtmDocExterno.size()>0){
+                listIotdtcDespacho = new ArrayList<IotdtcDespacho>();
+                for(int i=0;i<lstIotdtmDocExterno.size();i++){
+                    listIotdtcDespacho.add(lstIotdtmDocExterno.get(i).getSidemiext());
                 }
+            }
+        }
+        
+        if (documento.getNroVirtual()!=null){
+            IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(documento.getNroVirtual());
+            if (iotdtmDocExterno!=null){
+              documento.setVcuo(iotdtmDocExterno.getSidrecext().getVcuo());
             }else{
-                List<IotdtmDocExterno> lstIotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoProcesadoDespachoVirtual(documento.getID_CODIGO());
-                if (lstIotdtmDocExterno!=null && lstIotdtmDocExterno.size()>0){
-                    listIotdtcDespacho = new ArrayList<IotdtcDespacho>();
-                    for(int i=0;i<lstIotdtmDocExterno.size();i++){
-                        listIotdtcDespacho.add(lstIotdtmDocExterno.get(i).getSidemiext());
-                    }
-                }
+              documento.setVcuo("");
             }
-            
-            if (documento.getNroVirtual()!=null){
-                IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(documento.getNroVirtual());
-                if (iotdtmDocExterno!=null){
-                  documento.setVcuo(iotdtmDocExterno.getSidrecext().getVcuo());
-                }else{
-                  documento.setVcuo("");
-                }
-            }
-                   
-            return "HojaRuta";
+        }
+               
+        return "HojaRuta";
 	}
         
         public String verHojaRutaEmail() {
@@ -619,8 +616,6 @@ public class ReporteAPNAction {
 		return "HojaRutaExpediente";
 	}
 
-
-
 	public String listarReporte2(){
 		listaReporteAPN2 = reporteAPNService.getListaReporteAPN2(objFiltro);
 		grupoProceso = "";
@@ -632,8 +627,6 @@ public class ReporteAPNAction {
 		}
 		return Action.SUCCESS + "ReporteAPN2";
 	}
-
-
 
 	public String listarReporte4(){
 		log.debug("listarReporte4.");
@@ -1545,5 +1538,4 @@ public class ReporteAPNAction {
 	public void setListaReporteAPN4(List<NodoExpReporteAPN4> listaReporteAPN4) {
 		this.listaReporteAPN4 = listaReporteAPN4;
 	}
-
 }

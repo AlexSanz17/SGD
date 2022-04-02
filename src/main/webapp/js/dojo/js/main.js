@@ -1,4 +1,5 @@
 dojo.provide("js.main");
+
 var indexTreeExp=0;
 var interfazGerente = false;
 var service = new dojo.rpc.JsonService("SMDAction.action");
@@ -1640,7 +1641,6 @@ var buildToolBarInboxButtons = function() {
         showLabel: true
     });
 
-
     new dijit.form.Button({
         id: "btnEliminar",
         jsId: "btnEliminar",
@@ -2089,11 +2089,5 @@ var buildTabsFromToolBarTopMain = function(recurso) {
 	     //dojo.byId("contentPaneGrid").appendChild(cargando);
 
 	     buildDetail(borderContainerInbox);
-
-
-
-
 	}
-
-
-	;
+;

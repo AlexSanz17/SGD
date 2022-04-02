@@ -58,6 +58,7 @@ import org.ositran.services.ParametroService;
 import org.ositran.services.PlantillaService;
 import org.ositran.services.ProcesoService;
 import org.ositran.services.ProveidoService;
+import org.ositran.services.RecepcionVirtualService;
 import org.ositran.services.ResolucionjaruService;
 import org.ositran.services.RolService;
 import org.ositran.services.SeguimientoService;
@@ -133,7 +134,6 @@ import com.opensymphony.xwork2.ActionContext;
 import gob.ositran.siged.config.SigedProperties;
 
 public class DocumentoAction {
-
 	private final Logger log = LoggerFactory.getLogger(DocumentoAction.class);
 	private File upload;
 	private String idGrid;
@@ -241,6 +241,7 @@ public class DocumentoAction {
 	private Integer idArchivoPendiente;
 	private Integer iIdDocumento;
 	private String sObservacionAnular;
+	private String sObservacionRechazar;
 	private Integer idenv;
     private Integer idpendientes;
     private Integer idatendidos;
@@ -292,6 +293,7 @@ public class DocumentoAction {
 	private String submotivo;
 	private String sala;
 	private Integer idDocumentoAnular;
+	private Integer idDocumentoRechazar;
 	private String analista;
 	private String cerrar;
 	private String ocultar;
@@ -392,8 +394,9 @@ public class DocumentoAction {
     private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
     private Integer codigoVirtual;
     private Archivo archivoPrincipal;
-        
-    public String getStrSeguimiento() {
+    private RecepcionVirtualService recepcionVirtualService;
+
+	public String getStrSeguimiento() {
         return strSeguimiento;
     }
 
@@ -781,6 +784,14 @@ public class DocumentoAction {
 		this.sObservacionAnular = sObservacionAnular;
 	}
 
+	public String getsObservacionRechazar() {
+		return sObservacionRechazar;
+	}
+
+	public void setsObservacionRechazar(String sObservacionRechazar) {
+		this.sObservacionRechazar = sObservacionRechazar;
+	}
+	
 	public Integer getIdDocumentoAnular() {
 		return idDocumentoAnular;
 	}
@@ -789,6 +800,14 @@ public class DocumentoAction {
 		this.idDocumentoAnular = idDocumentoAnular;
 	}
 
+	public Integer getIdDocumentoRechazar() {
+		return idDocumentoRechazar;
+	}
+
+	public void setIdDocumentoRechazar(Integer idDocumentoRechazar) {
+		this.idDocumentoRechazar = idDocumentoRechazar;
+	}
+	
 	public LogOperacionService getLogOperacionService() {
 		return logOperacionService;
 	}
@@ -893,6 +912,14 @@ public class DocumentoAction {
         this.unidadDAO = unidadDAO;
     }
     
+    public RecepcionVirtualService getRecepcionVirtualService() {
+		return recepcionVirtualService;
+	}
+
+	public void setRecepcionVirtualService(RecepcionVirtualService recepcionVirtualService) {
+		this.recepcionVirtualService = recepcionVirtualService;
+	}
+    
 	public DocumentoAction(DocumentoService srvD, ProcesoService srvP, ClienteService srvS, TipodocumentoService srvTD, TipoidentificacionService srvTI, UsuarioService srvU, ExpedientestorService expedienteStorservice) {
 		documentoService = srvD;
 		procesoService = srvP;
@@ -908,15 +935,12 @@ public class DocumentoAction {
 	}
 
 	public String inicioAnular() {
-      //  Integer[] arrIdDoc = new Integer[1];
-      //  documento = documentoService.findByIdDocumento(idDocumento);
-        try {
-
-        } catch (Exception e) {
-            log.debug(e.getMessage(), e);
-        }
-
         return "inicioAnular";
+    }
+	
+	public String goRechazar() {
+//		documento.setNumeroDocumento(nrodocumento);
+        return "goRechazar";
     }
 
 	public String goOpenDocumentSearch() {
@@ -4046,7 +4070,24 @@ public class DocumentoAction {
 		return "true";
 	}
 
+	public String rechazarDocumento() {
+		log.debug("-> [Action] DocumentoAction - rechazarDocumento():String ");
 
+		mapSession = ActionContext.getContext().getSession();
+		String nombrePC = (String) mapSession.get("nombrePC");
+		Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+		
+		if (idDocumentoRechazar == null) {
+			log.error("No se especifico ningun documento, no se puede anular.");
+			return Action.ERROR;
+		}
+		log.info("idDocumentoRechazar........." + idDocumentoRechazar);
+		recepcionVirtualService.rechazarDocumentoMPV(idDocumentoRechazar, sObservacionRechazar, "O", new Date(), "");
+//		documentoService.anularDocumento(usuario, documento, null, false, null, nombrePC, getsObservacionAnular());
+
+		return "true";
+	}
+	
 	public String reabrirDocumentoAtendido(){
                 log.debug("-> [Action] DocumentoAction - reabrirDocumentoAtendido():String ");
 

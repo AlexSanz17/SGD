@@ -1,23 +1,16 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package gob.ositran.siged.config;
+package gob.ositran.siged.config;
 
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.ositran.utils.PropertyFileUtils;
 
-/**
- *
- * @author javier castillo
- */
 public class SigedProperties {   
-
     private static final Logger log = Logger.getLogger(SigedProperties.class);
     private static final Properties properties;
-    //private static final String SIGED_PROPERTIES = "siged/siged.properties";  //JCPROPERTIES
     private static final String SIGED_PROPERTIES = "siged/siged.properties";
     private static final String SIGED_INTERNO_PROPERTIES = "siged_interno.properties";
 
     public enum SigedPropertyEnum {   
-
         // propiedades de modificacion externa al WAR
         DIRECTORIO_ENTRANTE("pdfTransformer.folder.in"),
         DIRECTORIO_SALIENTE("pdfTransformer.folder.out"),
@@ -37,17 +30,23 @@ public class SigedProperties {
         SIGED_HOST("siged.host"),
         SIGED_CORREO("siged.correo"),
         VARIABLE_SESION_MANTENIMIENTO("sesion.mantenimiento"),
+        
         ALFRESCO_HOST("alfresco.host"),
         ALFRESCO_HOST_PUBLICO("alfresco.host.publico"),
         ALFRESCO_PORT("alfresco.port"),
+        ALFRESCO_USER("alfresco.user"),
+        ALFRESCO_PASSWORD("alfresco.password"),
         ALFRESCO_VALID_DURATION_IN_MINUTES("alfresco.ticket.validDurationInMinutes"),
         ALFRESCO_ROOT("alfresco.root"),
         ALFRESCO_SPACE("alfresco.space"),
+        ALFRESCO_CMIS("alfresco.cmis"),
+        
         FOLDER_MAIL("folder.mail"),
         DIRECTORIO_PLANTILLAS("folder.templates"),
         WEB_SERVICE_SUNAT("webservice.sunat.url"),
         BIRT_LOG_DIR("birt.logDirectory"),
         BIRT_LOG_LEVEL("birt.logLevel"),
+        
         // propiedades de modificacion interna al WAR
         ACCION_DERIVAR_ID("accion.derivar.id"),
         ACCION_RECHAZAR_ID("accion.rechazar.id"),

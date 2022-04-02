@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.ositran.services;
 
 import java.io.BufferedReader;
@@ -12,11 +7,13 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.ajax.beans.CargoRecepcionMPVResponse;
 import org.ositran.daos.RecepcionVirtualDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
@@ -36,7 +33,6 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService {
        return recepcionVirtualDAO.registrarDocumento(recepcion);
     }
     
-
     public List<IotdtcRecepcion> getAll(){
         return recepcionVirtualDAO.findAll();
     }
@@ -92,7 +88,6 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService {
     	 }
     	
         return cargoRecepcionVirtualResponse;
- 
      }
     
     public IotdtcRecepcionMPV registrarDocumentoMPV(IotdtcRecepcionMPV recepcionMPV){
@@ -102,4 +97,10 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService {
     public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV(){
        return recepcionVirtualDAO.consultarDocPendientesAlfrescoMPV();
     }
+
+    @Transactional
+	@Override
+	public void rechazarDocumentoMPV(Integer idDocumento, String observacion, String estado, Date fecha, String usuario) {
+    	recepcionVirtualDAO.rechazarDocumentoMPV(idDocumento, observacion, estado, fecha, usuario);
+	}
 }

@@ -1,5 +1,6 @@
 package org.ositran.daos;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -68,5 +69,14 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
 		Query q = em.createQuery(sql);
 		
 		return q.getResultList();
+	}
+
+	@Override
+	public void rechazarDocumentoMPV(Integer idDocumento, String observacion, String estado, Date fecha, String usuario) {
+		String sql = "UPDATE Iotdtc_Recepcion_MPV SET cflgest = :cflgest, vobs = :vobs, dfecmod = :dfecmod, vusumod = :vusumod WHERE sidrecext = :sidrecext";
+		Query q = em.createNativeQuery(sql);
+		q.setParameter("sidrecext", idDocumento).setParameter("vobs", observacion).setParameter("cflgest", estado)
+			.setParameter("dfecmod", fecha).setParameter("vusumod", usuario);
+		q.executeUpdate();
 	}
 }

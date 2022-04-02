@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,11 +35,9 @@ import com.btg.ositran.siged.domain.ReporteAPN10;
 import com.btg.ositran.siged.domain.TrazabilidadDocumentaria;
 
 public class ReporteAPNDAOImpl implements ReporteAPNDAO {
-
 	private static Logger log = Logger.getLogger(ReporteAPNDAOImpl.class);
 	private EntityManager em;
 	private ParametroService parametroService;
-
 
 	public EntityManager getEm() {
 		return em;
@@ -97,12 +95,8 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 
 			dataforward.add(n);
 		}
-
 		
 		return dataforward;
-
-
-
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
@@ -125,37 +119,35 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		return obj.getResultList();
 	}
 
-
-
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public List<ReporteAPN9> getListaReporteAPN9(String area, String ano, String mes, String tipodocumento){//, String idareadestino) {
 
-		    Query obj = null;
-			String sQuery = "SELECT f FROM ReporteAPN9 f ";
+	    Query obj = null;
+		String sQuery = "SELECT f FROM ReporteAPN9 f ";
 
-			sQuery += "WHERE f.idAreaPropietario = :idAreaPropietario  ";
-            sQuery +="AND  f.idTipoDocumento = :idTipoDocumento";
-            sQuery +="AND to_char(f.fechaCreacion,'YYYYMM') = :fechaDesde  ";
-			sQuery += "ORDER BY f.fechaCreacion ASC ";
-			//-----------------------------------------------------
-			obj = em.createQuery(sQuery);
-			//----------------------------------------------------
-			obj.setParameter("idTipoDocumento", Integer.parseInt(tipodocumento));
-			obj.setParameter("idAreaPropietario", Integer.parseInt(area));
-			obj.setParameter("fechaDesde", ano + (mes.length()==1? "0" + mes:mes));
+		sQuery += "WHERE f.idAreaPropietario = :idAreaPropietario  ";
+        sQuery +="AND  f.idTipoDocumento = :idTipoDocumento";
+        sQuery +="AND to_char(f.fechaCreacion,'YYYYMM') = :fechaDesde  ";
+		sQuery += "ORDER BY f.fechaCreacion ASC ";
+		//-----------------------------------------------------
+		obj = em.createQuery(sQuery);
+		//----------------------------------------------------
+		obj.setParameter("idTipoDocumento", Integer.parseInt(tipodocumento));
+		obj.setParameter("idAreaPropietario", Integer.parseInt(area));
+		obj.setParameter("fechaDesde", ano + (mes.length()==1? "0" + mes:mes));
 
-		    return obj.getResultList();
+	    return obj.getResultList();
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public List<ReporteAPN10> getListaReporteAPN10(String idAreaOrigen,
-			String fechaDesde, String fechaHasta){
+		String fechaDesde, String fechaHasta){
 
-	 List<ReporteAPN10> l = null;
+		List<ReporteAPN10> l = null;
 
-	 try{
+		try{
 
 		  Date fechaDesde_ = null;
 		  Date fechaHasta_ = null;
@@ -181,9 +173,9 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		  obj.setParameter("fechaDesde", fechaDesde_);
 		  obj.setParameter("fechaHasta", fechaHasta_);
 		  l = obj.getResultList();
-      }catch(Exception e){
-    	  e.printStackTrace();
-      }
+	      }catch(Exception e){
+	    	  e.printStackTrace();
+	      }
 		  return l;
 
 	}
@@ -640,78 +632,77 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		return listObj;
 	}
 
-        public List<FilaHojaFirma> getHojaFirma(Integer idDocumento){
-           List<FilaHojaFirma> dataforward=new ArrayList<FilaHojaFirma>();
-           try{ 
-            StringBuilder sql=new StringBuilder();
-            sql.append(" SELECT x.* FROM (");
-            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
-            sql.append(" CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE  ");
-            sql.append(" us.idusuario = F.IDUSUARIO),' <br/>Area:'");
-            sql.append("       , (SELECT u.nombre     FROM unidad u   ");
-            sql.append("           WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
+    public List<FilaHojaFirma> getHojaFirma(Integer idDocumento){
+       List<FilaHojaFirma> dataforward=new ArrayList<FilaHojaFirma>();
+       try{ 
+        StringBuilder sql=new StringBuilder();
+        sql.append(" SELECT x.* FROM (");
+        sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
+        sql.append(" CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE  ");
+        sql.append(" us.idusuario = F.IDUSUARIO),' <br/>Area:'");
+        sql.append(" , (SELECT u.nombre     FROM unidad u   ");
+        sql.append(" WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.estado, A.principal ");
 	    sql.append(" FROM ARCHIVO A, FIRMAARCHIVO F WHERE A.DOCUMENTO =  ");
-            sql.append(idDocumento);
-            sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL='S' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO = 'F'  ");
-            sql.append(" UNION ");
-            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
-            sql.append("CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE  ");
-            sql.append(" us.idusuario = F.IDUSUARIO), ' <br/>Area:'");
-            sql.append("       , (SELECT u.nombre     FROM unidad u   ");
-            sql.append("           WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
+        sql.append(idDocumento);
+        sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL='S' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO in ('F', 'V') ");
+        sql.append(" UNION ");
+        sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
+        sql.append("CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE ");
+        sql.append(" us.idusuario = F.IDUSUARIO), ' <br/>Area:'");
+        sql.append(" , (SELECT u.nombre FROM unidad u ");
+        sql.append(" WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.estado, A.principal ");
+	    sql.append(" FROM ARCHIVO A, FIRMAARCHIVO F WHERE A.DOCUMENTO = ");
+        sql.append(idDocumento);
+        sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL = 'N' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO in ('F', 'V') ");
+        sql.append(" UNION ");
+        sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
+        sql.append(" CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE  ");
+        sql.append(" us.idusuario = F.IDUSUARIO) , ' <br/>Area:'");
+        sql.append(" , (SELECT u.nombre     FROM unidad u   ");
+        sql.append(" WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.estado, A.principal ");
 	    sql.append(" FROM ARCHIVO A, FIRMAARCHIVO F WHERE A.DOCUMENTO =  ");
-            sql.append(idDocumento);
-            sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL = 'N' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO = 'F'  ");
-            sql.append(" UNION ");
-            sql.append("SELECT SUBSTRING(A.NOMBRE, CHARINDEX(A.nombre,']') +1, LEN(A.NOMBRE)) as col1, ");
-            sql.append(" CONCAT( (SELECT CONCAT(us.nombres,' ',us.apellidos)  FROM usuario us WHERE  ");
-            sql.append(" us.idusuario = F.IDUSUARIO) , ' <br/>Area:'");
-            sql.append("       , (SELECT u.nombre     FROM unidad u   ");
-            sql.append("           WHERE u.idunidad = F.unidadPropietario) ) as col2, F.fechaCreacion, F.alias, F.fechaFirma, F.accion, A.principal  ");
-	    sql.append(" FROM ARCHIVO A, FIRMAARCHIVO F WHERE A.DOCUMENTO =  ");
-            sql.append(idDocumento);
-            sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL = 'M' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO = 'F'  ");
-            sql.append(" ) x ORDER BY x.fechacreacion desc, x.principal desc ");
+        sql.append(idDocumento);
+        sql.append(" and A.ESTADO = 'A' AND A.PRINCIPAL = 'M' AND A.IDARCHIVO = F.IDARCHIVO AND F.ESTADO in ('F', 'V') ");
+        sql.append(" ) x ORDER BY x.fechacreacion desc, x.principal desc ");
             
-            
-            log.info("getHojaFirma(sql:)"+sql.toString());
-            
-            Query q=em.createNativeQuery(sql.toString());
-            List data=q.getResultList();
+        log.info("getHojaFirma(sql:)"+sql.toString());
+        
+        Query q=em.createNativeQuery(sql.toString());
+        List data=q.getResultList();
 	    
 	    for(int i=0;i<data.size();i++){
 	       try{
-                   FilaHojaFirma filaHojaFirma = new FilaHojaFirma();
-		   Object obj[]=(Object[])data.get(i);   
-                   SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                   String nombreFile = String.valueOf(obj[0]);
-		   String remitente = String.valueOf(obj[1]);
-                   Date fechaCreacion = formato.parse(obj[2].toString());
-                   String alias = String.valueOf(obj[3]);
-                   Date fechaFirma = formato.parse(obj[4].toString());
-		   filaHojaFirma.setNombreFile(nombreFile);
-                   filaHojaFirma.setUsuario(remitente);
-                   filaHojaFirma.setFechaCreacion(fechaCreacion);
-                   filaHojaFirma.setAlias(alias);
-                   filaHojaFirma.setFechaFirma(fechaFirma);
-                   filaHojaFirma.setTipo(obj[5]==null?"":String.valueOf(obj[5]));
-                   filaHojaFirma.setPrincipal(obj[6]==null?"N":String.valueOf(obj[6]));
-                   dataforward.add(filaHojaFirma);
-               }catch(Exception e){
-                   e.printStackTrace();
-               }     
-            }
+               FilaHojaFirma filaHojaFirma = new FilaHojaFirma();
+               Object obj[]=(Object[])data.get(i);   
+               SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+               String nombreFile = String.valueOf(obj[0]);
+               String remitente = String.valueOf(obj[1]);
+               Date fechaCreacion = formato.parse(obj[2].toString());
+               String alias = String.valueOf(obj[3]);
+               Date fechaFirma = formato.parse(obj[4].toString());
+               filaHojaFirma.setNombreFile(nombreFile);
+               filaHojaFirma.setUsuario(remitente);
+               filaHojaFirma.setFechaCreacion(fechaCreacion);
+               filaHojaFirma.setAlias(alias);
+               filaHojaFirma.setFechaFirma(fechaFirma);
+               filaHojaFirma.setTipo(obj[5]==null?"":String.valueOf(obj[5]));
+               filaHojaFirma.setPrincipal(obj[6]==null?"N":String.valueOf(obj[6]));
+               dataforward.add(filaHojaFirma);
            }catch(Exception e){
                e.printStackTrace();
-           } 
-            return dataforward;
+           }     
         }
+       }catch(Exception e){
+           e.printStackTrace();
+       } 
+        return dataforward;
+    }
         
 	public List<FilaHojaRuta> getHojaRuta(Integer idDocumento){
          StringBuilder sql=new StringBuilder();
          List<FilaHojaRuta> dataforward=new ArrayList<FilaHojaRuta>();
                  
-         try{
+         try {
          
 		 sql.append("SELECT   ID, NRODOCUMENTO, CONVERT(VARCHAR,format(FECHACREACION, 'yyyy-MM-dd HH:mm:ss')) as fechacreacion, REMITENTE ");
 		 sql.append("        , DESTINATARIO, ACCION, CONVERT(VARCHAR,CONTENIDO) as contenido, DOCUMENTO, TIPO     "); 
@@ -1115,57 +1106,57 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		sql.append("   dbo.FNC_ACCION(ta.accion) AS accion, ta.texto AS contenido,   ");
 		sql.append("   (SELECT d.documentoreferencia FROM documento d WHERE d.iddocumento = ta.documento) AS documento, ");
 		sql.append("   'Derivar Múltiple' AS tipo, isnull((select p.nombre from proveido p where p.idproveido= ta.idproveido),'') proveido, dbo.FNC_ESTADO(ta.estado,2) AS estado,           ");
-		sql.append("   2 opcion        ");
-		sql.append("  FROM trazabilidadapoyo ta   ");
+		sql.append("   2 opcion ");
+		sql.append("  FROM trazabilidadapoyo ta ");
 		sql.append("WHERE ta.documento IN (SELECT iddocumento FROM documento WHERE expediente="+ idExpediente +" and estado not in ('I')) ");
-		sql.append("UNION ALL       ");
-		sql.append("SELECT tc.idtrazabilidadcopia AS id, dbo.FNC_NRODOCUMENTO(tc.documento,1) AS NRODOCUMENTO, tc.fechacreacion,          ");
+		sql.append("UNION ALL ");
+		sql.append("SELECT tc.idtrazabilidadcopia AS id, dbo.FNC_NRODOCUMENTO(tc.documento,1) AS NRODOCUMENTO, tc.fechacreacion, ");
 		sql.append("   dbo.FNC_USUARIO_AREA (tc.remitente, 2, tc.unidadremitente) AS remitente, dbo.FNC_USUARIO_AREA (tc.destinatario, 1, tc.unidaddestinatario) AS destinatario,        ");
-		sql.append("   dbo.FNC_ACCION(tc.accion) AS accion, dbo.FNC_NOTIFICACION(tc.idnotificacion) AS contenido, tc.documento,               ");
+		sql.append("   dbo.FNC_ACCION(tc.accion) AS accion, dbo.FNC_NOTIFICACION(tc.idnotificacion) AS contenido, tc.documento, ");
 		sql.append("   'Copia' AS tipo, '' proveido, dbo.FNC_ESTADO(tc.documento,1) AS estado,   ");
-		sql.append("   3 opcion      ");
-		sql.append("  FROM trazabilidadcopia tc      ");
+		sql.append("   3 opcion ");
+		sql.append("  FROM trazabilidadcopia tc ");
 		sql.append("WHERE tc.documento IN (SELECT iddocumento FROM documento WHERE expediente="+ idExpediente + " and estado not in ('I')) ");
-		sql.append(" ) x ");
-		
-                
-            Query q=em.createNativeQuery(sql.toString());
-	        List data=q.getResultList();
-                              
-            for(int i=0;i<data.size();i++){
-		    
-	            Object obj[]=(Object[])data.get(i);
-				FilaHojaRuta f = new FilaHojaRuta();
-				FilaHojaRutaPK pk = new FilaHojaRutaPK();
-				Integer id=Integer.parseInt(obj[0].toString());
-		        String nroDocumento = String.valueOf(obj[1]);
-		        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        		Date fechaCreacion = formato.parse(obj[2].toString());
-                String remitente =  String.valueOf(obj[3]);
-                String destinatario =   String.valueOf(obj[4]);
-                String accion =  String.valueOf(obj[5]);
-                String contenido =  String.valueOf(obj[6]==null?"":obj[6]);
-                Integer documento =   Integer.parseInt(obj[7].toString());
-                String tipo =  obj[8].toString();
-                String proveido =  String.valueOf(obj[9]==null?"":obj[9]);
-                String estado =  String.valueOf(obj[10]);
-                
-                f.setNumeroDocumento(nroDocumento);
-                f.setRemitente(remitente);
-                f.setDestinatario(destinatario);
-                f.setAccion(accion);
-                f.setContenido(contenido);
-                f.setDocumento(documento);
-                f.setProveido(proveido);
-                f.setEstado(estado);
-                f.setFechaCreacion(fechaCreacion);
-                pk.setTipo(tipo);
-                pk.setId(id);
-                f.setPk(pk);
-                
-                dataforward.add(f);
+		sql.append(" ) x");
+		sql.append(" ORDER BY FECHACREACION");
+
+        Query q=em.createNativeQuery(sql.toString());
+        List data=q.getResultList();
+                          
+        for(int i=0;i<data.size();i++){
+	    
+            Object obj[]=(Object[])data.get(i);
+			FilaHojaRuta f = new FilaHojaRuta();
+			FilaHojaRutaPK pk = new FilaHojaRutaPK();
+			Integer id=Integer.parseInt(obj[0].toString());
+	        String nroDocumento = String.valueOf(obj[1]);
+	        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		Date fechaCreacion = formato.parse(obj[2].toString());
+            String remitente =  String.valueOf(obj[3]);
+            String destinatario =   String.valueOf(obj[4]);
+            String accion =  String.valueOf(obj[5]);
+            String contenido =  String.valueOf(obj[6]==null?"":obj[6]);
+            Integer documento =   Integer.parseInt(obj[7].toString());
+            String tipo =  obj[8].toString();
+            String proveido =  String.valueOf(obj[9]==null?"":obj[9]);
+            String estado =  String.valueOf(obj[10]);
             
-            }
+            f.setNumeroDocumento(nroDocumento);
+            f.setRemitente(remitente);
+            f.setDestinatario(destinatario);
+            f.setAccion(accion);
+            f.setContenido(contenido);
+            f.setDocumento(documento);
+            f.setProveido(proveido);
+            f.setEstado(estado);
+            f.setFechaCreacion(fechaCreacion);
+            pk.setTipo(tipo);
+            pk.setId(id);
+            f.setPk(pk);
+            
+            dataforward.add(f);
+        
+        }
             
         }catch(Exception ex){
 			  ex.printStackTrace();

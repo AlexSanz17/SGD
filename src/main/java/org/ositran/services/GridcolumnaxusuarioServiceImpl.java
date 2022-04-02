@@ -578,37 +578,37 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 	public List getItems(String sTipoGrid, Usuario objUsuario, BusquedaAvanzada objFiltro) {
 		_log.debug("-> [Service] GridcolumnaxusuarioService - getItems():List, sTipoGrid:"+sTipoGrid);
                 
-                List lstItem = null;
+        List lstItem = null;
          if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DOCUMENTO)) {
-                        lstItem = this.getBandejaDocUsuarioFinalFiltro(objUsuario, "R" ,objFiltro); //recibidos
+            lstItem = this.getBandejaDocUsuarioFinalFiltro(objUsuario, "R" ,objFiltro); //recibidos
 		} else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DOCUMENTOS_ARCHIVADOS)) {
-                        lstItem = this.getBandejaDocAtendidosPendientesUsuarioFinal(objUsuario, objFiltro);//this.getBandejaDocAtendidosUsuarioFinal(objUsuario, objFiltro);
+            lstItem = this.getBandejaDocAtendidosPendientesUsuarioFinal(objUsuario, objFiltro);//this.getBandejaDocAtendidosUsuarioFinal(objUsuario, objFiltro);
 		} else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DOCUMENTOENVIADO)) {
-                       lstItem = this.getItems_DocumentoEnviado(objUsuario, objFiltro);
+           lstItem = this.getItems_DocumentoEnviado(objUsuario, objFiltro);
 		} else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_EXPEDIENTE)) {
-                        lstItem = this.getBandejaDocUsuarioFinal(objUsuario, "M", objFiltro);
+            lstItem = this.getBandejaDocUsuarioFinal(objUsuario, "M", objFiltro);
 		} else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_INFORMATIVO)) {
-                        lstItem = this.getItems_Informativo(objUsuario, objFiltro);
+            lstItem = this.getItems_Informativo(objUsuario, objFiltro);
 		}else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_SEGUIMIENTO)) {
-                        lstItem = this.getItems_Usuario_Seguimiento(objUsuario);
+            lstItem = this.getItems_Usuario_Seguimiento(objUsuario);
 		}else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_PENDIENTES)) {
-                        lstItem = this.getItems_Pendiente_Respuesta(objUsuario, objFiltro);
+            lstItem = this.getItems_Pendiente_Respuesta(objUsuario, objFiltro);
         }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_ANULADOS)) {
-                lstItem = this.getItems_Anulados(objUsuario, objFiltro);
+            lstItem = this.getItems_Anulados(objUsuario, objFiltro);
         }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_PARA_FIRMAR)) {
-                lstItem = this.getItems_Firmar(objUsuario, "F" , objFiltro);
+            lstItem = this.getItems_Firmar(objUsuario, "F" , objFiltro);
         }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_RECEPCION_VIRTUAL)) {
-                lstItem = this.getItems_Recepcion_Virtual(objUsuario, objFiltro);
+            lstItem = this.getItems_Recepcion_Virtual(objUsuario, objFiltro);
         }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_DESPACHO_VIRTUAL)) {
-                lstItem = this.getItems_Despacho_Virtual(objUsuario, objFiltro);
+            lstItem = this.getItems_Despacho_Virtual(objUsuario, objFiltro);
         }if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_MI_LEGAJO)) {
-                        lstItem = this.getBandejaLegajo(objUsuario, objFiltro);
+            lstItem = this.getBandejaLegajo(objUsuario, objFiltro);
 		}else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_LEGAJO_COMPARTIDO)) {
-                        lstItem = this.getBandejaLegajoCompartido(objUsuario, objFiltro);
+            lstItem = this.getBandejaLegajoCompartido(objUsuario, objFiltro);
         }else if (sTipoGrid.equalsIgnoreCase(Constantes.TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS)) {
-                 lstItem = this.getBandejaObservadosRecepcionVirtual(objUsuario, "OBR", objFiltro);
+             lstItem = this.getItems_Recepcion_Virtual_Observados(objUsuario, "OBR", objFiltro);
         }
-                
+
 		return lstItem;
 	}
 
@@ -756,19 +756,18 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 
 	}
         
-        @SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
 	public List getBandejaObservadosRecepcionVirtual(Usuario objUsuario, String bandeja, BusquedaAvanzada objFiltro) {
 		_log.debug("-> [Service] GridcolumnaxusuarioService - getBandejaObservadosRecepcionVirtual():List ");
 
-                if(objFiltro == null){
+        if(objFiltro == null){
 			return documentoService.findDocumentosUsuarioFinal(objUsuario, bandeja);
 		}else{
-			return documentoService.findDocumentosUsuarioFinalFiltro(objUsuario, bandeja,objFiltro);
+			return documentoService.findDocumentosUsuarioFinalFiltro(objUsuario, bandeja, objFiltro);
 		}
-                
 	}
         
-        @SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
 	public List getBandejaDocUsuarioFinalRecepcionVirtual(Usuario objUsuario, String bandeja, BusquedaAvanzada objFiltro) {
 		_log.debug("-> [Service] GridcolumnaxusuarioService - getBandejaDocUsuarioFinalRecepcionVirtual():List ");
 
@@ -917,7 +916,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 
 	}
         
-        @SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
 	public List getItems_Recepcion_Virtual(Usuario objUsuario, BusquedaAvanzada objFiltro) {
 	      _log.debug("-> [Service] GridcolumnaxusuarioService - getItems_Recepcion_Virtual():List ");
           List<IotdtmDocExterno> lstRecepcion = null;
@@ -951,7 +950,6 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
             }
           }
           
-
          //Buscar de la tablas de MPV
           lstRecepcionMPV = documentoExternoVirtualDAO.buscarRecepcionMPV();
           
@@ -979,13 +977,76 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 data.add(uuf);
             }
           }
-          
-          
               
          return data;
     }
-        
-        @SuppressWarnings("rawtypes")
+    
+    @SuppressWarnings("rawtypes")
+	public List getItems_Recepcion_Virtual_Observados(Usuario objUsuario, String obs, BusquedaAvanzada objFiltro) {
+	      _log.debug("-> [Service] GridcolumnaxusuarioService - getItems_Recepcion_Virtual():List ");
+          List<IotdtmDocExterno> lstRecepcion = null;
+          List<IotdtcRecepcionMPV> lstRecepcionMPV = null;
+          List data = new ArrayList();
+                    
+          //Buscar de la tablas de PIDE    
+          lstRecepcion = documentoExternoVirtualDAO.buscarRecepcionVirtual(objUsuario);
+             
+          if (lstRecepcion!=null){
+            for(int i=0; i<lstRecepcion.size();i++){
+                ItemUF uuf = new ItemUF();
+                Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(lstRecepcion.get(i).getCcodtipdoc());
+                uuf.setId(lstRecepcion.get(i).getSiddocext().intValue());
+                uuf.setDocumento(tipoDocumento.getNombre() + " - " + lstRecepcion.get(i).getVnumdoc());
+                uuf.setAsunto(lstRecepcion.get(i).getVasu());
+                uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, lstRecepcion.get(i).getSidrecext().getCflgest().toString()).getDescripcion());
+                uuf.setIdEstado(lstRecepcion.get(i).getSidrecext().getCflgest().toString());
+                uuf.setCliente(lstRecepcion.get(i).getVnomentemi());
+                uuf.setFechacreacion(lstRecepcion.get(i).getSidrecext().getDfecreg());
+                uuf.setNroTramiteVirtual(lstRecepcion.get(i).getSidrecext().getVnumregstd()==null?"":lstRecepcion.get(i).getSidrecext().getVnumregstd());
+                uuf.setCuo(lstRecepcion.get(i).getSidrecext().getVcuo());
+                
+                if (lstRecepcion.get(i).getSidrecext().getCflgenvcar()=='S'){
+                    uuf.setCargo("images/cargo.gif");
+                }else{
+                    uuf.setCargo("images/ed_blank.gif");
+                }
+                
+                data.add(uuf);
+            }
+          }
+          
+         //Buscar de la tablas de MPV
+          lstRecepcionMPV = documentoExternoVirtualDAO.buscarObservadosMPV();
+          
+          if (lstRecepcionMPV!=null){
+            for(IotdtcRecepcionMPV recepcionMpv:lstRecepcionMPV){
+                ItemUF uuf = new ItemUF();
+                Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumento(Integer.parseInt(recepcionMpv.getTipodocumento()));
+                uuf.setId(recepcionMpv.getSidrecext().intValue());
+                uuf.setDocumento(tipoDocumento.getNombre() + " - " + recepcionMpv.getNumerodocumento());
+                uuf.setAsunto(recepcionMpv.getAsunto());
+                uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, recepcionMpv.getCflgest().toString()).getDescripcion());
+                uuf.setIdEstado(recepcionMpv.getCflgest().toString());
+                uuf.setCliente(recepcionMpv.getVnomentemi());
+                uuf.setFechacreacion(recepcionMpv.getDfecreg());
+                //uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
+                uuf.setNroTramiteVirtual(recepcionMpv.getVnumregstd()==null?"":recepcionMpv.getVnumregstd());
+                uuf.setCuo("");
+                
+                if (recepcionMpv.getCflgenvcar()=='S'){
+                    uuf.setCargo("images/cargo.gif");
+                }else{
+                    uuf.setCargo("images/ed_blank.gif");
+                }
+                
+                data.add(uuf);
+            }
+          }
+          
+         return data;
+    }
+    
+    @SuppressWarnings("rawtypes")
 	public List getItems_Despacho_Virtual(Usuario objUsuario, BusquedaAvanzada objFiltro) {
 	      _log.debug("-> [Service] GridcolumnaxusuarioService - getItems_Despacho_Virtual():List ");
               List<IotdtmDocExterno> lstDespacho = null;

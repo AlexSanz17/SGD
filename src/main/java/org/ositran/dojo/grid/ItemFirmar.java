@@ -1,7 +1,6 @@
 package org.ositran.dojo.grid;
 
 public class ItemFirmar {
-	
 	private String archivo;
 	private String objectId;
 	private String codigoId;
@@ -25,6 +24,8 @@ public class ItemFirmar {
 		this.codigoId = codigoId;
 	}
 	
-	
-
+	@Override
+	public String toString() {
+		return "ItemFirmar [archivo=" + archivo + ", objectId=" + objectId + ", codigoId=" + codigoId + "]";
+	}
 }

@@ -1017,6 +1017,7 @@
         <property name="legajoService" ref="legajoService" />
         <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
         <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
+        <property name="recepcionVirtualService" ref="recepcionVirtualService" />
 	</bean>
 
 	<bean id="dojoAction" scope="prototype" class="org.ositran.actions.DojoAction">

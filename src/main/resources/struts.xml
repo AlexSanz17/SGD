@@ -554,7 +554,6 @@
       </action>
       
       <action name="goFirmarArchivo" method="goFirmarArchivo" class="documentoAction">
-         
          <result name="firmar">pages/bandeja/firmarArchivo.jsp</result>
          <result name="error">error.html</result>
       </action>
@@ -857,6 +856,10 @@
       <action name="AnularPrevioDocumento_*" method="{1}" class="documentoAction">
            <result name="inicioAnular">pages/anular/PrincipalAnular.jsp</result>
       </action>
+      
+      <action name="RechazarDocumentoMPV_*" method="{1}" class="documentoAction">
+           <result name="goRechazar">pages/rechazar/RechazarDocumentoMPV.jsp</result>
+      </action>
 
 		<!-- Carpeta Busqueda Action -->
       <action name="doSaveCarpetaBusqueda" method="saveCarpetaBusqueda" class="carpetabusquedaAction">
@@ -1085,6 +1088,7 @@
 
 		<action name="verificarDocumentoUnico" method="verificarDocumentoUnico" class="documentoAction"></action>
 		<action name="anularDocumento" method="anularDocumento" class="documentoAction"></action>
+		<action name="rechazarDocumento" method="rechazarDocumento" class="documentoAction"></action>
 		<action name="atenderDocumento" method="atenderDocumento" class="documentoAction"></action>
 		<action name="reabrirDocumentoAtendido" method="reabrirDocumentoAtendido" class="documentoAction"></action>
 		<action name="guardarSeguimientoUsuario" method="guardarSeguimientoUsuario" class="documentoAction"></action>

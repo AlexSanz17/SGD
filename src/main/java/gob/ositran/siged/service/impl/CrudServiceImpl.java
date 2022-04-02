@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package gob.ositran.siged.service.impl;
+package gob.ositran.siged.service.impl;
 
 import gob.ositran.siged.service.CrudService;
 import java.util.List;
@@ -12,13 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CrudServiceImpl implements CrudService {
-
     private static Logger log = LoggerFactory.getLogger(CrudServiceImpl.class);
     private EntityManager em;
 
-    //////////////////////////////////
-    // Getters and Setters          //
-    //////////////////////////////////
     public EntityManager getEm() {
         return em;
     }

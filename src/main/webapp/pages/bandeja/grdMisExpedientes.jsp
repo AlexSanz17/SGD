@@ -16,7 +16,7 @@
       <script type="text/javascript" src="js/si.files.js"></script>
       <script type="text/javascript" src="js/sorttable.js"></script>
 
-      <!-- ----------------------------------------- Librerias y configuracion de Grid --------------------- -->
+      <!-- ---------- Librerias y configuracion de Grid ------------- -->
       <%
          List lstDocumento = (List) request.getAttribute("lstDocumento");
          String rol = (String) request.getSession().getAttribute("rol");
@@ -57,6 +57,7 @@
          .aw-strict #myGrid .aw-grid-cell {padding-right: 3px;}
          .aw-strict #myGrid .aw-grid-row {padding-bottom: 3px;}
       </style>
+      
       <!-- Llenedo de la grid data -->
       <script type="text/javascript">
          var myColumns;
@@ -72,7 +73,6 @@
          myColumns=[<%=col%>]
       </script>
 
-      <!-- Construtyendo el objeto de la datagrid -->
       <script type="text/javascript">
          //Create ActiveWidgets Grid javascript object
          var obj = new AW.UI.Grid;
@@ -103,8 +103,7 @@
          obj.setSelectionMode("single-row");
 
          //Set click action handler
-         obj.onCellClicked = function(event, col, row)
-         {
+         obj.onCellClicked = function(event, col, row) {
             var id=this.getCellText(0, row);
             //alert("valor:"+this.getCellText(0, row));
             if (id!="")
@@ -117,8 +116,6 @@
             }
          };
       </script>
-      <!-- ----------------------------------------- --------------------- -->
-
 
       <script language="JavaScript">
             function Abrir_ventana (pagina) {
@@ -133,8 +130,7 @@
 
             var ObjAnt="row";
 
-            function A(c,i,page)
-            {
+            function A(c,i,page) {
                //alert(c + " " + i + " " + page);
                // if (ObjAnt == "row")
                //{ObjAnt = i;}
@@ -145,8 +141,7 @@
                parent.frames["secondFrame"].location.href=page+'?iIdExpediente='+i;
             }
 
-            function B(c,i,page)
-            {
+            function B(c,i,page) {
                //alert(c + " " + i + " " + page);
                //if (ObjAnt == "row")
                //{ObjAnt = i;}
@@ -157,32 +152,25 @@
                Abrir_ventana(page+'?iIdDoc='+i);
             }
 
-
-            /*function A(c,i)
-{
-document.getElementById(i).style.backgroundColor=c;
-}
-
-function overmouse()
-{
-color: #D3E1EE;
-font-family: Arial, Helvetica, sans-serif;
-font-size: 11px;
-TEXT-INDENT: 0px;
-}
-function outMouse()
-{
-color: #FFFFFF;
-font-family: Arial, Helvetica, sans-serif;
-font-size: 11px;
-TEXT-INDENT: 0px;
-
-}*/
-
+            /*function A(c,i) {
+				document.getElementById(i).style.backgroundColor=c;
+			}
+				
+			function overmouse() {
+				color: #D3E1EE;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 11px;
+				TEXT-INDENT: 0px;
+			}
+			
+			function outMouse() {
+				color: #FFFFFF;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 11px;
+				TEXT-INDENT: 0px;
+			}*/
       </script>
-
      
-
       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
       <style type="text/css">
          <!--

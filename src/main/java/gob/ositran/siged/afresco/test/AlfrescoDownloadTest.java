@@ -16,7 +16,6 @@ import org.apache.chemistry.opencmis.commons.data.ContentStream;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
 
 public class AlfrescoDownloadTest {
-
 	public static void main(String[] args) {
 		downloadDocumentByID("http://cmd1:8080/alfresco/cmisatom", "admin", "alfresco", "6722bef4-ba1d-49e6-b32c-6aeb7468c2fa",
 			"alfresco_download_test.pdf", "\\\\WWWD4\\Documentos\\PorFirmar\\");
@@ -61,5 +60,4 @@ public class AlfrescoDownloadTest {
     	  e.printStackTrace(); 
        }
 	}
-
 }

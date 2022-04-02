@@ -94,7 +94,7 @@
                      dialog.hide();
                  }
                  if (respuesta == "1"){
-                   alert("El documento ya fue registrado en el Sistema SGD. Verificar");    
+                   alert("El documento ya fue registrado en el Sistema SGD. Verificar");
                    return;
                  }
                  
@@ -105,8 +105,8 @@
              }); 
           }
           
-//           function rechazar(tipoArchivar) {
-//               var service = new dojo.rpc.JsonService("SMDAction.action");
+          function rechazar(codigoVirtual) {
+              var service = new dojo.rpc.JsonService("SMDAction.action");
 //               var defered = service.validarEnvio(<s:property value='documento.idDocumento' />, "", "", "");
 //               defered.addCallback(function(respuesta){
                                    
@@ -133,11 +133,11 @@
 //                       return;
 //                    }
                                       
-//                    var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=750, height=440, top=20, left=70";
-//                    var pagina = "AnularPrevioDocumento_inicioAnular.action?idDocumentoAnular=" + <s:property value='documento.idDocumento' />+ "&tipoArchivar="+tipoArchivar;
-//                    window.open(pagina, "Ventana", opciones);
+                   var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=750, height=440, top=20, left=70";
+                   var pagina = "RechazarDocumentoMPV_goRechazar.action?idDocumentoRechazar=" + codigoVirtual;
+                   window.open(pagina, "Ventana", opciones);
 //                });
-//           }
+          }
           
 //           function anularDocumento(){
 //           	if(confirm("¿Desea anular el Documento "+"<s:property value='objDD.strNroDocumento' escape='false' />"+"?")){
@@ -164,7 +164,7 @@
                 <td colspan="6" align="left">
                     <div dojoType="dijit.Toolbar"> 
                             <s:if test="objDD.flagCodigoVirtual == '0'"> 
-                              <div dojoType="dijit.form.Button"  onClick="recepcionar('<s:property value="objDD.idCodigo" />')" iconClass="siged16 iconoOk">Registrar en SGD</div>
+                              <div dojoType="dijit.form.Button"  onClick="recepcionar('<s:property value="objDD.idCodigo" />')" iconClass="siged16 iconoOk">Recepcionar</div>
                               <div dojoType="dijit.form.Button"  onClick="rechazar('<s:property value="objDD.idCodigo" />')" iconClass="siged16 iconoAnular">Rechazar</div>
                             </s:if>
                             <s:if test="objDD.flagCodigoVirtual == '1'"> 

@@ -21,7 +21,7 @@
 	<script type="text/javascript" src="./runtime/lib/aw.js"></script>
 	<link   rel="stylesheet" href="./runtime/styles/system/aw.css">
 
-    <!-- ----------------------------------------- Librerias y configuracion de Grid --------------------- -->
+    <!-- ----------- Librerias y configuracion de Grid ------- -->
 	<%
       List data =(List)request.getAttribute("documentoEnviadoList");
       String rol=(String)request.getSession().getAttribute("rol");
@@ -30,19 +30,18 @@
       System.out.print(" fff : "+col);
 	%>
 
-<!-- fix box model in firefox/safari/opera -->
-<style type="text/css">
-	.aw-quirks * {
-		        box-sizing: border-box;
+	<!-- fix box model in firefox/safari/opera -->
+	<style type="text/css">
+		.aw-quirks * {
+		    box-sizing: border-box;
 		   -moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-	}
+			-webkit-box-sizing: border-box;
+		}
+	
+		body {font: 12px Tahoma}
+	</style>
 
-	body {font: 12px Tahoma}
-</style>
-
-
-         <style type="text/css">
+     <style type="text/css">
          #myGrid {height: 350px; width: 1000px;}
          #myGrid .aw-row-selector {text-align: center}
 
@@ -62,17 +61,12 @@
          /* box model fix for strict doctypes, safari */
          .aw-strict #myGrid .aw-grid-cell {padding-right: 3px;}
          .aw-strict #myGrid .aw-grid-row {padding-bottom: 3px;}
-         </style>
+    </style>
 
-
-
-<!-- Llenedo de la grid data -->
-<script type="text/javascript">
-
-
-      var myColumns;
+	<!-- Llenedo de la grid data -->
+	<script type="text/javascript">
+      	var myColumns;
 		var mydata=[<%
-
             Documentoenviado  dl;
 		    Date datFecha;
 		    Date datHoy = Calendar.getInstance().getTime();
@@ -98,228 +92,191 @@
                   }
 				}
 		        }
-			  %>]
+		  %>]
 
            myColumns=[<%=col%>]
 
-                      <%--
+           <%--
 
-                       %>["<%=dl.getIIdDocumento()%>","","<img src='images/bolita.gif' border='0'/>","<img src='images/alta.bmp' border='0'/>","<%=dl.getStrRemitente()%>","<%= dl.getStrAsunto()%>","<%= dl.getStrCorrentista()%>","<%= dl.getStrNroDocumento()%>","<%=strFechaBD%>","<img src='images/clic.gif'/>","<%=dl.getExpediente().getProceso().getTipoproceso().getNombre()%> "],<%
+            %>["<%=dl.getIIdDocumento()%>","","<img src='images/bolita.gif' border='0'/>","<img src='images/alta.bmp' border='0'/>","<%=dl.getStrRemitente()%>","<%= dl.getStrAsunto()%>","<%= dl.getStrCorrentista()%>","<%= dl.getStrNroDocumento()%>","<%=strFechaBD%>","<img src='images/clic.gif'/>","<%=dl.getExpediente().getProceso().getTipoproceso().getNombre()%> "],<%
+           --%>
+	</script>
 
+ 	<!-- Construtyendo el objeto de la datagrid -->
+	<script type="text/javascript">
+		function A(c,i,page) {
+		  alert("gggg");
+		  parent.frames["secondFrame"].location.href=page+'?idDocumentoEnviado='+i;
+		}
+	
+		var idDocumento =0;
+		//	create ActiveWidgets Grid javascript object
+		var obj = new AW.UI.Grid;
+		obj.setId("myGrid");
+	
+		//	define data formats
+		var str = new AW.Formats.String;
+		var num = new AW.Formats.Number;
+		var dat = new AW.Formats.Date;
+	
+		obj.setCellFormat([num,str,str,str,str,dat]);
+	
+		//	provide cells and headers text
+	
+		obj.setCellText(mydata);
+		obj.setHeaderText(myColumns);
+	
+		//	set number of rows/columns
+		<% if (data!=null){ %>
+		obj.setRowCount(<%=data.size()%>);
+		<% } else { %>
+		obj.setRowCount(0);
+		<% }  %>
+		obj.setColumnCount(5);
+	
+		//Definiendo que columnas es visible
+		var chk = new AW.Templates.Checkbox;
+	
+	     //chk.setEvent("onclick", myClickHandler);
+	    obj.setCellTemplate(chk, 1); // column-1 as checkbox
+	    obj.setColumnIndices([1,3,4,5,6,7,8,9]);
+	
+		//	enable row selectors
+	    obj.setSelectorVisible(true);
+	    obj.setSelectorText(function(i){return this.getRowPosition(i)+1});
+	
+	    //	set headers width/height
+	    obj.setSelectorWidth(28);
+	    obj.setHeaderHeight(20);
+	
+	    //	set row selection
+	    obj.setSelectionMode("single-row");
+	
+		//	set click action handler
+		obj.onCellClicked = function(event, col, row) {
+	      var id=this.getCellText(0, row);
+	        //Sirve para atrapar el evento de un templete de una columna
+	       //var  t=this.getCellTemplate(1,row).getControlProperty("value");
+	       // alert(t);
+	       var rol='<%=rol%>';
+	
+	       // alert(col+" "+rol);
+	
+	      if(col!=1) {
+	           //alert("ideee:"+id);
+	           idDocumento = id;
+	
+	           //alert("idf:"+id);
+	           A('#e1f3ff',id,'/siged/DocumentoEnviado_verDetalle.action');
+	       }
+	       else if(col==1) {
+	            // alert("Aca toy 3");
+	            var estadochk=this.getCellTemplate(1,row).getControlProperty("value");
+	
+	            var tipoProceso=this.getCellText(10, row);
+	
+	            if(estadochk==true && tipoProceso=="<s:property value='@org.ositran.utils.Constantes@TIPO_PROCESO_ANTIFLUJO' />")
+	            {
+	                this.getCellTemplate(1,row).setControlProperty("value",false);
+	            }
+	
+	         //  alert("Aca toy 3");
+	           idDocumento = 0 ;
+	           parent.frames["secondFrame"].location.href="secondFrame.jsp";
+	       }
+		};
+	
+		 //   function myClickHandler(event){
+		 //        alert(row);
+		 //    }
+	
+	    function GuardarMasivamente() {
+	    	<% if (data!=null){ %>
+	    	var total=<%=data.size()%>);
+	    	<% } else { %>
+	    	var total=0;
+	    	<% }  %>
+	
+	        for(i=0; i<total;i++) {
+	            if(this.getCellText(10, i)=="Flujo") {
+	            }
+	        }
+	    }
+	
+	    function nuevoDoc() {
+	    	parent.location.href="/siged/doPlantilla_inicio.action"; 
+	    }
+	
+	    function SeleccionarTodo() {
+	    	<% if (data!=null){ %>
+	    	var total=<%=data.size()%>);
+	    	<% } else { %>
+	    	var total=0;
+	    	<% }  %>
+	
+	        for(i=0;i<total;i++) {
+	           obj.getCellTemplate(1,i).setControlProperty("value",true);
+	        }
+	    }
+	
+	   	function  EliminarSeleccionados(){
+	    	<% if (data!=null){ %>
+	    	var total=<%=data.size()%>);
+	    	<% } else { %>
+	    	var total=0;
+	    	<% }  %>
+	
+	        var paramt="";
+	        var i=0;
+	        var estado;
+	        var bandera=false;
+	        for(i=0;i<total;i++) {
+	           var id=obj.getCellText(0,i);
+	
+	           estado=obj.getCellTemplate(1,i).getControlProperty("value")
+				// alert('estado:'+estado);
+	           if( estado==true) {
+	              paramt=paramt+"id="+id+"&";
+	           }
+	        }
+	
+	        // alert("/siged/doAprobarUSERMasivo.action?"+paramt+"&total="+i);
+	
+	         // alert("param:"+paramt);
+	         // alert("param.lenght:"+paramt.length);
+	        if(paramt.length>0)
+	        {
+	           if (confirm('¿Estas seguro de Eliminar los elementos seleccionados?'))
+	           {
+	               document.location="/siged/DocumentoEnviado_eliminar.action?"+paramt+"&total="+i;
+	           }
+	
+	        } else {
+	           alert("Debe Seleccionar al menos uno");
+	        }
+	      }
 
-                      --%>
-
-
-
-</script>
-
- <!-- Construtyendo el objeto de la datagrid -->
-
-<script type="text/javascript">
-
-	function A(c,i,page)
-	{
-	  alert("gggg");
-	  parent.frames["secondFrame"].location.href=page+'?idDocumentoEnviado='+i;
-	}
-
-	var idDocumento =0;
-	//	create ActiveWidgets Grid javascript object
-	var obj = new AW.UI.Grid;
-	obj.setId("myGrid");
-
-	//	define data formats
-	var str = new AW.Formats.String;
-	var num = new AW.Formats.Number;
-	var dat = new AW.Formats.Date;
-
-	obj.setCellFormat([num,str,str,str,str,dat]);
-
-	//	provide cells and headers text
-
-	obj.setCellText(mydata);
-	obj.setHeaderText(myColumns);
-
-	//	set number of rows/columns
-	<% if (data!=null){ %>
-	obj.setRowCount(<%=data.size()%>);
-	<% } else { %>
-	obj.setRowCount(0);
-	<% }  %>
-	obj.setColumnCount(5);
-
-	//Definiendo que columnas es visible
-	var chk = new AW.Templates.Checkbox;
-
-     //chk.setEvent("onclick", myClickHandler);
-
-    obj.setCellTemplate(chk, 1); // column-1 as checkbox
-    obj.setColumnIndices([1,3,4,5,6,7,8,9]);
-
-	//	enable row selectors
-    obj.setSelectorVisible(true);
-    obj.setSelectorText(function(i){return this.getRowPosition(i)+1});
-
-    //	set headers width/height
-    obj.setSelectorWidth(28);
-    obj.setHeaderHeight(20);
-
-    //	set row selection
-    obj.setSelectionMode("single-row");
-
-	//	set click action handler
-	obj.onCellClicked = function(event, col, row)
-	{
-      var id=this.getCellText(0, row);
-        //Sirve para atrapar el evento de un templete de una columna
-       //var  t=this.getCellTemplate(1,row).getControlProperty("value");
-       // alert(t);
-       var rol='<%=rol%>';
-
-       // alert(col+" "+rol);
-
-      if(col!=1)
-       {
-           //alert("ideee:"+id);
-           idDocumento = id;
-
-           //alert("idf:"+id);
-           A('#e1f3ff',id,'/siged/DocumentoEnviado_verDetalle.action');
-
-       }
-       else if(col==1)
-       {
-            // alert("Aca toy 3");
-            var estadochk=this.getCellTemplate(1,row).getControlProperty("value");
-
-            var tipoProceso=this.getCellText(10, row);
-
-            if(estadochk==true && tipoProceso=="<s:property value='@org.ositran.utils.Constantes@TIPO_PROCESO_ANTIFLUJO' />")
-            {
-                this.getCellTemplate(1,row).setControlProperty("value",false);
-            }
-
-         //  alert("Aca toy 3");
-           idDocumento = 0 ;
-           parent.frames["secondFrame"].location.href="secondFrame.jsp";
-
-       }
-	};
-
-
-
- //   function myClickHandler(event){
- //        alert(row);
- //    }
-
-    function GuardarMasivamente()
-    {
-
-    	<% if (data!=null){ %>
-    	var total=<%=data.size()%>);
-    	<% } else { %>
-    	var total=0;
-    	<% }  %>
-
-
-
-        for(i=0; i<total;i++)
-        {
-            if(this.getCellText(10, i)=="Flujo")
-            {
-
-            }
-        }
-    }
-
-    function nuevoDoc () { parent.location.href="/siged/doPlantilla_inicio.action"   ; }
-
-    function SeleccionarTodo()
-    {
-    	<% if (data!=null){ %>
-    	var total=<%=data.size()%>);
-    	<% } else { %>
-    	var total=0;
-    	<% }  %>
-
-        for(i=0;i<total;i++)
-        {
-
-                obj.getCellTemplate(1,i).setControlProperty("value",true);
-
-
-        }
-    }
-
-    function  EliminarSeleccionados(){
-
-    	<% if (data!=null){ %>
-    	var total=<%=data.size()%>);
-    	<% } else { %>
-    	var total=0;
-    	<% }  %>
-
-
-        var paramt="";
-        var i=0;
-        var estado;
-        var bandera=false;
-        for(i=0;i<total;i++)
-        {
-           var id=obj.getCellText(0,i);
-
-           estado=obj.getCellTemplate(1,i).getControlProperty("value")
-			// alert('estado:'+estado);
-           if( estado==true)
-           {
-              paramt=paramt+"id="+id+"&";
-
-           }
-        }
-
-       //  alert("/siged/doAprobarUSERMasivo.action?"+paramt+"&total="+i);
-
-         // alert("param:"+paramt);
-         // alert("param.lenght:"+paramt.length);
-        if(paramt.length>0)
-        {
-           if (confirm('¿Estas seguro de Eliminar los elementos seleccionados?'))
-           {
-               document.location="/siged/DocumentoEnviado_eliminar.action?"+paramt+"&total="+i;
-           }
-
-        } else {
-           alert("Debe Seleccionar al menos uno");
-        }
-      }
-
-    function DeseleccionarTodo()
-    {
-    	<% if (data!=null){ %>
-    	var total=<%=data.size()%>);
-    	<% } else { %>
-    	var total=0;
-    	<% }  %>
-
-        for(i=0;i<total;i++){  obj.getCellTemplate(1,i).setControlProperty("value",false); }
-    }
-
-
-</script>
-    <!-- ----------------------------------------- --------------------- -->
-
+	    function DeseleccionarTodo() {
+	    	<% if (data!=null){ %>
+	    	var total=<%=data.size()%>);
+	    	<% } else { %>
+	    	var total=0;
+	    	<% }  %>
+	
+	        for(i=0;i<total;i++){  obj.getCellTemplate(1,i).setControlProperty("value",false); }
+	    }
+	</script>
 
     <script language="JavaScript">
-
        function Abrir_ventanaId ( pagina ) {
             var opciones="toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=600, height=550, top=50, left=200";
             window.open(pagina,"",opciones);
        }
 
        function Abrir_ventana (pagina) {
-              var opciones="toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=600, height=550, top=50, left=200";
+            var opciones="toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=600, height=550, top=50, left=200";
             window.open(pagina,"",opciones);
-    }
+    	}
 
        function Abrir_pagina (pagina) {
           var opciones="location=mainFrame";
@@ -328,41 +285,31 @@
 
        var ObjAnt="row";
 
-
-       function B(c,i,page)
-       {
+       function B(c,i,page) {
           Abrir_ventana(page+'?idArchivoPendiente='+i);
        }
 
-
-       /*function A(c,i)
-{
-document.getElementById(i).style.backgroundColor=c;
-}
-
-function overmouse()
-{
-color: #D3E1EE;
-font-family: Arial, Helvetica, sans-serif;
-font-size: 11px;
-TEXT-INDENT: 0px;
-}
-function outMouse()
-{
-color: #FFFFFF;
-font-family: Arial, Helvetica, sans-serif;
-font-size: 11px;
-TEXT-INDENT: 0px;
-
-}*/
-
+       /*function A(c,i) {
+			document.getElementById(i).style.backgroundColor=c;
+		}
+			
+		function overmouse() {
+			color: #D3E1EE;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			TEXT-INDENT: 0px;
+		}
+		
+		function outMouse() {
+			color: #FFFFFF;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			TEXT-INDENT: 0px;
+		}*/
     </script>
 
-
     <script>
-
-        function CargarPopup()
-        {
+        function CargarPopup() {
            var opciones="toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=50, height=200, top=400, left=700";
            window.open("./pages/tramite/popupOcultarCol.jsp", "", opciones);
 
