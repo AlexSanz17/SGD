@@ -5639,23 +5639,25 @@ public class DocumentoServiceImpl implements DocumentoService {
                         final String nroDocumento = objD.getExpediente().getNombreExpediente();
                         
                          
-                       String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
+                        String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
        	 						"D:\\Frank\\CV\\INCAMAPS\\SGD\\manual\\SignNet - Manual de Usuario Firmante.pdf",
        	 						observacion,tipoDocumento, nroDocumento);	          	    	
-       	 				
-        				JSONObject jsonObject = new JSONObject(response);
-        				Integer pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
-        				 
-//        				System.out.println(pK_eIdNotificacion);       	    	
-                       // paso 3 : Generar cedula de notificacion electronica
-                         
-                        log.info("---------------------------Tercer Servicio");
-                              
-                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
-                        // paso 4: Enviar notificacion electronica
-                       
-                        log.info("---------------------------------Cuarto Servicio");
-                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
+                        
+                        if (!response.equals("")) {
+	        				JSONObject jsonObject = new JSONObject(response);
+	        				Integer pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
+	        				 
+	//        				System.out.println(pK_eIdNotificacion);       	    	
+	                       // paso 3 : Generar cedula de notificacion electronica
+	                         
+	                        log.info("---------------------------Tercer Servicio");
+	                              
+	                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
+	                        // paso 4: Enviar notificacion electronica
+	                       
+	                        log.info("---------------------------------Cuarto Servicio");
+	                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
+                        }
                   }
            }
             

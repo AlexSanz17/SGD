@@ -38,7 +38,9 @@
 			var procesoFirmado = 0;
 			
 			function enviarArchivosAlfresco(resultado){
-	// 			if (resultado == "0") {
+				if(archivosFirmaTemp.length>0){
+					archivosFirmaArray = archivosFirmaTemp;
+				}
 				service.uploadFilesToAlfrescoPostSignet(archivosFirmaArray,accionEjecutar, resultado).addCallback(function (respuesta) {
 					console.log("Recibiendo respuesta: length",archivosFirmaArray.length);
 					if(respuesta == "1"){
@@ -58,6 +60,9 @@
 				setTimeout(myFunction, 5000);
 				
 				function myFunction() {
+					if(archivosFirmaTemp.length>0){
+						archivosFirmaArray = archivosFirmaTemp;
+					}
 					service.deleteFirmaArchivo(archivosFirmaArray).addCallback(function (respuesta) {
 						console.log("deleteFirmaArchivo:",respuesta);
 			        })
@@ -76,7 +81,9 @@
 			}
 		
 			function generateQrPreFirmado() {
-	// 	 		validarProcesoFirma();
+				if(archivosFirmaTemp.length>0){
+					archivosFirmaArray = archivosFirmaTemp;
+				}
 				service.generateQrPreSignet(archivosFirmaArray, accionEjecutar).addCallback(function (respuesta) {
 					for (var i = 0; i < archivosFirmaArray.length; i++) {
 						console.log("generateQrPreSignet archivosFirmaArray.........." + archivosFirmaArray.length);

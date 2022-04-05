@@ -1,8 +1,12 @@
 package org.ositran.actions;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,6 +23,7 @@ import javax.servlet.http.HttpUtils;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
+import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.common.alfresco.AuthThreadLocalHolder;
 import org.ositran.daos.DocumentoAdjuntoDAO;
 import org.ositran.daos.DocumentoAnuladoDAO;
@@ -128,6 +133,7 @@ import com.btg.ositran.siged.domain.Unidad;
 import com.btg.ositran.siged.domain.Usuario;
 import com.btg.ositran.siged.domain.UsuarioDerivacion;
 import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -4081,9 +4087,55 @@ public class DocumentoAction {
 			log.error("No se especifico ningun documento, no se puede anular.");
 			return Action.ERROR;
 		}
+		
+		Date fecha = new Date();
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		String fechaFormat = DATE_FORMAT.format(fecha);
+		
 		log.info("idDocumentoRechazar........." + idDocumentoRechazar);
-		recepcionVirtualService.rechazarDocumentoMPV(idDocumentoRechazar, sObservacionRechazar, "O", new Date(), "");
+		recepcionVirtualService.rechazarDocumentoMPV(idDocumentoRechazar, sObservacionRechazar, "O", fecha, "");
 //		documentoService.anularDocumento(usuario, documento, null, false, null, nombrePC, getsObservacionAnular());
+		
+		CargoRecepcionMPVRequest cargoRecepcionVirtualRequest = new CargoRecepcionMPVRequest();
+		
+		try {	
+      		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
+    		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    		conn.setDoOutput(true);
+    		conn.setRequestMethod("POST");
+    		conn.setRequestProperty("Content-Type", "application/json");
+    		
+    		cargoRecepcionVirtualRequest.setFk_eDocumento(String.valueOf(idDocumentoRechazar));
+    		cargoRecepcionVirtualRequest.setcExpediente("");
+    		cargoRecepcionVirtualRequest.setfFecha(fechaFormat);
+    		cargoRecepcionVirtualRequest.setFk_eUsuario(String.valueOf(usuario.getIdusuario()));
+    		cargoRecepcionVirtualRequest.setEstadoDoc("0");
+    		cargoRecepcionVirtualRequest.setcObservacion(sObservacionRechazar != null ? sObservacionRechazar : "");
+    		cargoRecepcionVirtualRequest.setfFechaRecep("");
+    		cargoRecepcionVirtualRequest.setfFechaRecha(fechaFormat);
+
+    		ObjectMapper ow = new ObjectMapper();
+    		String json = ow.writeValueAsString(cargoRecepcionVirtualRequest);
+
+      		OutputStream os = conn.getOutputStream();
+      		os.write(json.getBytes());
+      		os.flush();
+
+      		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));	
+      		String output;
+      		
+      		while ((output = br.readLine()) != null) {
+      			System.out.println(output);
+      		}
+
+      		conn.disconnect();
+
+  	  } catch (MalformedURLException e) {
+  		e.printStackTrace();
+
+  	  } catch (IOException e) {
+  		e.printStackTrace();
+  	  }
 
 		return "true";
 	}
