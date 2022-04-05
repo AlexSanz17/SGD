@@ -39,7 +39,7 @@ public class SigedProperties {
         ALFRESCO_VALID_DURATION_IN_MINUTES("alfresco.ticket.validDurationInMinutes"),
         ALFRESCO_ROOT("alfresco.root"),
         ALFRESCO_SPACE("alfresco.space"),
-        ALFRESCO_CMIS("alfresco.cmis"),
+   
         
         FOLDER_MAIL("folder.mail"),
         DIRECTORIO_PLANTILLAS("folder.templates"),
