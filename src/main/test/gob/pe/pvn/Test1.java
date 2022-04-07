@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
-<<<<<<< HEAD
+
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -18,7 +18,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-=======
+
 
 import org.apache.http.client.methods.HttpPost;
 
@@ -32,16 +32,12 @@ import org.json.simple.parser.JSONParser;
 import org.ositran.utils.DocumentoDetail;
 
 import com.btg.ositran.siged.domain.Documento;
->>>>>>> 3bb96082fc9f142dd341704c38d0c1c609b04e30
+
 
 public class Test1 {	
 	public static void main (String[] args) {
 		try  {
-<<<<<<< HEAD
-		  	
-          	NotificacionCasillaVirtual notificacion = new NotificacionCasillaVirtual();
-          	notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", "D:\\\\Frank\\\\CV\\\\INCAMAPS\\\\SGD\\\\SGD\\\\Informe de Servicio de Notificación Electrónica V3.pdf");
-=======
+
 //			final NotificacionCasillaVirtual notificacion = new NotificacionCasillaVirtual();
 //       		Thread servicio1 = new Thread() {
 //        	    public void run() {
@@ -83,7 +79,7 @@ public class Test1 {
 //			}};
 //			servicio4.start();
 //			servicio4.join();
->>>>>>> 3bb96082fc9f142dd341704c38d0c1c609b04e30
+
           	
 		} catch (Exception e) {
 			System.out.println("ERROR " + e.getMessage());
@@ -92,8 +88,4 @@ public class Test1 {
 		}
 	}
 }
-<<<<<<< HEAD
-=======
 
-	
->>>>>>> 3bb96082fc9f142dd341704c38d0c1c609b04e30
