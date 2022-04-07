@@ -55,22 +55,22 @@ public class Test1 {
 			final Integer tipoDocumento = 1;
 			final String nroDocumento = "123-2022/STD";
 
-				String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
-						"D:\\Frank\\CV\\INCAMAPS\\SGD\\manual\\SignNet - Manual de Usuario Firmante.pdf",
-						observacion,tipoDocumento, nroDocumento);	          	    	
-				
-				JSONObject jsonObject = new JSONObject(response);
-				Integer pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
-				 
-				System.out.println(pK_eIdNotificacion);
+//				String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
+//						"D:\\Frank\\CV\\INCAMAPS\\SGD\\manual\\SignNet - Manual de Usuario Firmante.pdf",
+//						observacion,tipoDocumento, nroDocumento);	          	    	
+//				
+//				JSONObject jsonObject = new JSONObject(response);
+//				Integer pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
+//				 
+//				System.out.println(pK_eIdNotificacion);
 
 
 			
 //			Thread servicio3 = new Thread() {
 //          	    public void run() {
-		        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion", pK_eIdNotificacion);
-//          	    	
-		        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion", pK_eIdNotificacion);
+//		        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion", pK_eIdNotificacion);
+////          	    	
+//		        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion", pK_eIdNotificacion);
 //			}};
 //			servicio3.start();
 //			servicio3.join();

@@ -5636,12 +5636,39 @@ public class DocumentoServiceImpl implements DocumentoService {
 
                         final String observacion = objDD.getStrObservacion();
                         final Integer tipoDocumento = objDD.getIIdTipoDocumento();
-                        final String nroDocumento = objD.getExpediente().getNombreExpediente();
+                        String nroDocumento = "";
+                        int id_Documento = objD.getIdDocumento();
+                        int idExpediente = 0;
+                        String nomExpediente = "";
+                        int eOrden = 0;
+                        int idTipoNotificacion = 0;
+                        if (estadoDocumento.equals("0")) {
+                        	idTipoNotificacion = 15;
+                        	nroDocumento = objD.getNumeroDocumento();
+                        	idExpediente = 0;
+                        	nomExpediente = "";
+                        	eOrden = 0;
+                        	
+                        }else if(estadoDocumento.equals("2")){
+                        	idTipoNotificacion = 14;
+                        	nroDocumento = objD.getNumeroDocumento();
+                        	idExpediente =  objD.getExpediente().getIdexpediente();
+                        	nomExpediente = objD.getExpediente().getNombreExpediente();
+                        	eOrden = 1;
+                        }
+                        
+                        log.info("==========id_Documento "+id_Documento );
+                        log.info("==========idExpediente "+idExpediente );
+                        log.info("==========numExpediente "+nomExpediente );
+                        log.info("==========tipoDocumento "+tipoDocumento );
+                  
+                        
+                        
                         
                          
                         String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
        	 						"D:\\Frank\\CV\\INCAMAPS\\SGD\\manual\\SignNet - Manual de Usuario Firmante.pdf",
-       	 						observacion,tipoDocumento, nroDocumento);	          	    	
+       	 						observacion,tipoDocumento, nroDocumento, id_Documento,nomExpediente, idExpediente , idTipoNotificacion, eOrden);	          	    	
                         
                         if (!response.equals("")) {
 	        				JSONObject jsonObject = new JSONObject(response);

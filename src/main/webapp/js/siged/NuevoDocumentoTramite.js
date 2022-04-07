@@ -735,7 +735,7 @@ dojo.addOnLoad(function() {
    new dijit.form.ValidationTextBox({
          id : "objDD.strNroDocumentoTramite",
          jsId :"objDD.strNroDocumentoTramite",
-         maxLength : "35",
+         maxLength : "100",
          name:  "objDD.strNroDocumento",
          invalidMessage:"Ingrese un Nro de Documento",
          regExp: ".{1,45}",
