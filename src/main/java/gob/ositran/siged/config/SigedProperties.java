@@ -89,6 +89,8 @@ public class SigedProperties {
         FIRMAS_PARAMETROS_NUMEROPAGINA("firmas.parametros.numeroPagina"),
         FIRMAS_PARAMETROS_ESTILOFIRMA("firmas.parametros.estiloFirma"),
         FIRMAS_PARAMETROS_APLICARIMAGEN("firmas.parametros.aplicarImagen"),
+        FIRMAS_PARAMETROS_CHKTSA("firmas.parametros.chkTSA"),
+        FIRMAS_PARAMETROS_RUTASTSA("firmas.parametros.rutasTSA"),
 
     	MPV_RUTA_ARCHIVO("mpv.rutaArchivo");
     	

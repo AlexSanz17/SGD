@@ -67,8 +67,12 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
 	public List<IotdtcRecepcionMPV> consultarDocPendientesAlfrescoMPV() {
 		String sql = "SELECT c FROM IotdtcRecepcionMPV c where c.iddocumento is not null and c.flagalfresco = 'P' order by c.dfecreg asc ";
 		Query q = em.createQuery(sql);
-		
+		try {
 		return q.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override

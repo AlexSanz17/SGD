@@ -207,7 +207,7 @@
                                     <s:iterator value="#session._UPLOADLIST.upload1">               
                                            <s:if test="principal.equals('N')">
                                                <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_ANEXO"/>"><s:property value="nombreReal"/></font></b><br />
-                                           </s:if>          
+                                           </s:if>
                                     </s:iterator>
                                                    
                                     <s:iterator value="#session._UPLOADLIST.upload1">               

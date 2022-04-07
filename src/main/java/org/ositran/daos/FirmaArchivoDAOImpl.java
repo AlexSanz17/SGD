@@ -84,30 +84,22 @@ public class FirmaArchivoDAOImpl implements FirmaArchivoDAO{
          q.setParameter("idArchivo", idArchivo);
          return q.getResultList();
      }
-     private static Log log = LogFactory.getLog(DojoAction.class);
-     // Creado Herver 29 Mar
-     @Override
-     public List<FirmaArchivo> findFirmaArchivo(Integer idArchivo, Integer idUsuario){
+
+	@Override
+     public List<FirmaArchivo> findFirmaArchivo(Integer idArchivo, Integer idUsuario, String estado){
          String sql = "select a from FirmaArchivo a, Archivo aa where aa.idArchivo = :idArchivo and aa.estado = 'A'" +
-                      " and aa.idArchivo = a.idArchivo and a.idUsuario= :idUsuario";
+          	" and aa.idArchivo = a.idArchivo and a.idUsuario= :idUsuario and a.estado = :estado";
          Query q = em.createQuery(sql);
-         q.setParameter("idArchivo", idArchivo).setParameter("idUsuario", idUsuario);
-         log.info("FirmaArchivo sql ..............." + q.toString());
+         q.setParameter("idArchivo", idArchivo).setParameter("idUsuario", idUsuario).setParameter("estado", estado);;
 
          return q.getResultList();
      }
      
-     @Transactional
      @Override
      public void deleteFirmaArchivo(Integer idFirmaArchivo){
          String sql = "delete from FirmaArchivo where idFirmaArchivo = :idFirmaArchivo";
          Query q = em.createNativeQuery(sql);
          q.setParameter("idFirmaArchivo", idFirmaArchivo);
-         log.info("deleteFirmaArchivo sql ..............." + q.toString() + "......." + idFirmaArchivo);
-         
-//         em.remove(firmaArchivo);
-//         em.flush();
-
          q.executeUpdate();
      }
 }

@@ -39,7 +39,7 @@ public class CompletarAdjuntosMPVSingleton {
 	private UsuarioService usuarioService;
 	private static Log log = LogFactory.getLog(CompletarAdjuntosMPVSingleton.class);
 	
-	private static final String TIPO_ADJUNTO_ANEXO = "2";
+	private static final Integer TIPO_ADJUNTO_ANEXO = 2;
 	private static final Character ESTADO_PROCESO_EJECUCION = 'R';
 	private static final Character ESTADO_PROCESO_TERMINADO = 'T';
 	private static final Character ESTADO_PROCESO_ERROR = 'E';
@@ -95,7 +95,6 @@ public class CompletarAdjuntosMPVSingleton {
 	
 	@Transactional
 	public void subirAlfrescoAdjuntosMPV() {
-
 		try {
 			Date fecha = new Date();
 			Documento doc = null;
@@ -109,17 +108,11 @@ public class CompletarAdjuntosMPVSingleton {
 				
 				for(IotdtcRecepcionMPV recepcionMPV:listaMPVPendientes){
 					List<Archivo> archivosSubidos = new ArrayList<Archivo>();
-									
-					log.info("Procesando Documento MPV (idRecepcion):"+recepcionMPV.getSidrecext());
-					
 					recepcionMPV.setFlagalfresco(ESTADO_PROCESO_EJECUCION);
 					recepcionVirtualService.registrarDocumentoMPV(recepcionMPV);
-					
-					
 					doc = documentoService.findByIdDocumento(recepcionMPV.getIddocumento());
 					
 					for(IotdtdAdjuntoMPV adjunto:recepcionMPV.getArchivos()){
-																
 						if(adjunto.getTipoArchivo().equals(TIPO_ADJUNTO_ANEXO)){
 							
 							try{						

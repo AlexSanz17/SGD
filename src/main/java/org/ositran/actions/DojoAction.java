@@ -348,6 +348,10 @@ public class DojoAction {
 			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_ESTILOFIRMA);
 	private static String aplicarImagen = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_APLICARIMAGEN);
+	private static String chkTSA = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_CHKTSA);
+	private static String rutasTSA = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTASTSA);
 
 	private final String REPOSITORIO_ID = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
@@ -3402,6 +3406,8 @@ public class DojoAction {
 							item.setEstiloFirma(estiloFirma);
 							item.setAplicarImagen(aplicarImagen);
 							item.setEstado(accionEjecutar);
+							item.setChkTSA(chkTSA);
+							item.setRutasTSA(rutasTSA);
 							if (accionEjecutar.equals("V")) {
 								item.setEstiloFirma("D");
 								item.setPosicionFirma("SI");
@@ -3447,11 +3453,6 @@ public class DojoAction {
 				downloadDocumentByID(ALFRESCO_CMIS, USERADMIN, USERADMIN_CLAVE, item.getObjectId(),
 						item.getNombre().replace("|S", "").replace("|N", ""), rutaOrigen+File.separator);
 			}
-
-			log.info("=============================Aqui obtiene los documentos===============================");
-			log.info("=============================Aqui obtiene los documentos===============================");
-			log.info("=============================Aqui obtiene los documentos===============================");
-			log.info("=============================Aqui obtiene los documentos===============================");
 
 			archivosJSON.setItems(items);
 		} catch (Exception e) {
@@ -3754,8 +3755,6 @@ public class DojoAction {
 	
 	@SMDMethod
 	public String deleteFirmaArchivo(List<ItemFirmar> items) {
-		log.info("============deleteFirmaArchivo============:" + items);
-
 		for (ItemFirmar itemFirmar : items) {
 			List<Archivo> list = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(),
 				Integer.valueOf(itemFirmar.getCodigoId()));
@@ -3763,18 +3762,30 @@ public class DojoAction {
 			mapSession = ActionContext.getContext().getSession();
 			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 			
-			List<FirmaArchivo> firmaArchivoList = firmaArchivoService.findFirmaArchivo(list.get(0).getIdArchivo(), objUsuario.getIdUsuarioPerfil());
-			log.info("firmaArchivoList.size() .............." + firmaArchivoList.size() + "|||" + list.get(0).getIdArchivo() +"|||"+ objUsuario.getIdUsuarioPerfil());
-			FirmaArchivo FirmaArchivoDuplicado = new FirmaArchivo();
+			List<FirmaArchivo> firmaArchivoList = firmaArchivoService.findFirmaArchivo(list.get(0).getIdArchivo(), objUsuario.getIdUsuarioPerfil(), "V");
 			
 			if (firmaArchivoList.size() > 1) {
 				Integer i = 0;
 				for (FirmaArchivo firmaArchivo : firmaArchivoList) {
-					FirmaArchivoDuplicado = firmaArchivo;
 					i=i+1;
 					if (i > 1) {
-						log.info("getIdFirmaArchivo..................." + FirmaArchivoDuplicado.getIdFirmaArchivo());
-						firmaArchivoService.deleteFirmaArchivo(FirmaArchivoDuplicado.getIdFirmaArchivo());
+						log.info("getIdFirmaArchivo..................." + firmaArchivo.getIdFirmaArchivo());
+						firmaArchivoService.deleteFirmaArchivo(firmaArchivo.getIdFirmaArchivo());
+					}
+				}
+				
+				return "1";
+			}
+			
+			firmaArchivoList = firmaArchivoService.findFirmaArchivo(list.get(0).getIdArchivo(), objUsuario.getIdUsuarioPerfil(), "F");
+			
+			if (firmaArchivoList.size() > 1) {
+				Integer i = 0;
+				for (FirmaArchivo firmaArchivo : firmaArchivoList) {
+					i=i+1;
+					if (i > 1) {
+						log.info("getIdFirmaArchivo..................." + firmaArchivo.getIdFirmaArchivo());
+						firmaArchivoService.deleteFirmaArchivo(firmaArchivo.getIdFirmaArchivo());
 					}
 				}
 				

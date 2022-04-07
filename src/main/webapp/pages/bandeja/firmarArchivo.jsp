@@ -57,7 +57,7 @@
 				
 				
 				console.log("service delete:");
-				setTimeout(myFunction, 5000);
+				setTimeout(myFunction, 3000);
 				
 				function myFunction() {
 					if(archivosFirmaTemp.length>0){
@@ -273,7 +273,7 @@
 		</script>
 		
 		<%
-		List<Item> listaDocumento = (List<Item>)request.getSession().getAttribute("listaDocumentos");
+		List<Item> listaDocumento = (List<Item>) request.getSession().getAttribute("listaDocumentos");
 		Item item = listaDocumento.get(cont);
 		String archivo= item.getArchivos();	
 		String alias = item.getNrodocumento();
@@ -295,6 +295,8 @@
 		String archivosFirmar = "";
 		String altoRubrica = item.getAltoRubrica();
 		String anchoRubrica = item.getAnchoRubrica();
+		String chkTSA = item.getChkTSA();
+		String rutasTSA = item.getRutasTSA();
 		String estado = item.getEstado();
 		
 		boolean existenProcesoFirma = false;
@@ -353,6 +355,8 @@
 			<input type="hidden" name="aplicarImagen" value="<%=aplicarImagen%>"/>
 			<input type="hidden" name="altoRubrica" value="<%=altoRubrica%>"/>
 			<input type="hidden" name="anchoRubrica" value="<%=anchoRubrica%>"/>
+			<input type="hidden" name="chkTSA" value="<%=chkTSA%>"/>
+			<input type="hidden" name="rutasTSA" value="<%=rutasTSA%>"/>
 			<input type="hidden" name="ubicacion" value=""/>
 			<input type="hidden" name="razon" value="<%=razon%>"/>
 			<input type="hidden" name="estado" id="estado" value="<%=estado%>"/>

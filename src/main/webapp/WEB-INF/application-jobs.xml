@@ -32,5 +32,4 @@
 			<property name="archivoService" ref="archivoService" />
 			<property name="usuarioService" ref="usuarioService" />
  	</bean>
-   
 </beans>

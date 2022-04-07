@@ -579,7 +579,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
             	// Traer datos de MPV           	
             	recepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(codigoVirtual);
             	
-            	if(recepcionMPV != null){            		
+            	if(recepcionMPV != null){         		
                 	Tipodocumento tipoDocumento = tipodocumentoService.findByIdTipoDocumento(Integer.parseInt(recepcionMPV.getTipodocumento())); 
                 	
                 	objDD = new DocumentoDetail();

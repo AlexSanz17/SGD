@@ -65,7 +65,7 @@
          var COD_PERSONA_JURIDICA_EMPRESA =     "<s:property value='@org.ositran.utils.Constantes@COD_PERSONA_JURIDICA_EMPRESA' />";
          var TRAMITE = "<s:property value='@org.ositran.utils.Constantes@COD_TRAMITE_EXTERNO'/>";
          var PRIORIDAD_NORMAL = "<s:property value='@org.ositran.utils.Constantes@PRIORIDAD_NORMAL' />";
-         
+	
          if ("<s:property value='documento.idDocumento' />" == ""){
              jsonStoreAdjuntos = new dojo.data.ItemFileWriteStore({url: "setearAdjuntos.action"});    
          }else{
@@ -127,7 +127,9 @@
       <script type="text/javascript">
         destroyWidgetsFromBusquedaExpediente();
         destroyControlesTramite();
-         
+        
+        dijit.byId("objDD.esTipoRecepcionTramite").attr("value","R");
+
         function descargarPlantillaCargo(){
             var fecha = new Date();
             window.location.href = "<%=request.getContextPath()%>/verDocumento.png?accion=descargarCargo&fecha=" + fecha;
@@ -397,8 +399,6 @@
              dijit.byId("objDD.prioridadTramite").attr("value","1");
 //              dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
              
-             dijit.byId("objDD.esTipoRecepcionTramite").attr("value","R");
-             
              dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='recepcionVirtual.sidrecext.vuniorgrem' escape='false' />"); 
              dijit.byId("objDD.desUnidadOrganicaTramite").attr("readOnly", true);
              
@@ -412,7 +412,7 @@
              dijit.byId("objDD.iNroFoliosTramite").attr("required", true);
 //              dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("required", false);
              
-             dojo.byId("tbNroFoliosPIDETramite").style.display = "";  
+             dojo.byId("tbNroFoliosPIDETramite").style.display = "";
              dojo.byId("tbDetalleAdjuntosTramite").style.display = "none";
              dojo.byId("tbAdjuntosGrilla").style.display = "none";
          }
@@ -576,7 +576,7 @@
                  jsId="btnRegistrarDocumentoTramiteTop"
                  iconClass="siged16 sigedSave16"
                  onClick="submitForm"
-                 showLabel="true">Recepcionar</button>
+                 showLabel="true">Registrar</button>
          <!-- <div id="divShowFile2"></div> --> 
       </div>
       <form dojoType="dijit.form.Form" id="frmNuevoDocumentoTramite" jsId="frmNuevoDocumentoTramite" action="NuevoDocumentoEnviarArchivo.action" method="post">
@@ -945,15 +945,15 @@
                                   <div id="fsObservacionesDocumentoTramite" style="width:300px;height:5px"/>
                               </td>
                            </tr>
-                                             
+                           
                            <tr class="tr-hide">
                               <td>Recepción</td>
                               <td class="label" colspan="2">
                                  <div id="fsRecepcionTramite" name="fsRecepcionTramite" style="width:200px;"></div>
                               </td>
                               <td colspan="1"> </td>
-                           </tr>                 
-                                       
+                           </tr> 
+                                           
                         <tbody id="tbNroIdentificacionTramite" style="display:none;">            
                             <tr>
                               <td width="20%">Cliente</td>
@@ -1149,7 +1149,7 @@
                          jsId="btnRegistrarDocumentoTramiteBottom"
                          iconClass="siged16 sigedSave16"
                          onClick="submitForm"
-                         showLabel="true">Recepcionar</button>
+                         showLabel="true">Registrar</button>
                   </div>
                </td>
             </tr>

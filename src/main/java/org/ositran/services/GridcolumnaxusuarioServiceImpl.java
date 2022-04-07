@@ -962,7 +962,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 uuf.setAsunto(recepcionMpv.getAsunto());
                 uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, recepcionMpv.getCflgest().toString()).getDescripcion());
                 uuf.setIdEstado(recepcionMpv.getCflgest().toString());
-                uuf.setCliente(recepcionMpv.getVnomentemi());
+                uuf.setCliente(!recepcionMpv.getVnomentemi().equals("") ? recepcionMpv.getVnomentemi() : recepcionMpv.getDesRemitente());
                 uuf.setFechacreacion(recepcionMpv.getDfecreg());
                 //uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
                 uuf.setNroTramiteVirtual(recepcionMpv.getVnumregstd()==null?"":recepcionMpv.getVnumregstd());
@@ -1027,7 +1027,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 uuf.setAsunto(recepcionMpv.getAsunto());
                 uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, recepcionMpv.getCflgest().toString()).getDescripcion());
                 uuf.setIdEstado(recepcionMpv.getCflgest().toString());
-                uuf.setCliente(recepcionMpv.getVnomentemi());
+                uuf.setCliente(!recepcionMpv.getVnomentemi().equals("") ? recepcionMpv.getVnomentemi() : recepcionMpv.getDesRemitente());
                 uuf.setFechacreacion(recepcionMpv.getDfecreg());
                 //uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
                 uuf.setNroTramiteVirtual(recepcionMpv.getVnumregstd()==null?"":recepcionMpv.getVnumregstd());
