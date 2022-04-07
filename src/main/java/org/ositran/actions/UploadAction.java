@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import javax.activation.MimetypesFileTypeMap;
 import org.apache.log4j.Logger;
+import org.jfree.util.Log;
 import org.ositran.daos.ArchivoDAO;
 import org.ositran.daos.FirmaArchivoDAO;
 import org.ositran.daos.UnidadDAO;
@@ -442,19 +443,28 @@ public class UploadAction {
                                 }else{
                                                 //Documento documento = documentoService.findByIdDocumento(iIdDoc);
                                                 String ruta = "";
+                                                String num_documento = documento.getNumeroDocumento();
+                                                int len = num_documento.length();
+                                                int numero = num_documento.indexOf("/");
+                                                String p1 = num_documento.substring(3,numero);
+                                                String p2 = num_documento.substring(numero+1, len);
+                                                
+                                                String num_doc_modificado = p1 +"-"+ p2;
+                                                Log.info("numero de documento----------------" + num_doc_modificado);
 
                                                 if (documento.getID_EXTERNO().toString().equals("1"))
                                                 {
                                                    ruta =  documento.getID_CODIGO().toString() + "_" + documento.getTipoDocumento().getNombre() + ".pdf";       
                                                 }
-                                                else
+                                                else if (documento.getID_EXTERNO().toString().equals("0"))
                                                 {
                                                     if(!String.valueOf(documento.getTipoDocumento().getIdtipodocumento()).equals(Constantes.COD_TIPODOCUMENTO_OFICIO_CIRCULAR))
-                                                        ruta =  documento.getID_CODIGO().toString() + "_" + documento.getTipoDocumento().getNombre() + "_" + documento.getNumeroDocumento().replace("N°", "").trim() + ".pdf";
+                                                    	
+                                                        ruta =  documento.getID_CODIGO().toString() + "_" + documento.getTipoDocumento().getNombre() + "_" + num_doc_modificado + ".pdf";
                                                     else
-                                                        ruta =  documento.getID_CODIGO().toString() + "_" + documento.getTipoDocumento().getNombre() + "_" + documento.getNumeroDocumento().replace("N°", "").trim() + "_" + filenamePrincipalVarios[cantDoc].substring(0, 15) + ".pdf";
+                                                        ruta =  documento.getID_CODIGO().toString() + "_" + documento.getTipoDocumento().getNombre() + "_" + num_doc_modificado + "_" + filenamePrincipalVarios[cantDoc].substring(0, 15) + ".pdf";
                                                 }
-
+                                                Log.info("ruta =======================" + ruta);
                                                 List<Archivo> lista = archivoDAO.buscarArchivosPorRutaDocumento(documento.getDocumentoreferencia()==null?documento.getIdDocumento():documento.getDocumentoreferencia(), ruta.toLowerCase());
 
                                                 if (lista!=null && lista.size()>0){

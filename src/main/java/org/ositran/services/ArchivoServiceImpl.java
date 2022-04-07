@@ -16,6 +16,7 @@ import javax.persistence.NoResultException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
+import org.jfree.util.Log;
 import org.ositran.daos.ArchivoDAO;
 import org.ositran.daos.DocumentoDAO;
 import org.ositran.daos.SearchMode;
@@ -502,6 +503,14 @@ public class ArchivoServiceImpl implements ArchivoService{
 	        if (nombrePDFprincipal!=null && !nombrePDFprincipal.trim().equals("") && objArchivoTemporal.getSNombre().toLowerCase().equals(nombrePDFprincipal.toLowerCase())){
 	            int contcadena = objArchivoTemporal.getSNombre().lastIndexOf(".");
 	            String extension = "";
+	            String num_documento = objDocumento.getNumeroDocumento();
+                int len = num_documento.length();
+                int numero = num_documento.indexOf("/");
+                String p1 = num_documento.substring(3,numero);
+                String p2 = num_documento.substring(numero+1, len);
+                
+                String num_doc_modificado = p1 +"-"+ p2;
+                Log.info("numero de documento----------------" + num_doc_modificado);
 	            if (contcadena>0)
 	              extension = objArchivoTemporal.getSNombre().substring(contcadena, objArchivoTemporal.getSNombre().length());
 	           
@@ -511,11 +520,11 @@ public class ArchivoServiceImpl implements ArchivoService{
 	            }else{  
 	               if(String.valueOf(objDocumento.getTipoDocumento().getIdtipodocumento()).equals(Constantes.COD_TIPODOCUMENTO_OFICIO_CIRCULAR))
 	               {
-	                    objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + objDocumento.getNumeroDocumento().replace("N°", "").trim() +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase());
+	                    objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + num_doc_modificado +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase());
 	                    nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  objDocumento.getNumeroDocumento().replace("N°", "").trim() +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase();  
 	               }else{
-	                    objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + objDocumento.getNumeroDocumento().replace("N°", "").trim() + extension.toLowerCase());
-	                    nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  objDocumento.getNumeroDocumento().replace("N°", "").trim() + extension.toLowerCase();  
+	                    objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + num_doc_modificado + extension.toLowerCase());
+	                    nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  num_doc_modificado+ extension.toLowerCase();  
 	               }
 	            }
 	        }else{

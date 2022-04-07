@@ -120,8 +120,8 @@ public class CompletarAdjuntosMPVSingleton {
 					
 					for(IotdtdAdjuntoMPV adjunto:recepcionMPV.getArchivos()){
 																
+						log.info("ANEXOS ================ "+adjunto.getTipoArchivo());
 						if(adjunto.getTipoArchivo().equals(TIPO_ADJUNTO_ANEXO)){
-							
 							try{						
 								log.info("Subiendo archivo adjunto (idAdjuntompv):"+adjunto.getIdAdjunto());	
 															
@@ -131,7 +131,8 @@ public class CompletarAdjuntosMPVSingleton {
 	                            String sNuevoNombreAnexo="["+doc.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"2"+"]"+doc.getID_CODIGO() + "_ANX_" + adjunto.getNombreArchivo();
 	                            String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
 	                            String rutaAlfresco = repositorioService.obtenerRutaDocumento(doc, rutaSite, doc.getTipoDocumento().getCodigo()) + doc.getID_CODIGO() + "_ANX_" + adjunto.getNombreArchivo();
-	                           	
+	                            log.info("=====================sNuevoNombreAnexo " + sNuevoNombreAnexo);
+	                            log.info("=====================rutaAlfresco " + rutaAlfresco);
 	                            //Bajar documento de MPV y copiar en carpeta temporal	                            
 	                            String urlMPV = adjunto.getRutaArchivo()+adjunto.getNombreArchivo();
 	                            log.debug("Bajar documento de MPV y copiar en carpeta temporal:"+urlMPV);
