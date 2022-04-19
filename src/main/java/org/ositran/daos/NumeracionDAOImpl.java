@@ -38,7 +38,7 @@ public class NumeracionDAOImpl implements NumeracionDAO {
 	   Numeracion num =null ;
 	   Integer idtipodoc = IdTipoDocumento ;
 
-
+	   log.info("unid=============" + unid);
 		while(unid != null&&num==null){
 			Integer idunidad=unid.getIdunidad();
 			try{

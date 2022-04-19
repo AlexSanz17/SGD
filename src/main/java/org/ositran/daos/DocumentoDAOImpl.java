@@ -3312,7 +3312,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
             if(bandeja.equals("R") || bandeja.equals("NT") || bandeja.equals("ND") || bandeja.equals("NU")){
                 sql.append(" AND f.estadorecepcionvirtual ='0' and f.firmado = 'N' AND (f.autor.idusuario != :idUsuario OR f.numeroTrazabilidad != 1 )");
             }if (bandeja.equals("M")){
-                sql.append(" AND f.estadorecepcionvirtual ='0' and f.autor.idusuario = :idUsuario AND f.numeroTrazabilidad = 1 ");
+                sql.append(" AND f.estadorecepcionvirtual ='0' and f.autor.idusuario = :idUsuario");
             }if (bandeja.equals("F")){
                 sql.append(" AND f.estadorecepcionvirtual ='0' and f.firmado = 'S' ");
             }if (bandeja.equals("OBR")){

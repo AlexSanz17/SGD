@@ -1505,8 +1505,9 @@ public class DocumentoAction {
                                               
                                 if(documento.getDocumentoreferencia() != null){
                                     objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), nombreRol);
-			            objDD.setIdExterno(documento.getID_EXTERNO().toString());
+                                    objDD.setIdExterno(documento.getID_EXTERNO().toString());
                                     objDD.setDesDocumentoOrigen("");
+                                    objDD.setCuo(documento.getVcuo());
                                     Usuarioxunidadxfuncion usuarioxunidadxfuncion  = new Usuarioxunidadxfuncion();
                                     usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
                                     usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
@@ -1515,11 +1516,11 @@ public class DocumentoAction {
 							 
                                     if(tapoyo != null){
                                         objDD.setStrAccion(tapoyo.getProveido()==null?"":tapoyo.getProveido().getNombre());
-					objDD.setStrContenido(tapoyo.getTexto() != null ? tapoyo.getTexto() : "");
+                                        objDD.setStrContenido(tapoyo.getTexto() != null ? tapoyo.getTexto() : "");
                                         objDD.setStrDestinatario(tapoyo.getDestinatario().getNombres() + " " + tapoyo.getDestinatario().getApellidos());
                                         objDD.setPrioridad(tapoyo.getPrioridad());
                                         objDD.setStrRemitente(tapoyo.getRemitente().getNombres() + " " + tapoyo.getRemitente().getApellidos());
-		                        objDD.setStrFechaLimiteAtencion(tapoyo.getFechalimiteatencion() == null ? "" : new SimpleDateFormat(Constantes.FORMATO_FECHA).format(tapoyo.getFechalimiteatencion()));
+                                        objDD.setStrFechaLimiteAtencion(tapoyo.getFechalimiteatencion() == null ? "" : new SimpleDateFormat(Constantes.FORMATO_FECHA).format(tapoyo.getFechalimiteatencion()));
 				    }
                                     
                                     if (documento.getOrigen()!=null){

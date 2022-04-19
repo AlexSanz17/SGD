@@ -8,6 +8,7 @@
         <title>Firmar Documento</title>
         <link rel="stylesheet" type="text/css" href="css/estilo.css" />
         <script type="text/javascript" src="js/dojo/dojo/dojo.js" djConfig="parseOnLoad:true, isDebug: false"></script>
+        <script type="text/javascript" src="js/libraries/sweetalert.js"></script>
         <script type="text/javascript">
             var isPosting = false;
             var idIntervalo;

@@ -249,7 +249,7 @@
                                            </s:if>
                                     </s:iterator>
                                     <s:iterator value="#session._UPLOADLIST.upload1">               
-                                           <s:if test="principal.equals('C')">
+                                           <s:if test="principal.equals('C') && objDD.cuo != null">
                                                <a onclick="verArchivo('<s:property value='rutaAlfresco' />');" alt="Ver Archivo"><b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_CARGO"/>"><s:property value="nombreReal"/> </font></b> [<s:property value="usuarioCarga.usuario"/>]<br />
                                            </s:if>
                                     </s:iterator>               

@@ -423,7 +423,6 @@ public class VirtualAction {
 	      //Numero tramite igual numero expediente
 	        objDD.setNroTramite(recepcionMPV.getVnumregstd());
 	        objDD.setCEstado(recepcionMPV.getCflgest());
-	        objDD.setCuo("");
 	        objDD.setRuc(recepcionMPV.getVrucentrem());
 	        objDD.setFlagCodigoVirtual('1');
 	        objDD.setTamanoPrincipal("");

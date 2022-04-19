@@ -149,7 +149,7 @@ public class NotificacionCasillaVirtual {
     		
     		JSONObject jsonObj = new JSONObject();
     		jsonObj.put("PK_eIdNotificacion", PK_eIdNotificacion);
-    		jsonObj.put("cCodProcesoFirma", "123456789");
+    		jsonObj.put("cCodProcesoFirma", "SINFIRMADIGITAL");
     		jsonObj.put("eUsuarioActualizacion", Integer.valueOf(1));
     		
     		String json = jsonObj.toString();
