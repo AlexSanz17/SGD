@@ -1,52 +1,88 @@
 package org.ositran.services;
 
-import gob.ositran.siged.config.SigedProperties;
-import gob.ositran.siged.service.AlfrescoWebscriptService;
-import gob.pe.pvn.NotificacionCasillaVirtual;
-
-import org.ositran.daos.TrazabilidaddocumentoDAO;
-import java.io.File; 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
-import java.rmi.RemoteException; 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.rmi.RemoteException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;    
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.codec.binary.Base64;
+import java.util.UUID;
+
 import javax.persistence.NoResultException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.stream.XMLStreamException;
+
+import org.apache.chemistry.opencmis.client.api.Document;
+import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.struts2.ServletActionContext;
-import org.json.JSONArray;
 import org.json.JSONObject;
+
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.daos.AuditoriaDAO;
+import org.ositran.daos.DespachoVirtualDAO;
+import org.ositran.daos.DocAnexoVirtualDAO;
+import org.ositran.daos.DocPrincipalVirtualDAO;
+import org.ositran.daos.DocumentoAdjuntoDAO;
+import org.ositran.daos.DocumentoAnuladoDAO;
+import org.ositran.daos.DocumentoAtendidoDAO;
 import org.ositran.daos.DocumentoDAO;
+import org.ositran.daos.DocumentoDerivacionDAO;
 import org.ositran.daos.DocumentoEnviadoDAO;
+import org.ositran.daos.DocumentoExternoVirtualDAO;
 import org.ositran.daos.DocumentoFedatarioDAO;
+import org.ositran.daos.DocumentoPendienteDAO;
 import org.ositran.daos.DocumentoReferenciaDAO;
+import org.ositran.daos.DocumentoReunionDAO;
 import org.ositran.daos.ExpedienteDAO;
+import org.ositran.daos.FirmaArchivoDAO;
+import org.ositran.daos.LegajoDocumentoDAO;
 import org.ositran.daos.NotificacionxEnumerarDAO;
+import org.ositran.daos.NumeracionDAO;
 import org.ositran.daos.ParametroDAO;
 import org.ositran.daos.ProcesoDAO;
 import org.ositran.daos.ProveidoDAO;
+import org.ositran.daos.RecepcionVirtualDAO;
+import org.ositran.daos.ReferenciaArchivoDAO;
 import org.ositran.daos.RolDAO;
 import org.ositran.daos.SedeDAO;
-import org.ositran.daos.NumeracionDAO;
+import org.ositran.daos.SeguimientoXFirmaDAO;
 import org.ositran.daos.TipodocumentoDAO;
 import org.ositran.daos.TrazabilidadapoyoDAO;
+import org.ositran.daos.TrazabilidaddocumentoDAO;
 import org.ositran.daos.TrazabilidadmovimientoDAO;
+import org.ositran.daos.UsuarioxunidadxfuncionDAO;
 import org.ositran.dojo.BusquedaAvanzada;
 import org.ositran.dojo.Recurso;
+import org.ositran.dojo.grid.Item;
 import org.ositran.dojo.grid.ItemUF;
 import org.ositran.dojo.tree.Nodo;
 import org.ositran.dojo.tree.NodoArbol;
@@ -58,6 +94,7 @@ import org.ositran.utils.ArchivoTemporal;
 import org.ositran.utils.Constantes;
 import org.ositran.utils.DocumentoDetail;
 import org.ositran.utils.DocumentoList;
+import org.ositran.utils.DocumentoPublicar;
 import org.ositran.utils.ExpedienteSearch;
 import org.ositran.utils.FechaLimite;
 import org.ositran.utils.StringUtil;
@@ -65,32 +102,32 @@ import org.ositran.utils.template.TemplateUtils;
 import org.ositran.webservice.clientes.intalio.InvalidInputMessageFaultException;
 import org.ositran.webservice.clientes.intalio.InvalidParticipantTokenFaultException;
 import org.ositran.webservice.clientes.intalio.UnavailableTaskFaultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.btg.ositran.siged.domain.Estado;
+
 import com.btg.ositran.siged.domain.Accion;
-import com.btg.ositran.siged.domain.Cliente;
-import com.btg.ositran.siged.domain.DocumentoAdjunto;
 import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.ArchivoPendiente;
 import com.btg.ositran.siged.domain.Auditoria;
-import com.btg.ositran.siged.domain.LegajoDocumento;
-import com.btg.ositran.siged.domain.ReferenciaArchivo;
+import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.DiaFestivo;
 import com.btg.ositran.siged.domain.Distrito;
 import com.btg.ositran.siged.domain.Documento;
+import com.btg.ositran.siged.domain.DocumentoAdjunto;
 import com.btg.ositran.siged.domain.DocumentoAnulado;
 import com.btg.ositran.siged.domain.DocumentoAreaFuncional;
 import com.btg.ositran.siged.domain.DocumentoAtendido;
+import com.btg.ositran.siged.domain.DocumentoDerivacion;
 import com.btg.ositran.siged.domain.DocumentoReferencia;
 import com.btg.ositran.siged.domain.DocumentoReunion;
-import com.btg.ositran.siged.domain.DocumentoDerivacion;
 import com.btg.ositran.siged.domain.Documentoenviado;
 import com.btg.ositran.siged.domain.Documentofedateado;
 import com.btg.ositran.siged.domain.Documentoxexpediente;
 import com.btg.ositran.siged.domain.DocumentoxexpedientePK;
+import com.btg.ositran.siged.domain.Estado;
 import com.btg.ositran.siged.domain.Etapa;
 import com.btg.ositran.siged.domain.Expediente;
 import com.btg.ositran.siged.domain.FilaBandejaUF;
@@ -101,6 +138,7 @@ import com.btg.ositran.siged.domain.IotdtdAdjuntoMPV;
 import com.btg.ositran.siged.domain.IotdtdAnexo;
 import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
+import com.btg.ositran.siged.domain.LegajoDocumento;
 import com.btg.ositran.siged.domain.Lista;
 import com.btg.ositran.siged.domain.Notificacion;
 import com.btg.ositran.siged.domain.Numeracion;
@@ -108,6 +146,7 @@ import com.btg.ositran.siged.domain.Parametro;
 import com.btg.ositran.siged.domain.Perfil;
 import com.btg.ositran.siged.domain.Proceso;
 import com.btg.ositran.siged.domain.Proveido;
+import com.btg.ositran.siged.domain.ReferenciaArchivo;
 import com.btg.ositran.siged.domain.Rol;
 import com.btg.ositran.siged.domain.Sede;
 import com.btg.ositran.siged.domain.Serie;
@@ -119,8 +158,10 @@ import com.btg.ositran.siged.domain.Trazabilidaddocumento;
 import com.btg.ositran.siged.domain.Unidad;
 import com.btg.ositran.siged.domain.Usuario;
 import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opensymphony.xwork2.ActionContext;
+
 import com.ositran.cmis.api.AlfrescoApiWs;
 import com.ositran.pide.EndPoint;
 import com.ositran.pide.EndPointRUC;
@@ -133,80 +174,29 @@ import com.ositran.ws.RespuestaCargoTramite;
 import com.ositran.ws.RespuestaConsultaTramite;
 import com.ositran.ws.RespuestaTramite;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.text.DateFormat;
-import java.util.GregorianCalendar;
-import java.util.UUID;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import org.apache.chemistry.opencmis.client.api.Document;
-import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.commons.logging.Log;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.ositran.daos.DespachoVirtualDAO;
-import org.ositran.daos.DocAnexoVirtualDAO;
-import org.ositran.daos.DocPrincipalVirtualDAO;
-import org.ositran.daos.DocumentoAdjuntoDAO;
-import org.ositran.daos.DocumentoAnuladoDAO;
-import org.ositran.daos.DocumentoAtendidoDAO;
-import org.ositran.daos.DocumentoDerivacionDAO;
-import org.ositran.daos.DocumentoExternoVirtualDAO;
-import org.ositran.daos.DocumentoPendienteDAO;
-import org.ositran.daos.DocumentoReunionDAO;
-import org.ositran.daos.FirmaArchivoDAO;
-import org.ositran.daos.LegajoDocumentoDAO;
-import org.ositran.daos.RecepcionVirtualDAO;
-import org.ositran.daos.ReferenciaArchivoDAO;
-import org.ositran.daos.SeguimientoXFirmaDAO;
-import org.ositran.daos.UsuarioxunidadxfuncionDAO;
-import org.ositran.dojo.grid.Item; 
-import org.ositran.utils.DocumentoPublicar;
-
+import gob.ositran.siged.config.SigedProperties;
+import gob.ositran.siged.service.AlfrescoWebscriptService;
+import gob.pe.pvn.NotificacionCasillaVirtual;
 
 public class DocumentoServiceImpl implements DocumentoService {   
-        private String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
-        private String USERCONSULTA=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOEXTERNO);
-        private String USERCONSULTA_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOEXTERNO_CLAVE);
+    private String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
+    private String USERCONSULTA=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOEXTERNO);
+    private String USERCONSULTA_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOEXTERNO_CLAVE);
     
 	private final Logger log = LoggerFactory.getLogger(DocumentoServiceImpl.class);
-        private DocumentoFedatarioDAO documentoFedatarioDao;
+    private DocumentoFedatarioDAO documentoFedatarioDao;
 	private AuditoriaDAO auditoriaDao;
 	private DocumentoDAO documentoDao;
 	private DocumentoEnviadoDAO documentoEnviadoDao;
-        private DocumentoDerivacionDAO documentoDerivacionDAO;
+    private DocumentoDerivacionDAO documentoDerivacionDAO;
 	private NumeracionDAO numeracionDAO;
-        private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
-        private ParametroDAO parametroDao;
+    private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
+    private ParametroDAO parametroDao;
 	private ProcesoDAO procesoDao;
 	private RolDAO rolDao;
 	private SedeDAO sedeDao;
-        private DocumentoPendienteDAO documentoPendienteDAO;
-        private DocumentoAtendidoDAO documentoAtendidoDAO;
+    private DocumentoPendienteDAO documentoPendienteDAO;
+    private DocumentoAtendidoDAO documentoAtendidoDAO;
 	private DocumentoReferenciaDAO documentoReferenciaDAO;
 	private TipodocumentoDAO tipoDocumentoDao;
 	private ProveidoDAO proveidoDAO;
@@ -230,8 +220,8 @@ public class DocumentoServiceImpl implements DocumentoService {
 	private UsuarioService usuarioService;
 	private TrazabilidadcopiaService trazabilidadcopiaService;
 	private FechaLimite fechaLimite;
-        private DocumentoReunionDAO documentoReunionDAO;
-        private ReferenciaArchivoDAO referenciaArchivoDAO;
+    private DocumentoReunionDAO documentoReunionDAO;
+    private ReferenciaArchivoDAO referenciaArchivoDAO;
 	private ManejoDeEmailService mailService;
 	private AlfrescoWSService alfrescoWebServiceClient;
 	private ClienteService clienteService;
@@ -245,431 +235,426 @@ public class DocumentoServiceImpl implements DocumentoService {
 	private Map<String, Object> mapSession;
 	private ProcesoService procesoService;
 	private DocumentoAdjuntoDAO documentoAdjuntoDAO;
-        private DocumentoAnuladoDAO documentoAnuladoDAO;
-        private UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO;
-        private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
-        private RecepcionVirtualDAO recepcionVirtualDAO; 
-        private DocPrincipalVirtualDAO docPrincipalVirtualDAO;
-        private DocAnexoVirtualDAO docAnexoVirtualDAO;
-        private DespachoVirtualDAO despachoVirtualDAO;
-        private LegajoDocumentoDAO legajoDocumentoDAO;
-        private FirmaArchivoDAO firmaArchivoDAO;
+    private DocumentoAnuladoDAO documentoAnuladoDAO;
+    private UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO;
+    private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+    private RecepcionVirtualDAO recepcionVirtualDAO; 
+    private DocPrincipalVirtualDAO docPrincipalVirtualDAO;
+    private DocAnexoVirtualDAO docAnexoVirtualDAO;
+    private DespachoVirtualDAO despachoVirtualDAO;
+    private LegajoDocumentoDAO legajoDocumentoDAO;
+    private FirmaArchivoDAO firmaArchivoDAO;
 
-        public FirmaArchivoDAO getFirmaArchivoDAO() {
-            return firmaArchivoDAO;
-        }
+    public FirmaArchivoDAO getFirmaArchivoDAO() {
+        return firmaArchivoDAO;
+    }
 
-        public void setFirmaArchivoDAO(FirmaArchivoDAO firmaArchivoDAO) {
-            this.firmaArchivoDAO = firmaArchivoDAO;
-        }
+    public void setFirmaArchivoDAO(FirmaArchivoDAO firmaArchivoDAO) {
+        this.firmaArchivoDAO = firmaArchivoDAO;
+    }
 
-        public LegajoDocumentoDAO getLegajoDocumentoDAO() {
-            return legajoDocumentoDAO;
-        }
+    public LegajoDocumentoDAO getLegajoDocumentoDAO() {
+        return legajoDocumentoDAO;
+    }
 
-        public void setLegajoDocumentoDAO(LegajoDocumentoDAO legajoDocumentoDAO) {
-            this.legajoDocumentoDAO = legajoDocumentoDAO;
-        }
-        
-        public ReferenciaArchivoDAO getReferenciaArchivoDAO() {
-            return referenciaArchivoDAO;
-        }
+    public void setLegajoDocumentoDAO(LegajoDocumentoDAO legajoDocumentoDAO) {
+        this.legajoDocumentoDAO = legajoDocumentoDAO;
+    }
+    
+    public ReferenciaArchivoDAO getReferenciaArchivoDAO() {
+        return referenciaArchivoDAO;
+    }
 
-        public void setReferenciaArchivoDAO(ReferenciaArchivoDAO referenciaArchivoDAO) {
-            this.referenciaArchivoDAO = referenciaArchivoDAO;
-        }
+    public void setReferenciaArchivoDAO(ReferenciaArchivoDAO referenciaArchivoDAO) {
+        this.referenciaArchivoDAO = referenciaArchivoDAO;
+    }
 
-        public DocPrincipalVirtualDAO getDocPrincipalVirtualDAO() {
-            return docPrincipalVirtualDAO;
-        }
+    public DocPrincipalVirtualDAO getDocPrincipalVirtualDAO() {
+        return docPrincipalVirtualDAO;
+    }
 
-        public void setDocPrincipalVirtualDAO(DocPrincipalVirtualDAO docPrincipalVirtualDAO) {
-            this.docPrincipalVirtualDAO = docPrincipalVirtualDAO;
-        }
+    public void setDocPrincipalVirtualDAO(DocPrincipalVirtualDAO docPrincipalVirtualDAO) {
+        this.docPrincipalVirtualDAO = docPrincipalVirtualDAO;
+    }
 
-        public DocAnexoVirtualDAO getDocAnexoVirtualDAO() {
-            return docAnexoVirtualDAO;
-        }
+    public DocAnexoVirtualDAO getDocAnexoVirtualDAO() {
+        return docAnexoVirtualDAO;
+    }
 
-        public void setDocAnexoVirtualDAO(DocAnexoVirtualDAO docAnexoVirtualDAO) {
-            this.docAnexoVirtualDAO = docAnexoVirtualDAO;
-        }
+    public void setDocAnexoVirtualDAO(DocAnexoVirtualDAO docAnexoVirtualDAO) {
+        this.docAnexoVirtualDAO = docAnexoVirtualDAO;
+    }
 
-        public DespachoVirtualDAO getDespachoVirtualDAO() {
-            return despachoVirtualDAO;
-        }
+    public DespachoVirtualDAO getDespachoVirtualDAO() {
+        return despachoVirtualDAO;
+    }
 
-        public void setDespachoVirtualDAO(DespachoVirtualDAO despachoVirtualDAO) {
-            this.despachoVirtualDAO = despachoVirtualDAO;
-        }
-      
+    public void setDespachoVirtualDAO(DespachoVirtualDAO despachoVirtualDAO) {
+        this.despachoVirtualDAO = despachoVirtualDAO;
+    }
+  
 
-        public RecepcionVirtualDAO getRecepcionVirtualDAO() {
-            return recepcionVirtualDAO;
-        }
+    public RecepcionVirtualDAO getRecepcionVirtualDAO() {
+        return recepcionVirtualDAO;
+    }
 
-        public void setRecepcionVirtualDAO(RecepcionVirtualDAO recepcionVirtualDAO) {
-            this.recepcionVirtualDAO = recepcionVirtualDAO;
-        }
+    public void setRecepcionVirtualDAO(RecepcionVirtualDAO recepcionVirtualDAO) {
+        this.recepcionVirtualDAO = recepcionVirtualDAO;
+    }
 
-        public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
-            return documentoExternoVirtualDAO;
-        }
+    public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
+        return documentoExternoVirtualDAO;
+    }
 
-        public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
-            this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
-        }
+    public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
+        this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
+    }
 
-        public UsuarioxunidadxfuncionDAO getUsuarioxunidadxfuncionDAO() {
-            return usuarioxunidadxfuncionDAO;
-        }
+    public UsuarioxunidadxfuncionDAO getUsuarioxunidadxfuncionDAO() {
+        return usuarioxunidadxfuncionDAO;
+    }
 
-        public void setUsuarioxunidadxfuncionDAO(UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO) {
-            this.usuarioxunidadxfuncionDAO = usuarioxunidadxfuncionDAO;
-        }
-        
-        public DocumentoDerivacionDAO getDocumentoDerivacionDAO() {
-            return documentoDerivacionDAO;
-        }
+    public void setUsuarioxunidadxfuncionDAO(UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO) {
+        this.usuarioxunidadxfuncionDAO = usuarioxunidadxfuncionDAO;
+    }
+    
+    public DocumentoDerivacionDAO getDocumentoDerivacionDAO() {
+        return documentoDerivacionDAO;
+    }
 
-        public void setDocumentoDerivacionDAO(DocumentoDerivacionDAO documentoDerivacionDAO) {
-            this.documentoDerivacionDAO = documentoDerivacionDAO;
-        }
+    public void setDocumentoDerivacionDAO(DocumentoDerivacionDAO documentoDerivacionDAO) {
+        this.documentoDerivacionDAO = documentoDerivacionDAO;
+    }
 
-        public SeguimientoXFirmaDAO getSeguimientoXFirmaDAO() {
-            return seguimientoXFirmaDAO;
-        }
+    public SeguimientoXFirmaDAO getSeguimientoXFirmaDAO() {
+        return seguimientoXFirmaDAO;
+    }
 
-        public void setSeguimientoXFirmaDAO(SeguimientoXFirmaDAO seguimientoXFirmaDAO) {
-            this.seguimientoXFirmaDAO = seguimientoXFirmaDAO;
-        }
+    public void setSeguimientoXFirmaDAO(SeguimientoXFirmaDAO seguimientoXFirmaDAO) {
+        this.seguimientoXFirmaDAO = seguimientoXFirmaDAO;
+    }
 
-        public DocumentoAnuladoDAO getDocumentoAnuladoDAO() {
-            return documentoAnuladoDAO;
-        }
+    public DocumentoAnuladoDAO getDocumentoAnuladoDAO() {
+        return documentoAnuladoDAO;
+    }
 
-        public void setDocumentoAnuladoDAO(DocumentoAnuladoDAO documentoAnuladoDAO) {
-            this.documentoAnuladoDAO = documentoAnuladoDAO;
-        }
-        
-        public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
-            return documentoAdjuntoDAO;
-        }
+    public void setDocumentoAnuladoDAO(DocumentoAnuladoDAO documentoAnuladoDAO) {
+        this.documentoAnuladoDAO = documentoAnuladoDAO;
+    }
+    
+    public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
+        return documentoAdjuntoDAO;
+    }
 
-        public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
-            this.documentoAdjuntoDAO = documentoAdjuntoDAO;
-        }
-
+    public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
+        this.documentoAdjuntoDAO = documentoAdjuntoDAO;
+    }
      
 	 public String getAtendidoTramiteDocumentario(Documento d){
 		return documentoDao.getAtendidoTramiteDocumentario(d);
 	 }
          
-          public List<NodoArbol> getArbolDocumentosNavegador(Usuario usuario, String tipoVista) {
-              List<ItemUF> lst = documentoDao.findByDataUF(usuario, tipoVista, true);
-              
-              List<NodoArbol> lstNodo = null;
-              List<Object> lstArbol = new ArrayList<Object>();
-              List<NodoArbol> lstNodoFinal = new ArrayList<NodoArbol>();
-              
+      public List<NodoArbol> getArbolDocumentosNavegador(Usuario usuario, String tipoVista) {
+          List<ItemUF> lst = documentoDao.findByDataUF(usuario, tipoVista, true);
+          
+          List<NodoArbol> lstNodo = null;
+          List<Object> lstArbol = new ArrayList<Object>();
+          List<NodoArbol> lstNodoFinal = new ArrayList<NodoArbol>();
+          
+          for(int i=0;i<lst.size();i++){
+                String icono = lst.get(i).getIconoDocumento();
+                
+                if (icono!=null && !icono.equals("")){
+                     List<Archivo> lstArchivo = null;
+
+                     if (lst.get(i).getDocumentoreferencia()==null){
+                         lstArchivo =archivoService.findLstByIdDocumento(lst.get(i).getId());
+                     }else{
+                         lstArchivo =archivoService.findLstByIdDocumento(new Integer(lst.get(i).getDocumentoreferencia()));
+                     }
+
+                     List<NodoArbol> lstTreeDocumento = new ArrayList<NodoArbol>();
+                     int contadorArchivo = 0;
+
+                     for(int k=0;k<lstArchivo.size();k++){
+                          NodoArbol objETDocumento = new NodoArbol(false, "D|" + lstArchivo.get(k).getPrincipal() + "|" + UUID.randomUUID().toString().replace("|", "U2") + "|" +lstArchivo.get(k).getIdArchivo() + "|" + lstArchivo.get(k).getRutaAlfresco() + "|" + lstArchivo.get(k).getObjectId(), lstArchivo.get(k).getNombreArchivo() , null);
+                          lstTreeDocumento.add(objETDocumento);
+                          contadorArchivo ++;
+                     }
+
+                     NodoArbol objFlujoTree = new NodoArbol(true, "U|" +lst.get(i).getId(), lst.get(i).getDocumento() + " ["  +  contadorArchivo + "]" , lstTreeDocumento);
+                     List<NodoArbol> allElements = new ArrayList<NodoArbol>();
+                     allElements.add(objFlujoTree);             
+                     allElements.addAll(lstTreeDocumento);
+                     lstArbol.add(allElements);
+                }       
+          }
+          
+          for(int j=0;j<lstArbol.size();j++){
+              lstNodo = (List<NodoArbol>)lstArbol.get(j);
+              for(int k=0;k<lstNodo.size();k++){
+                  NodoArbol nodito = lstNodo.get(k);
+                  lstNodoFinal.add(nodito);
+              }
+         } 
+                
+          return lstNodoFinal;
+      }
+          
+    /*  public List<String> buscarPendienteVirtual(String nroTramite){
+          return documentoDao.buscarPendienteVirtual(nroTramite);
+      }*/
+         
+      public List<NodoArbol> getArbolTipoDocumentosNavegador(Usuario usuario, String tipoVista) {
+          List<NodoArbol> lstNodoFinal = new ArrayList<NodoArbol>();
+          List<NodoArbol> lstNodo = null;
+          List<Object> lstArbol = new ArrayList<Object>();
+          
+          List<ItemUF> lst = documentoDao.findByDataUF(usuario, tipoVista, true);
+          String origen = "";
+          List<String> lstTipos = new ArrayList<String>();
+          
+          for(int i =0;i<lst.size();i++){
+             String icono = lst.get(i).getIconoDocumento();
+             String tipo =  lst.get(i).getTipodocumento();
+             if (!icono.equals("")){
+                 if (!origen.equals(tipo)){
+                     lstTipos.add(tipo);
+                     origen = tipo;
+                 }
+             }
+          }
+          
+          for(int j=0;j<lstTipos.size();j++){
+              boolean bandera = false;
+              List<NodoArbol> allElements = new ArrayList<NodoArbol>();
+              List<NodoArbol> allElementsTemp = new ArrayList<NodoArbol>();
+              List<NodoArbol> allElementsTemp2 = new ArrayList<NodoArbol>();
+              int contador = 0;
               for(int i=0;i<lst.size();i++){
-                    String icono = lst.get(i).getIconoDocumento();
-                    
-                    if (icono!=null && !icono.equals("")){
-                         List<Archivo> lstArchivo = null;
-
-                         if (lst.get(i).getDocumentoreferencia()==null){
-                             lstArchivo =archivoService.findLstByIdDocumento(lst.get(i).getId());
-                         }else{
-                             lstArchivo =archivoService.findLstByIdDocumento(new Integer(lst.get(i).getDocumentoreferencia()));
-                         }
-
-                         List<NodoArbol> lstTreeDocumento = new ArrayList<NodoArbol>();
-                         int contadorArchivo = 0;
-
-                         for(int k=0;k<lstArchivo.size();k++){
-                              NodoArbol objETDocumento = new NodoArbol(false, "D|" + lstArchivo.get(k).getPrincipal() + "|" + UUID.randomUUID().toString().replace("|", "U2") + "|" +lstArchivo.get(k).getIdArchivo() + "|" + lstArchivo.get(k).getRutaAlfresco() + "|" + lstArchivo.get(k).getObjectId(), lstArchivo.get(k).getNombreArchivo() , null);
-                              lstTreeDocumento.add(objETDocumento);
-                              contadorArchivo ++;
-                         }
-
-                         NodoArbol objFlujoTree = new NodoArbol(true, "U|" +lst.get(i).getId(), lst.get(i).getDocumento() + " ["  +  contadorArchivo + "]" , lstTreeDocumento);
-                         List<NodoArbol> allElements = new ArrayList<NodoArbol>();
-                         allElements.add(objFlujoTree);             
-                         allElements.addAll(lstTreeDocumento);
-                         lstArbol.add(allElements);
-                    }       
+                   if (lstTipos.get(j).equals(lst.get(i).getTipodocumento().toString())){
+                            String icono = lst.get(i).getIconoDocumento();
+                            if (icono!=null && !icono.equals("")){
+                                 bandera = true;
+                                 contador ++;
+                                 List<Archivo> lstArchivo = null;
+                                 
+                                 if (lst.get(i).getDocumentoreferencia()==null){
+                                     lstArchivo =archivoService.findLstByIdDocumento(lst.get(i).getId());
+                                 }else{
+                                     lstArchivo =archivoService.findLstByIdDocumento(new Integer(lst.get(i).getDocumentoreferencia()));
+                                 }
+                                 
+                                 List<NodoArbol> lstTreeDocumento = new ArrayList<NodoArbol>();
+                                 int contadorArchivo = 0;
+                                 
+                                 for(int k=0;k<lstArchivo.size();k++){
+                                      NodoArbol objETDocumento = new NodoArbol(false, "D|" + lstArchivo.get(k).getPrincipal() + "|" + UUID.randomUUID().toString().replace("|", "U2") + "|" +lstArchivo.get(k).getIdArchivo() + "|" + lstArchivo.get(k).getRutaAlfresco() + "|" + lstArchivo.get(k).getObjectId(), lstArchivo.get(k).getNombreArchivo() , null);
+                                      lstTreeDocumento.add(objETDocumento);
+                                      contadorArchivo ++;
+                                 }
+                                 
+                                 NodoArbol objFlujoTree = new NodoArbol(false, "U|" +lst.get(i).getId(), lst.get(i).getDocumento() + " ["  +  contadorArchivo + "]" , lstTreeDocumento);
+                                 allElementsTemp.add(objFlujoTree);
+                                 allElementsTemp2.add(objFlujoTree);
+                                 allElementsTemp.addAll(lstTreeDocumento);
+                            }
+                  }
               }
               
-              for(int j=0;j<lstArbol.size();j++){
-                  lstNodo = (List<NodoArbol>)lstArbol.get(j);
-                  for(int k=0;k<lstNodo.size();k++){
-                      NodoArbol nodito = lstNodo.get(k);
-                      lstNodoFinal.add(nodito);
-                  }
-             } 
-                    
-              return lstNodoFinal;
-          }
+              if (bandera){
+                Tipodocumento t = tipoDocumentoDao.findByIdTipoDocumento(new Integer(lstTipos.get(j)));
+                NodoArbol objTipoTree = new NodoArbol(true, "E|" +  lstTipos.get(j) , t.getNombre() + " [" + contador + "]",allElementsTemp2); // new
+                allElements.add(objTipoTree);
+                allElements.addAll(allElementsTemp);
+                lstArbol.add(allElements);
+              }  
+         }
           
-        /*  public List<String> buscarPendienteVirtual(String nroTramite){
-              return documentoDao.buscarPendienteVirtual(nroTramite);
-          }*/
-         
-          public List<NodoArbol> getArbolTipoDocumentosNavegador(Usuario usuario, String tipoVista) {
-              List<NodoArbol> lstNodoFinal = new ArrayList<NodoArbol>();
-              List<NodoArbol> lstNodo = null;
-              List<Object> lstArbol = new ArrayList<Object>();
+         for(int j=0;j<lstArbol.size();j++){
+              lstNodo = (List<NodoArbol>)lstArbol.get(j);
+              for(int k=0;k<lstNodo.size();k++){
+                  NodoArbol nodito = lstNodo.get(k);
+                  lstNodoFinal.add(nodito);
+              }
+         } 
+                
               
-              List<ItemUF> lst = documentoDao.findByDataUF(usuario, tipoVista, true);
-              String origen = "";
-              List<String> lstTipos = new ArrayList<String>();
-              
-              for(int i =0;i<lst.size();i++){
-                 String icono = lst.get(i).getIconoDocumento();
-                 String tipo =  lst.get(i).getTipodocumento();
-                 if (!icono.equals("")){
-                     if (!origen.equals(tipo)){
-                         lstTipos.add(tipo);
-                         origen = tipo;
-                     }
+          return lstNodoFinal;
+      }
+          
+       public List<NodoArbol> getArbolUnidadNavegador(Usuario usuario, String tipoVista) {
+          List<NodoArbol> lstNodoFinal = new ArrayList<NodoArbol>();
+          List<NodoArbol> lstNodo = null;
+          List<Object> lstArbol = new ArrayList<Object>();
+          
+          List<ItemUF> lst = documentoDao.findByDataUF(usuario, tipoVista, true);
+          String origen = "";
+          List<String> lstTipos = new ArrayList<String>();
+          
+          for(int i =0;i<lst.size();i++){
+             String icono = lst.get(i).getIconoDocumento();
+             String tipo =  lst.get(i).getIdAreaAutor();
+             if (!icono.equals("")){
+                 if (!origen.equals(tipo)){
+                     lstTipos.add(tipo);
+                     origen = tipo;
                  }
-              }
-              
-              for(int j=0;j<lstTipos.size();j++){
-                  boolean bandera = false;
-                  List<NodoArbol> allElements = new ArrayList<NodoArbol>();
-                  List<NodoArbol> allElementsTemp = new ArrayList<NodoArbol>();
-                  List<NodoArbol> allElementsTemp2 = new ArrayList<NodoArbol>();
-                  int contador = 0;
-                  for(int i=0;i<lst.size();i++){
-                       if (lstTipos.get(j).equals(lst.get(i).getTipodocumento().toString())){
-                                String icono = lst.get(i).getIconoDocumento();
-                                if (icono!=null && !icono.equals("")){
-                                     bandera = true;
-                                     contador ++;
-                                     List<Archivo> lstArchivo = null;
-                                     
-                                     if (lst.get(i).getDocumentoreferencia()==null){
-                                         lstArchivo =archivoService.findLstByIdDocumento(lst.get(i).getId());
-                                     }else{
-                                         lstArchivo =archivoService.findLstByIdDocumento(new Integer(lst.get(i).getDocumentoreferencia()));
-                                     }
-                                     
-                                     List<NodoArbol> lstTreeDocumento = new ArrayList<NodoArbol>();
-                                     int contadorArchivo = 0;
-                                     
-                                     for(int k=0;k<lstArchivo.size();k++){
-                                          NodoArbol objETDocumento = new NodoArbol(false, "D|" + lstArchivo.get(k).getPrincipal() + "|" + UUID.randomUUID().toString().replace("|", "U2") + "|" +lstArchivo.get(k).getIdArchivo() + "|" + lstArchivo.get(k).getRutaAlfresco() + "|" + lstArchivo.get(k).getObjectId(), lstArchivo.get(k).getNombreArchivo() , null);
-                                          lstTreeDocumento.add(objETDocumento);
-                                          contadorArchivo ++;
-                                     }
-                                     
-                                     NodoArbol objFlujoTree = new NodoArbol(false, "U|" +lst.get(i).getId(), lst.get(i).getDocumento() + " ["  +  contadorArchivo + "]" , lstTreeDocumento);
-                                     allElementsTemp.add(objFlujoTree);
-                                     allElementsTemp2.add(objFlujoTree);
-                                     allElementsTemp.addAll(lstTreeDocumento);
-                                }
-                      }
-                  }
-                  
-                  if (bandera){
-                    Tipodocumento t = tipoDocumentoDao.findByIdTipoDocumento(new Integer(lstTipos.get(j)));
-                    NodoArbol objTipoTree = new NodoArbol(true, "E|" +  lstTipos.get(j) , t.getNombre() + " [" + contador + "]",allElementsTemp2); // new
-                    allElements.add(objTipoTree);
-                    allElements.addAll(allElementsTemp);
-                    lstArbol.add(allElements);
-                  }  
              }
-              
-             for(int j=0;j<lstArbol.size();j++){
-                  lstNodo = (List<NodoArbol>)lstArbol.get(j);
-                  for(int k=0;k<lstNodo.size();k++){
-                      NodoArbol nodito = lstNodo.get(k);
-                      lstNodoFinal.add(nodito);
-                  }
-             } 
-                    
-                  
-              return lstNodoFinal;
           }
           
-          
-           public List<NodoArbol> getArbolUnidadNavegador(Usuario usuario, String tipoVista) {
-              List<NodoArbol> lstNodoFinal = new ArrayList<NodoArbol>();
-              List<NodoArbol> lstNodo = null;
-              List<Object> lstArbol = new ArrayList<Object>();
-              
-              List<ItemUF> lst = documentoDao.findByDataUF(usuario, tipoVista, true);
-              String origen = "";
-              List<String> lstTipos = new ArrayList<String>();
-              
-              for(int i =0;i<lst.size();i++){
-                 String icono = lst.get(i).getIconoDocumento();
-                 String tipo =  lst.get(i).getIdAreaAutor();
-                 if (!icono.equals("")){
-                     if (!origen.equals(tipo)){
-                         lstTipos.add(tipo);
-                         origen = tipo;
-                     }
-                 }
-              }
-              
-              for(int j=0;j<lstTipos.size();j++){
-                  boolean bandera = false;
-                  List<NodoArbol> allElements = new ArrayList<NodoArbol>();
-                  List<NodoArbol> allElementsTemp = new ArrayList<NodoArbol>();
-                  List<NodoArbol> allElementsTemp2 = new ArrayList<NodoArbol>();
-                  int contador = 0;
-                  for(int i=0;i<lst.size();i++){
-                       if (lstTipos.get(j).equals(lst.get(i).getIdAreaAutor().toString())){
-                                String icono = lst.get(i).getIconoDocumento();
-                                if (icono!=null && !icono.equals("")){
-                                     bandera = true;
-                                     contador ++;
-                                     List<Archivo> lstArchivo = null;
-                                     
-                                     if (lst.get(i).getDocumentoreferencia()==null){
-                                         lstArchivo =archivoService.findLstByIdDocumento(lst.get(i).getId());
-                                     }else{
-                                         lstArchivo =archivoService.findLstByIdDocumento(new Integer(lst.get(i).getDocumentoreferencia()));
-                                     }
-                                     
-                                     List<NodoArbol> lstTreeDocumento = new ArrayList<NodoArbol>();
-                                     int contadorArchivo = 0;
-                                     
-                                     for(int k=0;k<lstArchivo.size();k++){
-                                          NodoArbol objETDocumento = new NodoArbol(false, "D|" + lstArchivo.get(k).getPrincipal() + "|" + UUID.randomUUID().toString().replace("|", "U2") + "|" +lstArchivo.get(k).getIdArchivo() + "|" + lstArchivo.get(k).getRutaAlfresco() + "|" + lstArchivo.get(k).getObjectId(), lstArchivo.get(k).getNombreArchivo() , null);
-                                          lstTreeDocumento.add(objETDocumento);
-                                          contadorArchivo ++;
-                                     }
-                                     
-                                     NodoArbol objFlujoTree = new NodoArbol(false, "U|" +lst.get(i).getId(), lst.get(i).getDocumento() + " ["  +  contadorArchivo + "]" , lstTreeDocumento);
-                                     allElementsTemp.add(objFlujoTree);
-                                     allElementsTemp2.add(objFlujoTree);
-                                     allElementsTemp.addAll(lstTreeDocumento);
-                                }
-                      }
-                  }
-                  
-                  if (bandera){
-                     
-                    Unidad t = unidadService.buscarObjPor(new Integer(lstTipos.get(j)));
-                    NodoArbol objTipoTree = new NodoArbol(true, "E|" +  lstTipos.get(j) , t.getNombre().toUpperCase() + " [" + contador + "]",allElementsTemp2); // new
-                    allElements.add(objTipoTree);
-                    allElements.addAll(allElementsTemp);
-                    lstArbol.add(allElements);
-                  }  
-             }
-              
-             for(int j=0;j<lstArbol.size();j++){
-                  lstNodo = (List<NodoArbol>)lstArbol.get(j);
-                  for(int k=0;k<lstNodo.size();k++){
-                      NodoArbol nodito = lstNodo.get(k);
-                      lstNodoFinal.add(nodito);
-                  }
-             } 
-                    
-                  
-              return lstNodoFinal;
-          }
-         
-            @Transactional
-            public Documento moverDocumentoSIDECO(Integer iIdDocumento, String nombrePC){
-                log.debug("-> [Service] DocumentoService - moverDocumentoSIDECO():Documento ");
-                Documento documento = this.findByIdDocumento(iIdDocumento);
-
-                mapSession = ActionContext.getContext().getSession();
-                Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO); 
-                documento.setFechaModificacion(new Date());
-                documento.setUsuarioModificacion(usuario.getIdusuario());
-                documento.setNombrePCLecturaDocumento(nombrePC);
-
-                documento.setFlagsideco("1");
-                documento = this.saveDocumento(documento);
-
-                return documento;
-            }
-           
-            
-          public List<Documento> findByIdDocVirtual(Integer codigoVirtual){
-              return documentoDao.findByIdDocVirtual(codigoVirtual);
-          }  
-          
-          public List<Documento> getReferenciaDocumento(Integer idDocumento){
-              List<DocumentoReferencia> lista = documentoReferenciaDAO.getReferenciaDocumento(idDocumento);
-              List<DocumentoReferencia> listaTemp = null;
-              List<Documento> listaDocumento = new ArrayList<Documento>();
-              Documento d = null;
-              Documento temp = null;
-              
-              if (lista!=null){
-                  for(int i=0;i<lista.size();i++){
-                     if (lista.get(i).getIdDocumentoReferencia()!=null){
-                        d = documentoDao.findByIdDocumento(lista.get(i).getIdDocumentoReferencia());
-                        temp = new Documento();
-                        temp.setIdDocumento(d.getIdDocumento());
-                        temp.setNumeroDocumento(d.getTipoDocumento().getNombre()+ " - " + d.getNumeroDocumento());
-                        temp.setVER_DOCUMENTO(lista.get(i).getVerDocumento());
-                        temp.setNroReferencias("");
-                                
-                        if (d.getDocumentoreferencia()==null)
-                            listaTemp = documentoReferenciaDAO.getReferenciaDocumento(d.getIdDocumento());
-                        else
-                            listaTemp = documentoReferenciaDAO.getReferenciaDocumento(d.getDocumentoreferencia());
-                        
-                        if (listaTemp!=null &&  listaTemp.size()>0)
-                             temp.setNroReferencias(String.valueOf(listaTemp.size()));
-                            
-                        listaDocumento.add(temp);    
-                     }  
+          for(int j=0;j<lstTipos.size();j++){
+              boolean bandera = false;
+              List<NodoArbol> allElements = new ArrayList<NodoArbol>();
+              List<NodoArbol> allElementsTemp = new ArrayList<NodoArbol>();
+              List<NodoArbol> allElementsTemp2 = new ArrayList<NodoArbol>();
+              int contador = 0;
+              for(int i=0;i<lst.size();i++){
+                   if (lstTipos.get(j).equals(lst.get(i).getIdAreaAutor().toString())){
+                            String icono = lst.get(i).getIconoDocumento();
+                            if (icono!=null && !icono.equals("")){
+                                 bandera = true;
+                                 contador ++;
+                                 List<Archivo> lstArchivo = null;
+                                 
+                                 if (lst.get(i).getDocumentoreferencia()==null){
+                                     lstArchivo =archivoService.findLstByIdDocumento(lst.get(i).getId());
+                                 }else{
+                                     lstArchivo =archivoService.findLstByIdDocumento(new Integer(lst.get(i).getDocumentoreferencia()));
+                                 }
+                                 
+                                 List<NodoArbol> lstTreeDocumento = new ArrayList<NodoArbol>();
+                                 int contadorArchivo = 0;
+                                 
+                                 for(int k=0;k<lstArchivo.size();k++){
+                                      NodoArbol objETDocumento = new NodoArbol(false, "D|" + lstArchivo.get(k).getPrincipal() + "|" + UUID.randomUUID().toString().replace("|", "U2") + "|" +lstArchivo.get(k).getIdArchivo() + "|" + lstArchivo.get(k).getRutaAlfresco() + "|" + lstArchivo.get(k).getObjectId(), lstArchivo.get(k).getNombreArchivo() , null);
+                                      lstTreeDocumento.add(objETDocumento);
+                                      contadorArchivo ++;
+                                 }
+                                 
+                                 NodoArbol objFlujoTree = new NodoArbol(false, "U|" +lst.get(i).getId(), lst.get(i).getDocumento() + " ["  +  contadorArchivo + "]" , lstTreeDocumento);
+                                 allElementsTemp.add(objFlujoTree);
+                                 allElementsTemp2.add(objFlujoTree);
+                                 allElementsTemp.addAll(lstTreeDocumento);
+                            }
                   }
               }
               
-              return listaDocumento;
-          }
-          
-         @Transactional
-        public Documento updateNoLeido(Integer iIdDocumento, String nombrePC){
-            log.debug("-> [Service] DocumentoService - updateNoLeido():Documento ");
-            Documento documento = this.findByIdDocumento(iIdDocumento);
-            
-            if (documento.getLeido().equals('S')){
-                mapSession = ActionContext.getContext().getSession();
-                               Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO); 
-                               documento.setFechaModificacion(new Date());
-                documento.setUsuarioModificacion(usuario.getIdusuario());
-                               documento.setNombrePCLecturaDocumento(nombrePC);
-            }
-            
-            documento.setLeido('N');
-            documento = this.saveDocumento(documento);
-            
-            return documento;
-        }
-
-
-          
-           public List<DocumentoReferencia> getDocumentoRespuesta(Documento documento){
-             List<DocumentoReferencia> lista = null;
-             
-             if (documento.getDocumentoreferencia()==null){
-                 List<Documento> listDocumentoMultiple =  documentoDao.consultaDocumentoReferencia(documento.getIdDocumento());
+              if (bandera){
                  
-                 if (listDocumentoMultiple==null ||  listDocumentoMultiple.size()==0){
-                    lista = documentoReferenciaDAO.getDocumentoRespuestaSimple(documento);    
-                 }else{
-                    lista = documentoReferenciaDAO.getDocumentoRespuestaMultiple(documento);  
-                 }
-            }else{
-                 Documento d = new Documento();
-                 d.setIdDocumento(documento.getDocumentoreferencia());
-                 lista = documentoReferenciaDAO.getDocumentoRespuestaMultiple(d);  
-            } 
+                Unidad t = unidadService.buscarObjPor(new Integer(lstTipos.get(j)));
+                NodoArbol objTipoTree = new NodoArbol(true, "E|" +  lstTipos.get(j) , t.getNombre().toUpperCase() + " [" + contador + "]",allElementsTemp2); // new
+                allElements.add(objTipoTree);
+                allElements.addAll(allElementsTemp);
+                lstArbol.add(allElements);
+              }  
+         }
+          
+         for(int j=0;j<lstArbol.size();j++){
+              lstNodo = (List<NodoArbol>)lstArbol.get(j);
+              for(int k=0;k<lstNodo.size();k++){
+                  NodoArbol nodito = lstNodo.get(k);
+                  lstNodoFinal.add(nodito);
+              }
+         } 
+                
               
-              
-             return lista;
+          return lstNodoFinal;
+      }
+         
+    @Transactional
+    public Documento moverDocumentoSIDECO(Integer iIdDocumento, String nombrePC){
+        log.debug("-> [Service] DocumentoService - moverDocumentoSIDECO():Documento ");
+        Documento documento = this.findByIdDocumento(iIdDocumento);
+
+        mapSession = ActionContext.getContext().getSession();
+        Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO); 
+        documento.setFechaModificacion(new Date());
+        documento.setUsuarioModificacion(usuario.getIdusuario());
+        documento.setNombrePCLecturaDocumento(nombrePC);
+
+        documento.setFlagsideco("1");
+        documento = this.saveDocumento(documento);
+
+        return documento;
+    }
+           
+    public List<Documento> findByIdDocVirtual(Integer codigoVirtual){
+        return documentoDao.findByIdDocVirtual(codigoVirtual);
+    }  
+          
+      public List<Documento> getReferenciaDocumento(Integer idDocumento){
+          List<DocumentoReferencia> lista = documentoReferenciaDAO.getReferenciaDocumento(idDocumento);
+          List<DocumentoReferencia> listaTemp = null;
+          List<Documento> listaDocumento = new ArrayList<Documento>();
+          Documento d = null;
+          Documento temp = null;
+          
+          if (lista!=null){
+              for(int i=0;i<lista.size();i++){
+                 if (lista.get(i).getIdDocumentoReferencia()!=null){
+                    d = documentoDao.findByIdDocumento(lista.get(i).getIdDocumentoReferencia());
+                    temp = new Documento();
+                    temp.setIdDocumento(d.getIdDocumento());
+                    temp.setNumeroDocumento(d.getTipoDocumento().getNombre()+ " - " + d.getNumeroDocumento());
+                    temp.setVER_DOCUMENTO(lista.get(i).getVerDocumento());
+                    temp.setNroReferencias("");
+                            
+                    if (d.getDocumentoreferencia()==null)
+                        listaTemp = documentoReferenciaDAO.getReferenciaDocumento(d.getIdDocumento());
+                    else
+                        listaTemp = documentoReferenciaDAO.getReferenciaDocumento(d.getDocumentoreferencia());
+                    
+                    if (listaTemp!=null &&  listaTemp.size()>0)
+                         temp.setNroReferencias(String.valueOf(listaTemp.size()));
+                        
+                    listaDocumento.add(temp);    
+                 }  
+              }
           }
+          
+          return listaDocumento;
+      }
+          
+    @Transactional
+    public Documento updateNoLeido(Integer iIdDocumento, String nombrePC){
+        log.debug("-> [Service] DocumentoService - updateNoLeido():Documento ");
+        Documento documento = this.findByIdDocumento(iIdDocumento);
+        
+        if (documento.getLeido().equals('S')){
+            mapSession = ActionContext.getContext().getSession();
+                           Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO); 
+                           documento.setFechaModificacion(new Date());
+            documento.setUsuarioModificacion(usuario.getIdusuario());
+                           documento.setNombrePCLecturaDocumento(nombrePC);
+        }
+        
+        documento.setLeido('N');
+        documento = this.saveDocumento(documento);
+        
+        return documento;
+    }
+          
+       public List<DocumentoReferencia> getDocumentoRespuesta(Documento documento){
+         List<DocumentoReferencia> lista = null;
+         
+         if (documento.getDocumentoreferencia()==null){
+             List<Documento> listDocumentoMultiple =  documentoDao.consultaDocumentoReferencia(documento.getIdDocumento());
+             
+             if (listDocumentoMultiple==null ||  listDocumentoMultiple.size()==0){
+                lista = documentoReferenciaDAO.getDocumentoRespuestaSimple(documento);    
+             }else{
+                lista = documentoReferenciaDAO.getDocumentoRespuestaMultiple(documento);  
+             }
+        }else{
+             Documento d = new Documento();
+             d.setIdDocumento(documento.getDocumentoreferencia());
+             lista = documentoReferenciaDAO.getDocumentoRespuestaMultiple(d);  
+        } 
+          
+          
+         return lista;
+      }
                   
 	public Boolean aplicarJerarquia(Usuario objJefe, Proceso objProceso, Integer iIdDocumento) {
 		log.debug("-> [Service] DocumentoService - aplicarJerarquia():Boolean ");
@@ -767,7 +752,6 @@ public class DocumentoServiceImpl implements DocumentoService {
 		//objNewDocumento.setArchivos(objDocumento.getArchivos());
 		return objNewDocumento; 
 	}
-        
        
 	public Documento findByIdDocumento(Integer iIdDocumento) {
 		log.debug("-> [Service] DocumentoService - findByIdDocumento():iIdDocumento: "+iIdDocumento);
@@ -853,24 +837,22 @@ public class DocumentoServiceImpl implements DocumentoService {
 		return doc == null ? null : doc.getFechaLimiteAtencion();
 	}
 
-
 	//jbengoa
 	/*public List<Documento> buscarLstDocumentoPorExpediente(Integer iIdExpediente){
 		return documentoDao.buscarLstDocumentoPorExpediente(iIdExpediente);
 	}*/
 
-
 	//public List<TrazabilidadEnlace> getTrazabilidadEnlace(Integer iIdDocumento) {
 	//	return documentoReferenciaDAO.getListEnlace(iIdDocumento);
 	//}
         
-        @Override
+    @Override
 	public DocumentoDetail getDocumentDetailOptimizedAR(Integer iIdDoc, String strRol) {
 		log.debug("-> [Service] DocumentoService - getDocumentDetailOptimizedAR():DocumentoDetail ");
 		DocumentoDetail objDocumentoDetail = documentoDao.findDocumentoDetailByAR(iIdDoc);
                 
-                return objDocumentoDetail;
-        }        
+        return objDocumentoDetail;
+    }        
 
 	@Transactional
 	@Override
@@ -878,7 +860,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 		log.debug("-> [Service] DocumentoService - getDocumentDetailOptimized():DocumentoDetail ");
 		DocumentoDetail objDocumentoDetail = documentoDao.findDocumentoDetailBy(iIdDoc);
 
-                if (strRol != null && strRol.toLowerCase().equals(Constantes.ROL_MESA_PARTES)) {
+        if (strRol != null && strRol.toLowerCase().equals(Constantes.ROL_MESA_PARTES)) {
 			objDocumentoDetail.setStrRemitente(objDocumentoDetail.getClienterazonsocial());
 		}
 
@@ -888,9 +870,9 @@ public class DocumentoServiceImpl implements DocumentoService {
 			objDocumentoDetail.setCDisponible(Constantes.DOCUMENTO_NO_DISPONIBLE);
 		}
 
-                objDocumentoDetail.setStrRol(strRol);
-                
-                return objDocumentoDetail;
+        objDocumentoDetail.setStrRol(strRol);
+        
+        return objDocumentoDetail;
 	}
 
 	@Override
@@ -2346,327 +2328,325 @@ public class DocumentoServiceImpl implements DocumentoService {
         return exist;
     }
         
-    @SuppressWarnings({ "unused", "rawtypes" })
 	@Transactional
 	@Override
-        public void  derivarDocumentoMasivo(Integer[] arrIdDoc, Documento documento, Usuario objUsuario, Usuarioxunidadxfuncion usuarioDestinatario, DocumentoDetail documentoDetail, String nombrePC, Boolean horarioPermitido, Boolean horarioPermitidoRecepcion, String strAcc) throws Exception{
-            String[] strAcciones = new String[2];
-           
-            for (int i = 0; i < arrIdDoc.length; i++) {                
-              Documento d = documentoDao.findByIdDocumento(arrIdDoc[i]);
+    public void  derivarDocumentoMasivo(Integer[] arrIdDoc, Documento documento, Usuario objUsuario, Usuarioxunidadxfuncion usuarioDestinatario, DocumentoDetail documentoDetail, String nombrePC, Boolean horarioPermitido, Boolean horarioPermitidoRecepcion, String strAcc) throws Exception{
+        String[] strAcciones = new String[2];
+       
+        for (int i = 0; i < arrIdDoc.length; i++) {                
+          Documento d = documentoDao.findByIdDocumento(arrIdDoc[i]);
+          
+          if (!d.getPropietario().getIdusuario().toString().equals(objUsuario.getIdUsuarioPerfil().toString()))
+              continue;
+          
+          if (d.getDocumentoreferencia() == null){
+              Trazabilidaddocumento t = trazabilidaddocumentoDAO.findByMaxNroRegistroAR(d.getIdDocumento(), null, objUsuario.getIdUsuarioPerfil(), objUsuario.getIdUnidadPerfil(), objUsuario.getIdFuncionPerfil());
+              documentoDetail.setStrAsunto(d.getAsunto());
+              documentoDetail.setPrioridad(t.getPrioridad());
+              documentoDetail.setDateFechaLimiteAtencion(t.getFechalimiteatencion());
               
-              if (!d.getPropietario().getIdusuario().toString().equals(objUsuario.getIdUsuarioPerfil().toString()))
-                  continue;
-              
-              if (d.getDocumentoreferencia() == null){
-                  Trazabilidaddocumento t = trazabilidaddocumentoDAO.findByMaxNroRegistroAR(d.getIdDocumento(), null, objUsuario.getIdUsuarioPerfil(), objUsuario.getIdUnidadPerfil(), objUsuario.getIdFuncionPerfil());
-                  documentoDetail.setStrAsunto(d.getAsunto());
-                  documentoDetail.setPrioridad(t.getPrioridad());
-                  documentoDetail.setDateFechaLimiteAtencion(t.getFechalimiteatencion());
-                  
-                  if (strAcc==null){
-                    strAcciones[0] = t.getProveido().getIdProveido()==null?null:t.getProveido().getIdProveido().toString();
-                  }else{
-                    strAcciones[0] = strAcc;
-                  }
-                  
-                  documentoDetail.setStrAccion(Constantes.ACCION_REENVIAR);
-                  derivarDocumento(documentoDetail, objUsuario, usuarioDestinatario, null, null, null,  strAcciones, d , nombrePC, horarioPermitido, horarioPermitidoRecepcion, null);
+              if (strAcc==null){
+                strAcciones[0] = t.getProveido().getIdProveido()==null?null:t.getProveido().getIdProveido().toString();
               }else{
-                  Usuarioxunidadxfuncion usuarioxunidadxfuncion  = new Usuarioxunidadxfuncion();
-                  usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                  usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
-                  usuarioxunidadxfuncion.setIdfuncion(objUsuario.getIdFuncionPerfil());
-                  Trazabilidadapoyo t = trazabilidadapoyoService.buscarUltimaDelegacionUsuarioAR(usuarioxunidadxfuncion, d.getIdDocumento());                
-                  documentoDetail.setStrAsunto(d.getAsunto());
-                  documentoDetail.setPrioridad(t.getPrioridad());
-                  documentoDetail.setDateFechaLimiteAtencion(t.getFechalimiteatencion());
-                  strAcciones[0] = "";
-                  
-                  if (strAcc==null){
-                     strAcciones[1] = t.getProveido().getIdProveido()==null?null:t.getProveido().getIdProveido().toString();
-                  }else{
-                     strAcciones[1] = strAcc;
-                  }    
-                  documentoDetail.setStrAccion(strAcciones[1]);
-                  Proveido p = proveidoDAO.buscarPorId(new Integer(strAcciones[1])); 
-                  
-                  List<Usuario> usuariosNotificados = new ArrayList<Usuario>();
-                  Usuario usuarioNotificado = usuarioService.findByIdUsuario(usuarioDestinatario.getIdusuario());
-                  usuarioNotificado.setIdUnidadPerfil(usuarioDestinatario.getIdunidad());
-                  usuarioNotificado.setProveido(p.getNombre());
-                  usuariosNotificados.add(usuarioNotificado);
-                  crearCopiaApoyo(d, documentoDetail, objUsuario, usuarioDestinatario, strAcciones, d.getPrioridad(),  documentoDetail.getStrTexto(),  nombrePC, horarioPermitido,  horarioPermitidoRecepcion, usuariosNotificados, null);
+                strAcciones[0] = strAcc;
               }
-            }
+              
+              documentoDetail.setStrAccion(Constantes.ACCION_REENVIAR);
+              derivarDocumento(documentoDetail, objUsuario, usuarioDestinatario, null, null, null,  strAcciones, d , nombrePC, horarioPermitido, horarioPermitidoRecepcion, null);
+          }else{
+              Usuarioxunidadxfuncion usuarioxunidadxfuncion  = new Usuarioxunidadxfuncion();
+              usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
+              usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
+              usuarioxunidadxfuncion.setIdfuncion(objUsuario.getIdFuncionPerfil());
+              Trazabilidadapoyo t = trazabilidadapoyoService.buscarUltimaDelegacionUsuarioAR(usuarioxunidadxfuncion, d.getIdDocumento());                
+              documentoDetail.setStrAsunto(d.getAsunto());
+              documentoDetail.setPrioridad(t.getPrioridad());
+              documentoDetail.setDateFechaLimiteAtencion(t.getFechalimiteatencion());
+              strAcciones[0] = "";
+              
+              if (strAcc==null){
+                 strAcciones[1] = t.getProveido().getIdProveido()==null?null:t.getProveido().getIdProveido().toString();
+              }else{
+                 strAcciones[1] = strAcc;
+              }    
+              documentoDetail.setStrAccion(strAcciones[1]);
+              Proveido p = proveidoDAO.buscarPorId(new Integer(strAcciones[1])); 
+              
+              List<Usuario> usuariosNotificados = new ArrayList<Usuario>();
+              Usuario usuarioNotificado = usuarioService.findByIdUsuario(usuarioDestinatario.getIdusuario());
+              usuarioNotificado.setIdUnidadPerfil(usuarioDestinatario.getIdunidad());
+              usuarioNotificado.setProveido(p.getNombre());
+              usuariosNotificados.add(usuarioNotificado);
+              crearCopiaApoyo(d, documentoDetail, objUsuario, usuarioDestinatario, strAcciones, d.getPrioridad(),  documentoDetail.getStrTexto(),  nombrePC, horarioPermitido,  horarioPermitidoRecepcion, usuariosNotificados, null);
+          }
         }
+    }
 	
-        
-	@SuppressWarnings({ "unused", "rawtypes" })
-        @Override
+    @Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public Documento derivarDocumento(DocumentoDetail objDD, Usuario objRemitenteSession, Usuarioxunidadxfuncion objDestino, String sTipoDerivacion, DocumentoDetail objDDD, List<String> conCopia, String[] strAcciones, Documento documento, String nombrePC,Boolean horarioPermitido, Boolean horarioPermitidoRecepcion, Integer codigoVirtual) throws Exception{
-	       log.debug("-> [Service] DocumentoService - derivarDocumento():Documento ");
-               Accion objAccion = null;
-               String asunto = null;
-	       String contenido = null;
-	       Trazabilidaddocumento trazdoc = null;
-	       Proveido p = proveidoDAO.buscarPorId(new Integer(strAcciones[0]));
-               
-               documento.setDespachado('N');
-               documento.setFirmado('N');
-	       objAccion = accionService.findByNombre(objDD.getStrAccion());
-               
-	       if (documento.getContenido() == null) {
-	        documento.setContenido(objDD.getStrTexto());
-	       }
-                
-               asunto = objDD.getStrAsunto();
-	       contenido = objDD.getStrContenido();
-		
-               Usuario u = usuarioService.findByIdUsuario(objRemitenteSession.getIdUsuarioPerfil());
-               documento.setPropietario(new Usuario(objDestino.getIdusuario()));
-               documento.setUnidadpropietario(objDestino.getIdunidad());
-               documento.setCargopropietario(objDestino.getIdfuncion());
-	       documento.setRemitente(u.getNombres() + " " + u.getApellidos());
-	       documento.setAccion(objAccion);	
-               documento.setLeido(Constantes.ESTADO_NO_LEIDO);
-               documento.setIndAlerta("0");    
-               
-               Date fechaValida = new Date();
-               documento.setFechaAccion(fechaValida); 
-               documento.setEstado(Constantes.ESTADO_PENDIENTE);
-               
-               if ((documento.getID_EXTERNO()!=null && documento.getID_EXTERNO()==0) || !objDestino.getIdunidad().toString().equals(Constantes.UNIDAD_TRAMITE.toString())){
-                   if (p.getIdProveido().toString().equals(Constantes.CODIGO_PROVEIDO_FIRMAR)){
-                      documento.setFirmado('S');
-                   }
-               }
-               
-               documento = this.saveDocumento(documento);
-               
-               Usuario objUsuario = new Usuario();
-               objUsuario.setIdUnidadPerfil(objDestino.getIdunidad());
-               objUsuario.setIdFuncionPerfil(objDestino.getIdfuncion());
-               objUsuario.setIdusuario(objDestino.getIdusuario());
-              
-               trazdoc = trazabilidadDocumentoService.saveTrazabilidadDocumento(documento, objRemitenteSession, documento.getPlazo(), 0, objDD.getStrFechaLimiteAtencion(), asunto, contenido, strAcciones, nombrePC,horarioPermitido,objDD.getStrSinPlazo(),horarioPermitidoRecepcion, objDestino, objDD.getPrioridad());
-               Documentoenviado documentoenviado = new Documentoenviado();
-               documentoenviado.setIdTrazabilidadEnvio(trazdoc.getIdtrazabilidaddocumento());
-       		documentoenviado.setUsuario(new Usuario(objRemitenteSession.getIdUsuarioPerfil()));
-               documentoenviado.setUnidadpropietario(objRemitenteSession.getIdUnidadPerfil());
-               documentoenviado.setCargopropietario(objRemitenteSession.getIdFuncionPerfil());
-               documentoenviado.setEstado("" + Constantes.ESTADO_ACTIVO);
-               documentoenviado.setTipoEnvio(""+Constantes.TIPO_ENVIO_TRANSFERIR);
-               documentoenviado.setUsuariocreacion(objRemitenteSession.getIdusuario());
-               documentoenviado.setFechaCreacion(documento.getFechaAccion());
-               documentoEnviadoDao.saveDocumento(documentoenviado);
-               
-               int iEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_REENVIAR;
-	       int iCCEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_CCREENVIAR;
+       Accion objAccion = null;
+       String asunto = null;
+       String contenido = null;
+       Trazabilidaddocumento trazdoc = null;
+       Proveido p = proveidoDAO.buscarPorId(new Integer(strAcciones[0]));
+           
+       documento.setDespachado('N');
+       documento.setFirmado('N');
+       objAccion = accionService.findByNombre(objDD.getStrAccion());
+           
+       if (documento.getContenido() == null) {
+        documento.setContenido(objDD.getStrTexto());
+       }
+            
+       asunto = objDD.getStrAsunto();
+       contenido = objDD.getStrContenido();
+	
+       Usuario u = usuarioService.findByIdUsuario(objRemitenteSession.getIdUsuarioPerfil());
+       documento.setPropietario(new Usuario(objDestino.getIdusuario()));
+       documento.setUnidadpropietario(objDestino.getIdunidad());
+       documento.setCargopropietario(objDestino.getIdfuncion());
+       documento.setRemitente(u.getNombres() + " " + u.getApellidos());
+       documento.setAccion(objAccion);	
+       documento.setLeido(Constantes.ESTADO_NO_LEIDO);
+       documento.setIndAlerta("0");    
+       
+       Date fechaValida = new Date();
+       documento.setFechaAccion(fechaValida); 
+       documento.setEstado(Constantes.ESTADO_PENDIENTE);
+       
+       if ((documento.getID_EXTERNO()!=null && documento.getID_EXTERNO()==0) || !objDestino.getIdunidad().toString().equals(Constantes.UNIDAD_TRAMITE.toString())){
+           if (p.getIdProveido().toString().equals(Constantes.CODIGO_PROVEIDO_FIRMAR)){
+              documento.setFirmado('S');
+           }
+       }
+       
+       documento = this.saveDocumento(documento);
+       
+       Usuario objUsuario = new Usuario();
+       objUsuario.setIdUnidadPerfil(objDestino.getIdunidad());
+       objUsuario.setIdFuncionPerfil(objDestino.getIdfuncion());
+       objUsuario.setIdusuario(objDestino.getIdusuario());
+      
+       trazdoc = trazabilidadDocumentoService.saveTrazabilidadDocumento(documento, objRemitenteSession, documento.getPlazo(), 0, objDD.getStrFechaLimiteAtencion(), asunto, contenido, strAcciones, nombrePC,horarioPermitido,objDD.getStrSinPlazo(),horarioPermitidoRecepcion, objDestino, objDD.getPrioridad());
+       Documentoenviado documentoenviado = new Documentoenviado();
+       documentoenviado.setIdTrazabilidadEnvio(trazdoc.getIdtrazabilidaddocumento());
+	   documentoenviado.setUsuario(new Usuario(objRemitenteSession.getIdUsuarioPerfil()));
+       documentoenviado.setUnidadpropietario(objRemitenteSession.getIdUnidadPerfil());
+       documentoenviado.setCargopropietario(objRemitenteSession.getIdFuncionPerfil());
+       documentoenviado.setEstado("" + Constantes.ESTADO_ACTIVO);
+       documentoenviado.setTipoEnvio(""+Constantes.TIPO_ENVIO_TRANSFERIR);
+       documentoenviado.setUsuariocreacion(objRemitenteSession.getIdusuario());
+       documentoenviado.setFechaCreacion(new Date());
+       documentoEnviadoDao.saveDocumento(documentoenviado);
+       
+       int iEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_REENVIAR;
+       int iCCEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_CCREENVIAR;
 
-	       if (objAccion.getNombre().equals(Constantes.ACCION_PARA_APROBAR)) {
-			iEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_PORAPROBAR;
-			iCCEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_CCPORAPROBAR;
-	       } else if (objAccion.getNombre().equals(Constantes.ACCION_APROBAR)) {
-			iEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_APROBAR;
-			iCCEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_CCAPROBAR;
-	       }
+       if (objAccion.getNombre().equals(Constantes.ACCION_PARA_APROBAR)) {
+		iEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_PORAPROBAR;
+		iCCEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_CCPORAPROBAR;
+       } else if (objAccion.getNombre().equals(Constantes.ACCION_APROBAR)) {
+		iEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_APROBAR;
+		iCCEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_CCAPROBAR;
+       }
                
-               Set usuariosNotificados = notificacionService.informarViaNotifAndMail(objRemitenteSession, documento, iEvento, Constantes.TIPO_NOTIFICACION_DERIVACION, nombrePC, objDD.getStrContenido(), p.getNombre());
-	       if (conCopia != null) {
-                   for (String sID : conCopia) {
-                    if (!StringUtil.isEmpty(sID)) {
-                 	String[] datosCopia = sID.split("-");
-			Integer iID = Integer.valueOf(datosCopia[0]);
-			Usuario usuarioReceptor = usuarioService.findByIdUsuario(new Integer(datosCopia[0]));
-                        usuarioReceptor.setIdUnidadPerfil(new Integer(datosCopia[1]));
-                        usuarioReceptor.setIdFuncionPerfil(new Integer(datosCopia[2]));
-                        if (!usuariosNotificados.contains(usuarioReceptor) && (objDestino.getIdusuario()).intValue() != iID.intValue()) {
+       Set usuariosNotificados = notificacionService.informarViaNotifAndMail(objRemitenteSession, documento, iEvento, Constantes.TIPO_NOTIFICACION_DERIVACION, nombrePC, objDD.getStrContenido(), p.getNombre());
+       
+       if (conCopia != null) {
+          for (String sID : conCopia) {
+             if (!StringUtil.isEmpty(sID)) {
+             	String[] datosCopia = sID.split("-");
+				Integer iID = Integer.valueOf(datosCopia[0]);
+				Usuario usuarioReceptor = usuarioService.findByIdUsuario(new Integer(datosCopia[0]));
+                usuarioReceptor.setIdUnidadPerfil(new Integer(datosCopia[1]));
+                usuarioReceptor.setIdFuncionPerfil(new Integer(datosCopia[2]));
+                
+                if (!usuariosNotificados.contains(usuarioReceptor) && (objDestino.getIdusuario()).intValue() != iID.intValue()) {
 		           notificacionService.enviarNotificacion(objRemitenteSession, usuarioReceptor, documento, Constantes.TIPO_NOTIFICACION_DERIVACIONCONCOPIA, nombrePC,horarioPermitido,null,null);
 		           mailService.ChaskiMail(iCCEvento, objRemitenteSession, usuarioReceptor, documento, contenido ,"");
-			}else {
-                            notificacionService.updateTipoNotificacion(documento.getIdDocumento(), usuarioReceptor.getIdusuario(), Constantes.TIPO_NOTIFICACION_DERIVACIONCONCOPIA);
-			}
+				} else {
+                    notificacionService.updateTipoNotificacion(documento.getIdDocumento(), usuarioReceptor.getIdusuario(), Constantes.TIPO_NOTIFICACION_DERIVACIONCONCOPIA);
+				}
 		     }
-		   }
-		}
+		  }
+	   }
                
+        try {
+           boolean bandera = false;
+           String respuesta = null;
+           List<Usuarioxunidadxfuncion> lista = null;
+           Tipodocumento t = tipoDocumentoDao.findByIdTipoDocumento(documento.getTipoDocumento().getIdtipodocumento());
+           
+           if (documento.getID_CLIENTE()!=null && t.getEstadoPIDE()!=null && t.getEstadoPIDE().equals(String.valueOf(Constantes.ESTADO_ACTIVO))){
                 try{
-                       boolean bandera = false;
-                       String respuesta = null;
-                       List<Usuarioxunidadxfuncion> lista = null;
-                       Tipodocumento t = tipoDocumentoDao.findByIdTipoDocumento(documento.getTipoDocumento().getIdtipodocumento());
-                       
-                       if (documento.getID_CLIENTE()!=null && t.getEstadoPIDE()!=null && t.getEstadoPIDE().equals(String.valueOf(Constantes.ESTADO_ACTIVO))){
-                            try{
-                                lista  = usuarioxunidadxfuncionDAO.getUsuarioByUnidadByFuncionListRol(objUsuario);
-                            }catch(Exception e){
-                              e.printStackTrace();
-                            }   
-
-                            if (lista!=null && lista.size()>0){
-                               for (int i=0;i<lista.size();i++){
-                                  if (lista.get(i).getIdrol()!=null && lista.get(i).getIdrol().toString().equals(Constantes.COD_ROL_MENSAJERIA.toString())){
-                                      bandera = true;
-                                      break;
-                                  }
-                               }
-
-                               if (bandera){
-                                     try{
-                                         Cliente c = clienteService.findByIdCliente(documento.getID_CLIENTE());
-                                         EndPointRUC endPointRUC = new EndPointRUC();
-                                         respuesta = endPointRUC.validarEntidad(c.getNumeroIdentificacion(), Constantes.AMBIENTE_WS_PIDE_RUC);
-                                     }catch(Exception e){
-                                         e.printStackTrace();
-                                         respuesta = "-1";
-                                         try{
-                                             Cliente c = clienteService.findByIdCliente(documento.getID_CLIENTE());
-                                             if (c!=null){
-                                                 if (c.getFlagPide()!=null && c.getFlagPide().equals("1")){
-                                                    respuesta = "0000"; 
-                                                 }
-                                             }
-                                         }catch(Exception ex){
-                                             ex.printStackTrace();;
-                                             respuesta = "-1";
-                                         }
-                                     }
-                               }else{
-                                   bandera = false; 
-                               }
-
-                               if (bandera && t!=null && respuesta!=null && respuesta.equals("0000")){
-                                 int contador = 0;
-                                 IotdtcDespacho iotdtcDespacho = new IotdtcDespacho();
-                                 Cliente c = clienteService.findByIdCliente(documento.getID_CLIENTE());
-                                 List<Usuario> lst = firmaArchivoDAO.findUltimaFirma(documento.getIdDocumento(), "F");
-                                 if (lst!=null && lst.size()>0){
-                                     Usuario usuario = usuarioService.findByIdUsuario(lst.get(0).getIdUsuarioPerfil());
-                                     iotdtcDespacho.setCtipdociderem(usuario.getTipoDocumento().charAt(0));
-                                     iotdtcDespacho.setVnumdociderem(usuario.getNroDocumento());
-                                     iotdtcDespacho.setVcoduniorgrem(lst.get(0).getIdUnidadPerfil().toString());
-                                     iotdtcDespacho.setVuniorgrem(unidadService.buscarObjPor(lst.get(0).getIdUnidadPerfil()).getNombre());
-                                 }else{
-                                     throw new Exception();
-                                 }    
-
-                                 iotdtcDespacho.setVnumregstd(documento.getID_CODIGO().toString());
-                                 iotdtcDespacho.setVanioregstd(documento.getID_CODIGO().toString().substring(0, 4));
-                                 iotdtcDespacho.setVrucentrec(c.getNumeroIdentificacion());
-                                 iotdtcDespacho.setVnomentrec(c.getRazonSocial());
-                                 iotdtcDespacho.setCflgest('P');
-                                 iotdtcDespacho.setCflgenv('N');
-                                 iotdtcDespacho.setDfecreg(new Date());
-                                 iotdtcDespacho.setIddocumento(documento.getIdDocumento());
-                                 iotdtcDespacho.setVusureg(objRemitenteSession.getUsuario());
-                                 iotdtcDespacho = despachoVirtualDAO.registrarDocumento(iotdtcDespacho);
-                               
-                                 List<Archivo> lstArchivo = archivoService.buscarDocumentosPublicar(documento.getID_CODIGO().toString());
-                                 for(int i=0;i<lstArchivo.size();i++){
-                                   if (!lstArchivo.get(i).getPrincipal().equals('S')){
-                                      contador ++;    
-                                   }   
-                                 }
-
-                                 IotdtmDocExterno iotdtmDocExterno = new IotdtmDocExterno();
-                                 iotdtmDocExterno.setSidemiext(iotdtcDespacho);
-                                 iotdtmDocExterno.setVnomentemi(parametroService.findByTipoAndValue("RAZON_SOCIAL_OSITRAN", "20420248645").getDescripcion());
-                                 iotdtmDocExterno.setCcodtipdoc(documento.getTipoDocumento().getPide());
-                                 iotdtmDocExterno.setVnumdoc(documento.getNumeroDocumento());
-                                 iotdtmDocExterno.setDfecdoc(documento.getFechaDocumento());
-                                 iotdtmDocExterno.setVuniorgdst(documento.getDesUnidadRemitente()); 
-                                 iotdtmDocExterno.setVnomdst(documento.getDesRemitente());
-                                 iotdtmDocExterno.setVnomcardst(documento.getDesCargoRemitente());
-                                 iotdtmDocExterno.setVasu(documento.getAsunto());
-                                 iotdtmDocExterno.setSnumanx(BigInteger.valueOf(contador));
-                                 iotdtmDocExterno.setSnumfol(BigInteger.valueOf(documento.getNumeroFolios()));
-                                 if (contador>0) iotdtmDocExterno.setVurldocanx(parametroService.findByTipoAndValue("URL_ANEXOS_PIDE", "PIDE").getDescripcion());
-                                 iotdtmDocExterno = documentoExternoVirtualDAO.registrarDocumento(iotdtmDocExterno);
-                      
-                                 AlfrescoApiWs alfrescoApiWs;
-                                 Session sesionAlfresco = null;
-                                 String alfrescoHostPublico = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
-                                 String alfrescoHostPort = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
-                                 String alfrescoProtocolo = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PROTOCOLO);
-                                 String URL_ALFRESCO = alfrescoProtocolo+"://"+alfrescoHostPublico+":"+alfrescoHostPort+"/alfresco/cmisatom";
-
-                                 String objectId = null;
-                                 String nombreDocumento = null;
-
-                                 for(int i=0;i<lstArchivo.size();i++){
-                                   if (lstArchivo.get(i).getPrincipal().equals('S')){
-                                      objectId = lstArchivo.get(i).getObjectId();
-                                      nombreDocumento = lstArchivo.get(i).getNombre();
-                                      break;
-                                   }         
-                                 }
-
-                                 alfrescoApiWs = new AlfrescoApiWs(URL_ALFRESCO, USERCONSULTA, USERCONSULTA_CLAVE, REPOSITORIO_ID);
-                                 sesionAlfresco = alfrescoApiWs.getSessionAlfresco();
-                                 Document document = (Document)sesionAlfresco.getObject(objectId);
-                                 InputStream intput = document.getContentStream().getStream();
-                                 byte[] bytes = toByteArray(intput);
-                                 IotdtdDocPrincipal iotdtdDocPrincipal = new IotdtdDocPrincipal();
-                                 iotdtdDocPrincipal.setSiddocext(iotdtmDocExterno); 
-                                 iotdtdDocPrincipal.setSiddocext(iotdtmDocExterno);
-                                 iotdtdDocPrincipal.setCcodest('A');
-                                 iotdtdDocPrincipal.setVnomdoc(nombreDocumento);
-                                 iotdtdDocPrincipal.setBpdfdoc(bytes);   
-                                 iotdtdDocPrincipal.setDfecreg(new Date());
-                                 iotdtdDocPrincipal = docPrincipalVirtualDAO.registrarPrincipal(iotdtdDocPrincipal);
-                                 
-                                 if (contador>0){
-                                     for(int i=0;i<lstArchivo.size();i++){
-                                         if (!lstArchivo.get(i).getPrincipal().equals('S')){
-                                            IotdtdAnexo iotdtdAnexo = new IotdtdAnexo();
-                                            nombreDocumento = lstArchivo.get(i).getNombre();
-                                            iotdtdAnexo.setSiddocext(iotdtmDocExterno);
-                                            iotdtdAnexo.setVnomdoc(nombreDocumento);
-                                            iotdtdAnexo.setDfecreg(new Date());
-                                            iotdtdAnexo = docAnexoVirtualDAO.registrarAnexo(iotdtdAnexo);
-                                         }         
-                                     }
-                                 }    
-                               }  
-                            }
-                       }
-                
-                       if (codigoVirtual!=null){
-                           IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
-                           if (iotdtmDocExterno.getSidemiext().getCflgest()=='P'){
-                                IotdtcDespacho iotdtcDespacho = iotdtmDocExterno.getSidemiext();
-                                iotdtcDespacho.setCflgest('X');
-                                iotdtcDespacho.setDfecmod(new Date());
-                                despachoVirtualDAO.registrarDocumento(iotdtcDespacho);
-                           }
-                       }
+                    lista  = usuarioxunidadxfuncionDAO.getUsuarioByUnidadByFuncionListRol(objUsuario);
                 }catch(Exception e){
-                   e.printStackTrace();
-                   throw e;
+                  e.printStackTrace();
+                }   
+
+                if (lista!=null && lista.size()>0) {
+                   for (int i=0;i<lista.size();i++){
+                      if (lista.get(i).getIdrol()!=null && lista.get(i).getIdrol().toString().equals(Constantes.COD_ROL_MENSAJERIA.toString())){
+                          bandera = true;
+                          break;
+                      }
+                   }
+
+                   if (bandera) {
+                         try{
+                             Cliente c = clienteService.findByIdCliente(documento.getID_CLIENTE());
+                             EndPointRUC endPointRUC = new EndPointRUC();
+                             respuesta = endPointRUC.validarEntidad(c.getNumeroIdentificacion(), Constantes.AMBIENTE_WS_PIDE_RUC);
+                         }catch(Exception e){
+                             e.printStackTrace();
+                             respuesta = "-1";
+                             try{
+                                 Cliente c = clienteService.findByIdCliente(documento.getID_CLIENTE());
+                                 if (c!=null){
+                                     if (c.getFlagPide()!=null && c.getFlagPide().equals("1")){
+                                        respuesta = "0000"; 
+                                     }
+                                 }
+                             }catch(Exception ex){
+                                 ex.printStackTrace();;
+                                 respuesta = "-1";
+                             }
+                         }
+                   } else {
+                       bandera = false; 
+                   }
+
+                   if (bandera && t!=null && respuesta!=null && respuesta.equals("0000")){
+                     int contador = 0;
+                     IotdtcDespacho iotdtcDespacho = new IotdtcDespacho();
+                     Cliente c = clienteService.findByIdCliente(documento.getID_CLIENTE());
+                     List<Usuario> lst = firmaArchivoDAO.findUltimaFirma(documento.getIdDocumento(), "F");
+                     
+                     if (lst!=null && lst.size()>0){
+                         Usuario usuario = usuarioService.findByIdUsuario(lst.get(0).getIdUsuarioPerfil());
+                         iotdtcDespacho.setCtipdociderem(usuario.getTipoDocumento().charAt(0));
+                         iotdtcDespacho.setVnumdociderem(usuario.getNroDocumento());
+                         iotdtcDespacho.setVcoduniorgrem(lst.get(0).getIdUnidadPerfil().toString());
+                         iotdtcDespacho.setVuniorgrem(unidadService.buscarObjPor(lst.get(0).getIdUnidadPerfil()).getNombre());
+                     }else{
+                         throw new Exception();
+                     }    
+
+                     iotdtcDespacho.setVnumregstd(documento.getID_CODIGO().toString());
+                     iotdtcDespacho.setVanioregstd(documento.getID_CODIGO().toString().substring(0, 4));
+                     iotdtcDespacho.setVrucentrec(c.getNumeroIdentificacion());
+                     iotdtcDespacho.setVnomentrec(c.getRazonSocial());
+                     iotdtcDespacho.setCflgest('P');
+                     iotdtcDespacho.setCflgenv('N');
+                     iotdtcDespacho.setDfecreg(new Date());
+                     iotdtcDespacho.setIddocumento(documento.getIdDocumento());
+                     iotdtcDespacho.setVusureg(objRemitenteSession.getUsuario());
+                     iotdtcDespacho = despachoVirtualDAO.registrarDocumento(iotdtcDespacho);
+                   
+                     List<Archivo> lstArchivo = archivoService.buscarDocumentosPublicar(documento.getID_CODIGO().toString());
+                     
+                     for(int i=0;i<lstArchivo.size();i++){
+                       if (!lstArchivo.get(i).getPrincipal().equals('S')){
+                          contador ++;    
+                       }   
+                     }
+
+                     IotdtmDocExterno iotdtmDocExterno = new IotdtmDocExterno();
+                     iotdtmDocExterno.setSidemiext(iotdtcDespacho);
+                     iotdtmDocExterno.setVnomentemi(parametroService.findByTipoAndValue("RAZON_SOCIAL_OSITRAN", "20420248645").getDescripcion());
+                     iotdtmDocExterno.setCcodtipdoc(documento.getTipoDocumento().getPide());
+                     iotdtmDocExterno.setVnumdoc(documento.getNumeroDocumento());
+                     iotdtmDocExterno.setDfecdoc(documento.getFechaDocumento());
+                     iotdtmDocExterno.setVuniorgdst(documento.getDesUnidadRemitente()); 
+                     iotdtmDocExterno.setVnomdst(documento.getDesRemitente());
+                     iotdtmDocExterno.setVnomcardst(documento.getDesCargoRemitente());
+                     iotdtmDocExterno.setVasu(documento.getAsunto());
+                     iotdtmDocExterno.setSnumanx(BigInteger.valueOf(contador));
+                     iotdtmDocExterno.setSnumfol(BigInteger.valueOf(documento.getNumeroFolios()));
+                     
+                     if (contador>0) {
+                    	 iotdtmDocExterno.setVurldocanx(parametroService.findByTipoAndValue("URL_ANEXOS_PIDE", "PIDE").getDescripcion());
+                     }
+                     
+                     iotdtmDocExterno = documentoExternoVirtualDAO.registrarDocumento(iotdtmDocExterno);
+          
+                     AlfrescoApiWs alfrescoApiWs;
+                     Session sesionAlfresco = null;
+                     String alfrescoHostPublico = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
+                     String alfrescoHostPort = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
+                     String alfrescoProtocolo = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PROTOCOLO);
+                     String URL_ALFRESCO = alfrescoProtocolo+"://"+alfrescoHostPublico+":"+alfrescoHostPort+"/alfresco/cmisatom";
+
+                     String objectId = null;
+                     String nombreDocumento = null;
+
+                     for (int i=0;i<lstArchivo.size();i++){
+                       if (lstArchivo.get(i).getPrincipal().equals('S')){
+                          objectId = lstArchivo.get(i).getObjectId();
+                          nombreDocumento = lstArchivo.get(i).getNombre();
+                          break;
+                       }         
+                     }
+
+                     alfrescoApiWs = new AlfrescoApiWs(URL_ALFRESCO, USERCONSULTA, USERCONSULTA_CLAVE, REPOSITORIO_ID);
+                     sesionAlfresco = alfrescoApiWs.getSessionAlfresco();
+                     Document document = (Document)sesionAlfresco.getObject(objectId);
+                     InputStream intput = document.getContentStream().getStream();
+                     byte[] bytes = toByteArray(intput);
+                     IotdtdDocPrincipal iotdtdDocPrincipal = new IotdtdDocPrincipal();
+                     iotdtdDocPrincipal.setSiddocext(iotdtmDocExterno); 
+                     iotdtdDocPrincipal.setSiddocext(iotdtmDocExterno);
+                     iotdtdDocPrincipal.setCcodest('A');
+                     iotdtdDocPrincipal.setVnomdoc(nombreDocumento);
+                     iotdtdDocPrincipal.setBpdfdoc(bytes);   
+                     iotdtdDocPrincipal.setDfecreg(new Date());
+                     iotdtdDocPrincipal = docPrincipalVirtualDAO.registrarPrincipal(iotdtdDocPrincipal);
+                     
+                     if (contador>0) {
+                         for(int i=0;i<lstArchivo.size();i++){
+                             if (!lstArchivo.get(i).getPrincipal().equals('S')){
+                                IotdtdAnexo iotdtdAnexo = new IotdtdAnexo();
+                                nombreDocumento = lstArchivo.get(i).getNombre();
+                                iotdtdAnexo.setSiddocext(iotdtmDocExterno);
+                                iotdtdAnexo.setVnomdoc(nombreDocumento);
+                                iotdtdAnexo.setDfecreg(new Date());
+                                iotdtdAnexo = docAnexoVirtualDAO.registrarAnexo(iotdtdAnexo);
+                             }  
+                         }
+                      }
+                   }  
                 }
-                
-                return documento;
+           }
+    
+           if (codigoVirtual!=null) {
+               IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
+               
+               if (iotdtmDocExterno.getSidemiext().getCflgest()=='P'){
+                    IotdtcDespacho iotdtcDespacho = iotdtmDocExterno.getSidemiext();
+                    iotdtcDespacho.setCflgest('X');
+                    iotdtcDespacho.setDfecmod(new Date());
+                    despachoVirtualDAO.registrarDocumento(iotdtcDespacho);
+               }
+           }
+        } catch(Exception e) {
+           e.printStackTrace();
+           throw e;
+        }
+        
+        return documento;
 	}
 
-
-	/**
-	 * Devuelve los documentos que tienen notificacion amarilla.
-	 *
-	 * @author German Enriquez
-	 */
+    // Devuelve los documentos que tienen notificacion amarilla.
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Documento> obtieneDocumentosNotificacionAmarilla() {
-		log.debug("-> [Service] DocumentoService - obtieneDocumentosNotificacionAmarilla():List<Documento> ");
-
 		double notificacionAmarilla = 0.5;
 		double notificacionRoja = 0.75;
-		log.warn(" obtieneDocumentosNotificacionAmarilla ");
 		List<Proceso> listaProcesos = procesoDao.findPorcentajesProcesos();
 		List<Documento> todos = documentoDao.getTodos();
 		List<Documento> documentos = new ArrayList<Documento>();
 		Calendar hoy = Calendar.getInstance();
+		
 		for (Documento doc : todos) {
 			Date limite = doc.getFechaLimiteAtencion();
 			Date accion = doc.getFechaAccion();
@@ -6104,8 +6084,8 @@ public class DocumentoServiceImpl implements DocumentoService {
 		   texto = !mensaje.equals("") ? texto+mensaje : texto;
 		   tapoyo.setTexto(texto);
 		}
-                
-        Trazabilidadapoyo temp =trazabilidadapoyoService.guardar(tapoyo);
+        
+        Trazabilidadapoyo temp = trazabilidadapoyoService.guardar(tapoyo);
         Documentoenviado documentoenviado = new Documentoenviado();
         documentoenviado.setIdTrazabilidadEnvio(temp.getIdtrazabilidadapoyo());//buscar multiple
         documentoenviado.setUsuario(temp.getRemitente());
@@ -6114,9 +6094,10 @@ public class DocumentoServiceImpl implements DocumentoService {
         documentoenviado.setUsuariocreacion(usuario.getIdusuario());
         documentoenviado.setEstado("" + Constantes.ESTADO_ACTIVO);
         documentoenviado.setTipoEnvio(""+ Constantes.TIPO_ENVIO_MULTIPLE);
+        documentoenviado.setFechaCreacion(new Date()); 
         documentoEnviadoDao.saveDocumento(documentoenviado);
         
-        try{
+        try {
             Usuario objUsuario = new Usuario();
             Tipodocumento t = tipoDocumentoDao.findByIdTipoDocumento(doc.getTipoDocumento().getIdtipodocumento());
             String respuesta = null;
@@ -6125,13 +6106,13 @@ public class DocumentoServiceImpl implements DocumentoService {
             objUsuario.setIdFuncionPerfil(datosDestinatarios.getIdfuncion());
             objUsuario.setIdusuario(datosDestinatarios.getIdusuario());
             
-            if (doc.getID_CLIENTE()!=null && t.getEstadoPIDE()!=null && t.getEstadoPIDE().equals(String.valueOf(Constantes.ESTADO_ACTIVO))){ 
+            if (doc.getID_CLIENTE() != null && t.getEstadoPIDE() != null && t.getEstadoPIDE().equals(String.valueOf(Constantes.ESTADO_ACTIVO))){ 
                 boolean bandera = false;
                 List<Usuarioxunidadxfuncion> lista = null;
                 
-                try{
+                try {
                       lista = usuarioxunidadxfuncionDAO.getUsuarioByUnidadByFuncionListRol(objUsuario);
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 

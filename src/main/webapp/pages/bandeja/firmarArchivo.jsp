@@ -114,13 +114,13 @@
 				  .catch(function (error) {
 				    // handle error
 				    alert("Debe de instalar el software de Firma");
-				    Swal.fire({
-				    	  position: 'center',
-				    	  icon: 'warning',
-				    	  title: 'Debe de instalar el software de Firma',
-				    	  showConfirmButton: false,
-				    	  timer: 1500
-				    	})
+// 				    Swal.fire({
+// 				    	  position: 'center',
+// 				    	  icon: 'warning',
+// 				    	  title: 'Debe de instalar el software de Firma',
+// 				    	  showConfirmButton: false,
+// 				    	  timer: 1500
+// 				    	})
 				    dijit.byId("dlgProgresBar").hide();
 					dijit.byId("dlgFirmar").hide();
 				    console.log(error);
