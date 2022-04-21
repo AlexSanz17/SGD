@@ -2453,13 +2453,13 @@ public class DocumentoServiceImpl implements DocumentoService {
                trazdoc = trazabilidadDocumentoService.saveTrazabilidadDocumento(documento, objRemitenteSession, documento.getPlazo(), 0, objDD.getStrFechaLimiteAtencion(), asunto, contenido, strAcciones, nombrePC,horarioPermitido,objDD.getStrSinPlazo(),horarioPermitidoRecepcion, objDestino, objDD.getPrioridad());
                Documentoenviado documentoenviado = new Documentoenviado();
                documentoenviado.setIdTrazabilidadEnvio(trazdoc.getIdtrazabilidaddocumento());
-       		documentoenviado.setUsuario(new Usuario(objRemitenteSession.getIdUsuarioPerfil()));
+       			documentoenviado.setUsuario(new Usuario(objRemitenteSession.getIdUsuarioPerfil()));
                documentoenviado.setUnidadpropietario(objRemitenteSession.getIdUnidadPerfil());
                documentoenviado.setCargopropietario(objRemitenteSession.getIdFuncionPerfil());
                documentoenviado.setEstado("" + Constantes.ESTADO_ACTIVO);
                documentoenviado.setTipoEnvio(""+Constantes.TIPO_ENVIO_TRANSFERIR);
                documentoenviado.setUsuariocreacion(objRemitenteSession.getIdusuario());
-               documentoenviado.setFechaCreacion(documento.getFechaAccion());
+               documentoenviado.setFechaCreacion(new Date());
                documentoEnviadoDao.saveDocumento(documentoenviado);
                
                int iEvento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_REENVIAR;
@@ -6151,6 +6151,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                 documentoenviado.setUsuariocreacion(usuario.getIdusuario());
                 documentoenviado.setEstado("" + Constantes.ESTADO_ACTIVO);
                 documentoenviado.setTipoEnvio(""+ Constantes.TIPO_ENVIO_MULTIPLE);
+                documentoenviado.setFechaCreacion(new Date()); 
                 documentoEnviadoDao.saveDocumento(documentoenviado);
                 
                 try{

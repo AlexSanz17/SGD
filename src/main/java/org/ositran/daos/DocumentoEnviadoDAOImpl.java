@@ -111,14 +111,15 @@ public class DocumentoEnviadoDAOImpl implements DocumentoEnviadoDAO{
 	}
 
 	public void saveDocumento(Documentoenviado documentoenviado){
-		if(documentoenviado.getIddocumentoenviado()==null){
-			em.persist(documentoenviado); // Nuevo
-			em.flush();
-			em.refresh(documentoenviado);
-		}else{
-			em.merge(documentoenviado); // Actualizacion
-			em.flush();
-		}
+			if(documentoenviado.getIddocumentoenviado()==null){
+				em.persist(documentoenviado); // Nuevo
+				em.flush();
+				em.refresh(documentoenviado);
+			}else{
+				em.merge(documentoenviado); // Actualizacion
+				em.flush();
+			}
+		
 	}
         
         public List<Usuario> buscarListDestinatarios(Usuario objUsuario){

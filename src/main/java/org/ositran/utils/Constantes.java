@@ -50,7 +50,7 @@ public class Constantes{
 	public static final String NO_PUEDE_RECHAZAR="N";
 	public static final String ACCION_DESPACHAR="despachar";
 	public static final String ACCION_NOTIFICAR="notificar";
-    public static final String CONCESIONARIA_INI= "999998";
+    public static final String CONCESIONARIA_INI= "1";
     public static final String SERIE_INI= "1";
     
     public static final String TAB_BUSQUEDA = "TAB_BUSQUEDA";
