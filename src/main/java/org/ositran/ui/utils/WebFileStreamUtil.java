@@ -8,16 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/**
- *
- * @author Jose Corcuera <jose.corcuera@antartec.com>
- */
 public class WebFileStreamUtil {
-
     private static Log log=LogFactory.getLog(WebFileStreamUtil.class);
         
     public enum AplicationType {
-
         RTF("rtf");
         private String applicationType;
 

@@ -3,13 +3,14 @@ package org.ositran.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.text.DecimalFormat;
 
 import com.btg.ositran.siged.domain.Accion;
+import com.btg.ositran.siged.domain.ArchivoAdjunto;
 import com.btg.ositran.siged.domain.Distrito;
 import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.Legajo;
 import com.btg.ositran.siged.domain.Usuario;
-import java.text.DecimalFormat;
 
 public class DocumentoDetail {
 	private String tamanoPrincipal;
@@ -39,7 +40,7 @@ public class DocumentoDetail {
 	private String listaDerivacionPara;
 	private String listaDerivacionCC;
 	private Integer proyecto;
-	private String cantAnexos;
+	private Integer cantAnexos;
 	private String listaIntegrantesInternos;
 	private String listaIntegrantesExternos;
 	private String raiz;
@@ -198,27 +199,22 @@ public class DocumentoDetail {
 	private Character enumerado;
 	private String unidadRemitente;
 	private String unidadDestinatario;
-	public List<String> listAnexos;
+	public List<ArchivoAdjunto> listAnexos;
 	private String ruc;
 	private Legajo legajo;
 
-	// *****************INSTITUCION**********************
 	private Integer idTipoInstitucion;
 	private Integer iIdInstitucion;
 	private String codCargoPersonaInstitucion;
 	private String idPersonaInstitucion;
 
-	// *****************PERSONA NATURAL*******************
 	private Integer idPersonaNatural;
 	private String codCargoPersonaNatural;
 
-	// *********************EMPRESA***********************
 	private Integer idTipoEmpresa;
 	private Integer iIdEmpresa;
 	private String codCargoPersonaEmpresa;
 	private String idPersonaEmpresa;
-
-	// *******************SICOR**************************
 
 	private Integer iIdMateria;
 	private Integer iIdInfraestructura;
@@ -226,8 +222,6 @@ public class DocumentoDetail {
 	private String strLugar;
 	private String strObjetivo;
 	private String strFechaReunion;
-
-	// **************************************************
 
 	private String idInternoExterno;
 	private String idTipoCliente;
@@ -249,6 +243,423 @@ public class DocumentoDetail {
 	private char flagExpediente;
 	private String flagsideco;
 
+	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
+			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
+			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
+			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
+			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
+			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
+			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
+			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
+			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
+			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
+			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
+			String sPropietarioExpedienteApellidos, Integer iIdProceso, String sProceso, String sTipoProcesoNombre,
+			Integer iIdResponsableProceso, String sResponsableProcesoNombres, String sResponsableProcesoApellidos,
+			String sResponsableProcesoUnidad, Integer iIdCliente, String sClienteNumeroIdentificacion,
+			String sClienteRazonSocial, String sClienteNombres, String sClienteApellidoPaterno,
+			String sClienteApellidoMaterno, String sClienteRepresentanteLegal, String sClienteDireccionPrincipal,
+			Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
+			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
+			Integer iIdTipoIdentificacion, String sTipoIdentificacion, Integer iIdConcesionario,
+			String sConcesionarioRazonSocial, String sConcesionarioRuc, String sConcesionarioDireccion,
+			String sConcesionarioCorreo, Integer iIdSala, String sSala, Integer iIdEtapa, String sAsunto,
+			String sContenido, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
+			String sDestinatarioApellidos, Integer iIdRemitente) {
+		this.iIdDocumento = iIdDocumento;
+		this.strFecha = dFechaAccion;
+		this.fechacreacion = dFechaCreacion;
+		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
+		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
+		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA_HORA).format(dFechaDocumento);
+		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
+				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
+		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
+		this.iNroFolios = iNumeroFolios;
+		this.strNroCaja = sNumeroCaja;
+		this.strNroDocumento = sNumeroDocumento;
+		this.strObservacion = sObservacion;
+		this.cEstado = cEstado.charValue();
+		this.cPrincipal = cPrincipal.charValue();
+		this.sObservacionRechazo = sObservacionRechazo;
+		this.iIdTipoDocumento = iIdTipoDocumento;
+		this.strTipoDocumento = sTipoDocumento;
+		this.strDestinatario = sPropietarioDocumentoNombres + " " + sPropietarioDocumentoApellidos;
+		this.iIdExpediente = iIdExpediente;
+		this.sNroExpediente = sNroExpediente;
+		this.estaenflujo = cEstaEnFlujo;
+		this.historico = (cHistorico == null) ? 'N' : cHistorico;
+
+		this.strRazonSocial = "";
+
+		if (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC)) {
+			this.strRazonSocial += (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial
+					: sExpedienteClienteRazonSocial != null ? sExpedienteClienteRazonSocial : "");
+		} else {
+			if (sExpedienteClienteNombres == null) {
+				this.strRazonSocial += sClienteNombres != null ? sClienteNombres + " " : "";
+				this.strRazonSocial += sClienteApellidoPaterno != null ? sClienteApellidoPaterno + " " : "";
+				this.strRazonSocial += sClienteApellidoMaterno != null ? sClienteApellidoMaterno + " " : "";
+			} else {
+				this.strRazonSocial += sExpedienteClienteNombres != null ? sExpedienteClienteNombres + " " : "";
+				this.strRazonSocial += sExpedienteClienteApellidoPaterno != null
+						? sExpedienteClienteApellidoPaterno + " "
+						: "";
+				this.strRazonSocial += sExpedienteClienteApellidoMaterno != null
+						? sExpedienteClienteApellidoMaterno + " "
+						: "";
+			}
+		}
+
+		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
+		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
+				: sExpedienteClienteApellidoPaterno;
+		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
+				: sExpedienteClienteApellidoMaterno;
+		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
+				: sExpedienteClienteRepresentanteLegal;
+		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
+		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
+		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
+		this.iIdProceso = iIdProceso;
+		this.strProceso = sProceso;
+		this.strAbreviado = sTipoProcesoNombre;
+		this.iIdResponsable = iIdResponsableProceso;
+		this.strResponsable = sResponsableProcesoNombres + " " + sResponsableProcesoApellidos;
+		this.strUnidad = sResponsableProcesoUnidad;
+		this.iIdCliente = iIdCliente;
+		this.strNroIdentificacion = sClienteNumeroIdentificacion;
+		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
+		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
+				: sExpedienteClienteDireccionPrincipal;
+		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
+		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
+		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
+		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getNombre();
+		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
+		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
+		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
+		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
+				: sExpedienteClienteDireccionAlternativa;
+		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getIddistrito();
+		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
+		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
+		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getNombre();
+		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
+		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
+		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
+		this.strTipoIdentificacion = sTipoIdentificacion;
+		this.iIdCorrentista = iIdConcesionario;
+		this.strCorrentista = sConcesionarioRazonSocial;
+		this.strRUC = sConcesionarioRuc;
+		this.strDireccionConcesionario = sConcesionarioDireccion;
+		this.strCorreoConcesionario = sConcesionarioCorreo;
+		this.iIdSala = iIdSala;
+		this.strSala = sSala;
+		this.iIdEtapa = iIdEtapa;
+		this.strAsunto = sAsunto;
+		this.strContenido = sContenido;
+		this.strRemitente = sRemitenteNombres + " " + sRemitenteApellidos;
+		this.strDestinatario = sDestinatarioNombres + " " + sDestinatarioApellidos;
+		this.iIdRemitente = iIdRemitente;
+	}
+
+	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
+			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
+			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
+			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
+			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
+			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
+			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
+			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
+			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
+			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
+			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
+			String sPropietarioExpedienteApellidos, Integer iIdProceso, String sProceso, String sTipoProcesoNombre,
+			Integer iIdResponsableProceso, String sResponsableProcesoNombres, String sResponsableProcesoApellidos,
+			String sResponsableProcesoUnidad, Integer iIdCliente, String sClienteNumeroIdentificacion,
+			String sClienteRazonSocial, String sClienteNombres, String sClienteApellidoPaterno,
+			String sClienteApellidoMaterno, String sClienteRepresentanteLegal, String sClienteDireccionPrincipal,
+			Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
+			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
+			Integer iIdTipoIdentificacion, String sTipoIdentificacion, Integer iIdConcesionario,
+			String sConcesionarioRazonSocial, String sConcesionarioRuc, String sConcesionarioDireccion,
+			String sConcesionarioCorreo, Integer iIdSala, String sSala, Integer iIdEtapa, String sAsunto,
+			String sContenido, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
+			String sDestinatarioApellidos, Integer iIdRemitente, String observacionDigitalizador, String codProceso,
+			Integer prioridad) {
+		this.iIdDocumento = iIdDocumento;
+		this.strFecha = dFechaAccion;
+		this.fechacreacion = dFechaCreacion;
+		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
+		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
+		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaDocumento);
+		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
+				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
+		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
+		this.iNroFolios = iNumeroFolios;
+		this.strNroCaja = sNumeroCaja;
+		this.strNroDocumento = sNumeroDocumento;
+		this.strObservacion = sObservacion;
+		this.cEstado = cEstado.charValue();
+		this.cPrincipal = cPrincipal.charValue();
+		this.sObservacionRechazo = sObservacionRechazo;
+		this.iIdTipoDocumento = iIdTipoDocumento;
+		this.strTipoDocumento = sTipoDocumento;
+		this.strDestinatario = sPropietarioDocumentoNombres + " " + sPropietarioDocumentoApellidos;
+		this.iIdExpediente = iIdExpediente;
+		this.sNroExpediente = sNroExpediente;
+		this.estaenflujo = cEstaEnFlujo;
+		this.historico = (cHistorico == null) ? 'N' : cHistorico;
+		this.strRazonSocial = (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC))
+				? (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial)
+				: (sExpedienteClienteNombres == null
+						? sClienteNombres + " " + sClienteApellidoPaterno + " " + sClienteApellidoMaterno
+						: sExpedienteClienteNombres + " " + sExpedienteClienteApellidoPaterno + " "
+								+ sExpedienteClienteApellidoMaterno);
+		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
+		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
+				: sExpedienteClienteApellidoPaterno;
+		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
+				: sExpedienteClienteApellidoMaterno;
+		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
+				: sExpedienteClienteRepresentanteLegal;
+		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
+		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
+		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
+		this.iIdProceso = iIdProceso;
+		this.strProceso = sProceso;
+		this.strAbreviado = sTipoProcesoNombre;
+		this.iIdResponsable = iIdResponsableProceso;
+		this.strResponsable = sResponsableProcesoNombres + " " + sResponsableProcesoApellidos;
+		this.strUnidad = sResponsableProcesoUnidad;
+		this.iIdCliente = iIdCliente;
+		this.strNroIdentificacion = sClienteNumeroIdentificacion;
+		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
+		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
+				: sExpedienteClienteDireccionPrincipal;
+		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
+		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
+		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
+		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getNombre();
+		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
+		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
+		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
+		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
+				: sExpedienteClienteDireccionAlternativa;
+		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getIddistrito();
+		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
+		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
+		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getNombre();
+		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
+		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
+		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
+		this.strTipoIdentificacion = sTipoIdentificacion;
+		this.iIdCorrentista = iIdConcesionario;
+		this.strCorrentista = sConcesionarioRazonSocial;
+		this.strRUC = sConcesionarioRuc;
+		this.strDireccionConcesionario = sConcesionarioDireccion;
+		this.strCorreoConcesionario = sConcesionarioCorreo;
+		this.iIdSala = iIdSala;
+		this.strSala = sSala;
+		this.iIdEtapa = iIdEtapa;
+		this.strAsunto = sAsunto;
+		this.strContenido = sContenido;
+		this.strRemitente = sRemitenteNombres + " " + sRemitenteApellidos;
+		this.strDestinatario = sDestinatarioNombres + " " + sDestinatarioApellidos;
+		this.iIdRemitente = iIdRemitente;
+		this.observacionDigitalizador = observacionDigitalizador;
+		this.prioridad = prioridad;
+		if (codProceso != null) {
+			this.codProceso = codProceso;
+		} else {
+			this.codProceso = "-";
+		}
+	}
+
+	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
+			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
+			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
+			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
+			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
+			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
+			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
+			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
+			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
+			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
+			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
+			String sPropietarioExpedienteApellidos,
+			// Integer iIdProceso,
+			// String sProceso,
+			// String sTipoProcesoNombre,
+			// Integer iIdResponsableProceso,
+			// String sResponsableProcesoNombres,
+			// String sResponsableProcesoApellidos,
+			// String sResponsableProcesoUnidad,
+			Integer iIdCliente, String sClienteNumeroIdentificacion, String sClienteRazonSocial, String sClienteNombres,
+			String sClienteApellidoPaterno, String sClienteApellidoMaterno, String sClienteRepresentanteLegal,
+			String sClienteDireccionPrincipal, Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
+			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
+			Integer iIdTipoIdentificacion, String sTipoIdentificacion, String sAsunto, String sContenido,
+			String strAccion, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
+			String sDestinatarioApellidos, Integer iIdRemitente, String observacionDigitalizador,
+			// String codProceso,
+			Integer prioridad, Character enumerado, Integer strPlazo) {
+		this.iIdDocumento = iIdDocumento;
+		this.strFecha = dFechaAccion;
+		this.fechacreacion = dFechaCreacion;
+		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
+		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
+		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA_HORA).format(dFechaDocumento);
+		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
+				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
+		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
+		this.iNroFolios = iNumeroFolios;
+		this.strNroCaja = sNumeroCaja;
+		this.strNroDocumento = sNumeroDocumento;
+		this.strObservacion = sObservacion;
+		this.cEstado = cEstado.charValue();
+		this.cPrincipal = cPrincipal.charValue();
+		this.sObservacionRechazo = sObservacionRechazo;
+		this.iIdTipoDocumento = iIdTipoDocumento;
+		this.strTipoDocumento = sTipoDocumento;
+		this.strDestinatario = sPropietarioDocumentoNombres + " " + sPropietarioDocumentoApellidos;
+		this.iIdExpediente = iIdExpediente;
+		this.sNroExpediente = sNroExpediente;
+		this.estaenflujo = cEstaEnFlujo;
+		this.historico = (cHistorico == null) ? 'N' : cHistorico;
+		this.strRazonSocial = (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC))
+				? (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial)
+				: (sExpedienteClienteNombres == null
+						? sClienteNombres + " " + sClienteApellidoPaterno + " " + sClienteApellidoMaterno
+						: sExpedienteClienteNombres + " " + sExpedienteClienteApellidoPaterno + " "
+								+ sExpedienteClienteApellidoMaterno);
+		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
+		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
+				: sExpedienteClienteApellidoPaterno;
+		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
+				: sExpedienteClienteApellidoMaterno;
+		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
+				: sExpedienteClienteRepresentanteLegal;
+		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
+		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
+		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
+//		this.iIdProceso = iIdProceso;
+		this.strAccion = strAccion;
+		this.iIdCliente = iIdCliente;
+		this.strNroIdentificacion = sClienteNumeroIdentificacion;
+		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
+		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
+				: sExpedienteClienteDireccionPrincipal;
+		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
+		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
+		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
+		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getNombre();
+		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
+		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
+				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
+		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
+		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
+				: sExpedienteClienteDireccionAlternativa;
+		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getIddistrito();
+		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
+		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
+		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getNombre();
+		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
+		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
+				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
+		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
+		this.strTipoIdentificacion = sTipoIdentificacion;
+		this.strAsunto = sAsunto;
+		this.strContenido = sContenido;
+		this.strRemitente = sRemitenteNombres + " " + sRemitenteApellidos;
+		this.strDestinatario = sDestinatarioNombres + " " + sDestinatarioApellidos;
+		this.iIdRemitente = iIdRemitente;
+		this.observacionDigitalizador = observacionDigitalizador;
+		this.prioridad = prioridad;
+		this.enumerado = enumerado;
+		this.strPlazo = strPlazo;
+
+	}
+
+	public DocumentoDetail(Date strF, Integer iIdD, Integer iIdE, Integer iIdTD, Integer iNF, String strA, String strNC,
+			String strND, String strO, String strP, String strR, String strRe, String strRo, String strTD,
+			String strU) {
+		setStrFecha(strF);
+		setIIdDocumento(iIdD);
+		setIIdExpediente(iIdE);
+		setIIdTipoDocumento(iIdTD);
+		setINroFolios(iNF);
+		setStrAsunto(strA);
+		setStrNroCaja(strNC);
+		setStrNroDocumento(strND);
+		setStrObservacion(strO);
+		setStrProceso(strP);
+		setStrReferencia(strR);
+		setStrResponsable(strRe);
+		setStrRol(strRo);
+		setStrTipoDocumento(strTD);
+		setStrUnidad(strU);
+	}
+
+	public DocumentoDetail(Date strF, Integer iIdD, Integer iIdE, Integer iIdTD, Integer iNF, String strA, String strNC,
+			String strND, String strO, String strP, String strR, String strRe, String strRo, String strTD, String strU,
+			String strCont) {
+		setStrFecha(strF);
+		setIIdDocumento(iIdD);
+		setIIdExpediente(iIdE);
+		setIIdTipoDocumento(iIdTD);
+		setINroFolios(iNF);
+		setStrAsunto(strA);
+		setStrNroCaja(strNC);
+		setStrNroDocumento(strND);
+		setStrObservacion(strO);
+		setStrProceso(strP);
+		setStrReferencia(strR);
+		setStrResponsable(strRe);
+		setStrRol(strRo);
+		setStrTipoDocumento(strTD);
+		setStrUnidad(strU);
+		setStrContenido(strCont);
+	}
+
+	public DocumentoDetail(Integer iIdE, Integer iIdP, Integer iIdR, String strP, String strRef, String strRes,
+			String strU) {
+		setIIdExpediente(iIdE);
+		setIIdProceso(iIdP);
+		setIIdResponsable(iIdR);
+		setStrProceso(strP);
+		setStrReferencia(strRef);
+		setStrResponsable(strRes);
+		setStrUnidad(strU);
+		setStrUnidad(strU);
+	}
+	
 	public String getFlagsideco() {
 		return flagsideco;
 	}
@@ -321,11 +732,11 @@ public class DocumentoDetail {
 		this.codigoVirtual = codigoVirtual;
 	}
 
-	public List<String> getListAnexos() {
+	public List<ArchivoAdjunto> getListAnexos() {
 		return listAnexos;
 	}
 
-	public void setListAnexos(List<String> listAnexos) {
+	public void setListAnexos(List<ArchivoAdjunto> listAnexos) {
 		this.listAnexos = listAnexos;
 	}
 
@@ -337,11 +748,11 @@ public class DocumentoDetail {
 		this.concesionario = concesionario;
 	}
 
-	public String getCantAnexos() {
+	public Integer getCantAnexos() {
 		return cantAnexos;
 	}
 
-	public void setCantAnexos(String cantAnexos) {
+	public void setCantAnexos(Integer cantAnexos) {
 		this.cantAnexos = cantAnexos;
 	}
 
@@ -515,439 +926,6 @@ public class DocumentoDetail {
 
 	public void setCadenaCC(String cadenaCC) {
 		this.cadenaCC = cadenaCC;
-	}
-
-	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
-			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
-			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
-			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
-			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
-			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
-			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
-			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
-			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
-			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
-			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
-			String sPropietarioExpedienteApellidos, Integer iIdProceso, String sProceso, String sTipoProcesoNombre,
-			Integer iIdResponsableProceso, String sResponsableProcesoNombres, String sResponsableProcesoApellidos,
-			String sResponsableProcesoUnidad, Integer iIdCliente, String sClienteNumeroIdentificacion,
-			String sClienteRazonSocial, String sClienteNombres, String sClienteApellidoPaterno,
-			String sClienteApellidoMaterno, String sClienteRepresentanteLegal, String sClienteDireccionPrincipal,
-			Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
-			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
-			Integer iIdTipoIdentificacion, String sTipoIdentificacion, Integer iIdConcesionario,
-			String sConcesionarioRazonSocial, String sConcesionarioRuc, String sConcesionarioDireccion,
-			String sConcesionarioCorreo, Integer iIdSala, String sSala, Integer iIdEtapa, String sAsunto,
-			String sContenido, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
-			String sDestinatarioApellidos, Integer iIdRemitente) {
-		this.iIdDocumento = iIdDocumento;
-		this.strFecha = dFechaAccion;
-		this.fechacreacion = dFechaCreacion;
-		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
-		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
-		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA_HORA).format(dFechaDocumento);
-		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
-				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
-		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
-		this.iNroFolios = iNumeroFolios;
-		this.strNroCaja = sNumeroCaja;
-		this.strNroDocumento = sNumeroDocumento;
-		this.strObservacion = sObservacion;
-		this.cEstado = cEstado.charValue();
-		this.cPrincipal = cPrincipal.charValue();
-		this.sObservacionRechazo = sObservacionRechazo;
-		this.iIdTipoDocumento = iIdTipoDocumento;
-		this.strTipoDocumento = sTipoDocumento;
-		this.strDestinatario = sPropietarioDocumentoNombres + " " + sPropietarioDocumentoApellidos;
-		this.iIdExpediente = iIdExpediente;
-		this.sNroExpediente = sNroExpediente;
-		this.estaenflujo = cEstaEnFlujo;
-		this.historico = (cHistorico == null) ? 'N' : cHistorico;
-
-		this.strRazonSocial = "";
-
-		if (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC)) {
-			this.strRazonSocial += (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial
-					: sExpedienteClienteRazonSocial != null ? sExpedienteClienteRazonSocial : "");
-		} else {
-			if (sExpedienteClienteNombres == null) {
-				this.strRazonSocial += sClienteNombres != null ? sClienteNombres + " " : "";
-				this.strRazonSocial += sClienteApellidoPaterno != null ? sClienteApellidoPaterno + " " : "";
-				this.strRazonSocial += sClienteApellidoMaterno != null ? sClienteApellidoMaterno + " " : "";
-			} else {
-				this.strRazonSocial += sExpedienteClienteNombres != null ? sExpedienteClienteNombres + " " : "";
-				this.strRazonSocial += sExpedienteClienteApellidoPaterno != null
-						? sExpedienteClienteApellidoPaterno + " "
-						: "";
-				this.strRazonSocial += sExpedienteClienteApellidoMaterno != null
-						? sExpedienteClienteApellidoMaterno + " "
-						: "";
-			}
-		}
-
-		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
-		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
-				: sExpedienteClienteApellidoPaterno;
-		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
-				: sExpedienteClienteApellidoMaterno;
-		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
-				: sExpedienteClienteRepresentanteLegal;
-		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
-		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
-		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
-		this.iIdProceso = iIdProceso;
-		this.strProceso = sProceso;
-		this.strAbreviado = sTipoProcesoNombre;
-		this.iIdResponsable = iIdResponsableProceso;
-		this.strResponsable = sResponsableProcesoNombres + " " + sResponsableProcesoApellidos;
-		this.strUnidad = sResponsableProcesoUnidad;
-		this.iIdCliente = iIdCliente;
-		this.strNroIdentificacion = sClienteNumeroIdentificacion;
-		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
-		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
-				: sExpedienteClienteDireccionPrincipal;
-		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
-		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
-		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
-		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getNombre();
-		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
-		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
-		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
-		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
-				: sExpedienteClienteDireccionAlternativa;
-		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getIddistrito();
-		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
-		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
-		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getNombre();
-		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
-		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
-		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
-		this.strTipoIdentificacion = sTipoIdentificacion;
-		this.iIdCorrentista = iIdConcesionario;
-		this.strCorrentista = sConcesionarioRazonSocial;
-		this.strRUC = sConcesionarioRuc;
-		this.strDireccionConcesionario = sConcesionarioDireccion;
-		this.strCorreoConcesionario = sConcesionarioCorreo;
-		this.iIdSala = iIdSala;
-		this.strSala = sSala;
-		this.iIdEtapa = iIdEtapa;
-		this.strAsunto = sAsunto;
-		this.strContenido = sContenido;
-		this.strRemitente = sRemitenteNombres + " " + sRemitenteApellidos;
-		this.strDestinatario = sDestinatarioNombres + " " + sDestinatarioApellidos;
-		this.iIdRemitente = iIdRemitente;
-	}
-
-	/**
-	 * Para agregar la observacion del digitalizador
-	 * -------------------------------------------------------------------------
-	 */
-	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
-			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
-			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
-			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
-			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
-			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
-			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
-			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
-			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
-			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
-			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
-			String sPropietarioExpedienteApellidos, Integer iIdProceso, String sProceso, String sTipoProcesoNombre,
-			Integer iIdResponsableProceso, String sResponsableProcesoNombres, String sResponsableProcesoApellidos,
-			String sResponsableProcesoUnidad, Integer iIdCliente, String sClienteNumeroIdentificacion,
-			String sClienteRazonSocial, String sClienteNombres, String sClienteApellidoPaterno,
-			String sClienteApellidoMaterno, String sClienteRepresentanteLegal, String sClienteDireccionPrincipal,
-			Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
-			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
-			Integer iIdTipoIdentificacion, String sTipoIdentificacion, Integer iIdConcesionario,
-			String sConcesionarioRazonSocial, String sConcesionarioRuc, String sConcesionarioDireccion,
-			String sConcesionarioCorreo, Integer iIdSala, String sSala, Integer iIdEtapa, String sAsunto,
-			String sContenido, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
-			String sDestinatarioApellidos, Integer iIdRemitente, String observacionDigitalizador, String codProceso,
-			Integer prioridad) {
-		this.iIdDocumento = iIdDocumento;
-		this.strFecha = dFechaAccion;
-		this.fechacreacion = dFechaCreacion;
-		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
-		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
-		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaDocumento);
-		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
-				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
-		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
-		this.iNroFolios = iNumeroFolios;
-		this.strNroCaja = sNumeroCaja;
-		this.strNroDocumento = sNumeroDocumento;
-		this.strObservacion = sObservacion;
-		this.cEstado = cEstado.charValue();
-		this.cPrincipal = cPrincipal.charValue();
-		this.sObservacionRechazo = sObservacionRechazo;
-		this.iIdTipoDocumento = iIdTipoDocumento;
-		this.strTipoDocumento = sTipoDocumento;
-		this.strDestinatario = sPropietarioDocumentoNombres + " " + sPropietarioDocumentoApellidos;
-		this.iIdExpediente = iIdExpediente;
-		this.sNroExpediente = sNroExpediente;
-		this.estaenflujo = cEstaEnFlujo;
-		this.historico = (cHistorico == null) ? 'N' : cHistorico;
-		this.strRazonSocial = (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC))
-				? (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial)
-				: (sExpedienteClienteNombres == null
-						? sClienteNombres + " " + sClienteApellidoPaterno + " " + sClienteApellidoMaterno
-						: sExpedienteClienteNombres + " " + sExpedienteClienteApellidoPaterno + " "
-								+ sExpedienteClienteApellidoMaterno);
-		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
-		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
-				: sExpedienteClienteApellidoPaterno;
-		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
-				: sExpedienteClienteApellidoMaterno;
-		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
-				: sExpedienteClienteRepresentanteLegal;
-		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
-		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
-		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
-		this.iIdProceso = iIdProceso;
-		this.strProceso = sProceso;
-		this.strAbreviado = sTipoProcesoNombre;
-		this.iIdResponsable = iIdResponsableProceso;
-		this.strResponsable = sResponsableProcesoNombres + " " + sResponsableProcesoApellidos;
-		this.strUnidad = sResponsableProcesoUnidad;
-		this.iIdCliente = iIdCliente;
-		this.strNroIdentificacion = sClienteNumeroIdentificacion;
-		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
-		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
-				: sExpedienteClienteDireccionPrincipal;
-		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
-		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
-		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
-		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getNombre();
-		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
-		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
-		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
-		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
-				: sExpedienteClienteDireccionAlternativa;
-		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getIddistrito();
-		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
-		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
-		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getNombre();
-		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
-		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
-		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
-		this.strTipoIdentificacion = sTipoIdentificacion;
-		this.iIdCorrentista = iIdConcesionario;
-		this.strCorrentista = sConcesionarioRazonSocial;
-		this.strRUC = sConcesionarioRuc;
-		this.strDireccionConcesionario = sConcesionarioDireccion;
-		this.strCorreoConcesionario = sConcesionarioCorreo;
-		this.iIdSala = iIdSala;
-		this.strSala = sSala;
-		this.iIdEtapa = iIdEtapa;
-		this.strAsunto = sAsunto;
-		this.strContenido = sContenido;
-		this.strRemitente = sRemitenteNombres + " " + sRemitenteApellidos;
-		this.strDestinatario = sDestinatarioNombres + " " + sDestinatarioApellidos;
-		this.iIdRemitente = iIdRemitente;
-		this.observacionDigitalizador = observacionDigitalizador;
-		this.prioridad = prioridad;
-		if (codProceso != null) {
-			this.codProceso = codProceso;
-		} else {
-			this.codProceso = "-";
-		}
-	}
-
-	/**
-	 * Para agregar la observacion del digitalizador
-	 * xxx-------------------------------------------------------------------------
-	 */
-	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
-			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,
-			String sNumeroDocumento, String sObservacion, Character cEstado, Character cPrincipal,
-			String sObservacionRechazo, Integer iIdTipoDocumento, String sTipoDocumento,
-			String sPropietarioDocumentoNombres, String sPropietarioDocumentoApellidos, Integer iIdExpediente,
-			String sNroExpediente, Character cEstaEnFlujo, Character cHistorico, String sExpedienteClienteRazonSocial,
-			String sExpedienteClienteNombres, String sExpedienteClienteApellidoPaterno,
-			String sExpedienteClienteApellidoMaterno, String sExpedienteClienteRepresentanteLegal,
-			String sExpedienteClienteDireccionPrincipal, Integer iExpedienteClienteUbigeoPrincipal,
-			String sExpedienteClienteDireccionAlternativa, Integer iExpedienteClienteUbigeoAlternativo,
-			String sExpedienteClienteTelefono, String sExpedienteClienteCorreo, String sPropietarioExpedienteNombres,
-			String sPropietarioExpedienteApellidos,
-			// Integer iIdProceso,
-			// String sProceso,
-			// String sTipoProcesoNombre,
-			// Integer iIdResponsableProceso,
-			// String sResponsableProcesoNombres,
-			// String sResponsableProcesoApellidos,
-			// String sResponsableProcesoUnidad,
-			Integer iIdCliente, String sClienteNumeroIdentificacion, String sClienteRazonSocial, String sClienteNombres,
-			String sClienteApellidoPaterno, String sClienteApellidoMaterno, String sClienteRepresentanteLegal,
-			String sClienteDireccionPrincipal, Distrito objClienteUbigeoPrincipal, String sClienteDireccionAlternativa,
-			Distrito objClienteUbigeoAlternativo, String sClienteTelefono, String sClienteCorreo,
-			Integer iIdTipoIdentificacion, String sTipoIdentificacion, String sAsunto, String sContenido,
-			String strAccion, String sRemitenteNombres, String sRemitenteApellidos, String sDestinatarioNombres,
-			String sDestinatarioApellidos, Integer iIdRemitente, String observacionDigitalizador,
-			// String codProceso,
-			Integer prioridad, Character enumerado, Integer strPlazo) {
-		this.iIdDocumento = iIdDocumento;
-		this.strFecha = dFechaAccion;
-		this.fechacreacion = dFechaCreacion;
-		this.dateFechaLimiteAtencion = dFechaLimiteAtencion;
-		dFechaDocumento = (dFechaDocumento == null) ? new Date() : dFechaDocumento;
-		this.strFechaDocumento = new SimpleDateFormat(Constantes.FORMATO_FECHA_HORA).format(dFechaDocumento);
-		this.strFechaLimiteAtencion = (dFechaLimiteAtencion == null) ? ""
-				: new SimpleDateFormat(Constantes.FORMATO_FECHA).format(dFechaLimiteAtencion);
-		this.strNroMesaPartes = (sNumeroMesaPartes == null) ? iIdDocumento.toString() : sNumeroMesaPartes;
-		this.iNroFolios = iNumeroFolios;
-		this.strNroCaja = sNumeroCaja;
-		this.strNroDocumento = sNumeroDocumento;
-		this.strObservacion = sObservacion;
-		this.cEstado = cEstado.charValue();
-		this.cPrincipal = cPrincipal.charValue();
-		this.sObservacionRechazo = sObservacionRechazo;
-		this.iIdTipoDocumento = iIdTipoDocumento;
-		this.strTipoDocumento = sTipoDocumento;
-		this.strDestinatario = sPropietarioDocumentoNombres + " " + sPropietarioDocumentoApellidos;
-		this.iIdExpediente = iIdExpediente;
-		this.sNroExpediente = sNroExpediente;
-		this.estaenflujo = cEstaEnFlujo;
-		this.historico = (cHistorico == null) ? 'N' : cHistorico;
-		this.strRazonSocial = (sTipoIdentificacion.equals(Constantes.TIPO_IDENTIFICACION_RUC))
-				? (sExpedienteClienteRazonSocial == null ? sClienteRazonSocial : sExpedienteClienteRazonSocial)
-				: (sExpedienteClienteNombres == null
-						? sClienteNombres + " " + sClienteApellidoPaterno + " " + sClienteApellidoMaterno
-						: sExpedienteClienteNombres + " " + sExpedienteClienteApellidoPaterno + " "
-								+ sExpedienteClienteApellidoMaterno);
-		this.clientenombres = (sExpedienteClienteNombres == null) ? sClienteNombres : sExpedienteClienteNombres;
-		this.clienteapellidopaterno = (sExpedienteClienteApellidoPaterno == null) ? sClienteApellidoPaterno
-				: sExpedienteClienteApellidoPaterno;
-		this.clienteapellidomaterno = (sExpedienteClienteApellidoMaterno == null) ? sClienteApellidoMaterno
-				: sExpedienteClienteApellidoMaterno;
-		this.strRepresentanteLegal = (sExpedienteClienteRepresentanteLegal == null) ? sClienteRepresentanteLegal
-				: sExpedienteClienteRepresentanteLegal;
-		this.strTelefonoCliente = (sExpedienteClienteTelefono == null) ? sClienteTelefono : sExpedienteClienteTelefono;
-		this.strCorreoCliente = (sExpedienteClienteCorreo == null) ? sClienteCorreo : sExpedienteClienteCorreo;
-		this.sPropietarioExpediente = sPropietarioExpedienteNombres + " " + sPropietarioExpedienteApellidos;
-		this.iIdProceso = iIdProceso;
-		this.strAccion = strAccion;
-		this.iIdCliente = iIdCliente;
-		this.strNroIdentificacion = sClienteNumeroIdentificacion;
-		this.iIdExpedienteClienteUbigeoPrincipal = iExpedienteClienteUbigeoPrincipal;
-		this.strDireccionPrincipal = (sExpedienteClienteDireccionPrincipal == null) ? sClienteDireccionPrincipal
-				: sExpedienteClienteDireccionPrincipal;
-		this.iIdDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getIddistrito();
-		this.strDistrito = (objClienteUbigeoPrincipal == null) ? null : objClienteUbigeoPrincipal.getNombre();
-		this.iIdProvincia = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getIdprovincia();
-		this.strProvincia = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getNombre();
-		this.iIdDepartamento = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getIddepartamento();
-		this.strDepartamento = (objClienteUbigeoPrincipal == null) ? null
-				: objClienteUbigeoPrincipal.getProvincia().getDepartamento().getNombre();
-		this.iIdExpedienteClienteUbigeoAlternativo = iExpedienteClienteUbigeoAlternativo;
-		this.strDireccionAlternativa = (sExpedienteClienteDireccionAlternativa == null) ? sClienteDireccionAlternativa
-				: sExpedienteClienteDireccionAlternativa;
-		this.iIdDistritoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getIddistrito();
-		this.sDistritoAlt = (objClienteUbigeoAlternativo == null) ? null : objClienteUbigeoAlternativo.getNombre();
-		this.iIdProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getIdprovincia();
-		this.sProvinciaAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getNombre();
-		this.iIdDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getIddepartamento();
-		this.sDepartamentoAlt = (objClienteUbigeoAlternativo == null) ? null
-				: objClienteUbigeoAlternativo.getProvincia().getDepartamento().getNombre();
-		this.iIdTipoIdentificacion = iIdTipoIdentificacion;
-		this.strTipoIdentificacion = sTipoIdentificacion;
-		this.strAsunto = sAsunto;
-		this.strContenido = sContenido;
-		this.strRemitente = sRemitenteNombres + " " + sRemitenteApellidos;
-		this.strDestinatario = sDestinatarioNombres + " " + sDestinatarioApellidos;
-		this.iIdRemitente = iIdRemitente;
-		this.observacionDigitalizador = observacionDigitalizador;
-		this.prioridad = prioridad;
-		this.enumerado = enumerado;
-		this.strPlazo = strPlazo;
-
-	}
-
-	/**
-	 * Para datos del documento
-	 * ----------------------------------------------------------------------------------------------
-	 */
-	public DocumentoDetail(Date strF, Integer iIdD, Integer iIdE, Integer iIdTD, Integer iNF, String strA, String strNC,
-			String strND, String strO, String strP, String strR, String strRe, String strRo, String strTD,
-			String strU) {
-		setStrFecha(strF);
-		setIIdDocumento(iIdD);
-		setIIdExpediente(iIdE);
-		setIIdTipoDocumento(iIdTD);
-		setINroFolios(iNF);
-		setStrAsunto(strA);
-		setStrNroCaja(strNC);
-		setStrNroDocumento(strND);
-		setStrObservacion(strO);
-		setStrProceso(strP);
-		setStrReferencia(strR);
-		setStrResponsable(strRe);
-		setStrRol(strRo);
-		setStrTipoDocumento(strTD);
-		setStrUnidad(strU);
-	}
-
-	public DocumentoDetail(Date strF, Integer iIdD, Integer iIdE, Integer iIdTD, Integer iNF, String strA, String strNC,
-			String strND, String strO, String strP, String strR, String strRe, String strRo, String strTD, String strU,
-			String strCont) {
-		setStrFecha(strF);
-		setIIdDocumento(iIdD);
-		setIIdExpediente(iIdE);
-		setIIdTipoDocumento(iIdTD);
-		setINroFolios(iNF);
-		setStrAsunto(strA);
-		setStrNroCaja(strNC);
-		setStrNroDocumento(strND);
-		setStrObservacion(strO);
-		setStrProceso(strP);
-		setStrReferencia(strR);
-		setStrResponsable(strRe);
-		setStrRol(strRo);
-		setStrTipoDocumento(strTD);
-		setStrUnidad(strU);
-		setStrContenido(strCont);
-	}
-
-	/**
-	 * Cuando se busca un expediente y se obtiene parte de la data del documento
-	 * ---------------------------------------------
-	 */
-	public DocumentoDetail(Integer iIdE, Integer iIdP, Integer iIdR, String strP, String strRef, String strRes,
-			String strU) {
-		setIIdExpediente(iIdE);
-		setIIdProceso(iIdP);
-		setIIdResponsable(iIdR);
-		setStrProceso(strP);
-		setStrReferencia(strRef);
-		setStrResponsable(strRes);
-		setStrUnidad(strU);
-		setStrUnidad(strU);
 	}
 
 	public Documento getDoc() {
@@ -2450,15 +2428,17 @@ public class DocumentoDetail {
 	}
 
 	public String getTamanoFormateado(String tamano) {
-		if (tamano == null)
+		if (tamano == null) {
 			return "";
-
+		}
+		
 		DecimalFormat df = new DecimalFormat("#.00");
 		double valorsito = (double) new Integer(tamano) / 1024;
 
-		if (valorsito < 1)
+		if (valorsito < 1) {
 			return "1 KB";
+		}
+		
 		return String.valueOf(df.format(valorsito)) + " KB";
-
 	}
 }

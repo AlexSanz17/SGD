@@ -70,12 +70,11 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
        return null;
        //return em.createQuery(sql).getResultList();
     }
-     
     
     public IotdtmDocExterno buscarDocumentoVirtual(Integer nroVirtual){
        String sql = "SELECT e FROM IotdtmDocExterno e where e.siddocext =" + nroVirtual;
-       try{				
-            return (IotdtmDocExterno)em.createQuery(sql).getSingleResult(); 
+       try{
+            return (IotdtmDocExterno)em.createQuery(sql).getSingleResult();
        }catch(EntityNotFoundException e){
            return null;
        }catch(Exception e){

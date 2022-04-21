@@ -1,24 +1,25 @@
 package org.ositran.utils;
 
 import java.text.SimpleDateFormat;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Constantes{
     public static final String AREAS_ACCESO_GENERAL="AREAS_ACCESO_GENERAL";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String AUDITORIA_OPCION_GUARDAR="Guardar";
 	public static final String AUDITORIA_TIPO_REGISTRO="Registro";
 	public static final String AUDITORIA_TIPO_ACTUALIZACION="Actualizacion";
         
     public static final String COLOR_DOCUMENTO_ANEXO="#58ACFA";
     public static final String COLOR_DOCUMENTO_PRINCIPAL="#6969fe";
+    public static final String COLOR_DOCUMENTO_PRINCIPAL_PIDE="#6969fe";
     public static final String COLOR_DOCUMENTO_PRINCIPAL_MPV="#b469fe";
     public static final String COLOR_DOCUMENTO_CARGO = "#FAAC58";
     public static final String COLOR_DOCUMENTO_MP_CARGO = "#8850ac";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+    public static final String COLOR_DOCUMENTO_CARGO_TV = "#8850ac";
+
 	public static final String ACCION_ARCHIVAR="archivar";
 	public static final String ACCION_ANULAR="anular";
 	public static final String ACCION_ATENDER="atender";
@@ -55,8 +56,6 @@ public class Constantes{
     
     public static final String TAB_BUSQUEDA = "TAB_BUSQUEDA";
 
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
 	public static final char ARCHIVO_ESTADO_DIGITALIZACION_ALFRESCO='A';
 	public static final char ARCHIVO_ESTADO_DIGITALIZACION_INACTIVO='I';
 	public static final char ARCHIVO_ESTADO_DIGITALIZACION_NO='N';
@@ -66,8 +65,7 @@ public class Constantes{
 	public static final char ARCHIVO_BRACKET_FIN=']';
 	public static final Character ARCHIVO_PRINCIPAL='S';
 	public static final Character ARCHIVO_NOPRINCIPAL='N';
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final char DOCUMENTO_DISPONIBLE='S';
 	public static final char DOCUMENTO_PRINCIPAL='S';
 	public static final String DOCUMENTO_DEL_EXPEDIENTE="S";
@@ -76,22 +74,19 @@ public class Constantes{
 	public static final char DOCUMENTO_NO_PRINCIPAL='N';
 	public static final String DOCUMENTO_NO_DEL_EXPEDIENTE="N";
 	public static final char NO_ES_USUARIO_FINAL='N';
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final char ESTADO_ACTIVO='A';
 	public static final char ESTADO_ANULADO='N';
 	public static final char ESTADO_INACTIVO='I';
 	public static final char ESTADO_RECHAZADO='R';
 	public static final char ESTADO_CERRADO='C';
 	public static final char ESTADO_ATENDER='T';
-        public static final char ESTADO_PENDIENTE='P';
-	// ///////////////////////////////////////////////////////////////////////////
+    public static final char ESTADO_PENDIENTE='P';
 	public static final char ESTADO_LEIDO='L';
 	public static final char ESTADO_NO_LEIDO='N';
-	// ///////////////////////////////////////////////////////////////////////////
 	public static final char ESTADO_DESPACHADO='S';
 	public static final char ESTADO_NO_DESPACHADO='N';
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String ESTADO_CODIGO_PENDIENTE = "pendiente";
 	public static final String ESTADO_CODIGO_APROBADO = "aprobado";
 	public static final String ESTADO_CODIGO_RECHAZADO = "rechazado";
@@ -101,30 +96,27 @@ public class Constantes{
 	public static final String ESTADO_CODIGO_ARCHIVADO = "archivado";
 	public static final String ESTADO_CODIGO_ANULADO = "anulado";
 	public static final String ESTADO_CODIGO_ATENDER = "atendido";
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final char FLAG_ENVIO_CORREO_N='N';
 	public static final char FLAG_ENVIO_CORREO_S='S';
 	public static final char FLAG_USUARIO_FINAL_N='N';
 	public static final char FLAG_USUARIO_FINAL_S='S';
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String GENERAL_BACK_SLASH="\\";
 	public static final String GENERAL_CAMBIO_LINEA="\n";
 	public static final String GENERAL_SLASH="/";
 	public static final String GENERAL_N="N";
 	public static final String GENERAL_S="S";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String GRUPOPROCESO_ANT="ANT";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String PERFIL_MP="mp";
 	public static final String PERFIL_DIG="dig";
 	public static final String PERFIL_QAS="qas";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final char PROCESO_PERMITE_METADATA_N='N';
 	public static final char PROCESO_PERMITE_METADATA_S='S';
+	
 	public static final String PROCESO_STOR="stor";
 	public static final String PROCESO_STOR_CODIGO_APELACION="apelacion";
 	public static final String PROCESO_STOR_CODIGO_QUEJA="queja";
@@ -134,12 +126,11 @@ public class Constantes{
 	public static final String PROCESO_ACCESO_2="ProcAcc2";
 	public static final String PROCESO_ACCESO_3="ProcAcc3";
 	public static final String PROCESO_ACCESO_4="ProcAcc4";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String ROL_ADMINISTRADOR="Siged - Administrador";
 	public static final String ROL_DIGITALIZADOR="Siged - Digitalizador";
 	public static final String ROL_MESA_PARTES="Siged - Mesa de Partes";
-	//@Danna Autor mesa de partes
+
 	public static final String MESA_PARTES="Mesa de Partes";
 	public static final String AUTOR_USUARIO_FINAL = "Usuario Final";
 	//
@@ -150,7 +141,7 @@ public class Constantes{
 	public static final String ROL_USUARIO_FINAL_STOR="userstor";
 	public static final String DERIVAR_NORMAL="normal";
 	public static final String DERIVAR_MASIVO="masivo";
-        public static final String DERIVAR_MASIVO_DOC="masivoDoc";
+    public static final String DERIVAR_MASIVO_DOC="masivoDoc";
 	public static final String RECHAZAR="rechazar";
 	public static final String ROL_USUARIO_SALFE_SAS="Siged - SA";
 	public static final String ROL_USUARIO_ANALISTA_SAS="Siged - AL";
@@ -183,32 +174,28 @@ public class Constantes{
 	public static final Character ROL_ENUM_PRESIDENCIA_NO ='N';
 	public static final String ID_AUTOR_NUMERACION_GERENCIA = "ID_AUTOR_NUMERACION_GERENCIA";
 	public static final String ID_AUTOR_NUMERACION_PRESIDENCIA = "ID_AUTOR_NUMERACION_PRESIDENCIA";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final int NUMERO_HORAS_LABORABLESXDIA=8;
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String SESSION_ALFRESCO="objAD";
 	public static final String SESSION_AUDITABLE="_AUDITABLE";
 	public static final String SESSION_IDDOCUMENTO="_IDDOCUMENTO";
-        public static final String SESSION_IDDOCUMENTO_EMAIL="_IDDOCUMENTOEMAIL";
+    public static final String SESSION_IDDOCUMENTO_EMAIL="_IDDOCUMENTOEMAIL";
 	public static final String SESSION_RECURSO="_RECURSO";
-        public static final String SESSION_ROLCARGO="_ROLCARGO";
+    public static final String SESSION_ROLCARGO="_ROLCARGO";
 	public static final String SESSION_RECURSO_SAS="_RECURSO_SAS";
 	public static final String SESSION_UPLOAD_LIST="_UPLOADLIST";
-        public static final String SESSION_UPLOAD_LIST_EMAIL="_UPLOADLISTEMAIL";
+    public static final String SESSION_UPLOAD_LIST_EMAIL="_UPLOADLISTEMAIL";
 	public static final String SESSION_USUARIO="_USUARIO";
-        public static final String SESSION_USUARIO_EMAIL="_USUARIOEMAIL";
+    public static final String SESSION_USUARIO_EMAIL="_USUARIOEMAIL";
 	public static final String SESSION_FORWARD_TO_URL="_URL";
 	public static final String SESSION_INTALIO="tokenIntalio";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String TIPO_IDENTIFICACION_RUC="RUC";
 	public static final String TIPO_IDENTIFICACION_DNI="DNI";
-        public static final String TIPO_IDENTIFICACION_CE="CE";
+    public static final String TIPO_IDENTIFICACION_CE="CE";
 	public static final String TIPO_IDENTIFICACION_OTRO="Otro";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String TIPO_DOCUMENTO_OTROS="Otros";
 	public static final String TIPO_DOCUMENTO_MEMO="MM";
 	public static final String TIPO_DOCUMENTO_MEMOAPEL="MMA";
@@ -228,39 +215,34 @@ public class Constantes{
 	public static final String TIPO_DOCUMENTO_STOR_APELACION="RecApelacion";
 	public static final String TIPO_DOCUMENTO_STOR_QUEJA="RecQueja";
 	public static final String TIPO_DOCUMENTO_STOR_MEDIDACAUTELAR="RecMedidaCautelar";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String USUARIO_ASESORLEGAL="Siged - ASL";
 	public static final String USUARIO_ANALISTALEGAL ="Siged - AL";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String FECHA_FORMATO_DIA="dd";
 	public static final String FECHA_FORMATO_MES="MM";
 	public static final String FECHA_FORMATO_ANIO="yyyy";
 	public static final String FECHA_FORMATO_FULL="yyyy-dd-MM";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String TIPO_ACCESO_1="ProcAcc1";
 	public static final String TIPO_ACCESO_2="ProcAcc2";
 	public static final String TIPO_ACCESO_3="ProcAcc3";
 	public static final String TIPO_ACCESO_4="ProcAcc4";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String TIPO_PROCESO_ANTIFLUJO="Flujo Documentario";
 	public static final String TIPO_PROCESO_STOR="stor";
 	public static final String TIPO_PROCESO_INTALIO="Intalio";
 	public static final String TIPO_PROCESO_TI="ti";
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String USUARIO_DIGITALIZADOR="dig";
 	public static final String USUARIO_QAS="qas";
 	public static final char USUARIO_STOR_RESPONSABLE_NO='N';
 	public static final char USUARIO_STOR_RESPONSABLE_YES='Y';
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
+
 	public static final String INICIOHORARIO="INICIOHORARIO";
 	public static final String FINHORARIO="FINHORARIO";
 	public static final String ACCION_DERIVAR_ID="AccionDerivarId";
+	
 	// Agregado por Germán Enríquez para el horario de envio
 	public static final String INICIO_ENVIO="horaInicioEnvio";//deprecado 08-11-2011
 	public static final String FIN_ENVIO="horaFinEnvio";//deprecado 08-11-2011
@@ -272,10 +254,12 @@ public class Constantes{
 	public static final Integer TIPO_NOTIFICACION_AMARILLA=1;
 	public static final Integer TIPO_NOTIFICACION_ROJA=2;
 	public static final Integer TIPO_NOTIFICACION_USUARIO=3;
+	
 	// Por Germán Enríquez
 	public static final Integer TIPO_NOTIFICACION_INFOADICIONAL=1001;
 	public static final Integer TIPO_NOTIFICACION_INSPECCIONCAMPO=1002;
 	public static final Integer TIPO_NOTIFICACION_AUDIENCIACONCILIACION=1003;
+	
 	// Notificaciones STOR
 	public static final Integer TIPO_NOTIFICACION_RECHAZOTECNICO=1004;
 	public static final Integer TIPO_NOTIFICACION_RECHAZOLEGAL=1005;
@@ -292,7 +276,7 @@ public class Constantes{
 	public static final Integer TIPO_NOTIFICACION_NUMERACION_DESTINATARIO=667;
 	public static final Integer TIPO_NOTIFICACION_NUMERACION_DOCUMENTOCONCOPIA=668;
 	public static final Integer TIPO_NOTIFICACION_DERIVACIONCONCOPIA=669;
-        public static final Integer TIPO_NOTIFICACION_DERIVACIONMULTIPLECONCOPIA=777;
+    public static final Integer TIPO_NOTIFICACION_DERIVACIONMULTIPLECONCOPIA=777;
 	public static final Integer TIPO_NOTIFICACION_RECHAZO=314159;
 	public static final Integer TIPO_NOTIFICACION_ENVIO_MENSAJERIA=665;
 	public static final int TIPO_NOTIFICACION_APROBACION_QAS=555;
@@ -303,6 +287,7 @@ public class Constantes{
 	public static final String PARAMETRO_TIPO_FECHA_DESDE_BUSQUEDA_RAPIDA="fechaDesdeBusquedaRapida";
 	public static final String PARAMETRO_TIPO_FECHA_HASTA_BUSQUEDA_RAPIDA="fechaHastaBusquedaRapida";
 	public static final String PARAMETRO_TIPO_USUARIO_MENSAJERIA="usuario_mensajeria";
+	
 	// Asuntos STOR
 	public static final String ASUNTO_APROBAR_EXPEDIENTE="RE: Expediente Aprobado";
 	public static final String ASUNTO_RECHAZO_TECNICO="RE: Rechazo Tecnico";
@@ -313,18 +298,13 @@ public class Constantes{
 	public static final String ASUNTO_REFORMULACION_TECNICA="RE: Requiere Reformulacion Tecnica";
 	public static final String ASUNTO_REFORMULACION_LEGAL="RE: Requiere Reformulacion Legal";
 	public static final String ASUNTO_REFERENCIA_DOCUMENTO="RE: Documento Referenciado";
-	//
 	public static final String PARAMETRO_NOTIFICACION_AMARILLA="porcentajeAlerta1";
 	public static final String PARAMETRO_NOTIFICACION_ROJA="porcentajeAlerta2";
-	/*************************************/
+
 	// Auditoria
-	/*************************************/
 	public static final String TipoDoc_RUC="RUC";
 	public static final String TipoDoc_DNI="DNI";
 	public static final String TipoDoc_OTRO="Otro";
-	/*************************************/
-	// Auditoria
-	/*************************************/
 	public static final String TO_Registrar="Registrar";
 	public static final String TO_Modificar="Modificar";
 	public static final String TO_Eliminar="Eliminar";
@@ -352,9 +332,8 @@ public class Constantes{
 	public static final String TA_RegistrarNuevaCarpeta="Nueva Carpeta";
 	public static final String TA_MoverDocCarpeta="Mover Docs. Carpeta";
 	public static final String TO_Mover="Mover";
-	/*************************************/
+
 	// Auditoria
-	/*************************************/
 	public static final String TA_DerivarUserFinal="Derivar Documento";
 	public static final String TO_Derivar="derivar";
 	public static final String TA_RegistrarCarpetaBusq="Nueva Carpeta Busqueda";
@@ -369,23 +348,23 @@ public class Constantes{
 	public static final String TODOS_LOS_PROCESOS="todos";
 	public static final String TODOS_MIS_PROCESOS="TODOS";
 	public static final String ID_TODOS_MIS_PROCESOS="0";
-	/***************************************/
+
 	// Resuelto
-	/***************************************/
 	public static final int RESUELTO_ARCHIVO=1;
 	public static final int RESUELTO_AMONESTACION=2;
 	public static final int RESUELTO_MULTA=3;
 	public static final int RESUELTO_FUNDADO=4;
 	public static final int RESUELTO_INFUNDADO=5;
 	public static final int RESUELTO_IMPROCEDENTE=6;
-	/***************************************/
-	// carpetas
-	/***************************************/
+
+	// Carpetas
 	public static final String ID_CARPETA_EXPEDIENTE="0";
-	// //////////////////// para numeracion interna por expdiente
+	
+	// Numeracion interna por expdiente
 	public static final String NUMERACION_NINGUNA="N";
 	public static final String NUMERACION_POR_PROCESO="P";
 	public static final String NUMERACION_POR_GRUPO_PROCESO="G";
+	
 	// Envio de correo electronico
 	public static final String PARAMETRO_MAIL_ADMIN = "MAIL_ADMIN";
 	public static final String PARAMETRO_MAIL_FILEPATH_CREACION_EXPEDIENTE = "MAIL_FILEPATH_CREACION_EXPEDIENTE";
@@ -407,21 +386,17 @@ public class Constantes{
 	public static final String PARAMETRO_MAIL_FILEPATH_ENUMERACION_DESTINATARIO = "MAIL_FILEPATH_ENUMERACION_DESTINATARIO";
 	public static final String PARAMETRO_MAIL_FILEPATH_ENUMERACION_COPIA = "MAIL_FILEPATH_ENUMERACION_COPIA";
 	public static final String PARAMETRO_MAIL_FILEPATH_LECTURA_EXPEDIENTE = "MAIL_FILEPATH_LECTURA_EXPEDIENTE";
-
 	public static final String PARAMETRO_MAIL_FILEPATH_DOCUMENTO_MULTIPLE = "MAIL_FILEPATH_DOCUMENTO_MULTIPLE";
+	
 	// Tipo de Notificaciones de SAS
-	/***************************************/
 	public static final int TIPO_NOTIFICACION_Aprobado = 1020;
 	public static final int TIPO_NOTIFICACION_Desaprobado = 1021;
 	public static final int TIPO_NOTIFICACION_Resgistrado = 1022;
+	
 	// Envio de correo electronico
-	/*
-	 * public static final String EMAIL_ASUNTO =
-	 * "Aviso de Nuevo Documento %s - %s"; public static final String
-	 * EMAIL_CONTENIDO =
-	 * "El informamos que el documento %s - %s ha sido anexado al expediente %s, perteneciente al proceso %s."
-	 * ;
-	 */
+	public static final String EMAIL_ASUNTO = "Aviso de Nuevo Documento %s - %s";
+	public static final String EMAIL_CONTENIDO = "El informamos que el documento %s - %s ha sido anexado al expediente %s, perteneciente al proceso %s.";
+	
 	// Constantes de Upload
 	public static final String UPLOAD_ARCHIVO1 = "upload1";
 	public static final String UPLOAD_ARCHIVO2 = "upload2";
@@ -432,6 +407,7 @@ public class Constantes{
 	public static final String PARAMETRO_ORIGEN_EXPEDIENTE = "TipoPorcesoNuevoDocumento";
 	public static final String VER_SEGUIMIENTO_SI = "S";
 	public static final String VER_SEGUIMIENTO_NO = "N";
+	
 	// Tipos de GRID
 	public static final String TIPO_GRID_DOCUMENTO = "0";
 	public static final String TIPO_GRID_ARCHIVOPENDIENTE = "1";
@@ -462,7 +438,7 @@ public class Constantes{
     public static final String TIPO_GRID_LEGAJO_COMPARTIDO = "31";
     public static final String TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS = "32";
 
-	// Tipos de GRID
+	//Tipos de GRID
 	public static final String BUSQUEDA_AVANZADA_ADICIONAL = "frmBusquedaAvanzadaAdicional";
 	public static final String BUSQUEDA_AVANZADA_BASICO = "frmBusquedaAvanzadaBasico";
 	public static final String MENSAJE_UPLOAD = "msgUpload";
@@ -487,7 +463,8 @@ public class Constantes{
 	public static final char ESTAENFLUJO_N = 'N';
 	public static final char ENVIADO_OEFA_S = 'S';
 	public static final char ENVIADO_OEFA_N = 'N';
-	// Codigos de error estandar para todo el Siged
+	
+	//Codigos de error estandar para todo el Siged
 	public static final String ERROR_ALFRESCO = "202";
 	public static final String ERROR_INTALIO = "303";
 	public static final String UNIDAD_PRESIDENCIA = "Presidencia";
@@ -536,32 +513,29 @@ public class Constantes{
 	public enum ConfigNotifMailDestinatario {CreacionExpediente, AlarmaAmarillaRemitente, AlarmaAmarillaDestinatario, AlarmaRojaRemitente, AlarmaRojaDestinatario};
 
 	public static final String MAX_SIZE_FILE = "MAX_SIZE_FILE";
-	//Omar
 	/*public static final String RUTA_PADRE_ALFRESCO="Expedientes Osinergmin/";
    	public static final String RUTA_PADRE_ALFRESCO_COMPLETA="/Company Home/Expedientes Osinergmin/";*/
 	/*public static final String RUTA_PADRE_ALFRESCO="Temp/";
    	public static final String RUTA_PADRE_ALFRESCO_COMPLETA="/Company Home/Temp/";*/
 	public static final char OPERACION_CREATE = 'C';
 	public static final char OPERACION_UPDATE = 'U';
-	/*******************************HORAS DE ENTRADA Y SALIDA*********************************/
+
 	public static final long MILISEGUNDOS_DIA = 86400000l;
 	public static final int HORA_ENTRADA = 8;
 	public static final int MINUTOS_ENTRADA = 30;
 	public static final int HORA_SALIDA = 18;
 	public static final int MINUTOS_SALIDA = 0;
-	/*****************************************************************************************/
-	// sancionador
-	/*****************************************************************************************/
+
+	//Sancionador
 	public static final char DOCUMENTO_FUERA_DE_PLAZO = 'F';
 	public static final char DOCUMENTO_DENTRO_PLAZO = 'D';
 	public static final char ACTIVIDAD_DP = 'D';
 	public static final char ACTIVIDAD_FP = 'F';
-	/*****************************************************************************************/
+	
 	public static final String SIN_NUMERACION = "X";
 	public static final String TIPO_NUMERACION_MANUAL = "M";
 	public static final String TIPO_NUMERACION_AUTOMATICA = "A";
 	public static final String TIPO_NUMERACION_SIN_NUMERACION = "S";
-	/*****************************************************************************************/
 	public static final String SIN_NUMERO = "s/n";
 	public static final String TIPO_DOCUMENTO_TICKET = "Ticket";
 	public static final String RUC_OSINERG1 = "20376082114";
@@ -575,7 +549,7 @@ public class Constantes{
 	public static final String TIPO_PROCESO_PILOTO = "tipoProcesoPiloto";
 	public static final String TIPO_PROCESO_PRODUCCION = "tipoProcesoProduccion";
 	public static final String TIPO_ESTADO_PROCESO = "proceso";
-	/*****************************************************************************************/
+
 	//tipos de destinatarios externos: destinatario y concopia
 	public static final char TIPO_EXTERNO_DESTINATARIO = 'D';
 	public static final char TIPO_EXTERNO_CONCONPIA = 'C';
@@ -583,15 +557,16 @@ public class Constantes{
 	public static final char FAVORITO_TIPOCONTACTO_LISTA = 'L';
 	public static final char FAVORITO_TIPOCONTACTO_USUARIO = 'U';
 	public static final Integer CLIENTE_OSINERGMIN_ID = 999999;
-	/**Tipos de origen para la trazabilidad de copias-----------------------------------------*/
+	
+	//Tipos de origen para la trazabilidad de copias
 	public static final Character TIPO_ORIGEN_TRAZADOCUMENTO = 'D';
 	public static final Character TIPO_ORIGEN_TRAZACOPIA = 'C';
-	/**---------------------------------------------------------------------------------------*/
 	public static final String ENCRIPTAR = "ENC";
 	public static final String DESENCRIPTAR = "DES";
 	public static final Character DESTINATARIOEXTERNO = 'E';
 	public static final Character DESTINATARIOINTERNO = 'I';
-	//aprobaciones
+	
+	//Aprobaciones
 	public static final Character Si = 'S';
 	public static final Character No = 'N';
 
@@ -599,8 +574,6 @@ public class Constantes{
 	public static final int DO_FIRMAR = 2;
 	public static final int DO_ENUMERAR_FIRMAR = 3;
 
-	// ///////////////////////////////////////////////////////////////////////////
-	// ///////////////////////////////////////////////////////////////////////////
 	public static final String CODIGO_COMUNICACIONES_INT = "CI";
     public static final String CODIGO_COMUNICACIONES_DE = "DE";
     public static final String CODIGO_COMUNICACIONES_TUPA = "TUPA";
@@ -610,9 +583,7 @@ public class Constantes{
         
     public static final String CODIGO_PROVEIDO_FIRMAR = "9";
 
-	/*************************************/
 	// Filtros Reportes y Consulta APN
-	/*************************************/
 	public static final String TODOS_TIPO_DOCUMENTO="TODOS";
 	public static final String ID_TIPO_DOCUMENTO="0";
 	public static final String TODOS_AREA="TODOS";
@@ -625,17 +596,14 @@ public class Constantes{
 	public static final Integer CODIGO_AREA_PRESIDENCIA = 13;
 	public static final Integer CODIGO_AREA_SECRETARIA_DIRECTORIO = 275;
     public static final Integer CODIGO_AREA_GAU = 64;
-	/***********************/
+
 	//Tipo de Envio: TABLA DOCUMENTOENVIO
-	/***********************/
 	public static final String TIPO_ENVIO_TRANSFERIR="T";
 	public static final String TIPO_ENVIO_MULTIPLE="M";
 	public static final String TIPO_ENVIO_NOTIFICAR="N";
 	public static final String SIN_PLAZO = "sinPlazo";
 
-	/*********************/
 	//Interfaz Gerencial
-	/*********************/
 	public static final String SOPCION_TRANSFERIR="transferir";
 	public static final String SOPCION_MULTIPLE="multiple";
 	public static final String ROL_INTERFAZ_GERENCIAL="Visor Gerencial";

@@ -457,17 +457,19 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 
 	// private Map informacion = new HashMap();
 	@SuppressWarnings("unchecked")
-	public String inicio(){
-                Map<String,Object> session=ActionContext.getContext().getSession();
-		List<ArchivoTemporal> l=(List<ArchivoTemporal>) session.get("uploaded_list");
-		l=new ArrayList<ArchivoTemporal>();
+	public String inicio() {
+		Map<String,Object> session = ActionContext.getContext().getSession();
+		List<ArchivoTemporal> l =(List<ArchivoTemporal>) session.get("uploaded_list");
+		l = new ArrayList<ArchivoTemporal>();
 		Map<String,Object> mapUpload=(Map<String,Object>) session.get(Constantes.SESSION_UPLOAD_LIST);
+		
 		if(mapUpload!=null){
 			mapUpload.remove("upload2");
 			mapUpload.put("upload2",l);
 			session.remove(Constantes.SESSION_UPLOAD_LIST);
 			session.put(Constantes.SESSION_UPLOAD_LIST,mapUpload);
 		}
+		
 		return "inicio";
 	}
         
@@ -475,7 +477,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     	log.info("Ingresando a mostrarVistaRecepcion(codigoVirtual):"+codigoVirtual);
         listaDerivacionPara = new ArrayList<UsuarioDerivacion>(); 
         listaDerivacionCC   = new ArrayList<UsuarioDerivacion>(); 
-        origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;     
+        origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;    
         
         try {
         	recepcionVirtual = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
@@ -486,13 +488,20 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
             
             // Traer datos de PIDE
             if(recepcionVirtual != null){
-                    
 	            Cliente cliente =clienteService.findObjectBy(recepcionVirtual.getSidrecext().getVrucentrem(), 'A');
 	            Tipodocumento tipoDocumento = tipodocumentoService.findByIdTipoDocumentoPIDE(recepcionVirtual.getCcodtipdoc());
 	            objDD = new DocumentoDetail();
 	            objDD.setStrTipoDocumento(tipoDocumento ==null? "":tipoDocumento.getIdtipodocumento().toString());
 	            documento = new Documento();
+	            documento.setCodTipoInstitucion(1);
+	            documento.setDesRemitente("");
+	            documento.setDesCargoRemitente("");
 	            documento.setFechaDocumento(recepcionVirtual.getDfecdoc());
+	            documento.setNumeroFoliosPIDE(recepcionVirtual.getSnumfol().intValue());
+	            documento.setNumeroFolios(0);
+	            documento.setNumeroFoliosOriginales(0);
+	            documento.setNumeroFoliosCopias(0);
+	            documento.setImagenesDigitalizadas(0);
 	            
 	            /*
 	            if (recepcionVirtual.getSidrecext().getCtipdociderem() == '1'){
@@ -527,9 +536,6 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	                  documento.setDesRemitente("Se produjo un problema en la comunicación con el servidor de RENIEC");
 	               }  
 	            }*/  
-	            
-	            documento.setDesRemitente("Juan Perez Lopez");
-	            documento.setDesRemitente("0000" + documento.getDesRemitente().toUpperCase().toString().trim());
 	             
 	            if (recepcionVirtual.getSidrecext().getCtipdociderem() == '2'){
 	                try{  
@@ -595,6 +601,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     	            documento.setNumeroFolios(adjuntoMPVService.buscarNumFoliosTotalesPorIdRecepcion(recepcionMPV.getSidrecext()));
     	            documento.setNumeroFoliosOriginales(0);
     	            documento.setNumeroFoliosCopias(0);
+    	            documento.setImagenesDigitalizadas(0);
 
     	            Cliente cliente = new Cliente();
 
@@ -645,132 +652,132 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     }
 
 	public String mostrarVista() throws Exception {
-            log.debug("NuevoDocumentoAction::mostrarVista()");
-            this.fecha = new Date();
-            flagVerExpediente = "1";
-            listaDocReferenciados    = new ArrayList<Documento>();
-            listaIntegrantesInternos = new ArrayList<DocumentoReunion>();
-            listaIntegrantesExternos = new ArrayList<DocumentoReunion>(); 
-            this.origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;
-            if(idExpediente != null){
-                expediente = expedienteService.findByIdExpediente(idExpediente);
-                this.origenExpediente = Constantes.ORIGEN_EXPEDIENTE_EXISTENTE;
-            }
-            
-            
-            if(idDocumento != null){ 
-                documento = documentoService.findByIdDocumento(idDocumento);
-                if (tipoTransaccion!=null && tipoTransaccion.equals("M")){
-                  DocumentoReunion documentoReunion = new DocumentoReunion();
-                  documentoReunion.setIdDocumento(idDocumento);
-                  listaDocReferenciados = documentoService.getReferenciaDocumento(idDocumento);
-                  documentoReunion.setTipo("0");
-                  listaIntegrantesInternos = documentoReunionDAO.getDocumentoReunion(documentoReunion);
-                  documentoReunion.setTipo("1");
-                  listaIntegrantesExternos = documentoReunionDAO.getDocumentoReunion(documentoReunion);
-                }
-                if (tipoTransaccion!=null && tipoTransaccion.equals("A")){
-                    try{
-                        List<LegajoDocumento> lst = null;
-                        Documento d = documentoService.findByIdDocumento(idDocumento);
-
-                        LegajoDocumento legajoDocumento = new LegajoDocumento();
-                        legajoDocumento.setIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-                        Map<String,Object> sesion=ActionContext.getContext().getSession();
-                        Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
-
-                        lst = legajoDocumentoService.findDocumento(legajoDocumento, usuario);
-
-                        if (lst==null || lst.size()==0)
-                          flagVerExpediente = "0";
-                    }catch(Exception e){
-                          e.printStackTrace();
-                          flagVerExpediente = "0";
-                    }    
-                }
-            }else{
-                if (idINFDocumento!=null && !idINFDocumento.toString().trim().equals("") && tipoTransaccion!=null && tipoTransaccion.equals("A")){
-                    documento = documentoService.findByIdDocumento(idINFDocumento);
-                    
-                    try{
-                        List<LegajoDocumento> lst = null;
-                        LegajoDocumento legajoDocumento = new LegajoDocumento();
-                        legajoDocumento.setIdDocumento(documento.getDocumentoreferencia()==null?documento.getIdDocumento():documento.getDocumentoreferencia());
-                        Map<String,Object> sesion=ActionContext.getContext().getSession();
-                        Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
-                        lst = legajoDocumentoService.findDocumento(legajoDocumento, usuario);
-
-                        if (lst==null || lst.size()==0)
-                          flagVerExpediente = "0";
-                    }catch(Exception e){
-                          e.printStackTrace();
-                          flagVerExpediente = "0";
-                    }
-                }     
-            }
-
-            Map<String, Object> session = ActionContext.getContext().getSession();
-            ServletActionContext.getRequest().getSession().setAttribute("UsuarioCompartido",null);
-            session.remove(Constantes.SESSION_UPLOAD_LIST);
-            return "nuevoDocumento";
+        log.debug("NuevoDocumentoAction::mostrarVista()");
+        this.fecha = new Date();
+        flagVerExpediente = "1";
+        listaDocReferenciados    = new ArrayList<Documento>();
+        listaIntegrantesInternos = new ArrayList<DocumentoReunion>();
+        listaIntegrantesExternos = new ArrayList<DocumentoReunion>(); 
+        this.origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;
+        if(idExpediente != null){
+            expediente = expedienteService.findByIdExpediente(idExpediente);
+            this.origenExpediente = Constantes.ORIGEN_EXPEDIENTE_EXISTENTE;
         }
         
-         public String mostrarVistaTramite() throws Exception {
-            log.debug("NuevoDocumentoAction::mostrarVistaTramite()");
-            this.fecha = new Date();
-            listaDerivacionPara = new ArrayList<UsuarioDerivacion>(); 
-            listaDerivacionCC   = new ArrayList<UsuarioDerivacion>(); 
-
-            this.origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;
-            
-            if(idExpediente != null){
-                expediente = expedienteService.findByIdExpediente(idExpediente);
-                this.origenExpediente = Constantes.ORIGEN_EXPEDIENTE_EXISTENTE;
+        
+        if(idDocumento != null){ 
+            documento = documentoService.findByIdDocumento(idDocumento);
+            if (tipoTransaccion!=null && tipoTransaccion.equals("M")){
+              DocumentoReunion documentoReunion = new DocumentoReunion();
+              documentoReunion.setIdDocumento(idDocumento);
+              listaDocReferenciados = documentoService.getReferenciaDocumento(idDocumento);
+              documentoReunion.setTipo("0");
+              listaIntegrantesInternos = documentoReunionDAO.getDocumentoReunion(documentoReunion);
+              documentoReunion.setTipo("1");
+              listaIntegrantesExternos = documentoReunionDAO.getDocumentoReunion(documentoReunion);
             }
+            if (tipoTransaccion!=null && tipoTransaccion.equals("A")){
+                try{
+                    List<LegajoDocumento> lst = null;
+                    Documento d = documentoService.findByIdDocumento(idDocumento);
 
-            if(idDocumento != null){
-                documento = documentoService.findByIdDocumento(idDocumento);
-                DocumentoDerivacion documentoDerivacion = new DocumentoDerivacion();
-                documentoDerivacion.setTipo("P");
-                documentoDerivacion.setIddocumento(idDocumento);
-                List<DocumentoDerivacion> lst = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
-              
-                if (lst!=null && lst.size()>0){
-                    for(int i=0;i<lst.size();i++){
-                        UsuarioDerivacion usuarioDerivacion = new UsuarioDerivacion();
-                        Usuario usuario = usuarioService.findByIdUsuario(lst.get(i).getIdusuario());
-                        usuarioDerivacion.setIdentificador(lst.get(i).getIdusuario() + "-" + lst.get(i).getUnidadpropietario() + "-" + lst.get(i).getCargopropietario());
-                        usuarioDerivacion.setNombreUsuario(usuario.getNombres() + " " + usuario.getApellidos());
-                        listaDerivacionPara.add(usuarioDerivacion);
-                    }
-                }
-                
-                documentoDerivacion.setTipo("C");
-                documentoDerivacion.setIddocumento(idDocumento);
-                lst = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
-                
-                if (lst!=null && lst.size()>0){
-                    for(int i=0;i<lst.size();i++){
-                        UsuarioDerivacion usuarioDerivacion = new UsuarioDerivacion();
-                        Usuario usuario = usuarioService.findByIdUsuario(lst.get(i).getIdusuario());
-                        usuarioDerivacion.setIdentificador(lst.get(i).getIdusuario() + "-" + lst.get(i).getUnidadpropietario() + "-" + lst.get(i).getCargopropietario());
-                        usuarioDerivacion.setNombreUsuario(usuario.getNombres() + " " + usuario.getApellidos());
-                        listaDerivacionCC.add(usuarioDerivacion);
-                    }
-                }
-                
-                if (documento.getNroVirtual()!=null){
-                    tipoTransaccion = "MR";
-                    recepcionVirtual = documentoExternoVirtualDAO.buscarDocumentoVirtual(documento.getNroVirtual());
-                }
+                    LegajoDocumento legajoDocumento = new LegajoDocumento();
+                    legajoDocumento.setIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
+                    Map<String,Object> sesion=ActionContext.getContext().getSession();
+                    Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
+
+                    lst = legajoDocumentoService.findDocumento(legajoDocumento, usuario);
+
+                    if (lst==null || lst.size()==0)
+                      flagVerExpediente = "0";
+                }catch(Exception e){
+                      e.printStackTrace();
+                      flagVerExpediente = "0";
+                }    
             }
+        }else{
+            if (idINFDocumento!=null && !idINFDocumento.toString().trim().equals("") && tipoTransaccion!=null && tipoTransaccion.equals("A")){
+                documento = documentoService.findByIdDocumento(idINFDocumento);
+                
+                try{
+                    List<LegajoDocumento> lst = null;
+                    LegajoDocumento legajoDocumento = new LegajoDocumento();
+                    legajoDocumento.setIdDocumento(documento.getDocumentoreferencia()==null?documento.getIdDocumento():documento.getDocumentoreferencia());
+                    Map<String,Object> sesion=ActionContext.getContext().getSession();
+                    Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
+                    lst = legajoDocumentoService.findDocumento(legajoDocumento, usuario);
 
-            Map<String, Object> session = ActionContext.getContext().getSession();
-            ServletActionContext.getRequest().getSession().setAttribute("UsuarioCompartido",null);
-            session.remove(Constantes.SESSION_UPLOAD_LIST);
-       
-            return "nuevoRegistroTramite";
+                    if (lst==null || lst.size()==0)
+                      flagVerExpediente = "0";
+                }catch(Exception e){
+                      e.printStackTrace();
+                      flagVerExpediente = "0";
+                }
+            }     
         }
+
+        Map<String, Object> session = ActionContext.getContext().getSession();
+        ServletActionContext.getRequest().getSession().setAttribute("UsuarioCompartido",null);
+        session.remove(Constantes.SESSION_UPLOAD_LIST);
+        return "nuevoDocumento";
+    }
+        
+     public String mostrarVistaTramite() throws Exception {
+        log.debug("NuevoDocumentoAction::mostrarVistaTramite()");
+        this.fecha = new Date();
+        listaDerivacionPara = new ArrayList<UsuarioDerivacion>(); 
+        listaDerivacionCC   = new ArrayList<UsuarioDerivacion>(); 
+
+        this.origenExpediente = Constantes.ORIGEN_EXPEDIENTE_NUEVO;
+        
+        if(idExpediente != null){
+            expediente = expedienteService.findByIdExpediente(idExpediente);
+            this.origenExpediente = Constantes.ORIGEN_EXPEDIENTE_EXISTENTE;
+        }
+
+        if(idDocumento != null){
+            documento = documentoService.findByIdDocumento(idDocumento);
+            DocumentoDerivacion documentoDerivacion = new DocumentoDerivacion();
+            documentoDerivacion.setTipo("P");
+            documentoDerivacion.setIddocumento(idDocumento);
+            List<DocumentoDerivacion> lst = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
+          
+            if (lst!=null && lst.size()>0){
+                for(int i=0;i<lst.size();i++){
+                    UsuarioDerivacion usuarioDerivacion = new UsuarioDerivacion();
+                    Usuario usuario = usuarioService.findByIdUsuario(lst.get(i).getIdusuario());
+                    usuarioDerivacion.setIdentificador(lst.get(i).getIdusuario() + "-" + lst.get(i).getUnidadpropietario() + "-" + lst.get(i).getCargopropietario());
+                    usuarioDerivacion.setNombreUsuario(usuario.getNombres() + " " + usuario.getApellidos());
+                    listaDerivacionPara.add(usuarioDerivacion);
+                }
+            }
+            
+            documentoDerivacion.setTipo("C");
+            documentoDerivacion.setIddocumento(idDocumento);
+            lst = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
+            
+            if (lst!=null && lst.size()>0){
+                for(int i=0;i<lst.size();i++){
+                    UsuarioDerivacion usuarioDerivacion = new UsuarioDerivacion();
+                    Usuario usuario = usuarioService.findByIdUsuario(lst.get(i).getIdusuario());
+                    usuarioDerivacion.setIdentificador(lst.get(i).getIdusuario() + "-" + lst.get(i).getUnidadpropietario() + "-" + lst.get(i).getCargopropietario());
+                    usuarioDerivacion.setNombreUsuario(usuario.getNombres() + " " + usuario.getApellidos());
+                    listaDerivacionCC.add(usuarioDerivacion);
+                }
+            }
+            
+            if (documento.getNroVirtual()!=null){
+                tipoTransaccion = "MR";
+                recepcionVirtual = documentoExternoVirtualDAO.buscarDocumentoVirtual(documento.getNroVirtual());
+            }
+        }
+
+        Map<String, Object> session = ActionContext.getContext().getSession();
+        ServletActionContext.getRequest().getSession().setAttribute("UsuarioCompartido",null);
+        session.remove(Constantes.SESSION_UPLOAD_LIST);
+   
+        return "nuevoRegistroTramite";
+    }
 
 	public String agregarDocumentoMostrarVista() throws Exception {
 		  log.debug("NuevoDocumentoAction::agregarDocumentoMostrarVista()");

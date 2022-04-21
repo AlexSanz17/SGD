@@ -8,7 +8,7 @@ var tipoDocumentoHasChanged = function(idTipoDocumento) {
     dijit.byId("objDD.tipoNumeracionTramite").setValue("");
 };
 
- function tipoClienteRequerido(tipo , requerido){
+function tipoClienteRequerido(tipo , requerido){
     if (tipo == '0'){
         dijit.byId("objDD.iIdInstitucionTramite").attr("required", requerido);
         dijit.byId("objDD.idPersonaInstitucionTramite").attr("required", false);
@@ -26,62 +26,62 @@ var tipoDocumentoHasChanged = function(idTipoDocumento) {
     }
 }
 
- mostrarTipoCliente = function(valor){
-     if (valor == "0"){
-         dojo.byId("tbClienteTramite").style.display = "";
-         dojo.byId("tbInstitucionTramite").style.display = "";
-         dojo.byId("tbPersonaNaturalTramite").style.display = "none";
-         dojo.byId("tbEmpresaTramite").style.display = "none";
-         
-         tipoClienteRequerido('0', true);
-         tipoClienteRequerido('1', false);
-         tipoClienteRequerido('2', false);
-         
-         dijit.byId("objDD.iIdEmpresaTramite").attr("value", "");
-         dijit.byId("objDD.idPersonaNaturalTramite").attr("value", "");
-         
-         dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("value", "");
-         dijit.byId("objDD.idPersonaEmpresaTramite").attr("value", "");
-         dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("value", "");
-         
-         dijit.byId("objDD.desUnidadOrganicaTramite").attr("value", "");
-     }
-     if (valor == "1"){
-         dojo.byId("tbInstitucionTramite").style.display = "none";
-         dojo.byId("tbEmpresaTramite").style.display = "none";
-         dojo.byId("tbPersonaNaturalTramite").style.display = "";
-         dojo.byId("tbClienteTramite").style.display = "";
-         
-         tipoClienteRequerido('0', false);
-         tipoClienteRequerido('1', true);
-         tipoClienteRequerido('2', false);
-        
-         dijit.byId("objDD.iIdInstitucionTramite").attr("value", "");
-         dijit.byId("objDD.iIdEmpresaTramite").attr("value", "");
-         
-         dijit.byId("objDD.idPersonaInstitucionTramite").attr("value", "");
-         dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("value", "");
-         dijit.byId("objDD.idPersonaEmpresaTramite").attr("value", "");
-         dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("value", "");
-    }
-    if (valor == "2"){
-         dojo.byId("tbEmpresaTramite").style.display = "";
-         dojo.byId("tbInstitucionTramite").style.display = "none";
-         dojo.byId("tbPersonaNaturalTramite").style.display = "none";
-         dojo.byId("tbClienteTramite").style.display = "";
-         
-         tipoClienteRequerido('0', false);
-         tipoClienteRequerido('1', false);
-         tipoClienteRequerido('2', true);
-        
-         dijit.byId("objDD.iIdInstitucionTramite").attr("value", "");
-         dijit.byId("objDD.idPersonaNaturalTramite").attr("value", "");
-         
-         dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("value", "");
-         dijit.byId("objDD.idPersonaInstitucionTramite").attr("value", "");
-         dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("value", "");
-    }
- }
+mostrarTipoCliente = function(valor){
+  if (valor == "0"){
+     dojo.byId("tbClienteTramite").style.display = "";
+     dojo.byId("tbInstitucionTramite").style.display = "";
+     dojo.byId("tbPersonaNaturalTramite").style.display = "none";
+     dojo.byId("tbEmpresaTramite").style.display = "none";
+     
+     tipoClienteRequerido('0', true);
+     tipoClienteRequerido('1', false);
+     tipoClienteRequerido('2', false);
+     
+     dijit.byId("objDD.iIdEmpresaTramite").attr("value", "");
+     dijit.byId("objDD.idPersonaNaturalTramite").attr("value", "");
+     
+     dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("value", "");
+     dijit.byId("objDD.idPersonaEmpresaTramite").attr("value", "");
+     dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("value", "");
+     
+     dijit.byId("objDD.desUnidadOrganicaTramite").attr("value", "");
+  }
+  if (valor == "1"){
+     dojo.byId("tbInstitucionTramite").style.display = "none";
+     dojo.byId("tbEmpresaTramite").style.display = "none";
+     dojo.byId("tbPersonaNaturalTramite").style.display = "";
+     dojo.byId("tbClienteTramite").style.display = "";
+     
+     tipoClienteRequerido('0', false);
+     tipoClienteRequerido('1', true);
+     tipoClienteRequerido('2', false);
+    
+     dijit.byId("objDD.iIdInstitucionTramite").attr("value", "");
+     dijit.byId("objDD.iIdEmpresaTramite").attr("value", "");
+     
+     dijit.byId("objDD.idPersonaInstitucionTramite").attr("value", "");
+     dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("value", "");
+     dijit.byId("objDD.idPersonaEmpresaTramite").attr("value", "");
+     dijit.byId("objDD.codCargoPersonaEmpresaTramite").attr("value", "");
+  }
+  if (valor == "2"){
+     dojo.byId("tbEmpresaTramite").style.display = "";
+     dojo.byId("tbInstitucionTramite").style.display = "none";
+     dojo.byId("tbPersonaNaturalTramite").style.display = "none";
+     dojo.byId("tbClienteTramite").style.display = "";
+     
+     tipoClienteRequerido('0', false);
+     tipoClienteRequerido('1', false);
+     tipoClienteRequerido('2', true);
+    
+     dijit.byId("objDD.iIdInstitucionTramite").attr("value", "");
+     dijit.byId("objDD.idPersonaNaturalTramite").attr("value", "");
+     
+     dijit.byId("objDD.codCargoPersonaNaturalTramite").attr("value", "");
+     dijit.byId("objDD.idPersonaInstitucionTramite").attr("value", "");
+     dijit.byId("objDD.codCargoPersonaInstitucionTramite").attr("value", "");
+  }
+}
 
 fillDataCargoPersona = function(iIdRemitente){
     if (iIdRemitente!=""){
@@ -738,9 +738,9 @@ dojo.addOnLoad(function() {
          maxLength : "100",
          name:  "objDD.strNroDocumento",
          invalidMessage:"Ingrese un Nro de Documento",
-         regExp: ".{1,45}",
+         regExp: ".{1,100}",
          required: false,
-         style: "width:165px",
+         style: "width:430px",
          trim:"true"
 	}, "fsNroDocumentoTramite");
 
@@ -929,10 +929,10 @@ dojo.addOnLoad(function() {
             dijit.byId("objDD.prioridadTramite").attr("value",PRIORIDAD_NORMAL); 
          }
          if(TIPO_TRANSACCION+"" == "R"){
-           llenarCamposRecepcionVirtual();  
+           llenarCamposRecepcionVirtual();
          } 
          if(TIPO_TRANSACCION+"" == "MR"){
-           llenarCamposModificarRecepcionVirtual();  
+           llenarCamposModificarRecepcionVirtual();
          } 
    }      
    

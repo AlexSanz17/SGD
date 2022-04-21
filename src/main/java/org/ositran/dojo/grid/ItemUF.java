@@ -3,7 +3,6 @@ package org.ositran.dojo.grid;
 import java.util.Date;
 
 public class ItemUF {
-
     private int id;
     private String intentos;
     private String cargo;
@@ -61,14 +60,7 @@ public class ItemUF {
     private String idDestinatario;
     private String idEstado;
     private String cuo;
-    
-    public String getCuo() {
-        return cuo;
-    }
-
-    public void setCuo(String cuo) {
-        this.cuo = cuo;
-    }
+    private String cuoRef;
     
     public String getNroTramiteEntidad() {
         return nroTramiteEntidad;
@@ -516,4 +508,25 @@ public class ItemUF {
     public void setIconoArea(String iconoArea) {
         this.iconoArea = iconoArea;
     }
+    
+    public String getCuo() {
+        return cuo;
+    }
+
+	public void setCuo(String cuo) {
+        this.cuo = cuo;
+    }
+	
+	public String getCuoRef() {
+		return cuoRef;
+	}
+
+	public void setCuoRef(String cuoRef) {
+		this.cuoRef = cuoRef;
+	}
+
+	@Override
+	public String toString() {
+		return "ItemUF [id=" + id + "]";
+	}
 }

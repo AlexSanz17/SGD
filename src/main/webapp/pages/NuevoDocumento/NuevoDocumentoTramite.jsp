@@ -4,10 +4,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
    <head>
-      <title>SIGED - Nuevo Documento Usuario Final</title>
+      <title>SIGED - Nuevo Documento Tramite Virtual</title>
+      
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
       <meta http-equiv="cache-control" content="no-cache" />
-      <META HTTP-EQUIV="Expires" CONTENT="-1">
+      <meta http-equiv="expires" content="-1">
           
        <style type="text/css">
          @import "js/dojo/dijit/themes/soria/soria.css";
@@ -32,10 +33,6 @@
          #docRef{
          	float: left;
          	width: 170px;
-         }
-         
-         .tr-hide {
-         	display: none;
          }
       </style>         
        
@@ -68,7 +65,8 @@
 	
          if ("<s:property value='documento.idDocumento' />" == ""){
              jsonStoreAdjuntos = new dojo.data.ItemFileWriteStore({url: "setearAdjuntos.action"});    
-         }else{
+         }
+         else {
              serviceAdjunto.leerAdjuntos("<s:property value='documento.idDocumento' />").addCallback(function(objJSON) {
                  dijit.byId("edGridAdjunto").setStore(new dojo.data.ItemFileWriteStore({
                      data : objJSON
@@ -77,46 +75,40 @@
          }
           
         var estructura = [{
-				field: 'idId',
-				name: 'idId',
-                hidden: true
-			},
-			{
-				field: 'tipoAdjunto',
-				name: 'Tipo',
-        		hidden: true
-			},
-            {
-				field: 'desTipo',
-				name: 'Tipo',
-				width: "110px"
-			},
-            {
-			    field: 'desOrigCop',
-			    name: 'Orig/Cop',
-                width: "85px"
-			},
-            {
-			    field: 'origcop',
-			    name: 'Orig/Cop',
-                hidden: true
-			},
-            {
-			    field: 'nro',
-			    name: 'Nro',
-                width: "55px"
-			}
-                        
-			];
+			field: 'idId',
+			name: 'idId',
+               hidden: true
+		}, {
+			field: 'tipoAdjunto',
+			name: 'Tipo',
+       		hidden: true
+		}, {
+			field: 'desTipo',
+			name: 'Tipo',
+			width: "110px"
+		}, {
+		    field: 'desOrigCop',
+		    name: 'Orig/Cop',
+               width: "85px"
+		}, {
+		    field: 'origcop',
+		    name: 'Orig/Cop',
+               hidden: true
+		}, {
+		    field: 'nro',
+		    name: 'Nro',
+               width: "55px"
+		}];
                     
-	        new dojox.grid.DataGrid({
-	        	id               : "edGridAdjunto",
-		        jsId             : "edGridAdjunto",
-		        store            : jsonStoreAdjuntos,
-		        structure        : estructura,
-		        style	           : "width:274px; height:85px;"
-		     }, "fsGrid").startup();          
+        new dojox.grid.DataGrid({
+        	id               : "edGridAdjunto",
+	        jsId             : "edGridAdjunto",
+	        store            : jsonStoreAdjuntos,
+	        structure        : estructura,
+	        style	           : "width:274px; height:85px;"
+	     }, "fsGrid").startup();          
       </script>
+      
       <script type="text/javascript" src="js/busquedaExpediente.js"></script>
       <script type="text/javascript" src="js/siged/upload.js"></script>
       <script type="text/javascript" src="js/siged/siged.string.js"></script>
@@ -127,8 +119,6 @@
       <script type="text/javascript">
         destroyWidgetsFromBusquedaExpediente();
         destroyControlesTramite();
-        
-        dijit.byId("objDD.esTipoRecepcionTramite").attr("value","R");
 
         function descargarPlantillaCargo(){
             var fecha = new Date();
@@ -183,6 +173,7 @@
            }
            
            var datos = document.getElementById("idListaCC");
+           
            for (var i=0; i< datos.options.length;i++){
                if (datos.options[i].value == dijit.byId('objDD.idDestinatarioTramite').attr("value").trim().toUpperCase()){
                   alert("El destinatario ya se encuentra agregado.");
@@ -228,7 +219,6 @@
                    $(this).remove();
             }); 
         }
-         
      
           function agregar_(){
             dijit.byId("btn15").attr('disabled', true);
@@ -291,7 +281,7 @@
         	 if ("<s:property value='documento.codTipoInstitucion'/>"!=null && "<s:property value='documento.codTipoInstitucion'/>"!="" &&
                      ("<s:property value='documento.codTipoInstitucion'/>"=="1" || "<s:property value='documento.codTipoInstitucion'/>"=="2")){
         		 
-                  if ("<s:property value='documento.codTipoInstitucion' />"== COD_PERSONA_JURIDICA_INSTITUCION){
+                  if ("<s:property value='documento.codTipoInstitucion' />" == COD_PERSONA_JURIDICA_INSTITUCION){
                      dojo.query("input[name='objDD.idTipoCliente']").forEach(function(node) {
                        if (node.value=="0"){
                           dijit.byId(node.id).attr("checked", true);
@@ -397,20 +387,18 @@
              dijit.byId("objDD.strAsuntoTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
              dijit.byId("objDD.strAsuntoTramite").attr("readOnly", true);
              dijit.byId("objDD.prioridadTramite").attr("value","1");
-//              dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
              
-             dijit.byId("objDD.desUnidadOrganicaTramite").setValue("<s:property value='recepcionVirtual.sidrecext.vuniorgrem' escape='false' />"); 
-             dijit.byId("objDD.desUnidadOrganicaTramite").attr("readOnly", true);
-             
-             dijit.byId("objDD.iNroFoliosPIDETramite").attr("value", "<s:property value='documento.numeroFoliosPIDE' />");
+             dijit.byId("objDD.iNroFoliosPIDETramite").attr("value","<s:property value='documento.numeroFoliosPIDE' />");
              dijit.byId("objDD.iNroFoliosTramite").attr("value","<s:property value='documento.numeroFolios'/>");
              dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("value","<s:property value='documento.numeroFoliosOriginales'/>");
-             dijit.byId("objDD.iNroFoliosCopiasTramite").attr("value","<s:property value='documento.numeroFoliosCopias'/>"==null?"":"<s:property value='documento.numeroFoliosCopias'/>");
-//              dijit.byId("objDD.iNroFoliosDigitalizadosTramite").attr("value","<s:property value='documento.imagenesDigitalizadas'/>"==null?"":"<s:property value='documento.imagenesDigitalizadas'/>");
+             dijit.byId("objDD.iNroFoliosCopiasTramite").attr("value","<s:property value='documento.numeroFoliosCopias'/>");
+             dijit.byId("objDD.iNroFoliosDigitalizadosTramite").attr("value","<s:property value='documento.imagenesDigitalizadas'/>");
              
-             dijit.byId("objDD.iNroFoliosPIDETramite").attr("required", true);
-             dijit.byId("objDD.iNroFoliosTramite").attr("required", true);
-//              dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("required", false);
+             dijit.byId("objDD.iNroFoliosPIDETramite").attr("readOnly", true);
+             dijit.byId("objDD.iNroFoliosTramite").attr("readOnly", true);
+             dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("readOnly", true);
+             dijit.byId("objDD.iNroFoliosCopiasTramite").attr("readOnly", true);
+             dijit.byId("objDD.iNroFoliosDigitalizadosTramite").attr("readOnly", true);
              
              dojo.byId("tbNroFoliosPIDETramite").style.display = "";
              dojo.byId("tbDetalleAdjuntosTramite").style.display = "none";
@@ -571,12 +559,12 @@
       <div class="margen5PX">
      <!--     <div id="btnTramite" > </div> --> 
          <button dojoType="dijit.form.Button"
-                 type="button"
-                 id="btnRegistrarDocumentoTramiteTop"
-                 jsId="btnRegistrarDocumentoTramiteTop"
-                 iconClass="siged16 sigedSave16"
-                 onClick="submitForm"
-                 showLabel="true">Registrar</button>
+            type="button"
+            id="btnRegistrarDocumentoTramiteTop"
+            jsId="btnRegistrarDocumentoTramiteTop"
+            iconClass="siged16 sigedSave16"
+            onClick="submitForm"
+            showLabel="true">Registrar</button>
          <!-- <div id="divShowFile2"></div> --> 
       </div>
       <form dojoType="dijit.form.Form" id="frmNuevoDocumentoTramite" jsId="frmNuevoDocumentoTramite" action="NuevoDocumentoEnviarArchivo.action" method="post">
@@ -600,29 +588,27 @@
                       <div class="marcoForm margen5PX">
                          <table width="100%" border="0">
                              <tbody id="tbClienteTramite">
-                              
-                               <tr>
-                                  <td colspan="3" class="titulo">REMITENTE</td>
-                               </tr>
+                                <tr>
+                                   <td colspan="3" class="titulo">REMITENTE</td>
+                                </tr>
                                  
                                 <tr> 
                                     <td>Tipo</td>
                                     <td>
-                                         <table>
-                                           <tr> 
-                                               <td class="label">
-                                                   <div id="id1b"> 
-                                                      <input id="fsClienteInstitucionTramite"/> Entidades
-                                                    <!--  <label for="fsClienteInstitucionTramite">Entidades</label> -->
-                                                   </div>
-
-                                             </td>
+                                        <table>
+                                          <tr> 
                                              <td class="label">
-                                                   <div id="id1bE"> 
-                                                      <input id="fsClienteEmpresaTramite"/> Empresa
-                                                    <!--  <label for="fsClienteEmpresaTramite">Empresa</label> -->
-                                                   </div>
-
+                                                 <div id="id1b"> 
+                                                    <input id="fsClienteInstitucionTramite"/> Entidades
+                                                  <!--  <label for="fsClienteInstitucionTramite">Entidades</label> -->
+                                                 </div>
+                                             </td>
+                                             
+                                             <td class="label">
+                                                <div id="id1bE"> 
+                                                   <input id="fsClienteEmpresaTramite"/> Empresa
+                                                 <!--  <label for="fsClienteEmpresaTramite">Empresa</label> -->
+                                                </div>
                                              </td>  
 
                                              <td class="label">
@@ -636,8 +622,7 @@
                                                   &nbsp;&nbsp;&nbsp;
                                                   <button dojoType="dijit.form.Button" type="button" jsId="btnNuevoCliente" id="btnNuevoCliente" onClick="openNuevoCliente()"><img src="images/sigedIconos/Agregar.png" width="10px;" height="10px;" border="0"/></button>
                                                   <button dojoType="dijit.form.Button"  type="button" jsId="btnModificarCliente" id="btnModificarCliente" onClick="openModificarCliente()"><img src="images/sigedIconos/HojaRuta.png" width="10px;" height="10px;" border="0"/></button>
-                                               </td>  
-
+                                              </td>  
                                            </tr>
                                        </table>                  
                                     </td>  
@@ -645,111 +630,111 @@
                             </tbody>
                              
                            <tbody id="tbInstitucionTramite">    
-                            <tr>
-                              <td>Institución</td>
-                              <td class="label" colspan="2">
-                                 <div id="fsInstitucionTramite" name="fsInstitucionTramite" style="width:200px;"></div>
-                                 <span id="datosRUC" style="color:blue"></span>
-                              </td>
-                              <td colspan="1"> </td>
-                           </tr>
-                                       
-                            <tr> 
-                                <td> 
-                                    <div>Persona Remitente </div>
-                                </td>
-                             <td class="label" colspan="2" >  
-                                  <div id="fsPersonaInstitucionTramite" name="fsPersonaInstitucionTramite" style="width:200px;"></div>
-                                  <span id="datosDocumento" style="color:blue"></span>
-                                  <span id="resultado" style="color:red"></span>
-                             </td>
-                           </tr> 
-                            
-                             <tr> 
-                              <td>Cargo</td>
-                             <td class="label" colspan="2">
-                                  <div id="fsCargoPersonaInstitucionTramite" name="fsCargoPersonaInstitucionTramite" style="width:200px;"></div>
-                                  
-                              </td>
-                           </tr> 	
-                               
-                           <tr> 
-                              <td>Unidad Orgánica</td>
-                             <td class="label" colspan="2"> 
-                                  <div id="fsUnidadOrganicaTramite" name="fsUnidadOrganicaTramite" style="width:200px;"></div>
-                              </td>
-                           </tr>    
-                               
-                        </tbody>
+	                           <tr>
+	                              <td>Institución</td>
+	                              <td class="label" colspan="2">
+	                                 <div id="fsInstitucionTramite" name="fsInstitucionTramite" style="width:200px;"></div>
+	                                 <span id="datosRUC" style="color:blue"></span>
+	                              </td>
+	                              <td colspan="1"> </td>
+	                           </tr>
+	                                       
+	                           <tr> 
+                                  <td> 
+                                     <div>Persona Remitente </div>
+                                  </td>
+	                              <td class="label" colspan="2" >  
+	                                  <div id="fsPersonaInstitucionTramite" name="fsPersonaInstitucionTramite" style="width:200px;"></div>
+	                                  <span id="datosDocumento" style="color:blue"></span>
+	                                  <span id="resultado" style="color:red"></span>
+	                              </td>
+	                           </tr> 
+	                            
+	                           <tr> 
+	                              <td>Cargo</td>
+	                              <td class="label" colspan="2">
+	                                  <div id="fsCargoPersonaInstitucionTramite" name="fsCargoPersonaInstitucionTramite" style="width:200px;"></div>
+	                              </td>
+	                           </tr> 	
+	                               
+	                           <tr> 
+	                              <td>Unidad Orgánica</td>
+	                              <td class="label" colspan="2"> 
+	                                  <div id="fsUnidadOrganicaTramite" name="fsUnidadOrganicaTramite" style="width:200px;"></div>
+	                              </td>
+	                           </tr>    
+                           </tbody>
                                         
-                        <tbody id="tbEmpresaTramite" style="display:none;" >  
-                            
-                            <tr>
-                              <td>Empresa</td>
-                              <td class="label" colspan="2">
-                                 <div id="fsEmpresaTramite" name="fsEmpresaTramite" style="width:200px;"></div>
-                              </td>
-                              <td colspan="1"> </td>
-                           </tr>
-                                       
-                            <tr> 
-                                <td> 
-                                   Persona Remitente
-                                </td>
-                             <td class="label" colspan="2">
-                                  <div id="fsPersonaEmpresaTramite" name="fsPersonaEmpresaTramite" style="width:200px;"></div>
-                              </td>
-                           </tr> 
-                            
-                             <tr> 
-                              <td>Cargo</td>
-                             <td class="label" colspan="2">
-                                  <div id="fsCargoPersonaEmpresaTramite" name="fsCargoPersonaEmpresaTramite" style="width:200px;"></div>
-                              </td>
-                           </tr> 				
-                        </tbody>                
+	                        <tbody id="tbEmpresaTramite" style="display:none;" >  
+	                            <tr>
+	                              <td>Empresa</td>
+	                              <td class="label" colspan="2">
+	                                 <div id="fsEmpresaTramite" name="fsEmpresaTramite" style="width:200px;"></div>
+	                              </td>
+	                              <td colspan="1"> </td>
+	                           </tr>
+	                                       
+	                           <tr> 
+                                  <td> 
+                                     Persona Remitente
+                                  </td>
+	                              <td class="label" colspan="2">
+	                                  <div id="fsPersonaEmpresaTramite" name="fsPersonaEmpresaTramite" style="width:200px;"></div>
+	                              </td>
+	                           </tr> 
+	                            
+	                           <tr> 
+	                              <td>Cargo</td>
+	                              <td class="label" colspan="2">
+	                                  <div id="fsCargoPersonaEmpresaTramite" name="fsCargoPersonaEmpresaTramite" style="width:200px;"></div>
+	                              </td>
+	                           </tr> 				
+	                        </tbody>   
                                         
-                         <tbody id="tbPersonaNaturalTramite" style="display:none;" >      
-                             <tr> 
-                                <td> 
-                                    <div>Persona Remitente </div>
-                                    
-                                </td>
-                             <td class="label" colspan="2">
-                                  <div id="fsPersonaNaturalTramite" name="fsPersonaNaturalTramite" style="width:200px;"></div>
-                              </td>
-                           </tr> 
-                            
-                             <tr> 
-                              <td>Cargo</td>
-                             <td class="label" colspan="2">
-                                  <div id="fsCargoPersonaNaturalTramite" name="fsCargoPersonaNaturalTramite" style="width:200px;"></div>
-                              </td>
-                           </tr>
-                             
-                         </tbody> 
-                              <tr>
-                                  <td colspan="3"><hr /></td>
+	                       <tbody id="tbPersonaNaturalTramite" style="display:none;" >      
+	                           <tr> 
+	                              <td> 
+	                                  <div>Persona Remitente </div>
+	                              </td>
+	                              <td class="label" colspan="2">
+	                                 <div id="fsPersonaNaturalTramite" name="fsPersonaNaturalTramite" style="width:200px;"></div>
+	                              </td>
+	                           </tr> 
+	                          
+	                           <tr> 
+	                               <td>Cargo</td>
+		                           <td class="label" colspan="2">
+		                              <div id="fsCargoPersonaNaturalTramite" name="fsCargoPersonaNaturalTramite" style="width:200px;"></div>
+		                           </td>
+	                           </tr>
+	                        </tbody>
+	                       
+                            <tr>
+                               <td colspan="3"><hr /></td>
                                </tr>
+                               
                             <tr>
                                <td width="20%" class="titulo">DATOS DE LA CARPETA</td>
                                <td width="80%" colspan="2"></td>
                             </tr>
+                            
                             <tr>
                                <td colspan="3">
                                   <input id="objDD.iIdExpedienteTramite" style="display:none;" />
                                </td>
                             </tr>
+                            
                             <tr>
                                <td width="20%">Nro Carpeta</td>
                                <td class="label" colspan="2" width="80%">
                                   <input id="sNroExpedienteTramite" />
+                                  
                                   <button dojoType="dijit.form.Button"
-                                          id="btnBusquedaExpedienteTramite"
-                                          jsId="btnBusquedaExpedienteTramite"
-                                          iconClass="siged16 sigedSearch16"
-                                          onClick="showBusquedaExpediente"
-                                          showLabel="false">B&uacute;squeda de la Carpeta</button>
+                                      id="btnBusquedaExpedienteTramite"
+                                      jsId="btnBusquedaExpedienteTramite"
+                                      iconClass="siged16 sigedSearch16"
+                                      onClick="showBusquedaExpediente"
+                                      showLabel="false">B&uacute;squeda de la Carpeta</button>
                                   
                                    <button dojoType="dijit.form.Button"
                                       id="btnBusquedaExpedienteRemitenteTramite"
@@ -776,17 +761,18 @@
                                 </tr>
                                
                                 <tr>
-                                 <td>Serie Documental</td>
-                                 <td class="label" colspan="2">
-                                   <input id="idserieTramite" style="display:none;" />
-                                   <div id="fsSerieTramite"></div>
-                                 </td>
+                                   <td>Serie Documental</td>
+                                   <td class="label" colspan="2">
+                                      <input id="idserieTramite" style="display:none;" />
+                                      <div id="fsSerieTramite"></div>
+                                   </td>
                                </tr>
-                          </tbody>
+                           </tbody>
                                   
                            <tr>
                               <td colspan="3"><hr /></td>
                            </tr>
+                           
                            <tr>
                               <td colspan="3" class="titulo">DOCUMENTO</td>
                            </tr>
@@ -795,25 +781,25 @@
                               <td>Tipo Documento</td>
                               <td class="label" colspan="2">
                                  <input dojoType="dijit.form.TextBox"
-                                        id="idtipodocumentoTramite"
-                                        jsId="idtipodocumentoTramite"
-                                        name="idtipodocumento"
-                                        style="display:none; " /> 
+                                    id="idtipodocumentoTramite"
+                                    jsId="idtipodocumentoTramite"
+                                    name="idtipodocumento"
+                                    style="display:none; " />
+                                    
                                  <div id="fsTipoDocumentoTramite" name="fsTipoDocumento" style="width:300px;"></div>
                               </td>
                            </tr>
                             
-                            <tr id="trNroDocumento">
+                           <tr id="trNroDocumento">
                               <td>Nro. Documento</td>
                               <td class="label" colspan="2">
                                  <div id="divNroDocumento">
-                                          <input dojoType="dijit.form.TextBox"
-                                           id="objDD.tipoNumeracionTramite"
-                                           jsId="objDD.tipoNumeracionTramite"
-                                           name="objDD.tipoNumeracion"
-                                           style="display:none;" />
-                                    <div id="fsNroDocumentoTramite" />
-                                    
+                                    <input dojoType="dijit.form.TextBox"
+                                       id="objDD.tipoNumeracionTramite"
+                                       jsId="objDD.tipoNumeracionTramite"
+                                       name="objDD.tipoNumeracion"
+                                       style="display:none;" />
+                                    <div id="fsNroDocumentoTramite"></div>
                                  </div>
                               </td>
                            </tr>  
@@ -821,7 +807,7 @@
                            <tr>
                               <td>Asunto del Documento</td>
                               <td class="label" colspan="2">
-                               <div id="objDD.strAsuntoTramite"/>
+                                 <div id="objDD.strAsuntoTramite"/>
                               </td>
                            </tr>
                            
@@ -829,46 +815,46 @@
                               <td>Fecha Documento</td>
                               <td width = "200px" class="label" colspan="1">
                                  <div dojoType="dijit.form.DateTextBox"
-                                      id="objDD.strFechaDocumentoTramite"
-                                      jsId="objDD.strFechaDocumentoTramite"
-                                      name="objDD.strFechaDocumento"
-                                      constraints="{datePattern:'dd/MM/yyyy'}"
-                                      invalidMessage="Ingrese fecha de Documento dd/MM/yyyy"
-                                      required="true"
-                                      trim="true">
+                                       id="objDD.strFechaDocumentoTramite"
+                                       jsId="objDD.strFechaDocumentoTramite"
+                                       name="objDD.strFechaDocumento"
+                                       constraints="{datePattern:'dd/MM/yyyy'}"
+                                       invalidMessage="Ingrese fecha de Documento dd/MM/yyyy"
+                                       required="true"
+                                       trim="true">
                                     <script type="dojo/method" event="postCreate">
                                        var fechadocumento_year;
                                        var fechadocumento_month;
                                        var fechadocumento_day;
                                        
                                        if ("<s:date name='documento.fechaDocumento' format='dd' />"== null ||
-                                           "<s:date name='documento.fechaDocumento' format='dd' />"== ""){ 
+                                           	  "<s:date name='documento.fechaDocumento' format='dd' />"== "") { 
                                            fechadocumento_year = parseInt("<s:date name='fecha' format='yyyy' />", 10);
                                            fechadocumento_month = parseInt("<s:date name='fecha' format='MM' />", 10);
                                            fechadocumento_day = parseInt("<s:date name='fecha' format='dd' />", 10);
-                                       }else{
+                                       } else {
                                            fechadocumento_year = parseInt("<s:date name='documento.fechaDocumento' format='yyyy' />", 10);
                                            fechadocumento_month = parseInt("<s:date name='documento.fechaDocumento' format='MM' />", 10);
                                            fechadocumento_day = parseInt("<s:date name='documento.fechaDocumento' format='dd' />", 10);
                                         }    
                                        
                                        if (!isNaN(fechadocumento_year) && !isNaN(fechadocumento_month) && !isNaN(fechadocumento_day)) {
-                                         	dijit.byId("objDD.strFechaDocumentoTramite").attr("value", new Date(fechadocumento_year, fechadocumento_month - 1, fechadocumento_day));
-											dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
+                                           dijit.byId("objDD.strFechaDocumentoTramite").attr("value", new Date(fechadocumento_year, fechadocumento_month - 1, fechadocumento_day));
+										   dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
                                        }
                                        
-                                       if (TIPO_TRANSACCION == "MR"){
+                                       if (TIPO_TRANSACCION == "MR") {
                                            dijit.byId("objDD.strFechaDocumentoTramite").attr("readOnly", true);
                                        }
                                     </script>
-                                 </div>  <span id="datosFechaDocumento" style="color:blue"></span>
+                                 </div>
                               </td>
                            </tr>
                            
                            <tr>
                               <td>Prioridad</td>
                               <td class="label" colspan="2">
-                               <div id="fsPrioridadTramite"/>
+                                <div id="fsPrioridadTramite"/>
                               </td>
                            </tr> 
                            
@@ -879,23 +865,25 @@
                                   <input dojoType="dijit.form.RadioButton" type="radio" id="sPlazoFechaTramite" jsId="sPlazoFechaTramite" name="objDD.plazo" value="1" onClick="activarControlPlazo('1');"/>Fecha Limite&nbsp;&nbsp;&nbsp;
                                </td>  
                           </tr>
+                          
                           <tbody id="tbPlazoDiaTramite">              
                             <tr>
-                                  <td></td>  
-                                 <td>
-                                     <table>
-                                         <tr><td><div id="fsPlazoTramite"/></td>
-                                         <td><div id="sFechaPlazoTramite"/></td></tr>
-                                     </table>
-                                 </td>   
+                               <td></td>  
+                               <td>
+                                   <table>
+                                      <tr>
+                                         <td><div id="fsPlazoTramite"/></td>
+                                         <td><div id="sFechaPlazoTramite"/></td>
+                                      </tr>
+                                   </table>
+                               </td>   
                             </tr>  
-                          </tbody>   
+                          </tbody>
+                          
                           <tbody id="tbPlazoFechaTramite" style="display:none;"> 
-                              
-                            <tr>        
+                             <tr>        
                                 <td></td>
                                 <td class="label">    
-
                                    <div dojoType="dijit.form.DateTextBox" 
                                         id="objDD.strFechaLimiteAtencionTramite"
                                         jsId="objDD.strFechaLimiteAtencionTramite"
@@ -920,11 +908,10 @@
                                           }    
                                       </script>
                                    </div>
-                                   
-                                </td>
-                                      
-                             </tr>              
-                          </tbody>             
+                                 </td>
+                              </tr>              
+                           </tbody>
+                                     
                            <tr>
                               <td>Documentos Vinculados</td>
                               <td class="label" colspan="2">
@@ -939,207 +926,214 @@
                               </td>
                            </tr>
                                       
-                            <tr>
+                           <tr>
                               <td>Observaciones del Documento</td>
                               <td class="label" colspan="2">
-                                  <div id="fsObservacionesDocumentoTramite" style="width:300px;height:5px"/>
+                                 <div id="fsObservacionesDocumentoTramite" style="width:300px;height:5px"/>
                               </td>
                            </tr>
                            
-                           <tr class="tr-hide">
-                              <td>Recepción</td>
-                              <td class="label" colspan="2">
-                                 <div id="fsRecepcionTramite" name="fsRecepcionTramite" style="width:200px;"></div>
-                              </td>
-                              <td colspan="1"> </td>
-                           </tr> 
+                           <s:if test="documento.codTipoInstitucion == 1">
+	                           <tr>
+	                              <td>Recepción</td>
+	                              <td class="label" colspan="2">
+	                                 <div id="fsRecepcionTramite" name="fsRecepcionTramite" style="width:200px;"></div>
+	                              </td>
+	                           </tr>
+                           </s:if>
+                           <s:else>
+                           	  <div dojoType="dijit.form.TextBox" id="objDD.esTipoRecepcionTramite" name="objDD.esTipoRecepcion" style="display:none;">
+	                           	  <script type="dojo/method" event="postCreate">
+                           		     this.attr("value","R");
+                           	      </script>
+                           	  </div>
+                           </s:else>
+						   
+	                        <tbody id="tbNroIdentificacionTramite" style="display:none;">
+	                            <tr>
+	                              <td width="20%">Cliente</td>
+	                              <td class="label" width="50%">
+	                                 <input dojoType="dijit.form.TextBox"
+	                                    id="idclienteTramite"
+	                                    jsId="idclienteTramite"
+	                                    name="idcliente"
+	                                    style="display:none;" />
+	                              </td>
+	                             </tr>
+	                        </tbody>    
                                            
-                        <tbody id="tbNroIdentificacionTramite" style="display:none;">            
-                            <tr>
-                              <td width="20%">Cliente</td>
-                              <td class="label" width="50%">
-                                 <input dojoType="dijit.form.TextBox"
-                                        id="idclienteTramite"
-                                        jsId="idclienteTramite"
-                                        name="idcliente"
-                                        style="display:none;" />
-                              </td>
-                              
-                             </tr>
-                        </tbody>    
+	                       <tr>
+	                          <td colspan="3"><hr /></td>
+	                       </tr>
+	                       
+	                       <tr>
+	                          <td colspan="3" class="titulo">DESTINATARIOS</td>
+	                       </tr>
                                            
-                       <tr>
-                          <td colspan="3"><hr /></td>
-                       </tr>
-                       <tr>
-                          <td colspan="3" class="titulo">DESTINATARIOS</td>
-                       </tr>
-                                           
-                        <tr>
-                           <td>Unidad</td>
-                           <td class="label" colspan="1" width="50px"> 
-                              <div id="fsDerivacionTramite" name="fsDerivacion" style="width:100px;"></div>
-                           </td>
-                           <td width="500px">
-                             <span id="datosRemitente" style="color:blue"></span>
-                           </td>
-                       </tr>
+	                       <tr>
+	                           <td>Unidad</td>
+	                           <td class="label" colspan="1" width="50px"> 
+	                              <div id="fsDerivacionTramite" name="fsDerivacion" style="width:100px;"></div>
+	                           </td>
+	                           <td width="500px">
+	                             <span id="datosRemitente" style="color:blue"></span>
+	                           </td>
+	                       </tr>
                        
-                           <tr>
-                              <td>Para</td>
-                              <td class="label" colspan="1">
-                                <div id="grupoPara">  
-                                    <div class="divReferencia">  
-                                      <fieldset id="docRef">
-                                          <s:select id="idListaPara" cssClass="docRef" list="listaDerivacionPara" required="true" listKey="identificador" listValue="nombreUsuario" multiple="true" size="2" >
-                                          </s:select>
-                                      </fieldset>&nbsp;
-                                      <button dojoType="dijit.form.Button"  type="button" jsId="btnAgregarPara" id="btnAgregarPara" onClick="agregarPara"> <img src="images/sigedIconos/Agregar.png" width="10px;" height="10px;" border="0"/> </button>
-                                      <button dojoType="dijit.form.Button"  type="button" jsId="btnRemoverPara" id="btnRemoverPara" onClick="borrarPara"> <img src="images/sigedIconos/Remover.png" width="10px;" height="10px;" border="0"/>  </button>
-                                    </div>
-                                </div>      
-                              </td>
-                           </tr>        
+	                       <tr>
+	                          <td>Para</td>
+	                          <td class="label" colspan="1">
+	                            <div id="grupoPara">  
+	                                <div class="divReferencia">  
+	                                  <fieldset id="docRef">
+	                                    <s:select id="idListaPara" cssClass="docRef" list="listaDerivacionPara" required="true" listKey="identificador" listValue="nombreUsuario" multiple="true" size="2" ></s:select>
+	                                  </fieldset>&nbsp;
+	                                  <button dojoType="dijit.form.Button"  type="button" jsId="btnAgregarPara" id="btnAgregarPara" onClick="agregarPara"> <img src="images/sigedIconos/Agregar.png" width="10px;" height="10px;" border="0"/> </button>
+	                                  <button dojoType="dijit.form.Button"  type="button" jsId="btnRemoverPara" id="btnRemoverPara" onClick="borrarPara"> <img src="images/sigedIconos/Remover.png" width="10px;" height="10px;" border="0"/>  </button>
+	                                </div>
+	                            </div>      
+	                          </td>
+	                       </tr>        
                             
-                       <tr>
-                              <td>CC</td>
-                              <td class="label" colspan="1">
-                                <div id="grupoCC">  
-                                    <div class="divReferencia">  
-                                      <fieldset id="docRef">
-                                         <s:select id="idListaCC" cssClass="docRef" list="listaDerivacionCC" listKey="identificador" listValue="nombreUsuario" multiple="true" size="2" >
-                                         </s:select>
-                                      </fieldset>&nbsp;
-                                      <button dojoType="dijit.form.Button"  type="button" jsId="btnAgregarCC" id="btnAgregarCC" onClick="agregarCC"> <img src="images/sigedIconos/Agregar.png" width="10px;" height="10px;" border="0"/> </button>
-                                      <button dojoType="dijit.form.Button"  type="button" jsId="btnRemoverCC" id="btnRemoverCC" onClick="borrarCC"> <img src="images/sigedIconos/Remover.png" width="10px;" height="10px;" border="0"/>  </button>
-                                    </div>
-                                </div>      
-                              </td>
-                           </tr>                     
+	                       <tr>
+	                           <td>CC</td>
+	                           <td class="label" colspan="1">
+	                             <div id="grupoCC">  
+	                                 <div class="divReferencia">  
+	                                   <fieldset id="docRef">
+	                                      <s:select id="idListaCC" cssClass="docRef" list="listaDerivacionCC" listKey="identificador" listValue="nombreUsuario" multiple="true" size="2" ></s:select>
+	                                   </fieldset>&nbsp;
+	                                   <button dojoType="dijit.form.Button"  type="button" jsId="btnAgregarCC" id="btnAgregarCC" onClick="agregarCC"> <img src="images/sigedIconos/Agregar.png" width="10px;" height="10px;" border="0"/> </button>
+	                                   <button dojoType="dijit.form.Button"  type="button" jsId="btnRemoverCC" id="btnRemoverCC" onClick="borrarCC"> <img src="images/sigedIconos/Remover.png" width="10px;" height="10px;" border="0"/>  </button>
+	                                 </div>
+	                             </div>      
+	                           </td>
+	                        </tr>                     
                                         
-                        <tbody id="tbAdjuntosTramite"  border="0" >
-                           <tr>
-                              <td colspan="3"><hr /></td>
-                           </tr>
-                           <tr>
-                              <td colspan="3" class="titulo">DETALLE</td>
-                           </tr>
-                           <tbody id="tbNroFoliosPIDETramite" style="display:none;" >
-                               <tr>
-                                   <td colspan="1">Nro Folios</td>
-                                   <td class="label" colspan="2">
-                                      <div id="fsNroFoliosPIDETramite"/>
-                                   </td>
-                               </tr>
-                           </tbody>    
+	                        <tbody id="tbAdjuntosTramite"  border="0" >
+	                           <tr>
+	                              <td colspan="3"><hr /></td>
+	                           </tr>
+	                           
+	                           <tr>
+	                              <td colspan="3" class="titulo">DETALLE</td>
+	                           </tr>
+	                           
+	                           <tbody id="tbNroFoliosPIDETramite" style="display:none;" >
+	                               <tr>
+	                                   <td colspan="1">Nro Folios</td>
+	                                   <td class="label" colspan="2">
+	                                      <div id="fsNroFoliosPIDETramite"/>
+	                                   </td>
+	                               </tr>
+	                           </tbody>    
                                 
-                           <tr>
-                                 <td colspan="1">Nro Folios Totales</td>
-                                 <td>
-                                     <table>
-                                         <tr>
-                                             <td width="80px" class="label" colspan="1">
-                                                    <div id="fsNroFoliosTramite"/>  
-                                            </td>
-                                             
-                                             <td width="58px"> Originales</td>
-                                             <td class="label" colspan="1">
-                                               <div id="fsNroFoliosOriginalesTramite"/>
-                                            </td>
-                                             
-                                             <td width="40px"> Copias</td>
-                                              <td class="label" colspan="1">
-                                               <div id="fsNroFoliosCopiasTramite"/>
-                                            </td>  
-                                         </tr>
-                                         
-                                     </table>
-                                     
-                                 </td>
-                           </tr> 
+	                           <tr>
+	                              <td colspan="1">Nro Folios Totales</td>
+	                              <td>
+	                                  <table>
+	                                      <tr>
+	                                          <td width="80px" class="label" colspan="1">
+                                                 <div id="fsNroFoliosTramite"/>  
+	                                          </td>
+	                                          
+	                                          <td width="58px"> Originales</td>
+	                                          <td class="label" colspan="1">
+	                                            <div id="fsNroFoliosOriginalesTramite"/>
+	                                          </td>
+	                                          
+	                                          <td width="40px"> Copias</td>
+	                                           <td class="label" colspan="1">
+	                                            <div id="fsNroFoliosCopiasTramite"/>
+	                                         </td>  
+	                                      </tr>
+	                                  </table>
+	                              </td>
+	                           </tr> 
                            
-                           <tr>
-                              <td>Imagenes Digitalizadas</td>
-                              <td class="label" colspan="2">
-                                 <div id="fsNroImagenesDigitalizadasTramite"/>
-                              </td>
-                           </tr> 
-                            
-                        </tbody>
+	                           <tr>
+	                              <td>Imagenes Digitalizadas</td>
+	                              <td class="label" colspan="2">
+	                                 <div id="fsNroImagenesDigitalizadasTramite"/>
+	                              </td>
+	                           </tr> 
+	                        </tbody>
                         
-                        <tbody id="tbDetalleAdjuntosTramite"  border="0" >
-                           <tr>
-                              <td>Tipo</td>
-                              <td class="label" colspan="2">
-                                 <div id="fsTipoAdjuntoTramite" name="fsTipoAdjuntoTramite" style="width:200px;"></div>
-                              </td>
-                              <td colspan="1"> </td>
-                           </tr>
-         
-                           <tr>
-                               <td> Orig/Copia  
-                               <td class="label" colspan="2">    
+	                        <tbody id="tbDetalleAdjuntosTramite"  border="0" >
+	                           <tr>
+	                              <td>Tipo</td>
+	                              <td class="label" colspan="2">
+	                                 <div id="fsTipoAdjuntoTramite" name="fsTipoAdjuntoTramite" style="width:200px;"></div>
+	                              </td>
+	                              <td colspan="1"> </td>
+	                           </tr>
+	         
+	                           <tr>
+	                               <td> Orig/Copia</td>
+	                               <td class="label" colspan="2">    
                                        <input type="radio"
-                                                dojoType="dijit.form.RadioButton"  
-                                                id="radio11"
-                                                name="idTipoCopiaOriginal"
-                                                onClick="changeSomeFields(this.value)"
-                                                value="0" />Copia &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                         <input type="radio"
-                                                id="radio12"
-                                                dojoType="dijit.form.RadioButton"
-                                                name="idTipoCopiaOriginal" checked
-                                                onClick="changeSomeFields(this.value)"
-                                                value="1" />Original
-                                 </td>
-                              <td colspan="1"> </td> 
-                           </tr>
-                            <tr> 
-                              <td>Nro</td>
-                              <td class="label" colspan="2">
-                                 <div dojoType="dijit.form.ValidationTextBox"
-                                      id="nroTramite"
-                                      jsId="nroTramite"
-                                      name="nro"
-                                      invalidMessage="Ingrese el nro de copias/originales válido"
-                                      regExp="[0-9]{1,4}"
-                                      maxLength="4"
-                                      required="false"
-                                      style="width:70px"
-                                      trim="true" />
-                              </td>
-                              <td colspan="1"> </td>    
-                           </tr>    
-                             <tr>
-                                <td></td>
-                                <td class="label" colspan="2">
-                                    <table>
-                                        <tr>
-                                            <td class="label"> 
-                                              <button dojoType="dijit.form.Button"  type="button" jsId="btn1" id="btn15" onClick="agregar_()">Agregar</button>
-                                            </td>
-                                            <td class="label">
-                                               <button dojoType="dijit.form.Button"  type="button" jsId="btn2" id="btn16" onClick="eliminar_()">Eliminar</button>
-                                            </td>
-                                        </tr>
-                                    </table>   
-                            </tr>
-                           
-                        </tbody>   
-                         <tbody id="tbAdjuntosGrilla">   
-                            <tr>
-                                  <td> </td>
-                                  <td>
-                                      <div id="fsGrid" name="fsGrid" style="width:200px;"></div>
-                                        
-                                  </td>
-                                                                         
-                            </tr>        
-                        </tbody> 
-                   </table>
+                                          dojoType="dijit.form.RadioButton"  
+                                          id="radio11"
+                                          name="idTipoCopiaOriginal"
+                                          onClick="changeSomeFields(this.value)"
+                                          value="0" />Copia &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio"
+                                            id="radio12"
+                                            dojoType="dijit.form.RadioButton"
+                                            name="idTipoCopiaOriginal" checked
+                                            onClick="changeSomeFields(this.value)"
+                                            value="1" />Original
+	                                 </td>
+	                              	 <td colspan="1"> </td> 
+	                            </tr>
+	                           
+	                            <tr> 
+	                              <td>Nro</td>
+	                              <td class="label" colspan="2">
+	                                 <div dojoType="dijit.form.ValidationTextBox"
+	                                      id="nroTramite"
+	                                      jsId="nroTramite"
+	                                      name="nro"
+	                                      invalidMessage="Ingrese el nro de copias/originales válido"
+	                                      regExp="[0-9]{1,4}"
+	                                      maxLength="4"
+	                                      required="false"
+	                                      style="width:70px"
+	                                      trim="true" />
+	                              </td>
+	                              <td colspan="1"> </td>    
+	                            </tr>
+	                              
+	                             <tr>
+	                                <td></td>
+	                                <td class="label" colspan="2">
+	                                    <table>
+	                                        <tr>
+	                                            <td class="label"> 
+	                                               <button dojoType="dijit.form.Button"  type="button" jsId="btn1" id="btn15" onClick="agregar_()">Agregar</button>
+	                                            </td>
+	                                            <td class="label">
+	                                                <button dojoType="dijit.form.Button"  type="button" jsId="btn2" id="btn16" onClick="eliminar_()">Eliminar</button>
+	                                            </td>
+	                                        </tr>
+	                                    </table>
+	                                 </td>  
+	                              </tr>
+	                         </tbody>
+	                         
+	                         <tbody id="tbAdjuntosGrilla">   
+	                            <tr>
+	                               <td></td>
+	                               <td>
+	                                   <div id="fsGrid" name="fsGrid" style="width:200px;"></div>
+	                               </td>
+	                            </tr>
+	                        </tbody> 
+                      </table>
                   </div>
                </td>
             </tr>
+            
              <tr>
                <td align="left">
                   <div class="margen5PX">
@@ -1153,11 +1147,12 @@
                   </div>
                </td>
             </tr>
-         </table>         
-        </form>
-          <script type="text/javascript" src="js/siged/registroClienteMP.js"></script> 
-          <%@include file="../tramite/registroCliente.jsp" %>   
-          <%@ include file="/pages/tramite/busquedaExpediente.jsp" %> 
-          <%@ include file="busquedaExpedienteAbierto.jsp" %> 
+         </table>
+      </form>
+        
+      <script type="text/javascript" src="js/siged/registroClienteMP.js"></script> 
+      <%@ include file="../tramite/registroCliente.jsp" %>   
+      <%@ include file="/pages/tramite/busquedaExpediente.jsp" %> 
+      <%@ include file="busquedaExpedienteAbierto.jsp" %> 
    </body>
 </html>

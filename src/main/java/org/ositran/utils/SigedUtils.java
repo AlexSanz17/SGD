@@ -12,7 +12,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-
 public class SigedUtils {
         public static String readUrlHttps(String urlString)  {
             StringBuffer buffer=null;

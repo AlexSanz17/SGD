@@ -939,6 +939,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 uuf.setFechacreacion(lstRecepcion.get(i).getSidrecext().getDfecreg());
                 uuf.setNroTramiteVirtual(lstRecepcion.get(i).getSidrecext().getVnumregstd()==null?"":lstRecepcion.get(i).getSidrecext().getVnumregstd());
                 uuf.setCuo(lstRecepcion.get(i).getSidrecext().getVcuo());
+                uuf.setCuoRef(lstRecepcion.get(i).getSidrecext().getVcuoref());
                 
                 if (lstRecepcion.get(i).getSidrecext().getCflgenvcar()=='S'){
                     uuf.setCargo("images/cargo.gif");
@@ -967,6 +968,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 //uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
                 uuf.setNroTramiteVirtual(recepcionMpv.getVnumregstd()==null?"":recepcionMpv.getVnumregstd());
                 uuf.setCuo("");
+                uuf.setCuoRef("");
                 
                 if (recepcionMpv.getCflgenvcar()=='S'){
                     uuf.setCargo("images/cargo.gif");
@@ -1004,6 +1006,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 uuf.setFechacreacion(lstRecepcion.get(i).getSidrecext().getDfecreg());
                 uuf.setNroTramiteVirtual(lstRecepcion.get(i).getSidrecext().getVnumregstd()==null?"":lstRecepcion.get(i).getSidrecext().getVnumregstd());
                 uuf.setCuo(lstRecepcion.get(i).getSidrecext().getVcuo());
+                uuf.setCuoRef(lstRecepcion.get(i).getSidrecext().getVcuoref());
                 
                 if (lstRecepcion.get(i).getSidrecext().getCflgenvcar()=='S'){
                     uuf.setCargo("images/cargo.gif");
@@ -1032,6 +1035,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 //uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
                 uuf.setNroTramiteVirtual(recepcionMpv.getVnumregstd()==null?"":recepcionMpv.getVnumregstd());
                 uuf.setCuo("");
+                uuf.setCuoRef("");
                 
                 if (recepcionMpv.getCflgenvcar()=='S'){
                     uuf.setCargo("images/cargo.gif");

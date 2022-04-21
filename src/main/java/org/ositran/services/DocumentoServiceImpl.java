@@ -5628,7 +5628,6 @@ public class DocumentoServiceImpl implements DocumentoService {
                     	System.out.println("Servicio casilla virtual");
                         // Paso 1 : Buscar Casilla Electrónica por Documento de Identidad
 
-                            
                         log.info("--------------------Primer servicio");
                         NotificacionCasillaVirtual notificacion = new NotificacionCasillaVirtual();
                         notificacion.servicio1("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/buscar-casilla-por-documento");	          	    	
@@ -5644,6 +5643,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                         int eOrden = 0;
                         int idTipoNotificacion = 0;
                         IotdtdAdjuntoMPV adjuntoPrincipal = null;
+                        
                         for(IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()){    	                                            	
                         	if(adjunto.getTipoArchivo().equals(1)){
                         		adjuntoPrincipal = adjunto;
@@ -5656,39 +5656,26 @@ public class DocumentoServiceImpl implements DocumentoService {
                         String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
                         String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
                         String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-
                         String rutaArchivoPrincipal  = rutaDig + sNuevoNombrePrincipal;
                         String rutaArchivoCargo = rutaDig + sNuevoNombreCargo;
                         
-                        log.info("==========================rutaArchivoPrincipal "+rutaArchivoPrincipal);
                         if (estadoDocumento.equals("0")) {
                         	idTipoNotificacion = 15;
                         	nroDocumento = objD.getNumeroDocumento();
                         	idExpediente = 0;
                         	nomExpediente = "";
-                        	
                         	eOrden = 0;
                         	
-                        }else if(estadoDocumento.equals("2")){
+                        } else if (estadoDocumento.equals("2")) {
                         	idTipoNotificacion = 14;
                         	nroDocumento = objD.getNumeroDocumento();
                         	idExpediente =  objD.getExpediente().getIdexpediente();
                         	nomExpediente = objD.getExpediente().getNombreExpediente();
-                        	
                         	eOrden = 1;
                         }
-                        
-                        log.info("==========id_Documento "+id_Documento );
-                        log.info("==========idExpediente "+idExpediente );
-                        log.info("==========numExpediente "+nomExpediente );
-                        log.info("==========tipoDocumento "+tipoDocumento );
-                  
-                        
-                        
-                        
                          
                         String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", rutaArchivoPrincipal
-                        		,observacion,tipoDocumento, nroDocumento, id_Documento,nomExpediente, idExpediente , idTipoNotificacion, eOrden);	          	    	
+                    		,observacion,tipoDocumento, nroDocumento, id_Documento,nomExpediente, idExpediente , idTipoNotificacion, eOrden);	          	    	
                         
                         if (!response.equals("")) {
 	        				JSONObject jsonObject = new JSONObject(response);
@@ -5699,11 +5686,11 @@ public class DocumentoServiceImpl implements DocumentoService {
 	                         
 	                        log.info("---------------------------Tercer Servicio");
 	                              
-	                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
+//	                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
 	                        // paso 4: Enviar notificacion electronica
 	                       
 	                        log.info("---------------------------------Cuarto Servicio");
-	                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
+//	                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
                         }
                   }
            }

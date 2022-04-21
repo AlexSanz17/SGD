@@ -8,8 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class StringUtil {
-
-    private static Log log=LogFactory.getLog(StringUtil.class);
+   private static Log log = LogFactory.getLog(StringUtil.class);
 
    public static boolean isEmpty(String obj) {
       if ((obj == null) || (obj.trim().length() == 0)) {
@@ -47,8 +46,6 @@ public class StringUtil {
 	      }
 	   }
    
-   /**REN Convierte un String de la forma "[x,x,x,x ... ]" a un arreglo --------------------------------------------------------*/
-   
     public static String[] stringToArrayPersonalizado (String cadena, char caracter){
 	   if(cadena != null && cadena.length() > 0){
 		   List<String> salida = new ArrayList<String>();
@@ -67,7 +64,6 @@ public class StringUtil {
 	   }
 	   return null;
    }
-   
    
    public static String[] stringToArray (String cadena){
 	   if(cadena != null && cadena.length() > 0){

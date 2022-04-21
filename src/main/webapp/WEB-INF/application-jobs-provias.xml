@@ -23,7 +23,7 @@
 	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
         <property name="jobDetail" ref="jobDetail" />
         <property name="startDelay" value="30000" />
-        <property name="repeatInterval" value="18000000" />
+        <property name="repeatInterval" value="180000" />
     </bean>
 
 	<!-- Schedular -->
@@ -34,5 +34,4 @@
 			</list>
 		</property>
 	</bean>
-
 </beans>
