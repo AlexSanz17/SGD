@@ -3233,9 +3233,10 @@ public class DocumentoServiceImpl implements DocumentoService {
 	@Override
 	public void reabrirDocumentoAtendido(Usuario remitente, Documento documento, String nombrePC) {
                 documento.setEstado(Constantes.ESTADO_PENDIENTE);
-		documento.setFechaAccion(new Date());
+                documento.setFechaAccion(new Date());
                 documento.setFlagatendido(null);
                 documento.setFlagMultiple(null);
+//                documento.setBandeja();
 		documento = documentoDao.updateDocumento(documento);
 
 		String asunto = "Reapertura del documento "+documento.getNumeroDocumento();
@@ -5635,13 +5636,46 @@ public class DocumentoServiceImpl implements DocumentoService {
 
                         final String observacion = objDD.getStrObservacion();
                         final Integer tipoDocumento = objDD.getIIdTipoDocumento();
-                        final String nroDocumento = objD.getExpediente().getNombreExpediente();
-                         
-//                        String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
-//   	 						"D:\\Frank\\CV\\INCAMAPS\\SGD\\manual\\SignNet - Manual de Usuario Firmante.pdf",
-//   	 						observacion,tipoDocumento, nroDocumento);
+                        String nroDocumento = "";
+                        int id_Documento = objD.getIdDocumento();
+                        int idExpediente = 0;
+                        String nomExpediente = "";
+                        int eOrden = 0;
+                        int idTipoNotificacion = 0;
+                        IotdtdAdjuntoMPV adjuntoPrincipal = null;
                         
-                        String response = "";
+                        for(IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()){    	                                            	
+                        	if(adjunto.getTipoArchivo().equals(1)){
+                        		adjuntoPrincipal = adjunto;
+                        		break;
+                        	}
+                        }
+                                                              
+                        int pos = adjuntoPrincipal.getNombreArchivo().lastIndexOf(".");
+                        String extension = adjuntoPrincipal.getNombreArchivo().substring(pos+1, adjuntoPrincipal.getNombreArchivo().length());
+                        String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
+                        String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
+                        String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
+                        String rutaArchivoPrincipal  = rutaDig + sNuevoNombrePrincipal;
+                        String rutaArchivoCargo = rutaDig + sNuevoNombreCargo;
+                        
+                        if (estadoDocumento.equals("0")) {
+                        	idTipoNotificacion = 15;
+                        	nroDocumento = objD.getNumeroDocumento();
+                        	idExpediente = 0;
+                        	nomExpediente = "";
+                        	eOrden = 0;
+                        	
+                        } else if (estadoDocumento.equals("2")) {
+                        	idTipoNotificacion = 14;
+                        	nroDocumento = objD.getNumeroDocumento();
+                        	idExpediente =  objD.getExpediente().getIdexpediente();
+                        	nomExpediente = objD.getExpediente().getNombreExpediente();
+                        	eOrden = 1;
+                        }
+                         
+                        String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", rutaArchivoPrincipal
+                    		,observacion,tipoDocumento, nroDocumento, id_Documento,nomExpediente, idExpediente , idTipoNotificacion, eOrden);	          	    	
                         
                         if (!response.equals("")) {
 	        				JSONObject jsonObject = new JSONObject(response);

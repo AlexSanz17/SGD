@@ -62,7 +62,8 @@ public class NotificacionCasillaVirtual {
 	  	}
 	}
 	
-	public String servicio2(String url, String archivo, String observacion, Integer tipodocumento, String nroDocumento)  {
+	public String servicio2(String url, String archivo, String observacion, Integer tipodocumento, String nroDocumento, Integer idDocumento, String nroExpediente, Integer idExpediente,
+			Integer idTipoNotificacion, Integer eOrden)  {
 //		@SuppressWarnings("deprecation")
 //		HttpClient httpclient = new DefaultHttpClient();
 //		HttpPost httpPost = new HttpPost(url);
@@ -74,9 +75,9 @@ public class NotificacionCasillaVirtual {
 //			System.out.println("================0archivo"+f);
 			JSONObject notificacion = new JSONObject();
 			JSONObject expediente = new JSONObject();
-			expediente.put("eIdExpedienteSTD", Integer.valueOf(123456));
-			expediente.put("uCodExpedienteSTD", "EXPEDIENTE N° 1234-TEST");
-			expediente.put("eOrden", Integer.valueOf(1));
+			expediente.put("eIdExpedienteSTD", idExpediente);
+			expediente.put("uCodExpedienteSTD", nroExpediente);
+			expediente.put("eOrden", eOrden);
 
 			JSONArray expedienteArray = new JSONArray();
 			expedienteArray.put(expediente);
@@ -84,12 +85,12 @@ public class NotificacionCasillaVirtual {
 			JSONObject doc = new JSONObject();
 			doc.put("FK_eIdTipoDocNotificacion", tipodocumento);
 			doc.put("uNumDocNotificacion", nroDocumento);
-			doc.put("eIdDocumentoSTD", Integer.valueOf(123343));
+			doc.put("eIdDocumentoSTD", idDocumento);
 			doc.put("Expedientes", expedienteArray);
 
 			notificacion.put("FK_eIdCasilla", Integer.valueOf(117));
 			notificacion.put("FK_eIdAplicacion", Integer.valueOf(3));
-			notificacion.put("FK_eIdTipoNotificacion", Integer.valueOf(15));
+			notificacion.put("FK_eIdTipoNotificacion", idTipoNotificacion);
 			notificacion.put("uObservacion", observacion);
 			notificacion.put("Documento", doc);
 			notificacion.put("eUsuarioRegistro", Integer.valueOf(1));
@@ -148,7 +149,7 @@ public class NotificacionCasillaVirtual {
     		
     		JSONObject jsonObj = new JSONObject();
     		jsonObj.put("PK_eIdNotificacion", PK_eIdNotificacion);
-    		jsonObj.put("cCodProcesoFirma", "123456789");
+    		jsonObj.put("cCodProcesoFirma", "SINFIRMADIGITAL");
     		jsonObj.put("eUsuarioActualizacion", Integer.valueOf(1));
     		
     		String json = jsonObj.toString();

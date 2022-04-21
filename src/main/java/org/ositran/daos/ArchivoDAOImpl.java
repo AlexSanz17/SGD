@@ -282,6 +282,7 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 					archivo.setNombre(objArchivo.getNombre());
 					archivo.setRutaAlfresco(objArchivo.getRutaAlfresco());
 					archivo.setObjectId(objArchivo.getObjectId());
+					archivo.setCodProcesoFirma(objArchivo.getCodProcesoFirma());
 					em.merge(archivo);
 					em.flush();
 					em.refresh(archivo);

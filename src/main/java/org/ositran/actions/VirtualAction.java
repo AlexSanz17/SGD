@@ -295,7 +295,7 @@ public class VirtualAction {
 	        IotdtmDocExterno recepcion = documentoExternoVirtualDAO.buscarDocumentoVirtual(idRecepcion);
 	        
 	        // Si es documento pide
-	        if(recepcion != null) {        	
+	        if (recepcion != null) {
 		        if (recepcion.getSidrecext().getIddocumento()!=null){
 		            d = documentoDAO.findByIdDocumento(recepcion.getSidrecext().getIddocumento());            
 		            lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
@@ -370,7 +370,7 @@ public class VirtualAction {
 		        
 	            List<ArchivoAdjunto> list = new ArrayList<ArchivoAdjunto>();
 
-		        if (recepcion.getIotdtdAnexoList() != null && recepcion.getIotdtdAnexoList().size() > 0){
+		        if (recepcion.getIotdtdAnexoList() != null && recepcion.getIotdtdAnexoList().size() > 0) {
 		            for (IotdtdAnexo anexo : recepcion.getIotdtdAnexoList()){
 		            	ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
 		            	archivoAdjunto.setNombreArchivo(anexo.getVnomdoc());

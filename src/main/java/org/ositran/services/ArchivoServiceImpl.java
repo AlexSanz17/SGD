@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.Documento;
+import com.btg.ositran.siged.domain.Numeracion;
 import com.btg.ositran.siged.domain.Tipodocumento;
 import com.btg.ositran.siged.domain.Usuario;
 
@@ -45,8 +46,17 @@ public class ArchivoServiceImpl implements ArchivoService{
     private TipodocumentoDAO tipoDocumentoDao;
     private List<Archivo> listArchivo;
     private DocumentoDAO documentoDAO;
+    private NumeracionService numeracionService;
     
-    public ArchivoDAO getArchivoDAO(){
+    public NumeracionService getNumeracionService() {
+		return numeracionService;
+	}
+
+	public void setNumeracionService(NumeracionService numeracionService) {
+		this.numeracionService = numeracionService;
+	}
+
+	public ArchivoDAO getArchivoDAO(){
 		return archivoDAO;
 	}
 
@@ -490,7 +500,8 @@ public class ArchivoServiceImpl implements ArchivoService{
 	@Transactional
 	public Archivo guardarArchivoTemporal(ArchivoTemporal objArchivoTemporal,Documento objDocumento,Integer iContador, Usuario usuarioSesion, String nombrePDFprincipal, String siglaSite){
 		Archivo archivo = null;
-		
+//		Numeracion numeracion = numeracionService.findByIdbyUnidad(usuarioSesion.getUnidad(),objDocumento.getTipoDocumento().getIdtipodocumento());
+//		log.info("numeracion======================= "+numeracion.getTipodocumento().getIdtipodocumento());
 		try {
 			String nombre_original = nombrePDFprincipal;
 		
@@ -503,14 +514,27 @@ public class ArchivoServiceImpl implements ArchivoService{
 	        if (nombrePDFprincipal!=null && !nombrePDFprincipal.trim().equals("") && objArchivoTemporal.getSNombre().toLowerCase().equals(nombrePDFprincipal.toLowerCase())){
 	            int contcadena = objArchivoTemporal.getSNombre().lastIndexOf(".");
 	            String extension = "";
-	            String num_documento = objDocumento.getNumeroDocumento();
-                int len = num_documento.length();
-                int numero = num_documento.indexOf("/");
-                String p1 = num_documento.substring(3,numero);
-                String p2 = num_documento.substring(numero+1, len);
-                
-                String num_doc_modificado = p1 +"-"+ p2;
-                Log.info("numero de documento----------------" + num_doc_modificado);
+	            String num_doc_modificado = "";
+	            
+	            if(usuarioSesion.getUnidad().getIdunidad().equals(455) ) {
+	            	
+	            	if(objDocumento.getTipoDocumento().getIdtipodocumento().equals(3) || objDocumento.getTipoDocumento().getIdtipodocumento().equals(12) || 
+	            			objDocumento.getTipoDocumento().getIdtipodocumento().equals(13) || objDocumento.getTipoDocumento().getIdtipodocumento().equals(351)) {
+	            		
+	            		String num_documento = objDocumento.getNumeroDocumento();
+	            		int len = num_documento.length();
+	            		int numero = num_documento.indexOf("/");
+	            		String p1 = num_documento.substring(3,numero);
+	            		String p2 = num_documento.substring(numero+1, len);
+	            		
+	            		num_doc_modificado = p1 +"-"+ p2;
+	            		Log.info("numero de documento----------------" + num_doc_modificado);
+	            	}else {
+		            	num_doc_modificado = objDocumento.getNumeroDocumento().replace("N°", "").trim();
+		            }
+	            	
+	            }
+	            
 	            if (contcadena>0)
 	              extension = objArchivoTemporal.getSNombre().substring(contcadena, objArchivoTemporal.getSNombre().length());
 	           
@@ -521,7 +545,7 @@ public class ArchivoServiceImpl implements ArchivoService{
 	               if(String.valueOf(objDocumento.getTipoDocumento().getIdtipodocumento()).equals(Constantes.COD_TIPODOCUMENTO_OFICIO_CIRCULAR))
 	               {
 	                    objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + num_doc_modificado +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase());
-	                    nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  objDocumento.getNumeroDocumento().replace("N°", "").trim() +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase();  
+	                    nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  num_doc_modificado +"_"+nombre_original.substring(0, 15)+ extension.toLowerCase();  
 	               }else{
 	                    objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + "_" + num_doc_modificado + extension.toLowerCase());
 	                    nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + "_" +  num_doc_modificado+ extension.toLowerCase();  

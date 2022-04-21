@@ -60,7 +60,9 @@ import org.apache.struts2.json.annotations.SMDMethod;
 import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 import org.ositran.common.alfresco.AuthThreadLocalHolder;
 import org.ositran.daos.AuditoriaDAO;
 import org.ositran.daos.DespachoVirtualDAO;
@@ -3211,7 +3213,7 @@ public class DojoAction {
 		}
 
 		log.debug("-> [Action] DojoAction - getNumeracion():NumeracionJSON ");
-
+		
 		if (bandera) {
 			WebApplicationContext wac = WebApplicationContextUtils
 					.getRequiredWebApplicationContext(ServletActionContext.getServletContext());
@@ -3593,6 +3595,7 @@ public class DojoAction {
 //	}
 
 	@SMDMethod
+
 	public String generateQrPreSignet(List<ItemFirmar> items, String accionEjecutar) {
 		String ALFRESCO_ROOT = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
 		String POR_FIRMAR = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
@@ -3649,9 +3652,22 @@ public class DojoAction {
 
 		return "1";
 	}
+	@SMDMethod
+	public void cambiarEstadoFirma(List<ItemFirmar> items) {
+	for (ItemFirmar itemFirmar : items) {
+		String estadoFirmaMod = "";
+		String estadoFirma = Constantes.ESTADO_FIRMA.get(itemFirmar.getObjectId());
+		if (estadoFirma != null && estadoFirma.equals(1)) {
+			estadoFirmaMod = Constantes.ESTADO_FIRMA.put(itemFirmar.getObjectId(), "0");
+		}
+		log.info("ESTADO_FIRMA =================="+estadoFirmaMod );
+//		
+}
+	
+}
 
 	@SMDMethod
-	public String uploadFilesToAlfrescoPostSignet(List<ItemFirmar> items, String accionEjecutar, String resultado) {
+	public String uploadFilesToAlfrescoPostSignet(List<ItemFirmar> items, String accionEjecutar, String resultado, String sujeto) {
 		log.info("============uploadFilesToAlfrescoPostSignet============:" + accionEjecutar);
 		
 		if (resultado.equals("0")) {
@@ -3679,9 +3695,21 @@ public class DojoAction {
 
 			mapSession = ActionContext.getContext().getSession();
 			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-
+			
+			
+//			JSONParser jsonObject = new JSONParser();
+//			try {
+//				jsonObject.parse(resultado);
+//				log.info("=========================json"+jsonObject);
+//			} catch (org.json.simple.parser.ParseException e1) {
+//				// TODO Auto-generated catch block
+//			}
+			
+			
+			
 			FirmaArchivo firmaArchivo = new FirmaArchivo();
 			list.get(0).setFlagFirma(0);
+			list.get(0).setCodProcesoFirma(Integer.parseInt(sujeto));
 			archivoService.saveArchivo(list.get(0));
 			firmaArchivo.setIdArchivo(list.get(0).getIdArchivo());
 			firmaArchivo.setEstado(accionEjecutar);

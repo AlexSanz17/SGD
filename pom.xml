@@ -47,6 +47,13 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
 		</dependency>
+		
+		<!--AXIOS-->
+		<dependency>
+		    <groupId>io.github.xiao-organization</groupId>
+		    <artifactId>axios</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>

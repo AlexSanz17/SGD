@@ -316,6 +316,7 @@
 		<property name="alfrescoWebscriptClient" ref="alfrescoWebscriptClient" />
         <property name="tipoDocumentoDao" ref="tipodocumentoDAO" />
          <property name="documentoDAO" ref="documentoDAO" />
+         <property name="numeracionService" ref="numeracionService" />
 	</bean>
 
 	<bean id="carpetabusquedaService" class="org.ositran.services.CarpetabusquedaServiceImpl">
