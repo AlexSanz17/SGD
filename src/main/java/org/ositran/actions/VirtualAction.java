@@ -436,7 +436,7 @@ public class VirtualAction {
 		        if (lst != null && lst.size() > 0){
 		            for(int i=0; i < lst.size(); i++){
 		                if (lst.get(i).getPrincipal() == 'M'){
-		                    if (recepcionMPV.getBcarstd()!=null){
+		                    if (recepcionMPV.getBcarstd() != null){
 		                        objDD.setArchivoCargo(lst.get(i).getNombreReal());
 		                        objDD.setTamanoCargo(lst.get(i).getTamanoFormateado());
 		                        break;
