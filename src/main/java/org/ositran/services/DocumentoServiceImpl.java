@@ -5627,7 +5627,6 @@ public class DocumentoServiceImpl implements DocumentoService {
                     	System.out.println("Servicio casilla virtual");
                         // Paso 1 : Buscar Casilla Electrónica por Documento de Identidad
 
-                            
                         log.info("--------------------Primer servicio");
                         NotificacionCasillaVirtual notificacion = new NotificacionCasillaVirtual();
                         notificacion.servicio1("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/buscar-casilla-por-documento");	          	    	
@@ -5637,11 +5636,12 @@ public class DocumentoServiceImpl implements DocumentoService {
                         final String observacion = objDD.getStrObservacion();
                         final Integer tipoDocumento = objDD.getIIdTipoDocumento();
                         final String nroDocumento = objD.getExpediente().getNombreExpediente();
-                        
                          
-                        String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
-       	 						"D:\\Frank\\CV\\INCAMAPS\\SGD\\manual\\SignNet - Manual de Usuario Firmante.pdf",
-       	 						observacion,tipoDocumento, nroDocumento);	          	    	
+//                        String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", 
+//   	 						"D:\\Frank\\CV\\INCAMAPS\\SGD\\manual\\SignNet - Manual de Usuario Firmante.pdf",
+//   	 						observacion,tipoDocumento, nroDocumento);
+                        
+                        String response = "";
                         
                         if (!response.equals("")) {
 	        				JSONObject jsonObject = new JSONObject(response);
@@ -5652,11 +5652,11 @@ public class DocumentoServiceImpl implements DocumentoService {
 	                         
 	                        log.info("---------------------------Tercer Servicio");
 	                              
-	                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
+//	                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
 	                        // paso 4: Enviar notificacion electronica
 	                       
 	                        log.info("---------------------------------Cuarto Servicio");
-	                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
+//	                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
                         }
                   }
            }

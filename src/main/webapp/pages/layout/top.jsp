@@ -1,88 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<%@page import="gob.ositran.siged.config.SigedProperties"%>
+<%@ page import="gob.ositran.siged.config.SigedProperties"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@page import="java.util.List" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
     <head>
-       
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
         <title>Sistema de Gesti&oacute;n Documentaria - Top Bar</title>
                  
         <script type="text/javascript">
-             if (sessionStorage.tabID!='<s:property value='#session.storage' />'){
-                document.location.href = "<%=request.getContextPath()%>/activa.html" ;
+           if (sessionStorage.tabID!='<s:property value='#session.storage' />'){
+              document.location.href = "<%=request.getContextPath()%>/activa.html" ;
+           }
+           
+           dojo.declare("my.IdleListener", [], {
+             _mouseMoveHandle: null,
+             _keyDownHandle: null,
+             _timeout: 30000,
+
+              isRunning: function() {
+                    return this._enabled;
+                },
+
+                isIdle: function() {
+                    return this._idle;
+                },
+
+                start: function(newTimeout) {
+                    this._enabled = true;
+                    this._idle = false;
+                    if (typeof newTimeout == "number") {
+                        this._timeout = newTimeout;
+                    }
+                    this._mouseMoveHandle = dojo.connect(dojo.doc, "onmousemove", this, "_handleUserEvent");
+                    this._keyDownHandle = dojo.connect(dojo.doc, "onkeydown", this, "_handleUserEvent");
+                    // set a timeout to toggle state
+                    this._idleTimeout = setTimeout(dojo.hitch(this, "_toggleIdleState"), this._timeout);
+                },
+
+                stop: function() {
+                    this._enabled = false;
+                    // clear any pending timeouts
+                    clearTimeout(this._idleTimeout);
+                    // detach the event handlers
+                    dojo.forEach([this._mouseMoveHandle, this._keyDownHandle], function(item, index, array) {
+                     if(item) {
+                      dojo.disconnect(item);
+                     }
+                    });
+                },
+
+             _handleUserEvent: function() {
+                 // clear any existing timeout
+                 clearTimeout(this._idleTimeout);
+                 if (this._enabled) {
+                  // if the user is just waking us up again, toggle the idle state.
+                  // otherwise, reset the timeout with a new timeout
+                     this._idle ? this._toggleIdleState() : this._idleTimeout = setTimeout(dojo.hitch(this, "_toggleIdleState"), this._timeout);
+                 }
+             },
+
+             _toggleIdleState: function() {
+                 this._idle = !this._idle;
+                 this._idle ? dojo.publish("idle", []) : dojo.publish("active", []); 
              }
-             
-             dojo.declare("my.IdleListener", [], {
-
-               _mouseMoveHandle: null,
-               _keyDownHandle: null,
-               _timeout: 30000,
-
-                isRunning: function() {
-                      return this._enabled;
-                  },
-
-                  isIdle: function() {
-                      return this._idle;
-                  },
-
-                  start: function(newTimeout) {
-                      this._enabled = true;
-                      this._idle = false;
-                      if (typeof newTimeout == "number") {
-                          this._timeout = newTimeout;
-                      }
-                      this._mouseMoveHandle = dojo.connect(dojo.doc, "onmousemove", this, "_handleUserEvent");
-                      this._keyDownHandle = dojo.connect(dojo.doc, "onkeydown", this, "_handleUserEvent");
-                      // set a timeout to toggle state
-                      this._idleTimeout = setTimeout(dojo.hitch(this, "_toggleIdleState"), this._timeout);
-                  },
-
-                  stop: function() {
-                      this._enabled = false;
-                      // clear any pending timeouts
-                      clearTimeout(this._idleTimeout);
-                      // detach the event handlers
-                      dojo.forEach([this._mouseMoveHandle, this._keyDownHandle], function(item, index, array) {
-                       if(item) {
-                        dojo.disconnect(item);
-                       }
-                      });
-                  },
-
-               _handleUserEvent: function() {
-                   // clear any existing timeout
-                   clearTimeout(this._idleTimeout);
-                   if (this._enabled) {
-                    // if the user is just waking us up again, toggle the idle state.
-                    // otherwise, reset the timeout with a new timeout
-                       this._idle ? this._toggleIdleState() : this._idleTimeout = setTimeout(dojo.hitch(this, "_toggleIdleState"), this._timeout);
-                   }
-               },
-
-               _toggleIdleState: function() {
-                   this._idle = !this._idle;
-                   this._idle ? dojo.publish("idle", []) : dojo.publish("active", []); 
-               }
-              });
-              
-              var idleListener = new my.IdleListener();
-              idleListener.start(<%=session.getMaxInactiveInterval()*1000-100000%>); 
-              dojo.subscribe("idle", function() {
-                  console.log("idle");
-                  alert("Su sesión ha expirado"); //dispachet al login
-                  document.location.href = "<%=request.getContextPath()%>";
-               });
-               dojo.subscribe("active", function() {
-               }); 
+           });
+            
+           var idleListener = new my.IdleListener();
+           idleListener.start(<%=session.getMaxInactiveInterval()*1000-100000%>); 
+           dojo.subscribe("idle", function() {
+               console.log("idle");
+               alert("Su sesión ha expirado"); //dispachet al login
+               document.location.href = "<%=request.getContextPath()%>";
+            });
+           
+            dojo.subscribe("active", function() {
+            }); 
                     
-          var storeFuncion = new dojo.data.ItemFileReadStore({url: "autocompletarAllPerfiles.action"});
-          var service = new dojo.rpc.JsonService("SMDAction.action");
+           var storeFuncion = new dojo.data.ItemFileReadStore({url: "autocompletarAllPerfiles.action"});
+           var service = new dojo.rpc.JsonService("SMDAction.action");
           
-          function cargarPerfil(){
+           function cargarPerfil(){
               service.cambiarPerfilUsuario(dijit.byId('unidadxperfil.idunidadxperfil').getValue()).addCallback(function(objJSON) {
                      buildTabsFromToolBarTop('UsuPerfilBtn','<s:property value='#session._USUARIO.rol' />');
                });  
@@ -143,7 +143,6 @@
         <div class="headerUser"><img alt="Logo OSITRAN" src="./images/logo.jpg" width="100px" height="39px" /> </div>
         
         <div class="headerUser">
-            
             <span style="font-size:11px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bienvenido <b><s:property value="#session._USUARIO.nombres" /> <s:property value="#session._USUARIO.apellidos" /></b></span>
            
             <span  class="headerSeparator" style="font-size:10px;">
@@ -185,21 +184,11 @@
             </span>
             
             <span style="font-size:12px;">  
-                       
-               <select dojoType="dijit.form.FilteringSelect"  
-				                id="unidadxperfil.idunidadxperfil"
-                                                name="unidadxperfil.idunidadxperfil"
-					       value="<s:property value='#session._USUARIO.idUnidadPerfil' />|<s:property value='#session._USUARIO.idFuncionPerfil'/>|<s:property value='#session._USUARIO.idUsuarioPerfil'/>"
-				                idAttr="id"				               
-				                style="width:400px;"
-                                                onChange="cargarPerfil"  
-                                                 store="storeFuncion"
-				               required="false"
-                                                autoComplete="false"
-				                searchAttr="label">
-                                                                               
-				               </select>
-            </span>   
+               <select dojoType="dijit.form.FilteringSelect" id="unidadxperfil.idunidadxperfil" name="unidadxperfil.idunidadxperfil"
+		      		value="<s:property value='#session._USUARIO.idUnidadPerfil' />|<s:property value='#session._USUARIO.idFuncionPerfil'/>|<s:property value='#session._USUARIO.idUsuarioPerfil'/>"
+	                idAttr="id"	style="width:400px;" onChange="cargarPerfil" store="storeFuncion" required="false" autoComplete="false" searchAttr="label">
+               </select>
+            </span>
             
             <s:if test="#session._USUARIO.usuarioInicial" >
                 <span id="resumenExpMem" style="font-weight: bold;"></span>

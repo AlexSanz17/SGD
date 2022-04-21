@@ -20,9 +20,11 @@ import java.util.UUID;
 public class Test {
 
 	public static void main() {
-		String variable = "N° 000011-2022-MTC/20.6";
-		int numero = variable.indexOf("/");
-		System.out.println(numero);
+//		String variable = "N° 000011-2022-MTC/20.6";
+//		int numero = variable.indexOf("/");
+//		System.out.println(numero);}
+		String sizeFile = String.valueOf(new File("https://mpvirtual.pvn.gob.pe/mpv_ws/10/2022/526/25643/NOTACREDITOE00167.pdf").length());
+		System.out.println(sizeFile);
 	}
     /**
      * This constructor initializes a new HTTP POST request with content type

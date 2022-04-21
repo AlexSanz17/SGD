@@ -1,6 +1,5 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.common.util;
+package org.ositran.common.util;
 
-import org.apache.log4j.Logger;
 import org.ositran.common.service.GenericService;
 import org.ositran.services.AuditoriaService;
 import org.ositran.services.ClienteService;
@@ -23,31 +22,17 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-/**
- * @author Victor Soria
- *
- */
 public class ServiceFactory implements ApplicationContextAware {
-	
-	/** The Spring application context. */
     private ApplicationContext applicationContext;
-    private static Logger log =   Logger.getLogger(ServiceFactory.class);
     
 	public ServiceFactory(ApplicationContext applicationContext) {
 		setApplicationContext(applicationContext);
 	}
 
-	public void setApplicationContext(ApplicationContext context)
-	throws BeansException {
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		this.applicationContext = context;
-}
+	}
 
-    /**
-     * Return the configured Spring Bean for the given name.
-     *
-     * @param beanName the configured name of the Java Bean
-     * @return the configured Spring Bean for the given name
-     */
     public Object getBean(String beanName) {
         return applicationContext.getBean(beanName);
     }
@@ -113,11 +98,6 @@ public class ServiceFactory implements ApplicationContextAware {
     } 
     
     public TrazabilidaddocumentoService getTrazalidadDocumentoService(){     
-    	
-//    	log.debug(" ^^^^^^^ antes de getTrazalidadDocumentoService ") ;
-    	TrazabilidaddocumentoService tr = (TrazabilidaddocumentoService)getBean("trazabilidaddocumentoService");
-//    	log.debug(" ^^^^^^^ despues de getTrazalidadDocumentoService ") ;        
-    	return tr;   
+    	return (TrazabilidaddocumentoService)getBean("trazabilidaddocumentoService");
     }
- 
 }
