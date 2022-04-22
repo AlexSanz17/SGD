@@ -68,6 +68,12 @@ public class SigedProperties {
         ALFRESCO_USUARIOADMIN_CLAVE("alfresco.USUARIOADMIN_CLAVE"),
         ALFRESCO_CMIS("alfresco.cmis"),
         
+        
+        
+//        DIRECTORIO ACTIVO
+        DIRECTORIO_ACTIVO_URL("directorio_activo.url"),
+        DIRECTORIO_ACTIVO_DOMINIO("directorio_activo.dominio"),
+        
         SIGED_INFOPUBLICA("siged.infopublica"),
         SIGED_LIBRORECLAMACION("siged.libroreclamacion"),
         

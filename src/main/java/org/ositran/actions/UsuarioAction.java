@@ -94,6 +94,8 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.sun.jndi.ldap.LdapCtxFactory;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class UsuarioAction implements SessionAware,CookieProvider{
     
     private static DirContext ldapContext;
@@ -194,6 +196,11 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 	private ListaService srvLista;
 	private List<Reemplazo> lstReemplazo;
 	private ReemplazoService srvReemplazo;
+	
+	private static String DIRECTORIO_ACTIVO_URL = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_ACTIVO_URL);
+	private static String DIRECTORIO_ACTIVO_DOMINIO = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_ACTIVO_DOMINIO);
 
 	public DocumentoEnviadoService getDocumentoEnviadoService(){
 		return documentoEnviadoService;
@@ -484,7 +491,7 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 			String username = getSUsuario();
 			String password = getSClave();
 
-			String url = "ldap://172.27.0.54:389/DC=proviasnac,DC=dom";
+			String url = DIRECTORIO_ACTIVO_URL;
 
 			Hashtable env = new Hashtable();
 			env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
@@ -495,7 +502,7 @@ public class UsuarioAction implements SessionAware,CookieProvider{
 			 * env.put(Context.SECURITY_CREDENTIALS, "secret");
 			 */
 
-			env.put(Context.SECURITY_PRINCIPAL, username + "@proviasnac.dom");
+			env.put(Context.SECURITY_PRINCIPAL, username + DIRECTORIO_ACTIVO_DOMINIO);
 
 			env.put(Context.SECURITY_CREDENTIALS, password);
 
