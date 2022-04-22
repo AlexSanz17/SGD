@@ -3415,7 +3415,7 @@ public class DojoAction {
 								item.setPosicionFirma("SI");
 								item.setUsarPersonalizado("1");
 								item.setAltoRubrica("50");
-								item.setAnchoRubrica("100");
+								item.setAnchoRubrica("70");
 								item.setRazonsocial("Doy visto bueno");
 							} else if (accionEjecutar.equals("F")) {
 								item.setAplicarImagen("0");
@@ -3425,7 +3425,7 @@ public class DojoAction {
 								item.setPosicionFirma("SD");
 								item.setUbicacionPagina("PP");
 								item.setAltoRubrica("50");
-								item.setAnchoRubrica("120");
+								item.setAnchoRubrica("100");
 								item.setEstiloFirma("ID");
 							}
 
