@@ -1658,6 +1658,7 @@ var dataConfidencial = {
      if(TIPO_TRANSACCION+"" == "N"){
         dijit.byId("objDD.prioridad").attr("value",PRIORIDAD_NORMAL);   
         dijit.byId("objDD.proyecto").attr("value",DOCUMENTO_FINAL);
+        dijit.byId("objDD.proyecto").attr("readOnly",true);
         dijit.byId("objDD.strUnidad").attr("value",UNIDAD_USUARIO);
         dijit.byId("objDD.concesionario").attr("value",CONCESIONARIA_INI);
         dijit.byId("objDD.iIdSerie").attr("value",SERIE_INI);

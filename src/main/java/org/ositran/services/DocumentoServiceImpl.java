@@ -102,7 +102,10 @@ import org.ositran.utils.template.TemplateUtils;
 import org.ositran.webservice.clientes.intalio.InvalidInputMessageFaultException;
 import org.ositran.webservice.clientes.intalio.InvalidParticipantTokenFaultException;
 import org.ositran.webservice.clientes.intalio.UnavailableTaskFaultException;
-
+import org.pide.pcm.client.webservice.PcmCuo;
+import org.pide.pcm.client.webservice.PcmCuoLocator;
+import org.pide.pcm.client.webservice.PcmCuoPortType;
+import org.pide.pcm.client.webservice.PcmCuoSoap11BindingStub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
@@ -1615,8 +1618,9 @@ public class DocumentoServiceImpl implements DocumentoService {
                  WSPideTramite pideTramite = new WSPideTramite();
                  EndPoint endPoint = new EndPoint();
                  IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(idExterno);
+                 log.info("==================00iotdtmDocExterno============== " + iotdtmDocExterno);
                  Documento d = documentoDao.findByIdDocumento(iotdtmDocExterno.getSidemiext().getIddocumento());
-                
+                 log.info("==================iotdtmDocExterno.getSidemiext().getIddocumento()============== " + iotdtmDocExterno.getSidemiext().getIddocumento());
                  RecepcionTramite recepcionTramite = new RecepcionTramite();
                  //JC-RUC
                  recepcionTramite.setVrucentrem(parametroService.findByTipoUnico("RUC_OSITRAN").getValor());
@@ -1683,8 +1687,29 @@ public class DocumentoServiceImpl implements DocumentoService {
                     }     
                          
                     //JC-RUC
-                    //vcuo = endPoint.getCuo(parametroService.findByTipoUnico("RUC_OSITRAN").getValor() , "3011");
-                    vcuo = endPoint.getCuo("1");
+//                    vcuo = endPoint.getCuo(parametroService.findByTipoUnico("RUC_OSITRAN").getValor() , "3011");
+                    
+                    PcmCuo pcmCuo = (PcmCuo) new PcmCuoLocator();
+
+            		System.out.println("obtener");
+
+            		System.out.println(pcmCuo.getPcmCuoHttpsSoap11EndpointAddress());
+
+            		
+            		PcmCuoPortType pcmCuoPortType = new PcmCuoSoap11BindingStub(new URL(pcmCuo.getPcmCuoHttpsSoap11EndpointAddress()), pcmCuo);
+
+            		/*BindingProvider  bindingProvider = (BindingProvider) pcmCuoPortType;
+            		
+            		bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", "https://ws3.pide.gob.pe/services/PcmCuo?wsdl");*/
+            		
+            		System.out.println(pcmCuoPortType.getCUO("172.27.0.113"));
+                    
+                    
+                    
+                    
+                    vcuo = pcmCuoPortType.getCUO("1");
+                    log.info("==================0vcuo==============" + vcuo);
+                    
                     //JC-RUC
                     if(!vcuo.equals("-1")) {
                          iotdtcDespacho.setVcuo(vcuo);
@@ -1695,7 +1720,8 @@ public class DocumentoServiceImpl implements DocumentoService {
                          
                          try{
                                 recepcionTramite.setVcuo(vcuo);
-                                RespuestaTramite respuestaTramite = pideTramite.recepcionarTramite(recepcionTramite, Constantes.AMBIENTE_WS_PIDE_TRAMIE);
+                                RespuestaTramite respuestaTramite = pideTramite.recepcionarTramite(recepcionTramite, Constantes.AMBIENTE_WS_PIDE_PRODUCCION);
+                                log.info("===========respuestaTramite=============="+respuestaTramite);
 		                if(respuestaTramite.getVcodres().equals("0000")){
                                    iotdtcDespacho.setCflgest('E');
                                    iotdtcDespacho.setDfecmod(new Date());
@@ -1744,7 +1770,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                      consultaTramite.setVcuo(vcuo);
                      consultaTramite.setVrucentrec(iotdtmDocExterno.getSidemiext().getVrucentrec());
                      consultaTramite.setVrucentrem(parametroService.findByTipoUnico("RUC_OSITRAN").getValor());
-                     RespuestaConsultaTramite respuestaConsultaTramite = pideTramite.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_TRAMIE);
+                     RespuestaConsultaTramite respuestaConsultaTramite = pideTramite.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_PRODUCCION);
                      
                      try{
                            if(respuestaConsultaTramite.getVcodres().equals("0000")) {
@@ -2524,8 +2550,12 @@ public class DocumentoServiceImpl implements DocumentoService {
                      List<Usuario> lst = firmaArchivoDAO.findUltimaFirma(documento.getIdDocumento(), "F");
                      
                      if (lst!=null && lst.size()>0){
+//                    	 log.info("=======0lst.get(0).getIdUsuarioPerfil()====" + lst.get(0).getIdUsuarioPerfil());
+//                    	 log.info("====lst.get(0).getIdUnidadPerfil()).getNombre()===" + lst.get(0).getIdUnidadPerfil());
                          Usuario usuario = usuarioService.findByIdUsuario(lst.get(0).getIdUsuarioPerfil());
-                         iotdtcDespacho.setCtipdociderem(usuario.getTipoDocumento().charAt(0));
+//                         log.info("=======000usuario=======00" +usuario);
+//                         log.info("=========0lst.get(0).getTipoDocumento().charAt(0)====================" +lst.get(0));
+                         iotdtcDespacho.setCtipdociderem(lst.get(0).getTipoDocumento().charAt(0));
                          iotdtcDespacho.setVnumdociderem(usuario.getNroDocumento());
                          iotdtcDespacho.setVcoduniorgrem(lst.get(0).getIdUnidadPerfil().toString());
                          iotdtcDespacho.setVuniorgrem(unidadService.buscarObjPor(lst.get(0).getIdUnidadPerfil()).getNombre());
@@ -2591,6 +2621,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 
                      alfrescoApiWs = new AlfrescoApiWs(URL_ALFRESCO, USERCONSULTA, USERCONSULTA_CLAVE, REPOSITORIO_ID);
                      sesionAlfresco = alfrescoApiWs.getSessionAlfresco();
+                     log.info("============0objectId===========" + objectId);
                      Document document = (Document)sesionAlfresco.getObject(objectId);
                      InputStream intput = document.getContentStream().getStream();
                      byte[] bytes = toByteArray(intput);
@@ -5581,73 +5612,6 @@ public class DocumentoServiceImpl implements DocumentoService {
           		e.printStackTrace();
           	  }
           	  
-            	System.out.println("Servicio casilla virtual");
-                // Paso 1 : Buscar Casilla Electrónica por Documento de Identidad
-
-                log.info("--------------------Primer servicio");
-                NotificacionCasillaVirtual notificacion = new NotificacionCasillaVirtual();
-                notificacion.servicio1("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/buscar-casilla-por-documento");	          	    	
-              
-                // paso 2 : Generar notificacion electronica
-
-                final String observacion = objDD.getStrObservacion();
-                final Integer tipoDocumento = objDD.getIIdTipoDocumento();
-                String nroDocumento = "";
-                int id_Documento = objD.getIdDocumento();
-                int idExpediente = 0;
-                String nomExpediente = "";
-                int eOrden = 0;
-                int idTipoNotificacion = 0;
-                IotdtdAdjuntoMPV adjuntoPrincipal = null;
-                
-                for(IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()){    	                                            	
-                	if(adjunto.getTipoArchivo().equals(1)){
-                		adjuntoPrincipal = adjunto;
-                		break;
-                	}
-                }
-                                                      
-                int pos = adjuntoPrincipal.getNombreArchivo().lastIndexOf(".");
-                String extension = adjuntoPrincipal.getNombreArchivo().substring(pos+1, adjuntoPrincipal.getNombreArchivo().length());
-                String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
-                String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
-                String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-                String rutaArchivoPrincipal  = rutaDig + sNuevoNombrePrincipal;
-                String rutaArchivoCargo = rutaDig + sNuevoNombreCargo;
-                
-                if (estadoDocumento.equals("0")) {
-                	idTipoNotificacion = 15;
-                	nroDocumento = objD.getNumeroDocumento();
-                	idExpediente = 0;
-                	nomExpediente = "";
-                	eOrden = 0;
-                	
-                } else if (estadoDocumento.equals("2")) {
-                	idTipoNotificacion = 14;
-                	nroDocumento = objD.getNumeroDocumento();
-                	idExpediente =  objD.getExpediente().getIdexpediente();
-                	nomExpediente = objD.getExpediente().getNombreExpediente();
-                	eOrden = 1;
-                }
-                 
-                String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", rutaArchivoPrincipal
-            		,observacion,tipoDocumento, nroDocumento, id_Documento,nomExpediente, idExpediente , idTipoNotificacion, eOrden);	          	    	
-                
-                if (!response.equals("")) {
-    				JSONObject jsonObject = new JSONObject(response);
-    				Integer pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
-    				 
-//        				System.out.println(pK_eIdNotificacion);       	    	
-                   // paso 3 : Generar cedula de notificacion electronica
-                     
-                    log.info("---------------------------Tercer Servicio");
-                          
-//	                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
-                    // paso 4: Enviar notificacion electronica
-                   
-                    log.info("---------------------------------Cuarto Servicio");
-//	                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
-                 }
               }
            }
             

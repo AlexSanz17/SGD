@@ -515,11 +515,10 @@ public class ArchivoServiceImpl implements ArchivoService{
 	            int contcadena = objArchivoTemporal.getSNombre().lastIndexOf(".");
 	            String extension = "";
 	            String num_doc_modificado = "";
-	            
-	            if(usuarioSesion.getUnidad().getIdunidad().equals(455) ) {
+	           
+	            if(objDocumento.getID_EXTERNO().equals(0)) {
 	            	
-	            	if(objDocumento.getTipoDocumento().getIdtipodocumento().equals(3) || objDocumento.getTipoDocumento().getIdtipodocumento().equals(12) || 
-	            			objDocumento.getTipoDocumento().getIdtipodocumento().equals(13) || objDocumento.getTipoDocumento().getIdtipodocumento().equals(351)) {
+	            	if( numeracionService.findByIdbyUnidad_1(usuarioSesion.getUnidad(),objDocumento.getTipoDocumento().getIdtipodocumento()) != null ) {
 	            		
 	            		String num_documento = objDocumento.getNumeroDocumento();
 	            		int len = num_documento.length();
@@ -528,19 +527,23 @@ public class ArchivoServiceImpl implements ArchivoService{
 	            		String p2 = num_documento.substring(numero+1, len);
 	            		
 	            		num_doc_modificado = p1 +"-"+ p2;
-	            		Log.info("numero de documento----------------" + num_doc_modificado);
-	            	}else {
-		            	num_doc_modificado = objDocumento.getNumeroDocumento().replace("N°", "").trim();
-		            }
-	            	
+	            		log.info("numero de documento----------------" + num_doc_modificado);
+	            	}
 	            }
+	            else {
+            		num_doc_modificado = objDocumento.getNumeroDocumento().replace("N°", "").trim();
+            		log.info("numero de documento----------------" + num_doc_modificado);
+            	}
+	          
+	            	
+	            
 	            
 	            if (contcadena>0)
 	              extension = objArchivoTemporal.getSNombre().substring(contcadena, objArchivoTemporal.getSNombre().length());
 	           
 	            if (objDocumento.getID_EXTERNO().toString().equals("1")){
-	               objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() + extension.toLowerCase());
-	               nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() + extension.toLowerCase();
+	               objArchivoTemporal.setSNombre(objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre().toUpperCase() +  extension.toLowerCase());
+	               nombrePDFprincipal = objDocumento.getID_CODIGO().toString() + "_" + objDocumento.getTipoDocumento().getNombre() +   extension.toLowerCase();
 	            }else{  
 	               if(String.valueOf(objDocumento.getTipoDocumento().getIdtipodocumento()).equals(Constantes.COD_TIPODOCUMENTO_OFICIO_CIRCULAR))
 	               {

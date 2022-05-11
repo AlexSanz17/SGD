@@ -120,7 +120,7 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
     }
     
     public List<String> buscarTramiteVirtual(String nroTramite){
-        String sql = " SELECT CAST(E.SIDDOCEXT AS VARCHAR2(16)), DP.IDDOCUMENTO FROM IOTDTM_DOC_EXTERNO E, IOTDTC_DESPACHO DP WHERE  ";
+        String sql = " SELECT CAST(E.SIDDOCEXT AS VARCHAR(16)), DP.IDDOCUMENTO FROM IOTDTM_DOC_EXTERNO E, IOTDTC_DESPACHO DP WHERE  ";
         sql = sql + " DP.CFLGEST NOT IN ('X') AND E.SIDEMIEXT= DP.SIDEMIEXT AND DP.VNUMREGSTD = :nroTramite order by DP.dfecreg desc " ;
 
         Query q = em.createNativeQuery(sql.toString());

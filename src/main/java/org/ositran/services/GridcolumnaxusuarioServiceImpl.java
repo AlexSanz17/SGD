@@ -1,11 +1,13 @@
 package org.ositran.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import org.jfree.util.Log;
 import org.ositran.daos.DatosDAO;
 import org.ositran.daos.GridDAO;
 import org.ositran.daos.GridXGridColumnaDAO;
@@ -916,7 +918,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 
 	}
         
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getItems_Recepcion_Virtual(Usuario objUsuario, BusquedaAvanzada objFiltro) {
 	      _log.debug("-> [Service] GridcolumnaxusuarioService - getItems_Recepcion_Virtual():List ");
           List<IotdtmDocExterno> lstRecepcion = null;
@@ -979,7 +981,9 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                 data.add(uuf);
             }
           }
-              
+          Collections.sort(data, Collections.reverseOrder());
+          _log.debug("-=================data======================" + data);
+       
          return data;
     }
     
@@ -1616,7 +1620,6 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 	@Override
 	public List<Item> getItems_BusquedaAvanzada(String sTipoFiltro, BusquedaAvanzada objFiltro, String arrFecha[], String sqlQueryDinamico[], String tipoConsulta, String unidadUsuario, String cargoUsuario) {
 		_log.debug("-> [Service] GridcolumnaxusuarioService - getItems_BusquedaAvanzada():List<Item> ");
-
 		List<Item> items = new ArrayList<Item>();
 		_log.debug("Se buscara segun el filtro [" + sTipoFiltro + "]");
                 List<Documento> resultados = documentoService.busquedaDocumentoAvanzada(

@@ -47,11 +47,39 @@ public class NumeracionDAOImpl implements NumeracionDAO {
 			}catch(Exception ex){
 				log.warn("no result for numeration idtipodoc:" + idtipodoc + " idunidad:" + idunidad);
 				unid=unid.getDependencia();
-				log.info("switching to unid :" + (unid != null ? unid.getNombre() : "null"));
+				num=null;
+//				log.info("switching to unid :" + (unid != null ? unid.getNombre() : "null"));
 			}
 
 		}
 	    return  num;
+
+	   }
+   public Numeracion findByIdNumeracionbyUnidad_1(Unidad idUnidad, Integer IdTipoDocumento) {
+
+	   Unidad unid = idUnidad ;
+	   Object num =null ;
+	   Integer idtipodoc = IdTipoDocumento ;
+	   Integer idunidad=unid.getIdunidad();
+	   List<Numeracion> lisNum = null ;
+
+	   try{
+			log.warn("Result for numeration idtipodoc:" + idtipodoc + " idunidad:" + idunidad);
+			num =  em.createNamedQuery("Numeracion.findByIdnumeracion").setParameter("idunidad",idunidad).setParameter("idtipodocumento",idtipodoc).getSingleResult();
+			
+			log.info("------------num---------"+num);
+			
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			num = null;
+			log.info("------------num---------"+num);
+			
+//			log.info("switching to unid :" + (unid != null ? unid.getNombre() : "null"));
+		}
+	   return (Numeracion) num;
+	   
+	 
 
 	   }
 

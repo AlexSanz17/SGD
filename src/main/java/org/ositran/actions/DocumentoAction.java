@@ -3300,7 +3300,7 @@ public class DocumentoAction {
                                   documentoService.atenderDocumento(usuarioSesion, d, null, false, null, nombrePC, arreglo, "", null);
                            }
                         }
-                   }catch(Exception e){
+                    	}catch(Exception e){
                        e.printStackTrace();
                    }  
 		}

@@ -15,6 +15,11 @@
 	</style>
 	<parameter name="TITULO" class="java.lang.String"/>
 	<parameter name="IMAGEN" class="java.lang.String"/>
+	<parameter name="ESTADO" class="java.lang.String"/>
+	<parameter name="FECHADESDE" class="java.lang.String"/>
+	<parameter name="FECHAHASTA" class="java.lang.String"/>
+	<parameter name="TIPODOCUMENTO" class="java.lang.String"/>
+	
 	<queryString language="plsql">
 		<![CDATA[]]>
 	</queryString>
@@ -68,6 +73,8 @@
 				</textElement>
 				<text><![CDATA[SISTEMA DE GESTIÓN DOCUMENTAL - SGD]]></text>
 			</staticText>
+			
+			
 		</band>
 	</pageHeader>
 	<columnHeader>
