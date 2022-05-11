@@ -4,7 +4,6 @@
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<!-- Definicion de DAOs -->
     <bean id="seguimientoXFirmaDAO" class="org.ositran.daos.SeguimientoXFirmaDAOImpl" />
     <bean id="documentoDerivacionDAO" class="org.ositran.daos.DocumentoDerivacionDAOImpl" />
     <bean id="carpetaReferenciaDAO" class="org.ositran.daos.CarpetaReferenciaDAOImpl" />
@@ -13,7 +12,6 @@
     <bean id="tipoLegajoDAO" class="org.ositran.daos.TipoLegajoDAOImpl" />
     <bean id="legajoDocumentoDAO" class="org.ositran.daos.LegajoDocumentoDAOImpl" />
     <bean id="tipoLegajoUnidadDAO" class="org.ositran.daos.TipoLegajoUnidadDAOImpl" />
-      
 	<bean id="trazabilidadMovimientoDAO" class="org.ositran.daos.TrazabilidadmovimientoDAOImpl" />
 	<bean id="logOperacionDAO" class="org.ositran.daos.LogOperacionDAOImpl" />
 	<bean id="logBusquedaAvanzadaDAO" class="org.ositran.daos.LogBusquedaAvanzadaDAOImpl" />
@@ -45,9 +43,7 @@
         <property name="srvArchivo" ref="archivoService" />
     </bean>
    
-   <!-- para job -->
    <bean id="recepcionPideDaoForJob" class="org.ositran.siged.jobs.RecepcionPideDaoForJob" />
-   
 
     <bean id="documentoFedatarioDAO" class="org.ositran.daos.DocumentoFedatarioDAOImpl">
        <property name="usuarioDAO" ref="usuarioDAO" />
@@ -95,9 +91,9 @@
     </bean>
     
     <bean id="legajoService" class="org.ositran.services.LegajoServiceImpl">
-           <property name="legajoDAO" ref="legajoDAO" />
-            <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
-            <property name="documentoDAO" ref="documentoDAO" />
+       <property name="legajoDAO" ref="legajoDAO" />
+        <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
+        <property name="documentoDAO" ref="documentoDAO" />
     </bean>
     
     <bean id="tipoLegajoService" class="org.ositran.services.TipoLegajoServiceImpl">
@@ -134,11 +130,25 @@
 
     <bean id="recepcionVirtualDAO" class="org.ositran.daos.RecepcionVirtualDAOImpl">
     </bean>
-    
+
     <bean id="recepcionVirtualService" class="org.ositran.services.RecepcionVirtualServiceImpl">
 		<property name="recepcionVirtualDAO" ref="recepcionVirtualDAO" />
     </bean>
-     
+        
+    <bean id="recepcionMPVDAO" class="org.ositran.daos.RecepcionMPVDAOImpl">
+    </bean>
+    
+    <bean id="recepcionMPVService" class="org.ositran.services.RecepcionMPVServiceImpl">
+    	<property name="recepcionMPVDAO" ref="recepcionMPVDAO" />
+    </bean>
+    
+    <bean id="recepcionPIDEDAO" class="org.ositran.daos.RecepcionPIDEDAOImpl">
+    </bean>
+    
+    <bean id="recepcionPIDEService" class="org.ositran.services.RecepcionPIDEServiceImpl">
+    	<property name="recepcionPIDEDAO" ref="recepcionPIDEDAO" />
+    </bean>
+    
     <bean id="despachoVirtualDAO" class="org.ositran.daos.DespachoVirtualDAOImpl">
     </bean>
     
@@ -387,16 +397,16 @@
 		<property name="notificacionService" ref="notificacionService" />
 		<property name="repositorioService" ref="repositorioService" />
 		<property name="trazabilidadDocumentoService" ref="trazabilidaddocumentoService" />
-	<!--	<property name="trazabilidadExpedienteService" ref="trazabilidadexpedienteService" /> -->
-                <property name ="numeracionDAO" ref="numeracionDAO" />
+<!--	<property name="trazabilidadExpedienteService" ref="trazabilidadexpedienteService" /> -->
+        <property name ="numeracionDAO" ref="numeracionDAO" />
 		<property name="usuarioService" ref="usuarioService" />
-		<!--<property name="usuarioStorService" ref="usuariostorService" /> -->
+	<!--<property name="usuarioStorService" ref="usuariostorService" /> -->
 		<property name="srvArchivoPendiente" ref="archivoPendienteService" />
 		<property name="trazabilidadcopiaService" ref="trazabilidadcopiaService" />
 		<property name="trazabilidadapoyoService" ref="trazabilidadapoyoService" />
         <property name="mailService" ref="mailService"/>
         <property name="alfrescoWebServiceClient" ref="alfrescoWebServiceClient"/>
-        <!--<property name="intalioService" ref="intalioService" /> -->
+    <!--<property name="intalioService" ref="intalioService" /> -->
         <property name="clienteService" ref="clienteService" />
         <property name="documentoxclienteService" ref="documentoxclienteService" />
         <property name="documentoAdjuntoDAO" ref="documentoAdjuntoDAO" />
@@ -415,12 +425,13 @@
         <property name="usuarioxunidadxfuncionDAO" ref="usuarioxunidadxfuncionDAO" />
         <property name="recepcionVirtualDAO" ref="recepcionVirtualDAO" />
         <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
-        
         <property name="docPrincipalVirtualDAO" ref="docPrincipalVirtualDAO" />
         <property name="docAnexoVirtualDAO" ref="docAnexoVirtualDAO" />
         <property name="despachoVirtualDAO" ref="despachoVirtualDAO" />
         <property name="referenciaArchivoDAO" ref="referenciaArchivoDAO" />
         <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
+        <property name="recepcionMPVService" ref="recepcionMPVService" />
+        <property name="recepcionPIDEService" ref="recepcionPIDEService" />
 	</bean>
 
 	<bean id="documentoxexpedienteService" class="org.ositran.services.DocumentoxexpedienteServiceImpl">

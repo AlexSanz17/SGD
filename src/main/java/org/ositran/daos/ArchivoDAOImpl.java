@@ -256,22 +256,21 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 	}
 
 	public Archivo guardarObj(Archivo objArchivo) {
-
 		try {
 			_log.info("guardarObj:objArchivo.getRutaAlfresco:" + objArchivo.getRutaAlfresco());
 			if (objArchivo.getRutaAlfresco() != null) {
 				String sql = "SELECT COUNT(a.idArchivo) FROM Archivo a inner join documento d on a.documento = d.iddocumento WHERE  d.idDocumento = :idDocumento and LOWER(SUBSTRING(a.NOMBRE, CHARINDEX(a.nombre,']') +1, LEN(a.NOMBRE))) = :nombre and a.estado =  'A' ";
 				Integer numero = (Integer) em.createNativeQuery(sql)
-						.setParameter("nombre", objArchivo.getNombreArchivo().toLowerCase())
-						.setParameter("idDocumento", objArchivo.getDocumento().getIdDocumento()).getSingleResult();
+					.setParameter("nombre", objArchivo.getNombreArchivo().toLowerCase())
+					.setParameter("idDocumento", objArchivo.getDocumento().getIdDocumento()).getSingleResult();
 
 				_log.info("guardarObj:numero:" + numero);
 				if (numero != null && numero > 0) {
 					sql = "SELECT ar FROM Archivo ar WHERE LOWER(SUBSTRING(NOMBRE, CHARINDEX(nombre,'']'') +1, LEN(NOMBRE))) = :nombre AND ar.documento.idDocumento = :idDocumento and ar.estado =  'A'  ";
 					Archivo archivo = (Archivo) em.createQuery(sql)
-							.setParameter("nombre", objArchivo.getNombreArchivo().toLowerCase()) // .getRutaAlfresco().toLowerCase())
-							.setParameter("idDocumento", objArchivo.getDocumento().getIdDocumento()).getResultList()
-							.get(0);
+						.setParameter("nombre", objArchivo.getNombreArchivo().toLowerCase()) // .getRutaAlfresco().toLowerCase())
+						.setParameter("idDocumento", objArchivo.getDocumento().getIdDocumento()).getResultList()
+						.get(0);
 
 					archivo.setEstado(objArchivo.getEstado());
 					archivo.setAutor(objArchivo.getAutor());
@@ -290,23 +289,11 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 				}
 			}
 
-			_log.info("guardarObj:objArchivo.getIdArchivo:" + objArchivo.getIdArchivo());
 			if (objArchivo.getIdArchivo() == null) {
-				_log.info("guardarObj:persist:objArchivo.getObjectId:" + objArchivo.getObjectId() + ", documento:"
-						+ objArchivo.getDocumento());
-
 				em.persist(objArchivo);
-				em.flush();
-				em.refresh(objArchivo);
 			} else {
-				_log.info("guardarObj:merge:objArchivo.getObjectId:" + objArchivo.getObjectId() + ", documento:"
-						+ objArchivo.getDocumento());
-
 				em.merge(objArchivo);
-				em.flush();
-				em.refresh(objArchivo);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -3346,77 +3346,76 @@ public class DocumentoDAOImpl implements DocumentoDAO {
             q.setParameter("fechaDia", fechaDia.getTime());
             
             log.info("idUsuario:"+objUsuario.getIdUsuarioPerfil()+",idUnidadPropietario:"+objUsuario.getIdUnidadPerfil()+
-            		",IdFuncionPerfil:"+objUsuario.getIdFuncionPerfil()+",fechaDia:"+fechaDia.getTime());
+        		",IdFuncionPerfil:"+objUsuario.getIdFuncionPerfil()+",fechaDia:"+fechaDia.getTime());
 
             if(items == true){
                 try {
-                        List<FilaBandejaUF> temp = q.getResultList();
-                        if(temp != null && !temp.isEmpty()){
-                                if(bandeja.equals("R") || bandeja.equals("F") || bandeja.equals("NT") || bandeja.equals("ND") || bandeja.equals("NU")){
-                                        if(usuario.getBandejaAgrupada() != null && usuario.getBandejaAgrupada().equals(Constantes.Si)){
-                                                Set<String> expedientesLista = new HashSet<String>();
-                                                Map<String, Integer> mapCantidades = new HashMap<String, Integer>();
-                                                Map<String, Boolean> mapLeidos = new HashMap<String, Boolean>();
-                                                
-                                                log.info("Rutina para el primer documento, BandejaAgrupada:"+usuario.getBandejaAgrupada());
+                    List<FilaBandejaUF> temp = q.getResultList();
+                    
+                    if(temp != null && !temp.isEmpty()){
+                        if(bandeja.equals("R") || bandeja.equals("F") || bandeja.equals("NT") || bandeja.equals("ND") || bandeja.equals("NU")){
+                            if(usuario.getBandejaAgrupada() != null && usuario.getBandejaAgrupada().equals(Constantes.Si)){
+                                Set<String> expedientesLista = new HashSet<String>();
+                                Map<String, Integer> mapCantidades = new HashMap<String, Integer>();
+                                Map<String, Boolean> mapLeidos = new HashMap<String, Boolean>();
+                                
+                                log.info("Rutina para el primer documento, BandejaAgrupada:"+usuario.getBandejaAgrupada());
 
-                                                /**Rutina para el primer documento --------------------------------------------------------------------------------------*/
-                                                FilaBandejaUF fila = temp.get(0);
-                                                expedientesLista.add(fila.getExpediente());
-                                                mapCantidades.put(fila.getExpediente(), 1);
-                                                mapLeidos.put(fila.getExpediente(), fila.getLeido().equals(Constantes.No.toString()));
+                                /**Rutina para el primer documento --------------------------------------------------------------------------------------*/
+                                FilaBandejaUF fila = temp.get(0);
+                                expedientesLista.add(fila.getExpediente());
+                                mapCantidades.put(fila.getExpediente(), 1);
+                                mapLeidos.put(fila.getExpediente(), fila.getLeido().equals(Constantes.No.toString()));
 
-                                                data.add(llenarItemUF(fila));
+                                data.add(llenarItemUF(fila));
 
-                                                /**Rutina para el resto de documentos------------------------------------------------------------------------------------*/
-                                                for (int i = 1; i < temp.size(); i++) {
-                                                        fila = temp.get(i);
+                                /**Rutina para el resto de documentos------------------------------------------------------------------------------------*/
+                                for (int i = 1; i < temp.size(); i++) {
+                                    fila = temp.get(i);
 
-                                                        if(expedientesLista.contains(fila.getExpediente())){
-                                                                mapCantidades.put(fila.getExpediente(), mapCantidades.get(fila.getExpediente())+1);
-                                                                mapLeidos.put(fila.getExpediente(), mapLeidos.get(fila.getExpediente()) || fila.getLeido().equals(Constantes.No.toString()));
-                                                        }else{
-                                                                expedientesLista.add(fila.getExpediente());
-                                                                mapCantidades.put(fila.getExpediente(), 1);
-                                                                mapLeidos.put(fila.getExpediente(), fila.getLeido().equals(Constantes.No.toString()));
+                                    if(expedientesLista.contains(fila.getExpediente())){
+                                        mapCantidades.put(fila.getExpediente(), mapCantidades.get(fila.getExpediente())+1);
+                                        mapLeidos.put(fila.getExpediente(), mapLeidos.get(fila.getExpediente()) || fila.getLeido().equals(Constantes.No.toString()));
+                                    }else{
+                                        expedientesLista.add(fila.getExpediente());
+                                        mapCantidades.put(fila.getExpediente(), 1);
+                                        mapLeidos.put(fila.getExpediente(), fila.getLeido().equals(Constantes.No.toString()));
 
-                                                                ItemUF uuf = llenarItemUF(fila);
-                                                                data.add(uuf);
-                                                        }
-                                                }
-
-                                                for(Object f : data){
-                                                        ItemUF item = (ItemUF)f;
-                                                        item.setExpBtn(item.getExpBtn() + "[" + mapCantidades.get(item.getExpediente()) + "]" + mapLeidos.get(item.getExpediente()));
-                                                }
-                                        }else{
-                                                for (int i = 0; i < temp.size(); i++) {
-                                                        FilaBandejaUF fila = temp.get(i);
-                                                        ItemUF item = llenarItemUF(fila);
-                                                        item.setExpBtn("-");
-                                                        data.add(item);
-
-                                                }
-                                        }
-                                }else{
-                                        for (int i = 0; i < temp.size(); i++) {
-                                                FilaBandejaUF fila = temp.get(i);
-                                                data.add(llenarItemUF(fila));
-                                        }
+                                        ItemUF uuf = llenarItemUF(fila);
+                                        data.add(uuf);
+                                    }
                                 }
+
+                                for(Object f : data) {
+                                    ItemUF item = (ItemUF)f;
+                                    item.setExpBtn(item.getExpBtn() + "[" + mapCantidades.get(item.getExpediente()) + "]" + mapLeidos.get(item.getExpediente()));
+                                }
+                            }else{
+                                for (int i = 0; i < temp.size(); i++) {
+                                    FilaBandejaUF fila = temp.get(i);
+                                    ItemUF item = llenarItemUF(fila);
+                                    item.setExpBtn("-");
+                                    data.add(item);
+                                }
+                            }
+                        }else{
+                            for (int i = 0; i < temp.size(); i++) {
+                                FilaBandejaUF fila = temp.get(i);
+                                data.add(llenarItemUF(fila));
+                            }
                         }
+                    }
                 } catch (Exception e) {
-                        e.printStackTrace();
-                        log.error("ERROR: no tiene data", e.fillInStackTrace());
+                    e.printStackTrace();
+                    log.error("ERROR: no tiene data", e.fillInStackTrace());
                 }
 
                 return data;
 
         }else{
-                return q.getResultList();
+            return q.getResultList();
         }
-      }
-
+	}
 
 	private ItemUF llenarItemUF(FilaBandejaUF fila){
         ItemUF uuf = new ItemUF();

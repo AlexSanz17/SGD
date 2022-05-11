@@ -1,4 +1,4 @@
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.daos;
+package org.ositran.daos;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -66,9 +66,10 @@ public class TipodocumentoDAOImpl implements TipodocumentoDAO {
    
     public Tipodocumento findByIdTipoDocumentoPIDE(String iIdTipodocumentoPIDE){
     	_log.info("tipoPIDE:"+iIdTipodocumentoPIDE);
-         return (Tipodocumento) em.createNamedQuery("Tipodocumento.findByTipoDocumentoPIDE")
-                               .setParameter("tipoPIDE", iIdTipodocumentoPIDE)
-                               .getSingleResult();
+    	
+    	return (Tipodocumento) em.createNamedQuery("Tipodocumento.findByTipoDocumentoPIDE")
+           .setParameter("tipoPIDE", iIdTipodocumentoPIDE)
+           .getSingleResult();
     }
 
    public Tipodocumento findByIdTipoDocumento(Integer iIdTipodocumento) {

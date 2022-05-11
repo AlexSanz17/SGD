@@ -11,7 +11,7 @@
 <style type="text/css" href="css/libraries/sweetalert.min.css"></style>
 <style>
 .aTable {
-	width: 300px;
+	width: 678px;
 	border-spacing: 2px;
 	border: 1px solid black;
 	background-color: #A1B5D8;
@@ -392,10 +392,9 @@
 		<%-- 			<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar"  --%>
 		<%-- 			onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" /> --%>
 		<input type="button" class="btn btn-primary"
-			style="width: 100px !important;" id="btnFirmar" name="btnFirmar"
+			style="width: 100px !important; cursor: pointer; margin: 10px 0px;" id="btnFirmar" name="btnFirmar"
 			value="Firmar" onclick="javascript:generateQrPreFirmado()" />
-		<iframe frameborder="0" name="iframeFirma" id="iframeFirma"
-			width="400px" height="220px"></iframe>
+		<iframe frameborder="0" name="iframeFirma" id="iframeFirma" width="700px" height="450px"></iframe>
 	</form>
 </body>
 </html>

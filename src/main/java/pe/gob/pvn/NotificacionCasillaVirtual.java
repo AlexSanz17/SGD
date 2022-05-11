@@ -1,4 +1,4 @@
-package gob.pe.pvn;
+package pe.gob.pvn;
 
 import java.io.BufferedReader;
 import java.io.File;

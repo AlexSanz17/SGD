@@ -1,6 +1,6 @@
 package org.ositran.ajax.beans;
 
-public class CargoRecepcionMPVResponse {
+public class CargoRecepcionPIDEResponse {
 	String bSuccess;
 	String eErrorCode;
 	String cMessage;
@@ -47,7 +47,7 @@ public class CargoRecepcionMPVResponse {
 		this.cData = cData;
 	}
 
-	public CargoRecepcionMPVResponse() {
+	public CargoRecepcionPIDEResponse() {
 	}
 
 	@Override

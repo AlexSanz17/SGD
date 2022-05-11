@@ -10,13 +10,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-/**
- *
- * @author vcupe
- */
-public class RecepcionPideDAOImpl implements RecepcionPideDAO{
+
+public class RecepcionPIDEDAOImpl implements RecepcionPIDEDAO {
     private EntityManager em;
-    
      
     @PersistenceContext(unitName="sigedPU")
     public void setEm(EntityManager em){
@@ -26,7 +22,7 @@ public class RecepcionPideDAOImpl implements RecepcionPideDAO{
     @SuppressWarnings("rawtypes")
 	public IotdtcRecepcion findBySidrecext(Integer sidrecext){
     	Query query = em.createNamedQuery("IotdtcRecepcion.findBySidrecext")
-				.setParameter("sidrecext", sidrecext);
+			.setParameter("sidrecext", sidrecext);
     	
     	List results = query.getResultList();
     	if (!results.isEmpty()){
@@ -35,10 +31,8 @@ public class RecepcionPideDAOImpl implements RecepcionPideDAO{
     	
     	return null;
     }
-    
 
     public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion){
-		
 	    em.persist(recepcion); 
 	    em.flush();
 	    em.refresh(recepcion);
@@ -47,7 +41,6 @@ public class RecepcionPideDAOImpl implements RecepcionPideDAO{
     }
     
     public IotdtmDocExterno registrarDocExterno(IotdtmDocExterno docExterno){
-		
 	    em.persist(docExterno); 
 	    em.flush();
 	    em.refresh(docExterno);
@@ -56,7 +49,6 @@ public class RecepcionPideDAOImpl implements RecepcionPideDAO{
     }
     
     public IotdtdDocPrincipal registrarDocPrincipal(IotdtdDocPrincipal docPrincipal){
-		
 	    em.persist(docPrincipal); 
 	    em.flush();
 	    em.refresh(docPrincipal);
@@ -72,5 +64,4 @@ public class RecepcionPideDAOImpl implements RecepcionPideDAO{
 
        return docAnexo;
     }
-
 }

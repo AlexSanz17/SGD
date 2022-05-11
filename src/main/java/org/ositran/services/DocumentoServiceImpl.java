@@ -47,6 +47,9 @@ import org.apache.struts2.ServletActionContext;
 import org.json.JSONObject;
 
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
+import org.ositran.ajax.beans.CargoRecepcionMPVResponse;
+import org.ositran.ajax.beans.CargoRecepcionPIDERequest;
+import org.ositran.ajax.beans.CargoRecepcionPIDEResponse;
 import org.ositran.daos.AuditoriaDAO;
 import org.ositran.daos.DespachoVirtualDAO;
 import org.ositran.daos.DocAnexoVirtualDAO;
@@ -176,7 +179,7 @@ import com.ositran.ws.RespuestaTramite;
 
 import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.service.AlfrescoWebscriptService;
-import gob.pe.pvn.NotificacionCasillaVirtual;
+import pe.gob.pvn.NotificacionCasillaVirtual;
 
 public class DocumentoServiceImpl implements DocumentoService {   
     private String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
@@ -244,8 +247,26 @@ public class DocumentoServiceImpl implements DocumentoService {
     private DespachoVirtualDAO despachoVirtualDAO;
     private LegajoDocumentoDAO legajoDocumentoDAO;
     private FirmaArchivoDAO firmaArchivoDAO;
+    private RecepcionMPVService recepcionMPVService;
+    private RecepcionPIDEService recepcionPIDEService;
 
-    public FirmaArchivoDAO getFirmaArchivoDAO() {
+    public RecepcionPIDEService getRecepcionPIDEService() {
+		return recepcionPIDEService;
+	}
+
+	public void setRecepcionPIDEService(RecepcionPIDEService recepcionPIDEService) {
+		this.recepcionPIDEService = recepcionPIDEService;
+	}
+
+	public RecepcionMPVService getRecepcionMPVService() {
+		return recepcionMPVService;
+	}
+
+	public void setRecepcionMPVService(RecepcionMPVService recepcionMPVService) {
+		this.recepcionMPVService = recepcionMPVService;
+	}
+
+	public FirmaArchivoDAO getFirmaArchivoDAO() {
         return firmaArchivoDAO;
     }
 
@@ -4869,6 +4890,8 @@ public class DocumentoServiceImpl implements DocumentoService {
 		log.debug("-> [Service] DocumentoService - saveNuevoDocumentoUserFinal():DocumentoDetail ");
         IotdtmDocExterno iotdtmDocExterno = null;
         DocumentoDetail objDD = documentoDetail;
+        IotdtcRecepcionMPV iotdtcRecepcionMPV = null;
+        String estadoDocumento = "";
 
 		try {
             Boolean tipoDocReqTri = false;
@@ -4916,7 +4939,7 @@ public class DocumentoServiceImpl implements DocumentoService {
             
             List<Parametro> lstParametro = parametroService.findByTipoActivo("TIPO_DOCUMENTO_REQUERIMIENTO_TRIBUTARIO");
             
-            if (lstParametro!=null && lstParametro.size()>0 && objDD.getOpcion().equals(Constantes.COD_TRAMITE_INTERNO)){
+            if (lstParametro!=null && lstParametro.size()>0 && objDD.getOpcion().equals(Constantes.COD_TRAMITE_INTERNO)) {
                 for(int i=0;i<lstParametro.size();i++){
                    if (lstParametro.get(i).getValor().equals(objTD.getIdtipodocumento().toString())){
                      //objD.setIdConcesionario(new Integer(objDD.getConcesionario()));
@@ -4925,22 +4948,21 @@ public class DocumentoServiceImpl implements DocumentoService {
                 }
             }    
                 
-            if (objDD.getConcesionario()!=null && !objDD.getConcesionario().trim().equals("")){
+            if (objDD.getConcesionario()!=null && !objDD.getConcesionario().trim().equals("")) {
               objD.setIdConcesionario(new Integer(objDD.getConcesionario()));
             }
             
-            if (objDD.getAnioFiscal()!=null && !objDD.getAnioFiscal().trim().equals(""))
-            {
+            if (objDD.getAnioFiscal()!=null && !objDD.getAnioFiscal().trim().equals("")) {
                 objD.setAnioFiscal(new Integer(objDD.getAnioFiscal()));
             }
             
-            if (objDD.getStrUnidad()==null || objDD.getStrUnidad().trim().equals("")){
+            if (objDD.getStrUnidad()==null || objDD.getStrUnidad().trim().equals("")) {
               objD.setUnidadenumera(objUsuarioSession.getIdUnidadPerfil());
-            }else{
+            } else {
                 objD.setUnidadenumera(Integer.valueOf(objDD.getStrUnidad()));
             }
             
-            if (objDD.getPlazo()!=null){ 
+            if (objDD.getPlazo()!=null) { 
               if (objDD.getPlazo().equals("0") && objDD.getIPlazoDia()!=null && !objDD.getIPlazoDia().trim().equals("")){
                 objD.setPlazo(new Integer(objDD.getIPlazoDia()));
                 objD.setFechaLimiteAtencion(fechaLimite.getFechaLimite(fecha, Integer.parseInt(objDD.getIPlazoDia()))); 
@@ -4963,7 +4985,7 @@ public class DocumentoServiceImpl implements DocumentoService {
             objD.setUnidadautor(objUsuarioSession.getIdUnidadPerfil());
             objD.setBandeja(objDD.getBandeja());
             
-            if(!StringUtils.isBlank(objD.getNumeroDocumento())){
+            if (!StringUtils.isBlank(objD.getNumeroDocumento())) {
                objD.setEnumerado(Constantes.Si);
             }
 
@@ -4994,7 +5016,7 @@ public class DocumentoServiceImpl implements DocumentoService {
             objD.setCondestinatarios(objDD.getCondestinatarios());
             objD.setConcopias(objDD.getConcopias());
 
-            if(objD.getEnumerado()==null){
+            if(objD.getEnumerado()==null) {
                objD.setEnumerado(Constantes.No);
             }
 
@@ -5049,18 +5071,18 @@ public class DocumentoServiceImpl implements DocumentoService {
                 }
             }
 
-            if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")){//NUEVO DOCUMENTO
+            if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")) {//NUEVO DOCUMENTO
                objD.setFlaginicioflujo("1");
                if (objDD.getOpcion().equals(Constantes.COD_TRAMITE_EXTERNO)){ 
                  objD.setID_EXTERNO(1);
                }else{
                  objD.setID_EXTERNO(0);
                }
-            }else{
+            } else {
                objD.setID_EXTERNO(0);   
             }    
 
-            if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_402)){
+            if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_402)) {
                 Cliente c = clienteService.findByIdCliente(objDD.getIdInstitucionSicor());
                 objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
                 
@@ -5069,7 +5091,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                 objD.setCodMateria(objDD.getiIdMateria());
             }
 
-            if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_405)){
+            if (objD.getTipoDocumento().getIdtipodocumento().toString().equals(Constantes.COD_TIPODOCUMENTO_405)) {
                 Cliente c = clienteService.findByIdCliente(objDD.getIdInstitucionSicor());
                 objD.setCodTipoInstitucion(c.getCodtipoinstitucion());
                 
@@ -5117,7 +5139,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                         }
                     }
                 }
-        
+            }
             // objD = this.saveDocumento(objD);
 
             if (objDD.getTipoTransaccion().equals("N") || objDD.getTipoTransaccion().equals("R")) {//NUEVO DOCUMENTO 
@@ -5407,9 +5429,40 @@ public class DocumentoServiceImpl implements DocumentoService {
                             archivosSubidos.add(objArchivo);
                             
                             repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
-                        } else {
-                        	IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
                             
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+                    		String anioCreacion = dateFormat.format(objD.getFechaCreacion());
+                            dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    		String fechaCreacion = dateFormat.format(objD.getFechaCreacion());	
+                    		
+                            CargoRecepcionPIDERequest cargoRecepcionPIDERequest = new CargoRecepcionPIDERequest();
+                            cargoRecepcionPIDERequest.setVrucentrem("20503503639");
+                            cargoRecepcionPIDERequest.setVrucentrec("20168999926");
+                            cargoRecepcionPIDERequest.setVcuo(objD.getVcuo());
+                            cargoRecepcionPIDERequest.setVcuoref("");
+                            cargoRecepcionPIDERequest.setVnumregstd(objD.getExpediente().getNroexpediente());
+                            cargoRecepcionPIDERequest.setVanioregstd(anioCreacion);
+                            cargoRecepcionPIDERequest.setDfecregstd(fechaCreacion);
+                            cargoRecepcionPIDERequest.setVuniorgstd(objD.getAutor().getUnidad().getNombre());
+                            cargoRecepcionPIDERequest.setVusuregstd(objD.getAutor().getUsuario());
+                            cargoRecepcionPIDERequest.setBcarstd("");
+                            cargoRecepcionPIDERequest.setVobs(objD.getObservacion());
+                            cargoRecepcionPIDERequest.setCflgest("R");
+                            cargoRecepcionPIDERequest.setVdesanxstdrec("");
+                            
+//                            cargoRecepcionPIDERequest.setFk_eDocumento(documento);
+//                            cargoRecepcionPIDERequest.setcExpediente(objD.getExpediente().getNombreExpediente());
+//                            cargoRecepcionPIDERequest.setfFecha(fechaForService);
+//                            cargoRecepcionPIDERequest.setFk_eUsuario(String.valueOf(objD.getAutor().getIdusuario()));
+//                            cargoRecepcionPIDERequest.setEstadoDoc(estadoDocumento);
+//                            cargoRecepcionPIDERequest.setcObservacion(objD.getObservacion() != null ? objD.getObservacion() : "");
+//                            cargoRecepcionPIDERequest.setfFechaRecep(fechaRecepcion);
+//                            cargoRecepcionPIDERequest.setfFechaRecha(fechaRechazado);
+                    		
+                    		CargoRecepcionPIDEResponse cargoRecepcionPIDEResponse = recepcionPIDEService.enviarCargo(cargoRecepcionPIDERequest);
+                        } else {
+                        	iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
+                        	
                             if (iotdtcRecepcionMPV != null){
                             	iotdtcRecepcionMPV.setIddocumento(objD.getIdDocumento());
                             	iotdtcRecepcionMPV.setVnumregstd(objD.getID_CODIGO()+""); 
@@ -5492,6 +5545,41 @@ public class DocumentoServiceImpl implements DocumentoService {
 //                                archivosSubidos.add(objArchivo);
                                 
                                 repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
+                            
+                                if (objDD.getCodigoVirtual() != null && !objDD.getCodigoVirtual().trim().equals("")) {
+                                    // Ejecutar ws envio cargo
+                                    String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
+                            		String expedienteForService = String.valueOf(objD.getExpediente().getNroexpediente());
+                            		Date fechaAccion = objD.getFechaCreacion();
+                            		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                            		String fechaForService = DATE_FORMAT.format(fechaAccion);	
+                            		String fechaRecepcion = "";
+                            		String fechaRechazado = "";
+                            		
+                            		if (objD.getRecepcionado().equals("R")) {
+                            			// Recepcionado
+                        				estadoDocumento = String.valueOf("2");
+                        				fechaRecepcion = fechaForService;
+                        				fechaRechazado = "";
+                            		} else {
+                            			// Rechazado
+                            			estadoDocumento = String.valueOf("0");
+                            			fechaRecepcion = "";
+                            			fechaRechazado = fechaForService;
+                            		}
+                            		
+                                    CargoRecepcionMPVRequest cargoRecepcionMPVRequest = new CargoRecepcionMPVRequest();
+                            		cargoRecepcionMPVRequest.setFk_eDocumento(documento);
+                            		cargoRecepcionMPVRequest.setcExpediente(objD.getExpediente().getNombreExpediente());
+                            		cargoRecepcionMPVRequest.setfFecha(fechaForService);
+                            		cargoRecepcionMPVRequest.setFk_eUsuario(String.valueOf(objD.getAutor().getIdusuario()));
+                            		cargoRecepcionMPVRequest.setEstadoDoc(estadoDocumento);
+                            		cargoRecepcionMPVRequest.setcObservacion(objD.getObservacion() != null ? objD.getObservacion() : "");
+                            		cargoRecepcionMPVRequest.setfFechaRecep(fechaRecepcion);
+                            		cargoRecepcionMPVRequest.setfFechaRecha(fechaRechazado);
+                            		
+                            		CargoRecepcionMPVResponse cargoRecepcionMPVResponse = recepcionMPVService.enviarCargo(cargoRecepcionMPVRequest);
+                                }
                             }
                         }
                         
@@ -5515,72 +5603,7 @@ public class DocumentoServiceImpl implements DocumentoService {
             objDD.setStrRepresentanteLegal(expediente.getCliente().getRepresentanteLegal());
             
             if (objDD.getCodigoVirtual() != null && !objDD.getCodigoVirtual().trim().equals("")) {
-                // Ejecutar web service
-        		IotdtcRecepcionMPV iotdtcRecepcionMPV = documentoExternoVirtualDAO.buscarDocumentoVirtualMPV(new Integer(objDD.getCodigoVirtual().trim()));
-                String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
-        		String expedienteForService = String.valueOf(objD.getExpediente().getNroexpediente());
-        		Date fechaAccion = objD.getFechaCreacion();
-        		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        		String fechaForService = DATE_FORMAT.format(fechaAccion);	
-        		String usuario = String.valueOf(objD.getAutor().getIdusuario());
-        		
-        		String estadoDocumento = "";
-        		String fechaRecepcion = "";
-        		String fechaRechazado = "";
-        		
-        		if (objD.getRecepcionado().equals("R")) {
-        			// Recepcionado
-    				estadoDocumento = String.valueOf("2");
-    				fechaRecepcion = fechaForService;
-    				fechaRechazado = "";
-        		} else {
-        			// Rechazado
-        			estadoDocumento = String.valueOf("0");
-        			fechaRecepcion = "";
-        			fechaRechazado = fechaForService;
-        		}
-        		
-                CargoRecepcionMPVRequest cargoRecepcionVirtualRequest = new CargoRecepcionMPVRequest();
-                
-          	  try {	
-          		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
-        		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        		conn.setDoOutput(true);
-        		conn.setRequestMethod("POST");
-        		conn.setRequestProperty("Content-Type", "application/json");
-        		
-        		cargoRecepcionVirtualRequest.setFk_eDocumento(documento);
-        		cargoRecepcionVirtualRequest.setcExpediente(objD.getExpediente().getNombreExpediente());
-        		cargoRecepcionVirtualRequest.setfFecha(fechaForService);
-        		cargoRecepcionVirtualRequest.setFk_eUsuario(usuario);
-        		cargoRecepcionVirtualRequest.setEstadoDoc(estadoDocumento);
-        		cargoRecepcionVirtualRequest.setcObservacion(objD.getObservacion() != null ? objD.getObservacion() : "");
-        		cargoRecepcionVirtualRequest.setfFechaRecep(fechaRecepcion);
-        		cargoRecepcionVirtualRequest.setfFechaRecha(fechaRechazado);
-
-        		ObjectMapper ow = new ObjectMapper();
-        		String json = ow.writeValueAsString(cargoRecepcionVirtualRequest);
-
-          		OutputStream os = conn.getOutputStream();
-          		os.write(json.getBytes());
-          		os.flush();
-
-          		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));	
-          		String output;
-          		
-          		while ((output = br.readLine()) != null) {
-          			System.out.println(output);
-          		}
-
-          		conn.disconnect();
-
-          	  } catch (MalformedURLException e) {
-          		e.printStackTrace();
-
-          	  } catch (IOException e) {
-          		e.printStackTrace();
-          	  }
-          	  
+          	  try {
             	System.out.println("Servicio casilla virtual");
                 // Paso 1 : Buscar Casilla Electrónica por Documento de Identidad
 
@@ -5600,7 +5623,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                 int idTipoNotificacion = 0;
                 IotdtdAdjuntoMPV adjuntoPrincipal = null;
                 
-                for(IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()){    	                                            	
+                for (IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()) {    	                                            	
                 	if(adjunto.getTipoArchivo().equals(1)){
                 		adjuntoPrincipal = adjunto;
                 		break;
@@ -5648,7 +5671,10 @@ public class DocumentoServiceImpl implements DocumentoService {
                     log.info("---------------------------------Cuarto Servicio");
 //	                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
                  }
-              }
+          	  }
+          	  catch (Exception e) {
+          		  e.printStackTrace();
+          	  }
            }
             
 		    return objDD;

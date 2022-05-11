@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 
-public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
+public class RecepcionMPVDAOImpl implements RecepcionMPVDAO {
 	@PersistenceContext(unitName="sigedPU")
 	private EntityManager em;
     
@@ -30,7 +30,7 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
 			.setParameter("vcuo", vcuo).getSingleResult();
      }
      
-    @SuppressWarnings("unchecked")
+     @SuppressWarnings("unchecked")
 	public List<IotdtcRecepcion> findAll() {    	 
     	 Query query = em.createNamedQuery("IotdtcRecepcion.findAll");
     	 return query.getResultList();
