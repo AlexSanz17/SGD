@@ -1318,8 +1318,6 @@ public class DojoAction {
 					}
 				}
 				titulo += " - " + objUsuario.getUnidad().getDescripcion();
-				
-				log.info("================titulo========" +titulo);
 				map.put("TITULO", titulo);
 				map.put("IMAGEN", path + "logo_200_100.jpg");
 				
