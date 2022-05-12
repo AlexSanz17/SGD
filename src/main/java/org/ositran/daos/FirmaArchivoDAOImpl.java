@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xalan.lib.sql.ObjectArray;
 import org.ositran.actions.DojoAction;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,20 +43,21 @@ public class FirmaArchivoDAOImpl implements FirmaArchivoDAO{
          return q.getResultList();
      }
      
-      public List<Usuario> findUltimaFirma(Integer idDocumento , String tipo){
+      public List<Usuario> findUltimaFirma(Integer idDocumento , String estado){
             List<Usuario> lista = new ArrayList<Usuario>();
-            String  sql = "SELECT F.IDUSUARIO, F.UNIDADPROPIETARIO, F.CARGOPROPIETARIO " +
-              "  FROM FIRMAARCHIVO F, ARCHIVO A " +
+            String  sql = "SELECT F.IDUSUARIO, F.UNIDADPROPIETARIO, F.CARGOPROPIETARIO, D.TIPODOCUMENTO " +
+              "  FROM FIRMAARCHIVO F, ARCHIVO A, DOCUMENTO D " +
               "  WHERE " +
               "  A.DOCUMENTO = :idDocumento AND " +
               "  A.PRINCIPAL = 'S' AND " +
               "  A.ESTADO = 'A' AND " +
               "  A.IDARCHIVO = F.IDARCHIVO AND " + 
-              "  F.ACCION = :tipo AND " +
-              "  F.FECHACREACION = (SELECT MAX(X.FECHACREACION) FROM FIRMAARCHIVO X WHERE X.IDARCHIVO = F.IDARCHIVO AND X.ACCION = :tipo) ";
+              "  A.DOCUMENTO = D.IDDOCUMENTO AND " + 
+              "  F.ESTADO = :estado AND " +
+              "  F.FECHACREACION = (SELECT MAX(X.FECHACREACION) FROM FIRMAARCHIVO X WHERE X.IDARCHIVO = F.IDARCHIVO AND X.ESTADO = :estado) ";
     
             Query q = em.createNativeQuery(sql.toString());
-            q.setParameter("idDocumento", idDocumento).setParameter("tipo", tipo); 
+            q.setParameter("idDocumento", idDocumento).setParameter("estado", estado); 
             List<Object> res = (List<Object>) q.getResultList();
             Usuario f  = null;
 
@@ -65,6 +67,7 @@ public class FirmaArchivoDAOImpl implements FirmaArchivoDAO{
                 f.setIdUsuarioPerfil(Integer.parseInt(objectArray[0].toString()));
                 f.setIdUnidadPerfil(Integer.parseInt(objectArray[1].toString()));
                 f.setIdFuncionPerfil(Integer.parseInt(objectArray[2].toString()));
+                f.setTipoDocumento(objectArray[3].toString());
                 lista.add(f);
           }
             

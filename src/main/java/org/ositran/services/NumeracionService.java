@@ -20,8 +20,10 @@ public interface NumeracionService {
    public List<Numeracion> findAllUnidadAndTipoDoc(Integer idunidad,Integer idtipodoc);
 
    public Numeracion findByIdbyUnidad(Unidad iIdUnidad, Integer iIdTipoDocumento);
+   public Numeracion findByIdbyUnidad_1(Unidad iIdUnidad, Integer iIdTipoDocumento);
 
    public Numeracion findByIdNumeracion(Integer idUnidad, Integer idTipoDocumento);
+  
    
    public Numeracion findByIdNumeracionbyUnidadbyAnioFiscal(Unidad idUnidad, Integer IdTipoDocumento, Integer AnioFiscal);
 }

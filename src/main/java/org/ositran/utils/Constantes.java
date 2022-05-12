@@ -690,8 +690,12 @@ public class Constantes{
     
     public static final String URL_PIDE_CUO_PRODUCCION = "https://ws3.pide.gob.pe/services/PcmCuo?wsdl";
     
+//    http://200.48.76.125/cuowebservice/serverTramite.php?wsdl
+    												
+    
     public static final String AMBIENTE_WS_PIDE_RUC = "D";     //D - ORIGINAL
     public static final String AMBIENTE_WS_PIDE_TRAMIE = "O";  //O - ORIGINAL
+    public static final String AMBIENTE_WS_PIDE_PRODUCCION = "P"; 
     
     public static final Integer SOLICITUD_INFORMACION_PUBLICA = 376;
     public static final Integer HOJA_RECLAMACIONES = 414;

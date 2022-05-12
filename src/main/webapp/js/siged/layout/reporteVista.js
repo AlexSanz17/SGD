@@ -41,8 +41,15 @@ var doReporteVista = function(frmToSend) {
     }
  
     service.exportarExcelFiltrosAvanzados(frmToSend, data.objFiltroRep, arrFecha).addCallback(function(result) {
-        window.open(result,"_blank");
+	if(result == "1"){
+		alert("No hay resultados para el filtro ingresado");
+		 cargando.style.display="none";
+        
+		
+	}else{
+		window.open(result,"_blank");
         cargando.style.display="none";
+	}
     });
     
     

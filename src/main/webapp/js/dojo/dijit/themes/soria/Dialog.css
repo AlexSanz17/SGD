@@ -12,7 +12,7 @@
 	font-weight: bold;
 	padding: 0px 4px;
 	font-size: 0.9em;
-	color: #3243C5F;
+	color: #3243C5
 }
 
 .soria .dijitDialog .dijitDialogPaneContent {
@@ -20,7 +20,7 @@
 	border:none;
 	border-top: 1px solid #b1badf; /* w/out this, an <h1> on the top line causes a gap between the .content and .label */
 	padding:10px;
-
+	overflow:auto;
 }
 
 .soria .dijitDialogTitleBar {

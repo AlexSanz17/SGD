@@ -2,7 +2,7 @@ package org.ositran.dojo.grid;
 
 import java.util.Date;
 
-public class ItemUF {
+public class ItemUF implements Comparable<ItemUF>{
     private int id;
     private String intentos;
     private String cargo;
@@ -528,5 +528,11 @@ public class ItemUF {
 	@Override
 	public String toString() {
 		return "ItemUF [id=" + id + "]";
+	}
+
+	@Override
+	public int compareTo(ItemUF o) {
+		// TODO Auto-generated method stub
+		return fechacreacion.compareTo(o.getFechacreacion());
 	}
 }

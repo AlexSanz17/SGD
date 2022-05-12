@@ -1094,7 +1094,7 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
         try{        	
 		sql.append("SELECT ID,NRODOCUMENTO,FECHACREACION,REMITENTE,DESTINATARIO,ACCION,CONVERT(VARCHAR,CONTENIDO),DOCUMENTO,TIPO,PROVEIDO,ESTADO from (");
 		sql.append("SELECT td.idtrazabilidaddocumento AS id, dbo.FNC_NRODOCUMENTO(td.documento,1) AS NRODOCUMENTO, td.fechacreacion,  ");
-		sql.append("   dbo.FNC_USUARIO_AREA(td.remitente, 1, td.unidadremitente) AS remitente, dbo.FNC_USUARIO_AREA(td.destinatario, 1, td.destinatario) AS destinatario, ");
+		sql.append("   dbo.FNC_USUARIO_AREA(td.remitente, 1, td.unidadremitente) AS remitente, dbo.FNC_USUARIO_AREA(td.destinatario, 1, td.unidaddestinatario) AS destinatario, ");
 		sql.append("   dbo.FNC_ACCION(td.accion) AS accion, td.contenido AS contenido, td.documento,   ");
 		sql.append("   'Derivar' AS tipo, isnull((select p.nombre from proveido p where p.idproveido= td.idproveido),'') proveido, dbo.FNC_ESTADO(td.documento,1) AS estado,   ");
 		sql.append("   1 opcion    ");

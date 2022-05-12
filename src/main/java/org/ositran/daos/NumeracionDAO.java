@@ -21,6 +21,7 @@ public interface NumeracionDAO {
    public List<Numeracion> findAllUnidadAndTipoDoc(Integer idunidad,Integer idtipodoc);
 
    public Numeracion findByIdNumeracionbyUnidad(Unidad iIdUnidad, Integer iIdTipoDocumento) ;
+   public Numeracion findByIdNumeracionbyUnidad_1(Unidad iIdUnidad, Integer iIdTipoDocumento) ;
    
    public List<Numeracion> findAllUnidadAndTipoDocAndAnioFiscal(Integer idunidad, Integer idtipodoc, Integer aniofiscal);
    

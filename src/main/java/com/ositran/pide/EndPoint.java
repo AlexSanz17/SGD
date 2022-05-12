@@ -8,6 +8,8 @@
 import com.ositran.ws.PcmCuo;
 import com.ositran.ws.PcmCuoPortType;
 import javax.xml.ws.BindingProvider;
+
+import org.jfree.util.Log;
 import org.ositran.utils.Constantes;
 import java.net.URL;
 /**
@@ -19,14 +21,17 @@ public class EndPoint {
     String cuo = "";
     try{
         PcmCuo pcmCuo = new PcmCuo(new URL(Constantes.URL_PIDE_CUO_PRODUCCION));
+        System.out.println("---------pcmCuo-------"+pcmCuo);
         PcmCuoPortType pcmCuoPortType = pcmCuo.getPcmCuoHttpsSoap11Endpoint();
-      
+//        System.out.println("---------pcmCuoPortType-------"+pcmCuoPortType);
         BindingProvider bindingProvider = (BindingProvider)pcmCuoPortType;
+//        System.out.println("---------bindingProvider-------"+bindingProvider);
         bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", Constantes.URL_PIDE_CUO_PRODUCCION);
-      
+        
          cuo = pcmCuoPortType.getCUO(ip);
     }
     catch (Exception e){
+    	System.out.println(e.getMessage());
       cuo = "-1";
     }
     return cuo;

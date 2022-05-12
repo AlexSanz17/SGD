@@ -15,7 +15,7 @@ public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
     }
     
     public String findByCantidadesDocumentosVirtuales(){
-        String sQuery = "SELECT FN_DOCUMENTOS_VIRTUALES('D') FROM DUAL";
+        String sQuery = "SELECT [dbo].[FN_DOCUMENTOS_VIRTUALES]('D')";
         Query qQuery = em.createNativeQuery(sQuery);
 
         return qQuery.getResultList().get(0).toString();

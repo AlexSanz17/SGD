@@ -32,10 +32,13 @@ public class FirmaArchivoServiceImpl implements FirmaArchivoService{
     
     @Transactional
     @Override
-    public List<Usuario> findUltimaFirma(Integer idDocumento , String tipo){
-        return firmaArchivoDAO.findUltimaFirma(idDocumento, tipo);
+    public List<Usuario> findUltimaFirma(Integer idDocumento , String estado){
+        return firmaArchivoDAO.findUltimaFirma(idDocumento, estado);
     }
-    
+//    public List<Usuario> findUltimaFirma(Integer idDocumento , String tipo){
+//        return firmaArchivoDAO.findUltimaFirma(idDocumento, tipo);
+//    }
+//    
     @Transactional
     @Override
     public List<FirmaArchivo> findFirmaArchivo(Integer idArchivo , Integer idUsuario, String estado){

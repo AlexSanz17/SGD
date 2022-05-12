@@ -1248,6 +1248,7 @@ public class DojoAction {
 			}
 			if (objUsuarioFiltro != null)
 				funcionUsuario = objUsuarioFiltro.getIdfuncion().toString();
+			
 			String[] sqlQueryDinamico = new String[1];
 			sqlQueryDinamico[0] = "";
 			List<Item> lstItem = gridColumnaXUsuarioService.getItems_BusquedaAvanzada(sTipoFiltro, objFiltro, arrFecha,
@@ -1273,27 +1274,70 @@ public class DojoAction {
 
 					list.add(m);
 				}
+				rutaJasper = path + "ReporteDocumentosFiltros.jasper";
+				File f = new File(rutaJasper);
+				JasperReport jasperReport = (JasperReport) JRLoader.loadObject(f);
+				HashMap map = new HashMap();
+				String titulo = "REPORTE DE ";
+				String tipodocumento  = "";
+				
+				if(objFiltro.getTipoDocumento() == null || objFiltro.getTipoDocumento().equals("")) {
+					titulo += "DOCUMENTOS ";
+				}else if(objFiltro.getTipoDocumento() != null && !objFiltro.getTipoDocumento().equals("")) {
+						String[] parte = lstItem.get(0).getNrodocumento().split(" ");
+						tipodocumento =  parte[0];
+						titulo += tipodocumento +"S";
+
+				}
+				
+				if(objFiltro.getEstadoexpediente() != null) {
+					
+					if (objFiltro.getEstadoexpediente().equals("A")) {
+						titulo += " REGISTRADOS ";
+					} else if (objFiltro.getEstadoexpediente().equals("C")) {
+						titulo += " ARCHIVADOS ";
+					} else if (objFiltro.getEstadoexpediente().equals("N")) {
+						titulo += " ANULADOS ";
+					}else if (objFiltro.getEstadoexpediente().equals("T")) {
+						titulo += " ATENDIDOS ";
+					}else if (objFiltro.getEstadoexpediente().equals("P")) {
+						titulo += " PENDIENTES ";
+					}
+					else if (objFiltro.getEstadoexpediente().equals("R")) {
+						titulo += " RECIBIDOS ";
+					} else {
+						titulo += " TODOS";
+					}
+					
+				}
+				
+				if(arrFecha[0] != null && !arrFecha[0].equals("") ) {
+					if(arrFecha[1] != null && !arrFecha[1].equals("") ) {
+						
+						titulo += " DEL  " +arrFecha[0]+ " HASTA " +arrFecha[1];
+					}
+				}
+				titulo += " - " + objUsuario.getUnidad().getDescripcion();
+				map.put("TITULO", titulo);
+				map.put("IMAGEN", path + "logo_200_100.jpg");
+				
+				JRXlsExporter exporter = new JRXlsExporter();
+				JasperPrint print = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(list));
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
+						request.getRealPath("/") + "export/" + fileName);
+				exporter.exportReport();
+				
+				return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+				+ request.getContextPath() + "/export/" + fileName;
 			}
 
-			rutaJasper = path + "ReporteDocumentosFiltros.jasper";
-			File f = new File(rutaJasper);
-			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(f);
-			HashMap map = new HashMap();
-			map.put("TITULO", "REPORTE DE DOCUMENTOS POR FILTROS");
-			map.put("IMAGEN", path + "logo_200_100.jpg");
 
-			JRXlsExporter exporter = new JRXlsExporter();
-			JasperPrint print = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(list));
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
-			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
-					request.getRealPath("/") + "export/" + fileName);
-			exporter.exportReport();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-				+ request.getContextPath() + "/export/" + fileName;
+		return "1";
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

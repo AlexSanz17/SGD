@@ -32,6 +32,10 @@ public class NumeracionServiceImpl implements NumeracionService {
    public Numeracion findByIdbyUnidad(Unidad iIdUnidad, Integer iIdTipoDocumento) {
 	     return  dao.findByIdNumeracionbyUnidad(iIdUnidad, iIdTipoDocumento);
    }
+   public Numeracion findByIdbyUnidad_1(Unidad iIdUnidad, Integer iIdTipoDocumento) {
+	     return  dao.findByIdNumeracionbyUnidad_1(iIdUnidad, iIdTipoDocumento);
+ }
+
 
    @Transactional
    public Numeracion actualizarObj(Numeracion objNumeracion) {
