@@ -99,7 +99,13 @@ public class SigedProperties {
         FIRMAS_PARAMETROS_CHKTSA("firmas.parametros.chkTSA"),
         FIRMAS_PARAMETROS_RUTASTSA("firmas.parametros.rutasTSA"),
 
+        //PROXY PROPERTIES
+        PROXY_ACTIVE("proxy.active"),
+        PROXY_HOST("proxy.host"),
+        PROXY_PORT("proxy.port"),
+        
     	MPV_RUTA_ARCHIVO("mpv.rutaArchivo");
+    	
     	
         private String key;
 

@@ -23,20 +23,36 @@ import javax.persistence.Query;
 
 @Repository
 public class ReferenciaArchivoDAOImpl implements ReferenciaArchivoDAO {
+	
+	private DocumentoDAO documentoDAO;
 
-    private static Logger log = LoggerFactory.getLogger(ReferenciaArchivoDAOImpl.class);
+    public DocumentoDAO getDocumentoDAO() {
+		return documentoDAO;
+	}
+	public void setDocumentoDAO(DocumentoDAO documentoDAO) {
+		this.documentoDAO = documentoDAO;
+	}
+
+	private static Logger log = LoggerFactory.getLogger(ReferenciaArchivoDAOImpl.class);
     private EntityManager em;
 
     public ReferenciaArchivo saveReferenciaArchivo(ReferenciaArchivo objeto) {
+    	 log.debug("->ReferenciaArchivo " + objeto.toString());
         log.debug("-> antes ReferenciaArchivoDAOImpl saveReferenciaArchivo " + objeto.getIdArchivo() + "----" + objeto.getEstado());
-        if (objeto.getIdRefArc() == null) {
-            em.persist(objeto);
-            em.flush();
-            em.refresh(objeto);
-        } else {            
-            em.merge(objeto);
-            em.flush();
+        Documento d = documentoDAO.findByIdDocumento(objeto.getIdDocumento());
+        log.debug("->d " + d);
+        if( d != null) {
+        	
+        	if (objeto.getIdRefArc() == null) {
+        		em.persist(objeto);
+        		em.flush();
+        		em.refresh(objeto);
+        	} else {            
+        		em.merge(objeto);
+        		em.flush();
+        	}
         }
+       
         log.debug("-> termino ReferenciaArchivoDAOImpl");
         return objeto;
     }

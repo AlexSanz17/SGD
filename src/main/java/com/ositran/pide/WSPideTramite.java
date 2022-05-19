@@ -7,6 +7,7 @@
 
 
 import java.net.MalformedURLException;
+import java.net.ProxySelector;
 import java.net.URL;
 import java.util.List;
 import javax.xml.ws.BindingProvider;
@@ -18,11 +19,15 @@ import com.ositran.ws.ConsultaTramite;
 import com.ositran.ws.IOTramite;
 import com.ositran.ws.IOTramiteService;
 import com.ositran.ws.IoTipoDocumentoTramite;
+import com.ositran.ws.MyProxySelector;
 import com.ositran.ws.PcmIMgdTramite;
 import com.ositran.ws.PcmIMgdTramitePortType;
 import com.ositran.ws.RespuestaConsultaTramite;
 import com.ositran.ws.Tramite;
 import com.ositran.ws.Tramite_Service;
+
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.http.HTTPConduit;
 import org.ositran.utils.Constantes;
 
 public class WSPideTramite{
@@ -84,9 +89,22 @@ public class WSPideTramite{
   public RespuestaConsultaTramite consultarTramite(ConsultaTramite request, String co_par) throws  Exception
   {
     RespuestaConsultaTramite respuestaConsultaTramite = null;
+    System.out.println("========proceso consultar tramite ");
+    System.out.println("co_par" + co_par);
     try{
      if (co_par.equals("D")) {
-        respuestaConsultaTramite = getIOTramiteDesarrollo().consultarTramiteResponse(request);
+    	System.out.println("========Obtener IOTramite===== ");
+        IOTramite iotramite = getIOTramiteDesarrollo();
+        System.out.println("=======Consultar tramite ===========");
+        System.out.println(request.getVcuo());
+        System.out.println(request.getVrucentrec());
+        System.out.println(request.getVrucentrem());
+        respuestaConsultaTramite = iotramite.consultarTramiteResponse(request);
+//    	respuestaConsultaTramite = getIOTramiteDesarrollo().consultarTramiteResponse(request);
+        System.out.println("======Respuesta consulta tramite=====");
+        System.out.println(respuestaConsultaTramite.getVdesres());
+        
+        
      }else if (co_par.equals("P")) {
         respuestaConsultaTramite = getIOTramiteProduccion().consultarTramiteResponse(request);
      }else if (co_par.equals("O")) {
@@ -113,8 +131,24 @@ public class WSPideTramite{
   }
   
   private IOTramite getIOTramiteDesarrollo() throws MalformedURLException{
+	  
+	ProxySelector.setDefault(new MyProxySelector());
+	  
+	 /* HelloService hello = new HelloService();
+	  HelloPortType helloPort = cliente.getHelloPort();
+	  org.apache.cxf.endpoint.Client client = ClientProxy.getClient(helloPort);
+	  HTTPConduit http = (HTTPConduit) client.getConduit();
+	  http.getClient().setProxyServer("proxy");
+	  http.getClient().setProxyServerPort(8080);
+	  http.getProxyAuthorization().setUserName("user proxy");
+	  http.getProxyAuthorization().setPassword("password proxy");*/
+	  
     IOTramiteService service = new IOTramiteService(new URL(Constantes.URL_PIDE_TRAMITE_DESARROLLO));
     IOTramite entidad = service.getIOTramitePort();
+   /* org.apache.cxf.endpoint.Client client = ClientProxy.getClient(entidad);
+	 HTTPConduit http = (HTTPConduit) client.getConduit();
+	  http.getClient().setProxyServer("proxy1");
+	  http.getClient().setProxyServerPort(8080);*/
     
     BindingProvider bindingProvider = (BindingProvider)entidad;
     bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", Constantes.URL_PIDE_TRAMITE_DESARROLLO);

@@ -33,5 +33,5 @@ public interface RepositorioService {
 
     public boolean eliminarNodo(String usuario, String password, String rutaNodo);
 
-    public void subirArchivosTransformadosARepositorio(Documento doc, List<Archivo> listaArchivos, boolean versionar, Usuario usuario, String rutaSite, String tipoDocumento) throws RuntimeException;
+    public boolean subirArchivosTransformadosARepositorio(Documento doc, List<Archivo> listaArchivos, boolean versionar, Usuario usuario, String rutaSite, String tipoDocumento) throws RuntimeException;
 }

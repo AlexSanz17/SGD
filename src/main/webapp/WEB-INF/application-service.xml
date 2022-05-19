@@ -7,7 +7,9 @@
     <bean id="seguimientoXFirmaDAO" class="org.ositran.daos.SeguimientoXFirmaDAOImpl" />
     <bean id="documentoDerivacionDAO" class="org.ositran.daos.DocumentoDerivacionDAOImpl" />
     <bean id="carpetaReferenciaDAO" class="org.ositran.daos.CarpetaReferenciaDAOImpl" />
-    <bean id="referenciaArchivoDAO" class="org.ositran.daos.ReferenciaArchivoDAOImpl" />
+    <bean id="referenciaArchivoDAO" class="org.ositran.daos.ReferenciaArchivoDAOImpl" >
+    	<property name="documentoDAO" ref="documentoDAO" />
+    </bean>
     <bean id="legajoDAO" class="org.ositran.daos.LegajoDAOImpl" />
     <bean id="tipoLegajoDAO" class="org.ositran.daos.TipoLegajoDAOImpl" />
     <bean id="legajoDocumentoDAO" class="org.ositran.daos.LegajoDocumentoDAOImpl" />
@@ -42,6 +44,7 @@
         <property name="unidadService" ref="unidadService" />
         <property name="srvArchivo" ref="archivoService" />
     </bean>
+    
    
    <bean id="recepcionPideDaoForJob" class="org.ositran.siged.jobs.RecepcionPideDaoForJob" />
 

@@ -695,7 +695,7 @@ public class Constantes{
     
     public static final String AMBIENTE_WS_PIDE_RUC = "D";     //D - ORIGINAL
     public static final String AMBIENTE_WS_PIDE_TRAMIE = "O";  //O - ORIGINAL
-    public static final String AMBIENTE_WS_PIDE_PRODUCCION = "P"; 
+    public static final String AMBIENTE_WS_PIDE_PRODUCCION = "D"; //CAMBIAR A "P" 17052022
     
     public static final Integer SOLICITUD_INFORMACION_PUBLICA = 376;
     public static final Integer HOJA_RECLAMACIONES = 414;

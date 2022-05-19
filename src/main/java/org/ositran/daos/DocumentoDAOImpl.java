@@ -2201,7 +2201,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                         }
                         if(estadoExpediente.equals("A"))
                         {
-                            sql.append(" (EXISTS (SELECT dc.iddocumento from documento dc inner join usuario up on up.idusuario = dc.autor where dc.iddocumento = D.iddocumento and dc.unidadautor="+ unidadUsuario +"))");
+                            sql.append(" (EXISTS (SELECT dc.iddocumento from documento dc inner join usuario up on up.idusuario = dc.autor where dc.iddocumento = D.iddocumento and dc.unidadautor="+ unidadUsuario +" and d.estado = 'A'))");
                         }
                         if(estadoExpediente.equals("P"))
                         {
