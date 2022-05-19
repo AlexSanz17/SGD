@@ -27,8 +27,10 @@ public class AlfrescoApiWs extends DatosConexionAlfresco {
 	}
 	
 	public Session getSessionAlfresco() throws Exception{
+		System.out.println("==Obtener sesion alfresoc=====");
 		try {
 			SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
+			System.out.println("==Obtener sesion=====");
 			Session session = sessionFactory.createSession(getParametrosConexionWsAlfresco(repositorioId));
 			return session;
 		} catch (Exception excepcion) {

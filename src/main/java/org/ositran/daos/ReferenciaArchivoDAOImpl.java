@@ -39,9 +39,9 @@ public class ReferenciaArchivoDAOImpl implements ReferenciaArchivoDAO {
     public ReferenciaArchivo saveReferenciaArchivo(ReferenciaArchivo objeto) {
     	 log.debug("->ReferenciaArchivo " + objeto.toString());
         log.debug("-> antes ReferenciaArchivoDAOImpl saveReferenciaArchivo " + objeto.getIdArchivo() + "----" + objeto.getEstado());
-        Documento d = documentoDAO.findByIdDocumento(objeto.getIdDocumento());
-        log.debug("->d " + d);
-        if( d != null) {
+//        Documento d = documentoDAO.findByIdDocumento(objeto.getIdDocumento());
+//        log.debug("->d " + d);
+//        if( d != null) {
         	
         	if (objeto.getIdRefArc() == null) {
         		em.persist(objeto);
@@ -51,7 +51,7 @@ public class ReferenciaArchivoDAOImpl implements ReferenciaArchivoDAO {
         		em.merge(objeto);
         		em.flush();
         	}
-        }
+//        }
        
         log.debug("-> termino ReferenciaArchivoDAOImpl");
         return objeto;

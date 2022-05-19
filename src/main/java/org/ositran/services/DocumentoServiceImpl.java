@@ -1673,7 +1673,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                  
                  
                  String s = new String(Base64.encodeBase64(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()), StandardCharsets.UTF_8);
-                 log.info("======Output : " + s);
+
                  
                  int contador = 0;
                
@@ -5260,17 +5260,22 @@ public class DocumentoServiceImpl implements DocumentoService {
                             Documento d = documentoDao.findByIdDocumento(new Integer(listDocReferenciados[i]));
                             List<Archivo> lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
                             log.info("iddcoumento =>>>>>>>>>>>>>>>" +idDocumento);
+                            
                             if (lst!=null && lst.size()>0){
                               for(int k=0;k<lst.size();k++){
-                                  ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
-                                  referenciaArchivo.setIdDocumento(idDocumento);
-                                  referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
-                                  referenciaArchivo.setEstado("A");
-                                  referenciaArchivo.setFechaCreacion(new Date());
-                                  referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                  referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
-                                  	log.info("referenciaArchivo>>>>>>>>>><<" +referenciaArchivo);
-                                  referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
+                            	  
+	                                  ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
+	                                  referenciaArchivo.setIdDocumento(idDocumento);
+	                                  referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
+	                                  referenciaArchivo.setEstado("A");
+	                                  referenciaArchivo.setFechaCreacion(new Date());
+	                                  referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+	                                  referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
+	                                  
+                                	  referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
+                                	  
+                                  
+                                  
                               }
                             }
                          }
@@ -5308,22 +5313,22 @@ public class DocumentoServiceImpl implements DocumentoService {
                         documentoReferenciaDAO.saveDocumentoReferencia(docReferencia);
                         
                         if (objD.getTipoDocumento().getExternoQR()!= null && objD.getTipoDocumento().getExternoQR().equals("1")){
-                            log.info("listDocReferenciados[i] =>>>>>>>>>>>>>>>" +listDocReferenciados[i]);
                             Documento d = documentoDao.findByIdDocumento(new Integer(listDocReferenciados[i]));
-                            log.info("d =>>>>>>>>>>>>>>>" +d);
                             List<Archivo> lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-                            log.info("lst =>>>>>>>>>>>>>>>" +lst);
                             if (lst!=null && lst.size()>0){
                               for(int k=0;k<lst.size();k++){
-                                  ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
-                                  referenciaArchivo.setIdDocumento(idDocumento);
-                                  referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
-                                  referenciaArchivo.setEstado("A");
-                                  referenciaArchivo.setFechaCreacion(new Date());
-                                  referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                  referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
-                                  referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
-                                  log.info("referenciaArchivo>>>>>>>>>><<" +referenciaArchivo);
+
+	                                  ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
+	                                  referenciaArchivo.setIdDocumento(objD.getIdDocumento());
+	                                  referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
+	                                  referenciaArchivo.setEstado("A");
+	                                  referenciaArchivo.setFechaCreacion(new Date());
+	                                  referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+	                                  referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
+	                                  referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
+                                 
+                            
+                                	  
                               }
                             } 
                         } 

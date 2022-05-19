@@ -379,7 +379,9 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 		Documento objDocumento = null;
 		try {
 		      objDocumento = em.find(Documento.class, iIdDocumento);
+		      log.debug("objDocumento " +objDocumento);
 		} catch (EntityNotFoundException e) {
+			objDocumento = null;
 		      log.error(e.getMessage(), e);
 		}
 		return objDocumento;
