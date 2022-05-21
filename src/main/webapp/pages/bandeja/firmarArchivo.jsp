@@ -40,6 +40,7 @@
 			document.getElementById("iframeFirma").style.display = "none";
 			var accionEjecutar = document.getElementById("estado").value;
 			var procesoFirmado = 0;
+			var btnFirmar = document.querySelector(".btnFirmarInput")
 			
 			function enviarArchivosAlfresco(resultado, sujeto){
 				if(archivosFirmaTemp.length>0){
@@ -47,9 +48,12 @@
 				}
 				service.uploadFilesToAlfrescoPostSignet(archivosFirmaArray,accionEjecutar, resultado, sujeto).addCallback(function (respuesta) {
 					console.log("Recibiendo respuesta: length",archivosFirmaArray.length);
+					btnFirmar.disabled=false;
 					if(respuesta == "1"){
 						dijit.byId("dlgProgresBar").hide();
+						
 						alert("Los documentos han sido firmados");
+					
 						dijit.byId("dlgFirmar").hide();
 					} else if (respuesta == "2"){
 						dijit.byId("dlgProgresBar").hide();
@@ -83,8 +87,11 @@
 	// 				}
 	// 			}
 			}
-		
+			
 			function generateQrPreFirmado() {
+				
+				btnFirmar.disabled = true;
+				dijit.byId("dlgProgresBar").show();
 				if(archivosFirmaTemp.length>0){
 					archivosFirmaArray = archivosFirmaTemp;
 				}
@@ -100,6 +107,8 @@
 						}
 						if(respuesta == "1"){		
 							document.getElementById("ssoForm").submit();
+							dijit.byId("dlgProgresBar").hide();
+				    		
 							
 						} else if (respuesta == "2"){
 							alert("Firma en proceso, vuelva a intentarlo en unos minutos");
@@ -391,7 +400,7 @@
 			id="estado" value="<%=estado%>" />
 		<%-- 			<input id="<%=idFirmar%>" type="submit" id="btnFirmar" name="submit" value="Firmar"  --%>
 		<%-- 			onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" /> --%>
-		<input type="button" class="btn btn-primary"
+		<input type="button" class="btn btn-primary btnFirmarInput"
 			style="width: 100px !important; cursor: pointer; margin: 10px 0px;" id="btnFirmar" name="btnFirmar"
 			value="Firmar" onclick="javascript:generateQrPreFirmado()" />
 		<iframe frameborder="0" name="iframeFirma" id="iframeFirma" width="700px" height="450px"></iframe>

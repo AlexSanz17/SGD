@@ -872,6 +872,13 @@
 
                 window.open(pagina, "", opciones);
              }
+            
+            function abrirNotificar(){
+            	 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600, top=20, left=70";
+                 var pagina = "goNotificar.action?&idDocumento=" + "<s:property value='documento.idDocumento' />";
+                 window.open(pagina, "", opciones);
+            }
+            
 
             function guardarSeguimiento(agregar){
                 var mensaje = "";
@@ -1040,6 +1047,11 @@
                               <div dojoType="dijit.form.Button"  onClick="atenderDocumento('atender')" iconClass="siged16 iconoOk">Atender</div>    
 	                    </s:if>
                             <div dojoType="dijit.form.Button"  onClick="abrirHojaFirma()" iconClass="siged16 iconoHojaRuta">Hoja de Firmas</div>
+                            
+                            <s:if test="#session._USUARIO.idRolPerfil != 6">
+                       			<div dojoType="dijit.form.Button"  onClick="abrirNotificar()" iconClass="siged16 iconoNotificar">Notificar</div>
+                            </s:if>
+                            
                             <s:if test="idGrid!=null && idGrid == 0 && documento.ID_EXTERNO==0 && #session._USUARIO.idRolPerfil!=3 && #session._USUARIO.idRolPerfil!=5 && #session._USUARIO.idRolPerfil!=6">
                                 <div dojoType="dijit.form.Button"  onClick="moverFirma()" iconClass="dijitEditorIcon dijitEditorIconUndo">Mover para Firma</div> 
                             </s:if>
