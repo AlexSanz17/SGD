@@ -21,12 +21,17 @@ public class DatosConexionAlfresco {
 	
 	protected Map<String, String> getParametrosConexionWsAlfresco(String repositorioId){
 		Map<String, String> parameter = new HashMap<String, String>();
-
+		System.out.println("======repositorioid===========" + repositorioId);
+		System.out.println("=====urlCmisRest====" + urlCmisRest);
+		System.out.println("=====usuarioAlfresco====" + usuarioAlfresco);
+		System.out.println("=====claveAlfresco====" + claveAlfresco);
         parameter.put(SessionParameter.USER, usuarioAlfresco);
 		parameter.put(SessionParameter.PASSWORD, claveAlfresco);
 
 		// connection settings
         parameter.put(SessionParameter.ATOMPUB_URL, urlCmisRest);
+        System.out.println("==============Bindintype=========");
+        System.out.println(BindingType.ATOMPUB.value());
         parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
    
         if( repositorioId!=null && !"".equals(repositorioId) ){

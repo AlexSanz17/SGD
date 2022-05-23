@@ -860,6 +860,10 @@
       <action name="RechazarDocumentoMPV_*" method="{1}" class="documentoAction">
            <result name="goRechazar">pages/rechazar/RechazarDocumentoMPV.jsp</result>
       </action>
+      
+       <action name="goNotificar" method="goNotificar" class="documentoAction">
+           <result name="goNotificar">pages/notificacion/NotificarCasilla.jsp</result>
+      </action>
 
 		<!-- Carpeta Busqueda Action -->
       <action name="doSaveCarpetaBusqueda" method="saveCarpetaBusqueda" class="carpetabusquedaAction">

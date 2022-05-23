@@ -15,6 +15,7 @@ import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -114,6 +115,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.antartec.alfresco.AlfrescoConnector;
 import com.btg.ositran.siged.domain.Accion;
 import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.ArchivoPendiente;
@@ -1668,6 +1670,11 @@ public class DocumentoServiceImpl implements DocumentoService {
                  recepcionTramite.setBpdfdoc(Base64.encodeBase64(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()));
                  recepcionTramite.setVnomdoc(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getVnomdoc());
                  recepcionTramite.setSnumfol(iotdtmDocExterno.getSnumfol().intValue());
+                 
+                 
+                 String s = new String(Base64.encodeBase64(iotdtmDocExterno.getIotdtdDocPrincipalList().get(0).getBpdfdoc()), StandardCharsets.UTF_8);
+
+                 
                  int contador = 0;
                
                  if (iotdtmDocExterno.getIotdtdAnexoList()!=null && iotdtmDocExterno.getIotdtdAnexoList().size()>0){
@@ -1741,6 +1748,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                          
                          try{
                                 recepcionTramite.setVcuo(vcuo);
+                                log.info("===========recepcionTramite=============="+recepcionTramite);
                                 RespuestaTramite respuestaTramite = pideTramite.recepcionarTramite(recepcionTramite, Constantes.AMBIENTE_WS_PIDE_PRODUCCION);
                                 log.info("===========respuestaTramite=============="+respuestaTramite);
 		                if(respuestaTramite.getVcodres().equals("0000")){
@@ -3943,7 +3951,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 				estadoExpediente, concesionario, cliente, proceso, propietario,
 				areaDestino, tipoDocumento, documentoDesde, documentoHasta,
 				expedienteDesde, expedienteHasta, nroSuministro, operador, areaOrigen, areaAutor,sqlQueryDinamico, nroHT, nroRS, sNroLegajo, tipoLegajo, tipoConsulta, unidadUsuario, cargoUsuario, autor);
-	}
+		}
 
 	@Override
 	public List<Documento> getDocumentosPorExpediente(int idExpediente) {
@@ -4923,6 +4931,7 @@ public class DocumentoServiceImpl implements DocumentoService {
         DocumentoDetail objDD = documentoDetail;
         IotdtcRecepcionMPV iotdtcRecepcionMPV = null;
         String estadoDocumento = "";
+        Boolean subirArchivosTransformadosARepositorio ;
 
 		try {
             Boolean tipoDocReqTri = false;
@@ -5250,17 +5259,23 @@ public class DocumentoServiceImpl implements DocumentoService {
                          if (objD.getTipoDocumento().getExternoQR()!= null && objD.getTipoDocumento().getExternoQR().equals("1")){
                             Documento d = documentoDao.findByIdDocumento(new Integer(listDocReferenciados[i]));
                             List<Archivo> lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-
+                            log.info("iddcoumento =>>>>>>>>>>>>>>>" +idDocumento);
+                            
                             if (lst!=null && lst.size()>0){
                               for(int k=0;k<lst.size();k++){
-                                  ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
-                                  referenciaArchivo.setIdDocumento(idDocumento);
-                                  referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
-                                  referenciaArchivo.setEstado("A");
-                                  referenciaArchivo.setFechaCreacion(new Date());
-                                  referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                  referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
-                                  referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
+                            	  
+	                                  ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
+	                                  referenciaArchivo.setIdDocumento(idDocumento);
+	                                  referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
+	                                  referenciaArchivo.setEstado("A");
+	                                  referenciaArchivo.setFechaCreacion(new Date());
+	                                  referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+	                                  referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
+	                                  
+                                	  referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
+                                	  
+                                  
+                                  
                               }
                             }
                          }
@@ -5300,17 +5315,20 @@ public class DocumentoServiceImpl implements DocumentoService {
                         if (objD.getTipoDocumento().getExternoQR()!= null && objD.getTipoDocumento().getExternoQR().equals("1")){
                             Documento d = documentoDao.findByIdDocumento(new Integer(listDocReferenciados[i]));
                             List<Archivo> lst = archivoService.findLstByIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-
                             if (lst!=null && lst.size()>0){
                               for(int k=0;k<lst.size();k++){
-                                  ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
-                                  referenciaArchivo.setIdDocumento(idDocumento);
-                                  referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
-                                  referenciaArchivo.setEstado("A");
-                                  referenciaArchivo.setFechaCreacion(new Date());
-                                  referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
-                                  referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
-                                  referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
+
+	                                  ReferenciaArchivo referenciaArchivo = new ReferenciaArchivo();
+	                                  referenciaArchivo.setIdDocumento(objD.getIdDocumento());
+	                                  referenciaArchivo.setIdDocumentoReferencia(new Integer(listDocReferenciados[i]));
+	                                  referenciaArchivo.setEstado("A");
+	                                  referenciaArchivo.setFechaCreacion(new Date());
+	                                  referenciaArchivo.setUsuarioCreacion(objUsuarioSession.getIdusuario());
+	                                  referenciaArchivo.setIdArchivo(lst.get(k).getIdArchivo());
+	                                  referenciaArchivoDAO.saveReferenciaArchivo(referenciaArchivo);
+                                 
+                            
+                                	  
                               }
                             } 
                         } 
@@ -5575,42 +5593,48 @@ public class DocumentoServiceImpl implements DocumentoService {
 //                                objArchivo = archivoService.saveArchivo(objArchivo);
 //                                archivosSubidos.add(objArchivo);
                                 
-                                repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
-                            
-                                if (objDD.getCodigoVirtual() != null && !objDD.getCodigoVirtual().trim().equals("")) {
-                                    // Ejecutar ws envio cargo
-                                    String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
-                            		String expedienteForService = String.valueOf(objD.getExpediente().getNroexpediente());
-                            		Date fechaAccion = objD.getFechaCreacion();
-                            		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                            		String fechaForService = DATE_FORMAT.format(fechaAccion);	
-                            		String fechaRecepcion = "";
-                            		String fechaRechazado = "";
-                            		
-                            		if (objD.getRecepcionado().equals("R")) {
-                            			// Recepcionado
-                        				estadoDocumento = String.valueOf("2");
-                        				fechaRecepcion = fechaForService;
-                        				fechaRechazado = "";
-                            		} else {
-                            			// Rechazado
-                            			estadoDocumento = String.valueOf("0");
-                            			fechaRecepcion = "";
-                            			fechaRechazado = fechaForService;
-                            		}
-                            		
-                                    CargoRecepcionMPVRequest cargoRecepcionMPVRequest = new CargoRecepcionMPVRequest();
-                            		cargoRecepcionMPVRequest.setFk_eDocumento(documento);
-                            		cargoRecepcionMPVRequest.setcExpediente(objD.getExpediente().getNombreExpediente());
-                            		cargoRecepcionMPVRequest.setfFecha(fechaForService);
-                            		cargoRecepcionMPVRequest.setFk_eUsuario(String.valueOf(objD.getAutor().getIdusuario()));
-                            		cargoRecepcionMPVRequest.setEstadoDoc(estadoDocumento);
-                            		cargoRecepcionMPVRequest.setcObservacion(objD.getObservacion() != null ? objD.getObservacion() : "");
-                            		cargoRecepcionMPVRequest.setfFechaRecep(fechaRecepcion);
-                            		cargoRecepcionMPVRequest.setfFechaRecha(fechaRechazado);
-                            		
-                            		CargoRecepcionMPVResponse cargoRecepcionMPVResponse = recepcionMPVService.enviarCargo(cargoRecepcionMPVRequest);
-                                }
+                               subirArchivosTransformadosARepositorio = repositorioService.subirArchivosTransformadosARepositorio(objD, archivosSubidos, false, usuario, unidad.getRutaSite(), objD.getTipoDocumento().getCodigo());
+                               if(!subirArchivosTransformadosARepositorio){
+                                   throw new RuntimeException("No se puedo subir archivo al repositorio.");
+                               }
+                               
+                             
+                        	  if (objDD.getCodigoVirtual() != null && !objDD.getCodigoVirtual().trim().equals("")) {
+                                  // Ejecutar ws envio cargo
+                                  String documento = String.valueOf(iotdtcRecepcionMPV.getSidrecext());
+                          		String expedienteForService = String.valueOf(objD.getExpediente().getNroexpediente());
+                          		Date fechaAccion = objD.getFechaCreacion();
+                          		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                          		String fechaForService = DATE_FORMAT.format(fechaAccion);	
+                          		String fechaRecepcion = "";
+                          		String fechaRechazado = "";
+                          		
+                          		if (objD.getRecepcionado().equals("R")) {
+                          			// Recepcionado
+                      				estadoDocumento = String.valueOf("2");
+                      				fechaRecepcion = fechaForService;
+                      				fechaRechazado = "";
+                          		} else {
+                          			// Rechazado
+                          			estadoDocumento = String.valueOf("0");
+                          			fechaRecepcion = "";
+                          			fechaRechazado = fechaForService;
+                          		}
+                          		
+                                  CargoRecepcionMPVRequest cargoRecepcionMPVRequest = new CargoRecepcionMPVRequest();
+                          		cargoRecepcionMPVRequest.setFk_eDocumento(documento);
+                          		cargoRecepcionMPVRequest.setcExpediente(objD.getExpediente().getNombreExpediente());
+                          		cargoRecepcionMPVRequest.setfFecha(fechaForService);
+                          		cargoRecepcionMPVRequest.setFk_eUsuario(String.valueOf(objD.getAutor().getIdusuario()));
+                          		cargoRecepcionMPVRequest.setEstadoDoc(estadoDocumento);
+                          		cargoRecepcionMPVRequest.setcObservacion(objD.getObservacion() != null ? objD.getObservacion() : "");
+                          		cargoRecepcionMPVRequest.setfFechaRecep(fechaRecepcion);
+                          		cargoRecepcionMPVRequest.setfFechaRecha(fechaRechazado);
+                          		
+                          		log.info("======cargoRecepcionMPVRequest=====" +cargoRecepcionMPVRequest);
+                          		CargoRecepcionMPVResponse cargoRecepcionMPVResponse = recepcionMPVService.enviarCargo(cargoRecepcionMPVRequest);
+                              }
+                              
                             }
                         }
                         
@@ -5635,78 +5659,7 @@ public class DocumentoServiceImpl implements DocumentoService {
             
             if (objDD.getCodigoVirtual() != null && !objDD.getCodigoVirtual().trim().equals("")) {
 
-          	  try {
-            	System.out.println("Servicio casilla virtual");
-                // Paso 1 : Buscar Casilla Electrónica por Documento de Identidad
-
-                log.info("--------------------Primer servicio");
-                NotificacionCasillaVirtual notificacion = new NotificacionCasillaVirtual();
-                notificacion.servicio1("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/buscar-casilla-por-documento");	          	    	
-              
-                // paso 2 : Generar notificacion electronica
-
-                final String observacion = objDD.getStrObservacion();
-                final Integer tipoDocumento = objDD.getIIdTipoDocumento();
-                String nroDocumento = "";
-                int id_Documento = objD.getIdDocumento();
-                int idExpediente = 0;
-                String nomExpediente = "";
-                int eOrden = 0;
-                int idTipoNotificacion = 0;
-                IotdtdAdjuntoMPV adjuntoPrincipal = null;
-                
-                for (IotdtdAdjuntoMPV adjunto: iotdtcRecepcionMPV.getArchivos()) {    	                                            	
-                	if(adjunto.getTipoArchivo().equals(1)){
-                		adjuntoPrincipal = adjunto;
-                		break;
-                	}
-                }
-                                                      
-                int pos = adjuntoPrincipal.getNombreArchivo().lastIndexOf(".");
-                String extension = adjuntoPrincipal.getNombreArchivo().substring(pos+1, adjuntoPrincipal.getNombreArchivo().length());
-                String sNuevoNombrePrincipal="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_" + objD.getTipoDocumento().getNombre() + "." + extension;
-                String sNuevoNombreCargo="["+objD.getIdDocumento()+"_"+DateFormatUtils.format(fecha,"yyyyMMddHHmmss")+"_"+"1"+"]"+objD.getID_CODIGO() + "_CARGO_VIRTUAL_" + objD.getTipoDocumento().getNombre() + "." + extension;
-                String rutaDig=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-                String rutaArchivoPrincipal  = rutaDig + sNuevoNombrePrincipal;
-                String rutaArchivoCargo = rutaDig + sNuevoNombreCargo;
-                
-                if (estadoDocumento.equals("0")) {
-                	idTipoNotificacion = 15;
-                	nroDocumento = objD.getNumeroDocumento();
-                	idExpediente = 0;
-                	nomExpediente = "";
-                	eOrden = 0;
-                	
-                } else if (estadoDocumento.equals("2")) {
-                	idTipoNotificacion = 14;
-                	nroDocumento = objD.getNumeroDocumento();
-                	idExpediente =  objD.getExpediente().getIdexpediente();
-                	nomExpediente = objD.getExpediente().getNombreExpediente();
-                	eOrden = 1;
-                }
-                 
-                String response = notificacion.servicio2("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion", rutaArchivoPrincipal
-            		,observacion,tipoDocumento, nroDocumento, id_Documento,nomExpediente, idExpediente , idTipoNotificacion, eOrden);	          	    	
-                
-                if (!response.equals("")) {
-    				JSONObject jsonObject = new JSONObject(response);
-    				Integer pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
-    				 
-//        				System.out.println(pK_eIdNotificacion);       	    	
-                   // paso 3 : Generar cedula de notificacion electronica
-                     
-                    log.info("---------------------------Tercer Servicio");
-                          
-//	                        notificacion.servicio3("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion",pK_eIdNotificacion);      
-                    // paso 4: Enviar notificacion electronica
-                   
-                    log.info("---------------------------------Cuarto Servicio");
-//	                        notificacion.servicio4("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",pK_eIdNotificacion);
-                 }
-          	  }
-          	  catch (Exception e) {
-          		  e.printStackTrace();
-          	  }
+          	
            }
             
 		    return objDD;

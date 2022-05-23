@@ -379,7 +379,9 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 		Documento objDocumento = null;
 		try {
 		      objDocumento = em.find(Documento.class, iIdDocumento);
+		      log.debug("objDocumento " +objDocumento);
 		} catch (EntityNotFoundException e) {
+			objDocumento = null;
 		      log.error(e.getMessage(), e);
 		}
 		return objDocumento;
@@ -2201,7 +2203,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                         }
                         if(estadoExpediente.equals("A"))
                         {
-                            sql.append(" (EXISTS (SELECT dc.iddocumento from documento dc inner join usuario up on up.idusuario = dc.autor where dc.iddocumento = D.iddocumento and dc.unidadautor="+ unidadUsuario +"))");
+                            sql.append(" (EXISTS (SELECT dc.iddocumento from documento dc inner join usuario up on up.idusuario = dc.autor where dc.iddocumento = D.iddocumento and dc.unidadautor="+ unidadUsuario +" and d.estado = 'A'))");
                         }
                         if(estadoExpediente.equals("P"))
                         {
@@ -2549,46 +2551,71 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 	@Override
 	public List<DocumentoPublicar> getDocumentosPorPublicar(Integer idExpediente, Integer idDocumento) {
 		log.debug("-> [DAO] DocumentoDAO - getDocumentosPorPublicar():List<Documento> ");
-
-                String sql =   " SELECT IDREFARC,IDDOCUMENTO, IDDOCUMENTOREF, upper(SUBSTRING(nombre, CHARINDEX(nombre,']') + 1, LEN(nombre))) AS NOMBRE, IDARCHIVO, ESTADO, ORDEN FROM (" +
-                               " SELECT R.IDREFARC,D.IDDOCUMENTO, D.IDDOCUMENTO IDDOCUMENTOREF,  A.NOMBRE, A.IDARCHIVO, DECODE(R.ESTADO, NULL,'I','I','I','A') as estado,1 as orden " +
-                               "   FROM DOCUMENTO D, ARCHIVO A , REFERENCIAARCHIVO R  " +
-                               "     WHERE " +
-                               "       D.IDDOCUMENTO = " + idDocumento + " AND " +
-                               "       D.ESTADO NOT IN ('I','N') AND   " +
-                               "       D.IDDOCUMENTO = A.DOCUMENTO AND " +
-                               "       A.ESTADO = 'A' AND " +
-                               "       A.PRINCIPAL = 'S'   AND " +
-                               "       A.DOCUMENTO = R.IDDOCUMENTO(+) AND " +
-                               "       A.DOCUMENTO = R.IDDOCUMENTOREFERENCIA (+) AND " +
-                               "       A.IDARCHIVO = R.IDARCHIVO (+) " + 
-                               " UNION " +
-                               " SELECT R.IDREFARC,D.IDDOCUMENTO, D.IDDOCUMENTO,  A.NOMBRE, A.IDARCHIVO, DECODE(R.ESTADO, NULL,'I','I','I','A') as estado,2 as orden " +
-                               "   FROM DOCUMENTO D, ARCHIVO A, REFERENCIAARCHIVO R   " +
-                               "     WHERE " +
-                               "       D.IDDOCUMENTO = "  + idDocumento + " AND " +
-                               "       D.ESTADO NOT IN ('I','N') AND   " +
-                               "       D.IDDOCUMENTO = A.DOCUMENTO AND " + 
-                               "       A.ESTADO = 'A' AND " +
-                               "       A.PRINCIPAL = 'N' AND " +
-                               "       LOWER(SUBSTRING(A.nombre,LEN(A.nombre) - 2,3)) = 'pdf' AND " + 
-                               "       A.DOCUMENTO = R.IDDOCUMENTO(+) AND " +
-                               "       A.DOCUMENTO = R.IDDOCUMENTOREFERENCIA (+) AND " +
-                               "       A.IDARCHIVO = R.IDARCHIVO (+) " + 
-                               " UNION   " +
-                               " SELECT F.IDREFARC,R.IDDOCUMENTO, R.IDDOCUMENTOREFERENCIA, A.NOMBRE, A.IDARCHIVO, DECODE(F.ESTADO, null, 'I','A','A','I') as estado,3 as orden " +
-                               "   FROM DOCUMENTOREFERENCIA R, (SELECT * FROM REFERENCIAARCHIVO WHERE ESTADO='A') F, ARCHIVO A, DOCUMENTO D " +
-                               "     WHERE " +
-                               "       R.IDDOCUMENTO = " +  idDocumento + " AND " +
-                               "       R.ESTADO = 'A' AND " +
-                               "       R.IDDOCUMENTO = F.IDDOCUMENTO (+) AND " +
-                               "       R.IDDOCUMENTOREFERENCIA = F.IDDOCUMENTOREFERENCIA(+)  AND " +
-                               "       A.DOCUMENTO = (SELECT DECODE(C.DOCUMENTOREFERENCIA,NULL,C.IDDOCUMENTO, C.DOCUMENTOREFERENCIA) FROM DOCUMENTO C WHERE C.IDDOCUMENTO = R.IDDOCUMENTOREFERENCIA) AND " +
-                               "       A.ESTADO = 'A' AND " +
-                               "       A.DOCUMENTO = D.IDDOCUMENTO AND D.ESTADO NOT IN ('I','N') AND  " +
-                               "       A.IDARCHIVO = F.IDARCHIVO(+) AND " +
-                               "       LOWER(SUBSTRING(A.nombre,LEN(A.nombre) - 2,3)) = 'pdf' )" +
-                               " order by orden asc, IDDOCUMENTOREF asc";
+				
+                String sql =   "SELECT IDREFARC,IDDOCUMENTO, IDDOCUMENTOREF"
+                		+ ", UPPER(SUBSTRING(nombre, CHARINDEX(nombre,']') + 1, LEN(nombre))) AS NOMBRE"
+                		+ ", IDARCHIVO, ESTADO,"
+                		+ "	ORDEN"
+                		+ "	FROM"
+                		+ "	(	SELECT	R.IDREFARC"
+                		+ "				, D.IDDOCUMENTO"
+                		+ "				, D.IDDOCUMENTO IDDOCUMENTOREF"
+                		+ "				, A.NOMBRE"
+                		+ "				, A.IDARCHIVO"
+                		+ "				, CASE R.ESTADO WHEN NULL THEN 'I' ELSE 'A' END AS ESTADO"
+                		+ "				, 1 as ORDEN"
+                		+ "		FROM DOCUMENTO D, ARCHIVO A FULL OUTER JOIN REFERENCIAARCHIVO R"
+                		+ "		ON		A.DOCUMENTO		= R.IDDOCUMENTO"
+                		+ "				AND A.DOCUMENTO = R.IDDOCUMENTOREFERENCIA"
+                		+ "				AND A.IDARCHIVO = R.IDARCHIVO"
+                		+ "		WHERE	D.IDDOCUMENTO		= A.DOCUMENTO"
+                		+ "				AND D.ESTADO NOT IN ('I','N')"
+                		+ "				AND A.ESTADO		= 'A'"
+                		+ "				AND A.PRINCIPAL		= 'S'"
+                		+ "				AND D.IDDOCUMENTO	= " + idDocumento 
+                		+ "	"
+                		+ "    UNION"
+                		+ "		SELECT	R.IDREFARC"
+                		+ "				, D.IDDOCUMENTO"
+                		+ "				, D.IDDOCUMENTO"
+                		+ "				,  A.NOMBRE"
+                		+ "				, A.IDARCHIVO"
+                		+ "				, CASE R.ESTADO WHEN NULL THEN 'I' ELSE 'A' END AS ESTADO"
+                		+ "				, 2 AS ORDEN"
+                		+ "        FROM DOCUMENTO D, ARCHIVO A FULL OUTER JOIN REFERENCIAARCHIVO R"
+                		+ "		ON		A.DOCUMENTO		= R.IDDOCUMENTO"
+                		+ "				AND A.DOCUMENTO = R.IDDOCUMENTOREFERENCIA"
+                		+ "				AND A.IDARCHIVO = R.IDARCHIVO"
+                		+ "        WHERE	D.IDDOCUMENTO		= A.DOCUMENTO"
+                		+ "				AND D.ESTADO NOT IN ('I','N')"
+                		+ "				AND A.ESTADO		= 'A'"
+                		+ "				AND A.PRINCIPAL		= 'N'"
+                		+ "				AND LOWER(SUBSTRING(A.nombre,LEN(A.nombre) - 2,3)) = 'pdf'"
+                		+ "				AND D.IDDOCUMENTO	=  " + idDocumento 
+                		+ "    UNION"
+                		+ "		SELECT	F.IDREFARC"
+                		+ "				,R.IDDOCUMENTO"
+                		+ "				, R.IDDOCUMENTOREFERENCIA"
+                		+ "				, A.NOMBRE"
+                		+ "				, A.IDARCHIVO"
+                		+ "				, CASE R.ESTADO WHEN NULL THEN 'I' ELSE 'A' END AS ESTADO"
+                		+ "				, 3 AS ORDEN"
+                		+ "        FROM   DOCUMENTO D , (DOCUMENTOREFERENCIA R FULL OUTER JOIN (SELECT * FROM REFERENCIAARCHIVO WHERE ESTADO='A') F"
+                		+ "		ON		R.IDDOCUMENTO = F.IDDOCUMENTO"
+                		+ "				AND R.IDDOCUMENTOREFERENCIA = F.IDDOCUMENTOREFERENCIA)"
+                		+ "		FULL OUTER JOIN 	ARCHIVO A"
+                		+ "		ON		A.IDARCHIVO = F.IDARCHIVO"
+                		+ "        WHERE	A.DOCUMENTO = D.IDDOCUMENTO"
+                		+ "				AND R.ESTADO = 'A'"
+                		+ "				AND A.DOCUMENTO = (	SELECT CASE C.DOCUMENTOREFERENCIA WHEN NULL THEN C.IDDOCUMENTO ELSE C.DOCUMENTOREFERENCIA END"
+                		+ "									FROM DOCUMENTO C"
+                		+ "									WHERE C.IDDOCUMENTO = R.IDDOCUMENTOREFERENCIA)"
+                		+ "				AND A.ESTADO = 'A'"
+                		+ "				AND D.ESTADO NOT IN ('I','N')"
+                		+ "				AND LOWER(SUBSTRING(A.nombre,LEN(A.nombre) - 2,3)) = 'pdf'"
+                		+ "				AND R.IDDOCUMENTO =  "+ idDocumento 
+                		+ "				) Z "
+                		+ "      ORDER BY ORDEN ASC, IDDOCUMENTOREF ASC ";
 
                 
                     Query q = em.createNativeQuery(sql.toString());

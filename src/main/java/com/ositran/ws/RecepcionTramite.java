@@ -2,6 +2,7 @@
 package com.ositran.ws;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -76,7 +77,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class RecepcionTramite {
 
-    protected String vrucentrem;
+    
+	protected String vrucentrem;
     protected String vrucentrec;
     protected String vnomentemi;
     protected String vuniorgrem;
@@ -590,5 +592,16 @@ public class RecepcionTramite {
     public void setVnumdociderem(String value) {
         this.vnumdociderem = value;
     }
+    @Override
+	public String toString() {
+		return "RecepcionTramite [vrucentrem=" + vrucentrem + ", vrucentrec=" + vrucentrec + ", vnomentemi="
+				+ vnomentemi + ", vuniorgrem=" + vuniorgrem + ", vcuo=" + vcuo + ", vcuoref=" + vcuoref
+				+ ", ccodtipdoc=" + ccodtipdoc + ", vnumdoc=" + vnumdoc + ", dfecdoc=" + dfecdoc + ", vuniorgdst="
+				+ vuniorgdst + ", vnomdst=" + vnomdst + ", vnomcardst=" + vnomcardst + ", vasu=" + vasu + ", snumanx="
+				+ snumanx + ", snumfol=" + snumfol + ", vurldocanx=" + vurldocanx + ", bpdfdoc="
+				+ Arrays.toString(bpdfdoc) + ", vnomdoc=" + vnomdoc + ", lstanexos=" + lstanexos + ", ctipdociderem="
+				+ ctipdociderem + ", vnumdociderem=" + vnumdociderem + "]";
+	}
+
 
 }

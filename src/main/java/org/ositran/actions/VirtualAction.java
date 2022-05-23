@@ -28,6 +28,7 @@ import org.ositran.utils.FileVirtual;
 import java.util.List;
 import java.util.Map;
 
+import org.jfree.util.Log;
 import org.ositran.daos.DespachoVirtualDAO;
 import org.ositran.daos.DocPrincipalVirtualDAO;
 import org.ositran.daos.DocumentoDAO;
@@ -187,7 +188,9 @@ public class VirtualAction {
     }
     
     public String viewDocDespachoVirtual() {
+    	System.out.println("========0viewDocDespachoVirtual1=======");
     	try {
+    		
 	        IotdtmDocExterno despacho = documentoExternoVirtualDAO.buscarDocumentoVirtual(idDespacho);
 	        Documento d = documentoDAO.findByIdDocumento(despacho.getSidemiext().getIddocumento());
 	        Cliente cliente =clienteService.findObjectBy(despacho.getSidemiext().getVrucentrec(), 'A');
@@ -197,7 +200,7 @@ public class VirtualAction {
 	        objDD = new DocumentoDetail();
 	        objDD.setStrAsunto(despacho.getVasu());
 	        objDD.setArchivoCargo("");
-	        
+	        System.out.println("========0viewDocDespachoVirtual====2=======");
 	        if (despacho.getSidemiext().getBcarstdrec()!=null){
 	            objDD.setArchivoCargo(d.getID_CODIGO() + "_CARGO_VIRTUAL_" + d.getTipoDocumento().getNombre() + ".pdf");  
 	        }
@@ -226,7 +229,7 @@ public class VirtualAction {
 	                list.add(archivoAdjunto);
 	            }
 	        }
-	        
+	        System.out.println("========0viewDocDespachoVirtual====3=======");
             objDD.setListAnexos(list);
 
 	        if (despacho.getSidemiext().getCflgest() == 'P') {
@@ -237,7 +240,14 @@ public class VirtualAction {
                     consultaTramite.setVcuo(despacho.getSidemiext().getVcuo());
                     consultaTramite.setVrucentrec(despacho.getSidemiext().getVrucentrec());
                     consultaTramite.setVrucentrem(parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
-                    RespuestaConsultaTramite respuestaConsultaTramite =  wsPideTramite.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_TRAMIE);
+                    
+                    System.out.println("cuo ==" +despacho.getSidemiext().getVcuo());
+                    System.out.println("rucrecep ==" +despacho.getSidemiext().getVrucentrec());
+                    System.out.println("rucrem ==" +parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
+                    
+                    
+                    
+                    RespuestaConsultaTramite respuestaConsultaTramite =  wsPideTramite.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_RUC);
                     
                     if (respuestaConsultaTramite.getVcodres().equals("0000")) {
                        objDD.setFlagCodigoVirtual('3');
@@ -250,11 +260,13 @@ public class VirtualAction {
                     }
 	                    
 	              } catch(Exception e) {
+	            	 e.printStackTrace();
 	                 objDD.setFlagCodigoVirtual('5'); 
 	              }      
 	           } else {  
 	              objDD.setFlagCodigoVirtual('1');
-	           }  
+	           } 
+	           System.out.println("========0viewDocDespachoVirtual====4=======");
 	        }  
 	        
 	        if (despacho.getSidemiext().getCflgest() == 'E')
@@ -279,6 +291,7 @@ public class VirtualAction {
 	               objDD.setFlagCodigoVirtual('0');
 	            }   
 	        }
+	        System.out.println("========0viewDocDespachoVirtual====5=======");
 	        
     	}catch(Exception e){
     		e.printStackTrace();

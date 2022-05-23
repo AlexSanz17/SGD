@@ -3817,20 +3817,17 @@ public class DocumentoAction {
 
 	public String gorechazar() throws Exception {
 		log.debug("-> [Action] DocumentoAction - gorechazar():String ");
-
-		// try{
 		Usuario objUsuario = null;
 		setMapSession(ActionContext.getContext().getSession());
 		objUsuario = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
 		setObjDD(documentoService.getDocumentDetail(getIIdDoc(), objUsuario.getRol().getNombre()));
 		return Action.SUCCESS;
-		/*
-		 * }catch(Exception e){ log.error(e.getMessage(),e); return
-		 * Action.ERROR; }
-		 */
 	}
-
-
+	
+	public String goNotificar() throws Exception {
+		return "goNotificar";
+	}
+	
 	public String rechazaruser() throws Exception {
 		log.debug("-> [Action] DocumentoAction - rechazaruser():String ");
 

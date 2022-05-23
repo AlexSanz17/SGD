@@ -157,12 +157,13 @@ public class RepositorioServiceWebservice implements RepositorioService {
 
    	@Override
 	@Transactional
-	public void subirArchivosTransformadosARepositorio(Documento doc, final List<Archivo> listaArchivos,boolean versionar,Usuario usuario, String rutaSite, String tipoDocumento) throws RuntimeException{
+	public boolean subirArchivosTransformadosARepositorio(Documento doc, final List<Archivo> listaArchivos,boolean versionar,Usuario usuario, String rutaSite, String tipoDocumento) throws RuntimeException{
 	   log.info("RepositorioServiceWebService :: subirArchivosTransformadosARepositorio");
            Map<String,String> propiedades=obtenerMetadata(doc, usuario);
 	   Date inicio = null;
            Date fin = null;
            boolean bandera = false;
+           boolean savefile = false;
            
            for(Archivo arc : listaArchivos){
                         File f=new File(arc.getRutaArchivoPdf());
@@ -340,7 +341,7 @@ public class RepositorioServiceWebservice implements RepositorioService {
 //							
 //>>>>>>> bf7f4f4c441a4fe19a5088eadba2014ef24b4aec
 							copy(from, to);
-							log.info("Se copio el archivo a "+destination);							
+							log.info("Se copio el archivo a "+destination);		
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -350,9 +351,10 @@ public class RepositorioServiceWebservice implements RepositorioService {
         	
         	    }  
         	}.start();
-        	
-        	
+        	savefile = true;
         }
+        
+        return savefile;
         
         
         

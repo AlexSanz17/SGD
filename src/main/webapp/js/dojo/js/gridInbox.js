@@ -395,10 +395,12 @@ var mostrarDocumentosFirmar = function(valores, accionEjecutar){
         		    })
                 });
     		}
-                
 	       dijit.byId("dlgFirmar").attr("title", "Documentos a " + cabecera);	
            dijit.byId("dlgFirmar").attr("content", data);
 	       dijit.byId("dlgFirmar").show();
+//    		setTimeout(function(){
+//           		document.getElementById("btnFirmar").style.display = "block";    
+//			}, 1000);
 	    },
 		error: function(error) {
 	        console.log(error);
