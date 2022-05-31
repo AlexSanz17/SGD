@@ -1978,7 +1978,8 @@ public class DojoAction {
 		}
 		try {
 			if (esPide) {
-				return documentoService.enviarCargoRecepcionVirtual(idExterno);
+//				return documentoService.enviarCargoRecepcionVirtual(idExterno);
+				return "";
 			} else {
 				return "";
 			}

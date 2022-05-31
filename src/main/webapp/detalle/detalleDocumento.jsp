@@ -42,6 +42,7 @@
            
         </s:if>
          <script type="text/javascript" src="js/destruirObjetos.js"></script>     
+         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script type="text/javascript">
           
             
@@ -867,6 +868,7 @@
             }
             
             function abrirVentanaNotificar() {
+            	
                 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600, top=20, left=70";
                 var pagina = "goNotificarUSER.action?&arrIdDoc=" + "<s:property value='iIdDoc' />" + "&iIdDocumentoEnviado";
 
@@ -874,9 +876,15 @@
              }
             
             function abrirNotificar(){
+            	
+            	if(<s:property value='objDD.pK_eIdCasilla' /> != 0){
             	 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600, top=20, left=70";
-                 var pagina = "goNotificar.action?&idDocumento=" + "<s:property value='documento.idDocumento' />";
+                 var pagina = "goNotificar.action?&idDocumento=" + "<s:property value='documento.idDocumento' />"+ "&idcasilla="+ "<s:property value='objDD.pK_eIdCasilla' /> ";
                  window.open(pagina, "", opciones);
+            		
+            	}else{
+            		alert("Este cliente no tiene casilla");
+            	}
             }
             
 
@@ -1048,7 +1056,7 @@
 	                    </s:if>
                             <div dojoType="dijit.form.Button"  onClick="abrirHojaFirma()" iconClass="siged16 iconoHojaRuta">Hoja de Firmas</div>
                             
-                            <s:if test="#session._USUARIO.idRolPerfil != 6">
+                            <s:if test="#session._USUARIO.idRolPerfil != 6 && documento.tipoDocumento.idtipodocumento == 15">
                        			<div dojoType="dijit.form.Button"  onClick="abrirNotificar()" iconClass="siged16 iconoNotificar">Notificar</div>
                             </s:if>
                             

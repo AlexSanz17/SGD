@@ -107,7 +107,7 @@
 						}
 						if(respuesta == "1"){		
 							document.getElementById("ssoForm").submit();
-							dijit.byId("dlgProgresBar").hide();
+// 							dijit.byId("dlgProgresBar").hide();
 				    		
 							
 						} else if (respuesta == "2"){

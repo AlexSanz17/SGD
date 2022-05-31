@@ -60,7 +60,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="database" value="SQL_SERVER" />
-                <property name="showSql" value="false" />
+                <property name="showSql" value="true" />
                 <property name="databasePlatform" value="org.hibernate.dialect.SQLServerDialect" />
             </bean>
         </property>

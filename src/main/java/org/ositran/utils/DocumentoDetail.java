@@ -242,6 +242,24 @@ public class DocumentoDetail {
 	private String anioFiscal;
 	private char flagExpediente;
 	private String flagsideco;
+	private String cDniRepresentante;
+	private int pK_eIdCasilla;
+
+	public int getpK_eIdCasilla() {
+		return pK_eIdCasilla;
+	}
+
+	public void setpK_eIdCasilla(int pK_eIdCasilla) {
+		this.pK_eIdCasilla = pK_eIdCasilla;
+	}
+
+	public String getcDniRepresentante() {
+		return cDniRepresentante;
+	}
+
+	public void setcDniRepresentante(String cDniRepresentante) {
+		this.cDniRepresentante = cDniRepresentante;
+	}
 
 	public DocumentoDetail(Integer iIdDocumento, Date dFechaAccion, Date dFechaCreacion, Date dFechaLimiteAtencion,
 			Date dFechaDocumento, String sNumeroMesaPartes, Integer iNumeroFolios, String sNumeroCaja,

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpUtils;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
+import org.json.JSONObject;
 import org.ositran.ajax.beans.CargoRecepcionMPVRequest;
 import org.ositran.common.alfresco.AuthThreadLocalHolder;
 import org.ositran.daos.DocumentoAdjuntoDAO;
@@ -58,6 +59,7 @@ import org.ositran.services.ListaService;
 import org.ositran.services.LogOperacionService;
 import org.ositran.services.ManejoDeEmailService;
 import org.ositran.services.NotificacionService;
+import org.ositran.services.NotificacionServiceImpl;
 import org.ositran.services.NotificacionxEnumerarService;
 import org.ositran.services.ParametroService;
 import org.ositran.services.PlantillaService;
@@ -115,6 +117,7 @@ import com.btg.ositran.siged.domain.Legajo;
 import com.btg.ositran.siged.domain.LegajoDocumento;
 import com.btg.ositran.siged.domain.LogOperacion;
 import com.btg.ositran.siged.domain.Notificacion;
+import com.btg.ositran.siged.domain.NotificacionCasilla;
 import com.btg.ositran.siged.domain.Parametro;
 import com.btg.ositran.siged.domain.Proceso;
 import com.btg.ositran.siged.domain.Proveido;
@@ -401,6 +404,7 @@ public class DocumentoAction {
     private Integer codigoVirtual;
     private Archivo archivoPrincipal;
     private RecepcionVirtualService recepcionVirtualService;
+    private NotificacionCasilla objCasilla;
 
 	public String getStrSeguimiento() {
         return strSeguimiento;
@@ -1434,7 +1438,7 @@ public class DocumentoAction {
                         seguimiento.setIdDocumento(iIdDoc);
                         seguimiento.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
                         seguimiento.setCargoPropietario(objUsuario.getIdFuncionPerfil());
-                        
+            log.info("----------------prueba01");
 			if(seguimientoXUsuarioService.buscarSeguimiento(seguimiento).isEmpty()){
 			  agregar = true;
 			}
@@ -1453,6 +1457,7 @@ public class DocumentoAction {
                              }else{
                                  controlDevolver = true;
                              }
+                             log.info("----------------prueba02");
 			}catch(Exception e){
 			  e.printStackTrace();
 			  destinatarioIgualRemitente = false;
@@ -1478,7 +1483,7 @@ public class DocumentoAction {
 			
 			lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(iIdDoc,traza);
 			StringBuilder cadenaCC = new StringBuilder();
-                        
+			 log.info("----------------prueba03");           
 			if(lstTrazabilidadCopia!=null && lstTrazabilidadCopia.size()>0){
 			   for(int i=0; i<lstTrazabilidadCopia.size(); i++){
 			    if(i!=0) cadenaCC.append(", ");
@@ -1499,7 +1504,7 @@ public class DocumentoAction {
 				   mapSession.remove(Constantes.SESSION_UPLOAD_LIST);
 				   limpiarCarpetaTemporalxUsuario(usuario.getUsuario());
 				}
-                                
+				 log.info("----------------prueba04");             
 				iIdUpload = 1;
 				mapSession.put(Constantes.SESSION_IDDOCUMENTO, iIdDoc);
                                               
@@ -1599,6 +1604,21 @@ public class DocumentoAction {
                                 if(cadenaCC.length()!=0){
 				  objDD.setCadenaCC(cadenaCC.toString());
 				}
+                                log.info("----------------prueba05");
+                //Servicios de notificacion 
+    			Integer pK_eIdCasilla = 0;
+//    			log.info("objCliente.getcDniRepresentante()"+ objDD.getdni objCliente.getcDniRepresentante());
+//    			objDD.setcDniRepresentante(objCliente.getcDniRepresentante());
+//    			log.info("==============objCliente.getcDniRepresentante()" +objCliente.getcDniRepresentante());
+//    			NotificacionServiceImpl notificacion =  new NotificacionServiceImpl(null);
+//    			String response = notificacion.buscarCasillaElectronica(objDD.getcDniRepresentante());
+//    			log.info("==================response" +response);
+//    			if (!response.equals("") && response != null) {
+//    				JSONObject jsonObject = new JSONObject(response);
+//    				pK_eIdCasilla = jsonObject.getJSONObject("data").getInt("pK_eIdCasilla");
+//    				objDD.setpK_eIdCasilla(pK_eIdCasilla);
+//    			}
+//    			
 				setLstRadio(tipoIdentificacionService.getTipoIdentificacionMap());
 				Usuario usu = new Usuario(((Usuario) mapSession.get(Constantes.SESSION_USUARIO)).getIdUsuarioPerfil());
 				
@@ -1634,12 +1654,16 @@ public class DocumentoAction {
                             if (idGrid!=null && idGrid.equals(Constantes.TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS)){
                                return "detalleDocumentoRecObservado";
                             }
+           
                             
 			    return Action.SUCCESS;
 			}
-
+                        	
 			if (enVentana != true)
 			  enVentana = false;
+			
+			
+			
 			
 		    }catch(Exception e){
 			e.printStackTrace();
@@ -3825,6 +3849,9 @@ public class DocumentoAction {
 	}
 	
 	public String goNotificar() throws Exception {
+		Usuario objUsuario = null;
+		setObjDD(documentoService.getDocumentDetail(getIIdDoc(), objUsuario.getRol().getNombre()));
+		
 		return "goNotificar";
 	}
 	
@@ -4073,6 +4100,8 @@ public class DocumentoAction {
 
 		return "true";
 	}
+	
+	
 
 	public String rechazarDocumento() {
 		log.debug("-> [Action] DocumentoAction - rechazarDocumento():String ");

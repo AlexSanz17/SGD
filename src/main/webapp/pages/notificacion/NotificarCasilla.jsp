@@ -7,19 +7,32 @@
    	  <title>Notificar Documento</title>
    	  
       <meta http-equiv="Content-Type" content="text/html; utf-8" />
+      <link type="text/css" rel="stylesheet" href="css/styleSiged.css" />
+<link type="text/css" rel="stylesheet" href="js/dojo/css/styleDojo.css" />
       <link rel="stylesheet" type="text/css" href="css/estilo.css" />
       <link rel="stylesheet" type="text/css" href="js/dojo/dijit/themes/soria/soria.css" />
       <script type="text/javascript" src="js/dojo/dojo/dojo.js"></script>
       <script type="text/javascript" src="js/jquery.js"></script>
+      <script type="text/javascript" src="js/siged/siged.js"></script>
+		<script type="text/javascript" src="js/siged/siged.forms.js"></script>
+		<script type="text/javascript" src="js/siged/siged.string.js"></script>
       <script type="text/javascript">
          var USUARIO_ROL = "<s:property value='#session._USUARIO.rol' />";
 
-         dojo.require("dijit.form.FilteringSelect");
-         dojo.require("dijit.form.Button");
-         dojo.require("dijit.form.Form");
+         dojo.require("dijit.Editor");
+         dojo.require("dijit._editor.plugins.FontChoice");  // 'fontName','fontSize','formatBlock'
+         dojo.require("dijit._editor.plugins.TextColor");
+         dojo.require("dijit._editor.plugins.LinkDialog");
+         dojo.require("dojo.io.iframe");
+         dojo.require("dojo.rpc.JsonService");
+         dojo.require("dijit.form.FilteringSelect" );
          dojo.require("dojo.data.ItemFileReadStore");
+         dojo.require("dijit.form.TextBox");
          dojo.require("dijit.form.DateTextBox");
-         dojo.require("dijit.form.ValidationTextBox");
+         dojo.require("dijit.Dialog");
+         dojo.require("dijit.form.Button");
+	 dojo.require("dojox.grid.DataGrid");
+         dojo.require("dijit.form.NumberTextBox");
 
          function rechazar() {
              if (confirm("Desea rechazar el documento " + "<s:property value='documento.numeroDocumento' /> ?")) {
@@ -57,8 +70,8 @@
          onload="refrescar()"
       </s:if>>
       
-      <form id="frmRechazar" name="frmRechazar" action="" method="post">
-      	 <s:hidden name="idDocumentoRechazar" />
+      <form id="frmNotificar" name="frmNotificar" action="" method="post">
+      	 <s:hidden name="idDocumentoNotificar" />
       	 
          <table width="100%">
             <tr>
@@ -69,7 +82,7 @@
                   <table width="37%" border="0" height="20" align="left">
                      <tr>
                         <td width="2%" align="center">
-                           		<img onclick="javascript:rechazar()"  src="images/rechazar.bmp" border="0" alt="Rechazar"/>
+                           		<img onclick="javascript:rechazar()"  src="images/derivar.bmp" border="0" alt="Derivar"/>
                         </td>
                         <td width="55%" align="center" class="tituloRojo"></td>
                      </tr>
@@ -102,13 +115,97 @@
                               <tr>
                                  <td colspan="2" align="center"></td>
                               </tr>
-
+								
+							<tr>
+								<td> <input type="hidden" name="FK_eIdCasilla" id="FK_eIdCasilla"/></td>
+							</tr>
+							<tr>
+								<td> <input type="hidden" name="FK_eIdAplicacion" id="FK_eIdAplicacion"/></td>
+							</tr>
+							<tr>
+								<td align="left" style="padding-left: 25px">Tipo de Notificación: </td>
+								<td colspan="4"> 
+									<select dojoType="dijit.form.FilteringSelect"
+                                            id="FK_eIdTipoNotificacion"
+                                            name="FK_eIdTipoNotificacion"
+                                            idAttr="id"
+                                            labelAttr="label"
+                                            style="width:190px;"
+                                            required="true"
+                                            hasDownArrow="true"
+                                            searchAttr="label"
+                                            store="storeProveidos">
+                                    </select> 
+								</td>
+							</tr>
                               <tr>
                                  <td align="left" style="padding-left: 25px">Observación: </td>
                                  <td >
-                                    <s:textarea id="sObservacionRechazar" name="sObservacionRechazar" cols="50" rows="10" cssClass="cajaMontoTotal" />
+                                    <s:textarea id="uObservacion" name="uObservacion" cols="60" rows="5" cssClass="cajaMontoTotal" />
                                  </td>
                               </tr>
+                               <tr>
+                                 <td> <input type="hidden" name="FK_eIdTipoDocNotificacion" id="FK_eIdTipoDocNotificacion"/></td>
+                              </tr>
+                               <tr>
+                                 <td align="left" style="padding-left: 25px">Número de Documento: </td>
+                                 <td >
+                                     <div dojoType="dijit.form.ValidationTextBox"
+                                      id="uNumDocNotificacion"
+                                      jsId="uNumDocNotificacion"
+                                      name="uNumDocNotificacion"
+                                      invalidMessage="Ingrese un Nro de Documento" regExp=".{1,40}"
+                                      required="true" trim="true" />
+                                 </td>
+                              </tr>
+                              <tr>
+                              	<td><input type="hidden" name="eIdDocumentoSTD" id="eIdDocumentoSTD"/></td>
+                              </tr>
+                                <tr>
+                                 <td align="left" style="padding-left: 25px">Número de Expediente: </td>
+                                 <td >
+                                     <div dojoType="dijit.form.ValidationTextBox"
+                                     type="text"
+                                      id="eIdExpedienteSTD"
+                                      jsId="eIdExpedienteSTD"
+                                      name="eIdExpedienteSTD"
+                                      invalidMessage="Ingrese un Nro de Expediente" regExp=".{1,40}"
+                                      required="true" trim="true" />
+                                 </td>
+                              </tr>
+                               <tr>
+                              	<td><input type="hidden" name="uCodExpedienteSTD" id="uCodExpedienteSTD"/></td>
+                              </tr>
+                               <tr>
+                              	<td><input type="hidden" name="eOrden" id="eOrden"/></td>
+                              </tr>
+                          	<tr>
+                          		    <td colspan="5"  class="normal"><s:hidden
+										id="eUsuarioRegistro" name="eUsuarioRegistro" /> 
+                                       <script
+											type="text/javascript">
+
+									   var cadena  = document.getElementById("ta").value;
+									   //document.getElementById("contenid").innerHTML = cadena;
+									   //cadena  =document.getElementById("contenid").innerHTML;
+									   //alert("cadena1:"+cadena);
+									   cadena = cadena.replace(/<P><\/P>/g,"");
+									   //alert("cadena2:"+cadena);
+									   document.getElementById("contenid").innerHTML = cadena.substring(0,3999);
+									    //cadena=document.getElementById("contenid").innerHTML;
+									   //alert(cadena);
+
+
+									</script>
+								</td>
+                          	</tr>
+							  <tr>
+                                                           
+                                   <td  colspan="5">
+                                          <input    style="font-weight: bold;font-size:14px;width:765px"type="text" name="ta" id="ta"  value="<s:property value='ta'  />"> </input>
+                                    </td>
+                                                           
+                                  </tr>   
                            </table>
                         </td>
                      </tr>

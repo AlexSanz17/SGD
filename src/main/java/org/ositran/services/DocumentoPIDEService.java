@@ -15,8 +15,23 @@ import com.btg.ositran.siged.domain.IotdtmDocExternoPIDE;
 
 public interface DocumentoPIDEService {
 	List<IotdtcRecepcionPIDE> getAllRecepcion();
+	IotdtcRecepcionPIDE getRecepcionByVcuo(String vcuo);
+	IotdtcRecepcionPIDE updateIotdtcRecepcionPIDE(IotdtcRecepcionPIDE objIotdtcRecepcionPIDE) ;
 	List<IotdtcDespachoPIDE> getAllDespacho();
+	IotdtcDespachoPIDE getDespachoByVcuo(String vcuo);
+	List<IotdtcDespachoPIDE> getDespachoByVcuo1(String vcuo);
+	IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE iotdtcDespachoPIDE);
 	List<IotdtmDocExternoPIDE> getAllDocExterno();
+	IotdtmDocExternoPIDE getDocExternoByCuo(String vcuo);
+	IotdtmDocExternoPIDE updateIotdtmDocExternoPIDE(IotdtmDocExternoPIDE objIotdtmDocExternoPIDE);
 	List<IotdtdDocPrincipalPIDE> getAllDocPrincipal();
+	IotdtdDocPrincipalPIDE getDocPrincipalByCuo(String vcuo);
+	IotdtdDocPrincipalPIDE updateIotdtdDocPrincipalPIDE(IotdtdDocPrincipalPIDE objIotdtdDocPrincipalPIDE);
 	List<IotdtdAnexoPIDE> getAllAnexo();
+	IotdtdAnexoPIDE getAnexoByCuo(String vcuo);
+	IotdtdAnexoPIDE updateIotdtdAnexoPIDE(IotdtdAnexoPIDE objIotdtdAnexoPIDE);
+
+	
+	
+		
 }

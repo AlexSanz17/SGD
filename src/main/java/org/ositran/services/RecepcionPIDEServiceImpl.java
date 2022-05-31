@@ -65,7 +65,7 @@ public class RecepcionPIDEServiceImpl implements RecepcionPIDEService {
     	try {
     		URL url = new URL("http://200.48.76.125/wsiopidetramite/IOTramite?wsdl");
     		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    		Log.info("conn estado................." + conn.getResponseCode());
+//    		Log.info("conn estado................." + conn.getResponseCode());
     		conn.setDoOutput(true);
     		conn.setRequestMethod("POST");
     		conn.setRequestProperty("Content-Type", "application/xml");

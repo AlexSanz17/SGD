@@ -30,7 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class NotificacionCasillaVirtual {
-	public void servicio1(String url) {
+	public void servicio1(String url, String uNroDocumento) {
 		try {
       	  URL url_c = new URL(url);
       		HttpURLConnection conn = (HttpURLConnection) url_c.openConnection();
@@ -41,7 +41,7 @@ public class NotificacionCasillaVirtual {
       		JSONObject jsonObj = new JSONObject();
 
 			jsonObj.put("eIdTipoDocumento", Integer.valueOf(2));
-			jsonObj.put("uNroDocumento", "40405068");
+			jsonObj.put("uNroDocumento", uNroDocumento);
       		
 			String json = jsonObj.toString();
       	System.out.println("json : "+json);

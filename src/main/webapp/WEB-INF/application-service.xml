@@ -435,6 +435,7 @@
         <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
         <property name="recepcionMPVService" ref="recepcionMPVService" />
         <property name="recepcionPIDEService" ref="recepcionPIDEService" />
+        <property name="documentoPIDEService" ref="documentoPIDEService" />
 	</bean>
 
 	<bean id="documentoxexpedienteService" class="org.ositran.services.DocumentoxexpedienteServiceImpl">

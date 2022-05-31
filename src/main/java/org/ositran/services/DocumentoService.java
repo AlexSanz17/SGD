@@ -21,6 +21,7 @@ import com.btg.ositran.siged.domain.DocumentoReferencia;
 import com.btg.ositran.siged.domain.DocumentoAreaFuncional;
 import com.btg.ositran.siged.domain.Documentofedateado;
 import com.btg.ositran.siged.domain.Expediente;
+import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
 import com.btg.ositran.siged.domain.Proceso;
 import com.btg.ositran.siged.domain.TramiteDocumentario;
 import com.btg.ositran.siged.domain.Usuario;
@@ -48,7 +49,7 @@ public interface DocumentoService{
 
         public String enviarDocumentoVirtual(Integer idExterno, Usuario objUsuario) throws  Exception;
         
-        public String enviarCargoRecepcionVirtual(Integer idExterno) throws Exception;
+        public String enviarCargoRecepcionVirtual(Integer idExterno, Date fechaCreacion) throws Exception;
 	
         public Documento findByIdDocumento(Integer iIdDocumento);
         
@@ -272,5 +273,7 @@ public interface DocumentoService{
         public DocumentoDetail getDocumentDetailOptimizedAR(Integer iIdDoc, String strRol);
         
         public List<Documento> findByIdDocVirtual(Integer codigoVirtual);
+        
+      
 
 }

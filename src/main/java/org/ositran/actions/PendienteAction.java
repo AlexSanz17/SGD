@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 /*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.DocumentoAnulado;
 import com.btg.ositran.siged.domain.DocumentoPendiente;
@@ -75,8 +76,17 @@ public class PendienteAction {
     private boolean controlDevolver;
     private AccionService accionService;
     private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+    private int archivoFirmado;
 
-    public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
+    public int getArchivoFirmado() {
+		return archivoFirmado;
+	}
+
+	public void setArchivoFirmado(int archivoFirmado) {
+		this.archivoFirmado = archivoFirmado;
+	}
+
+	public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
         return documentoExternoVirtualDAO;
     }
 
@@ -705,6 +715,16 @@ public class PendienteAction {
 	       }                            
 		
                objDD.setIIdDocumento(idfirmados);
+               
+            //Enviar cargo
+           	String tipoArchivo = "M";
+    		List<Archivo> archivosFirmados = null;
+               
+    		archivosFirmados =   archivoService.findArchivoTipoFirmardo(idDoc, tipoArchivo.charAt(0), "3");   
+    		if (archivosFirmados.size() > 0) {
+    			archivoFirmado = 1;
+    		}
+             
               
         }catch(Exception e){
             e.printStackTrace();

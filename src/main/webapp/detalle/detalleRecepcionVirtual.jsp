@@ -135,9 +135,9 @@
                               </s:if>
                             </s:if>
                             
-                            <s:if test="objDD.flagCodigoVirtual == '1'"> 
-                               <div dojoType="dijit.form.Button"  onClick="enviarCargo('<s:property value="objDD.idCodigo" />', 'T')" iconClass="siged16 iconoOk">Recepcionar - Enviar Cargo</div>    
-                            </s:if>
+<%--                             <s:if test="objDD.flagCodigoVirtual == '1'">  --%>
+<%--                                <div dojoType="dijit.form.Button"  onClick="enviarCargo('<s:property value="objDD.idCodigo" />', 'T')" iconClass="siged16 iconoOk">Recepcionar - Enviar Cargo</div>     --%>
+<%--                             </s:if> --%>
                      </div>    
                 </td>
             </tr>

@@ -29,6 +29,11 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
          return (IotdtcRecepcion)em.createNamedQuery("IotdtcRecepcion.findByVcuo")
 			.setParameter("vcuo", vcuo).getSingleResult();
      }
+     public IotdtcRecepcion findByIdDoc(Integer iddocumento){
+         return (IotdtcRecepcion)em.createNamedQuery("IotdtcRecepcion.findByIdDoc")
+			.setParameter("iddocumento", iddocumento).getSingleResult();
+     }
+     
      
     @SuppressWarnings("unchecked")
 	public List<IotdtcRecepcion> findAll() {    	 

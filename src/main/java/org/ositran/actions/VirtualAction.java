@@ -2,6 +2,7 @@ package org.ositran.actions;
 
 import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.Documento;
+import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtdAdjuntoMPV;
 import com.btg.ositran.siged.domain.IotdtdAnexo;
@@ -15,6 +16,7 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 
 import com.ositran.pide.WSPideTramite;
+import com.ositran.pide.requests.WSPideTramiteJavaWebClient;
 import com.ositran.ws.ConsultaTramite;
 import com.ositran.ws.RespuestaConsultaTramite;
 
@@ -55,6 +57,7 @@ public class VirtualAction {
     private ArchivoService archivoService;
     private DocumentoDAO documentoDAO;
     private DocPrincipalVirtualDAO docPrincipalVirtualDAO;
+
     
     public VirtualAction() {
     }
@@ -236,18 +239,27 @@ public class VirtualAction {
 	           if (despacho.getSidemiext().getCflgenv() == 'E') {
 	              try { 
                     WSPideTramite wsPideTramite = new WSPideTramite();
-                    ConsultaTramite consultaTramite = new ConsultaTramite();
-                    consultaTramite.setVcuo(despacho.getSidemiext().getVcuo());
-                    consultaTramite.setVrucentrec(despacho.getSidemiext().getVrucentrec());
-                    consultaTramite.setVrucentrem(parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
-                    
+//                    ConsultaTramite consultaTramite = new ConsultaTramite();
+//                    consultaTramite.setVcuo(despacho.getSidemiext().getVcuo());
+//                    consultaTramite.setVrucentrec(despacho.getSidemiext().getVrucentrec());
+//                    consultaTramite.setVrucentrem(parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
+//                    
                     System.out.println("cuo ==" +despacho.getSidemiext().getVcuo());
                     System.out.println("rucrecep ==" +despacho.getSidemiext().getVrucentrec());
                     System.out.println("rucrem ==" +parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
                     
                     
                     
-                    RespuestaConsultaTramite respuestaConsultaTramite =  wsPideTramite.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_RUC);
+//                    RespuestaConsultaTramite respuestaConsultaTramite =  wsPideTramite.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_RUC);
+                    WSPideTramiteJavaWebClient wsPideTramiteJavaWebClient = new WSPideTramiteJavaWebClient();
+                    
+                    pe.gob.segdi.wsiopidetramite.ws.ConsultaTramite  consultaTramite = new pe.gob.segdi.wsiopidetramite.ws.ConsultaTramite();
+                    consultaTramite.setVcuo(despacho.getSidemiext().getVcuo());
+                    consultaTramite.setVrucentrec(despacho.getSidemiext().getVrucentrec());
+                    consultaTramite.setVrucentrem(parametroDao.findByTipoUnico("RUC_OSITRAN").getValor());
+                    
+                    pe.gob.segdi.wsiopidetramite.ws.RespuestaConsultaTramite respuestaConsultaTramite =  wsPideTramiteJavaWebClient.consultarTramite(consultaTramite, Constantes.AMBIENTE_WS_PIDE_RUC);
+                    
                     
                     if (respuestaConsultaTramite.getVcodres().equals("0000")) {
                        objDD.setFlagCodigoVirtual('3');
@@ -299,6 +311,23 @@ public class VirtualAction {
         
         return Action.SUCCESS;
     }
+    public String enviarCargo() {
+		String enviarCargo = null;
+		System.out.println("--------------iIdDoc-------"+iIdDoc);
+		try {
+			Documento documento = documentoService.findByIdDocumento(iIdDoc);
+			System.out.println("================idRecepcion=================="+ documento.getNroVirtual() );
+			
+			enviarCargo =  documentoService.enviarCargoRecepcionVirtual(documento.getNroVirtual(), documento.getFechaCreacion());
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return enviarCargo;
+
+	}
     
     public String viewDocRecepcionVirtual() {
         List<Archivo> lst = null;

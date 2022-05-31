@@ -513,6 +513,24 @@
                         
                     });        
             }
+            function enviarCargo(){
+            		if("<s:property value='archivoFirmado' /> " == 1){
+	                    if (confirm("Desea Enviar el cargo "+ "<s:property value='documento.numeroDocumento' /> "  +"?")) {
+	                   	 dojo.xhrPost({
+	       	                url: "enviarCargo.action?iIdDoc=" + "<s:property value='documento.idDocumento' /> ",
+	       	                load: function() {
+	       		            	window.close();
+	       		            	window.opener.showGridInbox();
+	       		            	window.opener.refreshTabDXE();
+	       		            }
+	       	             });
+	                     }
+            			
+            		}else{
+            			alert("Este documento no ha sido firmado");
+            		}
+                
+            }
                 
             function mostrarEliminarArchivo(){
                      var service = new dojo.rpc.JsonService("SMDAction.action");
@@ -591,6 +609,10 @@
                       <div dojoType="dijit.form.Button"  onClick="abrirHojaFirma()" iconClass="siged16 iconoHojaRuta">Hoja de Firmas</div>  
                       <div dojoType="dijit.form.Button"  onClick="mostrarAdjuntarArchivo()" iconClass="siged16 iconoAgregar">Agregar Archivo</div>
                       <div dojoType="dijit.form.Button"  onClick="mostrarEliminarArchivo()" iconClass="siged16 iconoRemover">Eliminar Archivo</div>
+                      
+                       <s:if test="objDD.cuo == null || objDD.cuo == ''">
+                       			<div dojoType="dijit.form.Button"  onClick="enviarCargo()" iconClass="siged16 iconoNotificar">Enviar Cargo</div>
+                        </s:if> 
                       <s:if test="objDD.flagCodigoVirtual == '2' || objDD.flagCodigoVirtual == '0'">
                         <div dojoType="dijit.form.Button"  onClick="atenderDocumento('atender')" iconClass="siged16 iconoOk">Atender</div>    
                      </s:if>

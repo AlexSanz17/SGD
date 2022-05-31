@@ -1,6 +1,9 @@
 package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtcDespacho;
+import com.btg.ositran.siged.domain.IotdtcRecepcion;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +28,12 @@ public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
          return (IotdtcDespacho)em.createNamedQuery("IotdtcDespacho.findByVcuo")
 				.setParameter("vcuo", vcuo).getSingleResult();
      }
+     @SuppressWarnings("unchecked")
+ 	public List<IotdtcDespacho> findAll() {    	 
+     	 Query query = em.createNamedQuery("IotdtcDespacho.findAll");
+     	 return query.getResultList();
+          
+      }
     
      public IotdtcDespacho registrarDocumento(IotdtcDespacho despacho){
 		
@@ -37,7 +46,9 @@ public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
 	    em.merge(despacho); 
 	    em.flush();
 	}
+       
 		
        return despacho;
     }
+    
 }

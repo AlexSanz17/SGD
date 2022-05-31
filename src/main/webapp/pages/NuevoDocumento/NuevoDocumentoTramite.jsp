@@ -979,6 +979,26 @@
 	                             <span id="datosRemitente" style="color:blue"></span>
 	                           </td>
 	                       </tr>
+	                         <tr style="display:none">
+	                           <td> 
+	                              <div dojoType="dijit.form.TextBox" 
+                                        id="objDD.unidadDestinatario"
+                                        jsId="objDD.unidadDestinatario"
+                                        name="objDD.unidadDestinatario"
+                                       >
+                                      <script type="dojo/method" event="postCreate">
+                                        	var idDestinatarioTramite = document.getElementById("objDD.idDestinatarioTramite");
+											var unidadDestinatario = document.getElementById("objDD.unidadDestinatario")
+											idDestinatarioTramite.addEventListener("blur", function(event){
+											
+                                              unidadDestinatario.value = idDestinatarioTramite.value;
+											}, true);
+                                         
+                                      </script>
+                                   </div>
+	                           </td>
+	                           
+	                       </tr>
                        
 	                       <tr>
 	                          <td>Para</td>
