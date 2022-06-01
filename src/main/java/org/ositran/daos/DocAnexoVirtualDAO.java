@@ -6,4 +6,5 @@ import java.util.List;
 public interface DocAnexoVirtualDAO {
      public List<IotdtdAnexo> buscarAnexoVirtualId(Integer idDocExterno);
      public IotdtdAnexo registrarAnexo(IotdtdAnexo anexo);
+  	public List<IotdtdAnexo> findAll() ;
 }

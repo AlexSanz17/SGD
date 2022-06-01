@@ -15,12 +15,11 @@ import com.btg.ositran.siged.domain.IotdtmDocExternoPIDE;
 
 public interface DocumentoPIDEService {
 	List<IotdtcRecepcionPIDE> getAllRecepcion();
-	IotdtcRecepcionPIDE getRecepcionByVcuo(String vcuo);
+	public IotdtcRecepcionPIDE getRecepcionByVcuo(String vcuo);
 	IotdtcRecepcionPIDE updateIotdtcRecepcionPIDE(IotdtcRecepcionPIDE objIotdtcRecepcionPIDE) ;
 	List<IotdtcDespachoPIDE> getAllDespacho();
 	IotdtcDespachoPIDE getDespachoByVcuo(String vcuo);
-	List<IotdtcDespachoPIDE> getDespachoByVcuo1(String vcuo);
-	IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE iotdtcDespachoPIDE);
+	IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE);
 	List<IotdtmDocExternoPIDE> getAllDocExterno();
 	IotdtmDocExternoPIDE getDocExternoByCuo(String vcuo);
 	IotdtmDocExternoPIDE updateIotdtmDocExternoPIDE(IotdtmDocExternoPIDE objIotdtmDocExternoPIDE);

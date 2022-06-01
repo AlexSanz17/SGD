@@ -7,4 +7,5 @@ public interface DocPrincipalVirtualDAO {
     public List<IotdtdDocPrincipal> buscarPrincipalVirtualId(Integer idDocExterno);
     public IotdtdDocPrincipal registrarPrincipal(IotdtdDocPrincipal principal);
     public IotdtdDocPrincipal buscarPrincipaByDocExterno(Integer idDocExterno);
+    public List<IotdtdDocPrincipal> findAll() ;
 }

@@ -27,13 +27,14 @@ public class DespachoVirtualServiceImpl implements  DespachoVirtualService{
     public void setDespachoVirtualDAO(DespachoVirtualDAO despachoVirtualDAO) {
         this.despachoVirtualDAO = despachoVirtualDAO;
     }
-    public List<IotdtcDespacho> getAll(){
-        return despachoVirtualDAO.findAll();
-    }
-        
+    
     @Transactional
     public IotdtcDespacho registrarDocumento(IotdtcDespacho despacho){
          return despachoVirtualDAO.registrarDocumento(despacho);
+    }
+    
+    public List<IotdtcDespacho> getAll(){
+        return despachoVirtualDAO.findAll();
     }
      
 }

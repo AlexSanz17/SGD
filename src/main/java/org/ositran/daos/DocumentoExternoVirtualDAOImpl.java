@@ -25,7 +25,12 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
     public EntityManager getEm() {
         return em;
     }
-    
+    @SuppressWarnings("unchecked")
+   	public List<IotdtmDocExterno> findAll() {    	 
+  	     	 Query query = em.createNamedQuery("IotdtmDocExterno.findAll");
+  	     	 return query.getResultList();
+  	          
+    }
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesMigrarCargo(){
         String  sql = " SELECT e FROM IotdtmDocExterno e where e.sidemiext.cflgest in ('R') and e.sidemiext.bcarstdrec is not null and (select count(d.idDocumento) from Documento d, Archivo a where d.idDocumento = e.sidemiext.iddocumento and decode(d.documentoreferencia, null,d.idDocumento, d.documentoreferencia) = a.documento and a.estado = 'A' and a.principal = 'M') = 0 "; 
         return em.createQuery(sql).getResultList();  

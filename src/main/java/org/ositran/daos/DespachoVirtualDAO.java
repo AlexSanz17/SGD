@@ -8,5 +8,5 @@ public interface DespachoVirtualDAO {
      public String findByCantidadesDocumentosVirtuales();
      public IotdtcDespacho registrarDocumento(IotdtcDespacho despacho);
      public IotdtcDespacho findByVcuo(String vcuo) ;
- 	public List<IotdtcDespacho> findAll();
+     public List<IotdtcDespacho> findAll();
 }

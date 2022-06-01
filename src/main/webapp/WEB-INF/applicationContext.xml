@@ -60,7 +60,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="database" value="SQL_SERVER" />
-                <property name="showSql" value="true" />
+                <property name="showSql" value="false" />
                 <property name="databasePlatform" value="org.hibernate.dialect.SQLServerDialect" />
             </bean>
         </property>
@@ -89,6 +89,6 @@
     <import resource="application-service.xml" />
     <import resource="application-rest.xml" />
  	<import resource="applicationContext-remote.xml" />
-    <import resource="application-jobs-provias.xml" />
+<!--     <import resource="application-jobs-provias.xml" /> -->
     <import resource="application-jobs.xml" />
 </beans>

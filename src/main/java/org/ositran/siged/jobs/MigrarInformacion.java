@@ -72,19 +72,20 @@ public class MigrarInformacion {
 	
 	@SuppressWarnings("unlikely-arg-type")
 	@Transactional
-	public void migrar() { 
+	public void migrar() {
+
 		System.out.println("================Job migracion================");
 
 		try {
 			List<IotdtcRecepcionPIDE> listIotdtcRecepcionPIDE = documentoPIDEService.getAllRecepcion();
 	
+			System.out.println("listIotdtcRecepcionPIDE.size()............" + listIotdtcRecepcionPIDE.size());
 			String cflgest = "P";
 			for (int i = 0; i < listIotdtcRecepcionPIDE.size(); i++) {
 				IotdtcRecepcionPIDE iotdtcRecepcionPIDE = listIotdtcRecepcionPIDE.get(i);
+//				System.out.println("=====iotdtcRecepcionPIDE===" + listIotdtcRecepcionPIDE.get(i).getCflgest());
 				
 				if (iotdtcRecepcionPIDE.getCflgest().toString().equals("P")) {
-					System.out.println("listIotdtcRecepcionPIDE.size()............" + listIotdtcRecepcionPIDE.size());
-			
 							
 					IotdtcRecepcion iotdtcRecepcion = new IotdtcRecepcion();
 					iotdtcRecepcion.setSidrecext(iotdtcRecepcionPIDE.getSidrecext());
@@ -229,211 +230,203 @@ public class MigrarInformacion {
 			System.out.println(e.getMessage()); 
 		}
 	}
+	public void jobActualizar() {
+		System.out.println("================Job actualización================");
+
+		try {
+			//	================		RECEPCION    ================
+			List<IotdtcRecepcion> listIotdtcRecepcion = recepcionVirtualService.getAll();
 	
+			System.out.println("listIotdtcRecepcion.size()............" + listIotdtcRecepcion.size());
+			String cflgest = "P";
+			for (int i = 0; i < listIotdtcRecepcion.size(); i++) {
+				IotdtcRecepcion iotdtcRecepcion = listIotdtcRecepcion.get(i);
+//				System.out.println("=====iotdtcRecepcionPIDE===" + listIotdtcRecepcionPIDE.get(i).getCflgest());
+				
+				if (iotdtcRecepcion.getCflgest().toString().equals("R")) {
+							
+					IotdtcRecepcionPIDE iotdtcRecepcionPIDE = new IotdtcRecepcionPIDE();
+					iotdtcRecepcionPIDE.setSidrecext(iotdtcRecepcion.getSidrecext());
+					iotdtcRecepcionPIDE.setCflgenvcar(iotdtcRecepcion.getCflgenvcar());
+					iotdtcRecepcionPIDE.setCflgest(iotdtcRecepcion.getCflgest());
+					iotdtcRecepcionPIDE.setCflgestobs(iotdtcRecepcion.getCflgestobs());
+					iotdtcRecepcionPIDE.setCtipdociderem(iotdtcRecepcion.getCtipdociderem());
+					iotdtcRecepcionPIDE.setDfecmod(iotdtcRecepcion.getDfecmod());
+					iotdtcRecepcionPIDE.setDfecreg(iotdtcRecepcion.getDfecreg());
+					iotdtcRecepcionPIDE.setDfecregstd(iotdtcRecepcion.getDfecregstd());
+					iotdtcRecepcionPIDE.setVanioregstd(iotdtcRecepcion.getVanioregstd());
+					iotdtcRecepcionPIDE.setVcuo(iotdtcRecepcion.getVcuo());
+					iotdtcRecepcionPIDE.setVcuoref(iotdtcRecepcion.getVcuoref());
+					iotdtcRecepcionPIDE.setVdesanxstd(iotdtcRecepcion.getVdesanxstd());
+					iotdtcRecepcionPIDE.setVnumdociderem(iotdtcRecepcion.getVnumdociderem());
+					iotdtcRecepcionPIDE.setVnumregstd(iotdtcRecepcion.getVnumregstd());
+					iotdtcRecepcionPIDE.setVobs(iotdtcRecepcion.getVobs());
+					iotdtcRecepcionPIDE.setVrucentrem(iotdtcRecepcion.getVrucentrem());
+					iotdtcRecepcionPIDE.setVuniorgrem(iotdtcRecepcion.getVuniorgrem());
+					iotdtcRecepcionPIDE.setVuniorgstd(iotdtcRecepcion.getVuniorgstd());
+					iotdtcRecepcionPIDE.setVusumod(iotdtcRecepcion.getVusumod());
+					iotdtcRecepcionPIDE.setVusuregstd(iotdtcRecepcion.getVusuregstd());
+					
+					documentoPIDEService.updateIotdtcRecepcionPIDE(iotdtcRecepcionPIDE);
+				}
+			}
+			//			================		DESPACHO    ================
+			List<IotdtcDespacho> listIotdtcDespacho = despachoVirtualService.getAll();
 	
-//	@SuppressWarnings("unlikely-arg-type")
-//	@Transactional
-//	public void actualizarInformacion() { 
-//		System.out.println("================Job actualizar migracion================");
-//
-//		try {
-//			List<IotdtcRecepcion> listIotdtcRecepcion = recepcionVirtualService.getAll();
-//			String cflgest = "R";
-//			for (int i = 0; i < listIotdtcRecepcion.size(); i++) {
-//				IotdtcRecepcion iotdtcRecepcion = listIotdtcRecepcion.get(i);
-//				
-//				if (iotdtcRecepcion.getCflgest().toString().equals("S")) {
-//					System.out.println("listIotdtcRecepcion.size()............" + listIotdtcRecepcion.size());
-//			
-//							
-//					IotdtcRecepcionPIDE iotdtcRecepcionPIDE = new IotdtcRecepcionPIDE();
-//					iotdtcRecepcionPIDE.setSidrecext(iotdtcRecepcion.getSidrecext());
-//					iotdtcRecepcionPIDE.setCflgenvcar(iotdtcRecepcion.getCflgenvcar());
-//					iotdtcRecepcionPIDE.setCflgest(cflgest.charAt(0));
-//					iotdtcRecepcionPIDE.setCflgestobs(iotdtcRecepcion.getCflgestobs());
-//					iotdtcRecepcionPIDE.setCtipdociderem(iotdtcRecepcion.getCtipdociderem());
-//					iotdtcRecepcionPIDE.setDfecmod(iotdtcRecepcion.getDfecmod());
-//					iotdtcRecepcionPIDE.setDfecreg(iotdtcRecepcion.getDfecreg());
-//					iotdtcRecepcionPIDE.setDfecregstd(iotdtcRecepcion.getDfecregstd());
-//					iotdtcRecepcionPIDE.setVanioregstd(iotdtcRecepcion.getVanioregstd());
-//					iotdtcRecepcionPIDE.setVcuo(iotdtcRecepcion.getVcuo());
-//					iotdtcRecepcionPIDE.setVcuoref(iotdtcRecepcion.getVcuoref());
-//					iotdtcRecepcionPIDE.setVdesanxstd(iotdtcRecepcion.getVdesanxstd());
-//					iotdtcRecepcionPIDE.setVnumdociderem(iotdtcRecepcion.getVnumdociderem());
-//					iotdtcRecepcionPIDE.setVnumregstd(iotdtcRecepcion.getVnumregstd());
-//					iotdtcRecepcionPIDE.setVobs(iotdtcRecepcion.getVobs());
-//					iotdtcRecepcionPIDE.setVrucentrem(iotdtcRecepcion.getVrucentrem());
-//					iotdtcRecepcionPIDE.setVuniorgrem(iotdtcRecepcion.getVuniorgrem());
-//					iotdtcRecepcionPIDE.setVuniorgstd(iotdtcRecepcion.getVuniorgstd());
-//					iotdtcRecepcionPIDE.setVusumod(iotdtcRecepcion.getVusumod());
-//					iotdtcRecepcionPIDE.setVusuregstd(iotdtcRecepcion.getVusuregstd());
-//					
-//					documentoPIDEService.updateIotdtcRecepcionPIDE(iotdtcRecepcionPIDE);
-//				}
-//			}
-//				//Desapacho
-//			List<IotdtcDespacho> listIotdtcDespacho = despachoVirtualService.getAll();
-//			
-//			System.out.println("IotdtcDespacho.size()................" + listIotdtcDespacho.size());
-//	
-//			for (int i = 0; i < listIotdtcDespacho.size(); i++) {			
-//				IotdtcDespacho iotdtcDespacho = listIotdtcDespacho.get(i);
-//				
-//				if(listIotdtcDespacho.get(i).getCflgest().toString().equals("E")) {
-//					
-//						IotdtcDespachoPIDE iotdtcDespachoPIDE =  new IotdtcDespachoPIDE();
-//                      iotdtcDespachoPIDE.setBcarstdrec(iotdtcDespacho.getBcarstdrec());
-//                      iotdtcDespachoPIDE.setCflgest(iotdtcDespacho.getCflgest());
-//                      iotdtcDespachoPIDE.setCtipdociderem(iotdtcDespacho.getCtipdociderem());
-//                      iotdtcDespachoPIDE.setDfecenv(iotdtcDespacho.getDfecenv());
-//                      iotdtcDespachoPIDE.setDfecmod(iotdtcDespacho.getDfecmod());
-//                      iotdtcDespachoPIDE.setDfecreg(iotdtcDespacho.getDfecreg());
-//                      iotdtcDespachoPIDE.setDfecregstdrec(iotdtcDespacho.getDfecregstdrec());
-//                      iotdtcDespachoPIDE.setSidemiext(iotdtcDespacho.getSidemiext());
-//                      iotdtcDespachoPIDE.setVanioregstd(iotdtcDespacho.getVanioregstd());
-//                      iotdtcDespachoPIDE.setVanioregstdrec(iotdtcDespacho.getVanioregstdrec());
-//                      iotdtcDespachoPIDE.setVcoduniorgrem(iotdtcDespacho.getVcoduniorgrem());
-//                      iotdtcDespachoPIDE.setVcuo(iotdtcDespacho.getVcuo());
-//                      iotdtcDespachoPIDE.setVcuoref(iotdtcDespacho.getVcuoref());
-//                      iotdtcDespachoPIDE.setVdesanxstdrec(iotdtcDespacho.getVdesanxstdrec());
-//                      iotdtcDespachoPIDE.setVnomentrec(iotdtcDespacho.getVnomentrec());
-//                      iotdtcDespachoPIDE.setVnumdociderem(iotdtcDespacho.getVnumdociderem());
-//                      iotdtcDespachoPIDE.setVnumregstd(iotdtcDespacho.getVnumregstd());
-//                      iotdtcDespachoPIDE.setVnumregstdrec(iotdtcDespacho.getVnumregstdrec());
-//                      iotdtcDespachoPIDE.setVobs(iotdtcDespacho.getVobs());
-//                      iotdtcDespachoPIDE.setVrucentrec(iotdtcDespacho.getVrucentrec());
-//                      iotdtcDespachoPIDE.setVuniorgrem(iotdtcDespacho.getVuniorgrem());
-//                      iotdtcDespachoPIDE.setVuniorgstdrec(iotdtcDespacho.getVuniorgstdrec());
-//                      iotdtcDespachoPIDE.setVusumod(iotdtcDespacho.getVusumod());
-//                      iotdtcDespachoPIDE.setVusureg(iotdtcDespacho.getVusureg());
-//                      iotdtcDespachoPIDE.setVusuregstdrec(iotdtcDespacho.getVusuregstdrec());
-//                     
-//                      System.out.println("Actulizar iotdtcDespachoPIDE");
-////                    System.out.println(iotdtcDespachoPIDE);
-////                    //                    
-//                      documentoPIDEService.updateIotdtcDespachoPIDE(iotdtcDespachoPIDE);
-//						
-//					
-//					
-//					
-//				}
+			System.out.println("listIotdtcDespacho.size()................" + listIotdtcDespacho.size());
+	
+			for (int i = 0; i < listIotdtcDespacho.size(); i++) {			
+				IotdtcDespacho iotdtcDespacho = listIotdtcDespacho.get(i);
+				
+				IotdtcDespachoPIDE iotdtcDespachoPIDE =  new IotdtcDespachoPIDE();
+	              iotdtcDespachoPIDE.setBcarstdrec(iotdtcDespacho.getBcarstdrec());
+	              iotdtcDespachoPIDE.setCflgest(iotdtcDespacho.getCflgest());
+	              iotdtcDespachoPIDE.setCtipdociderem(iotdtcDespacho.getCtipdociderem());
+	              iotdtcDespachoPIDE.setDfecenv(iotdtcDespacho.getDfecenv());
+	              iotdtcDespachoPIDE.setDfecmod(iotdtcDespacho.getDfecmod());
+	              iotdtcDespachoPIDE.setDfecreg(iotdtcDespacho.getDfecreg());
+	              iotdtcDespachoPIDE.setDfecregstdrec(iotdtcDespacho.getDfecregstdrec());
+	              iotdtcDespachoPIDE.setSidemiext(iotdtcDespacho.getSidemiext());
+	              iotdtcDespachoPIDE.setVanioregstd(iotdtcDespacho.getVanioregstd());
+	              iotdtcDespachoPIDE.setVanioregstdrec(iotdtcDespacho.getVanioregstdrec());
+	              iotdtcDespachoPIDE.setVcoduniorgrem(iotdtcDespacho.getVcoduniorgrem());
+	              iotdtcDespachoPIDE.setVcuo(iotdtcDespacho.getVcuo());
+	              iotdtcDespachoPIDE.setVcuoref(iotdtcDespacho.getVcuoref());
+	              iotdtcDespachoPIDE.setVdesanxstdrec(iotdtcDespacho.getVdesanxstdrec());
+	              iotdtcDespachoPIDE.setVnomentrec(iotdtcDespacho.getVnomentrec());
+	              iotdtcDespachoPIDE.setVnumdociderem(iotdtcDespacho.getVnumdociderem());
+	              iotdtcDespachoPIDE.setVnumregstd(iotdtcDespacho.getVnumregstd());
+	              iotdtcDespachoPIDE.setVnumregstdrec(iotdtcDespacho.getVnumregstdrec());
+	              iotdtcDespachoPIDE.setVobs(iotdtcDespacho.getVobs());
+	              iotdtcDespachoPIDE.setVrucentrec(iotdtcDespacho.getVrucentrec());
+	              iotdtcDespachoPIDE.setVuniorgrem(iotdtcDespacho.getVuniorgrem());
+	              iotdtcDespachoPIDE.setVuniorgstdrec(iotdtcDespacho.getVuniorgstdrec());
+	              iotdtcDespachoPIDE.setVusumod(iotdtcDespacho.getVusumod());
+	              iotdtcDespachoPIDE.setVusureg(iotdtcDespacho.getVusureg());
+	              iotdtcDespachoPIDE.setVusuregstdrec(iotdtcDespacho.getVusuregstdrec());
+	             
+	              System.out.println("Actulizar iotdtcDespachoPIDE");           
+	              documentoPIDEService.updateIotdtcDespachoPIDE(iotdtcDespachoPIDE);
+				
+						
+			}
+			//		................	DOCEXTERNO.  ...............
+			List<IotdtmDocExterno> listIotdtcDocExterno = docExternoVirtualService.getAll();
 			
-			
-//			List<IotdtcDespacho> listIotdtmDocExterno = despachoVirtualService();
-//	
-//			System.out.println("listIotdtcDocExternoPIDE.size()................" + listIotdtcDocExternoPIDE.size());
-//	
-//			for (int i = 0; i < listIotdtcDocExternoPIDE.size(); i++) {			
-//				IotdtmDocExternoPIDE iotdtcDocExternoPIDE = listIotdtcDocExternoPIDE.get(i);
-//				
-//				if(listIotdtcRecepcionPIDE.get(i).getCflgest().toString().equals("P")) {
-//					
-//					if(iotdtcDocExternoPIDE.getSidrecext().getSidrecext() == listIotdtcRecepcionPIDE.get(i).getSidrecext() ) {
-//						
-//						IotdtmDocExterno iotdtcDocExterno = new IotdtmDocExterno();
-//						iotdtcDocExterno.setSiddocext(iotdtcDocExternoPIDE.getSiddocext());
-//						iotdtcDocExterno.setCcodtipdoc(iotdtcDocExternoPIDE.getCcodtipdoc());
-//						iotdtcDocExterno.setCindtup(iotdtcDocExternoPIDE.getCindtup());
-//						iotdtcDocExterno.setDfecdoc(iotdtcDocExternoPIDE.getDfecdoc());
-//						iotdtcDocExterno.setSnumanx(iotdtcDocExternoPIDE.getSnumanx());
-//						iotdtcDocExterno.setSnumfol(iotdtcDocExternoPIDE.getSnumfol());
-//						iotdtcDocExterno.setVasu(iotdtcDocExternoPIDE.getVasu());
-//						iotdtcDocExterno.setVnomcardst(iotdtcDocExternoPIDE.getVnomcardst());
-//						iotdtcDocExterno.setVnomdst(iotdtcDocExternoPIDE.getVnomdst());
-//						iotdtcDocExterno.setVnomentemi(iotdtcDocExternoPIDE.getVnomentemi());
-//						iotdtcDocExterno.setVnumdoc(iotdtcDocExternoPIDE.getVnumdoc());
-//						
-//						iotdtcDocExterno.setVuniorgdst(iotdtcDocExternoPIDE.getVuniorgdst());
-//						iotdtcDocExterno.setVurldocanx(iotdtcDocExternoPIDE.getVurldocanx());
-//						
-//						IotdtcDespacho iotdtcDespacho = new IotdtcDespacho();
-//						
-//						if (iotdtcDocExternoPIDE.getSidemiext() != null) {
-//							iotdtcDespacho.setSidemiext(iotdtcDocExternoPIDE.getSidemiext().getSidemiext());
-//							iotdtcDocExterno.setSidemiext(iotdtcDespacho); 
-//						}
-//						
-//						IotdtcRecepcion iotdtcRecepcion = new IotdtcRecepcion();
+			System.out.println("listIotdtcDocExterno.size()................" + listIotdtcDocExterno.size());
+	
+			for (int i = 0; i < listIotdtcDocExterno.size(); i++) {			
+				IotdtmDocExterno iotdtcDocExterno = listIotdtcDocExterno.get(i);
+				
+				if(listIotdtcRecepcion.get(i).getCflgest().toString().equals("R")) {
+					
+					if(iotdtcDocExterno.getSidrecext().getSidrecext() == listIotdtcRecepcion.get(i).getSidrecext() ) {
+						
+						IotdtmDocExternoPIDE iotdtcDocExternoPIDE = new IotdtmDocExternoPIDE();
+						iotdtcDocExternoPIDE.setSiddocext(iotdtcDocExterno.getSiddocext());
+						iotdtcDocExternoPIDE.setCcodtipdoc(iotdtcDocExterno.getCcodtipdoc());
+						iotdtcDocExternoPIDE.setCindtup(iotdtcDocExterno.getCindtup());
+						iotdtcDocExternoPIDE.setDfecdoc(iotdtcDocExterno.getDfecdoc());
+						iotdtcDocExternoPIDE.setSnumanx(iotdtcDocExterno.getSnumanx());
+						iotdtcDocExternoPIDE.setSnumfol(iotdtcDocExterno.getSnumfol());
+						iotdtcDocExternoPIDE.setVasu(iotdtcDocExterno.getVasu());
+						iotdtcDocExternoPIDE.setVnomcardst(iotdtcDocExterno.getVnomcardst());
+						iotdtcDocExternoPIDE.setVnomdst(iotdtcDocExterno.getVnomdst());
+						iotdtcDocExternoPIDE.setVnomentemi(iotdtcDocExterno.getVnomentemi());
+						iotdtcDocExternoPIDE.setVnumdoc(iotdtcDocExterno.getVnumdoc());
+						
+						iotdtcDocExternoPIDE.setVuniorgdst(iotdtcDocExterno.getVuniorgdst());
+						iotdtcDocExternoPIDE.setVurldocanx(iotdtcDocExterno.getVurldocanx());
+						
+						IotdtcDespachoPIDE iotdtcDespachoPIDE = new IotdtcDespachoPIDE();
+						
+						if (iotdtcDocExterno.getSidemiext() != null) {
+							iotdtcDespachoPIDE.setSidemiext(iotdtcDocExternoPIDE.getSidemiext().getSidemiext());
+							iotdtcDocExternoPIDE.setSidemiext(iotdtcDespachoPIDE); 
+						}
+						
+						IotdtcRecepcionPIDE iotdtcRecepcionPIDE = new IotdtcRecepcionPIDE();
 //						System.out.println("===iotdtcDocExternoPIDE.getSidrecext().getSidrecext()== "+iotdtcDocExternoPIDE.getSidrecext().getSidrecext());
-//						
-//						if(iotdtcDocExternoPIDE.getSidrecext() != null) {
-//							iotdtcRecepcion.setSidrecext(iotdtcDocExternoPIDE.getSidrecext().getSidrecext());
-//							
-//							iotdtcDocExterno.setSidrecext(iotdtcRecepcion); 
-//						}
-//						
-//						IotdtmDocExterno iotdtcDocExternoInserted = docExternoVirtualService.registrarDocumento(iotdtcDocExterno);
-//					}
-//					
-//				}
-//			}
-//			
-//			List<IotdtdDocPrincipalPIDE> listIotdtcDocPrincipalPIDE = documentoPIDEService.getAllDocPrincipal();
-//	
-//			System.out.println("listIotdtcDocPrincipalPIDE.size()................" + listIotdtcDocPrincipalPIDE.size());
-//	
-//			for (int i = 0; i < listIotdtcDocPrincipalPIDE.size(); i++) {			
-//				IotdtdDocPrincipalPIDE iotdtcDocPrincipalPIDE = listIotdtcDocPrincipalPIDE.get(i);
-//				if(listIotdtcRecepcionPIDE.get(i).getCflgest().toString().equals("P")) {
-//					
-//					if(listIotdtcDocExternoPIDE.get(i).getSidrecext().getSidrecext() == listIotdtcRecepcionPIDE.get(i).getSidrecext() ) {
-//						if(iotdtcDocPrincipalPIDE.getSiddocext().getSiddocext() == listIotdtcDocExternoPIDE.get(i).getSiddocext()) {
-//							IotdtdDocPrincipal iotdtcDocPrincipal = new IotdtdDocPrincipal();
-//							iotdtcDocPrincipal.setSiddocpri(iotdtcDocPrincipalPIDE.getSiddocpri());
-//							iotdtcDocPrincipal.setBpdfdoc(iotdtcDocPrincipalPIDE.getBpdfdoc());
-//							iotdtcDocPrincipal.setCcodest(iotdtcDocPrincipalPIDE.getCcodest());
-//							iotdtcDocPrincipal.setDfecreg(iotdtcDocPrincipalPIDE.getDfecreg());
-//							iotdtcDocPrincipal.setVnomdoc(iotdtcDocPrincipalPIDE.getVnomdoc());
-//							
-//							IotdtmDocExterno iotdtmDocExterno = new IotdtmDocExterno();
-//							
-//							if(iotdtcDocPrincipalPIDE.getSiddocext() != null) {
-//								iotdtmDocExterno.setSiddocext(iotdtcDocPrincipalPIDE.getSiddocext().getSiddocext()); 
-//								iotdtcDocPrincipal.setSiddocext(iotdtmDocExterno); 
-//							}
-//							
-//							IotdtdDocPrincipal iotdtcDocPrincipalInserted = docPrincipalVirtualService.registrarPrincipal(iotdtcDocPrincipal);
-//						}
-//					}
-//					
-//					
-//				}
-//			}
-//			
-//			List<IotdtdAnexoPIDE> listIotdtcDocAnexoPIDE = documentoPIDEService.getAllAnexo();
-//	
-//			System.out.println("listIotdtcDocAnexoPIDE.size()..........." + listIotdtcDocAnexoPIDE.size());
-//			
-//	
-//			for (int i = 0; i < listIotdtcDocAnexoPIDE.size(); i++) {			
-//				IotdtdAnexoPIDE iotdtcDocAnexoPIDE = listIotdtcDocAnexoPIDE.get(i);
-//				
-//				if(listIotdtcRecepcionPIDE.get(i).getCflgest().toString().equals("P")) {
-//					if(listIotdtcDocExternoPIDE.get(i).getSidrecext().getSidrecext() == listIotdtcRecepcionPIDE.get(i).getSidrecext() ) {
-//						if(iotdtcDocAnexoPIDE.getSiddocext().getSiddocext() == listIotdtcDocExternoPIDE.get(i).getSiddocext()) {
-//							
-//							IotdtdAnexo iotdtcDocAnexo = new IotdtdAnexo();
-//							iotdtcDocAnexo.setSiddocanx(iotdtcDocAnexoPIDE.getSiddocanx());	
-//							iotdtcDocAnexo.setDfecreg(iotdtcDocAnexoPIDE.getDfecreg());
-//							iotdtcDocAnexo.setVnomdoc(iotdtcDocAnexoPIDE.getVnomdoc());
-//							
-//							IotdtmDocExterno iotdtmDocExterno = new IotdtmDocExterno();
-//							
-//							if(iotdtcDocAnexoPIDE.getSiddocext() != null) {
-//								iotdtmDocExterno.setSiddocext(iotdtcDocAnexoPIDE.getSiddocext().getSiddocext()); 
-//								iotdtcDocAnexo.setSiddocext(iotdtmDocExterno); 
-//							}
-//							
-//							IotdtdAnexo iotdtcDocPrincipalInserted = docAnexoVirtualService.registrarAnexo(iotdtcDocAnexo);
-//						}
-//					}
-//					
-//				}
-//			}
-//		
-//		} catch (Exception e) {
-//			System.out.println("ERROR EN LOS INSERT");
-//			System.out.println(e.getMessage()); 
-//		}
-}
+						
+						if(iotdtcDocExternoPIDE.getSidrecext() != null) {
+							iotdtcRecepcionPIDE.setSidrecext(iotdtcDocExterno.getSidrecext().getSidrecext());
+							
+							iotdtcDocExternoPIDE.setSidrecext(iotdtcRecepcionPIDE); 
+						}
+						
+						documentoPIDEService.updateIotdtmDocExternoPIDE(iotdtcDocExternoPIDE);
+					}
+					
+				}
+			}
+			//.............DOC PRINCIPAL.............
+			
+			List<IotdtdDocPrincipal> listIotdtcDocPrincipal = docPrincipalVirtualService.getAll();
 	
+			System.out.println("listIotdtcDocPrincipal.size()................" + listIotdtcDocPrincipal.size());
+	
+			for (int i = 0; i < listIotdtcDocPrincipal.size(); i++) {			
+				IotdtdDocPrincipal iotdtcDocPrincipal = listIotdtcDocPrincipal.get(i);
+				if(listIotdtcRecepcion.get(i).getCflgest().toString().equals("R")) {
+					
+					if(listIotdtcDocExterno.get(i).getSidrecext().getSidrecext() == listIotdtcRecepcion.get(i).getSidrecext() ) {
+						if(iotdtcDocPrincipal.getSiddocext().getSiddocext() == listIotdtcDocExterno.get(i).getSiddocext()) {
+							IotdtdDocPrincipalPIDE iotdtcDocPrincipalPIDE = new IotdtdDocPrincipalPIDE();
+							iotdtcDocPrincipalPIDE.setSiddocpri(iotdtcDocPrincipal.getSiddocpri());
+							iotdtcDocPrincipalPIDE.setBpdfdoc(iotdtcDocPrincipal.getBpdfdoc());
+							iotdtcDocPrincipalPIDE.setCcodest(iotdtcDocPrincipal.getCcodest());
+							iotdtcDocPrincipalPIDE.setDfecreg(iotdtcDocPrincipal.getDfecreg());
+							iotdtcDocPrincipalPIDE.setVnomdoc(iotdtcDocPrincipal.getVnomdoc());
+							
+							IotdtmDocExternoPIDE iotdtmDocExternoPIDE = new IotdtmDocExternoPIDE();
+							
+							if(iotdtcDocPrincipal.getSiddocext() != null) {
+								iotdtmDocExternoPIDE.setSiddocext(iotdtcDocPrincipal.getSiddocext().getSiddocext()); 
+								iotdtcDocPrincipalPIDE.setSiddocext(iotdtmDocExternoPIDE); 
+							}
+							
+							documentoPIDEService.updateIotdtdDocPrincipalPIDE(iotdtcDocPrincipalPIDE);
+						}
+					}
+					
+					
+				}
+			}
+			//.............ANEXO.............
+			List<IotdtdAnexo> listIotdtcDocAnexo = docAnexoVirtualService.getAll();
+	
+			System.out.println("listIotdtcDocAnexo.size()..........." + listIotdtcDocAnexo.size());
+			
+	
+			for (int i = 0; i < listIotdtcDocAnexo.size(); i++) {			
+				IotdtdAnexo iotdtcDocAnexo = listIotdtcDocAnexo.get(i);
+				
+				if(listIotdtcRecepcion.get(i).getCflgest().toString().equals("R")) {
+					if(listIotdtcDocExterno.get(i).getSidrecext().getSidrecext() == listIotdtcRecepcion.get(i).getSidrecext() ) {
+						if(iotdtcDocAnexo.getSiddocext().getSiddocext() == listIotdtcDocExterno.get(i).getSiddocext()) {
+							
+							IotdtdAnexoPIDE iotdtcDocAnexoPIDE = new IotdtdAnexoPIDE();
+							iotdtcDocAnexoPIDE.setSiddocanx(iotdtcDocAnexo.getSiddocanx());	
+							iotdtcDocAnexoPIDE.setDfecreg(iotdtcDocAnexo.getDfecreg());
+							iotdtcDocAnexoPIDE.setVnomdoc(iotdtcDocAnexo.getVnomdoc());
+							
+							IotdtmDocExternoPIDE iotdtmDocExternoPIDE = new IotdtmDocExternoPIDE();
+							
+							if(iotdtcDocAnexo.getSiddocext() != null) {
+								iotdtmDocExternoPIDE.setSiddocext(iotdtcDocAnexo.getSiddocext().getSiddocext()); 
+								iotdtcDocAnexoPIDE.setSiddocext(iotdtmDocExternoPIDE); 
+							}
+							
+							documentoPIDEService.updateIotdtdAnexoPIDE(iotdtcDocAnexoPIDE);
+						}
+					}
+					
+				}
+			}
+		
+		} catch (Exception e) {
+			System.out.println("ERROR EN LOS INSERT");
+			System.out.println(e.getMessage()); 
+		}
+	}
+}
