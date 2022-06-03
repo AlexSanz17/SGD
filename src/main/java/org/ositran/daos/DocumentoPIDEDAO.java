@@ -19,7 +19,6 @@ public interface DocumentoPIDEDAO {
 	IotdtcRecepcionPIDE findRecepcionByVcuo(String vcuo);
 	IotdtcRecepcionPIDE updateIotdtcRecepcionPIDE(IotdtcRecepcionPIDE objIotdtcRecepcionPIDE);
 	List<IotdtcDespachoPIDE> findAllDespacho();
-	List<IotdtcDespachoPIDE> getDespachoByVcuo1(String vcuo);
 	IotdtcDespachoPIDE getDespachoByVcuo(String vcuo);
 	IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE);
 	List<IotdtmDocExternoPIDE> findAllDocExterno();

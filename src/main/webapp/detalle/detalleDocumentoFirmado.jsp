@@ -518,10 +518,20 @@
 	                    if (confirm("Desea Enviar el cargo "+ "<s:property value='documento.numeroDocumento' /> "  +"?")) {
 	                   	 dojo.xhrPost({
 	       	                url: "enviarCargo.action?iIdDoc=" + "<s:property value='documento.idDocumento' /> ",
-	       	                load: function() {
-	       		            	window.close();
-	       		            	window.opener.showGridInbox();
-	       		            	window.opener.refreshTabDXE();
+	       	                load: function(data) {
+	       	                	console.log(data);
+	       	                	dijit.byId("dlgProgresBar").show();
+	       	                	if(data == '1'){
+	       	                		alert('fallo el servicio!');
+	       	                		dijit.byId("dlgProgresBar").hide();
+		       	                	console.log(data)
+		       		            	window.close();
+		       		            	window.opener.showGridInbox();
+		       		            	window.opener.refreshTabDXE();
+	       	                	}
+	       		            },
+	       		            error: function(error){
+	       		            	alert(error)
 	       		            }
 	       	             });
 	                     }

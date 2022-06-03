@@ -17,7 +17,9 @@ import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +53,7 @@ import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -175,6 +178,7 @@ import com.btg.ositran.siged.domain.FilaBandejaUF;
 import com.btg.ositran.siged.domain.FirmaArchivo;
 import com.btg.ositran.siged.domain.GridXGridColumna;
 import com.btg.ositran.siged.domain.Gridcolumnaxusuario;
+import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Legajo;
 import com.btg.ositran.siged.domain.LegajoDocumento;
@@ -3750,7 +3754,26 @@ public class DojoAction {
 //				// TODO Auto-generated catch block
 //			}
 			
+			//Actualizar archivo PDF firmado
 			
+			System.out.println("===============Actualizar archivo PDF firmado ====================");
+			
+			IotdtmDocExterno iotdtmDocExterno = null;
+			List<Documento> documento = documentoService.findByID_CODIGO(itemFirmar.getCodigoId());
+			if(documento.get(0).getNroVirtual() != null && !documento.get(0).getNroVirtual().equals("")) {
+				iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(documento.get(0).getNroVirtual()));
+				 byte[] bytesCargo = null;
+				try {
+					bytesCargo = Files.readAllBytes(Paths.get(newFullPathFirmado));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				IotdtcRecepcion iotdtcRecepcion = iotdtmDocExterno.getSidrecext();
+				 iotdtcRecepcion.setBcarstd(Base64.encodeBase64(bytesCargo));
+				 recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
+				 System.out.println("SE ACTUALIZO EL DOCUMENTO PDF");
+			}
 			
 			FirmaArchivo firmaArchivo = new FirmaArchivo();
 			list.get(0).setFlagFirma(0);
@@ -3791,6 +3814,9 @@ public class DojoAction {
 	
 					if (result == AlfrescoConnector.RETURN_CODE.SUCCESS) {
 						log.info("Se subio el documento firmado a alfresco:" + fullPathAlfresco);
+						
+						
+						
 	
 					} else {
 						log.error("No se pudo subir el archivo a alfresco:" + fullPathAlfresco);

@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
+import com.btg.ositran.siged.domain.IotdtmDocExterno;
 
 public class DocPrincipalVirtualDAOImpl implements  DocPrincipalVirtualDAO{
 	@PersistenceContext(unitName="sigedPU")
@@ -46,5 +47,11 @@ public class DocPrincipalVirtualDAOImpl implements  DocPrincipalVirtualDAO{
 	}
 		
        return principal;
+    }
+    @SuppressWarnings("unchecked")
+   	public List<IotdtdDocPrincipal> findAll() {    	 
+  	     	 Query query = em.createNamedQuery("IotdtdDocPrincipal.findAll");
+  	     	 return query.getResultList();
+  	          
     }
 }

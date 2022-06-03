@@ -7,6 +7,7 @@ import com.btg.ositran.siged.domain.Usuario;
 import java.util.List;
 
 public interface DocumentoExternoVirtualDAO {
+	public List<IotdtmDocExterno> findAll() ;
     public List<IotdtmDocExterno> buscarRecepcionVirtual(Usuario objUsuario);
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesCargo();
     public List<IotdtmDocExterno> buscarDespachoVirtual(Usuario objUsuario);

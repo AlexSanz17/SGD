@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.btg.ositran.siged.domain.IotdtcDespachoPIDE;
@@ -14,8 +13,6 @@ import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
 import com.btg.ositran.siged.domain.IotdtdAnexoPIDE;
 import com.btg.ositran.siged.domain.IotdtdDocPrincipalPIDE;
 import com.btg.ositran.siged.domain.IotdtmDocExternoPIDE;
-
-@Repository
 
 public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 	@PersistenceContext(unitName="pidePU")
@@ -39,7 +36,7 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 		query.setParameter("vcuo", vcuo);
 		return (IotdtcRecepcionPIDE) query.getSingleResult();
 	}
-	
+	@Transactional
 	public IotdtcRecepcionPIDE updateIotdtcRecepcionPIDE(IotdtcRecepcionPIDE objIotdtcRecepcionPIDE) {
 	      if (objIotdtcRecepcionPIDE.getVcuo() == null) {
 	    	  entityManager.persist(objIotdtcRecepcionPIDE);
@@ -60,31 +57,20 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 	}
 	
 	public IotdtcDespachoPIDE getDespachoByVcuo(String vcuo) {
-		System.out.println("el valor del cuo es : " +vcuo);
 		Query query = entityManager.createNamedQuery("IotdtcDespachoPIDE.findByVcuo");
 		query.setParameter("vcuo", vcuo);
 		return (IotdtcDespachoPIDE) query.getSingleResult();
 	}
-	public List<IotdtcDespachoPIDE> getDespachoByVcuo1(String vcuo) {
-		System.out.println("el valor del cuo es : " +vcuo);
-		Query query = entityManager.createNamedQuery("IotdtcDespachoPIDE.findByVcuo");
-		query.setParameter("vcuo", vcuo);
-		return query.getResultList();
-	}
 	@Transactional
 	public IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE) {
-	      try {
-	    	  if (objIotdtcDespachoPIDE.getVcuo() == null) {
-		    	  entityManager.persist(objIotdtcDespachoPIDE);
-		    	  entityManager.flush();
-		    	  entityManager.refresh(objIotdtcDespachoPIDE);
-		      } else {
-		    	  entityManager.merge(objIotdtcDespachoPIDE);
-		    	  entityManager.flush();
-		      }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	      if (objIotdtcDespachoPIDE.getVcuo() == null) {
+	    	  entityManager.persist(objIotdtcDespachoPIDE);
+	    	  entityManager.flush();
+	    	  entityManager.refresh(objIotdtcDespachoPIDE);
+	      } else {
+	    	  entityManager.merge(objIotdtcDespachoPIDE);
+	    	  entityManager.flush();
+	      }
 
 	      return objIotdtcDespachoPIDE;
    }
@@ -104,20 +90,16 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 			return (IotdtmDocExternoPIDE) query.getSingleResult();
 
 	}
+	@Transactional
 	public IotdtmDocExternoPIDE updateIotdtmDocExternoPIDE(IotdtmDocExternoPIDE objIotdtmDocExternoPIDE) {
-	     try {
-	    	 if (objIotdtmDocExternoPIDE.getSiddocext() == null) {
-		    	  entityManager.persist(objIotdtmDocExternoPIDE);
-		    	  entityManager.flush();
-		    	  entityManager.refresh(objIotdtmDocExternoPIDE);
-		      } else {
-		    	  entityManager.merge(objIotdtmDocExternoPIDE);
-		    	  entityManager.flush();
-		      }
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	      if (objIotdtmDocExternoPIDE.getSiddocext() == null) {
+	    	  entityManager.persist(objIotdtmDocExternoPIDE);
+	    	  entityManager.flush();
+	    	  entityManager.refresh(objIotdtmDocExternoPIDE);
+	      } else {
+	    	  entityManager.merge(objIotdtmDocExternoPIDE);
+	    	  entityManager.flush();
+	      }
 
 	      return objIotdtmDocExternoPIDE;
  }

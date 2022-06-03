@@ -1,8 +1,12 @@
 package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtdAnexo;
+import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import java.util.List;
 
 public class DocAnexoVirtualDAOImpl implements DocAnexoVirtualDAO{
@@ -32,5 +36,11 @@ public class DocAnexoVirtualDAOImpl implements DocAnexoVirtualDAO{
 	}
 		
        return anexo;
+    }
+    @SuppressWarnings("unchecked")
+   	public List<IotdtdAnexo> findAll() {    	 
+  	     	 Query query = em.createNamedQuery("IotdtdAnexo.findAll");
+  	     	 return query.getResultList();
+  	          
     }
 }

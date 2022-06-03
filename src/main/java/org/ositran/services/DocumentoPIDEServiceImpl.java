@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.ositran.daos.DocumentoPIDEDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.btg.ositran.siged.domain.IotdtcDespachoPIDE;
 import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
@@ -37,7 +35,6 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public IotdtcRecepcionPIDE getRecepcionByVcuo(String vcuo) {
 		return documentoPIDEDAO.findRecepcionByVcuo(vcuo);
 	}
-	@Transactional(propagation = Propagation.REQUIRED)
 	public IotdtcRecepcionPIDE updateIotdtcRecepcionPIDE(IotdtcRecepcionPIDE objIotdtcRecepcionPIDE) {
 		return documentoPIDEDAO.updateIotdtcRecepcionPIDE(objIotdtcRecepcionPIDE);
 	}
@@ -50,10 +47,7 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public IotdtcDespachoPIDE getDespachoByVcuo(String vcuo) {
 		return documentoPIDEDAO.getDespachoByVcuo(vcuo);
 	}
-	public List<IotdtcDespachoPIDE> getDespachoByVcuo1(String vcuo) {
-		return documentoPIDEDAO.getDespachoByVcuo1(vcuo);
-	}
-	@Transactional(propagation = Propagation.REQUIRED)
+	
 	public IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE) {
 		return documentoPIDEDAO.updateIotdtcDespachoPIDE(objIotdtcDespachoPIDE);
 	}
@@ -62,7 +56,7 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public List<IotdtmDocExternoPIDE> getAllDocExterno() {
 		return documentoPIDEDAO.findAllDocExterno();
 	}
-	@Transactional(propagation = Propagation.REQUIRED)
+	
 	public IotdtmDocExternoPIDE updateIotdtmDocExternoPIDE(IotdtmDocExternoPIDE objIotdtmDocExternoPIDE) {
 		return documentoPIDEDAO.updateIotdtmDocExternoPIDE(objIotdtmDocExternoPIDE);
 	}
@@ -78,7 +72,6 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public IotdtdDocPrincipalPIDE getDocPrincipalByCuo(String vcuo) {
 		return documentoPIDEDAO.getDocPrincipalByCuo(vcuo);
 	}
-	@Transactional(propagation = Propagation.REQUIRED)
 	public IotdtdDocPrincipalPIDE updateIotdtdDocPrincipalPIDE(IotdtdDocPrincipalPIDE objIotdtdDocPrincipalPIDE) {
 		return documentoPIDEDAO.updateIotdtdDocPrincipalPIDE(objIotdtdDocPrincipalPIDE);
 	}
@@ -90,7 +83,6 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public IotdtdAnexoPIDE getAnexoByCuo(String vcuo) {
 		return documentoPIDEDAO.getAnexoByCuo(vcuo);
 	}
-	@Transactional(propagation = Propagation.REQUIRED)
 	public IotdtdAnexoPIDE updateIotdtdAnexoPIDE(IotdtdAnexoPIDE objIotdtdAnexoPIDE) {
 		return documentoPIDEDAO.updateIotdtdAnexoPIDE(objIotdtdAnexoPIDE);
 	}

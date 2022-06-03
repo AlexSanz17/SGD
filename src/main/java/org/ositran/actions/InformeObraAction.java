@@ -33,15 +33,15 @@
 //	private String fechaCreacion;
 //	private String fechaModificacion;
 //	
-//	private final Logger log = LoggerFactory.getLogger(DocumentoAction.class);
+////	private final Logger log = LoggerFactory.getLogger(DocumentoAction.class);
 //    
-////	@Override
-////	public void setServletResponse(HttpServletResponse response) {
-////	}
-////
-////	@Override
-////	public void setServletRequest(HttpServletRequest request) {
-////	}
+//	@Override
+//	public void setServletResponse(HttpServletResponse response) {
+//	}
+//
+//	@Override
+//	public void setServletRequest(HttpServletRequest request) {
+//	}
 //	
 //	public InformeObra getInformeObra() {
 //		return informeObra;
@@ -168,8 +168,8 @@
 //		
 //		informeObraService.create(informeObra);
 //
-//		log.debug("InformeObraAction::registrarInformeObra()");
-//		log.info("contrato " + informeObra.getContrato() + "razonSocial " + informeObra.getRazonSocial());
+////		log.debug("InformeObraAction::registrarInformeObra()");
+////		log.info("contrato " + informeObra.getContrato() + "razonSocial " + informeObra.getRazonSocial());
 //	    
 //		return "registrarInformeObra";
 //	}

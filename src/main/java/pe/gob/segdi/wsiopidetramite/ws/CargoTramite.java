@@ -7,7 +7,17 @@
 
 package pe.gob.segdi.wsiopidetramite.ws;
 
+import java.util.Arrays;
+
 public class CargoTramite implements java.io.Serializable {
+	@Override
+	public String toString() {
+		return "CargoTramite [vrucentrem=" + vrucentrem + ", vrucentrec=" + vrucentrec + ", vcuo=" + vcuo + ", vcuoref="
+				+ vcuoref + ", vnumregstd=" + vnumregstd + ", vanioregstd=" + vanioregstd + ", dfecregstd=" + dfecregstd
+				+ ", vuniorgstd=" + vuniorgstd + ", vusuregstd=" + vusuregstd + ", bcarstd=" + Arrays.toString(bcarstd)
+				+ ", vobs=" + vobs + ", cflgest=" + cflgest + ", vdesanxstdrec=" + vdesanxstdrec + "]";
+	}
+
 	private java.lang.String vrucentrem;
 
 	private java.lang.String vrucentrec;

@@ -28,12 +28,6 @@ public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
          return (IotdtcDespacho)em.createNamedQuery("IotdtcDespacho.findByVcuo")
 				.setParameter("vcuo", vcuo).getSingleResult();
      }
-     @SuppressWarnings("unchecked")
- 	public List<IotdtcDespacho> findAll() {    	 
-     	 Query query = em.createNamedQuery("IotdtcDespacho.findAll");
-     	 return query.getResultList();
-          
-      }
     
      public IotdtcDespacho registrarDocumento(IotdtcDespacho despacho){
 		
@@ -46,9 +40,13 @@ public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
 	    em.merge(despacho); 
 	    em.flush();
 	}
-       
 		
        return despacho;
-    }
-    
+    }    
+     @SuppressWarnings("unchecked")
+ 	public List<IotdtcDespacho> findAll() {    	 
+     	 Query query = em.createNamedQuery("IotdtcDespacho.findAll");
+     	 return query.getResultList();
+          
+      }
 }

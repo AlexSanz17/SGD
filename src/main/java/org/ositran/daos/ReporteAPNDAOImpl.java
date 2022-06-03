@@ -1121,9 +1121,10 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 		sql.append(" ORDER BY FECHACREACION");
 
         Query q=em.createNativeQuery(sql.toString());
-        List data = q.getResultList();
+        List data=q.getResultList();
                           
-        for(int i=0;i<data.size();i++) {
+        for(int i=0;i<data.size();i++){
+	    
             Object obj[]=(Object[])data.get(i);
 			FilaHojaRuta f = new FilaHojaRuta();
 			FilaHojaRutaPK pk = new FilaHojaRutaPK();

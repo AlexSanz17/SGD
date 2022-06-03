@@ -42,6 +42,7 @@ public interface DocumentoDAO{
     public Integer findCantMisRecepcionVirtual(Usuario usuario, char estado, char docPrincipal);
         
 	public Documento findByFechaCreacion(Date datFechaCreacion);
+	public List<Documento> findByID_CODIGO(String ID_CODIGO);
         
     public DocumentoDetail findDocumentoDetailByAR(Integer iIdDocumento);
 

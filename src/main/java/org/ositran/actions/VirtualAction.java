@@ -324,6 +324,7 @@ public class VirtualAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("-------enviar cargo ---------" + enviarCargo);
 		
 		return enviarCargo;
 

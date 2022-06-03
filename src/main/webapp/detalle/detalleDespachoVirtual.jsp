@@ -133,9 +133,9 @@
                                     <s:if test="objDD.archivoAnexo != ''">
                                           Anexos:<br/> 
                                          <a onclick="verArchivoAnexo('<s:property value="objDD.archivoAnexo"/>');" alt="Ver Archivo Anexo"> <s:property value="objDD.archivoAnexo"/> [<s:property value="objDD.cantAnexos"/>]<br /> </a>
-                                         <s:iterator value="objDD.listAnexos"> 
-                                           &nbsp;&nbsp;  <s:property/><br/>
-                                         </s:iterator>    
+<%--                                          <s:iterator value="objDD.listAnexos">  --%>
+<%--                                            &nbsp;&nbsp;  <s:property/><br/> --%>
+<%--                                          </s:iterator>     --%>
                                     </s:if>
                                 </td>
                              </tr>       

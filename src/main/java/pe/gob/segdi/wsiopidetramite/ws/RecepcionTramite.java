@@ -7,8 +7,6 @@
 
 package pe.gob.segdi.wsiopidetramite.ws;
 
-import java.util.List;
-
 public class RecepcionTramite  implements java.io.Serializable {
     private java.lang.String vrucentrem;
 
@@ -44,7 +42,7 @@ public class RecepcionTramite  implements java.io.Serializable {
 
     private java.lang.String vnomdoc;
 
-    private List<pe.gob.segdi.wsiopidetramite.ws.DocumentoAnexo> lstanexos;
+    private pe.gob.segdi.wsiopidetramite.ws.DocumentoAnexo[] lstanexos;
 
     private java.lang.String vurldocanx;
 
@@ -73,7 +71,7 @@ public class RecepcionTramite  implements java.io.Serializable {
            int snumfol,
            byte[] bpdfdoc,
            java.lang.String vnomdoc,
-           List<DocumentoAnexo> lstanexos,
+           pe.gob.segdi.wsiopidetramite.ws.DocumentoAnexo[] lstanexos,
            java.lang.String vurldocanx,
            java.lang.String ctipdociderem,
            java.lang.String vnumdociderem) {
@@ -446,7 +444,7 @@ public class RecepcionTramite  implements java.io.Serializable {
      * 
      * @return lstanexos
      */
-    public List<DocumentoAnexo> getLstanexos() {
+    public pe.gob.segdi.wsiopidetramite.ws.DocumentoAnexo[] getLstanexos() {
         return lstanexos;
     }
 
@@ -456,16 +454,16 @@ public class RecepcionTramite  implements java.io.Serializable {
      * 
      * @param lstanexos
      */
-    public void setLstanexos(List<DocumentoAnexo> lstanexos) {
+    public void setLstanexos(pe.gob.segdi.wsiopidetramite.ws.DocumentoAnexo[] lstanexos) {
         this.lstanexos = lstanexos;
     }
 
     public pe.gob.segdi.wsiopidetramite.ws.DocumentoAnexo getLstanexos(int i) {
-        return this.lstanexos.get(i);
+        return this.lstanexos[i];
     }
 
-    public void setLstanexos(int i, List<DocumentoAnexo> _value) {
-        this.lstanexos = _value;
+    public void setLstanexos(int i, pe.gob.segdi.wsiopidetramite.ws.DocumentoAnexo _value) {
+        this.lstanexos[i] = _value;
     }
 
 
@@ -588,7 +586,8 @@ public class RecepcionTramite  implements java.io.Serializable {
              (this.vnomdoc!=null &&
               this.vnomdoc.equals(other.getVnomdoc()))) &&
             ((this.lstanexos==null && other.getLstanexos()==null) || 
-             (this.lstanexos!=null    )) &&
+             (this.lstanexos!=null &&
+              java.util.Arrays.equals(this.lstanexos, other.getLstanexos()))) &&
             ((this.vurldocanx==null && other.getVurldocanx()==null) || 
              (this.vurldocanx!=null &&
               this.vurldocanx.equals(other.getVurldocanx()))) &&

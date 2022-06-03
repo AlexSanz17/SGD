@@ -273,6 +273,7 @@ public interface DocumentoService{
         public DocumentoDetail getDocumentDetailOptimizedAR(Integer iIdDoc, String strRol);
         
         public List<Documento> findByIdDocVirtual(Integer codigoVirtual);
+        public List<Documento> findByID_CODIGO(String ID_CODIGO);
         
       
 

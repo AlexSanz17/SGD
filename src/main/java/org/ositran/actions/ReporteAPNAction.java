@@ -609,14 +609,14 @@ public class ReporteAPNAction {
             return "HojaRuta";
 	}
 
-	public String verHojaRutaExpediente() {
+	public String verHojaRutaExpediente(){
 		documento = documentoService.findByIdDocumento(idDocumento);
 		hojaRuta = reporteAPNService.generarHojaRutaExpediente(documento.getExpediente().getId());
 		//trazabilidad = reporteAPNService.buscarUltimaTraza(iddoc);
 		return "HojaRutaExpediente";
 	}
 
-	public String listarReporte2() {
+	public String listarReporte2(){
 		listaReporteAPN2 = reporteAPNService.getListaReporteAPN2(objFiltro);
 		grupoProceso = "";
 		if(!StringUtils.isEmpty(objFiltro.getGrupoProceso()) && !objFiltro.getGrupoProceso().equals("0")){
@@ -628,7 +628,8 @@ public class ReporteAPNAction {
 		return Action.SUCCESS + "ReporteAPN2";
 	}
 
-	public String listarReporte4() {
+	public String listarReporte4(){
+		log.debug("listarReporte4.");
 		if(StringUtils.isEmpty(cliente)){
 			objFiltro.setCliente("");
 		}
@@ -640,6 +641,7 @@ public class ReporteAPNAction {
 
 		return Action.SUCCESS + "ReporteAPN4";
 	}
+
 
 	public String listarReporte7(){
 		log.debug("listarReporte7.");
