@@ -3759,7 +3759,7 @@ public class DojoAction {
 			System.out.println("===============Actualizar archivo PDF firmado ====================");
 			
 			IotdtmDocExterno iotdtmDocExterno = null;
-			List<Documento> documento = documentoService.findByID_CODIGO(itemFirmar.getCodigoId());
+			List<Documento> documento = documentoService.findByID_CODIGO(itemFirmar.getCodigoId().trim());
 			if(documento.get(0).getNroVirtual() != null && !documento.get(0).getNroVirtual().equals("")) {
 				iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(documento.get(0).getNroVirtual()));
 				 byte[] bytesCargo = null;
@@ -3771,6 +3771,7 @@ public class DojoAction {
 				}
 				IotdtcRecepcion iotdtcRecepcion = iotdtmDocExterno.getSidrecext();
 				 iotdtcRecepcion.setBcarstd(Base64.encodeBase64(bytesCargo));
+//				 System.out.println("iotdtcRecepcion----------" + iotdtcRecepcion );
 				 recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
 				 System.out.println("SE ACTUALIZO EL DOCUMENTO PDF");
 			}

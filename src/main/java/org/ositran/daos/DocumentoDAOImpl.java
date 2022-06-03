@@ -340,11 +340,21 @@ public class DocumentoDAOImpl implements DocumentoDAO {
             return em.createNamedQuery("Documento.findByIdDocVirtual")
 				.setParameter("nroVirtual", codigoVirtual).getResultList();
         }
-        public List<Documento> findByID_CODIGO(String ID_CODIGO){
-            log.debug("-> [DAO] DocumentoDAO - findByID_CODIGO():Documento " + ID_CODIGO); 
-            String elquery = " SELECT d FROM Documento d WHERE d.ID_CODIGO = :ID_CODIGO" ;
-            log.info(elquery);
-            return em.createQuery(elquery).setParameter("ID_CODIGO", ID_CODIGO).getResultList();
+        @SuppressWarnings("unchecked")
+		public List<Documento> findByID_CODIGO(String ID_CODIGO){
+        	List<Documento> docoumento = null;
+        	try {
+ 
+        		log.debug("-> [DAO] DocumentoDAO - findByID_CODIGO():Documento " + ID_CODIGO); 
+                String elquery = " SELECT d FROM Documento d WHERE d.ID_CODIGO = '" + ID_CODIGO+"'" ;
+                Query q = em.createQuery(elquery);
+                docoumento = q.getResultList();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+            
+            return docoumento;
         }
 
         public List<Documento> consultaDocumentoReferencia(Integer idDocumento){

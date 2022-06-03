@@ -8,6 +8,7 @@ import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.DocumentoAnulado;
 import com.btg.ositran.siged.domain.DocumentoPendiente;
+import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.DocumentoAtendido;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.SeguimientoXUsuario;
@@ -18,11 +19,16 @@ import com.btg.ositran.siged.domain.Trazabilidaddocumento;
 import com.btg.ositran.siged.domain.Usuario;
 import com.btg.ositran.siged.domain.Usuarioxunidadxfuncion;
 import org.ositran.daos.DocumentoPendienteDAO;
+import org.ositran.daos.RecepcionVirtualDAO;
+
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import org.ositran.daos.DespachoVirtualDAO;
 import org.ositran.daos.DocumentoAnuladoDAO;
 import org.ositran.daos.DocumentoAtendidoDAO;
 import org.ositran.daos.DocumentoDAO;
@@ -76,9 +82,29 @@ public class PendienteAction {
     private boolean controlDevolver;
     private AccionService accionService;
     private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+    private RecepcionVirtualDAO recepcionVirtualDAO;
     private int archivoFirmado;
+    private int archivoEnviadoCargo;
+  
 
-    public int getArchivoFirmado() {
+	public RecepcionVirtualDAO getRecepcionVirtualDAO() {
+		return recepcionVirtualDAO;
+	}
+
+	public void setRecepcionVirtualDAO(RecepcionVirtualDAO recepcionVirtualDAO) {
+		this.recepcionVirtualDAO = recepcionVirtualDAO;
+	}
+
+
+    public int isArchivoEnviadoCargo() {
+		return archivoEnviadoCargo;
+	}
+
+	public void setArchivoEnviadoCargo(int archivoEnviadoCargo) {
+		this.archivoEnviadoCargo = archivoEnviadoCargo;
+	}
+
+	public int getArchivoFirmado() {
 		return archivoFirmado;
 	}
 
@@ -723,7 +749,29 @@ public class PendienteAction {
     		archivosFirmados =   archivoService.findArchivoTipoFirmardo(idDoc, tipoArchivo.charAt(0), "3");   
     		if (archivosFirmados.size() > 0) {
     			archivoFirmado = 1;
+    		}else {
+    			archivoFirmado = 0;
     		}
+    		
+    		  //Validar envio de Cargo
+           
+            IotdtcRecepcion documento = recepcionVirtualDAO.findByIdDoc(idDoc);
+            System.out.println("documento encontrado");
+//            System.out.println(documento);
+            String flgenvcar = "S";
+            if(documento != null) {
+            	if(documento.getCflgenvcar() != null ) {
+            		if(documento.getCflgenvcar().equals(flgenvcar.charAt(0))) {
+            			archivoFirmado = 2;
+            		}
+            	}
+            	
+            }else {
+            	archivoFirmado = 3;
+            }
+            System.out.println("------------archivoFirmado---------"+archivoFirmado);
+    	
+    		
              
               
         }catch(Exception e){

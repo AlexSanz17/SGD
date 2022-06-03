@@ -7,6 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 
@@ -30,8 +32,13 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
 			.setParameter("vcuo", vcuo).getSingleResult();
      }
      public IotdtcRecepcion findByIdDoc(Integer iddocumento){
-         return (IotdtcRecepcion)em.createNamedQuery("IotdtcRecepcion.findByIdDoc")
-			.setParameter("iddocumento", iddocumento).getSingleResult();
+    	 IotdtcRecepcion iotdtcRecepcion = null;
+    	 try {
+    		 iotdtcRecepcion = (IotdtcRecepcion) em.createNamedQuery("IotdtcRecepcion.findByIdDoc").setParameter("iddocumento", iddocumento).getSingleResult();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+         return iotdtcRecepcion;
      }
      
      
@@ -41,7 +48,7 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
     	 return query.getResultList();
          
      }
-  
+    @Transactional
     public IotdtcRecepcion registrarDocumento(IotdtcRecepcion recepcion){		
     	if(recepcion.getSidrecext() == null){
 		    em.persist(recepcion); 

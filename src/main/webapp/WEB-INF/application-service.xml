@@ -944,6 +944,8 @@
             <property name="tipoLegajoUnidadDAO" ref="tipoLegajoUnidadDAO" />
             <property name="accionService" ref="accionService" />
             <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
+            <property name="recepcionVirtualDAO" ref="recepcionVirtualDAO" />
+            
         </bean>        
         
 	<bean id="archivarAction" scope="prototype" class="org.ositran.actions.ArchivarAction">

@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.ositran.daos.DocumentoPIDEDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.btg.ositran.siged.domain.IotdtcDespachoPIDE;
 import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
@@ -16,6 +18,7 @@ import com.btg.ositran.siged.domain.IotdtdAnexoPIDE;
 import com.btg.ositran.siged.domain.IotdtdDocPrincipalPIDE;
 import com.btg.ositran.siged.domain.IotdtmDocExternoPIDE;
 
+@Service
 public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	@Autowired(required=false)
 	DocumentoPIDEDAO documentoPIDEDAO;
@@ -47,7 +50,8 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public IotdtcDespachoPIDE getDespachoByVcuo(String vcuo) {
 		return documentoPIDEDAO.getDespachoByVcuo(vcuo);
 	}
-	
+	@Override
+	@Transactional
 	public IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE) {
 		return documentoPIDEDAO.updateIotdtcDespachoPIDE(objIotdtcDespachoPIDE);
 	}

@@ -1722,7 +1722,7 @@ public class DocumentoServiceImpl implements DocumentoService {
                         arrayAnexoBean[i] = anexoBean;
                         recepcionTramite.setLstanexos(arrayAnexoBean);
                          
-                         log.info("recepcionTramite-------------" +recepcionTramite);
+//                         log.info("recepcionTramite-------------" +recepcionTramite);
                          contador++;
                      }
                  
@@ -1817,14 +1817,49 @@ public class DocumentoServiceImpl implements DocumentoService {
                                    iotdtcDespacho.setDfecmod(new Date());
                                    iotdtcDespacho.setVusumod(objUsuario.getUsuario());          
                                    despachoVirtualDAO.registrarDocumento(iotdtcDespacho);
-//                                   System.out.println("Obtneer iotdtcDespachoPIDE");
-//                                   iotdtcDespachoPIDE = documentoPIDEService.getDespachoByVcuo(iotdtcDespacho.getVcuo());
-//                                   iotdtcDespachoPIDE.setCflgest('E');
-//                                   iotdtcDespachoPIDE.setDfecmod(new Date());
-//                                   iotdtcDespachoPIDE.setVusumod(objUsuario.getUsuario());  
-//                                   System.out.println("Actulizar iotdtcDespachoPIDE");
-//                                   
-//                                   iotdtcDespachoPIDEUpdated  = documentoPIDEService.updateIotdtcDespachoPIDE(iotdtcDespachoPIDE);
+                                   
+//                                 Actualizar iotdtcDespachoPIDE
+                                 System.out.println("Obtneer iotdtcDespacho");
+                                 IotdtcDespacho obtenerDespacho = despachoVirtualDAO.findByVcuo(iotdtcDespacho.getVcuo());
+                                 System.out.println("DESPACHO" + obtenerDespacho);
+                                 iotdtcDespachoPIDE =  new IotdtcDespachoPIDE();
+                                 iotdtcDespachoPIDE.setBcarstdrec(obtenerDespacho.getBcarstdrec());
+                                 iotdtcDespachoPIDE.setCflgest(obtenerDespacho.getCflgest());
+                                 iotdtcDespachoPIDE.setCtipdociderem(obtenerDespacho.getCtipdociderem());
+                                 iotdtcDespachoPIDE.setDfecenv(obtenerDespacho.getDfecenv());
+                                 iotdtcDespachoPIDE.setDfecmod(obtenerDespacho.getDfecmod());
+                                 iotdtcDespachoPIDE.setDfecreg(obtenerDespacho.getDfecreg());
+                                 iotdtcDespachoPIDE.setDfecregstdrec(obtenerDespacho.getDfecregstdrec());
+                                 iotdtcDespachoPIDE.setSidemiext(obtenerDespacho.getSidemiext());
+                                 iotdtcDespachoPIDE.setVanioregstd(obtenerDespacho.getVanioregstd());
+                                 iotdtcDespachoPIDE.setVanioregstdrec(obtenerDespacho.getVanioregstdrec());
+                                 iotdtcDespachoPIDE.setVcoduniorgrem(obtenerDespacho.getVcoduniorgrem());
+                                 iotdtcDespachoPIDE.setVcuo(obtenerDespacho.getVcuo());
+                                 iotdtcDespachoPIDE.setVcuoref(obtenerDespacho.getVcuoref());
+                                 iotdtcDespachoPIDE.setVdesanxstdrec(obtenerDespacho.getVdesanxstdrec());
+                                 iotdtcDespachoPIDE.setVnomentrec(obtenerDespacho.getVnomentrec());
+                                 iotdtcDespachoPIDE.setVnumdociderem(obtenerDespacho.getVnumdociderem());
+                                 iotdtcDespachoPIDE.setVnumregstd(obtenerDespacho.getVnumregstd());
+                                 iotdtcDespachoPIDE.setVnumregstdrec(obtenerDespacho.getVnumregstdrec());
+                                 iotdtcDespachoPIDE.setVobs(obtenerDespacho.getVobs());
+                                 iotdtcDespachoPIDE.setVrucentrec(obtenerDespacho.getVrucentrec());
+                                 iotdtcDespachoPIDE.setVuniorgrem(obtenerDespacho.getVuniorgrem());
+                                 iotdtcDespachoPIDE.setVuniorgstdrec(obtenerDespacho.getVuniorgstdrec());
+                                 iotdtcDespachoPIDE.setVusumod(obtenerDespacho.getVusumod());
+                                 iotdtcDespachoPIDE.setVusureg(obtenerDespacho.getVusureg());
+                                 iotdtcDespachoPIDE.setVusuregstdrec(obtenerDespacho.getVusuregstdrec());
+//                                 iotdtcDespachoPIDE = documentoPIDEService.getDespachoByVcuo(iotdtcDespacho.getVcuo());
+//                               iotdtcDespachoPIDE.get(0).setCflgest('E');
+//                               iotdtcDespachoPIDE.get(0).setDfecmod(new Date());
+//                               iotdtcDespachoPIDE.get(0).setVusumod(objUsuario.getUsuario());  
+//                               System.out.println("Actulizar iotdtcDespachoPIDE");
+//                               System.out.println(iotdtcDespachoPIDE);
+                               
+                               if (iotdtcDespachoPIDE.getVcuo() != null && !iotdtcDespachoPIDE.getVcuo().equals("")) {
+                            	   documentoPIDEService.updateIotdtcDespachoPIDE(iotdtcDespachoPIDE);
+                            	   System.out.println("Se actualizo desapcho PIDE");
+                            	   
+                               }
                                    try{
                                         if (iotdtcDespacho.getVcuoref()!=null && !iotdtcDespacho.getVcuoref().trim().equals("")){
                                             IotdtcDespacho iotdtcDespachoRef = despachoVirtualDAO.findByVcuo(iotdtcDespacho.getVcuoref());
@@ -2023,7 +2058,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(fechaCreacion);
 				 cargoTramite.setDfecregstd(calendar);
-				 log.info("-------------------cargoTramite----------- "+cargoTramite.toString());
+//				 log.info("-------------------cargoTramite----------- "+cargoTramite.toString());
                  
 //               WSPideTramite wsPideTramite = new WSPideTramite();
 				 WSPideTramiteJavaWebClient wsPideTramiteJavaWebClient =  new WSPideTramiteJavaWebClient();
@@ -2040,16 +2075,16 @@ public class DocumentoServiceImpl implements DocumentoService {
                     iotdtcRecepcion.setDfecmod(new Date());
                     recepcionVirtualDAO.registrarDocumento(iotdtcRecepcion);
                     
-//                    //actualizar estado IotdtcRecepcionPIDE
-//                   cflgest = "R";
-//                    System.out.println("Obtneer iotdtcRecepcionPIDE");
-//                    IotdtcRecepcionPIDE iotdtcRecepcionPIDE = documentoPIDEService.getRecepcionByVcuo(iotdtcRecepcion.getVcuo());
-//                    System.out.println("Objecto recepcion " +iotdtcRecepcionPIDE.getVcuo());
-//                    iotdtcRecepcionPIDE.setCflgest(cflgest.charAt(0));
-//                    System.out.println("Actulizar iotdtcRecepcionPIDE");
-//                    
-//                    IotdtcRecepcionPIDE iotdtcRecepcionPIDEUpdated  = documentoPIDEService.updateIotdtcRecepcionPIDE(iotdtcRecepcionPIDE);
-//                    System.out.println("Objecto recepcion " +iotdtcRecepcionPIDEUpdated.getCflgest());
+                    // actualizar estado IotdtcRecepcionPIDE
+                    cflgest = "R";
+                    System.out.println("Obtneer iotdtcRecepcionPIDE");
+                    IotdtcRecepcionPIDE iotdtcRecepcionPIDE = documentoPIDEService.getRecepcionByVcuo(iotdtcRecepcion.getVcuo());
+                    System.out.println("Objecto recepcion " +iotdtcRecepcionPIDE.getVcuo());
+                    iotdtcRecepcionPIDE.setCflgest(cflgest.charAt(0));
+                    System.out.println("Actulizar iotdtcRecepcionPIDE");
+                    
+                    IotdtcRecepcionPIDE iotdtcRecepcionPIDEUpdated  = documentoPIDEService.updateIotdtcRecepcionPIDE(iotdtcRecepcionPIDE);
+                    System.out.println("Objecto recepcion " +iotdtcRecepcionPIDEUpdated.getCflgest());
                     
                     return respuestaCargoTramite.getVdesres();
              }else{

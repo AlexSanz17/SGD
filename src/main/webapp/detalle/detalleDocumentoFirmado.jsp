@@ -514,11 +514,16 @@
                     });        
             }
             function enviarCargo(){
+// 	            	if("<s:property value='archivoEnviadoCargo' /> " === 1){
+// 	         			alert("Ya fue enviado el Cargo de este documento.");
+// 	        		 }
             		if("<s:property value='archivoFirmado' /> " == 1){
+            			
 	                    if (confirm("Desea Enviar el cargo "+ "<s:property value='documento.numeroDocumento' /> "  +"?")) {
 	                   	 dojo.xhrPost({
 	       	                url: "enviarCargo.action?iIdDoc=" + "<s:property value='documento.idDocumento' /> ",
 	       	                load: function(data) {
+	       	                	alert("Mensaje de exito : " +data);
 	       	                	console.log(data);
 	       	                	dijit.byId("dlgProgresBar").show();
 	       	                	if(data == '1'){
@@ -531,14 +536,22 @@
 	       	                	}
 	       		            },
 	       		            error: function(error){
-	       		            	alert(error)
+	       		            	alert("Mensaje de error : " +error)
 	       		            }
 	       	             });
 	                     }
             			
+            		}
+            		else if("<s:property value='archivoFirmado' /> " == 2){
+            			alert("Ya fue enviado el Cargo de este documento.");
+            		}else if("<s:property value='archivoFirmado' /> " == 3){
+            			alert("No se ha podido enviar el cargo de este documento");
+            			
             		}else{
             			alert("Este documento no ha sido firmado");
             		}
+            		
+            		 
                 
             }
                 

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.btg.ositran.siged.domain.IotdtcDespachoPIDE;
@@ -13,7 +14,7 @@ import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
 import com.btg.ositran.siged.domain.IotdtdAnexoPIDE;
 import com.btg.ositran.siged.domain.IotdtdDocPrincipalPIDE;
 import com.btg.ositran.siged.domain.IotdtmDocExternoPIDE;
-
+@Repository
 public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 	@PersistenceContext(unitName="pidePU")
 	private EntityManager entityManager;
@@ -38,14 +39,14 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 	}
 	@Transactional
 	public IotdtcRecepcionPIDE updateIotdtcRecepcionPIDE(IotdtcRecepcionPIDE objIotdtcRecepcionPIDE) {
-	      if (objIotdtcRecepcionPIDE.getVcuo() == null) {
+//	      if (objIotdtcRecepcionPIDE.getVcuo() == null) {
 	    	  entityManager.persist(objIotdtcRecepcionPIDE);
 	    	  entityManager.flush();
 	    	  entityManager.refresh(objIotdtcRecepcionPIDE);
-	      } else {
-	    	  entityManager.merge(objIotdtcRecepcionPIDE);
-	    	  entityManager.flush();
-	      }
+//	      } else {
+//	    	  entityManager.merge(objIotdtcRecepcionPIDE);
+//	    	  entityManager.flush();
+//	      }
 
 	      return objIotdtcRecepcionPIDE;
 	   }
@@ -61,16 +62,19 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 		query.setParameter("vcuo", vcuo);
 		return (IotdtcDespachoPIDE) query.getSingleResult();
 	}
-	@Transactional
+	@Override
 	public IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE) {
-	      if (objIotdtcDespachoPIDE.getVcuo() == null) {
-	    	  entityManager.persist(objIotdtcDespachoPIDE);
-	    	  entityManager.flush();
-	    	  entityManager.refresh(objIotdtcDespachoPIDE);
-	      } else {
-	    	  entityManager.merge(objIotdtcDespachoPIDE);
-	    	  entityManager.flush();
-	      }
+	    try {
+	    	String sql = "INSERT INTO [IDOSGD].[IOTDTC_DESPACHO] ( Bcarstdrec, Cflgest, Ctipdociderem ,Vcuo,Vusuregstdrec   ) VALUES (?,?,?,?,?) ";
+	    	
+	    	entityManager.createNativeQuery(sql).setParameter(1, objIotdtcDespachoPIDE.getBcarstdrec())
+	    	.setParameter(2, objIotdtcDespachoPIDE.getCflgest()).setParameter(3, objIotdtcDespachoPIDE.getCtipdociderem()).setParameter(4, objIotdtcDespachoPIDE.getVcuo()).setParameter(5, objIotdtcDespachoPIDE.getVusuregstdrec()).executeUpdate();
+//	    	entityManager.getTransaction().commit();
+//		   entityManager.persist(objIotdtcDespachoPIDE);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 
 	      return objIotdtcDespachoPIDE;
    }
@@ -92,14 +96,14 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 	}
 	@Transactional
 	public IotdtmDocExternoPIDE updateIotdtmDocExternoPIDE(IotdtmDocExternoPIDE objIotdtmDocExternoPIDE) {
-	      if (objIotdtmDocExternoPIDE.getSiddocext() == null) {
+//	      if (objIotdtmDocExternoPIDE.getSiddocext() == null) {
 	    	  entityManager.persist(objIotdtmDocExternoPIDE);
 	    	  entityManager.flush();
 	    	  entityManager.refresh(objIotdtmDocExternoPIDE);
-	      } else {
-	    	  entityManager.merge(objIotdtmDocExternoPIDE);
-	    	  entityManager.flush();
-	      }
+//	      } else {
+//	    	  entityManager.merge(objIotdtmDocExternoPIDE);
+//	    	  entityManager.flush();
+//	      }
 
 	      return objIotdtmDocExternoPIDE;
  }
@@ -121,14 +125,14 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 
 }
 	public IotdtdDocPrincipalPIDE updateIotdtdDocPrincipalPIDE(IotdtdDocPrincipalPIDE objIotdtdDocPrincipalPIDE) {
-	      if (objIotdtdDocPrincipalPIDE.getSiddocext() == null) {
+//	      if (objIotdtdDocPrincipalPIDE.getSiddocext() == null) {
 	    	  entityManager.persist(objIotdtdDocPrincipalPIDE);
 	    	  entityManager.flush();
 	    	  entityManager.refresh(objIotdtdDocPrincipalPIDE);
-	      } else {
-	    	  entityManager.merge(objIotdtdDocPrincipalPIDE);
-	    	  entityManager.flush();
-	      }
+//	      } else {
+//	    	  entityManager.merge(objIotdtdDocPrincipalPIDE);
+//	    	  entityManager.flush();
+//	      }
 
 	      return objIotdtdDocPrincipalPIDE;
 	}
