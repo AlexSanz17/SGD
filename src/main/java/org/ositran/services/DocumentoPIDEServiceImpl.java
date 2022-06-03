@@ -51,7 +51,7 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 		return documentoPIDEDAO.getDespachoByVcuo(vcuo);
 	}
 	@Override
-	@Transactional
+	@Transactional("transactionManagerInteroperabilidad")
 	public IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE) {
 		return documentoPIDEDAO.updateIotdtcDespachoPIDE(objIotdtcDespachoPIDE);
 	}

@@ -1817,49 +1817,50 @@ public class DocumentoServiceImpl implements DocumentoService {
                                    iotdtcDespacho.setDfecmod(new Date());
                                    iotdtcDespacho.setVusumod(objUsuario.getUsuario());          
                                    despachoVirtualDAO.registrarDocumento(iotdtcDespacho);
-                                   
+                                   IotdtcDespacho obtenerDespacho = despachoVirtualDAO.findByVcuo(iotdtcDespacho.getVcuo());
 //                                 Actualizar iotdtcDespachoPIDE
+                                   updateDespachoPIDE(obtenerDespacho);
                                  System.out.println("Obtneer iotdtcDespacho");
-                                 IotdtcDespacho obtenerDespacho = despachoVirtualDAO.findByVcuo(iotdtcDespacho.getVcuo());
-                                 System.out.println("DESPACHO" + obtenerDespacho);
-                                 iotdtcDespachoPIDE =  new IotdtcDespachoPIDE();
-                                 iotdtcDespachoPIDE.setBcarstdrec(obtenerDespacho.getBcarstdrec());
-                                 iotdtcDespachoPIDE.setCflgest(obtenerDespacho.getCflgest());
-                                 iotdtcDespachoPIDE.setCtipdociderem(obtenerDespacho.getCtipdociderem());
-                                 iotdtcDespachoPIDE.setDfecenv(obtenerDespacho.getDfecenv());
-                                 iotdtcDespachoPIDE.setDfecmod(obtenerDespacho.getDfecmod());
-                                 iotdtcDespachoPIDE.setDfecreg(obtenerDespacho.getDfecreg());
-                                 iotdtcDespachoPIDE.setDfecregstdrec(obtenerDespacho.getDfecregstdrec());
-                                 iotdtcDespachoPIDE.setSidemiext(obtenerDespacho.getSidemiext());
-                                 iotdtcDespachoPIDE.setVanioregstd(obtenerDespacho.getVanioregstd());
-                                 iotdtcDespachoPIDE.setVanioregstdrec(obtenerDespacho.getVanioregstdrec());
-                                 iotdtcDespachoPIDE.setVcoduniorgrem(obtenerDespacho.getVcoduniorgrem());
-                                 iotdtcDespachoPIDE.setVcuo(obtenerDespacho.getVcuo());
-                                 iotdtcDespachoPIDE.setVcuoref(obtenerDespacho.getVcuoref());
-                                 iotdtcDespachoPIDE.setVdesanxstdrec(obtenerDespacho.getVdesanxstdrec());
-                                 iotdtcDespachoPIDE.setVnomentrec(obtenerDespacho.getVnomentrec());
-                                 iotdtcDespachoPIDE.setVnumdociderem(obtenerDespacho.getVnumdociderem());
-                                 iotdtcDespachoPIDE.setVnumregstd(obtenerDespacho.getVnumregstd());
-                                 iotdtcDespachoPIDE.setVnumregstdrec(obtenerDespacho.getVnumregstdrec());
-                                 iotdtcDespachoPIDE.setVobs(obtenerDespacho.getVobs());
-                                 iotdtcDespachoPIDE.setVrucentrec(obtenerDespacho.getVrucentrec());
-                                 iotdtcDespachoPIDE.setVuniorgrem(obtenerDespacho.getVuniorgrem());
-                                 iotdtcDespachoPIDE.setVuniorgstdrec(obtenerDespacho.getVuniorgstdrec());
-                                 iotdtcDespachoPIDE.setVusumod(obtenerDespacho.getVusumod());
-                                 iotdtcDespachoPIDE.setVusureg(obtenerDespacho.getVusureg());
-                                 iotdtcDespachoPIDE.setVusuregstdrec(obtenerDespacho.getVusuregstdrec());
-//                                 iotdtcDespachoPIDE = documentoPIDEService.getDespachoByVcuo(iotdtcDespacho.getVcuo());
-//                               iotdtcDespachoPIDE.get(0).setCflgest('E');
-//                               iotdtcDespachoPIDE.get(0).setDfecmod(new Date());
-//                               iotdtcDespachoPIDE.get(0).setVusumod(objUsuario.getUsuario());  
-//                               System.out.println("Actulizar iotdtcDespachoPIDE");
-//                               System.out.println(iotdtcDespachoPIDE);
-                               
-                               if (iotdtcDespachoPIDE.getVcuo() != null && !iotdtcDespachoPIDE.getVcuo().equals("")) {
-                            	   documentoPIDEService.updateIotdtcDespachoPIDE(iotdtcDespachoPIDE);
-                            	   System.out.println("Se actualizo desapcho PIDE");
-                            	   
-                               }
+//                                 IotdtcDespacho obtenerDespacho = despachoVirtualDAO.findByVcuo(iotdtcDespacho.getVcuo());
+//                                 System.out.println("DESPACHO" + obtenerDespacho);
+//                                 iotdtcDespachoPIDE =  new IotdtcDespachoPIDE();
+//                                 iotdtcDespachoPIDE.setBcarstdrec(obtenerDespacho.getBcarstdrec());
+//                                 iotdtcDespachoPIDE.setCflgest(obtenerDespacho.getCflgest());
+//                                 iotdtcDespachoPIDE.setCtipdociderem(obtenerDespacho.getCtipdociderem());
+//                                 iotdtcDespachoPIDE.setDfecenv(obtenerDespacho.getDfecenv());
+//                                 iotdtcDespachoPIDE.setDfecmod(obtenerDespacho.getDfecmod());
+//                                 iotdtcDespachoPIDE.setDfecreg(obtenerDespacho.getDfecreg());
+//                                 iotdtcDespachoPIDE.setDfecregstdrec(obtenerDespacho.getDfecregstdrec());
+//                                 iotdtcDespachoPIDE.setSidemiext(obtenerDespacho.getSidemiext());
+//                                 iotdtcDespachoPIDE.setVanioregstd(obtenerDespacho.getVanioregstd());
+//                                 iotdtcDespachoPIDE.setVanioregstdrec(obtenerDespacho.getVanioregstdrec());
+//                                 iotdtcDespachoPIDE.setVcoduniorgrem(obtenerDespacho.getVcoduniorgrem());
+//                                 iotdtcDespachoPIDE.setVcuo(obtenerDespacho.getVcuo());
+//                                 iotdtcDespachoPIDE.setVcuoref(obtenerDespacho.getVcuoref());
+//                                 iotdtcDespachoPIDE.setVdesanxstdrec(obtenerDespacho.getVdesanxstdrec());
+//                                 iotdtcDespachoPIDE.setVnomentrec(obtenerDespacho.getVnomentrec());
+//                                 iotdtcDespachoPIDE.setVnumdociderem(obtenerDespacho.getVnumdociderem());
+//                                 iotdtcDespachoPIDE.setVnumregstd(obtenerDespacho.getVnumregstd());
+//                                 iotdtcDespachoPIDE.setVnumregstdrec(obtenerDespacho.getVnumregstdrec());
+//                                 iotdtcDespachoPIDE.setVobs(obtenerDespacho.getVobs());
+//                                 iotdtcDespachoPIDE.setVrucentrec(obtenerDespacho.getVrucentrec());
+//                                 iotdtcDespachoPIDE.setVuniorgrem(obtenerDespacho.getVuniorgrem());
+//                                 iotdtcDespachoPIDE.setVuniorgstdrec(obtenerDespacho.getVuniorgstdrec());
+//                                 iotdtcDespachoPIDE.setVusumod(obtenerDespacho.getVusumod());
+//                                 iotdtcDespachoPIDE.setVusureg(obtenerDespacho.getVusureg());
+//                                 iotdtcDespachoPIDE.setVusuregstdrec(obtenerDespacho.getVusuregstdrec());
+////                                 iotdtcDespachoPIDE = documentoPIDEService.getDespachoByVcuo(iotdtcDespacho.getVcuo());
+////                               iotdtcDespachoPIDE.get(0).setCflgest('E');
+////                               iotdtcDespachoPIDE.get(0).setDfecmod(new Date());
+////                               iotdtcDespachoPIDE.get(0).setVusumod(objUsuario.getUsuario());  
+////                               System.out.println("Actulizar iotdtcDespachoPIDE");
+////                               System.out.println(iotdtcDespachoPIDE);
+//                               
+//                               if (iotdtcDespachoPIDE.getVcuo() != null && !iotdtcDespachoPIDE.getVcuo().equals("")) {
+//                            	   documentoPIDEService.updateIotdtcDespachoPIDE(iotdtcDespachoPIDE);
+//                            	   System.out.println("Se actualizo desapcho PIDE");
+//                            	   
+//                               }
                                    try{
                                         if (iotdtcDespacho.getVcuoref()!=null && !iotdtcDespacho.getVcuoref().trim().equals("")){
                                             IotdtcDespacho iotdtcDespachoRef = despachoVirtualDAO.findByVcuo(iotdtcDespacho.getVcuoref());
@@ -2031,7 +2032,51 @@ public class DocumentoServiceImpl implements DocumentoService {
             
             return "";
         }
-
+        @Transactional(value="transactionManagerInteroperabilidad", rollbackFor=Exception.class)
+        public void updateDespachoPIDE(IotdtcDespacho obtenerDespacho) {
+//        	  Actualizar iotdtcDespachoPIDE
+              System.out.println("Obtneer iotdtcDespacho");
+//              IotdtcDespacho obtenerDespacho = despachoVirtualDAO.findByVcuo(vcuo);
+              System.out.println("DESPACHO" + obtenerDespacho);
+              IotdtcDespachoPIDE iotdtcDespachoPIDE =  new IotdtcDespachoPIDE();
+              iotdtcDespachoPIDE.setBcarstdrec(obtenerDespacho.getBcarstdrec());
+              iotdtcDespachoPIDE.setCflgest(obtenerDespacho.getCflgest());
+              iotdtcDespachoPIDE.setCtipdociderem(obtenerDespacho.getCtipdociderem());
+              iotdtcDespachoPIDE.setDfecenv(obtenerDespacho.getDfecenv());
+              iotdtcDespachoPIDE.setDfecmod(obtenerDespacho.getDfecmod());
+              iotdtcDespachoPIDE.setDfecreg(obtenerDespacho.getDfecreg());
+              iotdtcDespachoPIDE.setDfecregstdrec(obtenerDespacho.getDfecregstdrec());
+              iotdtcDespachoPIDE.setSidemiext(obtenerDespacho.getSidemiext());
+              iotdtcDespachoPIDE.setVanioregstd(obtenerDespacho.getVanioregstd());
+              iotdtcDespachoPIDE.setVanioregstdrec(obtenerDespacho.getVanioregstdrec());
+              iotdtcDespachoPIDE.setVcoduniorgrem(obtenerDespacho.getVcoduniorgrem());
+              iotdtcDespachoPIDE.setVcuo(obtenerDespacho.getVcuo());
+              iotdtcDespachoPIDE.setVcuoref(obtenerDespacho.getVcuoref());
+              iotdtcDespachoPIDE.setVdesanxstdrec(obtenerDespacho.getVdesanxstdrec());
+              iotdtcDespachoPIDE.setVnomentrec(obtenerDespacho.getVnomentrec());
+              iotdtcDespachoPIDE.setVnumdociderem(obtenerDespacho.getVnumdociderem());
+              iotdtcDespachoPIDE.setVnumregstd(obtenerDespacho.getVnumregstd());
+              iotdtcDespachoPIDE.setVnumregstdrec(obtenerDespacho.getVnumregstdrec());
+              iotdtcDespachoPIDE.setVobs(obtenerDespacho.getVobs());
+              iotdtcDespachoPIDE.setVrucentrec(obtenerDespacho.getVrucentrec());
+              iotdtcDespachoPIDE.setVuniorgrem(obtenerDespacho.getVuniorgrem());
+              iotdtcDespachoPIDE.setVuniorgstdrec(obtenerDespacho.getVuniorgstdrec());
+              iotdtcDespachoPIDE.setVusumod(obtenerDespacho.getVusumod());
+              iotdtcDespachoPIDE.setVusureg(obtenerDespacho.getVusureg());
+              iotdtcDespachoPIDE.setVusuregstdrec(obtenerDespacho.getVusuregstdrec());
+//              iotdtcDespachoPIDE = documentoPIDEService.getDespachoByVcuo(iotdtcDespacho.getVcuo());
+//            iotdtcDespachoPIDE.get(0).setCflgest('E');
+//            iotdtcDespachoPIDE.get(0).setDfecmod(new Date());
+//            iotdtcDespachoPIDE.get(0).setVusumod(objUsuario.getUsuario());  
+//            System.out.println("Actulizar iotdtcDespachoPIDE");
+//            System.out.println(iotdtcDespachoPIDE);
+            
+            if (iotdtcDespachoPIDE.getVcuo() != null && !iotdtcDespachoPIDE.getVcuo().equals("")) {
+         	   documentoPIDEService.updateIotdtcDespachoPIDE(iotdtcDespachoPIDE);
+         	   System.out.println("Se actualizo desapcho PIDE");
+         	   
+            }
+        }
         @Transactional(propagation=Propagation.REQUIRED , rollbackFor=Exception.class)
         public String enviarCargoRecepcionVirtual(Integer idExterno, Date fechaCreacion) throws Exception{
         	log.info("----------idExterno--------" +idExterno);

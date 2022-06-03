@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*LICENCIA DE USO DEL SGD .TXT*/package org.ositran.actions;
+package org.ositran.actions;
+
 import com.btg.ositran.siged.domain.Archivo;
 import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.DocumentoAnulado;
@@ -47,14 +43,7 @@ import org.ositran.utils.DocumentoDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-/**
- *
- * @author consultor_jti15
- */
-
 public class PendienteAction {
-    
     private final Logger log = LoggerFactory.getLogger(PendienteAction.class);   
     private DocumentoPendienteDAO documentoPendienteDAO;
     private DocumentoAtendidoDAO documentoAtendidoDAO;
@@ -866,5 +855,4 @@ public class PendienteAction {
     public void setDocumentoAnuladoDAO(DocumentoAnuladoDAO documentoAnuladoDAO) {
         this.documentoAnuladoDAO = documentoAnuladoDAO;
     }
-
 }

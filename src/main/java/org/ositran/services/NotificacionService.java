@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.ositran.dojo.BusquedaAvanzada;
 import org.ositran.dojo.tree.Nodo;
+
 import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.Etapa;
 import com.btg.ositran.siged.domain.Expediente;
@@ -12,7 +13,6 @@ import com.btg.ositran.siged.domain.Notificacion;
 import com.btg.ositran.siged.domain.Usuario;
 
 public interface NotificacionService {
-
    public List<Notificacion> buscarLstPor(Integer iIdUsuario);
 
 //   public List<Notificacion> buscarLstPor(Integer iIdUsuario, Integer iTipoNotificacion);
@@ -51,11 +51,15 @@ public interface NotificacionService {
 
    public Integer obtenerCantidadNotificacionesxUsuario(Integer iIdUsuario)  ;
 
-   Set informarViaNotifAndMail(Usuario remitente, Documento documento, int iTipoEvento, int iTipoNotificacion, String nombrePC, String contenido, String accion);
+   public Set informarViaNotifAndMail(Usuario remitente, Documento documento, int iTipoEvento, int iTipoNotificacion, String nombrePC, String contenido, String accion);
 
-  
-   
    public List<Notificacion> findLastNotificacionbyUsuario(Integer idDocumento,Integer idUsuario);
    
    public List<Nodo> getDojoInformativoTree(BusquedaAvanzada objFiltro, Usuario objUsuario);
+   
+   public String buscarCasillaElectronica(String uNroDocumento);
+   public String generarNotificacionElectronica(String url, String archivo, String observacion, Integer tipodocumento, String nroDocumento, Integer idDocumento,
+	   String nroExpediente, Integer idExpediente, Integer idTipoNotificacion, Integer eOrden);
+   public String generarCedulaElectronica(String url, Integer PK_eIdNotificacion, String uUnidadOrganica, Integer eUsuarioActualizacion);
+   public String enviarNotificacionElectronica(String url, Integer PK_eIdNotificacion, String cCodProcesoFirma, Integer eUsuarioActualizacion);
 }

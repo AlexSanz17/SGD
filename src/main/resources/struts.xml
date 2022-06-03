@@ -14,22 +14,22 @@
    <constant name="struts.mapper.prefixMapping" value="/service:rest,:struts" />
 
 	<package name="siged" extends="struts-default">
-		<!-- custom result type for file download -->
+	<!-- custom result type for file download -->
 
 	<result-types>
 		<result-type name="myStream" default="false" class="org.ositran.actions.results.DynamicStreamResult" />
 	</result-types>
 
-		<interceptors>
-		  <interceptor name="cookieprovider" class="org.ositran.cookies.CookieProviderInterceptor" />
-                    <interceptor-stack name="defaultAndCookiesProvider">
-                       <interceptor-ref name="defaultStack" />
-                       <interceptor-ref name="cookieprovider" />
-                    </interceptor-stack>
-                </interceptors>
+	<interceptors>
+	   <interceptor name="cookieprovider" class="org.ositran.cookies.CookieProviderInterceptor" />
+       <interceptor-stack name="defaultAndCookiesProvider">
+          <interceptor-ref name="defaultStack" />
+          <interceptor-ref name="cookieprovider" />
+       </interceptor-stack>
+    </interceptors>
                 
-            <!--
-            <default-interceptor-ref name="defaultSessionCheckInterceptor"/> -->
+    <!--
+    <default-interceptor-ref name="defaultSessionCheckInterceptor"/> -->
 
       <global-results>
          <result name="forwardToURL">forwardToURL.jsp</result>
@@ -40,9 +40,9 @@
          <result name="error">error.html</result>
       </global-results>
 
-		<!--default-interceptor-ref name="token" /-->
+	  <!--default-interceptor-ref name="token" /-->
 
-		<!-- action for downloading file-->
+	  <!-- action for downloading file-->
       <action name="qasFileDownload" method="downloadFile" class="qasFileDownload">
          <result type="myStream" />
          <result name="error">error.html</result>
@@ -865,9 +865,10 @@
            <result name="goNotificar">pages/notificacion/NotificarCasilla.jsp</result>
       </action>
       
-    
-
-		<!-- Carpeta Busqueda Action -->
+      <action name="enviarNotificacion" method="enviarNotificacion" class="documentoAction">
+      </action>
+ 
+ 		<!-- Carpeta Busqueda Action -->
       <action name="doSaveCarpetaBusqueda" method="saveCarpetaBusqueda" class="carpetabusquedaAction">
 			<!--<result name="input">pages/bandeja/nuevaCarpeta.jsp</result>-->
          <result>pages/bandeja/nuevaCarpeta.jsp</result>

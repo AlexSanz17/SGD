@@ -63,14 +63,18 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 		return (IotdtcDespachoPIDE) query.getSingleResult();
 	}
 	@Override
+	@Transactional
 	public IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE) {
 	    try {
-	    	String sql = "INSERT INTO [IDOSGD].[IOTDTC_DESPACHO] ( Bcarstdrec, Cflgest, Ctipdociderem ,Vcuo,Vusuregstdrec   ) VALUES (?,?,?,?,?) ";
-	    	
-	    	entityManager.createNativeQuery(sql).setParameter(1, objIotdtcDespachoPIDE.getBcarstdrec())
-	    	.setParameter(2, objIotdtcDespachoPIDE.getCflgest()).setParameter(3, objIotdtcDespachoPIDE.getCtipdociderem()).setParameter(4, objIotdtcDespachoPIDE.getVcuo()).setParameter(5, objIotdtcDespachoPIDE.getVusuregstdrec()).executeUpdate();
+//	    	String sql = "INSERT INTO [IDOSGD].[IOTDTC_DESPACHO] ( Bcarstdrec, Cflgest, Ctipdociderem ,Vcuo,Vusuregstdrec) VALUES (?,?,?,?,?) ";
+//	    	
+//	    	entityManager.createNativeQuery(sql).setParameter(1, objIotdtcDespachoPIDE.getBcarstdrec())
+//	    	.setParameter(2, objIotdtcDespachoPIDE.getCflgest()).setParameter(3, objIotdtcDespachoPIDE.getCtipdociderem()).setParameter(4, objIotdtcDespachoPIDE.getVcuo()).setParameter(5, objIotdtcDespachoPIDE.getVusuregstdrec()).executeUpdate();
+//	    	 entityManager.flush();
 //	    	entityManager.getTransaction().commit();
 //		   entityManager.persist(objIotdtcDespachoPIDE);
+	    	  entityManager.persist(objIotdtcDespachoPIDE);
+	    	  entityManager.flush();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
