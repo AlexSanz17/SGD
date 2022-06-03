@@ -44,25 +44,23 @@
         <property name="unidadService" ref="unidadService" />
         <property name="srvArchivo" ref="archivoService" />
     </bean>
-    
    
-   <bean id="recepcionPideDaoForJob" class="org.ositran.siged.jobs.RecepcionPideDaoForJob" />
+    <bean id="recepcionPideDaoForJob" class="org.ositran.siged.jobs.RecepcionPideDaoForJob" />
 
     <bean id="documentoFedatarioDAO" class="org.ositran.daos.DocumentoFedatarioDAOImpl">
        <property name="usuarioDAO" ref="usuarioDAO" />
     </bean>
 
-     <bean id="documentoReferenciaDAO" class="org.ositran.daos.DocumentoReferenciaDAOImpl">
+    <bean id="documentoReferenciaDAO" class="org.ositran.daos.DocumentoReferenciaDAOImpl">
     </bean>
     
-     <bean id="documentoReunionDAO" class="org.ositran.daos.DocumentoReunionDAOImpl">
+    <bean id="documentoReunionDAO" class="org.ositran.daos.DocumentoReunionDAOImpl">
     </bean>
     
     <bean id="serieDAO" class="org.ositran.daos.SerieDAOImpl">
     </bean>
     
      <bean id="documentoAdjuntoDAO" class="org.ositran.daos.DocumentoAdjuntoDAOImpl">  
-         
      </bean> 
      
      <bean id="cargoAdministradoDAO" class="org.ositran.daos.CargoAdministradoDAOImpl">  
@@ -76,50 +74,46 @@
      </bean>            
 
     <bean id="documentoReferenciaService" class="org.ositran.services.DocumentoReferenciaServiceImpl">
-           <property name="documentoReferenciaDAO" ref="documentoReferenciaDAO" />
+       <property name="documentoReferenciaDAO" ref="documentoReferenciaDAO" />
     </bean>
     
      <bean id="funcionService" class="org.ositran.services.FuncionServiceImpl">
-           <property name="funcionDAO" ref="funcionDAO" />
+        <property name="funcionDAO" ref="funcionDAO" />
     </bean>
-    
     
     <bean id="firmaArchivoService" class="org.ositran.services.FirmaArchivoServiceImpl">
-           <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
+       <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
     </bean>
     
-    
     <bean id="referenciaArchivoService" class="org.ositran.services.ReferenciaArchivoServiceImpl">
-           <property name="referenciaArchivoDAO" ref="referenciaArchivoDAO" />
+       <property name="referenciaArchivoDAO" ref="referenciaArchivoDAO" />
     </bean>
     
     <bean id="legajoService" class="org.ositran.services.LegajoServiceImpl">
        <property name="legajoDAO" ref="legajoDAO" />
-        <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
-        <property name="documentoDAO" ref="documentoDAO" />
+       <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
+       <property name="documentoDAO" ref="documentoDAO" />
     </bean>
     
     <bean id="tipoLegajoService" class="org.ositran.services.TipoLegajoServiceImpl">
-           <property name="tipoLegajoDAO" ref="tipoLegajoDAO" />
+       <property name="tipoLegajoDAO" ref="tipoLegajoDAO" />
     </bean>
     
     <bean id="legajoDocumentoService" class="org.ositran.services.LegajoDocumentoServiceImpl">
-           <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
-           <property name="legajoDAO" ref="legajoDAO" />
+       <property name="legajoDocumentoDAO" ref="legajoDocumentoDAO" />
+       <property name="legajoDAO" ref="legajoDAO" />
     </bean>
     
-   
-     <bean id="firmaArchivoDAO" class="org.ositran.daos.FirmaArchivoDAOImpl"></bean>
+    <bean id="firmaArchivoDAO" class="org.ositran.daos.FirmaArchivoDAOImpl"></bean>
       
     <bean id="funcionDAO" class="org.ositran.daos.FuncionDAOImpl">
     </bean>
     
-       <bean id="documentoPendienteDAO" class="org.ositran.daos.DocumentoPendienteDAOImpl">
+    <bean id="documentoPendienteDAO" class="org.ositran.daos.DocumentoPendienteDAOImpl">
     </bean>
 
-       <bean id="documentoAnuladoDAO" class="org.ositran.daos.DocumentoAnuladoDAOImpl">
+    <bean id="documentoAnuladoDAO" class="org.ositran.daos.DocumentoAnuladoDAOImpl">
     </bean>
-
             
     <bean id="documentoAtendidoDAO" class="org.ositran.daos.DocumentoAtendidoDAOImpl">
     </bean>
@@ -1572,10 +1566,10 @@
     <bean id="alfrescoTicketBean" class="org.ositran.common.alfresco.AlfrescoTicketAspect">
         <property name="seguridadService" ref="seguridadService" />
     </bean>
-    <!--
-     <bean id="sessionCheckInterceptor" class="org.ositran.filters.SessionCheckInterceptor">
-       
+    
+    <!-- <bean id="sessionCheckInterceptor" class="org.ositran.filters.SessionCheckInterceptor">
     </bean> -->
+    
     <aop:config>
         <aop:advisor pointcut="execution(* gob.ositran.siged.service.*.*(..)) or execution(* org.ositran.services.*.*(..))" advice-ref="timingAdvice"/>
         <aop:aspect id="alfrescoTicketAspect" ref="alfrescoTicketBean">
@@ -1583,8 +1577,8 @@
                 pointcut="target(org.ositran.siged.service.AlfrescoWSService) and @target(org.ositran.common.alfresco.AlfrescoWebServiceCaller)"
                 method="refrescarTicketAlfresco"/>
         </aop:aspect>
-      <!--  
-        <aop:advisor pointcut="execution(* org.ositran.actions.*.*(..))" advice-ref="timingAdvice"/>
+      
+    <!-- <aop:advisor pointcut="execution(* org.ositran.actions.*.*(..))" advice-ref="timingAdvice"/>
         <aop:aspect id="sessionCheckAspect" ref="sessionCheckInterceptor">
             <aop:before
                 pointcut="target(org.ositran.actions.DojoAction)"

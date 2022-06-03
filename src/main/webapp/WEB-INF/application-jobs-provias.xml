@@ -7,7 +7,7 @@
 	<!--Task bean -->
 	<bean id="migrarInformacion" class="org.ositran.siged.jobs.MigrarInformacion" >
 		<property name="recepcionVirtualService" ref="recepcionVirtualService" />
-		<property name="despachoVirtualService" ref="despachoVirtualService" />
+<!-- 		<property name="despachoVirtualService" ref="despachoVirtualService" /> -->
 		<property name="docExternoVirtualService" ref="docExternoVirtualService" />
 		<property name="docPrincipalVirtualService" ref="docPrincipalVirtualService" />
 		<property name="docAnexoVirtualService" ref="docAnexoVirtualService" />

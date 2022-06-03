@@ -275,7 +275,6 @@
             }
             
             function moverFirma(){
-                
                 if (confirm("¿Desea mover el documento a la bandeja para firmar?")){
                     var service = new dojo.rpc.JsonService("SMDAction.action");
                     var defered = service.moverFirma(<s:property value='documento.idDocumento' />);
@@ -300,8 +299,6 @@
                 var principal = false;
                 var rol = "<s:property value='#session._USUARIO.idRolPerfil' />" + "";
                 
-                
-                ////////
                 if ("<s:property value='documento.tipoDocumento.idtipodocumento' />" != "<s:property value='@org.ositran.utils.Constantes@SOLICITUD_INFORMACION_PUBLICA'/>" && 
                     "<s:property value='documento.tipoDocumento.idtipodocumento' />" != "<s:property value='@org.ositran.utils.Constantes@HOJA_RECLAMACIONES'/>"){
                         if ("<s:property value='documento.enumerado' />"=="N" && "<s:property value='documento.proyecto' />"!="<s:property value='@org.ositran.utils.Constantes@DOCUMENTO_PROYECTO'/>"){
@@ -341,7 +338,6 @@
                             }
                         }   
                 }
-                //////////////////
                 
                 if ("<s:property value='documento.proyecto' />"=="<s:property value='@org.ositran.utils.Constantes@DOCUMENTO_PROYECTO'/>"){
                     <s:if test="destinatarioIgualRemitente == false">
@@ -868,25 +864,22 @@
             }
             
             function abrirVentanaNotificar() {
-            	
                 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600, top=20, left=70";
                 var pagina = "goNotificarUSER.action?&arrIdDoc=" + "<s:property value='iIdDoc' />" + "&iIdDocumentoEnviado";
 
                 window.open(pagina, "", opciones);
              }
             
-            function abrirNotificar(){
-            	
-            	if(<s:property value='objDD.pK_eIdCasilla' /> != 0){
+            function abrirNotificar() {
+            	if (<s:property value='objDD.pK_eIdCasilla' /> != 0) {
             	 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600, top=20, left=70";
-                 var pagina = "goNotificar.action?&idDocumento=" + "<s:property value='documento.idDocumento' />"+ "&idcasilla="+ "<s:property value='objDD.pK_eIdCasilla' /> ";
-                 window.open(pagina, "", opciones);
+                 var pagina = "goNotificar.action?idDocumento=" + "<s:property value='documento.idDocumento' />"+ "&idCasilla="+ "<s:property value='objDD.pK_eIdCasilla' /> ";
+                 window.open(pagina, "Notificar Documento", opciones);
             		
-            	}else{
+            	} else {
             		alert("Este cliente no tiene casilla");
             	}
             }
-            
 
             function guardarSeguimiento(agregar){
                 var mensaje = "";

@@ -24,7 +24,7 @@ import com.btg.ositran.siged.domain.IotdtmDocExternoPIDE;
 
 public class MigrarInformacion {
 	private RecepcionVirtualService recepcionVirtualService;
-	private DespachoVirtualService despachoVirtualService;
+//	private DespachoVirtualService despachoVirtualService;
 	private DocExternoVirtualService docExternoVirtualService;
 	private DocPrincipalVirtualService docPrincipalVirtualService;
 	private DocAnexoVirtualService docAnexoVirtualService;	

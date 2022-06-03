@@ -14,12 +14,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import org.apache.commons.lang.StringUtils;
 import org.ositran.dojo.BusquedaAvanzada;
 import org.ositran.dojo.Recurso;
@@ -64,7 +66,6 @@ import org.ositran.utils.DocumentoPublicar;
 
 @Repository
 public class DocumentoDAOImpl implements DocumentoDAO {
-
 	private static Logger log = LoggerFactory.getLogger(DocumentoDAOImpl.class);
 	private EntityManager em;
 	private AccionService accionService;
@@ -73,33 +74,33 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 	private ManejoDeEmailService mailService;
 	private UsuarioDAO usuarioDAO;
 	private ParametroService parametroService;
-        private UnidadService unidadService;
-        private ArchivoService srvArchivo;
-        private UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO;
+    private UnidadService unidadService;
+    private ArchivoService srvArchivo;
+    private UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO;
 
-        public UsuarioxunidadxfuncionDAO getUsuarioxunidadxfuncionDAO() {
-            return usuarioxunidadxfuncionDAO;
-        }
+    public UsuarioxunidadxfuncionDAO getUsuarioxunidadxfuncionDAO() {
+        return usuarioxunidadxfuncionDAO;
+    }
 
-        public void setUsuarioxunidadxfuncionDAO(UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO) {
-            this.usuarioxunidadxfuncionDAO = usuarioxunidadxfuncionDAO;
-        }
+    public void setUsuarioxunidadxfuncionDAO(UsuarioxunidadxfuncionDAO usuarioxunidadxfuncionDAO) {
+        this.usuarioxunidadxfuncionDAO = usuarioxunidadxfuncionDAO;
+    }
 
-        public ArchivoService getSrvArchivo() {
-            return srvArchivo;
-        }
+    public ArchivoService getSrvArchivo() {
+        return srvArchivo;
+    }
 
-        public void setSrvArchivo(ArchivoService srvArchivo) {
-            this.srvArchivo = srvArchivo;
-        }
-     
-        public UnidadService getUnidadService() {
-            return unidadService;
-        }
+    public void setSrvArchivo(ArchivoService srvArchivo) {
+        this.srvArchivo = srvArchivo;
+    }
+ 
+    public UnidadService getUnidadService() {
+        return unidadService;
+    }
 
-        public void setUnidadService(UnidadService unidadService) {
-            this.unidadService = unidadService;
-        }
+    public void setUnidadService(UnidadService unidadService) {
+        this.unidadService = unidadService;
+    }
         
 	// private Map<String,Object> mapSession;
 
@@ -107,26 +108,25 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 	// Methods //
 	// ////////////////////////////////
 
-	public List<Documento> backup(){
-
+	public List<Documento> backup() {
 		String sQuery = "SELECT NEW org.ositran.dojo.grid.Item(" +
-		"n.idnotificacion," +
-		"n.leido," +
-		"n.asunto," +
-		"n.fechanotificacion," +
-		"n.tiponotificacion," +
-		"d.idDocumento," +
-		"c.razonSocial," +
-		"e.nroexpediente," +
-		"p.nombre," +
-		"ti.nombre," +
-		"cl.razonSocial," +
-		"cl.nombres," +
-		"cl.apellidoPaterno," +
-		"cl.apellidoMaterno," +
-		"td.nombre," +
-		"concat(td.nombre, d.numeroDocumento)" +
-		") ";
+			"n.idnotificacion," +
+			"n.leido," +
+			"n.asunto," +
+			"n.fechanotificacion," +
+			"n.tiponotificacion," +
+			"d.idDocumento," +
+			"c.razonSocial," +
+			"e.nroexpediente," +
+			"p.nombre," +
+			"ti.nombre," +
+			"cl.razonSocial," +
+			"cl.nombres," +
+			"cl.apellidoPaterno," +
+			"cl.apellidoMaterno," +
+			"td.nombre," +
+			"concat(td.nombre, d.numeroDocumento)" +
+			") ";
 
 		sQuery += "FROM Notificacion n ";
 		sQuery += "LEFT JOIN n.iddocumento d ";
@@ -141,15 +141,15 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 	    sQuery += "ORDER BY n.fechanotificacion DESC";
 
 		Query qQuery = em.createQuery(sQuery)
-		.setParameter("idpropietario", 3717)
-		.setParameter("informativo1", Constantes.TIPO_NOTIFICACION_DERIVACION)
-		.setParameter("informativo2", Constantes.TIPO_NOTIFICACION_NUMERACION_DESTINATARIO)
-		.setParameter("informativo3", Constantes.TIPO_NOTIFICACION_NUMERACION_DOCUMENTOCONCOPIA)
-		.setParameter("informativo4", Constantes.TIPO_NOTIFICACION_DERIVACIONCONCOPIA)
-		.setParameter("informativo5", Constantes.TIPO_NOTIFICACION_APROBACION_QAS)
-		.setParameter("informativo6", Constantes.TIPO_NOTIFICACION_DUENO_EXPEDIENTE)
-		.setParameter("informativo7", Constantes.TIPO_NOTIFICACION_FIN_APOYO)
-		.setParameter("estado", 'A');
+			.setParameter("idpropietario", 3717)
+			.setParameter("informativo1", Constantes.TIPO_NOTIFICACION_DERIVACION)
+			.setParameter("informativo2", Constantes.TIPO_NOTIFICACION_NUMERACION_DESTINATARIO)
+			.setParameter("informativo3", Constantes.TIPO_NOTIFICACION_NUMERACION_DOCUMENTOCONCOPIA)
+			.setParameter("informativo4", Constantes.TIPO_NOTIFICACION_DERIVACIONCONCOPIA)
+			.setParameter("informativo5", Constantes.TIPO_NOTIFICACION_APROBACION_QAS)
+			.setParameter("informativo6", Constantes.TIPO_NOTIFICACION_DUENO_EXPEDIENTE)
+			.setParameter("informativo7", Constantes.TIPO_NOTIFICACION_FIN_APOYO)
+			.setParameter("estado", 'A');
 
 		List<Item> f = qQuery.getResultList();
 
@@ -166,7 +166,6 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 
 			l.add(d);
 		}
-
 
 		return l;
 	}
@@ -197,7 +196,6 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 		 return Integer.valueOf(qQuery.getResultList().get(0).toString());
 	}
 
-
 	public Integer getNroSiguienteConsultaTramiteDocumentario(){
 		 String sQuery = "SELECT NEXT VALUE FOR consulta_tramite_seq";
 		 Query qQuery = em.createNativeQuery(sQuery);
@@ -205,15 +203,14 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 		 return Integer.valueOf(qQuery.getResultList().get(0).toString());
 	}
         
-        public Integer getNroDocumento(){
+    public Integer getNroDocumento(){
 		 String sQuery = "SELECT NEXT VALUE FOR documento_tramite_seq";
 		 Query qQuery = em.createNativeQuery(sQuery);
 
 		 return Integer.valueOf(qQuery.getResultList().get(0).toString());
 	}
         
-        
-        public Integer getNroTramiteDocumentario(){
+    public Integer getNroTramiteDocumentario(){
                  
 		 String sQuery = "SELECT NEXT VALUE FOR nromp_tramite_seq";
 		 Query qQuery = em.createNativeQuery(sQuery);
@@ -227,46 +224,43 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 		 Query q = null;
 
          try{
+    	   if (banderaDescarga){
+    		     sql =	"SELECT f FROM Alerta f WHERE f.userremitente = :idUsuario or (f.userremitente!= :idUsuario and f.userdestinatario = :idUsuario) " + orden;
 
-        	   if (banderaDescarga){
-        		     sql =	"SELECT f FROM Alerta f WHERE f.userremitente = :idUsuario or (f.userremitente!= :idUsuario and f.userdestinatario = :idUsuario) " + orden;
+			     q= em.createQuery(sql)
+			   		 .setParameter("idUsuario", idUsuario);
+    	   } else {
+    		     List<Parametro> list = parametroService.findByTipo("DESCARGAR_PENDIENTES");
+                 String areas = "";
 
-				     q= em.createQuery(sql)
-				   		 .setParameter("idUsuario", idUsuario);
+        	     for(int i=0;i<list.size();i++){
+    			    if (i==list.size()-1){
+    				  areas = areas +   list.get(i).getValor();
+    			    }else{
+    				  areas = areas +  list.get(i).getValor() + ",";
+    			    }
+    		     }
 
-        	   }else{
+				 sql = "SELECT f FROM Alerta f WHERE f.remitente in (" +  areas   + ")   and f.userdestinatario = :idUsuario " + orden;
+				 q = em.createQuery(sql).setParameter("idUsuario", idUsuario);
+		   }
 
-        		     List<Parametro> list = parametroService.findByTipo("DESCARGAR_PENDIENTES");
-                     String areas = "";
+		   listAlerta = q.getResultList();
 
-            	     for(int i=0;i<list.size();i++){
-        			    if (i==list.size()-1){
-        				  areas = areas +   list.get(i).getValor();
-        			    }else{
-        				  areas = areas +  list.get(i).getValor() + ",";
-        			    }
-        		     }
-
-					 sql = "SELECT f FROM Alerta f WHERE f.remitente in (" +  areas   + ")   and f.userdestinatario = :idUsuario " + orden;
-					 q = em.createQuery(sql).setParameter("idUsuario", idUsuario);
-			   }
-
-			   listAlerta = q.getResultList();
-
-         }catch(Exception e){
+         } catch(Exception e) {
         	 e.printStackTrace();
          }
 		 return listAlerta;
 	}
         
-         public List<Documento> buscarPendientePorDocumentoMultiple(Documento d){
-            String sql = "";
-            sql = " SELECT d FROM  Documento d WHERE d.idDocumento = " + d.getIdDocumento() +" and  d.estado not in ('I','N','T') ";
-            sql = sql + " union ";
-            sql = sql  + " SELECT d FROM  Documento d WHERE d.idDocumento in (select dd.idDocumento from Documento dd where dd.documentoreferencia=" + d.getIdDocumento() + ")  and d.estado not in ('I','N','T') ";
-       
-            return em.createQuery(sql).getResultList();
-        }
+     public List<Documento> buscarPendientePorDocumentoMultiple(Documento d){
+        String sql = "";
+        sql = " SELECT d FROM  Documento d WHERE d.idDocumento = " + d.getIdDocumento() +" and  d.estado not in ('I','N','T') ";
+        sql = sql + " union ";
+        sql = sql  + " SELECT d FROM  Documento d WHERE d.idDocumento in (select dd.idDocumento from Documento dd where dd.documentoreferencia=" + d.getIdDocumento() + ")  and d.estado not in ('I','N','T') ";
+   
+        return em.createQuery(sql).getResultList();
+    }
 
 	  public List<TramiteDocumentario> buscarTramiteDocumentario(String nroTramitedocumentario){
 		   String  sql =  "select  id_codigo, nrodocumento,  iddocumento, remitente, destinatario, fechacreacion, orden, asunto, cliente,estado from tramite_documentario where id_codigo=" + nroTramitedocumentario; //+ " order by fechacreacion asc";
@@ -307,76 +301,69 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 								listObj.add(t);
 						 }
 				 }
-
-
-
-
-
-			}catch(Exception e){
+			} catch(Exception e) {
 				e.printStackTrace();
 				listObj = null;
 			}
 
-
 		  return listObj;
 	  }
 
-       public List<Documento> consultaDocumentoMultipleAtendido(Integer idDocumento){
-            log.debug("-> [DAO] DocumentoDAO - consultaDocumentoMultipleAtendido():Documento "); 
-            return em.createNamedQuery("Documento.consultaDocumentoMultipleAtendido")
-				.setParameter("iddocumento", idDocumento).getResultList();
-        }
+   public List<Documento> consultaDocumentoMultipleAtendido(Integer idDocumento){
+        log.debug("-> [DAO] DocumentoDAO - consultaDocumentoMultipleAtendido():Documento "); 
+        return em.createNamedQuery("Documento.consultaDocumentoMultipleAtendido")
+			.setParameter("iddocumento", idDocumento).getResultList();
+    }
 
 	public Documento buscarDocumentoMasAntiguoPor(Integer iIdExpediente) {
 		log.debug("-> [DAO] DocumentoDAO - buscarDocumentoMasAntiguoPor():Documento ");
 
-		return (Documento) em
-				.createNamedQuery("Documento.buscarDocumentoMasAntiguoPor")
-				.setParameter("idexpediente", iIdExpediente).getSingleResult();
+		return (Documento) em.createNamedQuery("Documento.buscarDocumentoMasAntiguoPor")
+			.setParameter("idexpediente", iIdExpediente).getSingleResult();
 	}
         
-        public List<Documento> findByIdDocVirtual(Integer codigoVirtual){
-            log.debug("-> [DAO] DocumentoDAO - findByIdDocVirtual():Documento "); 
-            return em.createNamedQuery("Documento.findByIdDocVirtual")
-				.setParameter("nroVirtual", codigoVirtual).getResultList();
-        }
+    public List<Documento> findByIdDocVirtual(Integer codigoVirtual){
+        log.debug("-> [DAO] DocumentoDAO - findByIdDocVirtual():Documento "); 
+        return em.createNamedQuery("Documento.findByIdDocVirtual")
+			.setParameter("nroVirtual", codigoVirtual).getResultList();
+    }
 
-        public List<Documento> consultaDocumentoReferencia(Integer idDocumento){
-            log.debug("-> [DAO] DocumentoDAO - consultaDocumentoReferencia():Documento "); 
-            return em.createNamedQuery("Documento.consultaDocumentoReferencia")
-				.setParameter("iddocumento", idDocumento).getResultList();
-        }
+    public List<Documento> consultaDocumentoReferencia(Integer idDocumento){
+        log.debug("-> [DAO] DocumentoDAO - consultaDocumentoReferencia():Documento "); 
+        return em.createNamedQuery("Documento.consultaDocumentoReferencia")
+			.setParameter("iddocumento", idDocumento).getResultList();
+    }
         
-        public List<Documento> consultaDocumentoOrigen(Integer idDocumento){
-            log.debug("-> [DAO] DocumentoDAO - consultaDocumentoOrigen():Documento "); 
-            return em.createNamedQuery("Documento.findByIdOrigen")
-				.setParameter("idOrigen", idDocumento).getResultList();
-        }
+    public List<Documento> consultaDocumentoOrigen(Integer idDocumento){
+        log.debug("-> [DAO] DocumentoDAO - consultaDocumentoOrigen():Documento "); 
+        return em.createNamedQuery("Documento.findByIdOrigen")
+			.setParameter("idOrigen", idDocumento).getResultList();
+    }
         
-        public List<Documento> consultaDocumentoReferenciaMover(Integer idDocumento){
-            log.debug("-> [DAO] DocumentoDAO - consultaDocumentoReferenciaMover():Documento "); 
-            return em.createNamedQuery("Documento.consultaDocumentoReferenciaMover")
-				.setParameter("iddocumento", idDocumento).getResultList();
-        }
+    public List<Documento> consultaDocumentoReferenciaMover(Integer idDocumento){
+        log.debug("-> [DAO] DocumentoDAO - consultaDocumentoReferenciaMover():Documento "); 
+        return em.createNamedQuery("Documento.consultaDocumentoReferenciaMover")
+			.setParameter("iddocumento", idDocumento).getResultList();
+    }
         
-        public Documento findByIdNroTramite(Integer nroTramite){
-            return (Documento) em.createNamedQuery("Documento.findByIdNroTramite")
-				.setParameter("nroTramite", nroTramite).getSingleResult();
-        }
+    public Documento findByIdNroTramite(Integer nroTramite){
+        return (Documento) em.createNamedQuery("Documento.findByIdNroTramite")
+			.setParameter("nroTramite", nroTramite).getSingleResult();
+    }
         
 	public Documento findByFechaCreacion(Date datFechaCreacion) {
 		log.debug("-> [DAO] DocumentoDAO - findByFechaCreacion():Documento ");
 
 		return (Documento) em.createNamedQuery("Documento.findByFechacreacion")
-				.setParameter("fechacreacion", datFechaCreacion)
-				.getSingleResult();
+			.setParameter("fechacreacion", datFechaCreacion)
+			.getSingleResult();
 	}
-        
         
 	public Documento findByIdDocumento(Integer iIdDocumento) {
 		log.debug("-> [DAO] DocumentoDAO - findByIdDocumento():Documento ");
 
 		Documento objDocumento = null;
+		
 		try {
 		      objDocumento = em.find(Documento.class, iIdDocumento);
 		      log.debug("objDocumento " +objDocumento);
@@ -3434,7 +3421,6 @@ public class DocumentoDAOImpl implements DocumentoDAO {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    log.error("ERROR: no tiene data", e.fillInStackTrace());
                 }
 
                 return data;
@@ -5709,11 +5695,14 @@ log.debug("-> [DAO] DocumentoDAO - findByDataUF():List ");
     private boolean validarDocumentoRequerimiento(String nrodocumento, Integer expediente){
         boolean estado = true;
         String sql = "select * from documento where nrodocumento='"+nrodocumento+"' "
-                + "and tipodocumento='"+parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor()+"' "
-                + "and expediente = "+expediente;
+            + "and tipodocumento='"+parametroService.findByTipoUnico("TIPO_DOCUMENTO_RESULTADO_TRIBUTARIO").getValor()+"' "
+            + "and expediente = "+expediente;
         Query q = em.createNativeQuery(sql);
-        if(q.getResultList()!=null && q.getResultList().size() > 0)    
+        
+        if (q.getResultList() != null && q.getResultList().size() > 0) {
             estado = false;
+        }
+        
         return estado;
     }
 }
