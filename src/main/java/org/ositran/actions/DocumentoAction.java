@@ -5493,20 +5493,21 @@ public class DocumentoAction {
 	}
 	
 	public String goNotificar() {
-//		Usuario objUsuario = null;
-//		setObjDD(documentoService.getDocumentDetail(getIIdDoc(), objUsuario.getRol().getNombre()));
+		documento = documentoService.findByIdDocumento(idDocumento);
 		
 		return "goNotificar";
 	}
 	
 	public String enviarNotificacion() {
-		log.info("enviarNotificacion");
+		log.info("enviarNotificacion getIdDocumento");
+		documento = documentoService.findByIdDocumento(idDocumento);
+		mapSession = ActionContext.getContext().getSession();
+        usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 		Archivo archivo = archivoService.buscarArchivoPrincipalPorDocumento(documento.getIdDocumento());
 		String rutaDig = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-		log.info("documento.getNroexpediente()....." + documento.getExpediente().getNroexpediente());
 		String notificacionElectronica = notificacionService.generarNotificacionElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion",
-			rutaDig + archivo.getNombre(), "Obs", 31, documento.getNumeroDocumento(), documento.getIdDocumento(), documento.getNroexpediente(),
-			documento.getExpediente().getIdexpediente(), 16, 1);
+			Integer.valueOf(idCasilla), 3, rutaDig + "\\" + archivo.getNombre(), sObservacionNotificar, 31, documento.getNumeroDocumento().substring(3),
+			documento.getIdDocumento(), documento.getExpediente().getNombreExpediente(), documento.getExpediente().getIdexpediente(), 16, 1, usuario.getIdusuario());
 		
 		Integer pK_eIdNotificacion = 0;
 		
@@ -5524,7 +5525,7 @@ public class DocumentoAction {
 			log.info("cedulaElectronica.............." + cedulaElectronica);
 //			pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
 		}
-		
+//		
 		String codProcesoFirma = archivo.getCodProcesoFirma() != null ? archivo.getCodProcesoFirma().toString() : "SINFIRMADIGITAL";
 		String enviarNotificacionElectronica = notificacionService.enviarNotificacionElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",
 			pK_eIdNotificacion, codProcesoFirma, usuario.getIdusuario());

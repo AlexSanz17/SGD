@@ -1,6 +1,7 @@
 package org.ositran.daos;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -17,7 +18,6 @@ import javax.persistence.Query;
 
 @Repository
 public class ArchivoDAOImpl implements ArchivoDAO {
-
 	private static Logger _log = Logger.getLogger(ArchivoDAOImpl.class);
 	private EntityManager em;
 
@@ -28,13 +28,13 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 
 	public List<Archivo> findArchivosxFirmar(Integer idDocumento, Usuario usuario) {
 		String sql = "SELECT c FROM Archivo c where c.documento.idDocumento=:idDocumento and c.estado in ('A','V') and upper(substring(c.rutaAlfresco, len(c.rutaAlfresco)-2,3)) = 'PDF' and "
-				+ " c.idArchivo not in (select a.idArchivo from FirmaArchivo a, Archivo aa where aa.documento.idDocumento = :idDocumento "
-				+ " and aa.idArchivo = a.idArchivo and a.estado = 'F' and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario) order by c.documento.idDocumento desc , c.principal desc ";
+			+ " c.idArchivo not in (select a.idArchivo from FirmaArchivo a, Archivo aa where aa.documento.idDocumento = :idDocumento "
+			+ " and aa.idArchivo = a.idArchivo and a.estado = 'F' and a.idUsuario= :idUsuario and a.unidadPropietario= :unidadPropietario and a.cargoPropietario= :cargoPropietario) order by c.documento.idDocumento desc , c.principal desc ";
 		Query q = em.createQuery(sql);
 
 		q.setParameter("idDocumento", idDocumento).setParameter("idUsuario", usuario.getIdUsuarioPerfil())
-				.setParameter("unidadPropietario", usuario.getIdUnidadPerfil())
-				.setParameter("cargoPropietario", usuario.getIdFuncionPerfil());
+			.setParameter("unidadPropietario", usuario.getIdUnidadPerfil())
+			.setParameter("cargoPropietario", usuario.getIdFuncionPerfil());
 		return q.getResultList();
 	}
 	
@@ -389,17 +389,19 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 
 	@Override
 	public Archivo buscarArchivoPrincipalPorDocumento(Integer idDocumento) {
-
 		Archivo objArchivo = null;
+		
 		try {
 			objArchivo = (Archivo) em.createNamedQuery("Archivo.buscarArchivoPrincipalPorDocumento")
-					.setParameter("idDocumento", idDocumento)
-					.setParameter("estado", Constantes.ESTADO_ACTIVO)
-					.setParameter("estadoDigitalizacion", 'I')
-					.setParameter("principal", Constantes.ARCHIVO_PRINCIPAL).getSingleResult();
+				.setParameter("idDocumento", idDocumento)
+				.setParameter("estado", Constantes.ESTADO_ACTIVO)
+				.setParameter("estadoDigitalizacion", 'I')
+				.setParameter("principal", Constantes.ARCHIVO_PRINCIPAL)
+				.getSingleResult();
 		} catch (NoResultException e) {
 			_log.error(e.getMessage());
 		}
+		
 		return objArchivo;
 	}
 

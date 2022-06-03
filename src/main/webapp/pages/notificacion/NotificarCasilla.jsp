@@ -23,13 +23,16 @@
 
          function enviarNotificacion() {
              if (confirm("Desea notificar el documento " + "<s:property value='documento.numeroDocumento' /> ?")) {
+// 				dijit.byId("dlgProgresBar").show();
+            	 
             	 dojo.xhrPost({
-	                url: "enviarNotificacion.action",
+	                url: "enviarNotificacion.action?idDocumento=<s:property value='documento.idDocumento' />&idCasilla=<s:property value='idCasilla' />",
 	                content: {
 	                	tipoArchivar : 'notificar'
 	                 },
 	                form: dojo.byId("frmNotificar"),
 	                load: function() {
+	                	alert("El documento " + "<s:property value='documento.numeroDocumento' />" + " ha sido notificado");
 		            	window.close();
 		            	window.opener.showGridInbox();
 		            	window.opener.refreshTabDXE();

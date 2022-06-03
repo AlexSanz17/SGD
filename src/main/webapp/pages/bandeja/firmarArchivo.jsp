@@ -1,31 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<?xml version="1.0" encoding="UTF-8" ?>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="java.util.*"%>
 <%@ page import="org.ositran.dojo.grid.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<style type="text/css" href="css/libraries/sweetalert.min.css"></style>
-<style>
-.aTable {
-	width: 678px;
-	border-spacing: 2px;
-	border: 1px solid black;
-	background-color: #A1B5D8;
-}
-
-.aTable tr {
-	background-color: #A1B5D8;
-}
-</style>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
- <script type="text/javascript" src="js/libraries/sweetalert.js"></script>
-
-<script type="text/javascript">
-
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	<style type="text/css" href="css/libraries/sweetalert.min.css"></style>
+	<style>
+		.aTable {
+			width: 678px;
+			border-spacing: 2px;
+			border: 1px solid black;
+			background-color: #A1B5D8;
+		}
+		
+		.aTable tr {
+			background-color: #A1B5D8;
+		}
+	</style>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="text/javascript" src="js/libraries/sweetalert.js"></script>
+	
+	<script type="text/javascript">
 		var activo = 0;
 			var archivo = "";
 			var archivosFirma = [];
@@ -63,8 +62,6 @@
 					}
 		        });
 				
-				
-				console.log("service delete:");
 				setTimeout(myFunction, 3000);
 				
 				function myFunction() {
@@ -89,9 +86,9 @@
 			}
 			
 			function generateQrPreFirmado() {
-				
 				btnFirmar.disabled = true;
 				dijit.byId("dlgProgresBar").show();
+				
 				if(archivosFirmaTemp.length>0){
 					archivosFirmaArray = archivosFirmaTemp;
 				}

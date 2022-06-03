@@ -58,8 +58,8 @@ public interface NotificacionService {
    public List<Nodo> getDojoInformativoTree(BusquedaAvanzada objFiltro, Usuario objUsuario);
    
    public String buscarCasillaElectronica(String uNroDocumento);
-   public String generarNotificacionElectronica(String url, String archivo, String observacion, Integer tipodocumento, String nroDocumento, Integer idDocumento,
-	   String nroExpediente, Integer idExpediente, Integer idTipoNotificacion, Integer eOrden);
+   public String generarNotificacionElectronica(String url, Integer idCasilla, Integer idAplicacion, String archivo, String observacion, Integer tipodocumento,
+		String nroDocumento, Integer idDocumento, String nroExpediente, Integer idExpediente, Integer idTipoNotificacion, Integer eOrden, Integer eUsuarioRegistro);
    public String generarCedulaElectronica(String url, Integer PK_eIdNotificacion, String uUnidadOrganica, Integer eUsuarioActualizacion);
    public String enviarNotificacionElectronica(String url, Integer PK_eIdNotificacion, String cCodProcesoFirma, Integer eUsuarioActualizacion);
 }

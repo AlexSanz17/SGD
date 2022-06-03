@@ -3,6 +3,7 @@ package org.ositran.siged.jobs;
 import java.util.List;
 
 import org.jfree.util.Log;
+
 import org.ositran.services.DespachoVirtualService;
 import org.ositran.services.DocAnexoVirtualService;
 import org.ositran.services.DocExternoVirtualService;
@@ -24,7 +25,7 @@ import com.btg.ositran.siged.domain.IotdtmDocExternoPIDE;
 
 public class MigrarInformacion {
 	private RecepcionVirtualService recepcionVirtualService;
-//	private DespachoVirtualService despachoVirtualService;
+	private DespachoVirtualService despachoVirtualService;
 	private DocExternoVirtualService docExternoVirtualService;
 	private DocPrincipalVirtualService docPrincipalVirtualService;
 	private DocAnexoVirtualService docAnexoVirtualService;	

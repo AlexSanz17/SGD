@@ -927,8 +927,8 @@ public class NotificacionServiceImpl implements NotificacionService {
 	}
 	
 	@Override
-	public String generarNotificacionElectronica(String url, String archivo, String observacion, Integer tipodocumento, String nroDocumento, Integer idDocumento, String nroExpediente, Integer idExpediente,
-			Integer idTipoNotificacion, Integer eOrden)  {
+	public String generarNotificacionElectronica(String url, Integer idCasilla, Integer idAplicacion, String archivo, String observacion, Integer tipodocumento,
+			String nroDocumento, Integer idDocumento, String nroExpediente, Integer idExpediente, Integer idTipoNotificacion, Integer eOrden, Integer eUsuarioRegistro) {
 		System.out.println("Ejecutar segundo servicio");
 		String response = "";
 		
@@ -949,12 +949,12 @@ public class NotificacionServiceImpl implements NotificacionService {
 			doc.put("eIdDocumentoSTD", idDocumento);
 			doc.put("Expedientes", expedienteArray);
 
-			notificacion.put("FK_eIdCasilla", Integer.valueOf(117));
-			notificacion.put("FK_eIdAplicacion", Integer.valueOf(3));
+			notificacion.put("FK_eIdCasilla", idCasilla);
+			notificacion.put("FK_eIdAplicacion", idAplicacion);
 			notificacion.put("FK_eIdTipoNotificacion", idTipoNotificacion);
 			notificacion.put("uObservacion", observacion);
 			notificacion.put("Documento", doc);
-			notificacion.put("eUsuarioRegistro", Integer.valueOf(1));
+			notificacion.put("eUsuarioRegistro", eUsuarioRegistro);
 			String notificacionJson = notificacion.toString();
 			log.info("generarNotificacionElectronica notificacionJson.........." + notificacionJson);
 			response = executeMultiPartRequest(url,f, notificacionJson, null);
