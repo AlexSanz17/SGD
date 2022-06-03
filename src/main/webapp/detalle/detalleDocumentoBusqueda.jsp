@@ -1,5 +1,3 @@
-<!-- REN detalle del documento que va debajo de la grilla, se carga cuando se presiona una fila de la grilla ------------------->
-
 <?xml version="1.0" encoding="UTF-8"?>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
@@ -60,7 +58,6 @@
                 var opciones="toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=440, height=350, top=50, left=200";
                 window.open(pagina,"",opciones);
             }
-
            
              function verDocumento(){
                

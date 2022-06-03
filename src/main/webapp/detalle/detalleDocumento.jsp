@@ -873,7 +873,7 @@
             function abrirNotificar() {
             	if (<s:property value='objDD.pK_eIdCasilla' /> != 0) {
             	 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600, top=20, left=70";
-                 var pagina = "goNotificar.action?idDocumento=" + "<s:property value='documento.idDocumento' />"+ "&idCasilla="+ "<s:property value='objDD.pK_eIdCasilla' /> ";
+                 var pagina = "goNotificar.action?idDocumento=" + "<s:property value='documento.idDocumento' />" + "&idCasilla="+ "<s:property value='objDD.pK_eIdCasilla' /> ";
                  window.open(pagina, "Notificar Documento", opciones);
             		
             	} else {

@@ -5493,52 +5493,60 @@ public class DocumentoAction {
 	}
 	
 	public String goNotificar() {
-//		Usuario objUsuario = null;
-//		setObjDD(documentoService.getDocumentDetail(getIIdDoc(), objUsuario.getRol().getNombre()));
+		documento = documentoService.findByIdDocumento(idDocumento);
 		
 		return "goNotificar";
 	}
 	
 	public String enviarNotificacion() {
-		log.info("-------------enviarNotificacion");
+
+		log.info("enviarNotificacion getIdDocumento");
+		documento = documentoService.findByIdDocumento(idDocumento);
+		mapSession = ActionContext.getContext().getSession();
+        usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 		Archivo archivo = archivoService.buscarArchivoPrincipalPorDocumento(documento.getIdDocumento());
 		String rutaDig = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-		log.info("documento.getNroexpediente()....." + documento.getExpediente().getNombreExpediente());
-		
-		
-		
 		String notificacionElectronica = notificacionService.generarNotificacionElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion",
-			rutaDig + archivo.getNombre(), "Obs", 31, documento.getNumeroDocumento(), documento.getIdDocumento(), documento.getNroexpediente(),
-			documento.getExpediente().getIdexpediente(), 16, 1);
-		log.info("notificacionElectronica.............." + notificacionElectronica);
-//		Integer pK_eIdNotificacion = 0;
-//		
-//		if (!notificacionElectronica.equals("") && notificacionElectronica != null) {
-//			JSONObject jsonObject = new JSONObject(notificacionElectronica);
-//			log.info("notificacionElectronica.............." + notificacionElectronica);
-//			pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
-//		}
+			Integer.valueOf(idCasilla), 3, rutaDig + "\\" + archivo.getNombre(), sObservacionNotificar, 31, documento.getNumeroDocumento().substring(3),
+			documento.getIdDocumento(), documento.getExpediente().getNombreExpediente(), documento.getExpediente().getIdexpediente(), 16, 1, usuario.getIdusuario());
+
 		
-//		String cedulaElectronica = notificacionService.generarCedulaElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion", pK_eIdNotificacion,
-//			usuario.getUnidad().getNombre(), usuario.getIdusuario());
-//		
-//		if (!cedulaElectronica.equals("") && cedulaElectronica != null) {
-//			JSONObject jsonObject = new JSONObject(cedulaElectronica);
-//			log.info("cedulaElectronica.............." + cedulaElectronica);
-//		}
-//		
-//		String codProcesoFirma = archivo.getCodProcesoFirma() != null ? archivo.getCodProcesoFirma().toString() : "SINFIRMADIGITAL";
-//		String enviarNotificacionElectronica = notificacionService.enviarNotificacionElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",
-//			pK_eIdNotificacion, codProcesoFirma, usuario.getIdusuario());
-//		
-//		if (!enviarNotificacionElectronica.equals("") && enviarNotificacionElectronica != null) {
-//			JSONObject jsonObject = new JSONObject(enviarNotificacionElectronica);
-//			log.info("enviarNotificacionElectronica.............." + enviarNotificacionElectronica);
-//		}
+		
+		
+	
+		Integer pK_eIdNotificacion = 0;
+		
+		if (!notificacionElectronica.equals("") && notificacionElectronica != null) {
+			JSONObject jsonObject = new JSONObject(notificacionElectronica);
+			log.info("notificacionElectronica.............." + notificacionElectronica);
+			pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
+
+		}
+		
+		String cedulaElectronica = notificacionService.generarCedulaElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion", pK_eIdNotificacion,
+			usuario.getUnidad().getNombre(), usuario.getIdusuario());
+		
+		if (!cedulaElectronica.equals("") && cedulaElectronica != null) {
+			JSONObject jsonObject = new JSONObject(cedulaElectronica);
+			log.info("cedulaElectronica.............." + cedulaElectronica);
+		}
+		
+		String codProcesoFirma = archivo.getCodProcesoFirma() != null ? archivo.getCodProcesoFirma().toString() : "SINFIRMADIGITAL";
+		String enviarNotificacionElectronica = notificacionService.enviarNotificacionElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",
+			pK_eIdNotificacion, codProcesoFirma, usuario.getIdusuario());
+		
+		if (!enviarNotificacionElectronica.equals("") && enviarNotificacionElectronica != null) {
+			JSONObject jsonObject = new JSONObject(enviarNotificacionElectronica);
+			log.info("enviarNotificacionElectronica.............." + enviarNotificacionElectronica);
+		}
+
+		
+
+
 		
 		return "true";
 	}
-	
+
 	public String rechazaruser() throws Exception {
 		log.debug("-> [Action] DocumentoAction - rechazaruser():String ");
 

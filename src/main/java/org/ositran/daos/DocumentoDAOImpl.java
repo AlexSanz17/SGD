@@ -3557,7 +3557,6 @@ public class DocumentoDAOImpl implements DocumentoDAO {
             }
         }
                 
-                
 		uuf.setFechalimite(fila.getFechalimitetraza());
               
         if (fila.getPrioridadtraza()!=null)

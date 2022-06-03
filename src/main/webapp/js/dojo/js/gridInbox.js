@@ -8,10 +8,9 @@ var handlerQAS;
 var rowGridIndex = null;
 var rowGridDXEIndex = null;
 var idProcesoView;
-
 var idUser;
 
-var cambiarNoLeido=function(){
+var cambiarNoLeido=function() {
     var grid = dijit.byId("gridInbox");
     var auxGrid="";
     dojo.forEach(grid.store._arrayOfAllItems, function(item) {
