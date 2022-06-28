@@ -9,12 +9,19 @@ package pe.gob.segdi.wsentidad.ws;
 
 import org.apache.axis.AxisProperties;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class EntidadServiceSoapBindingStub extends org.apache.axis.client.Stub implements pe.gob.segdi.wsentidad.ws.Entidad {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();
     private java.util.Vector cachedDeserFactories = new java.util.Vector();
-
+    private String PROXY_HOST = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_HOST);
+	private String PROXY_ACTIVE = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_ACTIVE);
+	private String PROXY_PORT = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT);
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {

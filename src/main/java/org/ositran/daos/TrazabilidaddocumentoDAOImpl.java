@@ -20,8 +20,10 @@ import com.btg.ositran.siged.domain.Proceso;
 import com.btg.ositran.siged.domain.Trazabilidaddocumento;
 
 @Repository
+
 public class TrazabilidaddocumentoDAOImpl implements TrazabilidaddocumentoDAO{
 	private static Logger log = LoggerFactory.getLogger(TrazabilidaddocumentoDAOImpl.class);
+	@PersistenceContext(unitName="sigedPU")
 	private EntityManager em;
 
 	// ////////////////////////////////
@@ -157,18 +159,22 @@ public class TrazabilidaddocumentoDAOImpl implements TrazabilidaddocumentoDAO{
 	public Trazabilidaddocumento saveTrazabilidadDocumento(Trazabilidaddocumento objT){
 		log.debug("-> [DAO] TrazabilidaddocumentoDAO - saveTrazabilidadDocumento():Trazabilidaddocumento ");
                 
-                if(objT.getIdtrazabilidaddocumento()==null && objT.getFechalimiteatencion()==null){
-                   objT.setFechalimiteatencion(objT.getDocumento().getFechaLimiteAtencion());
-                }
-                
-                if(objT.getAsunto() != null){
-                   objT.setAsunto(objT.getAsunto().toUpperCase());
-		}
-               
-                em.persist(objT); // Nuevo
-		em.flush(); 
-		em.refresh(objT);
-                
+             try {
+            	   if(objT.getIdtrazabilidaddocumento()==null && objT.getFechalimiteatencion()==null){
+                       objT.setFechalimiteatencion(objT.getDocumento().getFechaLimiteAtencion());
+                    }
+                    
+                    if(objT.getAsunto() != null){
+                       objT.setAsunto(objT.getAsunto().toUpperCase());
+    		}
+                   
+                    em.persist(objT); // Nuevo
+    		em.flush(); 
+    		em.refresh(objT);
+                    
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		return objT;
 	}
 
@@ -184,7 +190,7 @@ public class TrazabilidaddocumentoDAOImpl implements TrazabilidaddocumentoDAO{
 		return (Accion) em.createNamedQuery("Accion.findByNombre").setParameter("nombre",strA.toLowerCase()).getSingleResult();
 	}
 
-	@PersistenceContext(unitName="sigedPU")
+	
 	public void setEm(EntityManager em){
 		this.em=em;
 	}

@@ -32,6 +32,9 @@ public class DocumentoReferenciaServiceImpl implements DocumentoReferenciaServic
         public List<DocumentoReferencia> getDocumentoAtenderRespuesta(Integer idDocumento){
              return documentoReferenciaDAO.getDocumentoAtenderRespuesta(idDocumento);
         }
+        public List<DocumentoReferencia> getAllReferenciaDocumento(Integer idDocumento){
+            return documentoReferenciaDAO.getAllReferenciaDocumento(idDocumento);
+       }
         
          public List<DocumentoReferencia> getDocumentoDerivarAtender(Usuario usuario, Integer idDocumento){
              return documentoReferenciaDAO.getDocumentoDerivarAtender(usuario, idDocumento);

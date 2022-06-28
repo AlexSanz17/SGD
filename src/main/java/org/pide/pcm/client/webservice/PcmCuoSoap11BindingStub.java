@@ -1,13 +1,20 @@
 package org.pide.pcm.client.webservice;
 import org.apache.axis.AxisProperties;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class PcmCuoSoap11BindingStub extends org.apache.axis.client.Stub
 implements org.pide.pcm.client.webservice.PcmCuoPortType {
 private java.util.Vector cachedSerClasses = new java.util.Vector();
 private java.util.Vector cachedSerQNames = new java.util.Vector();
 private java.util.Vector cachedSerFactories = new java.util.Vector();
 private java.util.Vector cachedDeserFactories = new java.util.Vector();
-
+private String PROXY_HOST = SigedProperties
+.getProperty(SigedProperties.SigedPropertyEnum.PROXY_HOST);
+private String PROXY_ACTIVE = SigedProperties
+.getProperty(SigedProperties.SigedPropertyEnum.PROXY_ACTIVE);
+private String PROXY_PORT = SigedProperties
+.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT);
 static org.apache.axis.description.OperationDesc[] _operations;
 
 static {
@@ -148,10 +155,12 @@ if (super.cachedEndpoint == null) {
 }
 org.apache.axis.client.Call _call = createCall();
 
+String proxy_address = PROXY_HOST;
+String proxy_port = PROXY_PORT;
 // Asignar variables de proxy
 AxisProperties.getProperties().put("proxySet","true");
-AxisProperties.setProperty("http.proxyHost", "proxy1"); 
-AxisProperties.setProperty("http.proxyPort", "8080"); 
+AxisProperties.setProperty("http.proxyHost", proxy_address); 
+AxisProperties.setProperty("http.proxyPort", proxy_port); 
 
 _call.setOperation(_operations[1]);
 _call.setUseSOAPAction(true);

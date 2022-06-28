@@ -31,7 +31,7 @@ public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
     
      public IotdtcDespacho registrarDocumento(IotdtcDespacho despacho){
 		
-       if(despacho.getSidemiext() == null){
+       if(despacho.getVcuo() == null){
 	    em.persist(despacho); 
 	    em.flush();
 	    em.refresh(despacho);

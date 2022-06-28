@@ -1,10 +1,14 @@
 package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+import com.btg.ositran.siged.domain.IotdtdAnexo;
+import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Usuario;
 
 import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
 
 public interface DocumentoExternoVirtualDAO {
 	public List<IotdtmDocExterno> findAll() ;
@@ -12,6 +16,7 @@ public interface DocumentoExternoVirtualDAO {
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesCargo();
     public List<IotdtmDocExterno> buscarDespachoVirtual(Usuario objUsuario);
     public IotdtmDocExterno buscarDocumentoVirtual(Integer idDocumento);
+    public IotdtmDocExterno buscarDocumentoVirtualBySidemext(Integer sidemiext);
     public IotdtmDocExterno registrarDocumento(IotdtmDocExterno docExterno);
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesMigrarCargo();
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesAtencion();
@@ -23,4 +28,6 @@ public interface DocumentoExternoVirtualDAO {
     public List<IotdtcRecepcionMPV> buscarRecepcionMPV();
     public IotdtcRecepcionMPV buscarDocumentoVirtualMPV(Integer nroVirtual);
 	public List<IotdtcRecepcionMPV> buscarObservadosMPV();
+	public IotdtdDocPrincipal buscarDocumentoPrincipalBySiddocext(Integer siddocext);     
+	public IotdtdAnexo buscarDocumentoAnexoBySiddocext(Integer siddocext);
 }

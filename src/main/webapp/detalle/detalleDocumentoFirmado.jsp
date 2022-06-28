@@ -366,7 +366,11 @@
                                 if (respuesta == '0'){ 
                                     if (!confirm("El documento Principal no tiene una Firma Digital. ¿Desea Derivarlo?")){ 
                                         return;
-                                    }     
+                                    }  
+                                    if("<s:property value='archivoFirmado' /> " == 1){
+                                    	alert("El documento no puede ser derivado sin antes haber enviado el cargo");
+                                        return;
+                                    }
                                 }
 
                                 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=770, height=485, top=20, left=70";
@@ -522,21 +526,15 @@
 	                    if (confirm("Desea Enviar el cargo "+ "<s:property value='documento.numeroDocumento' /> "  +"?")) {
 	                   	 dojo.xhrPost({
 	       	                url: "enviarCargo.action?iIdDoc=" + "<s:property value='documento.idDocumento' /> ",
-	       	                load: function(data) {
-	       	                	alert("Mensaje de exito : " +data);
-	       	                	console.log(data);
-	       	                	dijit.byId("dlgProgresBar").show();
-	       	                	if(data == '1'){
-	       	                		alert('fallo el servicio!');
-	       	                		dijit.byId("dlgProgresBar").hide();
-		       	                	console.log(data)
-		       		            	window.close();
-		       		            	window.opener.showGridInbox();
-		       		            	window.opener.refreshTabDXE();
-	       	                	}
+	       	                load: function() {
+	       	                	alert("Se realizo el envio del cargo");
+	       	                	 showGridInbox(sTipoGridActual);
+		       	              	window.close();
+				            	window.opener.showGridInbox();
+				            	window.opener.refreshTabDXE();
 	       		            },
 	       		            error: function(error){
-	       		            	alert("Mensaje de error : " +error)
+// 	       		            	alert("Mensaje de error : " +error)
 	       		            }
 	       	             });
 	                     }

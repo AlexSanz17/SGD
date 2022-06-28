@@ -57,4 +57,6 @@ public interface ArchivoService {
    public List<Archivo> buscarArchivoXAutorPDF(Integer idAutor, Integer idDocumento);
    public void updatePrincipalByArchivo(Integer iIdArchivo, Character principal);
    public List<Archivo> findByIdNombreEstado(Integer idDocumento, String nombre);
+   public List<Archivo> buscarArchivoAnexoByIdDocumento(Integer iddocumento);
+   public List<Archivo> buscarArchivoCargoByIdDocumento(Integer iddocumento);
 }

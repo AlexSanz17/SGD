@@ -7,11 +7,12 @@
 	<!--Task bean -->
 	<bean id="migrarInformacion" class="org.ositran.siged.jobs.MigrarInformacion" >
 		<property name="recepcionVirtualService" ref="recepcionVirtualService" />
-<!-- 		<property name="despachoVirtualService" ref="despachoVirtualService" /> -->
+		<property name="despachoVirtualService" ref="despachoVirtualService" />
 		<property name="docExternoVirtualService" ref="docExternoVirtualService" />
 		<property name="docPrincipalVirtualService" ref="docPrincipalVirtualService" />
 		<property name="docAnexoVirtualService" ref="docAnexoVirtualService" />
 		<property name="documentoPIDEService" ref="documentoPIDEService" />		
+		<property name="despachoVirtualDAO" ref="despachoVirtualDAO" />	
 	</bean>
 
 	<!-- Job -->
@@ -24,7 +25,7 @@
 	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
         <property name="jobDetail" ref="jobDetail" />
         <property name="startDelay" value="30000" />
-        <property name="repeatInterval" value="180000" />
+        <property name="repeatInterval" value="60000" />
     </bean>
 
 	<!-- Schedular -->

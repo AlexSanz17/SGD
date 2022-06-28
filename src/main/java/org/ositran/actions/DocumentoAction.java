@@ -45,6 +45,7 @@ import org.ositran.services.ClienteService;
 import org.ositran.services.ConcesionarioService;
 import org.ositran.services.ControlDeCalidadService;
 import org.ositran.services.DocumentoEnviadoService;
+import org.ositran.services.DocumentoNotificacionService;
 import org.ositran.services.DocumentoReferenciaService;
 import org.ositran.services.DocumentoService;
 import org.ositran.services.EtapaService;
@@ -103,6 +104,7 @@ import com.btg.ositran.siged.domain.DocumentoAdjunto;
 import com.btg.ositran.siged.domain.DocumentoAnulado;
 import com.btg.ositran.siged.domain.DocumentoAtendido;
 import com.btg.ositran.siged.domain.DocumentoDerivacion;
+import com.btg.ositran.siged.domain.DocumentoNotificacion;
 import com.btg.ositran.siged.domain.DocumentoPendiente;
 import com.btg.ositran.siged.domain.DocumentoReferencia;
 import com.btg.ositran.siged.domain.DocumentoReunion;
@@ -154,33 +156,33 @@ public class DocumentoAction {
 	private Date fechaNotiReclamante;
 	private Date fechaNotiConcesionario;
 	private Date fecha;
-    private String bandeja;
-    private String fechaDetalle;
-    private DocumentoReunionDAO documentoReunionDAO;
-    private DocumentoAdjuntoDAO documentoAdjuntoDAO;
+	private String bandeja;
+	private String fechaDetalle;
+	private DocumentoReunionDAO documentoReunionDAO;
+	private DocumentoAdjuntoDAO documentoAdjuntoDAO;
 	private String executeAccion;
 	private boolean destinatarioIgualRemitente;
-    private boolean controlDevolver;
+	private boolean controlDevolver;
 	private boolean paraAprobar;
 	private boolean paraAlerta;
 	private boolean enVentana;
 	private boolean bBandeja;
 	private boolean bResponsable;
 	private boolean ownerproceso;
-    private String strReferencia;
-    private String strSeguimiento;
+	private String strReferencia;
+	private String strSeguimiento;
 	private boolean documentoStor;
 	private boolean mostrarEtapa;
 	private boolean desactivado;
-    private ProveidoDAO proveidoDAO;
-    private UnidadDAO unidadDAO;
+	private ProveidoDAO proveidoDAO;
+	private UnidadDAO unidadDAO;
 	private boolean unico;
-    private String accion;
+	private String accion;
 	private boolean flagMensaje;
 	private boolean deMail;
 	private boolean apelacion;
 	private boolean agregar;
-    private FuncionService funcionService;
+	private FuncionService funcionService;
 	private String ordenarFechaLimite;
 	private ExpedienteSearch objExpedienteSearch;
 	private Concesionario objConcesionario = null;
@@ -188,16 +190,16 @@ public class DocumentoAction {
 	private Documento documento;
 	private DocumentoDetail objDD;
 	private Documentofedateado objDF;
-    private DocumentoPendienteDAO documentoPendienteDAO;
-    private DocumentoAtendidoDAO documentoAtendidoDAO;
-    private DocumentoAnuladoDAO documentoAnuladoDAO;
-    private List<UsuarioDerivacion> listaDerivacionPara;
-    private FavoritoService favoritoService;
-    private List<UsuarioDerivacion> listaDerivacionCC;
+	private DocumentoPendienteDAO documentoPendienteDAO;
+	private DocumentoAtendidoDAO documentoAtendidoDAO;
+	private DocumentoAnuladoDAO documentoAnuladoDAO;
+	private List<UsuarioDerivacion> listaDerivacionPara;
+	private FavoritoService favoritoService;
+	private List<UsuarioDerivacion> listaDerivacionCC;
 	private Documento objDocumento;
 	private Boolean bBotonHabilitado;
 	private Expediente objExpediente;
-    private Legajo objLegajo;
+	private Legajo objLegajo;
 	private Cliente objCliente;
 	private ArchivoPendiente archivopendiente;
 	private Expedientestor expedienteStor;
@@ -210,16 +212,16 @@ public class DocumentoAction {
 	private List<Submotivo> submotivos;
 	private List<Suministro> suministros;
 	private List<Proveido> proveidos;
-    private List<Parametro> parametros;
-    private List<DocumentoReferencia> documentosReferencia;
-    private SeguimientoService seguimientoService;
+	private List<Parametro> parametros;
+	private List<DocumentoReferencia> documentosReferencia;
+	private SeguimientoService seguimientoService;
 	private DocumentoReferenciaService documentoReferenciaService;
 	private Integer iIdDoc;
-    private Integer iIdDocEmail;
+	private Integer iIdDocEmail;
 	private Integer iIdPro;
 	private Integer avisopermiso;
 	private Integer iIdExp;
-    private Integer iIdLegajo;
+	private Integer iIdLegajo;
 	private Integer idtrazabilidaddocumento;
 	private Integer idTrazabilidadapoyo;
 	private Integer idDocumentoSeleccionado;
@@ -232,10 +234,10 @@ public class DocumentoAction {
 	private Integer idprovincia;
 	private Integer iddistrito;
 	private Integer idproceso;
-    private Integer idserie;
+	private Integer idserie;
 	private Integer idconcesionario;
 	private Integer idDocumento;
-    private Integer idDocumentoLegajo;
+	private Integer idDocumentoLegajo;
 	private Integer idmotivo;
 	private Integer idsubmotivo;
 	private Integer idsala;
@@ -253,11 +255,11 @@ public class DocumentoAction {
 	private String sObservacionRechazar;
 	private String sObservacionNotificar;
 	private Integer idenv;
-    private Integer idpendientes;
-    private Integer idatendidos;
-    private Integer idanulados;
-    private Integer idfirmados;
-    private Integer idseguimientos;
+	private Integer idpendientes;
+	private Integer idatendidos;
+	private Integer idanulados;
+	private Integer idfirmados;
+	private Integer idseguimientos;
 	private Integer idDocPrincipalExpediente;
 	private Integer[] storidsubmotivo;
 	private Integer[] arrIdDoc;
@@ -337,8 +339,8 @@ public class DocumentoAction {
 	private String[] strAcciones;
 	private String[] strPrioridades;
 	private String[] storsuministro;
-    private String   strPrioridad;
-    private String   strApoyo;
+	private String strPrioridad;
+	private String strApoyo;
 	private List<String> conCopia;
 	private List<String> condestinatarios;
 	private List<String> concopias;
@@ -378,8 +380,8 @@ public class DocumentoAction {
 	private TrazabilidadcopiaService trazabilidadcopiaService;
 	private RolService rolService;
 	private LogOperacionService logOperacionService;
-    private List<TrazabilidadEnlace> trazabilidadenlace;
-    private DocumentoDerivacionDAO documentoDerivacionDAO;
+	private List<TrazabilidadEnlace> trazabilidadenlace;
+	private DocumentoDerivacionDAO documentoDerivacionDAO;
 	private String idDoc;
 	private String rutaAlfresco;
 	private Archivo archivo;
@@ -392,23 +394,43 @@ public class DocumentoAction {
 	private Boolean boVisor;
 	private String nombrePDFprincipal;
 	private Boolean bPDFprincipal;
-    private String arrFileFirmar;
+	private String arrFileFirmar;
 	private SeguimientoXUsuarioService seguimientoXUsuarioService;
-    private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
-    private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
-    private Integer proyecto;
-    private char flagBusqueda;
-    private char flagExpediente;
-    private LegajoService legajoService;
-    private LegajoDocumentoService legajoDocumentoService;
-    private FirmaArchivoDAO firmaArchivoDAO;
-    private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
-    private Integer codigoVirtual;
-    private Archivo archivoPrincipal;
-    private RecepcionVirtualService recepcionVirtualService;
-    private NotificacionCasilla objCasilla;
-    private Usuario usuario;
-    private String idCasilla;
+	private SeguimientoXFirmaDAO seguimientoXFirmaDAO;
+	private TipoLegajoUnidadDAO tipoLegajoUnidadDAO;
+	private Integer proyecto;
+	private char flagBusqueda;
+	private char flagExpediente;
+	private LegajoService legajoService;
+	private LegajoDocumentoService legajoDocumentoService;
+	private FirmaArchivoDAO firmaArchivoDAO;
+	private DocumentoExternoVirtualDAO documentoExternoVirtualDAO;
+	private Integer codigoVirtual;
+	private Archivo archivoPrincipal;
+	private RecepcionVirtualService recepcionVirtualService;
+	private DocumentoNotificacionService documentoNotificacionService;
+	private NotificacionCasilla objCasilla;
+	private Usuario usuario;
+	private String idCasilla;
+	private String flagPide;
+
+	private String SERVICIO_RECEPCION_MPV = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.SERVICIO_RECEPCION_MPV);
+
+	public DocumentoNotificacionService getDocumentoNotificacionService() {
+		return documentoNotificacionService;
+	}
+
+	public void setDocumentoNotificacionService(DocumentoNotificacionService documentoNotificacionService) {
+		this.documentoNotificacionService = documentoNotificacionService;
+	}
+	public String getFlagPide() {
+		return flagPide;
+	}
+	
+	public void setFlagPide(String flagPide) {
+		this.flagPide = flagPide;
+	}
 
 	public String getIdCasilla() {
 		return idCasilla;
@@ -443,14 +465,14 @@ public class DocumentoAction {
 	}
 
 	public String getStrSeguimiento() {
-        return strSeguimiento;
-    }
+		return strSeguimiento;
+	}
 
-    public void setStrSeguimiento(String strSeguimiento) {
-        this.strSeguimiento = strSeguimiento;
-    }
-    
-    public Archivo getArchivoPrincipal() {
+	public void setStrSeguimiento(String strSeguimiento) {
+		this.strSeguimiento = strSeguimiento;
+	}
+
+	public Archivo getArchivoPrincipal() {
 		return archivoPrincipal;
 	}
 
@@ -459,202 +481,199 @@ public class DocumentoAction {
 	}
 
 	public String getFechaDetalle() {
-        return fechaDetalle;
-    }
+		return fechaDetalle;
+	}
 
-    public void setFechaDetalle(String fechaDetalle) {
-        this.fechaDetalle = fechaDetalle;
-    }
+	public void setFechaDetalle(String fechaDetalle) {
+		this.fechaDetalle = fechaDetalle;
+	}
 
-    public Integer getCodigoVirtual() {
-        return codigoVirtual;
-    }
+	public Integer getCodigoVirtual() {
+		return codigoVirtual;
+	}
 
-    public void setCodigoVirtual(Integer codigoVirtual) {
-        this.codigoVirtual = codigoVirtual;
-    }
+	public void setCodigoVirtual(Integer codigoVirtual) {
+		this.codigoVirtual = codigoVirtual;
+	}
 
-    public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
-        return documentoExternoVirtualDAO;
-    }
+	public DocumentoExternoVirtualDAO getDocumentoExternoVirtualDAO() {
+		return documentoExternoVirtualDAO;
+	}
 
-    public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
-        this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
-    }
-    
-     public String getBandeja() {
-        return bandeja;
-    }
+	public void setDocumentoExternoVirtualDAO(DocumentoExternoVirtualDAO documentoExternoVirtualDAO) {
+		this.documentoExternoVirtualDAO = documentoExternoVirtualDAO;
+	}
 
-    public void setBandeja(String bandeja) {
-        this.bandeja = bandeja;
-    }
-    
-    public boolean isControlDevolver() {
-        return controlDevolver;
-    }
+	public String getBandeja() {
+		return bandeja;
+	}
 
-    public void setControlDevolver(boolean controlDevolver) {
-        this.controlDevolver = controlDevolver;
-    }
+	public void setBandeja(String bandeja) {
+		this.bandeja = bandeja;
+	}
 
-    public FirmaArchivoDAO getFirmaArchivoDAO() {
-        return firmaArchivoDAO;
-    }
+	public boolean isControlDevolver() {
+		return controlDevolver;
+	}
 
-    public void setFirmaArchivoDAO(FirmaArchivoDAO firmaArchivoDAO) {
-        this.firmaArchivoDAO = firmaArchivoDAO;
-    }
-    
-    public Legajo getObjLegajo() {
-        return objLegajo;
-    }
+	public void setControlDevolver(boolean controlDevolver) {
+		this.controlDevolver = controlDevolver;
+	}
 
-    public void setObjLegajo(Legajo objLegajo) {
-        this.objLegajo = objLegajo;
-    }
-    
-    public Integer getIdDocumentoLegajo() {
-        return idDocumentoLegajo;
-    }
+	public FirmaArchivoDAO getFirmaArchivoDAO() {
+		return firmaArchivoDAO;
+	}
 
-    public void setIdDocumentoLegajo(Integer idDocumentoLegajo) {
-        this.idDocumentoLegajo = idDocumentoLegajo;
-    }
+	public void setFirmaArchivoDAO(FirmaArchivoDAO firmaArchivoDAO) {
+		this.firmaArchivoDAO = firmaArchivoDAO;
+	}
 
-    public LegajoDocumentoService getLegajoDocumentoService() {
-        return legajoDocumentoService;
-    }
+	public Legajo getObjLegajo() {
+		return objLegajo;
+	}
 
-    public void setLegajoDocumentoService(LegajoDocumentoService legajoDocumentoService) {
-        this.legajoDocumentoService = legajoDocumentoService;
-    }
-    
-    public Integer getiIdLegajo() {
-        return iIdLegajo;
-    }
+	public void setObjLegajo(Legajo objLegajo) {
+		this.objLegajo = objLegajo;
+	}
 
-    public void setiIdLegajo(Integer iIdLegajo) {
-        this.iIdLegajo = iIdLegajo;
-    }
+	public Integer getIdDocumentoLegajo() {
+		return idDocumentoLegajo;
+	}
 
-    public LegajoService getLegajoService() {
-        return legajoService;
-    }
+	public void setIdDocumentoLegajo(Integer idDocumentoLegajo) {
+		this.idDocumentoLegajo = idDocumentoLegajo;
+	}
 
-    public void setLegajoService(LegajoService legajoService) {
-        this.legajoService = legajoService;
-    }
-    
-    public TipoLegajoUnidadDAO getTipoLegajoUnidadDAO() {
-        return tipoLegajoUnidadDAO;
-    }
+	public LegajoDocumentoService getLegajoDocumentoService() {
+		return legajoDocumentoService;
+	}
 
-    public void setTipoLegajoUnidadDAO(TipoLegajoUnidadDAO tipoLegajoUnidadDAO) {
-        this.tipoLegajoUnidadDAO = tipoLegajoUnidadDAO;
-    }
+	public void setLegajoDocumentoService(LegajoDocumentoService legajoDocumentoService) {
+		this.legajoDocumentoService = legajoDocumentoService;
+	}
 
-    public char getFlagExpediente() {
-        return flagExpediente;
-    }
+	public Integer getiIdLegajo() {
+		return iIdLegajo;
+	}
 
-    public void setFlagExpediente(char flagExpediente) {
-        this.flagExpediente = flagExpediente;
-    }
+	public void setiIdLegajo(Integer iIdLegajo) {
+		this.iIdLegajo = iIdLegajo;
+	}
 
-    public char getFlagBusqueda() {
-        return flagBusqueda;
-    }
+	public LegajoService getLegajoService() {
+		return legajoService;
+	}
 
-    public void setFlagBusqueda(char flagBusqueda) {
-        this.flagBusqueda = flagBusqueda;
-    }
-    
-    public ProveidoDAO getProveidoDAO() {
-        return proveidoDAO;
-    }
+	public void setLegajoService(LegajoService legajoService) {
+		this.legajoService = legajoService;
+	}
 
-    public void setProveidoDAO(ProveidoDAO proveidoDAO) {
-        this.proveidoDAO = proveidoDAO;
-    }
+	public TipoLegajoUnidadDAO getTipoLegajoUnidadDAO() {
+		return tipoLegajoUnidadDAO;
+	}
 
-    public Integer getProyecto() {
-        return proyecto;
-    }
+	public void setTipoLegajoUnidadDAO(TipoLegajoUnidadDAO tipoLegajoUnidadDAO) {
+		this.tipoLegajoUnidadDAO = tipoLegajoUnidadDAO;
+	}
 
-    public void setProyecto(Integer proyecto) {
-        this.proyecto = proyecto;
-    }
-    
-    public String getArrFileFirmar() {
-        return arrFileFirmar;
-    }
+	public char getFlagExpediente() {
+		return flagExpediente;
+	}
 
-    public void setArrFileFirmar(String arrFileFirmar) {
-        this.arrFileFirmar = arrFileFirmar;
-    }
-    
-    public FavoritoService getFavoritoService() {
-      return favoritoService;
-    }
+	public void setFlagExpediente(char flagExpediente) {
+		this.flagExpediente = flagExpediente;
+	}
 
-    public void setFavoritoService(FavoritoService favoritoService) {
-        this.favoritoService = favoritoService;
-    }
-    
-   
-    public List<UsuarioDerivacion> getListaDerivacionPara() {
-        return listaDerivacionPara;
-    }
+	public char getFlagBusqueda() {
+		return flagBusqueda;
+	}
 
-    public void setListaDerivacionPara(List<UsuarioDerivacion> listaDerivacionPara) {
-        this.listaDerivacionPara = listaDerivacionPara;
-    }
+	public void setFlagBusqueda(char flagBusqueda) {
+		this.flagBusqueda = flagBusqueda;
+	}
 
-    public List<UsuarioDerivacion> getListaDerivacionCC() {
-        return listaDerivacionCC;
-    }
-    
-    public String getAccion() {
-        return accion;
-    }
+	public ProveidoDAO getProveidoDAO() {
+		return proveidoDAO;
+	}
 
-    public void setAccion(String accion) {
-        this.accion = accion;
-    }
+	public void setProveidoDAO(ProveidoDAO proveidoDAO) {
+		this.proveidoDAO = proveidoDAO;
+	}
 
-    public void setListaDerivacionCC(List<UsuarioDerivacion> listaDerivacionCC) {
-        this.listaDerivacionCC = listaDerivacionCC;
-    }
-       
+	public Integer getProyecto() {
+		return proyecto;
+	}
+
+	public void setProyecto(Integer proyecto) {
+		this.proyecto = proyecto;
+	}
+
+	public String getArrFileFirmar() {
+		return arrFileFirmar;
+	}
+
+	public void setArrFileFirmar(String arrFileFirmar) {
+		this.arrFileFirmar = arrFileFirmar;
+	}
+
+	public FavoritoService getFavoritoService() {
+		return favoritoService;
+	}
+
+	public void setFavoritoService(FavoritoService favoritoService) {
+		this.favoritoService = favoritoService;
+	}
+
+	public List<UsuarioDerivacion> getListaDerivacionPara() {
+		return listaDerivacionPara;
+	}
+
+	public void setListaDerivacionPara(List<UsuarioDerivacion> listaDerivacionPara) {
+		this.listaDerivacionPara = listaDerivacionPara;
+	}
+
+	public List<UsuarioDerivacion> getListaDerivacionCC() {
+		return listaDerivacionCC;
+	}
+
+	public String getAccion() {
+		return accion;
+	}
+
+	public void setAccion(String accion) {
+		this.accion = accion;
+	}
+
+	public void setListaDerivacionCC(List<UsuarioDerivacion> listaDerivacionCC) {
+		this.listaDerivacionCC = listaDerivacionCC;
+	}
+
 	public DocumentoReferenciaService getDocumentoReferenciaService() {
 		return documentoReferenciaService;
 	}
 
-	public void setDocumentoReferenciaService(
-			DocumentoReferenciaService documentoReferenciaService) {
+	public void setDocumentoReferenciaService(DocumentoReferenciaService documentoReferenciaService) {
 		this.documentoReferenciaService = documentoReferenciaService;
 	}
-        
-    public DocumentoAnuladoDAO getDocumentoAnuladoDAO() {
-        return documentoAnuladoDAO;
-    }
 
-    public void setDocumentoAnuladoDAO(DocumentoAnuladoDAO documentoAnuladoDAO) {
-        this.documentoAnuladoDAO = documentoAnuladoDAO;
-    }
+	public DocumentoAnuladoDAO getDocumentoAnuladoDAO() {
+		return documentoAnuladoDAO;
+	}
 
-    public DocumentoAtendidoDAO getDocumentoAtendidoDAO() {
-        return documentoAtendidoDAO;
-    }
+	public void setDocumentoAnuladoDAO(DocumentoAnuladoDAO documentoAnuladoDAO) {
+		this.documentoAnuladoDAO = documentoAnuladoDAO;
+	}
 
-    public void setDocumentoAtendidoDAO(DocumentoAtendidoDAO documentoAtendidoDAO) {
-        this.documentoAtendidoDAO = documentoAtendidoDAO;
-    }
+	public DocumentoAtendidoDAO getDocumentoAtendidoDAO() {
+		return documentoAtendidoDAO;
+	}
 
-    
-    public Integer getIdAreaDerivada() {
-    	return idAreaDerivada;
+	public void setDocumentoAtendidoDAO(DocumentoAtendidoDAO documentoAtendidoDAO) {
+		this.documentoAtendidoDAO = documentoAtendidoDAO;
+	}
+
+	public Integer getIdAreaDerivada() {
+		return idAreaDerivada;
 	}
 
 	public Documentofedateado getObjDF() {
@@ -669,54 +688,53 @@ public class DocumentoAction {
 		this.idAreaDerivada = idAreaDerivada;
 	}
 
-    public Integer getIdseguimientos() {
-        return idseguimientos;
-    }
+	public Integer getIdseguimientos() {
+		return idseguimientos;
+	}
 
-    public void setIdseguimientos(Integer idseguimientos) {
-        this.idseguimientos = idseguimientos;
-    }
+	public void setIdseguimientos(Integer idseguimientos) {
+		this.idseguimientos = idseguimientos;
+	}
 
-    public Integer getIdfirmados() {
-        return idfirmados;
-    }
+	public Integer getIdfirmados() {
+		return idfirmados;
+	}
 
-    public void setIdfirmados(Integer idfirmados) {
-        this.idfirmados = idfirmados;
-    }
-    
-     
-    public Integer getIdanulados() {
-        return idanulados;
-    }
+	public void setIdfirmados(Integer idfirmados) {
+		this.idfirmados = idfirmados;
+	}
 
-    public void setIdanulados(Integer idanulados) {
-        this.idanulados = idanulados;
-    }
-    
-    public Integer getIdatendidos() {
-        return idatendidos;
-    }
+	public Integer getIdanulados() {
+		return idanulados;
+	}
 
-    public void setIdatendidos(Integer idatendidos) {
-        this.idatendidos = idatendidos;
-    }
-    
-    public String getStrApoyo() {
-        return strApoyo;
-    }
+	public void setIdanulados(Integer idanulados) {
+		this.idanulados = idanulados;
+	}
 
-    public void setStrApoyo(String strApoyo) {
-        this.strApoyo = strApoyo;
-    }
-    
-     public DocumentoDerivacionDAO getDocumentoDerivacionDAO() {
-        return documentoDerivacionDAO;
-    }
+	public Integer getIdatendidos() {
+		return idatendidos;
+	}
 
-    public void setDocumentoDerivacionDAO(DocumentoDerivacionDAO documentoDerivacionDAO) {
-        this.documentoDerivacionDAO = documentoDerivacionDAO;
-    }
+	public void setIdatendidos(Integer idatendidos) {
+		this.idatendidos = idatendidos;
+	}
+
+	public String getStrApoyo() {
+		return strApoyo;
+	}
+
+	public void setStrApoyo(String strApoyo) {
+		this.strApoyo = strApoyo;
+	}
+
+	public DocumentoDerivacionDAO getDocumentoDerivacionDAO() {
+		return documentoDerivacionDAO;
+	}
+
+	public void setDocumentoDerivacionDAO(DocumentoDerivacionDAO documentoDerivacionDAO) {
+		this.documentoDerivacionDAO = documentoDerivacionDAO;
+	}
 
 	public List<TrazabilidadEnlace> getTrazabilidadenlace() {
 		return trazabilidadenlace;
@@ -726,15 +744,15 @@ public class DocumentoAction {
 		this.trazabilidadenlace = trazabilidadenlace;
 	}
 
-    public SeguimientoXFirmaDAO getSeguimientoXFirmaDAO() {
-        return seguimientoXFirmaDAO;
-    }
+	public SeguimientoXFirmaDAO getSeguimientoXFirmaDAO() {
+		return seguimientoXFirmaDAO;
+	}
 
-    public void setSeguimientoXFirmaDAO(SeguimientoXFirmaDAO seguimientoXFirmaDAO) {
-        this.seguimientoXFirmaDAO = seguimientoXFirmaDAO;
-    }
+	public void setSeguimientoXFirmaDAO(SeguimientoXFirmaDAO seguimientoXFirmaDAO) {
+		this.seguimientoXFirmaDAO = seguimientoXFirmaDAO;
+	}
 
-    public RolService getRolService() {
+	public RolService getRolService() {
 		return rolService;
 	}
 
@@ -837,7 +855,7 @@ public class DocumentoAction {
 	public void setsObservacionRechazar(String sObservacionRechazar) {
 		this.sObservacionRechazar = sObservacionRechazar;
 	}
-	
+
 	public Integer getIdDocumentoAnular() {
 		return idDocumentoAnular;
 	}
@@ -853,7 +871,7 @@ public class DocumentoAction {
 	public void setIdDocumentoRechazar(Integer idDocumentoRechazar) {
 		this.idDocumentoRechazar = idDocumentoRechazar;
 	}
-	
+
 	public LogOperacionService getLogOperacionService() {
 		return logOperacionService;
 	}
@@ -861,117 +879,116 @@ public class DocumentoAction {
 	public void setLogOperacionService(LogOperacionService logOperacionService) {
 		this.logOperacionService = logOperacionService;
 	}
-        
-    public FuncionService getFuncionService() {
-        return funcionService;
-    }
 
-    public void setFuncionService(FuncionService funcionService) {
-        this.funcionService = funcionService;
-    }        
-    
-    public Integer getIdpendientes() {
-        return idpendientes;
-    }
+	public FuncionService getFuncionService() {
+		return funcionService;
+	}
 
-    public void setIdpendientes(Integer idpendientes) {
-        this.idpendientes = idpendientes;
-    }
-    
-    public DocumentoPendienteDAO getDocumentoPendienteDAO() {
-        return documentoPendienteDAO;
-    }
+	public void setFuncionService(FuncionService funcionService) {
+		this.funcionService = funcionService;
+	}
 
-    public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
-        this.documentoPendienteDAO = documentoPendienteDAO;
-    }
-    
-    public String getStrPrioridad() {
-     return strPrioridad;
-    }
+	public Integer getIdpendientes() {
+		return idpendientes;
+	}
 
-    public void setStrPrioridad(String strPrioridad) {
-        this.strPrioridad = strPrioridad;
-    }
-    
-    public String getStrReferencia() {
-        return strReferencia;
-    }
+	public void setIdpendientes(Integer idpendientes) {
+		this.idpendientes = idpendientes;
+	}
 
-    public void setStrReferencia(String strReferencia) {
-        this.strReferencia = strReferencia;
-    }
-    
-     public Integer getIdserie() {
-        return idserie;
-    }
+	public DocumentoPendienteDAO getDocumentoPendienteDAO() {
+		return documentoPendienteDAO;
+	}
 
-    public void setIdserie(Integer idserie) {
-        this.idserie = idserie;
-    }
-   
-    
-    public List<DocumentoReferencia> getDocumentosReferencia() {
-        return documentosReferencia;
-    }
+	public void setDocumentoPendienteDAO(DocumentoPendienteDAO documentoPendienteDAO) {
+		this.documentoPendienteDAO = documentoPendienteDAO;
+	}
 
-    public void setDocumentosReferencia(List<DocumentoReferencia> documentosReferencia) {
-        this.documentosReferencia = documentosReferencia;
-    }
+	public String getStrPrioridad() {
+		return strPrioridad;
+	}
 
-    public List<Parametro> getParametros() {
-        return parametros;
-    }
+	public void setStrPrioridad(String strPrioridad) {
+		this.strPrioridad = strPrioridad;
+	}
 
-    public void setParametros(List<Parametro> parametros) {
-        this.parametros = parametros;
-    }
-    
-     public DocumentoReunionDAO getDocumentoReunionDAO() {
-        return documentoReunionDAO;
-    }
+	public String getStrReferencia() {
+		return strReferencia;
+	}
 
-    public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
-        this.documentoReunionDAO = documentoReunionDAO;
-    }
-    
-    public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
-        return documentoAdjuntoDAO;
-    }
+	public void setStrReferencia(String strReferencia) {
+		this.strReferencia = strReferencia;
+	}
 
-    public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
-        this.documentoAdjuntoDAO = documentoAdjuntoDAO;
-    }
-    public Integer getiIdDocEmail() {
-        return iIdDocEmail;
-    }
+	public Integer getIdserie() {
+		return idserie;
+	}
 
-    public void setiIdDocEmail(Integer iIdDocEmail) {
-        this.iIdDocEmail = iIdDocEmail;
-    }
-    
-    public UnidadDAO getUnidadDAO() {
-        return unidadDAO;
-    }
+	public void setIdserie(Integer idserie) {
+		this.idserie = idserie;
+	}
 
-    public void setUnidadDAO(UnidadDAO unidadDAO) {
-        this.unidadDAO = unidadDAO;
-    }
-    
-    public RecepcionVirtualService getRecepcionVirtualService() {
+	public List<DocumentoReferencia> getDocumentosReferencia() {
+		return documentosReferencia;
+	}
+
+	public void setDocumentosReferencia(List<DocumentoReferencia> documentosReferencia) {
+		this.documentosReferencia = documentosReferencia;
+	}
+
+	public List<Parametro> getParametros() {
+		return parametros;
+	}
+
+	public void setParametros(List<Parametro> parametros) {
+		this.parametros = parametros;
+	}
+
+	public DocumentoReunionDAO getDocumentoReunionDAO() {
+		return documentoReunionDAO;
+	}
+
+	public void setDocumentoReunionDAO(DocumentoReunionDAO documentoReunionDAO) {
+		this.documentoReunionDAO = documentoReunionDAO;
+	}
+
+	public DocumentoAdjuntoDAO getDocumentoAdjuntoDAO() {
+		return documentoAdjuntoDAO;
+	}
+
+	public void setDocumentoAdjuntoDAO(DocumentoAdjuntoDAO documentoAdjuntoDAO) {
+		this.documentoAdjuntoDAO = documentoAdjuntoDAO;
+	}
+
+	public Integer getiIdDocEmail() {
+		return iIdDocEmail;
+	}
+
+	public void setiIdDocEmail(Integer iIdDocEmail) {
+		this.iIdDocEmail = iIdDocEmail;
+	}
+
+	public UnidadDAO getUnidadDAO() {
+		return unidadDAO;
+	}
+
+	public void setUnidadDAO(UnidadDAO unidadDAO) {
+		this.unidadDAO = unidadDAO;
+	}
+
+	public RecepcionVirtualService getRecepcionVirtualService() {
 		return recepcionVirtualService;
 	}
 
 	public void setRecepcionVirtualService(RecepcionVirtualService recepcionVirtualService) {
 		this.recepcionVirtualService = recepcionVirtualService;
 	}
-	
+
 	public String getIdsDocumentoPorExSeleccionados() {
 		return idsDocumentoPorExSeleccionados;
 	}
 
-	public void setIdsDocumentoPorExSeleccionados(
-			String idsDocumentoPorExSeleccionados) {
+	public void setIdsDocumentoPorExSeleccionados(String idsDocumentoPorExSeleccionados) {
 		this.idsDocumentoPorExSeleccionados = idsDocumentoPorExSeleccionados;
 	}
 
@@ -1074,10 +1091,10 @@ public class DocumentoAction {
 		this.tipoIdentificacionService = tipoIdentificacionService;
 	}
 
-        /*
-	public void setActividadService(ActividadService actividadService) {
-		this.actividadService = actividadService;
-	}*/
+	/*
+	 * public void setActividadService(ActividadService actividadService) {
+	 * this.actividadService = actividadService; }
+	 */
 
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
@@ -1515,14 +1532,11 @@ public class DocumentoAction {
 		this.notificacionService = notificacionService;
 	}
 
-
-
 	public NotificacionxEnumerarService getNotificacionxEnumerarService() {
 		return notificacionxEnumerarService;
 	}
 
-	public void setNotificacionxEnumerarService(
-			NotificacionxEnumerarService notificacionxEnumerarService) {
+	public void setNotificacionxEnumerarService(NotificacionxEnumerarService notificacionxEnumerarService) {
 		this.notificacionxEnumerarService = notificacionxEnumerarService;
 	}
 
@@ -1694,9 +1708,11 @@ public class DocumentoAction {
 		this.objCliente = objCliente;
 	}
 
-	/*public void setTrazabilidadExpedienteService(TrazabilidadexpedienteService trazabilidadExpedienteService) {
-		this.trazabilidadExpedienteService = trazabilidadExpedienteService;
-	}*/
+	/*
+	 * public void setTrazabilidadExpedienteService(TrazabilidadexpedienteService
+	 * trazabilidadExpedienteService) { this.trazabilidadExpedienteService =
+	 * trazabilidadExpedienteService; }
+	 */
 
 	public Boolean getMostrarObservacion() {
 		return mostrarObservacion;
@@ -1842,9 +1858,10 @@ public class DocumentoAction {
 		this.mensaje = mensaje;
 	}
 
-	/*public void setUsuarioStorService(UsuariostorService usuarioStorService) {
-		this.usuarioStorService = usuarioStorService;
-	}*/
+	/*
+	 * public void setUsuarioStorService(UsuariostorService usuarioStorService) {
+	 * this.usuarioStorService = usuarioStorService; }
+	 */
 
 	public boolean isUnico() {
 		return unico;
@@ -1917,8 +1934,6 @@ public class DocumentoAction {
 	public void setControlDeCalidadService(ControlDeCalidadService controlDeCalidadService) {
 		this.controlDeCalidadService = controlDeCalidadService;
 	}
-
-	
 
 	public Documento getDocumento() {
 		return documento;
@@ -2198,13 +2213,11 @@ public class DocumentoAction {
 		this.objConcesionario = objConcesionario;
 	}
 
-
 	public TrazabilidadcopiaService getTrazabilidadcopiaService() {
 		return trazabilidadcopiaService;
 	}
 
-	public void setTrazabilidadcopiaService(
-			TrazabilidadcopiaService trazabilidadcopiaService) {
+	public void setTrazabilidadcopiaService(TrazabilidadcopiaService trazabilidadcopiaService) {
 		this.trazabilidadcopiaService = trazabilidadcopiaService;
 	}
 
@@ -2232,7 +2245,6 @@ public class DocumentoAction {
 		this.flagMensaje = flagMensaje;
 	}
 
-
 	public GestionDocumentos getGestionDocumentos() {
 		return gestionDocumentos;
 	}
@@ -2241,13 +2253,12 @@ public class DocumentoAction {
 		this.gestionDocumentos = gestionDocumentos;
 	}
 
-	private boolean isProcesoStor(List<Proceso> procesos,Proceso seleccionado){
-		boolean forward=false;
+	private boolean isProcesoStor(List<Proceso> procesos, Proceso seleccionado) {
+		boolean forward = false;
 
 		for (Proceso proceso : procesos) {
-			if(proceso.getIdproceso()==seleccionado.getIdproceso())
-			{
-				forward=true;
+			if (proceso.getIdproceso() == seleccionado.getIdproceso()) {
+				forward = true;
 				break;
 			}
 		}
@@ -2267,8 +2278,7 @@ public class DocumentoAction {
 		return trazabilidadapoyoService;
 	}
 
-	public void setTrazabilidadapoyoService(
-			TrazabilidadapoyoService trazabilidadapoyoService) {
+	public void setTrazabilidadapoyoService(TrazabilidadapoyoService trazabilidadapoyoService) {
 		this.trazabilidadapoyoService = trazabilidadapoyoService;
 	}
 
@@ -2279,6 +2289,7 @@ public class DocumentoAction {
 	public void setStrAcciones(String[] strAcciones) {
 		this.strAcciones = strAcciones;
 	}
+
 	public String getsNombres() {
 		return sNombres;
 	}
@@ -2352,96 +2363,77 @@ public class DocumentoAction {
 		this.ocultar = ocultar;
 	}
 
-
 	public ListaService getListaService() {
 		return listaService;
 	}
-
 
 	public void setListaService(ListaService listaService) {
 		this.listaService = listaService;
 	}
 
-
 	public String[] getStrPrioridades() {
 		return strPrioridades;
 	}
-
 
 	public void setStrPrioridades(String[] strPrioridades) {
 		this.strPrioridades = strPrioridades;
 	}
 
-
 	public Integer getiIdDoc() {
 		return iIdDoc;
 	}
-
 
 	public void setiIdDoc(Integer iIdDoc) {
 		this.iIdDoc = iIdDoc;
 	}
 
-
 	public Integer getiIdPro() {
 		return iIdPro;
 	}
-
 
 	public void setiIdPro(Integer iIdPro) {
 		this.iIdPro = iIdPro;
 	}
 
-
 	public Integer getiIdExp() {
 		return iIdExp;
 	}
-
 
 	public void setiIdExp(Integer iIdExp) {
 		this.iIdExp = iIdExp;
 	}
 
-
 	public Integer getiIdNotificacion() {
 		return iIdNotificacion;
 	}
-
 
 	public void setiIdNotificacion(Integer iIdNotificacion) {
 		this.iIdNotificacion = iIdNotificacion;
 	}
 
-
 	public Integer getiIdDocumento() {
 		return iIdDocumento;
 	}
-
 
 	public void setiIdDocumento(Integer iIdDocumento) {
 		this.iIdDocumento = iIdDocumento;
 	}
 
-
 	public Integer getIdcliente() {
 		return idcliente;
 	}
-
 
 	public ProveidoService getProveidoService() {
 		return proveidoService;
 	}
 
-
 	public void setProveidoService(ProveidoService proveidoService) {
 		this.proveidoService = proveidoService;
 	}
 
-
 	public List<Proveido> getProveidos() {
 		return proveidos;
 	}
-
 
 	public void setProveidos(List<Proveido> proveidos) {
 		this.proveidos = proveidos;
@@ -2459,8 +2451,7 @@ public class DocumentoAction {
 		return seguimientoXUsuarioService;
 	}
 
-	public void setSeguimientoXUsuarioService(
-			SeguimientoXUsuarioService seguimientoXUsuarioService) {
+	public void setSeguimientoXUsuarioService(SeguimientoXUsuarioService seguimientoXUsuarioService) {
 		this.seguimientoXUsuarioService = seguimientoXUsuarioService;
 	}
 
@@ -2503,7 +2494,7 @@ public class DocumentoAction {
 	public void setCargo(CargoReporte cargo) {
 		this.cargo = cargo;
 	}
-    
+
 	public String getIdDoc() {
 		return idDoc;
 	}
@@ -2540,8 +2531,7 @@ public class DocumentoAction {
 		return alfrescoWebServiceClient;
 	}
 
-	public void setAlfrescoWebServiceClient(
-			AlfrescoWSService alfrescoWebServiceClient) {
+	public void setAlfrescoWebServiceClient(AlfrescoWSService alfrescoWebServiceClient) {
 		this.alfrescoWebServiceClient = alfrescoWebServiceClient;
 	}
 
@@ -2576,11 +2566,12 @@ public class DocumentoAction {
 	public void setListUsuario(List<Usuario> listUsuario) {
 		this.listUsuario = listUsuario;
 	}
-	
+
 	public DocumentoAction() {
 	}
-	
-	public DocumentoAction(DocumentoService srvD, ProcesoService srvP, ClienteService srvS, TipodocumentoService srvTD, TipoidentificacionService srvTI, UsuarioService srvU, ExpedientestorService expedienteStorservice) {
+
+	public DocumentoAction(DocumentoService srvD, ProcesoService srvP, ClienteService srvS, TipodocumentoService srvTD,
+			TipoidentificacionService srvTI, UsuarioService srvU, ExpedientestorService expedienteStorservice) {
 		documentoService = srvD;
 		procesoService = srvP;
 		clienteService = srvS;
@@ -2591,13 +2582,13 @@ public class DocumentoAction {
 	}
 
 	public String inicioAnular() {
-        return "inicioAnular";
-    }
-	
+		return "inicioAnular";
+	}
+
 	public String goRechazar() {
 //		documento.setNumeroDocumento(nrodocumento);
-        return "goRechazar";
-    }
+		return "goRechazar";
+	}
 
 	public String goOpenDocumentSearch() {
 		log.debug("-> [Action] DocumentoAction - goOpenDocumentSearch():String ");
@@ -2621,7 +2612,6 @@ public class DocumentoAction {
 
 	}
 
-
 	public String buscarDocumentoPor() {
 		log.debug("-> [Action] DocumentoAction - buscarDocumentoPor():String ");
 
@@ -2643,39 +2633,41 @@ public class DocumentoAction {
 	}
 
 	public String alertaDocumento() {
-        mapSession = ActionContext.getContext().getSession();
-        usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-        String orden = null;
+		mapSession = ActionContext.getContext().getSession();
+		usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+		String orden = null;
 
-        try{
+		try {
 
-        	if (executeAccion==null){
-        		List<Alerta> listAlert = seguimientoService.getListaAlerta(usuario.getIdusuario(), usuarioService.findByIdUsuario(usuario.getIdusuario()).getUnidad().getIdunidad(), null);
-  			    getMapSession().put("listAlert",listAlert);
-        	}else{
-        		  if (executeAccion.equals("DESCARGAR")){
-        		      documentoService.saveDesactivarAlerta(arrDocumentArea, usuario);
-        		      List<Alerta> listAlert = seguimientoService.getListaAlerta(usuario.getIdusuario(), usuarioService.findByIdUsuario(usuario.getIdusuario()).getUnidad().getIdunidad(),null);
-        			  getMapSession().put("listAlert",listAlert);
-        		  }
-        		 if (executeAccion.equals("ORDENARFL")){
-        			  if (ordenarFechaLimite.equals("asc")){
-        				  ordenarFechaLimite = "desc";
-        				  orden = " order by 1 desc";
-        			  }else{
-        				  ordenarFechaLimite = "asc";
-        				  orden = " order by 1 asc";
-        			  }
+			if (executeAccion == null) {
+				List<Alerta> listAlert = seguimientoService.getListaAlerta(usuario.getIdusuario(),
+						usuarioService.findByIdUsuario(usuario.getIdusuario()).getUnidad().getIdunidad(), null);
+				getMapSession().put("listAlert", listAlert);
+			} else {
+				if (executeAccion.equals("DESCARGAR")) {
+					documentoService.saveDesactivarAlerta(arrDocumentArea, usuario);
+					List<Alerta> listAlert = seguimientoService.getListaAlerta(usuario.getIdusuario(),
+							usuarioService.findByIdUsuario(usuario.getIdusuario()).getUnidad().getIdunidad(), null);
+					getMapSession().put("listAlert", listAlert);
+				}
+				if (executeAccion.equals("ORDENARFL")) {
+					if (ordenarFechaLimite.equals("asc")) {
+						ordenarFechaLimite = "desc";
+						orden = " order by 1 desc";
+					} else {
+						ordenarFechaLimite = "asc";
+						orden = " order by 1 asc";
+					}
 
-
-        			  List<Alerta> listAlert = seguimientoService.getListaAlerta(usuario.getIdusuario(), usuarioService.findByIdUsuario(usuario.getIdusuario()).getUnidad().getIdunidad(), orden);
-        			  getMapSession().put("listAlert",listAlert);
-        			  ServletActionContext.getRequest().setAttribute("ordenarFechaLimite", ordenarFechaLimite);
-        	     }
-        	}
-        }catch(Exception ex){
-        	return Action.ERROR;
-        }
+					List<Alerta> listAlert = seguimientoService.getListaAlerta(usuario.getIdusuario(),
+							usuarioService.findByIdUsuario(usuario.getIdusuario()).getUnidad().getIdunidad(), orden);
+					getMapSession().put("listAlert", listAlert);
+					ServletActionContext.getRequest().setAttribute("ordenarFechaLimite", ordenarFechaLimite);
+				}
+			}
+		} catch (Exception ex) {
+			return Action.ERROR;
+		}
 
 		return Action.SUCCESS;
 	}
@@ -2709,7 +2701,6 @@ public class DocumentoAction {
 		return Action.SUCCESS;
 	}
 
-
 	public String doSaveCliente() {
 		log.debug("-> [Action] DocumentoAction - doSaveCliente():String ");
 
@@ -2719,7 +2710,8 @@ public class DocumentoAction {
 		}
 
 		if (clienteService.findByNroIdentificacion(objCliente.getNumeroIdentificacion()) != null) {
-			log.info("El cliente con Nro de Identificacion [" + objCliente.getNumeroIdentificacion() + "] ya existe en la Base de Datos");
+			log.info("El cliente con Nro de Identificacion [" + objCliente.getNumeroIdentificacion()
+					+ "] ya existe en la Base de Datos");
 			return Action.SUCCESS;
 		}
 
@@ -2731,8 +2723,10 @@ public class DocumentoAction {
 		objClienteOld = new Cliente();
 		log.debug("** Creacion de Cliente **");
 		objClienteNew = objCliente;
-		objClienteNew.setRepresentanteLegal(StringUtil.isEmpty(objClienteNew.getRepresentanteLegal()) ? " " : objClienteNew.getRepresentanteLegal());
-		objClienteNew.setDireccionAlternativa(StringUtil.isEmpty(objClienteNew.getDireccionAlternativa()) ? " " : objClienteNew.getDireccionAlternativa());
+		objClienteNew.setRepresentanteLegal(StringUtil.isEmpty(objClienteNew.getRepresentanteLegal()) ? " "
+				: objClienteNew.getRepresentanteLegal());
+		objClienteNew.setDireccionAlternativa(StringUtil.isEmpty(objClienteNew.getDireccionAlternativa()) ? " "
+				: objClienteNew.getDireccionAlternativa());
 		objClienteNew.setTelefono(StringUtil.isEmpty(objClienteNew.getTelefono()) ? " " : objClienteNew.getTelefono());
 		objClienteNew.setCorreo(StringUtil.isEmpty(objClienteNew.getCorreo()) ? " " : objClienteNew.getCorreo());
 		sTipoAuditoria = Constantes.AUDITORIA_TIPO_REGISTRO;
@@ -2775,10 +2769,11 @@ public class DocumentoAction {
 		if (objE.getConcesionario() != null) {
 			setStrCorreoConcesionario(objE.getConcesionario().getCorreo());
 		}
-		//setIdproceso(objE.getProceso().getIdproceso());
-		//setProceso(objE.getProceso().getNombre());
-		//setStrUnidad(objE.getProceso().getResponsable().getUnidad().getNombre());
-		//setStrResponsable(objE.getProceso().getResponsable().getNombres() + " " + objE.getProceso().getResponsable().getApellidos());
+		// setIdproceso(objE.getProceso().getIdproceso());
+		// setProceso(objE.getProceso().getNombre());
+		// setStrUnidad(objE.getProceso().getResponsable().getUnidad().getNombre());
+		// setStrResponsable(objE.getProceso().getResponsable().getNombres() + " " +
+		// objE.getProceso().getResponsable().getApellidos());
 
 		return Action.SUCCESS;
 	}
@@ -2807,75 +2802,94 @@ public class DocumentoAction {
 
 		return Action.SUCCESS;
 	}
-	
-	/**REN Metodo que llama al adjuntar del detalle de la lista de documentos -----------------------------------------------*/
-	public String goAdjuntarArchivo(){
-        log.debug("-> [Action] DocumentoAction - goAdjuntarArchivo():String ");
-        Documento d = documentoService.findByIdDocumento(iIdDoc);
-        proyecto = d.getProyecto();
-        codigoVirtual = d.getNroVirtual();
-        
-        archivoPrincipal = archivoService.buscarArchivoPrincipalPorDocumento(d.getIdDocumento());
-        log.info("archivoPrincipal" + archivoPrincipal);
-//        log.info("archivoPrincipal" + archivoPrincipal.getClass());
-        try{
-             destinatarioIgualRemitente = false;
-             mapSession = ActionContext.getContext().getSession();
-             usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 
-              if(d.getAutor().getIdusuario().intValue() == usuario.getIdUsuarioPerfil().intValue() &&
-            		  d.getUnidadautor().intValue() == usuario.getIdUnidadPerfil())
-                 destinatarioIgualRemitente = true; 
-	     
-        }catch(Exception e){
-          e.printStackTrace();
-          destinatarioIgualRemitente = false;
-        }
-        
-        Map<String,Object> sesion=ActionContext.getContext().getSession();
-        sesion.put(Constantes.SESSION_UPLOAD_LIST, new HashMap<String,List<org.ositran.utils.ArchivoTemporal>>());
-		
-        return Action.SUCCESS;
-	}
-	/**REN Metodo que se encarga de adjuntar archivos adicionales a un documento --------------------------------------------*/
-	@SuppressWarnings("unchecked")
-	public String doAdjuntarArchivo(){
-                log.info("-> [Action] DocumentoAction - doAdjuntarArchivo():String ");
-                Map<String,Object> sesion=ActionContext.getContext().getSession();
-                Map<String,List<org.ositran.utils.ArchivoTemporal>> upload=(Map<String,List<org.ositran.utils.ArchivoTemporal>>) sesion.get(Constantes.SESSION_UPLOAD_LIST);
-                Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
-                documentoService.anexarDocumento(usuario, upload, iIdDoc);
-                sesion.put(Constantes.SESSION_UPLOAD_LIST, new HashMap<String,List<org.ositran.utils.ArchivoTemporal>>());
+	/**
+	 * REN Metodo que llama al adjuntar del detalle de la lista de documentos
+	 * -----------------------------------------------
+	 */
+	public String goAdjuntarArchivo() {
+		log.debug("-> [Action] DocumentoAction - goAdjuntarArchivo():String ");
+		Documento d = documentoService.findByIdDocumento(iIdDoc);
+		Cliente cliente = clienteService.findByIdCliente(d.getID_CLIENTE());
+		if(d.getTipoDocumento().getIdtipodocumento() == 15 && d.getCodTipoInstitucion() == 1 && cliente.getFlagPide().equals("1")) {
+			flagPide = "1";
+		}
+		proyecto = d.getProyecto();
+		codigoVirtual = d.getNroVirtual();
+
+//		archivoPrincipal = archivoService.buscarArchivoPrincipalPorDocumento(d.getIdDocumento());
+//		log.info("archivoPrincipal" + archivoPrincipal);
+		try {
+			destinatarioIgualRemitente = false;
+			mapSession = ActionContext.getContext().getSession();
+			usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+
+			if (d.getAutor().getIdusuario().intValue() == usuario.getIdUsuarioPerfil().intValue()
+					&& d.getUnidadautor().intValue() == usuario.getIdUnidadPerfil())
+				destinatarioIgualRemitente = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			destinatarioIgualRemitente = false;
+		}
+
+		Map<String, Object> sesion = ActionContext.getContext().getSession();
+		sesion.put(Constantes.SESSION_UPLOAD_LIST, new HashMap<String, List<org.ositran.utils.ArchivoTemporal>>());
+
 		return Action.SUCCESS;
 	}
 
-	/**REN Metodo que llama al eliminar del detalle de la lista de documentos -----------------------------------------------*/
-	public String goEliminarArchivo(){
+	/**
+	 * REN Metodo que se encarga de adjuntar archivos adicionales a un documento
+	 * --------------------------------------------
+	 */
+	@SuppressWarnings("unchecked")
+	public String doAdjuntarArchivo() {
+		log.info("-> [Action] DocumentoAction - doAdjuntarArchivo():String ");
+		Map<String, Object> sesion = ActionContext.getContext().getSession();
+		Map<String, List<org.ositran.utils.ArchivoTemporal>> upload = (Map<String, List<org.ositran.utils.ArchivoTemporal>>) sesion
+				.get(Constantes.SESSION_UPLOAD_LIST);
+		Usuario usuario = (Usuario) sesion.get(Constantes.SESSION_USUARIO);
+		documentoService.anexarDocumento(usuario, upload, iIdDoc);
+		sesion.put(Constantes.SESSION_UPLOAD_LIST, new HashMap<String, List<org.ositran.utils.ArchivoTemporal>>());
+		return Action.SUCCESS;
+	}
+
+	/**
+	 * REN Metodo que llama al eliminar del detalle de la lista de documentos
+	 * -----------------------------------------------
+	 */
+	public String goEliminarArchivo() {
 		log.debug("-> [Action] DocumentoAction - goEliminarArchivo():String ");
 		return Action.SUCCESS;
 	}
-        
-    /*public String goFirmarArchivo(){
+
+	/*
+	 * public String goFirmarArchivo(){
+	 * log.debug("-> [Action] DocumentoAction - goFirmarArchivo():String "); return
+	 * Action.SUCCESS; }
+	 */
+
+	public String goFirmarArchivo() {
 		log.debug("-> [Action] DocumentoAction - goFirmarArchivo():String ");
-		return Action.SUCCESS;
-	}*/
-    
-    
-    public String goFirmarArchivo(){
-		log.debug("-> [Action] DocumentoAction - goFirmarArchivo():String ");
+//		log.info("id-doc-------------" +arrIdArchivos );
+		
 		return "firmar";
 	}
 
-	/**REN Metodo que se encarga de colocar los archivos seleccionados como inactivos----------------------------------------*/
-	public void doEliminarArchivo(){
+	/**
+	 * REN Metodo que se encarga de colocar los archivos seleccionados como
+	 * inactivos----------------------------------------
+	 */
+	public void doEliminarArchivo() {
 		log.debug("-> [Action] DocumentoAction - doEliminarArchivo():String ");
-                
-        Map<String,Object> sesion=ActionContext.getContext().getSession();
-        Usuario usuario=(Usuario) sesion.get(Constantes.SESSION_USUARIO);
 
-		if(arrIdArchivos != null && arrIdArchivos.length > 0){
-			for(Integer idArchivo : arrIdArchivos){
-			  archivoService.eliminarArchivo(idArchivo, usuario);
+		Map<String, Object> sesion = ActionContext.getContext().getSession();
+		Usuario usuario = (Usuario) sesion.get(Constantes.SESSION_USUARIO);
+
+		if (arrIdArchivos != null && arrIdArchivos.length > 0) {
+			for (Integer idArchivo : arrIdArchivos) {
+				archivoService.eliminarArchivo(idArchivo, usuario);
 			}
 		}
 	}
@@ -2941,7 +2955,8 @@ public class DocumentoAction {
 					documentoService.saveDocumento(objNuevoDocumento);
 					trazabilidadDocumentoService.saveTrazabilidadDocumento(objNuevoDocumento, usuario, false, false);
 				}
-				session.put("uploaded_list", archivoService.getArchivoList(objDocumento.getExpediente().getIdexpediente(), getIIdDoc(), sRol));
+				session.put("uploaded_list", archivoService
+						.getArchivoList(objDocumento.getExpediente().getIdexpediente(), getIIdDoc(), sRol));
 			}
 			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), sRol));
 		} catch (IOException e) {
@@ -2964,7 +2979,9 @@ public class DocumentoAction {
 		Usuario objUsuario = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
 		setObjDocumento(documentoService.findByIdDocumento(getIIdDocumento()));
 		setBBotonHabilitado(false);
-		getMapSession().put("uploaded_list", archivoService.getArchivoList(getObjDocumento().getExpediente().getIdexpediente(), getObjDocumento().getIdDocumento(), objUsuario.getRol().getNombre()));
+		getMapSession().put("uploaded_list",
+				archivoService.getArchivoList(getObjDocumento().getExpediente().getIdexpediente(),
+						getObjDocumento().getIdDocumento(), objUsuario.getRol().getNombre()));
 		if (archivoService.checkEstadoDigitalizacion(getObjDocumento().getIdDocumento()) > 0) {
 			setBBotonHabilitado(true);
 		}
@@ -2974,591 +2991,637 @@ public class DocumentoAction {
 	public void limpiarCarpetaTemporalxUsuario(String usuario) {
 		log.debug("-> [Action] DocumentoAction - limpiarCarpetaTemporalxUsuario():void ");
 
-		File carpetaTemporal = new File(SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.UPLOAD_CARPETA_TEMPO));
+		File carpetaTemporal = new File(
+				SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.UPLOAD_CARPETA_TEMPO));
 		if (carpetaTemporal.exists() && carpetaTemporal.isDirectory()) {
 			String[] archivosTemporales = carpetaTemporal.list();
 			File tempDelete = null;
 			for (String archivoTemporal : archivosTemporales) {
 				if (archivoTemporal.contains("[" + usuario)) {
 					log.debug("Archivo temporal a elminar:" + archivoTemporal);
-					tempDelete = new File(SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.UPLOAD_CARPETA_TEMPO), archivoTemporal);
+					tempDelete = new File(
+							SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.UPLOAD_CARPETA_TEMPO),
+							archivoTemporal);
 					tempDelete.delete();
 				}
 			}
 		}
 	}
-       
-        /*
-        @SuppressWarnings("unused")
+
+	/*
+	 * @SuppressWarnings("unused") public String viewDocUsuarioFinal() {
+	 * System.out.println(
+	 * "...................................INICIANDO........................................"
+	 * ); try{ OutputStream salida = null; String REPOSITORIO_ID =
+	 * SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID
+	 * ); String
+	 * USERCONSULTA=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.
+	 * ALFRESCO_USUARIOEXTERNO); String
+	 * USERCONSULTA_CLAVE=SigedProperties.getProperty(SigedProperties.
+	 * SigedPropertyEnum.ALFRESCO_USUARIOEXTERNO_CLAVE);
+	 * 
+	 * AlfrescoApiWs alfrescoApiWs; String alfrescoHostPublico =
+	 * SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
+	 * String alfrescoHostPort =
+	 * SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
+	 * String alfrescoProtocolo =
+	 * SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.
+	 * ALFRESCO_PROTOCOLO); String URL_ALFRESCO =
+	 * alfrescoProtocolo+"://"+alfrescoHostPublico+":"+alfrescoHostPort+
+	 * "/alfresco/cmisatom";
+	 * 
+	 * alfrescoApiWs = new AlfrescoApiWs(URL_ALFRESCO, USERCONSULTA,
+	 * USERCONSULTA_CLAVE, REPOSITORIO_ID); Session sesionAlfresco =
+	 * alfrescoApiWs.getSessionAlfresco();
+	 * 
+	 * ////////////////////// for///////////////// List<FirmaArchivo> lst =
+	 * firmaArchivoDAO.findFirmadoUsuario(1045);
+	 * 
+	 * System.out.println("Tamanito=" + lst.size()); for(int i=0;i<lst.size();i++){
+	 * try{ //if (i==20) break; //TENERE EN CUENTA LOS ARCHIVOS INACTIVOS Archivo x
+	 * = archivoService.findById(lst.get(i).getIdArchivo()); String mes =
+	 * lst.get(i).getFechaCreacion().toString().substring(5,7) ; String tipo =
+	 * x.getDocumento().getTipoDocumento().getCodigo().replace("Ã�",
+	 * "A").replace("Ã‰", "E").replace("Ã�", "I").replace("Ã“", "O").replace("Ãš",
+	 * "U"); if (mes.equals("01")) mes = "ENERO"; if (mes.equals("02")) mes =
+	 * "FEBRERO"; if (mes.equals("03")) mes = "MARZO"; Document documento =
+	 * (Document)sesionAlfresco.getObject(x.getObjectId());//(lstArchivo.get(0).
+	 * getObjectId()); InputStream in = documento.getContentStream().getStream();
+	 * salida = new FileOutputStream("c:\\RECURSOS\\" + mes + "\\" + tipo + "
+	 * \\" + x.getRutaAlfresco().substring(x.getRutaAlfresco().lastIndexOf("/") + 1,
+	 * x.getRutaAlfresco().length())); int data = 999; while (data >= 0) { data =
+	 * in.read(); salida.write(data); } salida.flush(); if (salida!=null)
+	 * salida.close(); if (in!=null) in.close(); }catch(Exception e){
+	 * e.printStackTrace(); } } }catch(Exception e){ e.printStackTrace(); } return
+	 * Action.SUCCESS; }
+	 */
+
+	/**
+	 * REN Metodo que se activa cuando el usuario final hace click a una fila de la
+	 * grilla -----------------------------------
+	 */
+	@SuppressWarnings("unused")
 	public String viewDocUsuarioFinal() {
-             System.out.println("...................................INICIANDO........................................");
-             try{
-                    OutputStream salida = null;
-                    String REPOSITORIO_ID  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
-                    String USERCONSULTA=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOEXTERNO);
-                    String USERCONSULTA_CLAVE=SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_USUARIOEXTERNO_CLAVE);
-                 
-                    AlfrescoApiWs alfrescoApiWs;                               
-                    String alfrescoHostPublico = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST);
-                    String alfrescoHostPort = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PORT);
-                    String alfrescoProtocolo = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_PROTOCOLO);
-                    String URL_ALFRESCO = alfrescoProtocolo+"://"+alfrescoHostPublico+":"+alfrescoHostPort+"/alfresco/cmisatom";
-                    
-                    alfrescoApiWs = new AlfrescoApiWs(URL_ALFRESCO, USERCONSULTA, USERCONSULTA_CLAVE, REPOSITORIO_ID);
-                    Session  sesionAlfresco = alfrescoApiWs.getSessionAlfresco();
-                    
-                    ////////////////////// for/////////////////
-                    List<FirmaArchivo> lst = firmaArchivoDAO.findFirmadoUsuario(1045);
-                    
-                    System.out.println("Tamanito=" + lst.size());
-                    for(int i=0;i<lst.size();i++){
-                        try{
-                                //if (i==20) break;  //TENERE EN CUENTA LOS ARCHIVOS INACTIVOS
-                                Archivo x = archivoService.findById(lst.get(i).getIdArchivo());
-                                String mes = lst.get(i).getFechaCreacion().toString().substring(5,7) ;
-                                String tipo = x.getDocumento().getTipoDocumento().getCodigo().replace("Ã�", "A").replace("Ã‰", "E").replace("Ã�", "I").replace("Ã“", "O").replace("Ãš", "U"); 
-                                if (mes.equals("01"))
-                                   mes = "ENERO"; 
-                                if (mes.equals("02"))
-                                   mes = "FEBRERO";
-                                if (mes.equals("03"))
-                                   mes = "MARZO";
-                                Document documento = (Document)sesionAlfresco.getObject(x.getObjectId());//(lstArchivo.get(0).getObjectId());
-                                InputStream in = documento.getContentStream().getStream();
-                                salida = new FileOutputStream("c:\\RECURSOS\\" + mes + "\\" + tipo + "\\" + x.getRutaAlfresco().substring(x.getRutaAlfresco().lastIndexOf("/") + 1, x.getRutaAlfresco().length()));
-                                int data = 999;
-                                while (data >= 0) {
-                                     data = in.read();
-                                     salida.write(data);
-                                }
-                                salida.flush();
-                                if (salida!=null) salida.close();
-                                if (in!=null) in.close();
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }    
-                    }     
-             }catch(Exception e){
-                 e.printStackTrace();
-             }              
-             return Action.SUCCESS;
-        }*/
-        
-	/**REN Metodo que se activa cuando el usuario final hace click a una fila de la grilla -----------------------------------*/
-    @SuppressWarnings("unused")
-	public String viewDocUsuarioFinal() {
-        log.debug("-> [Action] DocumentoAction - viewDocUsuarioFinal():String ");
-        
-        List<Trazabilidaddocumento> list = null;
-        flagBusqueda = 'M';
-                
+		log.debug("-> [Action] DocumentoAction - viewDocUsuarioFinal():String ");
+
+		List<Trazabilidaddocumento> list = null;
+		flagBusqueda = 'M';
+
 		try {
-           this.paraAprobar = false;
-                        
+			this.paraAprobar = false;
+
 			if (iIdDoc == null || iIdDoc < 1) {
 				log.error("No se recibio ningun ID de Documento a ver");
 				return Action.ERROR;
 			}
-			
-            mapSession = ActionContext.getContext().getSession();
-            usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                        
-            if (usuario == null) {
-               return "errorsession";
-            }
-            
-            documento = documentoService.findByIdDocumento(iIdDoc);
-            
-            Integer counttraza= trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).size();
+
+			mapSession = ActionContext.getContext().getSession();
+			usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+
+			if (usuario == null) {
+				return "errorsession";
+			}
+
+			documento = documentoService.findByIdDocumento(iIdDoc);
+//			clienteService.findByIdCliente(documento.getID_CLIENTE());
+			Integer counttraza = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).size();
 			counttraza = counttraza == null ? 0 : counttraza;
 
 			agregar = false;
-            SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
-            seguimiento.setIdUsuario(usuario.getIdUsuarioPerfil());
-            seguimiento.setIdDocumento(iIdDoc);
-            seguimiento.setUnidadPropietario(usuario.getIdUnidadPerfil());
-            seguimiento.setCargoPropietario(usuario.getIdFuncionPerfil());
-            
-			if(seguimientoXUsuarioService.buscarSeguimiento(seguimiento).isEmpty()){
-			  agregar = true;
+			SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
+			seguimiento.setIdUsuario(usuario.getIdUsuarioPerfil());
+			seguimiento.setIdDocumento(iIdDoc);
+			seguimiento.setUnidadPropietario(usuario.getIdUnidadPerfil());
+			seguimiento.setCargoPropietario(usuario.getIdFuncionPerfil());
+
+			if (seguimientoXUsuarioService.buscarSeguimiento(seguimiento).isEmpty()) {
+				agregar = true;
 			}
 
-			try{
-	            destinatarioIgualRemitente = false;
-	            
-	            if(documento.getAutor().getIdusuario().intValue() == usuario.getIdUsuarioPerfil().intValue() &&
-	               documento.getUnidadautor().intValue() == usuario.getIdUnidadPerfil())
-	               destinatarioIgualRemitente = true; 
-	 
-	             controlDevolver = false;
-	             Trazabilidaddocumento trazabilidaddocumento = trazabilidadDocumentoService.findByMaxNroRegistro(getIIdDoc(), "", accionService.findByNombre("reenviar").getIdAccion(), usuario.getIdUsuarioPerfil(), usuario.getIdUnidadPerfil(), usuario.getIdFuncionPerfil());
-	 
-	             if (trazabilidaddocumento!=null){
-	                 controlDevolver = false; 
-	             }else{
-	                 controlDevolver = true;
-	             }
-			}catch(Exception e){
-			  e.printStackTrace();
-			  destinatarioIgualRemitente = false;
-              controlDevolver = true;
+			try {
+				destinatarioIgualRemitente = false;
+
+				if (documento.getAutor().getIdusuario().intValue() == usuario.getIdUsuarioPerfil().intValue()
+						&& documento.getUnidadautor().intValue() == usuario.getIdUnidadPerfil())
+					destinatarioIgualRemitente = true;
+
+				controlDevolver = false;
+				Trazabilidaddocumento trazabilidaddocumento = trazabilidadDocumentoService.findByMaxNroRegistro(
+						getIIdDoc(), "", accionService.findByNombre("reenviar").getIdAccion(),
+						usuario.getIdUsuarioPerfil(), usuario.getIdUnidadPerfil(), usuario.getIdFuncionPerfil());
+
+				if (trazabilidaddocumento != null) {
+					controlDevolver = false;
+				} else {
+					controlDevolver = true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				destinatarioIgualRemitente = false;
+				controlDevolver = true;
 			}
 
 			Integer traza;
 			String creador = (documento.getAutor() != null ? documento.getAutor().getNombreCompleto() : null);
 
-			if(creador == null) {
-			   creador=Constantes.AUTOR_USUARIO_FINAL;
-			}
-			
-            list = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc);
-            
-            if(documento.getDocumentoreferencia() != null) {
-               list = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(documento.getDocumentoreferencia());
-			   traza= list.get(0).getIdtrazabilidaddocumento();
-			}else{
-               list = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc);
-			   traza= list.get(0).getIdtrazabilidaddocumento();
-			}
-			
-			lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(iIdDoc,traza);
-			StringBuilder cadenaCC = new StringBuilder();
-			 
-			if(lstTrazabilidadCopia!=null && lstTrazabilidadCopia.size()>0){
-			   for(int i=0; i<lstTrazabilidadCopia.size(); i++){
-			    if(i!=0) cadenaCC.append(", ");
-			       cadenaCC.append(lstTrazabilidadCopia.get(i).getDestinatario().getApellidos()+" "+lstTrazabilidadCopia.get(i).getDestinatario().getNombres());
-			    }
-			}
-		
-			Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-	
-            if (documento != null) {
-              Expediente expediente = documento.getExpediente();
-              
-			  if (expediente != null) {
-		        Integer iIdDocumentoSesion = (Integer) mapSession.get(Constantes.SESSION_IDDOCUMENTO);
-				String nombreRol = Constantes.ROL_USUARIO_FINAL;
-                                
-				if (iIdDocumentoSesion != null && iIdDocumentoSesion.intValue() != iIdDoc.intValue()) {
-				   mapSession.remove(Constantes.SESSION_UPLOAD_LIST);
-				   limpiarCarpetaTemporalxUsuario(usuario.getUsuario());
-				}
-				
-				iIdUpload = 1;
-				mapSession.put(Constantes.SESSION_IDDOCUMENTO, iIdDoc);
-                                              
-                if(documento.getDocumentoreferencia() != null){
-                    objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), nombreRol);
-                    objDD.setIdExterno(documento.getID_EXTERNO().toString());
-                    objDD.setDesDocumentoOrigen("");
-                    objDD.setCuo(documento.getVcuo());
-                    Usuarioxunidadxfuncion usuarioxunidadxfuncion  = new Usuarioxunidadxfuncion();
-                    usuarioxunidadxfuncion.setIdusuario(usuario.getIdUsuarioPerfil());
-                    usuarioxunidadxfuncion.setIdunidad(usuario.getIdUnidadPerfil());
-                    usuarioxunidadxfuncion.setIdfuncion(usuario.getIdFuncionPerfil());
-				    Trazabilidadapoyo tapoyo = trazabilidadapoyoService.buscarUltimaDelegacionUsuarioAR(usuarioxunidadxfuncion, iIdDoc);
-							 
-                    if(tapoyo != null){
-                        objDD.setStrAccion(tapoyo.getProveido()==null?"":tapoyo.getProveido().getNombre());
-                        objDD.setStrContenido(tapoyo.getTexto() != null ? tapoyo.getTexto() : "");
-                        objDD.setStrDestinatario(tapoyo.getDestinatario().getNombres() + " " + tapoyo.getDestinatario().getApellidos());
-                        objDD.setPrioridad(tapoyo.getPrioridad());
-                        objDD.setStrRemitente(tapoyo.getRemitente().getNombres() + " " + tapoyo.getRemitente().getApellidos());
-                        objDD.setStrFechaLimiteAtencion(tapoyo.getFechalimiteatencion() == null ? "" : new SimpleDateFormat(Constantes.FORMATO_FECHA).format(tapoyo.getFechalimiteatencion()));
-				    }
-                                    
-                    if (documento.getOrigen()!=null){
-                        Documento origen = documentoService.findByIdDocumento(documento.getOrigen());
-                        objDD.setDesDocumentoOrigen(origen.getTipoDocumento().getNombre() + " - " + origen.getNumeroDocumento());
-                    }
-				} else {
-                    objDD = documentoService.getDocumentDetailOptimizedAR(getIIdDoc(), nombreRol);
-                    objDD.setDesDocumentoOrigen("");
-                    objDD.setIdExterno(documento.getID_EXTERNO().toString());
-                    
-                    if (documento.getOrigen()!=null){
-                        Documento origen = documentoService.findByIdDocumento(documento.getOrigen());
-                        objDD.setDesDocumentoOrigen(origen.getTipoDocumento().getNombre() + " - " + origen.getNumeroDocumento());
-                    }
-                    
-                    if (list!=null && list.size()==1){
-                        objDD.setPrioridad(documento.getPrioridad());
-                        objDD.setDateFechaLimiteAtencion(documento.getFechaLimiteAtencion());
-                    }
-                }
-                                
-	            if (documento.getFlagsideco() != null) {
-	                objDD.setFlagsideco(documento.getFlagsideco());
-	            } else {
-	                objDD.setFlagsideco("");
-	            }
-	            
-                objDD.setStrRazonSocial("");
-                TipoLegajoUnidad tipoLegajoUnidad = new TipoLegajoUnidad();
-                tipoLegajoUnidad.setAccion("A");
-                tipoLegajoUnidad.setIdTipoLegajoUnidad(usuario.getIdUnidadPerfil());
-                List<TipoLegajoUnidad> lstAgregar = tipoLegajoUnidadDAO.findTipoLegajoUnidad(tipoLegajoUnidad);
-                
-                tipoLegajoUnidad.setAccion("C");
-                List<TipoLegajoUnidad> lstCrear = tipoLegajoUnidadDAO.findTipoLegajoUnidad(tipoLegajoUnidad);
-                
-                if ((lstAgregar==null || lstAgregar.size()==0) && (lstCrear==null || lstCrear.size()==0)){
-                    objDD.setFlagExpediente('-');
-                }
-                if ((lstAgregar==null || lstAgregar.size()==0) && (lstCrear!=null && lstCrear.size()>0)){
-                    objDD.setFlagExpediente('C');
-                }
-                if ((lstAgregar!=null && lstAgregar.size()>0) && (lstCrear==null || lstCrear.size()==0)){
-                    objDD.setFlagExpediente('A');
-                }
-                if ((lstAgregar!=null && lstAgregar.size()>0) && (lstCrear!=null && lstCrear.size()>0)){
-                    objDD.setFlagExpediente('T');
-                }
-                
-                if (documento.getNroVirtual()==null){
-                    objDD.setFlagCodigoVirtual('2');
-                }else{
-                    IotdtmDocExterno recepcion = documentoExternoVirtualDAO.buscarDocumentoVirtual(documento.getNroVirtual());       
-                    
-                    if (recepcion!=null && recepcion.getSidrecext()!=null && (recepcion.getSidrecext().getVnumregstd()== null || recepcion.getSidrecext().getVnumregstd().trim().equals(""))){
-                        objDD.setFlagCodigoVirtual('3');
-                    }else{
-                        if (recepcion!=null && (recepcion.getSidrecext().getCflgest() == 'O' || recepcion.getSidrecext().getCflgest() == 'S')){
-                           objDD.setFlagCodigoVirtual('1');
-                        }else{
-                           objDD.setFlagCodigoVirtual('0');
-                        }   
-                    }
-                }        
-                                
-                if (documento.getCliente()!=null){
-                    if (documento.getCliente().getTipoinstitucion().getCod_tipoinstitucion().toString().equals(Constantes.COD_PERSONA_NATURAL)){
-                      String nombres =  documento.getCliente().getNombres()==null?"":documento.getCliente().getNombres();
-                      String paterno =  documento.getCliente().getApellidoPaterno()==null?"":documento.getCliente().getApellidoPaterno();
-                      String materno =  documento.getCliente().getApellidoMaterno()==null?"":documento.getCliente().getApellidoMaterno();
-                      objDD.setStrRazonSocial(nombres + " " + paterno + " " + materno);
-                    }else{
-                      objDD.setStrRazonSocial(documento.getCliente().getRazonSocial());
-                    }
-                }
-        	
-                if(cadenaCC.length()!=0){
-				  objDD.setCadenaCC(cadenaCC.toString());
-				}
-                                
-                //Servicio de notificacion 
-    			Integer pK_eIdCasilla = 0;
-    			objCliente = clienteService.findByIdCliente(documento.getID_CLIENTE());
-    			String response = notificacionService.buscarCasillaElectronica(objCliente.getcDniRepresentante());
-    			log.info("==================response......" + response);
-    			
-    			if (!response.equals("") && response != null) {
-    				JSONObject jsonObject = new JSONObject(response);
-    				pK_eIdCasilla = jsonObject.getJSONObject("data").getInt("pK_eIdCasilla");
-    				objDD.setpK_eIdCasilla(pK_eIdCasilla);
-    			}
-    			
-				setLstRadio(tipoIdentificacionService.getTipoIdentificacionMap());
-				Usuario usu = new Usuario(((Usuario) mapSession.get(Constantes.SESSION_USUARIO)).getIdUsuarioPerfil());
-				
-                if (UtilOsinerg.noEsPropietario(usu, documento.getPropietario())) {
-                   avisopermiso = 1;
-		        }
-                
-				if (nombreRol.equals(Constantes.ROL_USUARIO_FINAL)){
-                   Integer idDoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia() : documento.getIdDocumento();
-				   mapSession.put(Constantes.SESSION_UPLOAD_LIST, archivoService.getArchivoListPorDocumento(idDoc));
-                   this.puedeRechazar = expedienteService.puedeRechazar(documento.getExpediente().getIdexpediente());
-				}
-				
-				if (getAvisopermiso() != null && getAvisopermiso() == 2) {
-				   setAvisopermiso(1);
-				} else {
-				    objDD.setIIdDocumento(iIdDoc);
-				   
-	                if (origenDocumento!=null){
-	            	   avisopermiso = 1;
-				    }
-	                                                   
-	                if (idGrid!=null && idGrid.equals(Constantes.TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS)) {
-	                   return "detalleDocumentoRecObservado";
-	                }
-	                   
-	                return Action.SUCCESS;
-				}
-			  } else {
-				  log.debug("Excecion nulo");
-	          }
-					
-	          objDD.setIIdDocumento(iIdDoc);
-	
-	          if (idGrid!=null && idGrid.equals(Constantes.TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS)) {
-	        	  return "detalleDocumentoRecObservado";
-	          }
-                            
-			  return Action.SUCCESS;
-			}
-                        	
-			if (enVentana != true) {
-			  enVentana = false;
+			if (creador == null) {
+				creador = Constantes.AUTOR_USUARIO_FINAL;
 			}
 
-	    } catch (Exception e) {
+			list = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc);
+
+			if (documento.getDocumentoreferencia() != null) {
+				list = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(documento.getDocumentoreferencia());
+				traza = list.get(0).getIdtrazabilidaddocumento();
+			} else {
+				list = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc);
+				traza = list.get(0).getIdtrazabilidaddocumento();
+			}
+
+			lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(iIdDoc, traza);
+			StringBuilder cadenaCC = new StringBuilder();
+
+			if (lstTrazabilidadCopia != null && lstTrazabilidadCopia.size() > 0) {
+				for (int i = 0; i < lstTrazabilidadCopia.size(); i++) {
+					if (i != 0)
+						cadenaCC.append(", ");
+					cadenaCC.append(lstTrazabilidadCopia.get(i).getDestinatario().getApellidos() + " "
+							+ lstTrazabilidadCopia.get(i).getDestinatario().getNombres());
+				}
+			}
+
+			Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+
+			if (documento != null) {
+				Expediente expediente = documento.getExpediente();
+
+				if (expediente != null) {
+					Integer iIdDocumentoSesion = (Integer) mapSession.get(Constantes.SESSION_IDDOCUMENTO);
+					String nombreRol = Constantes.ROL_USUARIO_FINAL;
+
+					if (iIdDocumentoSesion != null && iIdDocumentoSesion.intValue() != iIdDoc.intValue()) {
+						mapSession.remove(Constantes.SESSION_UPLOAD_LIST);
+						limpiarCarpetaTemporalxUsuario(usuario.getUsuario());
+					}
+
+					iIdUpload = 1;
+					mapSession.put(Constantes.SESSION_IDDOCUMENTO, iIdDoc);
+
+					if (documento.getDocumentoreferencia() != null) {
+						objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(),
+								nombreRol);
+						objDD.setIdExterno(documento.getID_EXTERNO().toString());
+						objDD.setDesDocumentoOrigen("");
+						objDD.setCuo(documento.getVcuo());
+						Usuarioxunidadxfuncion usuarioxunidadxfuncion = new Usuarioxunidadxfuncion();
+						usuarioxunidadxfuncion.setIdusuario(usuario.getIdUsuarioPerfil());
+						usuarioxunidadxfuncion.setIdunidad(usuario.getIdUnidadPerfil());
+						usuarioxunidadxfuncion.setIdfuncion(usuario.getIdFuncionPerfil());
+						Trazabilidadapoyo tapoyo = trazabilidadapoyoService
+								.buscarUltimaDelegacionUsuarioAR(usuarioxunidadxfuncion, iIdDoc);
+
+						if (tapoyo != null) {
+							objDD.setStrAccion(tapoyo.getProveido() == null ? "" : tapoyo.getProveido().getNombre());
+							objDD.setStrContenido(tapoyo.getTexto() != null ? tapoyo.getTexto() : "");
+							objDD.setStrDestinatario(tapoyo.getDestinatario().getNombres() + " "
+									+ tapoyo.getDestinatario().getApellidos());
+							objDD.setPrioridad(tapoyo.getPrioridad());
+							objDD.setStrRemitente(
+									tapoyo.getRemitente().getNombres() + " " + tapoyo.getRemitente().getApellidos());
+							objDD.setStrFechaLimiteAtencion(tapoyo.getFechalimiteatencion() == null ? ""
+									: new SimpleDateFormat(Constantes.FORMATO_FECHA)
+											.format(tapoyo.getFechalimiteatencion()));
+						}
+
+						if (documento.getOrigen() != null) {
+							Documento origen = documentoService.findByIdDocumento(documento.getOrigen());
+							objDD.setDesDocumentoOrigen(
+									origen.getTipoDocumento().getNombre() + " - " + origen.getNumeroDocumento());
+						}
+					} else {
+						objDD = documentoService.getDocumentDetailOptimizedAR(getIIdDoc(), nombreRol);
+						objDD.setDesDocumentoOrigen("");
+						objDD.setIdExterno(documento.getID_EXTERNO().toString());
+
+						if (documento.getOrigen() != null) {
+							Documento origen = documentoService.findByIdDocumento(documento.getOrigen());
+							objDD.setDesDocumentoOrigen(
+									origen.getTipoDocumento().getNombre() + " - " + origen.getNumeroDocumento());
+						}
+
+						if (list != null && list.size() == 1) {
+							objDD.setPrioridad(documento.getPrioridad());
+							objDD.setDateFechaLimiteAtencion(documento.getFechaLimiteAtencion());
+						}
+					}
+
+					if (documento.getFlagsideco() != null) {
+						objDD.setFlagsideco(documento.getFlagsideco());
+					} else {
+						objDD.setFlagsideco("");
+					}
+
+					objDD.setStrRazonSocial("");
+					TipoLegajoUnidad tipoLegajoUnidad = new TipoLegajoUnidad();
+					tipoLegajoUnidad.setAccion("A");
+					tipoLegajoUnidad.setIdTipoLegajoUnidad(usuario.getIdUnidadPerfil());
+					List<TipoLegajoUnidad> lstAgregar = tipoLegajoUnidadDAO.findTipoLegajoUnidad(tipoLegajoUnidad);
+
+					tipoLegajoUnidad.setAccion("C");
+					List<TipoLegajoUnidad> lstCrear = tipoLegajoUnidadDAO.findTipoLegajoUnidad(tipoLegajoUnidad);
+
+					if ((lstAgregar == null || lstAgregar.size() == 0) && (lstCrear == null || lstCrear.size() == 0)) {
+						objDD.setFlagExpediente('-');
+					}
+					if ((lstAgregar == null || lstAgregar.size() == 0) && (lstCrear != null && lstCrear.size() > 0)) {
+						objDD.setFlagExpediente('C');
+					}
+					if ((lstAgregar != null && lstAgregar.size() > 0) && (lstCrear == null || lstCrear.size() == 0)) {
+						objDD.setFlagExpediente('A');
+					}
+					if ((lstAgregar != null && lstAgregar.size() > 0) && (lstCrear != null && lstCrear.size() > 0)) {
+						objDD.setFlagExpediente('T');
+					}
+
+					if (documento.getNroVirtual() == null) {
+						objDD.setFlagCodigoVirtual('2');
+					} else {
+						IotdtmDocExterno recepcion = documentoExternoVirtualDAO
+								.buscarDocumentoVirtual(documento.getNroVirtual());
+
+						if (recepcion != null && recepcion.getSidrecext() != null
+								&& (recepcion.getSidrecext().getVnumregstd() == null
+										|| recepcion.getSidrecext().getVnumregstd().trim().equals(""))) {
+							objDD.setFlagCodigoVirtual('3');
+						} else {
+							if (recepcion != null && (recepcion.getSidrecext().getCflgest() == 'O'
+									|| recepcion.getSidrecext().getCflgest() == 'S')) {
+								objDD.setFlagCodigoVirtual('1');
+							} else {
+								objDD.setFlagCodigoVirtual('0');
+							}
+						}
+					}
+
+					if (documento.getCliente() != null) {
+						if (documento.getCliente().getTipoinstitucion().getCod_tipoinstitucion().toString()
+								.equals(Constantes.COD_PERSONA_NATURAL)) {
+							String nombres = documento.getCliente().getNombres() == null ? ""
+									: documento.getCliente().getNombres();
+							String paterno = documento.getCliente().getApellidoPaterno() == null ? ""
+									: documento.getCliente().getApellidoPaterno();
+							String materno = documento.getCliente().getApellidoMaterno() == null ? ""
+									: documento.getCliente().getApellidoMaterno();
+							objDD.setStrRazonSocial(nombres + " " + paterno + " " + materno);
+						} else {
+							objDD.setStrRazonSocial(documento.getCliente().getRazonSocial());
+						}
+					}
+
+					if (cadenaCC.length() != 0) {
+						objDD.setCadenaCC(cadenaCC.toString());
+					}
+
+					// Servicio de notificacion
+					Integer pK_eIdCasilla = 0;
+					if(documento.getID_CLIENTE() != null) {
+						objCliente = clienteService.findByIdCliente(documento.getID_CLIENTE());
+						String response = notificacionService.buscarCasillaElectronica(objCliente.getcDniRepresentante());
+						log.info("==================response......" + response);
+						if (!response.equals("") && response != null) {
+							JSONObject jsonObject = new JSONObject(response);
+							if (jsonObject.getBoolean("success")) {
+
+								pK_eIdCasilla = jsonObject.getJSONObject("data").getInt("pK_eIdCasilla");
+								objDD.setpK_eIdCasilla(pK_eIdCasilla);
+							}
+						}
+
+					}
+					
+
+					
+					setLstRadio(tipoIdentificacionService.getTipoIdentificacionMap());
+					Usuario usu = new Usuario(
+							((Usuario) mapSession.get(Constantes.SESSION_USUARIO)).getIdUsuarioPerfil());
+
+					if (UtilOsinerg.noEsPropietario(usu, documento.getPropietario())) {
+						avisopermiso = 1;
+					}
+
+					if (nombreRol.equals(Constantes.ROL_USUARIO_FINAL)) {
+						Integer idDoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia()
+								: documento.getIdDocumento();
+						mapSession.put(Constantes.SESSION_UPLOAD_LIST,
+								archivoService.getArchivoListPorDocumento(idDoc));
+						this.puedeRechazar = expedienteService
+								.puedeRechazar(documento.getExpediente().getIdexpediente());
+					}
+
+					if (getAvisopermiso() != null && getAvisopermiso() == 2) {
+						setAvisopermiso(1);
+					} else {
+						objDD.setIIdDocumento(iIdDoc);
+
+						if (origenDocumento != null) {
+							avisopermiso = 1;
+						}
+
+						if (idGrid != null && idGrid.equals(Constantes.TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS)) {
+							return "detalleDocumentoRecObservado";
+						}
+
+						return Action.SUCCESS;
+					}
+				} else {
+					log.debug("Excecion nulo");
+				}
+
+				objDD.setIIdDocumento(iIdDoc);
+
+				if (idGrid != null && idGrid.equals(Constantes.TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS)) {
+					return "detalleDocumentoRecObservado";
+				}
+
+				return Action.SUCCESS;
+			}
+
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+		} catch (Exception e) {
 			e.printStackTrace();
-	    }
-			
-        return Action.ERROR;
+		}
+
+		return Action.ERROR;
 	}
 
-    @SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	public String verDocumento() {
-        try {
-            HttpServletRequest request = ServletActionContext.getRequest();
-            Map<String, Object> mapSession = ActionContext.getContext().getSession();
-            Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-            
-            if (usuario == null) {
-            	return Action.ERROR;
-            }
-      
-            documento = documentoService.findByIdDocumento(idDocumento);
-            
-            if (documento.getDocumentoreferencia() != null)
-                    documento = documentoService.findByIdDocumento(documento.getDocumentoreferencia());
-                
-                List<Parametro> lstMateria = parametroService.findByTipo(Constantes.COD_SICOR_MATERIA);
-                request.setAttribute("parametroMateria", lstMateria);
-                
-                List<Parametro> lstInfraestructura = parametroService.findByTipo(Constantes.COD_SICOR_INFRAESTRUCTURA);
-                request.setAttribute("parametroInfraestructura", lstInfraestructura);
-                
-                List<Parametro> lstPrioridad = parametroService.findByTipo(Constantes.PARAMETRO_TIPO_PRIORIDAD);
-                request.setAttribute("parametroPrioridad", lstPrioridad);
-                
-                DocumentoReunion documentoReunion = new DocumentoReunion();
-                documentoReunion.setTipo("0");
-                documentoReunion.setIdDocumento(documento.getIdDocumento());
-                request.setAttribute("personalInterno", documentoReunionDAO.getDocumentoReunion(documentoReunion));
-                documentoReunion.setTipo("1");
-                request.setAttribute("personalExterno", documentoReunionDAO.getDocumentoReunion(documentoReunion));
-              
-                List<String> lstAdjuntos = new ArrayList<String>();
-                List<DocumentoAdjunto> lstDocumentoAdjunto =documentoAdjuntoDAO.findByListDocumentoAdjunto(documento.getIdDocumento());
-                List<Parametro> lstTipoAdjunto = parametroService.findByTipo(Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
-                List<Parametro> lstCopia = parametroService.findByTipo(Constantes.PARAMETRO_ADJUNTO_COPIA_ORIGINAL);
-                
-                if (lstDocumentoAdjunto!=null){
-                  for(int i=0;i<lstDocumentoAdjunto.size();i++){
-                     
-                     String valor = ""; 
-                     for(int j=0;j<lstTipoAdjunto.size();j++){
-                       if (lstTipoAdjunto.get(j).getValor().equals(lstDocumentoAdjunto.get(i).getCodTipoAdj())){
-                           valor = lstTipoAdjunto.get(j).getDescripcion();
-                           for(int k=0;k<lstCopia.size();k++){
-                              if (lstCopia.get(k).getValor().equals(lstDocumentoAdjunto.get(i).getCopOrig())){
-                                  valor = valor + " " + lstCopia.get(k).getDescripcion() + " (" + lstDocumentoAdjunto.get(i).getNroAdj() + ")";
-                                  lstAdjuntos.add(valor);
-                                  break;
-                              }
-                           }
-                           break;
-                       } 
-                     }      
-                  }    
-                } 
-                
-                request.setAttribute("adjuntos", lstAdjuntos);
-                
-            }catch(Exception e){
-                return Action.ERROR;
-            }
-            
-            return Action.SUCCESS;
-        }
+		try {
+			HttpServletRequest request = ServletActionContext.getRequest();
+			Map<String, Object> mapSession = ActionContext.getContext().getSession();
+			Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 
-        private boolean verificarPermiso(Trazabilidaddocumento t, Usuario objUsuario){
-            try{
-                  Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-                 
-                  if (trazabilidadDocumentoService.contarListTotalTrazabilidadesDocumento(t)==0){
-                        boolean encontrado = false;
-                        List<Unidad> lstAreasAcceso = new ArrayList();
-                        List<Parametro> lstUnidad = parametroService.findByTipo(Constantes.AREAS_ACCESO_GENERAL);
-                  
-                        for(int i=0;i<lstUnidad.size();i++){
-                            lstAreasAcceso.add(new Unidad(Integer.valueOf(lstUnidad.get(i).getValor())));
-                            if (lstUnidad.get(i).getValor().toString().equals(objUsuario.getIdUnidadPerfil().toString()))
-                               encontrado = true;
-                        }
+			if (usuario == null) {
+				return Action.ERROR;
+			}
 
-                        if (encontrado){
-                            return true;
-                        }else{
-                            Unidad uf = unidadDAO.findByIdunidad(objUsuario.getIdUnidadPerfil().intValue());
-                            List<Unidad> lstJefatura  = new ArrayList();
-                            List<Unidad> lstJefaturas = new ArrayList();
-                            List<Unidad> lstTodos = new ArrayList();
+			documento = documentoService.findByIdDocumento(idDocumento);
 
-                            if (objUsuario.getIdFuncionPerfil().toString().equals("3")){
-                                 lstTodos = unidadDAO.findByGrupoUnidad(uf.getIdunidad());
-                                 if (lstTodos == null) lstTodos = new ArrayList();
-                                 lstTodos.add(new Unidad(uf.getIdunidad()));
+			if (documento.getDocumentoreferencia() != null)
+				documento = documentoService.findByIdDocumento(documento.getDocumentoreferencia());
 
-                                 if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t, lstTodos)==0 && trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t, lstAreasAcceso)>0){
-                                     return false;
-                                 }else{
-                                     return true;
-                                 }
-                            }else{
-                                   if (uf.getUnidadgrupo()!=null){
-                                        if (uf.getNiveles()!=null && uf.getNiveles().equals("2")){
-                                            lstJefatura.add(new Unidad(objUsuario.getIdUnidadPerfil()));
-                                            lstJefaturas = unidadDAO.findByGrupoUnidad(objUsuario.getIdUnidadPerfil());
-                                            lstTodos =     unidadDAO.findByGrupoUnidad(objUsuario.getIdUnidadPerfil());
-                                            lstTodos.add(new Unidad(objUsuario.getIdUnidadPerfil()));  
-                                        }else{
-                                            lstJefatura.add(new Unidad(objUsuario.getIdUnidadPerfil()));
-                                            lstJefaturas = unidadDAO.findByGrupoUnidad(uf.getUnidadgrupo());
-                                            lstTodos =     unidadDAO.findByGrupoUnidad(uf.getUnidadgrupo());
-                                            lstTodos.add(new Unidad(uf.getUnidadgrupo()));
-                                        }    
-                                   }else{
-                                        lstJefatura.add(new Unidad(objUsuario.getIdUnidadPerfil())); 
-                                        lstJefaturas.add(new Unidad(objUsuario.getIdUnidadPerfil()));
-                                        lstTodos.add(new Unidad(objUsuario.getIdUnidadPerfil()));
-                                    }
+			List<Parametro> lstMateria = parametroService.findByTipo(Constantes.COD_SICOR_MATERIA);
+			request.setAttribute("parametroMateria", lstMateria);
 
-                                    if (usuarioFinal.getFlagviewtrazabilidad()!=null){
-                                        if (usuarioFinal.getFlagviewtrazabilidad().equals("0")){
-                                            if (objUsuario.getIdFuncionPerfil().toString().equals("2") || objUsuario.getIdFuncionPerfil().toString().equals("4")){
-                                                if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t, lstJefatura)==0){
-                                                    return false;
-                                                }else{
-                                                    return true;
-                                                }
-                                            }else{
-                                                 return false;
-                                            }
-                                        }
+			List<Parametro> lstInfraestructura = parametroService.findByTipo(Constantes.COD_SICOR_INFRAESTRUCTURA);
+			request.setAttribute("parametroInfraestructura", lstInfraestructura);
 
-                                        if (usuarioFinal.getFlagviewtrazabilidad().equals("2")){
-                                            if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t, lstJefatura)==0){
-                                                return false;
-                                            }else{
-                                                return true;
-                                            }
-                                        }
+			List<Parametro> lstPrioridad = parametroService.findByTipo(Constantes.PARAMETRO_TIPO_PRIORIDAD);
+			request.setAttribute("parametroPrioridad", lstPrioridad);
 
-                                        if (usuarioFinal.getFlagviewtrazabilidad().equals("3")){
-                                            if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t, lstJefaturas)==0){
-                                                 return false;
-                                            }else{
-                                                 return true;
-                                            }
-                                        }
+			DocumentoReunion documentoReunion = new DocumentoReunion();
+			documentoReunion.setTipo("0");
+			documentoReunion.setIdDocumento(documento.getIdDocumento());
+			request.setAttribute("personalInterno", documentoReunionDAO.getDocumentoReunion(documentoReunion));
+			documentoReunion.setTipo("1");
+			request.setAttribute("personalExterno", documentoReunionDAO.getDocumentoReunion(documentoReunion));
 
-                                        if (usuarioFinal.getFlagviewtrazabilidad().equals("4")){
-                                            if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t, lstTodos)==0){
-                                                return false;
-                                            }else{
-                                                return true;
-                                            }       
-                                        }
-                                    }else{
-                                        return false;
-                                    }
-                            } 
-                        }
-                  }else{
-                     return true; 
-                  }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            
-            return false;
-        }
-        
-        /**REN Metodo que se activa cuando el usuario final hace click a una fila de la grilla -----------------------------------*/
+			List<String> lstAdjuntos = new ArrayList<String>();
+			List<DocumentoAdjunto> lstDocumentoAdjunto = documentoAdjuntoDAO
+					.findByListDocumentoAdjunto(documento.getIdDocumento());
+			List<Parametro> lstTipoAdjunto = parametroService.findByTipo(Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
+			List<Parametro> lstCopia = parametroService.findByTipo(Constantes.PARAMETRO_ADJUNTO_COPIA_ORIGINAL);
+
+			if (lstDocumentoAdjunto != null) {
+				for (int i = 0; i < lstDocumentoAdjunto.size(); i++) {
+
+					String valor = "";
+					for (int j = 0; j < lstTipoAdjunto.size(); j++) {
+						if (lstTipoAdjunto.get(j).getValor().equals(lstDocumentoAdjunto.get(i).getCodTipoAdj())) {
+							valor = lstTipoAdjunto.get(j).getDescripcion();
+							for (int k = 0; k < lstCopia.size(); k++) {
+								if (lstCopia.get(k).getValor().equals(lstDocumentoAdjunto.get(i).getCopOrig())) {
+									valor = valor + " " + lstCopia.get(k).getDescripcion() + " ("
+											+ lstDocumentoAdjunto.get(i).getNroAdj() + ")";
+									lstAdjuntos.add(valor);
+									break;
+								}
+							}
+							break;
+						}
+					}
+				}
+			}
+
+			request.setAttribute("adjuntos", lstAdjuntos);
+
+		} catch (Exception e) {
+			return Action.ERROR;
+		}
+
+		return Action.SUCCESS;
+	}
+
+	private boolean verificarPermiso(Trazabilidaddocumento t, Usuario objUsuario) {
+		try {
+			Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+
+			if (trazabilidadDocumentoService.contarListTotalTrazabilidadesDocumento(t) == 0) {
+				boolean encontrado = false;
+				List<Unidad> lstAreasAcceso = new ArrayList();
+				List<Parametro> lstUnidad = parametroService.findByTipo(Constantes.AREAS_ACCESO_GENERAL);
+
+				for (int i = 0; i < lstUnidad.size(); i++) {
+					lstAreasAcceso.add(new Unidad(Integer.valueOf(lstUnidad.get(i).getValor())));
+					if (lstUnidad.get(i).getValor().toString().equals(objUsuario.getIdUnidadPerfil().toString()))
+						encontrado = true;
+				}
+
+				if (encontrado) {
+					return true;
+				} else {
+					Unidad uf = unidadDAO.findByIdunidad(objUsuario.getIdUnidadPerfil().intValue());
+					List<Unidad> lstJefatura = new ArrayList();
+					List<Unidad> lstJefaturas = new ArrayList();
+					List<Unidad> lstTodos = new ArrayList();
+
+					if (objUsuario.getIdFuncionPerfil().toString().equals("3")) {
+						lstTodos = unidadDAO.findByGrupoUnidad(uf.getIdunidad());
+						if (lstTodos == null)
+							lstTodos = new ArrayList();
+						lstTodos.add(new Unidad(uf.getIdunidad()));
+
+						if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t, lstTodos) == 0
+								&& trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t,
+										lstAreasAcceso) > 0) {
+							return false;
+						} else {
+							return true;
+						}
+					} else {
+						if (uf.getUnidadgrupo() != null) {
+							if (uf.getNiveles() != null && uf.getNiveles().equals("2")) {
+								lstJefatura.add(new Unidad(objUsuario.getIdUnidadPerfil()));
+								lstJefaturas = unidadDAO.findByGrupoUnidad(objUsuario.getIdUnidadPerfil());
+								lstTodos = unidadDAO.findByGrupoUnidad(objUsuario.getIdUnidadPerfil());
+								lstTodos.add(new Unidad(objUsuario.getIdUnidadPerfil()));
+							} else {
+								lstJefatura.add(new Unidad(objUsuario.getIdUnidadPerfil()));
+								lstJefaturas = unidadDAO.findByGrupoUnidad(uf.getUnidadgrupo());
+								lstTodos = unidadDAO.findByGrupoUnidad(uf.getUnidadgrupo());
+								lstTodos.add(new Unidad(uf.getUnidadgrupo()));
+							}
+						} else {
+							lstJefatura.add(new Unidad(objUsuario.getIdUnidadPerfil()));
+							lstJefaturas.add(new Unidad(objUsuario.getIdUnidadPerfil()));
+							lstTodos.add(new Unidad(objUsuario.getIdUnidadPerfil()));
+						}
+
+						if (usuarioFinal.getFlagviewtrazabilidad() != null) {
+							if (usuarioFinal.getFlagviewtrazabilidad().equals("0")) {
+								if (objUsuario.getIdFuncionPerfil().toString().equals("2")
+										|| objUsuario.getIdFuncionPerfil().toString().equals("4")) {
+									if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t,
+											lstJefatura) == 0) {
+										return false;
+									} else {
+										return true;
+									}
+								} else {
+									return false;
+								}
+							}
+
+							if (usuarioFinal.getFlagviewtrazabilidad().equals("2")) {
+								if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t,
+										lstJefatura) == 0) {
+									return false;
+								} else {
+									return true;
+								}
+							}
+
+							if (usuarioFinal.getFlagviewtrazabilidad().equals("3")) {
+								if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t,
+										lstJefaturas) == 0) {
+									return false;
+								} else {
+									return true;
+								}
+							}
+
+							if (usuarioFinal.getFlagviewtrazabilidad().equals("4")) {
+								if (trazabilidadDocumentoService.contarListTotalTrazabilidadesUnidad(t,
+										lstTodos) == 0) {
+									return false;
+								} else {
+									return true;
+								}
+							}
+						} else {
+							return false;
+						}
+					}
+				}
+			} else {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	/**
+	 * REN Metodo que se activa cuando el usuario final hace click a una fila de la
+	 * grilla -----------------------------------
+	 */
 	@SuppressWarnings("unused")
 	public String viewDocUsuarioFinalBusqueda() {
-                boolean conpermiso = true;
-                flagBusqueda = 'B';
-                try{
-                        log.debug("-> [Action] DocumentoAction - viewDocUsuarioFinalBusqueda():String ");
-	                
-                        if (iIdDoc == null || iIdDoc < 1) {
+		boolean conpermiso = true;
+		flagBusqueda = 'B';
+		try {
+			log.debug("-> [Action] DocumentoAction - viewDocUsuarioFinalBusqueda():String ");
+
+			if (iIdDoc == null || iIdDoc < 1) {
 				log.error("No se recibio ningun ID de Documento a ver");
 				return Action.ERROR;
 			}
 			log.debug("Documento a ver con ID [" + iIdDoc + "]");
 
 			mapSession = ActionContext.getContext().getSession();
-                        mapSession.put(Constantes.TAB_BUSQUEDA, String.valueOf(flagBusqueda));
+			mapSession.put(Constantes.TAB_BUSQUEDA, String.valueOf(flagBusqueda));
 			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                        
-                        if (objUsuario == null)
-                           return "errorsession"; 
-                        
+
+			if (objUsuario == null)
+				return "errorsession";
+
 			documento = documentoService.findByIdDocumento(iIdDoc);
 
-	                if(documento.getConfidencial().equals(Constantes.Si)){
-			    List<Integer> permitidos = documentoService.getUsuariosPermitidos(documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia() : documento.getIdDocumento());
-		            if(!permitidos.contains(new BigDecimal(objUsuario.getIdUsuarioPerfil()))){
-		              conpermiso = false;
-		            }
-		        }
-	        
-                        Trazabilidaddocumento t = new Trazabilidaddocumento();
-                        Documento d = new Documento();
-                        Usuario u = new Usuario();
-                        Expediente exp = new Expediente();
-                        Usuario propietario = new Usuario();
+			if (documento.getConfidencial().equals(Constantes.Si)) {
+				List<Integer> permitidos = documentoService.getUsuariosPermitidos(
+						documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia()
+								: documento.getIdDocumento());
+				if (!permitidos.contains(new BigDecimal(objUsuario.getIdUsuarioPerfil()))) {
+					conpermiso = false;
+				}
+			}
 
-                        propietario.setIdusuario(documento.getPropietario().getIdusuario());
-                        exp.setId(documento.getExpediente().getId());
-                        u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                        d.setIdDocumento(iIdDoc);
-                        d.setDocumentoreferencia(documento.getDocumentoreferencia());
-                        d.setPropietario(propietario);
-                        d.setExpediente(exp);
-                        t.setDocumento(d);
-                        t.setRemitente(u);
-                        t.setDestinatario(u);
+			Trazabilidaddocumento t = new Trazabilidaddocumento();
+			Documento d = new Documento();
+			Usuario u = new Usuario();
+			Expediente exp = new Expediente();
+			Usuario propietario = new Usuario();
 
-                        Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-                        
-                        if (conpermiso){
-                            if (usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("1")){
-                               conpermiso = true;   
-                            }else{
-                               conpermiso = verificarPermiso(t, objUsuario);       
-                            }      
-                        } 
+			propietario.setIdusuario(documento.getPropietario().getIdusuario());
+			exp.setId(documento.getExpediente().getId());
+			u.setIdusuario(objUsuario.getIdUsuarioPerfil());
+			d.setIdDocumento(iIdDoc);
+			d.setDocumentoreferencia(documento.getDocumentoreferencia());
+			d.setPropietario(propietario);
+			d.setExpediente(exp);
+			t.setDocumento(d);
+			t.setRemitente(u);
+			t.setDestinatario(u);
 
-                        Integer counttraza= trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).size();
+			Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+
+			if (conpermiso) {
+				if (usuarioFinal.getFlagviewtrazabilidad() != null
+						&& usuarioFinal.getFlagviewtrazabilidad().equals("1")) {
+					conpermiso = true;
+				} else {
+					conpermiso = verificarPermiso(t, objUsuario);
+				}
+			}
+
+			Integer counttraza = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).size();
 			counttraza = counttraza == null ? 0 : counttraza;
 
 			agregar = false;
 
-                        SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
-                        seguimiento.setIdUsuario(objUsuario.getIdUsuarioPerfil());
-                        seguimiento.setIdDocumento(iIdDoc);
-                        seguimiento.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
-                        seguimiento.setCargoPropietario(objUsuario.getIdFuncionPerfil());
-                        
-			if(seguimientoXUsuarioService.buscarSeguimiento(seguimiento).isEmpty()){
+			SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
+			seguimiento.setIdUsuario(objUsuario.getIdUsuarioPerfil());
+			seguimiento.setIdDocumento(iIdDoc);
+			seguimiento.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
+			seguimiento.setCargoPropietario(objUsuario.getIdFuncionPerfil());
+
+			if (seguimientoXUsuarioService.buscarSeguimiento(seguimiento).isEmpty()) {
 				agregar = true;
 			}
 
-			try{
-			if(documento.getAutor().getIdusuario().intValue() == objUsuario.getIdusuario().intValue() && counttraza == 1){
-				destinatarioIgualRemitente = true;
-			}else{
-				destinatarioIgualRemitente = false;
-			}
-			}catch(Exception e){
+			try {
+				if (documento.getAutor().getIdusuario().intValue() == objUsuario.getIdusuario().intValue()
+						&& counttraza == 1) {
+					destinatarioIgualRemitente = true;
+				} else {
+					destinatarioIgualRemitente = false;
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 				destinatarioIgualRemitente = false;
 			}
@@ -3570,593 +3633,469 @@ public class DocumentoAction {
 			}
 
 			Integer traza;
-			String creador= (documento.getAutor() != null ? documento.getAutor().getNombreCompleto() : null);
-                       
-                        if(creador==null){
-			   creador=Constantes.AUTOR_USUARIO_FINAL;
+			String creador = (documento.getAutor() != null ? documento.getAutor().getNombreCompleto() : null);
+
+			if (creador == null) {
+				creador = Constantes.AUTOR_USUARIO_FINAL;
 			}
-			
-                        if(documento.getDocumentoreferencia() != null){
-		  	  traza=trazabilidadDocumentoService.findByMaxtrazabyIddocumento(documento.getDocumentoreferencia()).get(0).getIdtrazabilidaddocumento();
-			}else{
-			  traza=trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).get(0).getIdtrazabilidaddocumento();
+
+			if (documento.getDocumentoreferencia() != null) {
+				traza = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(documento.getDocumentoreferencia())
+						.get(0).getIdtrazabilidaddocumento();
+			} else {
+				traza = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).get(0)
+						.getIdtrazabilidaddocumento();
 			}
-                        
-			lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(iIdDoc,traza);
+
+			lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(iIdDoc, traza);
 
 			StringBuilder cadenaCC = new StringBuilder();
-			if(lstTrazabilidadCopia!=null && lstTrazabilidadCopia.size()>0){
-			    for(int i=0; i<lstTrazabilidadCopia.size(); i++){
-				if(i!=0) cadenaCC.append(", ");
-		 		 cadenaCC.append( lstTrazabilidadCopia.get(i).getDestinatario().getApellidos()+" "+lstTrazabilidadCopia.get(i).getDestinatario().getNombres());
-			    }
+			if (lstTrazabilidadCopia != null && lstTrazabilidadCopia.size() > 0) {
+				for (int i = 0; i < lstTrazabilidadCopia.size(); i++) {
+					if (i != 0)
+						cadenaCC.append(", ");
+					cadenaCC.append(lstTrazabilidadCopia.get(i).getDestinatario().getApellidos() + " "
+							+ lstTrazabilidadCopia.get(i).getDestinatario().getNombres());
+				}
 			}
-			
+
 			Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 			log.debug("para verifivar : ENTRO BOVISOR = TRUE");
 			boVisor = false;
 			usuario = usuarioService.findByIdUsuario(objUsuario.getIdusuario());
-			
-                        if (documento != null) {
-			   Expediente expediente = documento.getExpediente();
-			   if (expediente != null) {
-			        Integer iIdDocumentoSesion = (Integer) mapSession.get(Constantes.SESSION_IDDOCUMENTO);
-                                Rol rol = usuario.getRol();
-			        String nombreRol = Constantes.ROL_USUARIO_FINAL;
-				if (rol != null) {
-				   nombreRol = rol.getNombre();
-				}
-							
-                                if (iIdDocumentoSesion != null && iIdDocumentoSesion.intValue() != iIdDoc.intValue()) {
-				    mapSession.remove(Constantes.SESSION_UPLOAD_LIST);
-				    limpiarCarpetaTemporalxUsuario(usuario.getUsuario());
-				}
-                                
-				iIdUpload = 1;
-				mapSession.put(Constantes.SESSION_IDDOCUMENTO, iIdDoc);
 
-				if(documento.getDocumentoreferencia() != null){
-                                  objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), nombreRol);
-				  Usuarioxunidadxfuncion usuarioxunidadxfuncion  = new Usuarioxunidadxfuncion();
-                                  usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                                  usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
-                                  usuarioxunidadxfuncion.setIdfuncion(objUsuario.getIdFuncionPerfil());
+			if (documento != null) {
+				Expediente expediente = documento.getExpediente();
+				if (expediente != null) {
+					Integer iIdDocumentoSesion = (Integer) mapSession.get(Constantes.SESSION_IDDOCUMENTO);
+					Rol rol = usuario.getRol();
+					String nombreRol = Constantes.ROL_USUARIO_FINAL;
+					if (rol != null) {
+						nombreRol = rol.getNombre();
+					}
 
-                                  Trazabilidadapoyo tapoyo = trazabilidadapoyoService.buscarUltimaDelegacionUsuario(usuarioxunidadxfuncion, iIdDoc);
-				  objDD.setStrRazonSocial("");
-                                  
-                                  if (documento.getCliente()!=null){
-                                      if (documento.getCliente().getTipoinstitucion().getCod_tipoinstitucion().toString().equals(Constantes.COD_PERSONA_NATURAL)){
-                                             String nombres =  documento.getCliente().getNombres()==null?"":documento.getCliente().getNombres();
-                                             String paterno =  documento.getCliente().getApellidoPaterno()==null?"":documento.getCliente().getApellidoPaterno();
-                                             String materno =  documento.getCliente().getApellidoMaterno()==null?"":documento.getCliente().getApellidoMaterno();
-                                             objDD.setStrRazonSocial(nombres + " " + paterno + " " + materno);
-                                      }else{
-                                             objDD.setStrRazonSocial(documento.getCliente().getRazonSocial());
-                                      }
-                                  }
-                                                                  
-                                  if(tapoyo != null){
-	 			    objDD.setStrContenido(tapoyo.getTexto() != null ? tapoyo.getTexto() : "");
-				    objDD.setStrAsunto(tapoyo.getAsunto() != null ? tapoyo.getAsunto() : objDD.getStrAsunto());
-				    objDD.setStrDestinatario(tapoyo.getDestinatario().getNombres() + " " + tapoyo.getDestinatario().getApellidos());
-				  }
-                                  
-                                  if (documento.getFlagatendido()!=null && documento.getFlagatendido().equals("1"))
-                                      objDD.setCEstado('T');
-                                  
-                                   if (documento.getOrigen()!=null){
-                                        Documento origen = documentoService.findByIdDocumento(documento.getOrigen());
-                                        objDD.setDesDocumentoOrigen(origen.getTipoDocumento().getNombre() + " - " + origen.getNumeroDocumento());
-                                    }
-				}else{
-                                      objDD = documentoService.getDocumentDetailOptimized(getIIdDoc(), nombreRol);
-                                      objDD.setStrRazonSocial("");
-                                      if (documento.getCliente()!=null){
-                                         if (documento.getCliente().getTipoinstitucion().getCod_tipoinstitucion().toString().equals(Constantes.COD_PERSONA_NATURAL)){
-                                             String nombres =  documento.getCliente().getNombres()==null?"":documento.getCliente().getNombres();
-                                             String paterno =  documento.getCliente().getApellidoPaterno()==null?"":documento.getCliente().getApellidoPaterno();
-                                             String materno =  documento.getCliente().getApellidoMaterno()==null?"":documento.getCliente().getApellidoMaterno();
-                                             objDD.setStrRazonSocial(nombres + " " + paterno + " " + materno);
-                                         }else{
-                                             objDD.setStrRazonSocial(documento.getCliente().getRazonSocial());
-                                         }
-                                      }
-                                      
-                                      if (documento.getFlagatendido()!=null && documento.getFlagatendido().equals("1")){
-                                          objDD.setCEstado('T');
-                                      } 
-                                      
-                                      if (documento.getOrigen()!=null){
-                                        Documento origen = documentoService.findByIdDocumento(documento.getOrigen());
-                                        objDD.setDesDocumentoOrigen(origen.getTipoDocumento().getNombre() + " - " + origen.getNumeroDocumento());
-                                      }
-			        }
-				// si en caso se tienen usuarios con copia @Danna
-				if(cadenaCC.length()!=0){
-				  objDD.setCadenaCC(cadenaCC.toString());
+					if (iIdDocumentoSesion != null && iIdDocumentoSesion.intValue() != iIdDoc.intValue()) {
+						mapSession.remove(Constantes.SESSION_UPLOAD_LIST);
+						limpiarCarpetaTemporalxUsuario(usuario.getUsuario());
+					}
+
+					iIdUpload = 1;
+					mapSession.put(Constantes.SESSION_IDDOCUMENTO, iIdDoc);
+
+					if (documento.getDocumentoreferencia() != null) {
+						objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(),
+								nombreRol);
+						Usuarioxunidadxfuncion usuarioxunidadxfuncion = new Usuarioxunidadxfuncion();
+						usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
+						usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
+						usuarioxunidadxfuncion.setIdfuncion(objUsuario.getIdFuncionPerfil());
+
+						Trazabilidadapoyo tapoyo = trazabilidadapoyoService
+								.buscarUltimaDelegacionUsuario(usuarioxunidadxfuncion, iIdDoc);
+						objDD.setStrRazonSocial("");
+
+						if (documento.getCliente() != null) {
+							if (documento.getCliente().getTipoinstitucion().getCod_tipoinstitucion().toString()
+									.equals(Constantes.COD_PERSONA_NATURAL)) {
+								String nombres = documento.getCliente().getNombres() == null ? ""
+										: documento.getCliente().getNombres();
+								String paterno = documento.getCliente().getApellidoPaterno() == null ? ""
+										: documento.getCliente().getApellidoPaterno();
+								String materno = documento.getCliente().getApellidoMaterno() == null ? ""
+										: documento.getCliente().getApellidoMaterno();
+								objDD.setStrRazonSocial(nombres + " " + paterno + " " + materno);
+							} else {
+								objDD.setStrRazonSocial(documento.getCliente().getRazonSocial());
+							}
+						}
+
+						if (tapoyo != null) {
+							objDD.setStrContenido(tapoyo.getTexto() != null ? tapoyo.getTexto() : "");
+							objDD.setStrAsunto(tapoyo.getAsunto() != null ? tapoyo.getAsunto() : objDD.getStrAsunto());
+							objDD.setStrDestinatario(tapoyo.getDestinatario().getNombres() + " "
+									+ tapoyo.getDestinatario().getApellidos());
+						}
+
+						if (documento.getFlagatendido() != null && documento.getFlagatendido().equals("1"))
+							objDD.setCEstado('T');
+
+						if (documento.getOrigen() != null) {
+							Documento origen = documentoService.findByIdDocumento(documento.getOrigen());
+							objDD.setDesDocumentoOrigen(
+									origen.getTipoDocumento().getNombre() + " - " + origen.getNumeroDocumento());
+						}
+					} else {
+						objDD = documentoService.getDocumentDetailOptimized(getIIdDoc(), nombreRol);
+						objDD.setStrRazonSocial("");
+						if (documento.getCliente() != null) {
+							if (documento.getCliente().getTipoinstitucion().getCod_tipoinstitucion().toString()
+									.equals(Constantes.COD_PERSONA_NATURAL)) {
+								String nombres = documento.getCliente().getNombres() == null ? ""
+										: documento.getCliente().getNombres();
+								String paterno = documento.getCliente().getApellidoPaterno() == null ? ""
+										: documento.getCliente().getApellidoPaterno();
+								String materno = documento.getCliente().getApellidoMaterno() == null ? ""
+										: documento.getCliente().getApellidoMaterno();
+								objDD.setStrRazonSocial(nombres + " " + paterno + " " + materno);
+							} else {
+								objDD.setStrRazonSocial(documento.getCliente().getRazonSocial());
+							}
+						}
+
+						if (documento.getFlagatendido() != null && documento.getFlagatendido().equals("1")) {
+							objDD.setCEstado('T');
+						}
+
+						if (documento.getOrigen() != null) {
+							Documento origen = documentoService.findByIdDocumento(documento.getOrigen());
+							objDD.setDesDocumentoOrigen(
+									origen.getTipoDocumento().getNombre() + " - " + origen.getNumeroDocumento());
+						}
+					}
+					// si en caso se tienen usuarios con copia @Danna
+					if (cadenaCC.length() != 0) {
+						objDD.setCadenaCC(cadenaCC.toString());
+					}
+
+					setLstRadio(tipoIdentificacionService.getTipoIdentificacionMap());
+					Usuario usu = new Usuario(
+							((Usuario) mapSession.get(Constantes.SESSION_USUARIO)).getIdUsuarioPerfil());
+
+					if (UtilOsinerg.noEsPropietario(usu, documento.getPropietario())) {
+						avisopermiso = 1;
+					}
+					if (nombreRol.equals(Constantes.ROL_USUARIO_FINAL)) {
+						Integer idDoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia()
+								: documento.getIdDocumento();
+						mapSession.put(Constantes.SESSION_UPLOAD_LIST,
+								archivoService.getArchivoListPorDocumento(idDoc));
+						this.puedeRechazar = expedienteService
+								.puedeRechazar(documento.getExpediente().getIdexpediente());
+					}
+					if (getAvisopermiso() != null && getAvisopermiso() == 2) {
+						setAvisopermiso(1);
+					} else {
+						objDD.setIIdDocumento(iIdDoc);
+
+						if (origenDocumento != null) {
+							avisopermiso = 1;
+						}
+
+						if (conpermiso) {
+							return Action.SUCCESS;
+						} else {
+							return "accesolimitado";
+						}
+					}
 				}
 
-				setLstRadio(tipoIdentificacionService.getTipoIdentificacionMap());
-				Usuario usu = new Usuario(((Usuario) mapSession.get(Constantes.SESSION_USUARIO)).getIdUsuarioPerfil());
-							
-				if (UtilOsinerg.noEsPropietario(usu, documento.getPropietario())) {
-				  avisopermiso = 1;
-				}
-				if (nombreRol.equals(Constantes.ROL_USUARIO_FINAL)) {
-				   Integer idDoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia() : documento.getIdDocumento();
-				   mapSession.put(Constantes.SESSION_UPLOAD_LIST, archivoService.getArchivoListPorDocumento(idDoc));
-                                   this.puedeRechazar = expedienteService.puedeRechazar(documento.getExpediente().getIdexpediente());
-			        }
-                                if (getAvisopermiso() != null && getAvisopermiso() == 2) {
-				  setAvisopermiso(1); 
+				objDD.setStrAsunto(documento.getExpediente().getAsunto());
+				objDD.setIIdDocumento(iIdDoc);
+
+				if (conpermiso) {
+					return Action.SUCCESS;
 				} else {
-                                  objDD.setIIdDocumento(iIdDoc);
-
-				  if (origenDocumento!=null){                               
-				      avisopermiso = 1;
-				  }
-                                  
-                                  if (conpermiso){
-                        	    return Action.SUCCESS;
-                                  }else{
-                                    return "accesolimitado"; 
-                                  }  
+					return "accesolimitado";
 				}
-			    }
-                                
-                           objDD.setStrAsunto(documento.getExpediente().getAsunto());
-			   objDD.setIIdDocumento(iIdDoc);
-                           
-                           if (conpermiso){
-                             return Action.SUCCESS;
-                           }else{
-                             return "accesolimitado"; 
-                           }  
 			}
 
 			if (enVentana != true) {
 				enVentana = false;
 			}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			return Action.ERROR;
-			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Action.ERROR;
+
 	}
 
-        /*
-	@SuppressWarnings("unused")
-	public String viewDocTramiteDocumentario() throws IOException, ServletException{
-		HttpServletRequest request = ServletActionContext.getRequest();
-		List<TramiteDocumentario> td = null;
-		String capcha = "VERDADERO";
-		String gRecaptchaResponse = request
-				.getParameter("g-recaptcha-response");
-       if (request.getParameter("nroTramitedocumentario")!=null && !request.getParameter("nroTramitedocumentario").toString().trim().equals("")){
-			  td = documentoService.buscarTramiteDocumentario(request.getParameter("nroTramitedocumentario"));
-			  documentoService.getNroSiguienteConsultaTramiteDocumentario().toString();
-       }
-        request.setAttribute("nroConsultasTD", documentoService.getNroConsultaTramiteDocumentario().toString());
-	    request.setAttribute("tramitedocumentario", td);
-	    request.setAttribute("capcha", capcha);
-		RequestDispatcher rd = ServletActionContext.getServletContext().getRequestDispatcher("/respuestaTramiteDocumentario.jsp");
-		rd.forward(ServletActionContext.getRequest(), ServletActionContext.getResponse());
-	    return Action.NONE;
-	}*/
+	/*
+	 * @SuppressWarnings("unused") public String viewDocTramiteDocumentario() throws
+	 * IOException, ServletException{ HttpServletRequest request =
+	 * ServletActionContext.getRequest(); List<TramiteDocumentario> td = null;
+	 * String capcha = "VERDADERO"; String gRecaptchaResponse = request
+	 * .getParameter("g-recaptcha-response"); if
+	 * (request.getParameter("nroTramitedocumentario")!=null &&
+	 * !request.getParameter("nroTramitedocumentario").toString().trim().equals(""))
+	 * { td = documentoService.buscarTramiteDocumentario(request.getParameter(
+	 * "nroTramitedocumentario"));
+	 * documentoService.getNroSiguienteConsultaTramiteDocumentario().toString(); }
+	 * request.setAttribute("nroConsultasTD",
+	 * documentoService.getNroConsultaTramiteDocumentario().toString());
+	 * request.setAttribute("tramitedocumentario", td);
+	 * request.setAttribute("capcha", capcha); RequestDispatcher rd =
+	 * ServletActionContext.getServletContext().getRequestDispatcher(
+	 * "/respuestaTramiteDocumentario.jsp");
+	 * rd.forward(ServletActionContext.getRequest(),
+	 * ServletActionContext.getResponse()); return Action.NONE; }
+	 */
 
+	/*
+	 * @SuppressWarnings("unused") public String viewDocTramite() throws
+	 * IOException, ServletException{ HttpServletRequest request =
+	 * ServletActionContext.getRequest(); request.setAttribute("nroConsultasTD",
+	 * documentoService.getNroConsultaTramiteDocumentario().toString());
+	 * RequestDispatcher rd =
+	 * ServletActionContext.getServletContext().getRequestDispatcher(
+	 * "/detalleTramiteDocumentario.jsp");
+	 * rd.forward(ServletActionContext.getRequest(),
+	 * ServletActionContext.getResponse()); return Action.SUCCESS; }
+	 */
 
-/*
-	@SuppressWarnings("unused")
-	public String viewDocTramite() throws IOException, ServletException{
-		HttpServletRequest request = ServletActionContext.getRequest();
-        request.setAttribute("nroConsultasTD", documentoService.getNroConsultaTramiteDocumentario().toString());
-		RequestDispatcher rd = ServletActionContext.getServletContext().getRequestDispatcher("/detalleTramiteDocumentario.jsp");
-	    rd.forward(ServletActionContext.getRequest(), ServletActionContext.getResponse());
-	    return Action.SUCCESS;
-	}*/
-
-
-	/**REN Ver detalle del documento desde la grilla de busqueda -------------------------------------------------------------*/
+	/**
+	 * REN Ver detalle del documento desde la grilla de busqueda
+	 * -------------------------------------------------------------
+	 */
 	@SuppressWarnings("unused")
 	public String viewDoc() {
 		log.debug("-> [Action] DocumentoAction - viewDoc():String ");
-                HttpServletRequest request = ServletActionContext.getRequest();
-                String key = parametroService.findByTipoUnico(Constantes.KEY_SGD).getValor();
-                deMail = true;
-                
-                try{
-                    String id = request.getParameter("idDoc");// URLDecoder.decode(request.getParameter("idDoc"), "UTF-8"); 
-                    id = UtilEncrip.decrypt(key, id);
-                    iIdDocEmail = new Integer(id);
-                    if (iIdDocEmail == null || iIdDocEmail < 1) {
-			log.error("No se recibio ningun ID de Documento a ver");
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String key = parametroService.findByTipoUnico(Constantes.KEY_SGD).getValor();
+		deMail = true;
+
+		try {
+			String id = request.getParameter("idDoc");// URLDecoder.decode(request.getParameter("idDoc"), "UTF-8");
+			id = UtilEncrip.decrypt(key, id);
+			iIdDocEmail = new Integer(id);
+			if (iIdDocEmail == null || iIdDocEmail < 1) {
+				log.error("No se recibio ningun ID de Documento a ver");
+				return Action.ERROR;
+			}
+
+			log.debug("Documento a ver con ID [" + iIdDocEmail + "]");
+			documento = documentoService.findByIdDocumento(iIdDocEmail);
+
+			if (documento == null)
+				return Action.ERROR;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return Action.ERROR;
-		    }
-                    
-                    log.debug("Documento a ver con ID [" + iIdDocEmail + "]");
-                    documento = documentoService.findByIdDocumento(iIdDocEmail);
-                    
-                    if (documento == null)
-                        return Action.ERROR;
-                }catch(Exception e){
-                    e.printStackTrace();
-                    return Action.ERROR;
-                }
-                
-                Usuario usuario = null;
-		mapSession = ActionContext.getContext().getSession();
-                
-                try {
-                     
-                     String usuarioEnc =  request.getParameter("xxyyxxx");//URLDecoder.decode(request.getParameter("xxyyxxx"), "UTF-8");
-                     String usuarioStr = UtilEncrip.decrypt(key, usuarioEnc);
-                     usuario = usuarioService.findByUsuario(usuarioStr);
-                } catch (Exception e) {
-	            e.printStackTrace();
 		}
 
-       	if (usuario == null) return Action.ERROR;
-	 	AuthThreadLocalHolder.setUsuario(usuario);        
+		Usuario usuario = null;
+		mapSession = ActionContext.getContext().getSession();
+
+		try {
+
+			String usuarioEnc = request.getParameter("xxyyxxx");// URLDecoder.decode(request.getParameter("xxyyxxx"),
+																// "UTF-8");
+			String usuarioStr = UtilEncrip.decrypt(key, usuarioEnc);
+			usuario = usuarioService.findByUsuario(usuarioStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (usuario == null)
+			return Action.ERROR;
+		AuthThreadLocalHolder.setUsuario(usuario);
 		mapSession.put(Constantes.SESSION_USUARIO_EMAIL, usuario);
 		String nombrePC = "";
 
 		try {
-           mapSession.put("sTipoGridEmail", "100");
-           InetAddress inetAddress = InetAddress.getByName(request.getRemoteAddr());
-           nombrePC = inetAddress.getHostName();
-           
-           if (nombrePC.equalsIgnoreCase("localhost")) {
-               nombrePC = java.net.InetAddress.getLocalHost().getCanonicalHostName();
-           }
-        } catch (UnknownHostException e) {
-           log.error("No se pudo encontrar el nombre para el ip determinado ", e);
-           nombrePC = request.getRemoteAddr();
-        } catch (NullPointerException e){
-           log.error("Hubo un error de puntero nulo al buscar la IP origen", e);
-           nombrePC = "Indeterminado";
-        }
+			mapSession.put("sTipoGridEmail", "100");
+			InetAddress inetAddress = InetAddress.getByName(request.getRemoteAddr());
+			nombrePC = inetAddress.getHostName();
 
-        mapSession.put("nombrePCEmail", nombrePC);
-		//mapSession.put("provieneDeMail", true );
+			if (nombrePC.equalsIgnoreCase("localhost")) {
+				nombrePC = java.net.InetAddress.getLocalHost().getCanonicalHostName();
+			}
+		} catch (UnknownHostException e) {
+			log.error("No se pudo encontrar el nombre para el ip determinado ", e);
+			nombrePC = request.getRemoteAddr();
+		} catch (NullPointerException e) {
+			log.error("Hubo un error de puntero nulo al buscar la IP origen", e);
+			nombrePC = "Indeterminado";
+		}
+
+		mapSession.put("nombrePCEmail", nombrePC);
+		// mapSession.put("provieneDeMail", true );
 		suministros = null;
 		submotivos = null;
-               
-        if (documento != null) {
-	        Expediente expediente = documento.getExpediente();
-			
-	        if (expediente != null) {
-                            String nombreRol = Constantes.ROL_USUARIO_FINAL;
-		  	    log.debug("Removiendo archivos temporales en sesion");
-			    mapSession.remove(Constantes.SESSION_UPLOAD_LIST_EMAIL);
-			    limpiarCarpetaTemporalxUsuario(usuario.getUsuario());
-			    
-                Integer idDoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia() : documento.getIdDocumento();
-			    mapSession.put(Constantes.SESSION_UPLOAD_LIST_EMAIL, archivoService.getArchivoListPorDocumento(idDoc));
-			    
-                iIdUpload = 1;
-			    mapSession.put(Constantes.SESSION_IDDOCUMENTO_EMAIL, iIdDocEmail);
-			    
-			    if(documento.getDocumentoreferencia() != null){
-			      objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), nombreRol);
-			    } else {
-			      objDD = documentoService.getDocumentDetailOptimized(documento.getIdDocumento(), nombreRol);
-			    }
-                            
-                objDD.setStrRazonSocial("");
-                    
-                if (documento.getCliente()!=null){
-                    if (documento.getCliente().getTipoinstitucion().getCod_tipoinstitucion().toString().equals(Constantes.COD_PERSONA_NATURAL)){
-                      String nombres =  documento.getCliente().getNombres()==null?"":documento.getCliente().getNombres();
-                      String paterno =  documento.getCliente().getApellidoPaterno()==null?"":documento.getCliente().getApellidoPaterno();
-                      String materno =  documento.getCliente().getApellidoMaterno()==null?"":documento.getCliente().getApellidoMaterno();
-                      objDD.setStrRazonSocial(nombres + " " + paterno + " " + materno);
-                    }else{
-                      objDD.setStrRazonSocial(documento.getCliente().getRazonSocial());
-                    }
-                }
-                              
+
+		if (documento != null) {
+			Expediente expediente = documento.getExpediente();
+
+			if (expediente != null) {
+				String nombreRol = Constantes.ROL_USUARIO_FINAL;
+				log.debug("Removiendo archivos temporales en sesion");
+				mapSession.remove(Constantes.SESSION_UPLOAD_LIST_EMAIL);
+				limpiarCarpetaTemporalxUsuario(usuario.getUsuario());
+
+				Integer idDoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia()
+						: documento.getIdDocumento();
+				mapSession.put(Constantes.SESSION_UPLOAD_LIST_EMAIL, archivoService.getArchivoListPorDocumento(idDoc));
+
+				iIdUpload = 1;
+				mapSession.put(Constantes.SESSION_IDDOCUMENTO_EMAIL, iIdDocEmail);
+
+				if (documento.getDocumentoreferencia() != null) {
+					objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), nombreRol);
+				} else {
+					objDD = documentoService.getDocumentDetailOptimized(documento.getIdDocumento(), nombreRol);
+				}
+
+				objDD.setStrRazonSocial("");
+
+				if (documento.getCliente() != null) {
+					if (documento.getCliente().getTipoinstitucion().getCod_tipoinstitucion().toString()
+							.equals(Constantes.COD_PERSONA_NATURAL)) {
+						String nombres = documento.getCliente().getNombres() == null ? ""
+								: documento.getCliente().getNombres();
+						String paterno = documento.getCliente().getApellidoPaterno() == null ? ""
+								: documento.getCliente().getApellidoPaterno();
+						String materno = documento.getCliente().getApellidoMaterno() == null ? ""
+								: documento.getCliente().getApellidoMaterno();
+						objDD.setStrRazonSocial(nombres + " " + paterno + " " + materno);
+					} else {
+						objDD.setStrRazonSocial(documento.getCliente().getRazonSocial());
+					}
+				}
+
 			}
-                        
-            objDD.setStrAsunto(documento.getAsunto());
-            
+
+			objDD.setStrAsunto(documento.getAsunto());
+
 			return "detalleDocEmail";
 		}
-                
-        return Action.ERROR;
+
+		return Action.ERROR;
 	}
 
-    /*
-	private String mostrarDocumentoIntalio() {
-		log.debug("-> [Action] DocumentoAction - mostrarDocumentoIntalio():String ");
-		Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-		if (usuario != null) {
-			Cliente cliente = documento.getExpediente().getCliente();
-			if (cliente.getRazonSocial() != null) {
-				nombreCliente = cliente.getRazonSocial();
-			} else {
-				nombreCliente = cliente.getNombres() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
-			}
-			archivos = archivoService.getArchivoList(documento.getExpediente().getIdexpediente(), documento.getIdDocumento(), null).get("upload1");
-			int idExpediente = documento.getExpediente().getIdexpediente();
-			urlIntalio = null;// intalioService.getAjaxFormURL(usuario, idExpediente);
-			if (urlIntalio != null) {
-				return "intalio";
-			}
-			log.error("No se pudo encontrar la url para el usuario " + usuario + " en el expediente " + documento.getExpediente().getNroexpediente());
-		}
-		return Action.ERROR;
-	}*/
+	/*
+	 * private String mostrarDocumentoIntalio() {
+	 * log.debug("-> [Action] DocumentoAction - mostrarDocumentoIntalio():String ");
+	 * Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO); if
+	 * (usuario != null) { Cliente cliente = documento.getExpediente().getCliente();
+	 * if (cliente.getRazonSocial() != null) { nombreCliente =
+	 * cliente.getRazonSocial(); } else { nombreCliente = cliente.getNombres() + " "
+	 * + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(); }
+	 * archivos =
+	 * archivoService.getArchivoList(documento.getExpediente().getIdexpediente(),
+	 * documento.getIdDocumento(), null).get("upload1"); int idExpediente =
+	 * documento.getExpediente().getIdexpediente(); urlIntalio = null;//
+	 * intalioService.getAjaxFormURL(usuario, idExpediente); if (urlIntalio != null)
+	 * { return "intalio"; }
+	 * log.error("No se pudo encontrar la url para el usuario " + usuario +
+	 * " en el expediente " + documento.getExpediente().getNroexpediente()); }
+	 * return Action.ERROR; }
+	 */
 
-        /*
-	private boolean esUsuarioSAS(Usuario usuario) {
-		log.debug("-> [Action] DocumentoAction - esUsuarioSAS():boolean ");
-		List<Rol> roles = null;//usuario.getRoles();
-		for (Rol rol : roles) {
-			if (rol.getNombre().equals(Constantes.ROL_USUARIO_SALFE_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_ANALISTA_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_ASESOR_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_SGFE_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_JU_AC_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_JU_AM_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_JU_CA_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_JU_CO_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_JU_DI_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_JU_GA_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_JU_GS_SAS)
-					|| rol.getNombre().equals(Constantes.ROL_USUARIO_JU_TR_SAS)) {
-				return true;
-			}
-		}
-		return false;
-	}*/
+	/*
+	 * private boolean esUsuarioSAS(Usuario usuario) {
+	 * log.debug("-> [Action] DocumentoAction - esUsuarioSAS():boolean "); List<Rol>
+	 * roles = null;//usuario.getRoles(); for (Rol rol : roles) { if
+	 * (rol.getNombre().equals(Constantes.ROL_USUARIO_SALFE_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_ANALISTA_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_ASESOR_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_SGFE_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_JU_AC_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_JU_AM_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_JU_CA_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_JU_CO_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_JU_DI_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_JU_GA_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_JU_GS_SAS) ||
+	 * rol.getNombre().equals(Constantes.ROL_USUARIO_JU_TR_SAS)) { return true; } }
+	 * return false; }
+	 */
 
-    public String viewExpUsuarioFinal() {
-         Legajo legajo = new Legajo();
-         legajo.setIdLegajo(iIdLegajo);
-         legajo.setEstado("");
-         legajo = legajoService.findByIdLegajo(legajo);
-         
-         objDD = new DocumentoDetail();
-         objDD.setiIdLegajoOrigen(iIdLegajo);
-         objDD.setiIdLegajo(iIdLegajo);
-         objDD.setLegajo(legajo);
-         objDD.setOpcionMenu("");
-         return Action.SUCCESS;
-    }
+	public String viewExpUsuarioFinal() {
+		Legajo legajo = new Legajo();
+		legajo.setIdLegajo(iIdLegajo);
+		legajo.setEstado("");
+		legajo = legajoService.findByIdLegajo(legajo);
+
+		objDD = new DocumentoDetail();
+		objDD.setiIdLegajoOrigen(iIdLegajo);
+		objDD.setiIdLegajo(iIdLegajo);
+		objDD.setLegajo(legajo);
+		objDD.setOpcionMenu("");
+		return Action.SUCCESS;
+	}
 
 	public String viewDocAdicionales() {
 		log.debug("-> [Action] DocumentoAction - viewDocAdicionales():String ");
-                
-        try {
-		    if (idenv != null) {
-		    	Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
-  	        	
-		    	if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)){
-				    Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
-				    trazdoc = trazabilidadDocumentoService.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
-		            iIdDoc = trazdoc.getDocumento().getIdDocumento();
-		        } else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)){
-                    Trazabilidadapoyo 	trazabilidadapoyo = new Trazabilidadapoyo();
-	                trazabilidadapoyo = trazabilidadapoyoService.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
-			        iIdDoc = trazabilidadapoyo.getDocumento();
-		        } else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)){
-		        	Notificacion notificacion = new Notificacion();
-			        notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
-			        iIdDoc = notificacion.getIddocumento().getIdDocumento();
-		        }
-		    }
-                        
-            if (idpendientes!=null){
-                DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
-                iIdDoc = documentoPendiente.getIddocumento();
-            }
-            
-            if (idseguimientos!=null){
-                SeguimientoXUsuario seguimientoXUsuario = seguimientoXUsuarioService.findByIdSeguimiento(idseguimientos);
-                iIdDoc = seguimientoXUsuario.getIdDocumento();
-            }
-            
-            if (idfirmados!=null){
-                //SeguimientoXFirma seguimientoXFirma = seguimientoXFirmaDAO.findByIdDocumentoFirmado(idfirmados);
-                iIdDoc = idfirmados;//seguimientoXFirma.getIdDocumento();
-            }
-            
-            if (idatendidos!=null){
-                 DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
-                 iIdDoc = documentoAtendido.getIddocumento();
-             }
-            
-            if (idanulados!=null){
-                 DocumentoAnulado documentoAnulado = documentoAnuladoDAO.findByIdDocumentoAnulado(idanulados);
-                 iIdDoc = documentoAnulado.getIddocumento();
-             }
 
-            if (getIIdNotificacion() != null) {
-		       setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
-		    }
-			
-		    if (getIIdDoc() == null) {
+		try {
+			if (idenv != null) {
+				Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
+
+				if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)) {
+					Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
+					trazdoc = trazabilidadDocumentoService
+							.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazdoc.getDocumento().getIdDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)) {
+					Trazabilidadapoyo trazabilidadapoyo = new Trazabilidadapoyo();
+					trazabilidadapoyo = trazabilidadapoyoService
+							.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazabilidadapoyo.getDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)) {
+					Notificacion notificacion = new Notificacion();
+					notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = notificacion.getIddocumento().getIdDocumento();
+				}
+			}
+
+			if (idpendientes != null) {
+				DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
+				iIdDoc = documentoPendiente.getIddocumento();
+			}
+
+			if (idseguimientos != null) {
+				SeguimientoXUsuario seguimientoXUsuario = seguimientoXUsuarioService
+						.findByIdSeguimiento(idseguimientos);
+				iIdDoc = seguimientoXUsuario.getIdDocumento();
+			}
+
+			if (idfirmados != null) {
+				// SeguimientoXFirma seguimientoXFirma =
+				// seguimientoXFirmaDAO.findByIdDocumentoFirmado(idfirmados);
+				iIdDoc = idfirmados;// seguimientoXFirma.getIdDocumento();
+			}
+
+			if (idatendidos != null) {
+				DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
+				iIdDoc = documentoAtendido.getIddocumento();
+			}
+
+			if (idanulados != null) {
+				DocumentoAnulado documentoAnulado = documentoAnuladoDAO.findByIdDocumentoAnulado(idanulados);
+				iIdDoc = documentoAnulado.getIddocumento();
+			}
+
+			if (getIIdNotificacion() != null) {
+				setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
+			}
+
+			if (getIIdDoc() == null) {
 				log.debug("getIIdDoc()==NULL");
 				return Action.ERROR;
-		    }
-                    
-            mapSession = ActionContext.getContext().getSession();
-            /* JC
-            Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-            Usuario u = new Usuario();
-            Trazabilidaddocumento t = new Trazabilidaddocumento();
-            Documento d = documentoService.findByIdDocumento(iIdDoc);
-            u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-            t.setDocumento(d);
-            t.setRemitente(u);
-            t.setDestinatario(u);
-            Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-            
-            if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0 && usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("0")){
-               return "sinpermiso";
-            }*/
-                        
-		    setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
-
-		    if (enVentana != true) {
-		    	enVentana = false;
-		    }
-
-            return Action.SUCCESS;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e.getMessage(), e);
-			return Action.ERROR;
-		}
-	}
-        
-    public String viewDocLegajoBusqueda() {
-       log.debug("-> [Action] DocumentoAction - viewDocLegajoBusqueda():String ");
-                
-       try { 
-            mapSession = ActionContext.getContext().getSession();
-            Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-            Usuario u = new Usuario();
-            Trazabilidaddocumento t = new Trazabilidaddocumento();
-            Documento d = documentoService.findByIdDocumento(iIdDoc);
-            u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-            t.setDocumento(d);
-            t.setRemitente(u);
-            t.setDestinatario(u);
-            Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-       
-            if(d.getConfidencial().equals(Constantes.Si)) {
-            	List<Integer> permitidos = documentoService.getUsuariosPermitidos(d.getDocumentoreferencia() != null ? d.getDocumentoreferencia() : d.getIdDocumento());
-            	
-            	if(!permitidos.contains(new BigDecimal(objUsuario.getIdUsuarioPerfil()))){
-		           return "sinpermiso";
-		        }
-		    }
-                    
-            boolean conpermiso = false;
-            
-            if (usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("1")){
-              conpermiso = true;   
-            }else{
-              conpermiso = verificarPermiso(t, objUsuario);
-              
-              if (!conpermiso)
-                 return "sinpermiso"; 
-            }
-                
-            setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
-            objDD.setOpcionMenu("B");
-          
-            LegajoDocumento legajoDocumento = new LegajoDocumento();
-            legajoDocumento.setIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-            List<LegajoDocumento> lst = legajoDocumentoService.findDocumento(legajoDocumento, objUsuario);
-            
-            if (lst!=null){
-               objDD.setiIdLegajoOrigen(lst.get(0).getIdLegajo());  
-            }  
-            if (enVentana != true) {
-            	enVentana = false;
-		    }
-
-            return Action.SUCCESS;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e.getMessage(), e);
-			return Action.ERROR;
-		}
-	}
-        
-    public String viewDocLegajo() {
-    	log.debug("-> [Action] DocumentoAction - viewDocLegajo():String ");
-            
-        try {
-		    if (idenv != null) {
-			Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
-              	        if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)){
-			    Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
-			    trazdoc = trazabilidadDocumentoService.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
-		            iIdDoc = trazdoc.getDocumento().getIdDocumento();
-		        }else if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)){
-                                Trazabilidadapoyo 	trazabilidadapoyo = new Trazabilidadapoyo();
-		                trazabilidadapoyo = trazabilidadapoyoService.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
-			        iIdDoc = trazabilidadapoyo.getDocumento();
-		        }else if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)){
-				Notificacion notificacion = new Notificacion();
-			        notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
-			        iIdDoc = notificacion.getIddocumento().getIdDocumento();
 			}
-		    }
-                        
-                    if (idpendientes!=null){
-                        DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
-                        iIdDoc = documentoPendiente.getIddocumento();
-                    }
-                    
-                    if (idseguimientos!=null){
-                        SeguimientoXUsuario seguimientoXUsuario = seguimientoXUsuarioService.findByIdSeguimiento(idseguimientos);
-                        iIdDoc = seguimientoXUsuario.getIdDocumento();
-                    }
-                    
-                    if (idfirmados!=null){
-                        //SeguimientoXFirma seguimientoXFirma = seguimientoXFirmaDAO.findByIdDocumentoFirmado(idfirmados);
-                        iIdDoc = idfirmados;//seguimientoXFirma.getIdDocumento();
-                    }
-                    
-                    if (idatendidos!=null){
-                         DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
-                         iIdDoc = documentoAtendido.getIddocumento();
-                     }
-                    
-                    if (idanulados!=null){
-                         DocumentoAnulado documentoAnulado = documentoAnuladoDAO.findByIdDocumentoAnulado(idanulados);
-                         iIdDoc = documentoAnulado.getIddocumento();
-                     }
 
-	            if (getIIdNotificacion() != null) {
-		       setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
-		    }
-			
-		    if (getIIdDoc() == null) {
-			log.debug("getIIdDoc()==NULL");
-			return Action.ERROR;
-		    }
-                    
-                    mapSession = ActionContext.getContext().getSession();
-                    /* JC
-                    Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                    Usuario u = new Usuario();
-                    Trazabilidaddocumento t = new Trazabilidaddocumento();
-                    Documento d = documentoService.findByIdDocumento(iIdDoc);
-                    u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                    t.setDocumento(d);
-                    t.setRemitente(u);
-                    t.setDestinatario(u);
-                    Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-                    
-                    if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0 && usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("0")){
-                       return "sinpermiso";
-                    }*/
-                        
-                    setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
-                 
-                    mapSession = ActionContext.getContext().getSession();
-	            Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                    Documento d = documentoService.findByIdDocumento(getIIdDoc());
-                    LegajoDocumento legajoDocumento = new LegajoDocumento();
-                    legajoDocumento.setIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-                    List<LegajoDocumento> lst = legajoDocumentoService.findDocumento(legajoDocumento, usuario);
-                    
-                    if (lst!=null && lst.size()>0){
-                       objDD.setiIdLegajoOrigen(lst.get(0).getIdLegajo());  
-                    }  
-                    if (enVentana != true) {
-			enVentana = false;
-		    }
+			mapSession = ActionContext.getContext().getSession();
+			/*
+			 * JC Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			 * Usuario u = new Usuario(); Trazabilidaddocumento t = new
+			 * Trazabilidaddocumento(); Documento d =
+			 * documentoService.findByIdDocumento(iIdDoc);
+			 * u.setIdusuario(objUsuario.getIdUsuarioPerfil()); t.setDocumento(d);
+			 * t.setRemitente(u); t.setDestinatario(u); Usuario usuarioFinal =
+			 * usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+			 * 
+			 * if
+			 * (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0
+			 * && usuarioFinal.getFlagviewtrazabilidad()!=null &&
+			 * usuarioFinal.getFlagviewtrazabilidad().equals("0")){ return "sinpermiso"; }
+			 */
 
-                    return Action.SUCCESS;
+			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+			return Action.SUCCESS;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4164,56 +4103,220 @@ public class DocumentoAction {
 			return Action.ERROR;
 		}
 	}
-        
-        public String viewDocAdicionalesBusqueda() {
+
+	public String viewDocLegajoBusqueda() {
+		log.debug("-> [Action] DocumentoAction - viewDocLegajoBusqueda():String ");
+
+		try {
+			mapSession = ActionContext.getContext().getSession();
+			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			Usuario u = new Usuario();
+			Trazabilidaddocumento t = new Trazabilidaddocumento();
+			Documento d = documentoService.findByIdDocumento(iIdDoc);
+			u.setIdusuario(objUsuario.getIdUsuarioPerfil());
+			t.setDocumento(d);
+			t.setRemitente(u);
+			t.setDestinatario(u);
+			Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+
+			if (d.getConfidencial().equals(Constantes.Si)) {
+				List<Integer> permitidos = documentoService.getUsuariosPermitidos(
+						d.getDocumentoreferencia() != null ? d.getDocumentoreferencia() : d.getIdDocumento());
+
+				if (!permitidos.contains(new BigDecimal(objUsuario.getIdUsuarioPerfil()))) {
+					return "sinpermiso";
+				}
+			}
+
+			boolean conpermiso = false;
+
+			if (usuarioFinal.getFlagviewtrazabilidad() != null && usuarioFinal.getFlagviewtrazabilidad().equals("1")) {
+				conpermiso = true;
+			} else {
+				conpermiso = verificarPermiso(t, objUsuario);
+
+				if (!conpermiso)
+					return "sinpermiso";
+			}
+
+			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+			objDD.setOpcionMenu("B");
+
+			LegajoDocumento legajoDocumento = new LegajoDocumento();
+			legajoDocumento.setIdDocumento(
+					d.getDocumentoreferencia() == null ? d.getIdDocumento() : d.getDocumentoreferencia());
+			List<LegajoDocumento> lst = legajoDocumentoService.findDocumento(legajoDocumento, objUsuario);
+
+			if (lst != null) {
+				objDD.setiIdLegajoOrigen(lst.get(0).getIdLegajo());
+			}
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+			return Action.SUCCESS;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage(), e);
+			return Action.ERROR;
+		}
+	}
+
+	public String viewDocLegajo() {
+		log.debug("-> [Action] DocumentoAction - viewDocLegajo():String ");
+
+		try {
+			if (idenv != null) {
+				Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
+				if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)) {
+					Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
+					trazdoc = trazabilidadDocumentoService
+							.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazdoc.getDocumento().getIdDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)) {
+					Trazabilidadapoyo trazabilidadapoyo = new Trazabilidadapoyo();
+					trazabilidadapoyo = trazabilidadapoyoService
+							.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazabilidadapoyo.getDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)) {
+					Notificacion notificacion = new Notificacion();
+					notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = notificacion.getIddocumento().getIdDocumento();
+				}
+			}
+
+			if (idpendientes != null) {
+				DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
+				iIdDoc = documentoPendiente.getIddocumento();
+			}
+
+			if (idseguimientos != null) {
+				SeguimientoXUsuario seguimientoXUsuario = seguimientoXUsuarioService
+						.findByIdSeguimiento(idseguimientos);
+				iIdDoc = seguimientoXUsuario.getIdDocumento();
+			}
+
+			if (idfirmados != null) {
+				// SeguimientoXFirma seguimientoXFirma =
+				// seguimientoXFirmaDAO.findByIdDocumentoFirmado(idfirmados);
+				iIdDoc = idfirmados;// seguimientoXFirma.getIdDocumento();
+			}
+
+			if (idatendidos != null) {
+				DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
+				iIdDoc = documentoAtendido.getIddocumento();
+			}
+
+			if (idanulados != null) {
+				DocumentoAnulado documentoAnulado = documentoAnuladoDAO.findByIdDocumentoAnulado(idanulados);
+				iIdDoc = documentoAnulado.getIddocumento();
+			}
+
+			if (getIIdNotificacion() != null) {
+				setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
+			}
+
+			if (getIIdDoc() == null) {
+				log.debug("getIIdDoc()==NULL");
+				return Action.ERROR;
+			}
+
+			mapSession = ActionContext.getContext().getSession();
+			/*
+			 * JC Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			 * Usuario u = new Usuario(); Trazabilidaddocumento t = new
+			 * Trazabilidaddocumento(); Documento d =
+			 * documentoService.findByIdDocumento(iIdDoc);
+			 * u.setIdusuario(objUsuario.getIdUsuarioPerfil()); t.setDocumento(d);
+			 * t.setRemitente(u); t.setDestinatario(u); Usuario usuarioFinal =
+			 * usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+			 * 
+			 * if
+			 * (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0
+			 * && usuarioFinal.getFlagviewtrazabilidad()!=null &&
+			 * usuarioFinal.getFlagviewtrazabilidad().equals("0")){ return "sinpermiso"; }
+			 */
+
+			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+
+			mapSession = ActionContext.getContext().getSession();
+			Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			Documento d = documentoService.findByIdDocumento(getIIdDoc());
+			LegajoDocumento legajoDocumento = new LegajoDocumento();
+			legajoDocumento.setIdDocumento(
+					d.getDocumentoreferencia() == null ? d.getIdDocumento() : d.getDocumentoreferencia());
+			List<LegajoDocumento> lst = legajoDocumentoService.findDocumento(legajoDocumento, usuario);
+
+			if (lst != null && lst.size() > 0) {
+				objDD.setiIdLegajoOrigen(lst.get(0).getIdLegajo());
+			}
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+			return Action.SUCCESS;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage(), e);
+			return Action.ERROR;
+		}
+	}
+
+	public String viewDocAdicionalesBusqueda() {
 		log.debug("-> [Action] DocumentoAction - viewDocAdicionalesBusqueda():String ");
-                
-                try {
-                                       
-                    if (getIIdDoc() == null) {
-			log.debug("getIIdDoc()==NULL");
-			return Action.ERROR;
-		    }
-                    
-                    mapSession = ActionContext.getContext().getSession();
-                    Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                    Usuario u = new Usuario();
-                    Trazabilidaddocumento t = new Trazabilidaddocumento();
-                    Documento d = documentoService.findByIdDocumento(iIdDoc);
-                    u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                    t.setDocumento(d);
-                    t.setRemitente(u);
-                    t.setDestinatario(u);
-                    Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-                    
-                    /*if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0 && usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("0")){
-                       return "sinpermiso";
-                    }*/
-                    
-                    if(d.getConfidencial().equals(Constantes.Si)){
-	               List<Integer> permitidos = documentoService.getUsuariosPermitidos(d.getDocumentoreferencia() != null ? d.getDocumentoreferencia() : d.getIdDocumento());
-		       if(!permitidos.contains(new BigDecimal(objUsuario.getIdUsuarioPerfil()))){
-		           return "sinpermiso";
-		        }
-		    }
-                    
-                    boolean conpermiso = false;
-                    if (usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("1")){
-                          conpermiso = true;   
-                    }else{
-                          conpermiso = verificarPermiso(t, objUsuario);
-                          if (!conpermiso)
-                             return "sinpermiso"; 
-                    }
-                        
-		    setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
-                    objDD.setOpcionMenu("B");
-                                  
-                    if (enVentana != true) {
-			enVentana = false;
-		    }
 
-                    return Action.SUCCESS;
+		try {
+
+			if (getIIdDoc() == null) {
+				log.debug("getIIdDoc()==NULL");
+				return Action.ERROR;
+			}
+
+			mapSession = ActionContext.getContext().getSession();
+			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			Usuario u = new Usuario();
+			Trazabilidaddocumento t = new Trazabilidaddocumento();
+			Documento d = documentoService.findByIdDocumento(iIdDoc);
+			u.setIdusuario(objUsuario.getIdUsuarioPerfil());
+			t.setDocumento(d);
+			t.setRemitente(u);
+			t.setDestinatario(u);
+			Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+
+			/*
+			 * if
+			 * (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0
+			 * && usuarioFinal.getFlagviewtrazabilidad()!=null &&
+			 * usuarioFinal.getFlagviewtrazabilidad().equals("0")){ return "sinpermiso"; }
+			 */
+
+			if (d.getConfidencial().equals(Constantes.Si)) {
+				List<Integer> permitidos = documentoService.getUsuariosPermitidos(
+						d.getDocumentoreferencia() != null ? d.getDocumentoreferencia() : d.getIdDocumento());
+				if (!permitidos.contains(new BigDecimal(objUsuario.getIdUsuarioPerfil()))) {
+					return "sinpermiso";
+				}
+			}
+
+			boolean conpermiso = false;
+			if (usuarioFinal.getFlagviewtrazabilidad() != null && usuarioFinal.getFlagviewtrazabilidad().equals("1")) {
+				conpermiso = true;
+			} else {
+				conpermiso = verificarPermiso(t, objUsuario);
+				if (!conpermiso)
+					return "sinpermiso";
+			}
+
+			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+			objDD.setOpcionMenu("B");
+
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+			return Action.SUCCESS;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4221,85 +4324,88 @@ public class DocumentoAction {
 			return Action.ERROR;
 		}
 	}
-        
-        
-        public String viewDocReferenciales() {
+
+	public String viewDocReferenciales() {
 		log.debug("-> [Action] DocumentoAction - viewDocReferenciales():String ");
-                
+
 		try {
-                      if (idenv != null) {
-			 Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
-              	         if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)){
-	                     Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
-			     trazdoc = trazabilidadDocumentoService.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = trazdoc.getDocumento().getIdDocumento();
-			 }else if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)){
-                             Trazabilidadapoyo 	trazabilidadapoyo = new Trazabilidadapoyo();
-			     trazabilidadapoyo = trazabilidadapoyoService.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = trazabilidadapoyo.getDocumento();
-			 }else if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)){
-			     Notificacion notificacion = new Notificacion();
-			     notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = notificacion.getIddocumento().getIdDocumento();
-			 }
-		      }
+			if (idenv != null) {
+				Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
+				if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)) {
+					Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
+					trazdoc = trazabilidadDocumentoService
+							.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazdoc.getDocumento().getIdDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)) {
+					Trazabilidadapoyo trazabilidadapoyo = new Trazabilidadapoyo();
+					trazabilidadapoyo = trazabilidadapoyoService
+							.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazabilidadapoyo.getDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)) {
+					Notificacion notificacion = new Notificacion();
+					notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = notificacion.getIddocumento().getIdDocumento();
+				}
+			}
 
-		      if (getIIdNotificacion() != null) {
-			 setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
-		      }
-                        
-                      if (idpendientes!=null){
-                         DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
-                         iIdDoc = documentoPendiente.getIddocumento();
-                      }
-                      
-                      if (idseguimientos!=null){
-                        SeguimientoXUsuario seguimientoXUsuario = seguimientoXUsuarioService.findByIdSeguimiento(idseguimientos);
-                        iIdDoc = seguimientoXUsuario.getIdDocumento();
-                      }
-                      
-                      if (idfirmados!=null){
-                        //SeguimientoXFirma seguimientoXFirma = seguimientoXFirmaDAO.findByIdDocumentoFirmado(idfirmados);
-                        iIdDoc =  idfirmados;//seguimientoXFirma.getIdDocumento();
-                      }
-                      
-                      if (idatendidos!=null){
-                         DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
-                         iIdDoc = documentoAtendido.getIddocumento();
-                      }
-                      
-                      if (idanulados!=null){
-                         DocumentoAnulado documentoAnulado = documentoAnuladoDAO.findByIdDocumentoAnulado(idanulados);
-                         iIdDoc = documentoAnulado.getIddocumento();
-                      }
-                      
-		      if (getIIdDoc() == null) {
-			 return Action.ERROR;
-		      }
-                      
-                      
-                      mapSession = ActionContext.getContext().getSession();
-                      //Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                     /* Usuario u = new Usuario(); JC
-                      Trazabilidaddocumento t = new Trazabilidaddocumento();
-                      Documento d = documentoService.findByIdDocumento(iIdDoc);
-                      u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                      t.setDocumento(d);
-                      t.setRemitente(u);
-                      t.setDestinatario(u);
-                      Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-                    
-                      if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0 && usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("0")){
-                         return "sinpermiso";
-                      }*/
-                      
-		      setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
-                     
-		      if (enVentana != true) {
-			 enVentana = false;
-		      }
+			if (getIIdNotificacion() != null) {
+				setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
+			}
 
-                      return Action.SUCCESS;
+			if (idpendientes != null) {
+				DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
+				iIdDoc = documentoPendiente.getIddocumento();
+			}
+
+			if (idseguimientos != null) {
+				SeguimientoXUsuario seguimientoXUsuario = seguimientoXUsuarioService
+						.findByIdSeguimiento(idseguimientos);
+				iIdDoc = seguimientoXUsuario.getIdDocumento();
+			}
+
+			if (idfirmados != null) {
+				// SeguimientoXFirma seguimientoXFirma =
+				// seguimientoXFirmaDAO.findByIdDocumentoFirmado(idfirmados);
+				iIdDoc = idfirmados;// seguimientoXFirma.getIdDocumento();
+			}
+
+			if (idatendidos != null) {
+				DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
+				iIdDoc = documentoAtendido.getIddocumento();
+			}
+
+			if (idanulados != null) {
+				DocumentoAnulado documentoAnulado = documentoAnuladoDAO.findByIdDocumentoAnulado(idanulados);
+				iIdDoc = documentoAnulado.getIddocumento();
+			}
+
+			if (getIIdDoc() == null) {
+				return Action.ERROR;
+			}
+
+			mapSession = ActionContext.getContext().getSession();
+			// Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			/*
+			 * Usuario u = new Usuario(); JC Trazabilidaddocumento t = new
+			 * Trazabilidaddocumento(); Documento d =
+			 * documentoService.findByIdDocumento(iIdDoc);
+			 * u.setIdusuario(objUsuario.getIdUsuarioPerfil()); t.setDocumento(d);
+			 * t.setRemitente(u); t.setDestinatario(u); Usuario usuarioFinal =
+			 * usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+			 * 
+			 * if
+			 * (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0
+			 * && usuarioFinal.getFlagviewtrazabilidad()!=null &&
+			 * usuarioFinal.getFlagviewtrazabilidad().equals("0")){ return "sinpermiso"; }
+			 */
+
+			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+			return Action.SUCCESS;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4307,55 +4413,58 @@ public class DocumentoAction {
 			return Action.ERROR;
 		}
 	}
-        
-        public String viewDocReferencialesBusqueda() {
+
+	public String viewDocReferencialesBusqueda() {
 		log.debug("-> [Action] DocumentoAction - viewDocReferencialesBusqueda():String ");
-                
-		try {
-                      
-		      if (getIIdDoc() == null) {
-			 return Action.ERROR;
-		      }
-                      
-                      
-                      mapSession = ActionContext.getContext().getSession();
-                      Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                      Usuario u = new Usuario();
-                      Trazabilidaddocumento t = new Trazabilidaddocumento();
-                      Documento d = documentoService.findByIdDocumento(iIdDoc);
-                      u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                      t.setDocumento(d);
-                      t.setRemitente(u);
-                      t.setDestinatario(u);
-                      Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-                      boolean conpermiso = false;
-                      /*if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0 && usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("0")){
-                         return "sinpermiso";
-                      }*/
-                      
-                      if(d.getConfidencial().equals(Constantes.Si)){
-	               List<Integer> permitidos = documentoService.getUsuariosPermitidos(d.getDocumentoreferencia() != null ? d.getDocumentoreferencia() : d.getIdDocumento());
-		       if(!permitidos.contains(new BigDecimal(objUsuario.getIdUsuarioPerfil()))){
-		           return "sinpermiso";
-		        }
-		     }
-                      
-                      if (usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("1")){
-                          conpermiso = true;   
-                      }else{
-                          conpermiso = verificarPermiso(t, objUsuario);
-                          if (!conpermiso)
-                             return "sinpermiso"; 
-                      }
-                      
-		      setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
-                      objDD.setOpcionMenu("B");
-                       
-		      if (enVentana != true) {
-			 enVentana = false;
-		      }
 
-                      return Action.SUCCESS;
+		try {
+
+			if (getIIdDoc() == null) {
+				return Action.ERROR;
+			}
+
+			mapSession = ActionContext.getContext().getSession();
+			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			Usuario u = new Usuario();
+			Trazabilidaddocumento t = new Trazabilidaddocumento();
+			Documento d = documentoService.findByIdDocumento(iIdDoc);
+			u.setIdusuario(objUsuario.getIdUsuarioPerfil());
+			t.setDocumento(d);
+			t.setRemitente(u);
+			t.setDestinatario(u);
+			Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+			boolean conpermiso = false;
+			/*
+			 * if
+			 * (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0
+			 * && usuarioFinal.getFlagviewtrazabilidad()!=null &&
+			 * usuarioFinal.getFlagviewtrazabilidad().equals("0")){ return "sinpermiso"; }
+			 */
+
+			if (d.getConfidencial().equals(Constantes.Si)) {
+				List<Integer> permitidos = documentoService.getUsuariosPermitidos(
+						d.getDocumentoreferencia() != null ? d.getDocumentoreferencia() : d.getIdDocumento());
+				if (!permitidos.contains(new BigDecimal(objUsuario.getIdUsuarioPerfil()))) {
+					return "sinpermiso";
+				}
+			}
+
+			if (usuarioFinal.getFlagviewtrazabilidad() != null && usuarioFinal.getFlagviewtrazabilidad().equals("1")) {
+				conpermiso = true;
+			} else {
+				conpermiso = verificarPermiso(t, objUsuario);
+				if (!conpermiso)
+					return "sinpermiso";
+			}
+
+			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+			objDD.setOpcionMenu("B");
+
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+			return Action.SUCCESS;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4363,84 +4472,89 @@ public class DocumentoAction {
 			return Action.ERROR;
 		}
 	}
-        
-        public String viewDocArchivos() {
+
+	public String viewDocArchivos() {
 		log.debug("-> [Action] DocumentoAction - viewDocArchivos():String ");
-                
+
 		try {
-                      if (idenv != null) {
-			 Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
-              	         if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)){
-	                     Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
-			     trazdoc = trazabilidadDocumentoService.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = trazdoc.getDocumento().getIdDocumento();
-			 }else if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)){
-                             Trazabilidadapoyo 	trazabilidadapoyo = new Trazabilidadapoyo();
-			     trazabilidadapoyo = trazabilidadapoyoService.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = trazabilidadapoyo.getDocumento();
-			 }else if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)){
-			     Notificacion notificacion = new Notificacion();
-			     notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = notificacion.getIddocumento().getIdDocumento();
-			 }
-		      }
+			if (idenv != null) {
+				Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
+				if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)) {
+					Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
+					trazdoc = trazabilidadDocumentoService
+							.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazdoc.getDocumento().getIdDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)) {
+					Trazabilidadapoyo trazabilidadapoyo = new Trazabilidadapoyo();
+					trazabilidadapoyo = trazabilidadapoyoService
+							.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazabilidadapoyo.getDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)) {
+					Notificacion notificacion = new Notificacion();
+					notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = notificacion.getIddocumento().getIdDocumento();
+				}
+			}
 
-		      if (getIIdNotificacion() != null) {
-			 setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
-		      }
-                        
-                      if (idpendientes!=null){
-                         DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
-                         iIdDoc = documentoPendiente.getIddocumento();
-                      }
-                      
-                      if (idseguimientos!=null){
-                        SeguimientoXUsuario seguimientoXUsuario = seguimientoXUsuarioService.findByIdSeguimiento(idseguimientos);
-                        iIdDoc = seguimientoXUsuario.getIdDocumento();
-                      }
-                      
-                      if (idfirmados!=null){
-                        //SeguimientoXFirma seguimientoXFirma = seguimientoXFirmaDAO.findByIdDocumentoFirmado(idfirmados);
-                        iIdDoc =  idfirmados;//seguimientoXFirma.getIdDocumento();
-                      }
-                      
-                      if (idatendidos!=null){
-                         DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
-                         iIdDoc = documentoAtendido.getIddocumento();
-                      }
-                      
-                      if (idanulados!=null){
-                         DocumentoAnulado documentoAnulado = documentoAnuladoDAO.findByIdDocumentoAnulado(idanulados);
-                         iIdDoc = documentoAnulado.getIddocumento();
-                      }
-                      
-		      if (getIIdDoc() == null) {
-			 return Action.ERROR;
-		      }
-                      
-                      
-                      mapSession = ActionContext.getContext().getSession();
-                      Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                      Usuario u = new Usuario();
-                      Trazabilidaddocumento t = new Trazabilidaddocumento();
-                      Documento d = documentoService.findByIdDocumento(iIdDoc);
-                      u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                      t.setDocumento(d);
-                      t.setRemitente(u);
-                      t.setDestinatario(u);
-                      Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-                    
-                      if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0 && usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("0")){
-                         return "sinpermiso";
-                      }
-                      
-		      setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+			if (getIIdNotificacion() != null) {
+				setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
+			}
 
-		      if (enVentana != true) {
-			 enVentana = false;
-		      }
+			if (idpendientes != null) {
+				DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
+				iIdDoc = documentoPendiente.getIddocumento();
+			}
 
-                      return Action.SUCCESS;
+			if (idseguimientos != null) {
+				SeguimientoXUsuario seguimientoXUsuario = seguimientoXUsuarioService
+						.findByIdSeguimiento(idseguimientos);
+				iIdDoc = seguimientoXUsuario.getIdDocumento();
+			}
+
+			if (idfirmados != null) {
+				// SeguimientoXFirma seguimientoXFirma =
+				// seguimientoXFirmaDAO.findByIdDocumentoFirmado(idfirmados);
+				iIdDoc = idfirmados;// seguimientoXFirma.getIdDocumento();
+			}
+
+			if (idatendidos != null) {
+				DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
+				iIdDoc = documentoAtendido.getIddocumento();
+			}
+
+			if (idanulados != null) {
+				DocumentoAnulado documentoAnulado = documentoAnuladoDAO.findByIdDocumentoAnulado(idanulados);
+				iIdDoc = documentoAnulado.getIddocumento();
+			}
+
+			if (getIIdDoc() == null) {
+				return Action.ERROR;
+			}
+
+			mapSession = ActionContext.getContext().getSession();
+			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			Usuario u = new Usuario();
+			Trazabilidaddocumento t = new Trazabilidaddocumento();
+			Documento d = documentoService.findByIdDocumento(iIdDoc);
+			u.setIdusuario(objUsuario.getIdUsuarioPerfil());
+			t.setDocumento(d);
+			t.setRemitente(u);
+			t.setDestinatario(u);
+			Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+
+			if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t) == 0
+					&& usuarioFinal.getFlagviewtrazabilidad() != null
+					&& usuarioFinal.getFlagviewtrazabilidad().equals("0")) {
+				return "sinpermiso";
+			}
+
+			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+			return Action.SUCCESS;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4448,71 +4562,78 @@ public class DocumentoAction {
 			return Action.ERROR;
 		}
 	}
-        
-        public String viewDocRespuestas() {
+
+	public String viewDocRespuestas() {
 		log.debug("-> [Action] DocumentoAction - viewDocRespuestas():String ");
-               try {
-                     if (idenv != null) {
-                         
-			 Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
-              	         if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)){
-	                     Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
-			     trazdoc = trazabilidadDocumentoService.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = trazdoc.getDocumento().getIdDocumento();
-                         }else if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)){
-                             Trazabilidadapoyo 	trazabilidadapoyo = new Trazabilidadapoyo();
-			     trazabilidadapoyo = trazabilidadapoyoService.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = trazabilidadapoyo.getDocumento();
-                         }else if(documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)){
-			     Notificacion notificacion = new Notificacion();
-			     notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
-			     iIdDoc = notificacion.getIddocumento().getIdDocumento();
-                         }
-		      }
+		try {
+			if (idenv != null) {
 
-		      if (getIIdNotificacion() != null) {
-			 setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
-		      }
-                        
-                      if (idpendientes!=null){
-                         DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
-                         iIdDoc = documentoPendiente.getIddocumento();
-                      }
-                      
-                       if (idatendidos!=null){
-                         DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
-                         iIdDoc = documentoAtendido.getIddocumento();
-                      }
-                      
-		      if (getIIdDoc() == null) {
-			 return Action.ERROR;
-		      }
-                      
-                      mapSession = ActionContext.getContext().getSession();
-                      Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                      Usuario u = new Usuario();
-                      Trazabilidaddocumento t = new Trazabilidaddocumento();
-                      Documento d = documentoService.findByIdDocumento(iIdDoc);
-                      u.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                      t.setDocumento(d);
-                      t.setRemitente(u);
-                      t.setDestinatario(u);
-                      Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
-                    
-                      if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t)==0 && usuarioFinal.getFlagviewtrazabilidad()!=null && usuarioFinal.getFlagviewtrazabilidad().equals("0")){
-                           return "sinpermiso";
-                      }
-                   
-		     setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+				Documentoenviado documentoEnviado = documentoenviadoService.findByIddocumentoenviado(idenv);
+				if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_TRANSFERIR)) {
+					Trazabilidaddocumento trazdoc = new Trazabilidaddocumento();
+					trazdoc = trazabilidadDocumentoService
+							.findByIdTrazabilidadDocumento(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazdoc.getDocumento().getIdDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_MULTIPLE)) {
+					Trazabilidadapoyo trazabilidadapoyo = new Trazabilidadapoyo();
+					trazabilidadapoyo = trazabilidadapoyoService
+							.findByIdTrazabilidadApoyo(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = trazabilidadapoyo.getDocumento();
+				} else if (documentoEnviado.getTipoEnvio().equals(Constantes.TIPO_ENVIO_NOTIFICAR)) {
+					Notificacion notificacion = new Notificacion();
+					notificacion = notificacionService.buscarObjPorID(documentoEnviado.getIdTrazabilidadEnvio());
+					iIdDoc = notificacion.getIddocumento().getIdDocumento();
+				}
+			}
 
-		     if (enVentana != true) {
-			enVentana = false;
-		     }
+			if (getIIdNotificacion() != null) {
+				setIIdDoc(notificacionService.buscarObjPorID(getIIdNotificacion()).getIddocumento().getIdDocumento());
+			}
 
-			/*desactivado = (!trazabilidadDocumentoService.esPrimeraEtapaExpediente(objDocumento.getExpediente().getId()) || objDocumento.getDocumentoreferencia() != null);
-			
-                      */
-                     return Action.SUCCESS;
+			if (idpendientes != null) {
+				DocumentoPendiente documentoPendiente = documentoPendienteDAO.findByIdDocumentoPendiente(idpendientes);
+				iIdDoc = documentoPendiente.getIddocumento();
+			}
+
+			if (idatendidos != null) {
+				DocumentoAtendido documentoAtendido = documentoAtendidoDAO.findByIdDocumentoAtendido(idatendidos);
+				iIdDoc = documentoAtendido.getIddocumento();
+			}
+
+			if (getIIdDoc() == null) {
+				return Action.ERROR;
+			}
+
+			mapSession = ActionContext.getContext().getSession();
+			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+			Usuario u = new Usuario();
+			Trazabilidaddocumento t = new Trazabilidaddocumento();
+			Documento d = documentoService.findByIdDocumento(iIdDoc);
+			u.setIdusuario(objUsuario.getIdUsuarioPerfil());
+			t.setDocumento(d);
+			t.setRemitente(u);
+			t.setDestinatario(u);
+			Usuario usuarioFinal = usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil());
+
+			if (trazabilidadDocumentoService.contarListTotalTrazabilidadesExpediente(t) == 0
+					&& usuarioFinal.getFlagviewtrazabilidad() != null
+					&& usuarioFinal.getFlagviewtrazabilidad().equals("0")) {
+				return "sinpermiso";
+			}
+
+			setObjDD(documentoService.getDocumentDetail(getIIdDoc(), null));
+
+			if (enVentana != true) {
+				enVentana = false;
+			}
+
+			/*
+			 * desactivado =
+			 * (!trazabilidadDocumentoService.esPrimeraEtapaExpediente(objDocumento.
+			 * getExpediente().getId()) || objDocumento.getDocumentoreferencia() != null);
+			 * 
+			 */
+			return Action.SUCCESS;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4521,7 +4642,6 @@ public class DocumentoAction {
 		}
 	}
 
-       
 	@SuppressWarnings("unchecked")
 	public String registrarDIG() throws Exception {
 		log.debug("-> [Action] DocumentoAction - registrarDIG():String ");
@@ -4548,98 +4668,77 @@ public class DocumentoAction {
 		return Action.SUCCESS;
 	}
 
-/*
-	public String aprobarQAS() {
-		log.debug("-> [Action] DocumentoAction - aprobarQAS():String ");
-		setMapSession(ActionContext.getContext().getSession());
-		if (objDD == null) {
-			log.error("No se recogieron datos del formulario. objDD es null");
-			return Action.ERROR;
-		}
-		Usuario usuario = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
-		if (log.isDebugEnabled()) {
-			log.debug("Proceso seleccionado ID [" + getObjDD().getIIdProceso() + "] Nombre [" + getObjDD().getStrUnidad() + "]\nTipo de Documento seleccionado ID [" + objDD.getIIdTipoDocumento() + "]\nCliente seleccionado ID [" + getObjDD().getIIdCliente() + "] Razon Social [" + getObjDD().getStrResponsable() + "] Tipo de Identicacion [" + getObjDD().getIIdTipoIdentificacion() + "]\nAsunto [" + getObjDD().getStrAsunto() + "]\nAccion a tomar [" + getStrAcc() + "]");
-		}
-		Rol rol = usuario.getRol();
-		if (rol != null && rol.getNombre().equals(Constantes.ROL_QAS)) {
-			if (objDocumento != null) {
-				Expediente expediente = objDocumento.getExpediente();
-				if (expediente != null) {
-					Cliente cliente = expediente.getCliente();
-					if (cliente != null) {
-						if (log.isDebugEnabled()) {
-							log.debug("Datos del Cliente personalizado");
-							log.debug("Razon Social [" + cliente.getRazonSocial() + "]");
-							log.debug("Nombres [" + cliente.getNombres() + "]");
-							log.debug("Apellido Paterno [" + cliente.getApellidoPaterno() + "]");
-							log.debug("Apellido Materno [" + cliente.getApellidoMaterno() + "]");
-							log.debug("Representante Legal [" + cliente.getRepresentanteLegal() + "]");
-							log.debug("Direccion Principal [" + cliente.getDireccionPrincipal() + "]");
-							String direccionAlternativa = cliente.getDireccionAlternativa();
-							if (direccionAlternativa != null) {
-								log.debug("Direccion Alternativa [" + direccionAlternativa + "]");
-								log.debug("Ubigeo Alternativo [" + cliente.getUbigeoAlternativo().getIddistrito() + "]");
-							}
-							log.debug("Telefono [" + cliente.getTelefono() + "]");
-							log.debug("Correo [" + cliente.getCorreo() + "]");
-						}
-						objDD.setClienterazonsocial(cliente.getRazonSocial());
-						objDD.setClientenombres(cliente.getNombres());
-						objDD.setClienteapellidopaterno(cliente.getApellidoPaterno());
-						objDD.setClienteapellidomaterno(cliente.getApellidoMaterno());
-						objDD.setClienterepresentantelegal(cliente.getRepresentanteLegal());
-						objDD.setClientedireccionprincipal(cliente.getDireccionPrincipal());
-						
-						String direccionAlternativa = cliente.getDireccionAlternativa();
-						if (direccionAlternativa != null) {
-							objDD.setClientedireccionalternativa(direccionAlternativa);
-							objDD.setClienteubigeoalternativo(cliente.getUbigeoAlternativo().getIddistrito());
-						}
-						objDD.setClientetelefono(cliente.getTelefono());
-						objDD.setClientecorreo(cliente.getCorreo());
-						objDD.setIdSuministros(idSuministros);
-						objDD.setIdSubmotivos(idSubmotivos);
-						try {
-							if (controlDeCalidadService.aprobarDocumento(objDD, usuario, mapSession)) {
-								return Action.SUCCESS;
-							}
-							log.error("Ocurrio un error tratando de aprobar el documento.");
-							return Action.ERROR;
-						} catch (RemoteException e) {
-							e.printStackTrace();
-							log.error("Error iniciando proceso en Intalio", e);
-							return Action.ERROR;
-						} catch (InvalidInputMessageFaultException e) {
-							log.error("Parametros pasados al proceso invalidos", e);
-							return Action.ERROR;
-						} catch (InvalidParticipantTokenFaultException e) {
-							log.error("El usuario " + usuario.getUsuario() + " no pudo iniciar sesion en Intalio");
-							return Action.ERROR;
-						} catch (UnavailableTaskFaultException e) {
-							log.error("El proceso seleccionado no se pudo iniciar", e);
-							return Action.ERROR;
-						} catch (XMLStreamException e) {
-							log.error("No se pudo agregar un parametro al iniciar el proceso", e);
-							return Action.ERROR;
-						}
-					}
-				}
-			}
-		}
-		log.error("El usuario que intenta aprobar el documento no tiene el rol de Control de Calidad");
-		return Action.ERROR;
-	}*/
+	/*
+	 * public String aprobarQAS() {
+	 * log.debug("-> [Action] DocumentoAction - aprobarQAS():String ");
+	 * setMapSession(ActionContext.getContext().getSession()); if (objDD == null) {
+	 * log.error("No se recogieron datos del formulario. objDD es null"); return
+	 * Action.ERROR; } Usuario usuario = (Usuario)
+	 * getMapSession().get(Constantes.SESSION_USUARIO); if (log.isDebugEnabled()) {
+	 * log.debug("Proceso seleccionado ID [" + getObjDD().getIIdProceso() +
+	 * "] Nombre [" + getObjDD().getStrUnidad() +
+	 * "]\nTipo de Documento seleccionado ID [" + objDD.getIIdTipoDocumento() +
+	 * "]\nCliente seleccionado ID [" + getObjDD().getIIdCliente() +
+	 * "] Razon Social [" + getObjDD().getStrResponsable() +
+	 * "] Tipo de Identicacion [" + getObjDD().getIIdTipoIdentificacion() +
+	 * "]\nAsunto [" + getObjDD().getStrAsunto() + "]\nAccion a tomar [" +
+	 * getStrAcc() + "]"); } Rol rol = usuario.getRol(); if (rol != null &&
+	 * rol.getNombre().equals(Constantes.ROL_QAS)) { if (objDocumento != null) {
+	 * Expediente expediente = objDocumento.getExpediente(); if (expediente != null)
+	 * { Cliente cliente = expediente.getCliente(); if (cliente != null) { if
+	 * (log.isDebugEnabled()) { log.debug("Datos del Cliente personalizado");
+	 * log.debug("Razon Social [" + cliente.getRazonSocial() + "]");
+	 * log.debug("Nombres [" + cliente.getNombres() + "]");
+	 * log.debug("Apellido Paterno [" + cliente.getApellidoPaterno() + "]");
+	 * log.debug("Apellido Materno [" + cliente.getApellidoMaterno() + "]");
+	 * log.debug("Representante Legal [" + cliente.getRepresentanteLegal() + "]");
+	 * log.debug("Direccion Principal [" + cliente.getDireccionPrincipal() + "]");
+	 * String direccionAlternativa = cliente.getDireccionAlternativa(); if
+	 * (direccionAlternativa != null) { log.debug("Direccion Alternativa [" +
+	 * direccionAlternativa + "]"); log.debug("Ubigeo Alternativo [" +
+	 * cliente.getUbigeoAlternativo().getIddistrito() + "]"); }
+	 * log.debug("Telefono [" + cliente.getTelefono() + "]"); log.debug("Correo [" +
+	 * cliente.getCorreo() + "]"); }
+	 * objDD.setClienterazonsocial(cliente.getRazonSocial());
+	 * objDD.setClientenombres(cliente.getNombres());
+	 * objDD.setClienteapellidopaterno(cliente.getApellidoPaterno());
+	 * objDD.setClienteapellidomaterno(cliente.getApellidoMaterno());
+	 * objDD.setClienterepresentantelegal(cliente.getRepresentanteLegal());
+	 * objDD.setClientedireccionprincipal(cliente.getDireccionPrincipal());
+	 * 
+	 * String direccionAlternativa = cliente.getDireccionAlternativa(); if
+	 * (direccionAlternativa != null) {
+	 * objDD.setClientedireccionalternativa(direccionAlternativa);
+	 * objDD.setClienteubigeoalternativo(cliente.getUbigeoAlternativo().
+	 * getIddistrito()); } objDD.setClientetelefono(cliente.getTelefono());
+	 * objDD.setClientecorreo(cliente.getCorreo());
+	 * objDD.setIdSuministros(idSuministros); objDD.setIdSubmotivos(idSubmotivos);
+	 * try { if (controlDeCalidadService.aprobarDocumento(objDD, usuario,
+	 * mapSession)) { return Action.SUCCESS; }
+	 * log.error("Ocurrio un error tratando de aprobar el documento."); return
+	 * Action.ERROR; } catch (RemoteException e) { e.printStackTrace();
+	 * log.error("Error iniciando proceso en Intalio", e); return Action.ERROR; }
+	 * catch (InvalidInputMessageFaultException e) {
+	 * log.error("Parametros pasados al proceso invalidos", e); return Action.ERROR;
+	 * } catch (InvalidParticipantTokenFaultException e) { log.error("El usuario " +
+	 * usuario.getUsuario() + " no pudo iniciar sesion en Intalio"); return
+	 * Action.ERROR; } catch (UnavailableTaskFaultException e) {
+	 * log.error("El proceso seleccionado no se pudo iniciar", e); return
+	 * Action.ERROR; } catch (XMLStreamException e) {
+	 * log.error("No se pudo agregar un parametro al iniciar el proceso", e); return
+	 * Action.ERROR; } } } } } log.
+	 * error("El usuario que intenta aprobar el documento no tiene el rol de Control de Calidad"
+	 * ); return Action.ERROR; }
+	 */
 
-
-
-	/**----- Metodo llamado cuando se hace click en Transferir---*/
+	/** ----- Metodo llamado cuando se hace click en Transferir--- */
 	public String goderivaruser() throws Exception {
-                log.debug("-> [Action] DocumentoAction - goderivaruser():String ");
+		log.debug("-> [Action] DocumentoAction - goderivaruser():String ");
 		setMapSession(ActionContext.getContext().getSession());
-                paraAprobar = false;
-                Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
+		paraAprobar = false;
+		Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
 		mostrarEtapa = false;
-                
+
 		if (getSOpcion() == null) {
 			log.error("NO HAY OPCION");
 			return Action.ERROR;
@@ -4648,143 +4747,172 @@ public class DocumentoAction {
 			log.error("NO HAY DOCUMENTOS A DERIVAR");
 			return Action.ERROR;
 		}
-                
-		iIdUpload = 1;
-		String strCont = "Remitente:" + usuarioService.findByIdUsuario(usuarioSesion.getIdUsuarioPerfil()).getNombreCompleto() +
-			  		" ["+(usuarioSesion.getIdFuncionPerfil() != null ? funcionService.findByIdFuncion(usuarioSesion.getIdFuncionPerfil()).getNombre() : "")+"]";
 
-                
+		iIdUpload = 1;
+		String strCont = "Remitente:"
+				+ usuarioService.findByIdUsuario(usuarioSesion.getIdUsuarioPerfil()).getNombreCompleto() + " ["
+				+ (usuarioSesion.getIdFuncionPerfil() != null
+						? funcionService.findByIdFuncion(usuarioSesion.getIdFuncionPerfil()).getNombre()
+						: "")
+				+ "]";
+
 		getMapSession().put("arrIdDoc", getArrIdDoc());
 		mapSession.remove(Constantes.SESSION_UPLOAD_LIST);
 		parametros = parametroService.findByTipo("PRIORIDAD_DIAS");
-               
-                if (getSTipoDerivacion().equals(Constantes.DERIVAR_NORMAL)) {
-                        Integer iddoc = getArrIdDoc()[0];
+
+		if (getSTipoDerivacion().equals(Constantes.DERIVAR_NORMAL)) {
+			Integer iddoc = getArrIdDoc()[0];
 			Integer as = documentoService.findPropietarioByIdDocumento(iddoc).getPropietario().getIdusuario();
-                        List<String> copia = new ArrayList<String>();
+			List<String> copia = new ArrayList<String>();
 			copia.add("USUARIO_" + as);
-			//Integer traza;
+			// Integer traza;
 			conCopia = copia;
 			setIIdDoc(iddoc);
 			setObjDD(documentoService.getDocumentDetailOptimized(iddoc, null));
-                        Documento doc = documentoService.findByIdDocumento(iddoc);
-                        objDD.setStrAccion(doc.getAccion().getNombre());
+			Documento doc = documentoService.findByIdDocumento(iddoc);
+			objDD.setStrAccion(doc.getAccion().getNombre());
 			objDD.setiIdAccion(doc.getAccion().getIdAccion());
-                        
-                        List<Trazabilidaddocumento> list =trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc); //.get(0).getIdtrazabilidaddocumento();
-                        
-                        if (list.size()==1 && doc.getDocumentoreferencia()==null){
-                             List<Documento> lt = documentoService.consultaDocumentoReferencia(idDocumento);
-                             if (lt == null || lt.size()==0){
-                                 DocumentoDerivacion documentoDerivacion = new DocumentoDerivacion();
-                                 documentoDerivacion.setTipo("P");
-                                 documentoDerivacion.setIddocumento(iIdDoc);
-                                 List<DocumentoDerivacion> lista = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
-                                 log.info("(goderivaruser) Tipo P:"+(lista == null?0:lista.size()));
-                        
-                                 if (lista!=null && lista.size()>0){
-                                    listaDerivacionPara = new ArrayList<UsuarioDerivacion>();
-                                    for(int i=0;i<lista.size();i++){
-                                        UsuarioDerivacion usuarioDerivacion = new UsuarioDerivacion();
-                                        Usuario usuario = usuarioService.findByIdUsuario(lista.get(i).getIdusuario());
-                                        usuarioDerivacion.setIdentificador(lista.get(i).getIdusuario() + "-" + lista.get(i).getUnidadpropietario() + "-" + lista.get(i).getCargopropietario());
-                                        usuarioDerivacion.setNombreUsuario(usuario.getNombres() + " " + usuario.getApellidos());
-                                        listaDerivacionPara.add(usuarioDerivacion);
-                                        Favorito existeFavorito = favoritoService.findObjectBy(usuarioSesion.getIdUsuarioPerfil(), Integer.valueOf(lista.get(i).getUnidadpropietario()), Integer.valueOf(lista.get(i).getCargopropietario()), Integer.valueOf(lista.get(i).getIdusuario()), 'U', Constantes.ESTADO_ACTIVO);
-                                    
-                                        if (existeFavorito == null){
-                                            favoritoService.saveFavorito(usuarioSesion.getIdUsuarioPerfil(),Integer.valueOf(lista.get(i).getUnidadpropietario()), Integer.valueOf(lista.get(i).getCargopropietario()), Integer.valueOf(lista.get(i).getIdusuario()), 'U');
-                                        }
-                                    }
-                                }     
-                                 
-                                documentoDerivacion.setTipo("C");
-                                lista = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
-                                log.info("(goderivaruser) Tipo C:"+(lista == null?0:lista.size()));
-                                if (lista!=null && lista.size()>0){
-                                    listaDerivacionCC = new ArrayList<UsuarioDerivacion>();
-                                    for(int i=0;i<lista.size();i++){
-                                        UsuarioDerivacion usuarioDerivacion = new UsuarioDerivacion();
-                                        Usuario usuario = usuarioService.findByIdUsuario(lista.get(i).getIdusuario());
-                                        usuarioDerivacion.setIdentificador(lista.get(i).getIdusuario() + "-" + lista.get(i).getUnidadpropietario() + "-" + lista.get(i).getCargopropietario());
-                                        usuarioDerivacion.setNombreUsuario(usuario.getNombres() + " " + usuario.getApellidos());
-                                        listaDerivacionCC.add(usuarioDerivacion);
-                                        Favorito existeFavorito = favoritoService.findObjectBy(usuarioSesion.getIdUsuarioPerfil(), Integer.valueOf(lista.get(i).getUnidadpropietario()), Integer.valueOf(lista.get(i).getCargopropietario()), Integer.valueOf(lista.get(i).getIdusuario()), 'U', Constantes.ESTADO_ACTIVO);
-                                  
-                                        if (existeFavorito == null){
-                                            favoritoService.saveFavorito(usuarioSesion.getIdUsuarioPerfil(),Integer.valueOf(lista.get(i).getUnidadpropietario()), Integer.valueOf(lista.get(i).getCargopropietario()), Integer.valueOf(lista.get(i).getIdusuario()), 'U');
-                                        }    
-                                    }
-                                }     
-                             }
-                        }
-                        
-                        lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(objDD.getIIdDocumento(),list.get(0).getIdtrazabilidaddocumento());
-			StringBuilder cadenaCC = new StringBuilder();
-                       
-                        if(lstTrazabilidadCopia!=null && lstTrazabilidadCopia.size()>0){
-                           for(int i=0; i<lstTrazabilidadCopia.size(); i++){
-			    if(i!=0) cadenaCC.append(", ");
-			      cadenaCC.append( lstTrazabilidadCopia.get(i).getDestinatario().getApellidos()+" "+lstTrazabilidadCopia.get(i).getDestinatario().getNombres());
-			   }
+
+			List<Trazabilidaddocumento> list = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc); // .get(0).getIdtrazabilidaddocumento();
+
+			if (list.size() == 1 && doc.getDocumentoreferencia() == null) {
+				List<Documento> lt = documentoService.consultaDocumentoReferencia(idDocumento);
+				if (lt == null || lt.size() == 0) {
+					DocumentoDerivacion documentoDerivacion = new DocumentoDerivacion();
+					documentoDerivacion.setTipo("P");
+					documentoDerivacion.setIddocumento(iIdDoc);
+					List<DocumentoDerivacion> lista = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
+					log.info("(goderivaruser) Tipo P:" + (lista == null ? 0 : lista.size()));
+
+					if (lista != null && lista.size() > 0) {
+						listaDerivacionPara = new ArrayList<UsuarioDerivacion>();
+						for (int i = 0; i < lista.size(); i++) {
+							UsuarioDerivacion usuarioDerivacion = new UsuarioDerivacion();
+							Usuario usuario = usuarioService.findByIdUsuario(lista.get(i).getIdusuario());
+							usuarioDerivacion.setIdentificador(lista.get(i).getIdusuario() + "-"
+									+ lista.get(i).getUnidadpropietario() + "-" + lista.get(i).getCargopropietario());
+							usuarioDerivacion.setNombreUsuario(usuario.getNombres() + " " + usuario.getApellidos());
+							listaDerivacionPara.add(usuarioDerivacion);
+							Favorito existeFavorito = favoritoService.findObjectBy(usuarioSesion.getIdUsuarioPerfil(),
+									Integer.valueOf(lista.get(i).getUnidadpropietario()),
+									Integer.valueOf(lista.get(i).getCargopropietario()),
+									Integer.valueOf(lista.get(i).getIdusuario()), 'U', Constantes.ESTADO_ACTIVO);
+
+							if (existeFavorito == null) {
+								favoritoService.saveFavorito(usuarioSesion.getIdUsuarioPerfil(),
+										Integer.valueOf(lista.get(i).getUnidadpropietario()),
+										Integer.valueOf(lista.get(i).getCargopropietario()),
+										Integer.valueOf(lista.get(i).getIdusuario()), 'U');
+							}
+						}
+					}
+
+					documentoDerivacion.setTipo("C");
+					lista = documentoDerivacionDAO.getUsuarioDerivacion(documentoDerivacion);
+					log.info("(goderivaruser) Tipo C:" + (lista == null ? 0 : lista.size()));
+					if (lista != null && lista.size() > 0) {
+						listaDerivacionCC = new ArrayList<UsuarioDerivacion>();
+						for (int i = 0; i < lista.size(); i++) {
+							UsuarioDerivacion usuarioDerivacion = new UsuarioDerivacion();
+							Usuario usuario = usuarioService.findByIdUsuario(lista.get(i).getIdusuario());
+							usuarioDerivacion.setIdentificador(lista.get(i).getIdusuario() + "-"
+									+ lista.get(i).getUnidadpropietario() + "-" + lista.get(i).getCargopropietario());
+							usuarioDerivacion.setNombreUsuario(usuario.getNombres() + " " + usuario.getApellidos());
+							listaDerivacionCC.add(usuarioDerivacion);
+							Favorito existeFavorito = favoritoService.findObjectBy(usuarioSesion.getIdUsuarioPerfil(),
+									Integer.valueOf(lista.get(i).getUnidadpropietario()),
+									Integer.valueOf(lista.get(i).getCargopropietario()),
+									Integer.valueOf(lista.get(i).getIdusuario()), 'U', Constantes.ESTADO_ACTIVO);
+
+							if (existeFavorito == null) {
+								favoritoService.saveFavorito(usuarioSesion.getIdUsuarioPerfil(),
+										Integer.valueOf(lista.get(i).getUnidadpropietario()),
+										Integer.valueOf(lista.get(i).getCargopropietario()),
+										Integer.valueOf(lista.get(i).getIdusuario()), 'U');
+							}
+						}
+					}
+				}
 			}
 
-                        objDD.setUnidadRemitente(list.get(0).getUnidadremitente().toString());
-                        objDD.setUnidadDestinatario(list.get(0).getUnidaddestinatario().toString());
-			objDD.setCadenaCC(cadenaCC.toString());	
-		        getObjDD().setStrContenido("");
+			lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(objDD.getIIdDocumento(),
+					list.get(0).getIdtrazabilidaddocumento());
+			StringBuilder cadenaCC = new StringBuilder();
+
+			if (lstTrazabilidadCopia != null && lstTrazabilidadCopia.size() > 0) {
+				for (int i = 0; i < lstTrazabilidadCopia.size(); i++) {
+					if (i != 0)
+						cadenaCC.append(", ");
+					cadenaCC.append(lstTrazabilidadCopia.get(i).getDestinatario().getApellidos() + " "
+							+ lstTrazabilidadCopia.get(i).getDestinatario().getNombres());
+				}
+			}
+
+			objDD.setUnidadRemitente(list.get(0).getUnidadremitente().toString());
+			objDD.setUnidadDestinatario(list.get(0).getUnidaddestinatario().toString());
+			objDD.setCadenaCC(cadenaCC.toString());
+			getObjDD().setStrContenido("");
 			setIIdDoc(getObjDD().getIIdDocumento());
 			setTa(strCont);
-                        Trazabilidaddocumento objTrazabilidad = trazabilidadDocumentoService.findRemitenteAccionByIddoc(iIdDoc);
-                        objDD.setiIdRemitente(objTrazabilidad.getRemitente().getIdusuario());
-			
-                        if (getSOpcion().equals(Constantes.RECHAZAR)) {
-                           Trazabilidaddocumento trazabilidaddocumento = trazabilidadDocumentoService.findByMaxNroRegistro(getIIdDoc(), "", accionService.findByNombre("reenviar").getIdAccion(), usuarioSesion.getIdUsuarioPerfil(), usuarioSesion.getIdUnidadPerfil(), usuarioSesion.getIdFuncionPerfil());
-			   setIddestinatario(trazabilidaddocumento.getRemitente().getIdusuario() + "-" + trazabilidaddocumento.getUnidadremitente() + "-" + trazabilidaddocumento.getCargoremitente());	
-                           mostrarEtapa = false;
-			   Accion accion = accionService.findByNombre(sOpcion);
-                           
-                           objDD.setStrAccion(accion.getNombre());
-                           objDD.setiIdAccion(accion.getIdAccion());
-                        }else{
-                            if (list!=null && list.size()==1){
-                               objDD.setPrioridad(doc.getPrioridad());
-                               objDD.setDateFechaLimiteAtencion(doc.getFechaLimiteAtencion());
-                            }else{
-                               if (list==null || list.get(0)==null || list.get(0).getPrioridad() == null){ 
-                                  objDD.setPrioridad(doc.getPrioridad()); 
-                               }else{    
-                                  objDD.setPrioridad(list.get(0).getPrioridad());
-                               }        
-                               objDD.setDateFechaLimiteAtencion(list.get(0).getFechalimiteatencion());
-                            }
-                            
-                            documentosReferencia = documentoReferenciaService.getDocumentoDerivarAtender(usuarioSesion, doc.getIdDocumento());
-                          
-                           
-                            if (documentosReferencia!=null && documentosReferencia.size()>0){
-                               for(int i=0;i<documentosReferencia.size();i++){
-                                   if (doc.getBandeja()!=null && !doc.getBandeja().equals("") && !documentosReferencia.get(i).getDocumentoReferencia().getIdDocumento().toString().equals(doc.getBandeja().toString())){
-                                       documentosReferencia.remove(i);
-                                   }
-                               }
-                            }
-                        }
-		} 
+			Trazabilidaddocumento objTrazabilidad = trazabilidadDocumentoService.findRemitenteAccionByIddoc(iIdDoc);
+			objDD.setiIdRemitente(objTrazabilidad.getRemitente().getIdusuario());
+
+			if (getSOpcion().equals(Constantes.RECHAZAR)) {
+				Trazabilidaddocumento trazabilidaddocumento = trazabilidadDocumentoService.findByMaxNroRegistro(
+						getIIdDoc(), "", accionService.findByNombre("reenviar").getIdAccion(),
+						usuarioSesion.getIdUsuarioPerfil(), usuarioSesion.getIdUnidadPerfil(),
+						usuarioSesion.getIdFuncionPerfil());
+				setIddestinatario(trazabilidaddocumento.getRemitente().getIdusuario() + "-"
+						+ trazabilidaddocumento.getUnidadremitente() + "-" + trazabilidaddocumento.getCargoremitente());
+				mostrarEtapa = false;
+				Accion accion = accionService.findByNombre(sOpcion);
+
+				objDD.setStrAccion(accion.getNombre());
+				objDD.setiIdAccion(accion.getIdAccion());
+			} else {
+				if (list != null && list.size() == 1) {
+					objDD.setPrioridad(doc.getPrioridad());
+					objDD.setDateFechaLimiteAtencion(doc.getFechaLimiteAtencion());
+				} else {
+					if (list == null || list.get(0) == null || list.get(0).getPrioridad() == null) {
+						objDD.setPrioridad(doc.getPrioridad());
+					} else {
+						objDD.setPrioridad(list.get(0).getPrioridad());
+					}
+					objDD.setDateFechaLimiteAtencion(list.get(0).getFechalimiteatencion());
+				}
+
+				documentosReferencia = documentoReferenciaService.getDocumentoDerivarAtender(usuarioSesion,
+						doc.getIdDocumento());
+
+				if (documentosReferencia != null && documentosReferencia.size() > 0) {
+					for (int i = 0; i < documentosReferencia.size(); i++) {
+						if (doc.getBandeja() != null && !doc.getBandeja().equals("")
+								&& !documentosReferencia.get(i).getDocumentoReferencia().getIdDocumento().toString()
+										.equals(doc.getBandeja().toString())) {
+							documentosReferencia.remove(i);
+						}
+					}
+				}
+			}
+		}
 
 		return Action.SUCCESS;
-		
+
 	}
 
-	/**REN Llamado cuando un usuario de apoyo hace click en Aprobar o Rechazar. Inicializa el PopUp*/
-	public String goDerivarApoyo(){
+	/**
+	 * REN Llamado cuando un usuario de apoyo hace click en Aprobar o Rechazar.
+	 * Inicializa el PopUp
+	 */
+	public String goDerivarApoyo() {
 		log.debug("-> [Action] DocumentoAction - goDerivarApoyo():String ");
 
 		setMapSession(ActionContext.getContext().getSession());
 		Usuario usuarioSesion = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 		usuarioSesion = usuarioService.findByIdUsuario(usuarioSesion.getIdusuario());
 
-	        mostrarEtapa = false;
+		mostrarEtapa = false;
 
 		String strCont = "<strong>Observaciones :</strong> ";
 		iIdUpload = 1;
@@ -4795,223 +4923,251 @@ public class DocumentoAction {
 
 		iIdDoc = getArrIdDoc()[0];
 		objDocumento = documentoService.findByIdDocumento(iIdDoc);
-                        
-                objDD = documentoService.getDocumentDetailOptimized(objDocumento.getDocumentoreferencia(), null);
-                getObjDD().setStrContenido(strCont);
+
+		objDD = documentoService.getDocumentDetailOptimized(objDocumento.getDocumentoreferencia(), null);
+		getObjDD().setStrContenido(strCont);
 		setTa(strCont);
 
-                Trazabilidadapoyo traza = trazabilidadapoyoService.buscarUltimaDelegacionUsuario(objDocumento);
-                iddestinatario = traza.getRemitente().getIdusuario() + "-" + traza.getUnidadremitente() + "-" + traza.getCargoremitente();
+		Trazabilidadapoyo traza = trazabilidadapoyoService.buscarUltimaDelegacionUsuario(objDocumento);
+		iddestinatario = traza.getRemitente().getIdusuario() + "-" + traza.getUnidadremitente() + "-"
+				+ traza.getCargoremitente();
 		sNombres = traza.getRemitente().getNombres() + " " + traza.getRemitente().getApellidos();
 
 		return Action.SUCCESS;
 	}
 
-	/**REN abre la ventana de Enviar Multiple*/
-        
-        public String goCopiarApoyoCarga(){
-            cerrar = "cerrar";
-            return Action.SUCCESS;
-        }
-        
-	public String goCopiarApoyo(){
-                log.debug("-> [Action] DocumentoAction - goCopiarApoyo():String ");
+	/** REN abre la ventana de Enviar Multiple */
+
+	public String goCopiarApoyoCarga() {
+		cerrar = "cerrar";
+		return Action.SUCCESS;
+	}
+
+	public String goCopiarApoyo() {
+		log.debug("-> [Action] DocumentoAction - goCopiarApoyo():String ");
 		setMapSession(ActionContext.getContext().getSession());
-                Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                parametros = parametroService.findByTipo("PRIORIDAD_DIAS");
-                
-                ta =  "Remitente:" + usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil()).getNombreCompleto() +
-			  		" ["+(objUsuario.getIdFuncionPerfil() != null ? funcionService.findByIdFuncion(objUsuario.getIdFuncionPerfil()).getNombre() : "")+"]";
-		
-		 
+		Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+		parametros = parametroService.findByTipo("PRIORIDAD_DIAS");
+
+		ta = "Remitente:" + usuarioService.findByIdUsuario(objUsuario.getIdUsuarioPerfil()).getNombreCompleto() + " ["
+				+ (objUsuario.getIdFuncionPerfil() != null
+						? funcionService.findByIdFuncion(objUsuario.getIdFuncionPerfil()).getNombre()
+						: "")
+				+ "]";
+
 		iIdDoc = getArrIdDoc()[0];
 		documento = documentoService.findByIdDocumento(iIdDoc);
-		proveidos = proveidoService.buscarProveidosActivos(); 
-                
-                if (documento.getDocumentoreferencia()!=null){
-                     setObjDD(documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), ""));
-                }else{
-                     setObjDD(documentoService.getDocumentDetailOptimized(documento.getIdDocumento(), ""));
-                } 
-                 
-                documentosReferencia = documentoReferenciaService.getDocumentoDerivarAtender(objUsuario, documento.getIdDocumento());
-	        if (documentosReferencia!=null && documentosReferencia.size()>0){
-                    for(int i=0;i<documentosReferencia.size();i++){
-                      if (documento.getBandeja()!=null && !documento.getBandeja().equals("") && !documentosReferencia.get(i).getDocumentoReferencia().getIdDocumento().toString().equals(documento.getBandeja().toString())){
-                            documentosReferencia.remove(i);
-                      }
-                    }
-                 }
-                 
-                if (documento.getDocumentoreferencia()!=null){
-                  Trazabilidadapoyo tapoyo = null;          
-                  Usuarioxunidadxfuncion usuarioxunidadxfuncion  = new Usuarioxunidadxfuncion();
-                  usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                  usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
-                  usuarioxunidadxfuncion.setIdfuncion(objUsuario.getIdFuncionPerfil());
-                 
-                  try{
-                      tapoyo = trazabilidadapoyoService.buscarUltimaDelegacionUsuario(usuarioxunidadxfuncion, iIdDoc);
-                      if (tapoyo!=null){
-                         if (tapoyo.getPrioridad()!=null)
-                           objDD.setPrioridad(tapoyo.getPrioridad());
-                         else
-                           objDD.setPrioridad(documento.getPrioridad());  
-                   
-                         objDD.setDateFechaLimiteAtencion(tapoyo.getFechalimiteatencion());
-                      }else{
-                         objDD.setPrioridad(new Integer(Constantes.PRIORIDAD_NORMAL)); 
-                      }   
-                  }catch(Exception e){
-                      objDD.setPrioridad(documento.getPrioridad());
-                      objDD.setDateFechaLimiteAtencion(documento.getFechaLimiteAtencion());
-                  }    
-                  
-                }else{
-                  objDD.setPrioridad(documento.getPrioridad());
-                  objDD.setDateFechaLimiteAtencion(documento.getFechaLimiteAtencion());
-                }
-                
-                return Action.SUCCESS;
-	}
+		proveidos = proveidoService.buscarProveidosActivos();
 
-	/**REN genera las copias de apoyo para los usuarios seleccionados (envia el multiple)*/
-	public String copiarApoyo(){
-	    try{
-                mapSession = ActionContext.getContext().getSession();
-		String nombrePC = (String) mapSession.get("nombrePC");
-	        ta = ta != null ? ta.trim() : "";
-		Documento documento = documentoService.findByIdDocumento(iIdDoc);
-		Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
-              
-                if(apoyo != null && apoyo.length >0){
-		  List<Usuario> usuariosNotificados = null;// new ArrayList<Usuario>();
-
-                  for(String idUsuario : apoyo){
-		     String[] datosUsuarios = idUsuario.split("-");
-                     usuariosNotificados = new ArrayList<Usuario>();
-                             
-                     Usuarioxunidadxfuncion usuarioDestinatario = new Usuarioxunidadxfuncion();
-                     usuarioDestinatario.setIdusuario(new Integer(datosUsuarios[0]));
-                     usuarioDestinatario.setIdunidad(new Integer(datosUsuarios[1]));
-                     usuarioDestinatario.setIdfuncion(new Integer(datosUsuarios[2]));
-                                        
-                     Usuario usuarioNotificado = usuarioService.findByIdUsuario(new Integer(datosUsuarios[0]));
-                     usuarioNotificado.setIdUnidadPerfil(new Integer(datosUsuarios[1]));
-                     String[] txtAcciones = null;
-					
-		     if(strAcciones != null){
-			for(String fila : strAcciones){
-			   String[] lista = StringUtil.stringToArray(fila);
-                           if(lista[0] != null && !lista[0].equals("")){
-                              if (lista[0].equals(idUsuario)){
-                                txtAcciones = lista;
-                                Proveido proveido =proveidoService.buscarPorId(new Integer(txtAcciones[1]));
-                                usuarioNotificado.setProveido(proveido.getNombre());
-                                break;
-			      }
-			   }
-			}
-		     }
-                    
-                     usuariosNotificados.add(usuarioNotificado);
-                     documentoService.crearCopiaApoyo(documento, objDD, usuarioSesion, usuarioDestinatario, txtAcciones, Integer.parseInt(strPrioridad), ta, (String)mapSession.get("nombrePC"),fechaLimite.validarHorarioPermitido(usuarioSesion), fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), usuariosNotificados, codigoVirtual);		    
-		   }
-                  
-                   try{
-                        if (strSeguimiento!=null && !strSeguimiento.equals("") && strSeguimiento.equals("1")){
-                            SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
-                            seguimiento.setIdDocumento(iIdDoc);
-                            seguimiento.setIdUsuario(usuarioSesion.getIdUsuarioPerfil());
-                            seguimiento.setUnidadPropietario(usuarioSesion.getIdUnidadPerfil());
-                            seguimiento.setCargoPropietario(usuarioSesion.getIdFuncionPerfil());
-                            seguimiento.setEstado("A");
-                            seguimiento.setFechaCreacion(new Date());
-                            seguimiento.setUsuarioCreacion(usuarioSesion.getIdusuario());
-                            seguimientoXUsuarioService.guardarSeguimiento(seguimiento);
-                        }    
-                   }catch(Exception e){
-                       e.printStackTrace();
-                   }
-                   
-                   try{
-                        if (conCopia != null) {
-                            for (String sID : conCopia) {
-                             if (!StringUtil.isEmpty(sID)) {
-                                 String[] datosCopia = sID.split("-");
-                                 Integer iID = Integer.valueOf(datosCopia[0]);
-                                 Usuario usuarioReceptor = usuarioService.findByIdUsuario(new Integer(datosCopia[0]));
-                                 usuarioReceptor.setIdUnidadPerfil(new Integer(datosCopia[1]));
-                                 usuarioReceptor.setIdFuncionPerfil(new Integer(datosCopia[2]));
-                                 if (!usuariosNotificados.contains(usuarioReceptor)) {
-                                     notificacionService.enviarNotificacion(usuarioSesion, usuarioReceptor, documento, Constantes.TIPO_NOTIFICACION_DERIVACIONMULTIPLECONCOPIA, nombrePC, true,null, ta);
-                                     mailService.ChaskiMail(Constantes.CONFIGNOTIFMAIL_DOCUMENTO_CCREENVIAR, usuarioSesion, usuarioReceptor, documento, ta ,"");
-                                 }else {
-                                     notificacionService.updateTipoNotificacion(documento.getIdDocumento(), usuarioReceptor.getIdusuario(), Constantes.TIPO_NOTIFICACION_DERIVACIONCONCOPIA);
-                                 }
-                              }
-                            }
-                         }
-                   }catch(Exception e){
-                       e.printStackTrace();
-                   }
-                  
-                   try{
-                        String[] listaReferencias = StringUtil.stringToArray(strReferencia);
-                        if (listaReferencias!=null && listaReferencias.length>0){
-                           String[] arreglo = new String[1];
-                           for(int i=0;i<listaReferencias.length;i++){
-                              Documento d = documentoService.findByIdDocumento(new Integer(listaReferencias[i]));
-                              arreglo[0] = documento.getIdDocumento().toString();
-                              
-                              if (d.getEstado()!='I' && d.getEstado()!='N' && d.getEstado()!='T' && d.getFlagMultiple()==null && d.getFlagatendido() ==null && d.getPropietario().getIdusuario().toString().equals(usuarioSesion.getIdUsuarioPerfil().toString()))
-                                  documentoService.atenderDocumento(usuarioSesion, d, null, false, null, nombrePC, arreglo, "", null);
-                           }
-                        }
-                    	}catch(Exception e){
-                       e.printStackTrace();
-                   }  
+		if (documento.getDocumentoreferencia() != null) {
+			setObjDD(documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), ""));
+		} else {
+			setObjDD(documentoService.getDocumentDetailOptimized(documento.getIdDocumento(), ""));
 		}
-                
-                 cerrar = "cerrar";
-		}catch(Exception e){
-                    e.printStackTrace();
-                    return Action.ERROR;
-                }
-            
-               return Action.SUCCESS;
+
+		documentosReferencia = documentoReferenciaService.getDocumentoDerivarAtender(objUsuario,
+				documento.getIdDocumento());
+		if (documentosReferencia != null && documentosReferencia.size() > 0) {
+			for (int i = 0; i < documentosReferencia.size(); i++) {
+				if (documento.getBandeja() != null && !documento.getBandeja().equals("")
+						&& !documentosReferencia.get(i).getDocumentoReferencia().getIdDocumento().toString()
+								.equals(documento.getBandeja().toString())) {
+					documentosReferencia.remove(i);
+				}
+			}
+		}
+
+		if (documento.getDocumentoreferencia() != null) {
+			Trazabilidadapoyo tapoyo = null;
+			Usuarioxunidadxfuncion usuarioxunidadxfuncion = new Usuarioxunidadxfuncion();
+			usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
+			usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
+			usuarioxunidadxfuncion.setIdfuncion(objUsuario.getIdFuncionPerfil());
+
+			try {
+				tapoyo = trazabilidadapoyoService.buscarUltimaDelegacionUsuario(usuarioxunidadxfuncion, iIdDoc);
+				if (tapoyo != null) {
+					if (tapoyo.getPrioridad() != null)
+						objDD.setPrioridad(tapoyo.getPrioridad());
+					else
+						objDD.setPrioridad(documento.getPrioridad());
+
+					objDD.setDateFechaLimiteAtencion(tapoyo.getFechalimiteatencion());
+				} else {
+					objDD.setPrioridad(new Integer(Constantes.PRIORIDAD_NORMAL));
+				}
+			} catch (Exception e) {
+				objDD.setPrioridad(documento.getPrioridad());
+				objDD.setDateFechaLimiteAtencion(documento.getFechaLimiteAtencion());
+			}
+
+		} else {
+			objDD.setPrioridad(documento.getPrioridad());
+			objDD.setDateFechaLimiteAtencion(documento.getFechaLimiteAtencion());
+		}
+
+		return Action.SUCCESS;
 	}
 
-	/**REN Manda el documento a uno o varios usuarios, maneja solo las remisiones del documento y no puede mandarse copias ----------*
-	/**REN Devuelve el documento al usuario original, simplemente elimina la copia y crea una notificacion -------------------*/
-	public String finalizarApoyo(){
+	/**
+	 * REN genera las copias de apoyo para los usuarios seleccionados (envia el
+	 * multiple)
+	 */
+	public String copiarApoyo() {
+		try {
+			mapSession = ActionContext.getContext().getSession();
+			String nombrePC = (String) mapSession.get("nombrePC");
+			ta = ta != null ? ta.trim() : "";
+			Documento documento = documentoService.findByIdDocumento(iIdDoc);
+			Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
+
+			if (apoyo != null && apoyo.length > 0) {
+				List<Usuario> usuariosNotificados = null;// new ArrayList<Usuario>();
+
+				for (String idUsuario : apoyo) {
+					String[] datosUsuarios = idUsuario.split("-");
+					usuariosNotificados = new ArrayList<Usuario>();
+
+					Usuarioxunidadxfuncion usuarioDestinatario = new Usuarioxunidadxfuncion();
+					usuarioDestinatario.setIdusuario(new Integer(datosUsuarios[0]));
+					usuarioDestinatario.setIdunidad(new Integer(datosUsuarios[1]));
+					usuarioDestinatario.setIdfuncion(new Integer(datosUsuarios[2]));
+
+					Usuario usuarioNotificado = usuarioService.findByIdUsuario(new Integer(datosUsuarios[0]));
+					usuarioNotificado.setIdUnidadPerfil(new Integer(datosUsuarios[1]));
+					String[] txtAcciones = null;
+
+					if (strAcciones != null) {
+						for (String fila : strAcciones) {
+							String[] lista = StringUtil.stringToArray(fila);
+							if (lista[0] != null && !lista[0].equals("")) {
+								if (lista[0].equals(idUsuario)) {
+									txtAcciones = lista;
+									Proveido proveido = proveidoService.buscarPorId(new Integer(txtAcciones[1]));
+									usuarioNotificado.setProveido(proveido.getNombre());
+									break;
+								}
+							}
+						}
+					}
+
+					usuariosNotificados.add(usuarioNotificado);
+					documentoService.crearCopiaApoyo(documento, objDD, usuarioSesion, usuarioDestinatario, txtAcciones,
+							Integer.parseInt(strPrioridad), ta, (String) mapSession.get("nombrePC"),
+							fechaLimite.validarHorarioPermitido(usuarioSesion),
+							fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), usuariosNotificados,
+							codigoVirtual);
+				}
+
+				try {
+					if (strSeguimiento != null && !strSeguimiento.equals("") && strSeguimiento.equals("1")) {
+						SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
+						seguimiento.setIdDocumento(iIdDoc);
+						seguimiento.setIdUsuario(usuarioSesion.getIdUsuarioPerfil());
+						seguimiento.setUnidadPropietario(usuarioSesion.getIdUnidadPerfil());
+						seguimiento.setCargoPropietario(usuarioSesion.getIdFuncionPerfil());
+						seguimiento.setEstado("A");
+						seguimiento.setFechaCreacion(new Date());
+						seguimiento.setUsuarioCreacion(usuarioSesion.getIdusuario());
+						seguimientoXUsuarioService.guardarSeguimiento(seguimiento);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					if (conCopia != null) {
+						for (String sID : conCopia) {
+							if (!StringUtil.isEmpty(sID)) {
+								String[] datosCopia = sID.split("-");
+								Integer iID = Integer.valueOf(datosCopia[0]);
+								Usuario usuarioReceptor = usuarioService.findByIdUsuario(new Integer(datosCopia[0]));
+								usuarioReceptor.setIdUnidadPerfil(new Integer(datosCopia[1]));
+								usuarioReceptor.setIdFuncionPerfil(new Integer(datosCopia[2]));
+								if (!usuariosNotificados.contains(usuarioReceptor)) {
+									notificacionService.enviarNotificacion(usuarioSesion, usuarioReceptor, documento,
+											Constantes.TIPO_NOTIFICACION_DERIVACIONMULTIPLECONCOPIA, nombrePC, true,
+											null, ta);
+									mailService.ChaskiMail(Constantes.CONFIGNOTIFMAIL_DOCUMENTO_CCREENVIAR,
+											usuarioSesion, usuarioReceptor, documento, ta, "");
+								} else {
+									notificacionService.updateTipoNotificacion(documento.getIdDocumento(),
+											usuarioReceptor.getIdusuario(),
+											Constantes.TIPO_NOTIFICACION_DERIVACIONCONCOPIA);
+								}
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					String[] listaReferencias = StringUtil.stringToArray(strReferencia);
+					if (listaReferencias != null && listaReferencias.length > 0) {
+						String[] arreglo = new String[1];
+						for (int i = 0; i < listaReferencias.length; i++) {
+							Documento d = documentoService.findByIdDocumento(new Integer(listaReferencias[i]));
+							arreglo[0] = documento.getIdDocumento().toString();
+
+							if (d.getEstado() != 'I' && d.getEstado() != 'N' && d.getEstado() != 'T'
+									&& d.getFlagMultiple() == null && d.getFlagatendido() == null
+									&& d.getPropietario().getIdusuario().toString()
+											.equals(usuarioSesion.getIdUsuarioPerfil().toString()))
+								documentoService.atenderDocumento(usuarioSesion, d, null, false, null, nombrePC,
+										arreglo, "", null);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			cerrar = "cerrar";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Action.ERROR;
+		}
+
+		return Action.SUCCESS;
+	}
+
+	/**
+	 * REN Manda el documento a uno o varios usuarios, maneja solo las remisiones
+	 * del documento y no puede mandarse copias ----------* /**REN Devuelve el
+	 * documento al usuario original, simplemente elimina la copia y crea una
+	 * notificacion -------------------
+	 */
+	public String finalizarApoyo() {
 		log.debug("-> [Action] DocumentoAction - finalizarApoyo():String ");
-                mapSession = ActionContext.getContext().getSession();
-                Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
+		mapSession = ActionContext.getContext().getSession();
+		Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
 		Documento documento = documentoService.findByIdDocumento(iIdDoc);
 		Documento docOriginal = documentoService.findByIdDocumento(documento.getDocumentoreferencia());
 		docOriginal.setObservacion(objDD.getStrTexto());
-                Map<String, Object> session = ActionContext.getContext().getSession();
+		Map<String, Object> session = ActionContext.getContext().getSession();
 		String[] objUsuarioDestinatario = iddestinatario.split("-");
-                Usuario usuarioReceptor = usuarioService.findByIdUsuario(new Integer(objUsuarioDestinatario[0]));
-                usuarioReceptor.setIdUnidadPerfil(new Integer(objUsuarioDestinatario[1]));
-                usuarioReceptor.setIdFuncionPerfil(new Integer(objUsuarioDestinatario[2]));
-                Usuario u = new Usuario();
-                Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
-                u.setUnidad(u_);
-                notificacionService.enviarNotificacion(usuarioSesion, usuarioReceptor, docOriginal, Constantes.TIPO_NOTIFICACION_FIN_APOYO, (String)session.get("nombrePC"),fechaLimite.validarHorarioPermitido(u),documento, null);
+		Usuario usuarioReceptor = usuarioService.findByIdUsuario(new Integer(objUsuarioDestinatario[0]));
+		usuarioReceptor.setIdUnidadPerfil(new Integer(objUsuarioDestinatario[1]));
+		usuarioReceptor.setIdFuncionPerfil(new Integer(objUsuarioDestinatario[2]));
+		Usuario u = new Usuario();
+		Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
+		u.setUnidad(u_);
+		notificacionService.enviarNotificacion(usuarioSesion, usuarioReceptor, docOriginal,
+				Constantes.TIPO_NOTIFICACION_FIN_APOYO, (String) session.get("nombrePC"),
+				fechaLimite.validarHorarioPermitido(u), documento, null);
 		documentoService.guardarTrazaFinalizarApoyo(documento, Constantes.ESTADO_CODIGO_RESPONDIDO);
-     	        documento.setEstado(Constantes.ESTADO_ATENDER);
-                documentoService.guardarDocumento(documento);
-                cerrar = "S";
+		documento.setEstado(Constantes.ESTADO_ATENDER);
+		documentoService.guardarDocumento(documento);
+		cerrar = "S";
 
 		return Action.SUCCESS;
 	}
 
 	public String mostrarDerivacionMasiva() throws Exception {
 		log.debug("-> [Action] DocumentoAction - mostrarDerivacionMasiva():String ");
-               
-                mostrarEtapa = false;
+
+		mostrarEtapa = false;
 		if (sOpcion == null) {
 			log.error("NO HAY OPCION");
 			return Action.ERROR;
@@ -5025,232 +5181,256 @@ public class DocumentoAction {
 		getMapSession().put("arrIdDoc", arrIdDoc);
 		mapSession.remove(Constantes.SESSION_UPLOAD_LIST);
 		Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
-		
-		if (sTipoDerivacion.equals(Constantes.DERIVAR_MASIVO)) {
-                    String strCont = "Remitente:" + usuarioService.findByIdUsuario(usuarioSesion.getIdUsuarioPerfil()).getNombreCompleto() +
-			  		" ["+(usuarioSesion.getIdFuncionPerfil() != null ? funcionService.findByIdFuncion(usuarioSesion.getIdFuncionPerfil()).getNombre() : "")+"]";
-                    setTa(strCont);
-                    flagMensaje=true;
-		    return "masivo";
-		}
 
+		if (sTipoDerivacion.equals(Constantes.DERIVAR_MASIVO)) {
+			String strCont = "Remitente:"
+					+ usuarioService.findByIdUsuario(usuarioSesion.getIdUsuarioPerfil()).getNombreCompleto() + " ["
+					+ (usuarioSesion.getIdFuncionPerfil() != null
+							? funcionService.findByIdFuncion(usuarioSesion.getIdFuncionPerfil()).getNombre()
+							: "")
+					+ "]";
+			setTa(strCont);
+			flagMensaje = true;
+			return "masivo";
+		}
 
 		return Action.SUCCESS;
 	}
-        
-        public String mostrarDerivacionMasivaDoc() throws Exception {
+
+	public String mostrarDerivacionMasivaDoc() throws Exception {
 		log.debug("-> [Action] DocumentoAction - mostrarDerivacionMasivaDoc():String ");
-               
-                mostrarEtapa = false;
+
+		mostrarEtapa = false;
 		if (sOpcion == null) {
-                     log.error("NO HAY OPCION");
-		     return Action.ERROR;
+			log.error("NO HAY OPCION");
+			return Action.ERROR;
 		}
 		if (arrIdDoc == null || arrIdDoc.length < 1) {
 			log.error("NO HAY DOCUMENTOS A DERIVAR");
 			return Action.ERROR;
 		}
-              
-                iIdUpload = 1;
+
+		iIdUpload = 1;
 		setMapSession(ActionContext.getContext().getSession());
 		getMapSession().put("arrIdDoc", arrIdDoc);
 		mapSession.remove(Constantes.SESSION_UPLOAD_LIST);
 		Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
-		
-		if (sTipoDerivacion.equals(Constantes.DERIVAR_MASIVO_DOC)) {
-                    String strCont = "Remitente:" + usuarioService.findByIdUsuario(usuarioSesion.getIdUsuarioPerfil()).getNombreCompleto() +
-			  		" ["+(usuarioSesion.getIdFuncionPerfil() != null ? funcionService.findByIdFuncion(usuarioSesion.getIdFuncionPerfil()).getNombre() : "")+"]";
-                    setTa(strCont);
-                    flagMensaje=true;
-		    return "masivo";
-		}
 
+		if (sTipoDerivacion.equals(Constantes.DERIVAR_MASIVO_DOC)) {
+			String strCont = "Remitente:"
+					+ usuarioService.findByIdUsuario(usuarioSesion.getIdUsuarioPerfil()).getNombreCompleto() + " ["
+					+ (usuarioSesion.getIdFuncionPerfil() != null
+							? funcionService.findByIdFuncion(usuarioSesion.getIdFuncionPerfil()).getNombre()
+							: "")
+					+ "]";
+			setTa(strCont);
+			flagMensaje = true;
+			return "masivo";
+		}
 
 		return Action.SUCCESS;
 	}
 
 	public String gorechazarUser() {
 		log.debug("-> [Action] DocumentoAction - gorechazarUser():String ");
-               
+
 		return Action.SUCCESS;
-	
+
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String derivaruser() {
-                log.debug("-> [Action] DocumentoAction - derivaruser():String ");
+		log.debug("-> [Action] DocumentoAction - derivaruser():String ");
 		String[] acciones = StringUtil.stringToArray(strAcc);
 		String tipoRetorno = Action.SUCCESS;
-                String[] objUsuarioDestinatario = getIddestinatario().split("-");
-                
-                Usuarioxunidadxfuncion usuarioDestinatario = new Usuarioxunidadxfuncion();
-                usuarioDestinatario.setIdusuario(new Integer(objUsuarioDestinatario[0]));
-                usuarioDestinatario.setIdunidad(new Integer(objUsuarioDestinatario[1]));
-                usuarioDestinatario.setIdfuncion(new Integer(objUsuarioDestinatario[2]));
-                
-                try {
-                        mapSession = ActionContext.getContext().getSession();
-                        Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
+		String[] objUsuarioDestinatario = getIddestinatario().split("-");
+
+		Usuarioxunidadxfuncion usuarioDestinatario = new Usuarioxunidadxfuncion();
+		usuarioDestinatario.setIdusuario(new Integer(objUsuarioDestinatario[0]));
+		usuarioDestinatario.setIdunidad(new Integer(objUsuarioDestinatario[1]));
+		usuarioDestinatario.setIdfuncion(new Integer(objUsuarioDestinatario[2]));
+
+		try {
+			mapSession = ActionContext.getContext().getSession();
+			Usuario usuarioSesion = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
 			arrIdDoc = (Integer[]) mapSession.get("arrIdDoc");
-			String nombrePC = (String)mapSession.get("nombrePC");
-                        Usuario destinatario = usuarioService.findByIdUsuario(usuarioDestinatario.getIdusuario());
-                        
-                        if(destinatario == null || destinatario.getEstado().equals(String.valueOf(Constantes.ESTADO_INACTIVO))){
-			  return "errorUsuario";
+			String nombrePC = (String) mapSession.get("nombrePC");
+			Usuario destinatario = usuarioService.findByIdUsuario(usuarioDestinatario.getIdusuario());
+
+			if (destinatario == null || destinatario.getEstado().equals(String.valueOf(Constantes.ESTADO_INACTIVO))) {
+				return "errorUsuario";
 			}
-                        
-                        if (getSTipoDerivacion().equals(Constantes.DERIVAR_NORMAL)) {
-                           if (objDD.getStrAccion().equals(Constantes.ACCION_REENVIAR)) {
-                		documento = null;
-				if(strAcciones != null && strAcciones[0] != null){
-                                    getObjDD().setStrContenido(strAcciones[0] + getObjDD().getStrTexto());
-				}else{
-                                    getObjDD().setStrContenido(getObjDD().getStrTexto());
-				}
 
-				if (this.sOpcion.equals(Constantes.ACCION_REENVIAR)) {
-                                    log.debug("Accion::Transferir");
-				    Accion objAccion = accionService.findByNombre(objDD.getStrAccion());
-				    documento = documentoService.findByIdDocumento(objDD.getIIdDocumento());
-				    documento.setAccion(objAccion);
-				    documento.setLeido(Constantes.ESTADO_NO_LEIDO);
-                                  
-                                    Usuario u = new Usuario();
-                                    Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
-                                    u.setUnidad(u_);     
-                                    documento = documentoService.derivarDocumento(getObjDD(), usuarioSesion, usuarioDestinatario, sTipoDerivacion, null, conCopia, acciones, documento, nombrePC,fechaLimite.validarHorarioPermitido(u), fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), codigoVirtual);    
-                               
-                                    try{
-                                        String[] listaReferencias = StringUtil.stringToArray(strReferencia);
-                                        if (listaReferencias!=null && listaReferencias.length>0){
-                                            String[] arreglo = new String[1];
-                                            for(int i=0;i<listaReferencias.length;i++){
-                                              Documento d = documentoService.findByIdDocumento(new Integer(listaReferencias[i]));
-                                              arreglo[0] = documento.getIdDocumento().toString();
-                                              if (d.getEstado()!='I' && d.getEstado()!='N' && d.getEstado()!='T' && d.getFlagMultiple()==null && d.getFlagatendido() ==null && d.getPropietario().getIdusuario().toString().equals(usuarioSesion.getIdUsuarioPerfil().toString()))
-                                                 documentoService.atenderDocumento(usuarioSesion, d, null, false, null, nombrePC, arreglo, "", null);
-                                            }
-                                        }
-                                    }catch(Exception e){
-                                        e.printStackTrace();
-                                    }
-                                    
-                                    try{
-                                         if (strSeguimiento!=null && !strSeguimiento.equals("") && strSeguimiento.equals("1")){
-                                             SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
-                                             seguimiento.setIdDocumento(objDD.getIIdDocumento());
-                                             seguimiento.setIdUsuario(usuarioSesion.getIdUsuarioPerfil());
-                                             seguimiento.setUnidadPropietario(usuarioSesion.getIdUnidadPerfil());
-                                             seguimiento.setCargoPropietario(usuarioSesion.getIdFuncionPerfil());
-                                             seguimiento.setEstado("A");
-                                             seguimiento.setFechaCreacion(new Date());
-                                             seguimiento.setUsuarioCreacion(usuarioSesion.getIdusuario());
-                                             seguimientoXUsuarioService.guardarSeguimiento(seguimiento);
-                                         }    
-                                    }catch(Exception e){
-                                        e.printStackTrace();
-                                    }
-                                    
-                                    try{
-                                        List<Trazabilidaddocumento> lstTraza = trazabilidadDocumentoService.findByIdDocumento(documento.getIdDocumento());
-                                                
-                                        if (documento.getID_EXTERNO().toString().equals("1") && lstTraza.size()<3){
-                                            for(int k=0;k<3;k++){
-                                                List<Parametro> lst = null;
-                                                List<Parametro> lstusu = null;
-                                                int evento = 0;
-                                                
-                                                if (k==0){
-                                                    lst = parametroService.findByTipo("CLIENTE_MP_DOC_MTC");
-                                                    lstusu = parametroService.findByTipo("USUARIO_MP_DOC_MTC"); 
-                                                    evento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_MTC;
-                                                }
-                                                if (k==1){
-                                                    lst = parametroService.findByTipo("CLIENTE_MP_DOC_CR");
-                                                    lstusu = parametroService.findByTipo("USUARIO_MP_DOC_CR");
-                                                    evento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_CR;
-                                                }
-                                                if (k==2){
-                                                    lst = parametroService.findByTipo("CLIENTE_MP_DOC_PCM");
-                                                    lstusu = parametroService.findByTipo("USUARIO_MP_DOC_PCM");
-                                                    evento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_PCM;
-                                                }
-                                                
-                                                
-                                                boolean bandera = false;
+			if (getSTipoDerivacion().equals(Constantes.DERIVAR_NORMAL)) {
+				if (objDD.getStrAccion().equals(Constantes.ACCION_REENVIAR)) {
+					documento = null;
+					if (strAcciones != null && strAcciones[0] != null) {
+						getObjDD().setStrContenido(strAcciones[0] + getObjDD().getStrTexto());
+					} else {
+						getObjDD().setStrContenido(getObjDD().getStrTexto());
+					}
 
-                                                if (lst!=null){
-                                                  for(int i=0;i<lst.size();i++){
-                                                     if (documento.getID_CLIENTE()!=null && lst.get(i).getValor().equals(documento.getID_CLIENTE().toString())){
-                                                        bandera = true;
-                                                        break;
-                                                     }    
-                                                  }
+					if (this.sOpcion.equals(Constantes.ACCION_REENVIAR)) {
+						log.debug("Accion::Transferir");
+						Accion objAccion = accionService.findByNombre(objDD.getStrAccion());
+						documento = documentoService.findByIdDocumento(objDD.getIIdDocumento());
+						documento.setAccion(objAccion);
+						documento.setLeido(Constantes.ESTADO_NO_LEIDO);
 
-                                                  if (bandera){
-                                                      Proveido p = proveidoDAO.buscarPorId(new Integer(acciones[0]));
+						Usuario u = new Usuario();
+						Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
+						u.setUnidad(u_);
+						documento = documentoService.derivarDocumento(getObjDD(), usuarioSesion, usuarioDestinatario,
+								sTipoDerivacion, null, conCopia, acciones, documento, nombrePC,
+								fechaLimite.validarHorarioPermitido(u),
+								fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), codigoVirtual);
 
-                                                      if (lstusu!=null){
-                                                         for(int i=0;i<lstusu.size();i++){ 
-                                                             Documento d = new Documento();
-                                                             Usuario   usuario = new Usuario(new Integer(lstusu.get(i).getValor()));
-                                                             usuario = usuarioService.findByIdUsuario(usuario.getIdusuario());
-                                                             d.setIdDocumento(documento.getIdDocumento());
-                                                             d.setPropietario(usuario);
-                                                             d.setAsunto(documento.getAsunto());
-                                                             d.setExpediente(documento.getExpediente());
-                                                             d.setUnidadpropietario(usuario.getUnidad().getIdunidad());
-                                                             d.setTipoDocumento(documento.getTipoDocumento());
-                                                             d.setNumeroDocumento(documento.getNumeroDocumento());
-                                                             d.setID_CODIGO(documento.getID_CODIGO());
-                                                             notificacionService.informarViaNotifAndMail(usuarioSesion, d, evento, Constantes.TIPO_NOTIFICACION_DERIVACION, nombrePC, objDD.getStrContenido(), p.getNombre());   
-                                                         }    
-                                                      }
-                                                  }
-                                                }
-                                            }    
-                                        }
-                                    }catch(Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-			   }else if (objDD.getStrAccion().equals(Constantes.ACCION_RECHAZAR)) {
-                		    Documento documento = documentoService.findByIdDocumento(objDD.getIIdDocumento());
-				    documento.setLeido(Constantes.ESTADO_NO_LEIDO);
-				    if (documento != null) {
-                                          Usuario u = new Usuario();
-                                          Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
-                                          u.setUnidad(u_);  
-					  documentoService.rechazarDocumento(usuarioSesion, usuarioDestinatario, documento, objDD.getStrAsunto(), objDD.getStrTexto(), Constantes.ACCION_RECHAZAR, nombrePC, fechaLimite.validarHorarioPermitido(u), fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), objDD, codigoVirtual);
-				    }
+						try {
+							String[] listaReferencias = StringUtil.stringToArray(strReferencia);
+							if (listaReferencias != null && listaReferencias.length > 0) {
+								String[] arreglo = new String[1];
+								for (int i = 0; i < listaReferencias.length; i++) {
+									Documento d = documentoService.findByIdDocumento(new Integer(listaReferencias[i]));
+									arreglo[0] = documento.getIdDocumento().toString();
+									if (d.getEstado() != 'I' && d.getEstado() != 'N' && d.getEstado() != 'T'
+											&& d.getFlagMultiple() == null && d.getFlagatendido() == null
+											&& d.getPropietario().getIdusuario().toString()
+													.equals(usuarioSesion.getIdUsuarioPerfil().toString()))
+										documentoService.atenderDocumento(usuarioSesion, d, null, false, null, nombrePC,
+												arreglo, "", null);
+								}
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							if (strSeguimiento != null && !strSeguimiento.equals("") && strSeguimiento.equals("1")) {
+								SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
+								seguimiento.setIdDocumento(objDD.getIIdDocumento());
+								seguimiento.setIdUsuario(usuarioSesion.getIdUsuarioPerfil());
+								seguimiento.setUnidadPropietario(usuarioSesion.getIdUnidadPerfil());
+								seguimiento.setCargoPropietario(usuarioSesion.getIdFuncionPerfil());
+								seguimiento.setEstado("A");
+								seguimiento.setFechaCreacion(new Date());
+								seguimiento.setUsuarioCreacion(usuarioSesion.getIdusuario());
+								seguimientoXUsuarioService.guardarSeguimiento(seguimiento);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							List<Trazabilidaddocumento> lstTraza = trazabilidadDocumentoService
+									.findByIdDocumento(documento.getIdDocumento());
+
+							if (documento.getID_EXTERNO().toString().equals("1") && lstTraza.size() < 3) {
+								for (int k = 0; k < 3; k++) {
+									List<Parametro> lst = null;
+									List<Parametro> lstusu = null;
+									int evento = 0;
+
+									if (k == 0) {
+										lst = parametroService.findByTipo("CLIENTE_MP_DOC_MTC");
+										lstusu = parametroService.findByTipo("USUARIO_MP_DOC_MTC");
+										evento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_MTC;
+									}
+									if (k == 1) {
+										lst = parametroService.findByTipo("CLIENTE_MP_DOC_CR");
+										lstusu = parametroService.findByTipo("USUARIO_MP_DOC_CR");
+										evento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_CR;
+									}
+									if (k == 2) {
+										lst = parametroService.findByTipo("CLIENTE_MP_DOC_PCM");
+										lstusu = parametroService.findByTipo("USUARIO_MP_DOC_PCM");
+										evento = Constantes.CONFIGNOTIFMAIL_DOCUMENTO_PARTICULAR_PCM;
+									}
+
+									boolean bandera = false;
+
+									if (lst != null) {
+										for (int i = 0; i < lst.size(); i++) {
+											if (documento.getID_CLIENTE() != null && lst.get(i).getValor()
+													.equals(documento.getID_CLIENTE().toString())) {
+												bandera = true;
+												break;
+											}
+										}
+
+										if (bandera) {
+											Proveido p = proveidoDAO.buscarPorId(new Integer(acciones[0]));
+
+											if (lstusu != null) {
+												for (int i = 0; i < lstusu.size(); i++) {
+													Documento d = new Documento();
+													Usuario usuario = new Usuario(
+															new Integer(lstusu.get(i).getValor()));
+													usuario = usuarioService.findByIdUsuario(usuario.getIdusuario());
+													d.setIdDocumento(documento.getIdDocumento());
+													d.setPropietario(usuario);
+													d.setAsunto(documento.getAsunto());
+													d.setExpediente(documento.getExpediente());
+													d.setUnidadpropietario(usuario.getUnidad().getIdunidad());
+													d.setTipoDocumento(documento.getTipoDocumento());
+													d.setNumeroDocumento(documento.getNumeroDocumento());
+													d.setID_CODIGO(documento.getID_CODIGO());
+													notificacionService.informarViaNotifAndMail(usuarioSesion, d,
+															evento, Constantes.TIPO_NOTIFICACION_DERIVACION, nombrePC,
+															objDD.getStrContenido(), p.getNombre());
+												}
+											}
+										}
+									}
+								}
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				} else if (objDD.getStrAccion().equals(Constantes.ACCION_RECHAZAR)) {
+					Documento documento = documentoService.findByIdDocumento(objDD.getIIdDocumento());
+					documento.setLeido(Constantes.ESTADO_NO_LEIDO);
+					if (documento != null) {
+						Usuario u = new Usuario();
+						Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
+						u.setUnidad(u_);
+						documentoService.rechazarDocumento(usuarioSesion, usuarioDestinatario, documento,
+								objDD.getStrAsunto(), objDD.getStrTexto(), Constantes.ACCION_RECHAZAR, nombrePC,
+								fechaLimite.validarHorarioPermitido(u),
+								fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), objDD,
+								codigoVirtual);
+					}
 				}
 			} else if (getSTipoDerivacion().equals(Constantes.DERIVAR_MASIVO)) {
 				log.debug("DERIVAR_MASIVO");
 				setMapSession(ActionContext.getContext().getSession());
 				Usuario objUsuario = null;
 				objUsuario = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
-                                getObjDD().setStrContenido(objDD.getStrTexto());
-                                Usuario u = new Usuario();
-                                Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
-                                u.setUnidad(u_);
-                                documentoService.derivarDocumentoMasivo(arrIdDoc, documento, objUsuario, usuarioDestinatario, getObjDD(), nombrePC , fechaLimite.validarHorarioPermitido(u), fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), null);		
+				getObjDD().setStrContenido(objDD.getStrTexto());
+				Usuario u = new Usuario();
+				Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
+				u.setUnidad(u_);
+				documentoService.derivarDocumentoMasivo(arrIdDoc, documento, objUsuario, usuarioDestinatario,
+						getObjDD(), nombrePC, fechaLimite.validarHorarioPermitido(u),
+						fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), null);
 				tipoRetorno = "masivo";
 			} else if (getSTipoDerivacion().equals(Constantes.DERIVAR_MASIVO_DOC)) {
 				log.debug("DERIVAR_MASIVO_DOC");
 				setMapSession(ActionContext.getContext().getSession());
 				Usuario objUsuario = null;
 				objUsuario = (Usuario) getMapSession().get(Constantes.SESSION_USUARIO);
-                                getObjDD().setStrContenido(objDD.getStrTexto());
-                                Usuario u = new Usuario();
-                                Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
-                                u.setUnidad(u_);
-                                documentoService.derivarDocumentoMasivo(arrIdDoc, documento, objUsuario, usuarioDestinatario, getObjDD(), nombrePC , fechaLimite.validarHorarioPermitido(u), fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), strAcc);		
+				getObjDD().setStrContenido(objDD.getStrTexto());
+				Usuario u = new Usuario();
+				Unidad u_ = new Unidad(usuarioSesion.getIdUnidadPerfil());
+				u.setUnidad(u_);
+				documentoService.derivarDocumentoMasivo(arrIdDoc, documento, objUsuario, usuarioDestinatario,
+						getObjDD(), nombrePC, fechaLimite.validarHorarioPermitido(u),
+						fechaLimite.validarHorarioPermitidoRecepcion(usuarioDestinatario), strAcc);
 				tipoRetorno = "masivo";
 			}
-                        
-                      
-                        provieneDeMail = (Boolean) mapSession.get("provieneDeMail");
-                       if (provieneDeMail != null && provieneDeMail) {
+
+			provieneDeMail = (Boolean) mapSession.get("provieneDeMail");
+			if (provieneDeMail != null && provieneDeMail) {
 				if (mapSession instanceof org.apache.struts2.dispatcher.SessionMap) {
 					mapSession.remove(Constantes.SESSION_ALFRESCO);
 					mapSession.remove(Constantes.SESSION_AUDITABLE);
@@ -5264,12 +5444,12 @@ public class DocumentoAction {
 				}
 			}
 
-                        this.cerrar = "OK";
+			this.cerrar = "OK";
 			return tipoRetorno;
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e.getMessage(), e);
-                        return Action.ERROR;
+			return Action.ERROR;
 		}
 	}
 
@@ -5278,7 +5458,7 @@ public class DocumentoAction {
 		log.debug("-> [Action] DocumentoAction - goSubirRepositorio():String ");
 
 		// log.debug("texto ingresado [" + getObjDD().getStrTexto() + "]");
-		//try{
+		// try{
 		setMapSession(ActionContext.getContext().getSession());
 		log.debug("UPLOAD TO ALFRESCO ");
 		// Documento objDocumentoPrincipal=null;
@@ -5295,16 +5475,16 @@ public class DocumentoAction {
 			// objDocumentoPrincipal = getSrvD().derivarUSER(getObjDD(),
 			// objUsuario, getIddestinatario());
 		} else {
-			documentoService.crearDocumentoPorArchivo(docdetail, objUsuario, mapUpload, new Boolean(false), true, Constantes.MODULO_USUARIO_FINAL, Constantes.OPCION_SUBIR_REPOSITORIO, false);
+			documentoService.crearDocumentoPorArchivo(docdetail, objUsuario, mapUpload, new Boolean(false), true,
+					Constantes.MODULO_USUARIO_FINAL, Constantes.OPCION_SUBIR_REPOSITORIO, false);
 			this.iIdDoc = this.iIdDocumento;
 			this.cerrar = "OK";
 			return Action.SUCCESS;
 		}
 		return Action.ERROR;
-		/*}catch(Exception e){
-        log.error(e.getMessage(),e);
-        return Action.ERROR;
-        }*/
+		/*
+		 * }catch(Exception e){ log.error(e.getMessage(),e); return Action.ERROR; }
+		 */
 	}
 
 	public String rechazarqas() throws Exception {
@@ -5320,28 +5500,29 @@ public class DocumentoAction {
 		Usuario objUsuario = null;
 		mapSession = ActionContext.getContext().getSession();
 		objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-		//documentoService.rechazarQAS(objDD.getIIdDocumento(), objDD.getSObservacionRechazo(), objUsuario);
+		// documentoService.rechazarQAS(objDD.getIIdDocumento(),
+		// objDD.getSObservacionRechazo(), objUsuario);
 		cerrar = "OK";
 		return Action.SUCCESS;
-		
+
 	}
 
 	@SuppressWarnings("unused")
 	public String nuevoDocumentoFedatear() throws Exception {
-		try{
+		try {
 
 			mapSession = ActionContext.getContext().getSession();
 			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 
 			objDF.setIdUsuario(objUsuario.getIdusuario());
 			objDF.setFechaDocumento(null);
-			objDF.setNombrePC((String)mapSession.get("nombrePC"));
+			objDF.setNombrePC((String) mapSession.get("nombrePC"));
 			objDF.setEstado("A");
 
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = null;
 
-			if (objDF.getFechaDocumentoRegistro()!=null && !objDF.getFechaDocumentoRegistro().trim().equals("")){
+			if (objDF.getFechaDocumentoRegistro() != null && !objDF.getFechaDocumentoRegistro().trim().equals("")) {
 				date = formatter.parse(objDF.getFechaDocumentoRegistro());
 				objDF.setFechaDocumento(date);
 			}
@@ -5349,50 +5530,59 @@ public class DocumentoAction {
 			documentoService.registrarDocumentoFedatario(objDF);
 
 			return Action.SUCCESS;
-		}catch(Exception e){
+		} catch (Exception e) {
 			return "error";
 		}
 	}
 
-	/**REN: Este metodo es el "Guardar" cuando se crea un nuevo Expediente en Usuario Final ----------------------------------*/
+	/**
+	 * REN: Este metodo es el "Guardar" cuando se crea un nuevo Expediente en
+	 * Usuario Final ----------------------------------
+	 */
 	@SuppressWarnings("unused")
 	public String enviarArchivo() throws Exception {
-                log.debug("-> [Action] DocumentoAction - enviarArchivo():String ");
+		log.debug("-> [Action] DocumentoAction - enviarArchivo():String ");
 		mapSession = ActionContext.getContext().getSession();
 		Map<String, Object> session = ActionContext.getContext().getSession();
 
-                try {
-                        strAcc = Constantes.ACCION_REGISTRAR;
-                       
-			if(objDD.getConfidencial() == null){
+		try {
+			strAcc = Constantes.ACCION_REGISTRAR;
+
+			if (objDD.getConfidencial() == null) {
 				objDD.setConfidencial(Constantes.No);
 			}
-                        
-                        getObjDD().setIIdTipoDocumento(getIdtipodocumento());
-                        getObjDD().setCEstado(Constantes.ESTADO_ACTIVO);
-                        getObjDD().setStrTipoDocumento(tipoDocumentoService.findByIdTipoDocumento(getIdtipodocumento()).getNombre());
-			objDD.setEnumerarDocumento(StringUtil.isEmpty(objDD.getEnumerarDocumento()) ? "N" : objDD.getEnumerarDocumento());
-			
-                        if (getObjDD().getIIdExpediente() == null) {
+
+			getObjDD().setIIdTipoDocumento(getIdtipodocumento());
+			getObjDD().setCEstado(Constantes.ESTADO_ACTIVO);
+			getObjDD()
+					.setStrTipoDocumento(tipoDocumentoService.findByIdTipoDocumento(getIdtipodocumento()).getNombre());
+			objDD.setEnumerarDocumento(
+					StringUtil.isEmpty(objDD.getEnumerarDocumento()) ? "N" : objDD.getEnumerarDocumento());
+
+			if (getObjDD().getIIdExpediente() == null) {
 				getObjDD().setCPrincipal(Constantes.DOCUMENTO_PRINCIPAL);
 			} else {
 				getObjDD().setCPrincipal(Constantes.DOCUMENTO_NO_PRINCIPAL);
 			}
-			
-                        Usuario objUsuario = (Usuario) session.get(Constantes.SESSION_USUARIO);
+
+			Usuario objUsuario = (Usuario) session.get(Constantes.SESSION_USUARIO);
 			objDD.setIdUsuarioLogeado(objUsuario.getIdusuario());
-			
-            if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("N") || getObjDD().getTipoTransaccion().equals("A") || getObjDD().getTipoTransaccion().equals("R"))) {
-                objDD = documentoService.saveNuevoDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");
+			if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("N")
+					|| getObjDD().getTipoTransaccion().equals("A") || getObjDD().getTipoTransaccion().equals("R"))) {
+				objDD = documentoService.saveNuevoDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario,
+						strAcc, bBandeja, archivopendiente, (String) session.get("nombrePC"), "ES_nombrePDFprincipal");
 			} else {
-		         if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("M") || getObjDD().getTipoTransaccion().equals("MR"))){
-		           objDD = documentoService.updateDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario, strAcc, bBandeja, archivopendiente, (String)session.get("nombrePC"), "ES_nombrePDFprincipal");                     
-		         }else{
-		           this.mensaje = "No se encontraron Datos";
-		         }        
+				if (getObjDD() != null && (getObjDD().getTipoTransaccion().equals("M")
+						|| getObjDD().getTipoTransaccion().equals("MR"))) {
+					objDD = documentoService.updateDocumentoUserFinal(objDD, session, iddestinatario, idccdestinatario,
+							strAcc, bBandeja, archivopendiente, (String) session.get("nombrePC"),
+							"ES_nombrePDFprincipal");
+				} else {
+					this.mensaje = "No se encontraron Datos";
+				}
 			}
-                        
-                        this.cerrar = "ok";
+
+			this.cerrar = "ok";
 			this.ocultar = "NO";
 
 			return Action.SUCCESS;
@@ -5401,7 +5591,6 @@ public class DocumentoAction {
 			return "error";
 		}
 	}
-
 
 	public String uploadWithForm() throws Exception {
 		log.debug("-> [Action] DocumentoAction - uploadWithForm():String ");
@@ -5412,11 +5601,9 @@ public class DocumentoAction {
 		getMapSession().remove(Constantes.SESSION_UPLOAD_LIST);
 		return Action.SUCCESS;
 		/*
-		 * }catch(Exception e){ log.error(e.getMessage(),e); return
-		 * Action.ERROR; }
+		 * }catch(Exception e){ log.error(e.getMessage(),e); return Action.ERROR; }
 		 */
 	}
-
 
 	public String gobandejanuevoExpediente() throws Exception {
 		log.debug("-> [Action] DocumentoAction - gobandejanuevoExpediente():String ");
@@ -5429,8 +5616,7 @@ public class DocumentoAction {
 		}
 		return Action.SUCCESS;
 		/*
-		 * }catch(Exception e){ log.error(e.getMessage(),e); return
-		 * Action.ERROR; }
+		 * }catch(Exception e){ log.error(e.getMessage(),e); return Action.ERROR; }
 		 */
 	}
 
@@ -5467,21 +5653,17 @@ public class DocumentoAction {
 		this.cerrar = "OK";
 		return Action.SUCCESS;
 		/*
-		 * }catch(Exception e){ log.error(e.getMessage(),e); return
-		 * Action.ERROR; }
+		 * }catch(Exception e){ log.error(e.getMessage(),e); return Action.ERROR; }
 		 */
 	}
-
 
 	public String doDerivarMasivo() {
 		log.debug("-> [Action] DocumentoAction - doDerivarMasivo():String ");
 
-		mapSession=ActionContext.getContext().getSession();
+		mapSession = ActionContext.getContext().getSession();
 
-                
 		return Action.SUCCESS;
 	}
-
 
 	public String gorechazar() throws Exception {
 		log.debug("-> [Action] DocumentoAction - gorechazar():String ");
@@ -5491,60 +5673,235 @@ public class DocumentoAction {
 		setObjDD(documentoService.getDocumentDetail(getIIdDoc(), objUsuario.getRol().getNombre()));
 		return Action.SUCCESS;
 	}
-	
+
 	public String goNotificar() {
 		documento = documentoService.findByIdDocumento(idDocumento);
-		
+
 		return "goNotificar";
 	}
-	
+
 	public String enviarNotificacion() {
 
 		log.info("enviarNotificacion getIdDocumento");
+		
 		documento = documentoService.findByIdDocumento(idDocumento);
 		mapSession = ActionContext.getContext().getSession();
-        usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+		usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 		Archivo archivo = archivoService.buscarArchivoPrincipalPorDocumento(documento.getIdDocumento());
-		String rutaDig = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
-		String notificacionElectronica = notificacionService.generarNotificacionElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-notificacion",
-			Integer.valueOf(idCasilla), 3, rutaDig + "\\" + archivo.getNombre(), sObservacionNotificar, 31, documento.getNumeroDocumento().substring(3),
-			documento.getIdDocumento(), documento.getExpediente().getNombreExpediente(), documento.getExpediente().getIdexpediente(), 16, 1, usuario.getIdusuario());
+		String rutaDig = "";
+		String rutaArchivo = "";		
+		if(archivo.getCodProcesoFirma() != null ) {
+			String p1[]  = archivo.getNombre().split("]");
+			rutaDig = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_PARAMETROS_RUTADESTINO);
+			
+			rutaArchivo = rutaDig + "\\" + p1[1].toString();
+			
+		}else {
+			rutaDig = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DIRECTORIO_TEMPORAL_ALFRESCO);
+			rutaArchivo = rutaDig + "\\" + archivo.getNombre();
+		}
+		log.info("ruta-archivo--------------------------"+rutaArchivo);
+		String notificacionElectronica = notificacionService.generarNotificacionElectronica(
+				Integer.valueOf(idCasilla), 3, rutaArchivo, sObservacionNotificar, 31,
+				documento.getNumeroDocumento().substring(3), documento.getIdDocumento(),
+				documento.getExpediente().getNombreExpediente(), documento.getExpediente().getIdexpediente(), 16, 1,
+				usuario.getIdusuario());
+		
 
-		
-		
-		
-	
+
 		Integer pK_eIdNotificacion = 0;
-		
+		Boolean responseCasilla = null;
+
 		if (!notificacionElectronica.equals("") && notificacionElectronica != null) {
 			JSONObject jsonObject = new JSONObject(notificacionElectronica);
 			log.info("notificacionElectronica.............." + notificacionElectronica);
 			pK_eIdNotificacion = jsonObject.getJSONObject("data").getInt("pK_eIdNotificacion");
 
 		}
-		
-		String cedulaElectronica = notificacionService.generarCedulaElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/generar-cedula-notificacion", pK_eIdNotificacion,
-			usuario.getUnidad().getNombre(), usuario.getIdusuario());
-		
+
+		String cedulaElectronica = notificacionService.generarCedulaElectronica(
+				 pK_eIdNotificacion,
+				usuario.getUnidad().getNombre(), usuario.getIdusuario());
+
 		if (!cedulaElectronica.equals("") && cedulaElectronica != null) {
 			JSONObject jsonObject = new JSONObject(cedulaElectronica);
 			log.info("cedulaElectronica.............." + cedulaElectronica);
 		}
-		
-		String codProcesoFirma = archivo.getCodProcesoFirma() != null ? archivo.getCodProcesoFirma().toString() : "SINFIRMADIGITAL";
-		String enviarNotificacionElectronica = notificacionService.enviarNotificacionElectronica("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/enviar-notificacion",
-			pK_eIdNotificacion, codProcesoFirma, usuario.getIdusuario());
-		
+
+		String codProcesoFirma = archivo.getCodProcesoFirma() != null ? archivo.getCodProcesoFirma().toString()
+				: "SINFIRMADIGITAL";
+		String enviarNotificacionElectronica = notificacionService.enviarNotificacionElectronica(
+				 pK_eIdNotificacion,
+				codProcesoFirma, usuario.getIdusuario());
+
 		if (!enviarNotificacionElectronica.equals("") && enviarNotificacionElectronica != null) {
 			JSONObject jsonObject = new JSONObject(enviarNotificacionElectronica);
+			responseCasilla = jsonObject.getBoolean("success");
 			log.info("enviarNotificacionElectronica.............." + enviarNotificacionElectronica);
 		}
-
+		log.info("-----------respresponseCasilla" + responseCasilla);
+		if (responseCasilla) {
+//			objDD.setpK_eIdCasilla(1);
+			String nombreDestinatario = "";
+			String estado = "A";
+			objCliente = clienteService.findByIdCliente(documento.getID_CLIENTE());
+			if(objCliente.getCodtipoinstitucion() == 3) {
+				nombreDestinatario = objCliente.getNombres();
+			}else {
+				nombreDestinatario = objCliente.getRepresentanteLegal();
+			}
+			
+			log.info("Insercion ala tabal documento notifciacion");
+			DocumentoNotificacion documentoNotificacion = new DocumentoNotificacion();
+			documentoNotificacion.setIdDocumento(documento.getIdDocumento());
+			documentoNotificacion.setFechaCreacion(new Date());
+			documentoNotificacion.setIdUsuarioRemitente(usuario.getIdusuario());
+			documentoNotificacion.setCargoRemitente(usuario.getIdfuncion());
+			documentoNotificacion.setUnidadRemitente(usuario.getUnidad().getIdunidad());
+			documentoNotificacion.setIdClienteDestinatario(documento.getID_CLIENTE());
+			documentoNotificacion.setNombreDestinatario(nombreDestinatario);
+			documentoNotificacion.setEstado(estado.charAt(0));
+			documentoNotificacion.setUsuarioCreacion(documento.getAutor().getIdusuario());
+			documentoNotificacion.setPk_eIdNotificacion(pK_eIdNotificacion);
+			log.info("documentoNotificacion" + documentoNotificacion);
+			documentoNotificacionService.create(documentoNotificacion);
+			
+			///ACTUALIZAR DOCUMENTO
+			String estadoNotificar = "T" ;
+			Documento documentoActualizar = documentoService.findByIdDocumento(documento.getIdDocumento());
+			documentoActualizar.setEstado(estadoNotificar.charAt(0));
+			documentoService.saveDocumento(documentoActualizar);
+			log.info("-------------documento actualizado-------------");
+			
+			//BUSCAR DOCUMENTO REFERENCIA
+			log.info("--------------buscar documento referencia-----------");
+			List<DocumentoReferencia> listDocumentoReferencia = documentoReferenciaService.getAllReferenciaDocumento(documento.getIdDocumento());
+			
+			DocumentoAtendido documentoAtendido = new DocumentoAtendido();
+			if(listDocumentoReferencia.size() > 0) {
+				//INSERTA A TABALA DOCUMENTO ATENDIDO
+				documentoAtendido.setCargopropietario(usuario.getIdfuncion());
+				documentoAtendido.setEstado("A");
+				documentoAtendido.setFechacreacion(new Date());
+				documentoAtendido.setIddocumento(documento.getIdDocumento());
+				documentoAtendido.setIdusuario(usuario.getIdusuario());
+				documentoAtendido.setUnidadpropietario(usuario.getUnidad().getIdunidad());
+				documentoAtendido.setUsuariocreacion(usuario.getIdusuario());
+				documentoAtendido.setIddocumentorespuesta(listDocumentoReferencia.get(0).getIdDocumentoReferencia());
+				
+			}else {
+				//INSERTA A TABALA DOCUMENTO ATENDIDO
+				documentoAtendido.setCargopropietario(usuario.getIdfuncion());
+				documentoAtendido.setEstado("A");
+				documentoAtendido.setFechacreacion(new Date());
+				documentoAtendido.setIddocumento(documento.getIdDocumento());
+				documentoAtendido.setIdusuario(usuario.getIdusuario());
+				documentoAtendido.setUnidadpropietario(usuario.getUnidad().getIdunidad());
+				documentoAtendido.setUsuariocreacion(usuario.getIdusuario());
+			}
+			
 		
+			documentoAtendidoDAO.saveDocumento(documentoAtendido);
+			log.info("------------Se guardo documento atendido---------");
+			
+			List<Trazabilidaddocumento> trazabilidadDocumento   = trazabilidadDocumentoService.findByIdDocumento(documento.getIdDocumento());
+			//Isertar en tabla trazabilidad
+			insertarTrazabilidadDocumento(trazabilidadDocumento, usuario);
+			
+			
+			
+			//ACTUALIZAR DOCUMENTO DE REFERRENCIA
+			log.info("----------------buscar documento referencia--------------");
+			log.info("--------listDocumentoReferencia.size()----------" +listDocumentoReferencia.size());
+			if(listDocumentoReferencia.size() > 0) {
+				Documento documentoReferenciaActualizar = documentoService.findByIdDocumento(listDocumentoReferencia.get(0).getIdDocumentoReferencia());
+				documentoReferenciaActualizar.setEstado(estadoNotificar.charAt(0));
+				documentoService.saveDocumento(documentoActualizar);
+				//bSUCAR DOC REFERENIA
+				List<DocumentoReferencia> listDocumentoReferenciaOld = documentoReferenciaService.getAllReferenciaDocumento(listDocumentoReferencia.get(0).getIdDocumentoReferencia());
+				
+				DocumentoAtendido documentoAtendidoReferencia = new DocumentoAtendido();
+				if(listDocumentoReferenciaOld.size() > 0) {
+					//INSERTA A TABALA DOCUMENTO ATENDIDO
+					documentoAtendidoReferencia.setCargopropietario(usuario.getIdfuncion());
+					documentoAtendidoReferencia.setEstado("A");
+					documentoAtendidoReferencia.setFechacreacion(new Date());
+					documentoAtendidoReferencia.setIddocumento(listDocumentoReferencia.get(0).getIdDocumentoReferencia());
+					documentoAtendidoReferencia.setIdusuario(usuario.getIdusuario());
+					documentoAtendidoReferencia.setUnidadpropietario(usuario.getUnidad().getIdunidad());
+					documentoAtendidoReferencia.setUsuariocreacion(usuario.getIdusuario());
+					documentoAtendidoReferencia.setIddocumentorespuesta(listDocumentoReferenciaOld.get(0).getIdDocumentoReferencia());
+				}else {
+					
+					//INSERTA A TABLA DOCUMENTO ATENDIDO
+					documentoAtendidoReferencia.setCargopropietario(usuario.getIdfuncion());
+					documentoAtendidoReferencia.setEstado("A");
+					documentoAtendidoReferencia.setFechacreacion(new Date());
+					documentoAtendidoReferencia.setIddocumento(listDocumentoReferencia.get(0).getIdDocumentoReferencia());
+					documentoAtendidoReferencia.setIdusuario(usuario.getIdusuario());
+					documentoAtendidoReferencia.setUnidadpropietario(usuario.getUnidad().getIdunidad());
+					documentoAtendidoReferencia.setUsuariocreacion(usuario.getIdusuario());
+				}
+				
+				documentoAtendidoDAO.saveDocumento(documentoAtendidoReferencia);
+				log.info("------------Se guardo documento atendido---------");
+				
+				//INSERTAR EN TABLA TRZABILIDAD
+				List<Trazabilidaddocumento> trazabilidadDocumentoOld   = trazabilidadDocumentoService.findByIdDocumento(listDocumentoReferencia.get(0).getIdDocumentoReferencia());
+				insertarTrazabilidadDocumento(trazabilidadDocumentoOld, usuario);
+			}
+		}
 
-
-		
 		return "true";
+	}
+	public void insertarTrazabilidadDocumento(List<Trazabilidaddocumento> trazabilidadDocumento, Usuario usuario) {
+		log.info("lista de trazabilidad de docuemtno encontrado----------" + trazabilidadDocumento);
+			int i = trazabilidadDocumento.size();
+			i = i - 1;
+			//INSERTA EN LA TABLA TRAZABILIDAD
+			Date fechaActual = new Date();
+			Accion accion = accionService.findByNombre("atender");
+			int nroRegsitro = trazabilidadDocumento.get(i).getNroregistro() + 1;
+//			trazabilidadDocumento.get(i).setNroregistro(trazabilidadDocumento.get(i).getNroregistro() + 1);
+//			trazabilidadDocumento.get(i).setFechacreacion(fechaActual);
+//			trazabilidadDocumento.get(i).setAccion(accion);
+			
+			//CREAR OBJETO TRAZABILIDAD
+			Trazabilidaddocumento trazabilidadDocumentoNuevo = new Trazabilidaddocumento();
+			trazabilidadDocumentoNuevo.setActividad(trazabilidadDocumento.get(i).getActividad());
+			trazabilidadDocumentoNuevo.setAsunto(trazabilidadDocumento.get(i).getAsunto());
+			trazabilidadDocumentoNuevo.setCargodestinatario(trazabilidadDocumento.get(i).getCargodestinatario());
+			trazabilidadDocumentoNuevo.setCargoremitente(usuario.getIdfuncion());
+			trazabilidadDocumentoNuevo.setContenido(trazabilidadDocumento.get(i).getContenido());
+			trazabilidadDocumentoNuevo.setFechacreacion(fechaActual);
+			trazabilidadDocumentoNuevo.setFechacreacionmonth(trazabilidadDocumento.get(i).getFechacreacionmonth());
+			trazabilidadDocumentoNuevo.setFechacreacionyear(trazabilidadDocumento.get(i).getFechacreacionyear());
+			trazabilidadDocumentoNuevo.setFechalimiteatencion(trazabilidadDocumento.get(i).getFechalimiteatencion());
+			trazabilidadDocumentoNuevo.setIdActividad(trazabilidadDocumento.get(i).getIdActividad());
+			trazabilidadDocumentoNuevo.setIdproveido(trazabilidadDocumento.get(i).getIdproveido());
+			trazabilidadDocumentoNuevo.setIndalerta(trazabilidadDocumento.get(i).getIndalerta());
+			trazabilidadDocumentoNuevo.setNombrePC(trazabilidadDocumento.get(i).getNombrePC());
+			trazabilidadDocumentoNuevo.setNroregistro(nroRegsitro);
+			trazabilidadDocumentoNuevo.setObservacion(trazabilidadDocumento.get(i).getObservacion());
+			trazabilidadDocumentoNuevo.setObservacion(trazabilidadDocumento.get(i).getObservacion());
+			trazabilidadDocumentoNuevo.setPlazo(trazabilidadDocumento.get(i).getPlazo());
+			trazabilidadDocumentoNuevo.setPrioridad(trazabilidadDocumento.get(i).getPrioridad());
+			trazabilidadDocumentoNuevo.setUnidaddestinatario(trazabilidadDocumento.get(i).getUnidaddestinatario());
+			trazabilidadDocumentoNuevo.setUnidadremitente(usuario.getUnidad().getIdunidad());
+			trazabilidadDocumentoNuevo.setUsuariocreacion(usuario.getIdusuario());
+			trazabilidadDocumentoNuevo.setVerSeguimiento(trazabilidadDocumento.get(i).getVerSeguimiento());
+			trazabilidadDocumentoNuevo.setAccion(accion);
+			trazabilidadDocumentoNuevo.setCompartido(trazabilidadDocumento.get(i).getCompartido());
+			trazabilidadDocumentoNuevo.setDestinatario(trazabilidadDocumento.get(i).getDestinatario());
+			trazabilidadDocumentoNuevo.setDocumento(trazabilidadDocumento.get(i).getDocumento());
+			trazabilidadDocumentoNuevo.setIdetapa(trazabilidadDocumento.get(i).getIdetapa());
+			trazabilidadDocumentoNuevo.setIdproceso(trazabilidadDocumento.get(i).getIdproceso());
+			trazabilidadDocumentoNuevo.setRemitente(usuario);
+			
+			log.info("trazabilidadDocumentoNuevo................." +trazabilidadDocumentoNuevo);
+			trazabilidadDocumentoService.saveTrazabilidadDocumento(trazabilidadDocumentoNuevo);
+		
+		log.info("Se guardo trazabilidad----------");
 	}
 
 	public String rechazaruser() throws Exception {
@@ -5556,9 +5913,9 @@ public class DocumentoAction {
 
 		objDD = documentoService.getDocumentDetail(objDD.getIIdDocumento(), (String) session.get("rol"));
 		objDD.setStrObservacion(strObservacion);
-		
-        return null;
-		//return saveDoc();
+
+		return null;
+		// return saveDoc();
 	}
 
 	public String verDetalleExpediente() throws Exception {
@@ -5567,53 +5924,53 @@ public class DocumentoAction {
 		// this.mensaje = "";
 		try {
 			objExpediente = expedienteService.findByIdExpediente(this.iIdExp);
-			
+
 		} catch (Exception e) {
 			log.error("Error obteniendo los detalles del expediente", e);
-			
+
 		}
 		return Action.SUCCESS;
 	}
-        
-    public String verDetalleLegajo() throws Exception {
+
+	public String verDetalleLegajo() throws Exception {
 		log.debug("-> [Action] DocumentoAction - verDetalleLegajo():String ");
 
 		try {
-                        List<LegajoDocumento> lst = null; 
-                        Legajo legajo = new Legajo();
-                        
-                        if (iIdLegajo == null || iIdLegajo==0){
-                           Usuario objUsuario = null;
-                           mapSession = ActionContext.getContext().getSession();
-                           objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO); 
-                           LegajoDocumento legajoDocumento = new LegajoDocumento();
-                           Documento d = documentoService.findByIdDocumento(idDocumentoLegajo);
-                           legajoDocumento.setIdDocumento(d.getDocumentoreferencia()==null?d.getIdDocumento():d.getDocumentoreferencia());
-                           lst = legajoDocumentoService.findDocumento(legajoDocumento, objUsuario);
-                           
-                           if (lst==null || lst.size()==0)
-                             return "sinLegajo";  
-                           
-                           legajo.setEstado("");
-                           legajo.setIdLegajo(lst.get(0).getIdLegajo());
-                        }else{
-                           LegajoDocumento legajoDocumento = new LegajoDocumento();
-                           legajoDocumento.setIdLegajo(iIdLegajo);
-                           lst = new ArrayList<LegajoDocumento>();
-                           lst.add(legajoDocumento);
-                           legajo.setEstado("");
-                           legajo.setIdLegajo(lst.get(0).getIdLegajo());
-                        }
-                        
-                        objLegajo = legajoService.findByIdLegajo(legajo);
-                        
+			List<LegajoDocumento> lst = null;
+			Legajo legajo = new Legajo();
+
+			if (iIdLegajo == null || iIdLegajo == 0) {
+				Usuario objUsuario = null;
+				mapSession = ActionContext.getContext().getSession();
+				objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+				LegajoDocumento legajoDocumento = new LegajoDocumento();
+				Documento d = documentoService.findByIdDocumento(idDocumentoLegajo);
+				legajoDocumento.setIdDocumento(
+						d.getDocumentoreferencia() == null ? d.getIdDocumento() : d.getDocumentoreferencia());
+				lst = legajoDocumentoService.findDocumento(legajoDocumento, objUsuario);
+
+				if (lst == null || lst.size() == 0)
+					return "sinLegajo";
+
+				legajo.setEstado("");
+				legajo.setIdLegajo(lst.get(0).getIdLegajo());
+			} else {
+				LegajoDocumento legajoDocumento = new LegajoDocumento();
+				legajoDocumento.setIdLegajo(iIdLegajo);
+				lst = new ArrayList<LegajoDocumento>();
+				lst.add(legajoDocumento);
+				legajo.setEstado("");
+				legajo.setIdLegajo(lst.get(0).getIdLegajo());
+			}
+
+			objLegajo = legajoService.findByIdLegajo(legajo);
+
 		} catch (Exception e) {
 			log.error("Error obteniendo los detalles del expediente", e);
-			
+
 		}
 		return Action.SUCCESS;
 	}
-
 
 	public String goAprobarStor() throws Exception {
 		log.debug("-> [Action] DocumentoAction - goAprobarStor():String ");
@@ -5635,7 +5992,6 @@ public class DocumentoAction {
 			return Action.ERROR;
 		}
 	}
-
 
 	public String aprobarStor() throws Exception {
 		log.debug("-> [Action] DocumentoAction - aprobarStor():String ");
@@ -5691,7 +6047,6 @@ public class DocumentoAction {
 		}
 	}
 
-
 	public String getNuevoDocumento() {
 		log.debug("-> [Action] DocumentoAction - getNuevoDocumento():String ");
 
@@ -5700,8 +6055,9 @@ public class DocumentoAction {
 	}
 
 	/**
-	 * Retorna true o false indicando si el documento buscado es el unico perteneciente al expediente.
-	 * Recibe el documento y el expediente porque no necesariamente el documento seleccionado pertenece al expediente
+	 * Retorna true o false indicando si el documento buscado es el unico
+	 * perteneciente al expediente. Recibe el documento y el expediente porque no
+	 * necesariamente el documento seleccionado pertenece al expediente
 	 *
 	 * @author German Enriquez
 	 */
@@ -5721,14 +6077,14 @@ public class DocumentoAction {
 			Documento documento = documentoService.findByIdDocumento(iIdDoc);
 			if (documento != null) {
 				boolean unico = false;
-				//verificamos que el expediente solo tenga un documento y que sea este
+				// verificamos que el expediente solo tenga un documento y que sea este
 				List<Documento> delExpediente = expediente.getDocumentoList();
 				if (delExpediente.size() == 1) {
-					//if (delExpediente.get(0).equals(documento)) {
-				  unico = true;
-					//}
+					// if (delExpediente.get(0).equals(documento)) {
+					unico = true;
+					// }
 				}
-				
+
 				return "" + unico;
 			}
 			log.error("El id de documento: " + iIdDoc + " no se encontro en la base de datos.");
@@ -5755,10 +6111,11 @@ public class DocumentoAction {
 			if (documento != null) {
 				boolean unico = false;
 
-				//verificamos que el expediente nuevo no tenga referenciado ya el documento
+				// verificamos que el expediente nuevo no tenga referenciado ya el documento
 				List<Documentoxexpediente> referenciados = expedienteNuevo.getDocumentoxexpedienteList();
 				for (Documentoxexpediente objDocumentoxExpediente : referenciados) {
-					if (objDocumentoxExpediente.getDocumentoxexpedientePK().getIddocumento() == documento.getIdDocumento()) {
+					if (objDocumentoxExpediente.getDocumentoxexpedientePK().getIddocumento() == documento
+							.getIdDocumento()) {
 						unico = true;
 					}
 					if (unico == true) {
@@ -5780,7 +6137,7 @@ public class DocumentoAction {
 		mapSession = ActionContext.getContext().getSession();
 		String nombrePC = (String) mapSession.get("nombrePC");
 		Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-		
+
 		if (idDocumentoAnular == null) {
 			log.error("No se especifico ningun documento, no se puede anular.");
 			return Action.ERROR;
@@ -5791,8 +6148,6 @@ public class DocumentoAction {
 
 		return "true";
 	}
-	
-	
 
 	public String rechazarDocumento() {
 		log.debug("-> [Action] DocumentoAction - rechazarDocumento():String ");
@@ -5800,86 +6155,87 @@ public class DocumentoAction {
 		mapSession = ActionContext.getContext().getSession();
 		String nombrePC = (String) mapSession.get("nombrePC");
 		Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-		
+
 		if (idDocumentoRechazar == null) {
 			log.error("No se especifico ningun documento, no se puede anular.");
 			return Action.ERROR;
 		}
-		
+
 		Date fecha = new Date();
 		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		String fechaFormat = DATE_FORMAT.format(fecha);
-		
+
 		log.info("idDocumentoRechazar........." + idDocumentoRechazar);
 		recepcionVirtualService.rechazarDocumentoMPV(idDocumentoRechazar, sObservacionRechazar, "O", fecha, "");
 //		documentoService.anularDocumento(usuario, documento, null, false, null, nombrePC, getsObservacionAnular());
-		
+
 		CargoRecepcionMPVRequest cargoRecepcionVirtualRequest = new CargoRecepcionMPVRequest();
-		
-		try {	
-      		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
-    		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    		conn.setDoOutput(true);
-    		conn.setRequestMethod("POST");
-    		conn.setRequestProperty("Content-Type", "application/json");
-    		
-    		cargoRecepcionVirtualRequest.setFk_eDocumento(String.valueOf(idDocumentoRechazar));
-    		cargoRecepcionVirtualRequest.setcExpediente("");
-    		cargoRecepcionVirtualRequest.setfFecha(fechaFormat);
-    		cargoRecepcionVirtualRequest.setFk_eUsuario(String.valueOf(usuario.getIdusuario()));
-    		cargoRecepcionVirtualRequest.setEstadoDoc("0");
-    		cargoRecepcionVirtualRequest.setcObservacion(sObservacionRechazar != null ? sObservacionRechazar : "");
-    		cargoRecepcionVirtualRequest.setfFechaRecep("");
-    		cargoRecepcionVirtualRequest.setfFechaRecha(fechaFormat);
 
-    		ObjectMapper ow = new ObjectMapper();
-    		String json = ow.writeValueAsString(cargoRecepcionVirtualRequest);
+		try {
+			URL url = new URL(SERVICIO_RECEPCION_MPV);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json");
 
-      		OutputStream os = conn.getOutputStream();
-      		os.write(json.getBytes());
-      		os.flush();
+			cargoRecepcionVirtualRequest.setFk_eDocumento(String.valueOf(idDocumentoRechazar));
+			cargoRecepcionVirtualRequest.setcExpediente("");
+			cargoRecepcionVirtualRequest.setfFecha(fechaFormat);
+			cargoRecepcionVirtualRequest.setFk_eUsuario(String.valueOf(usuario.getIdusuario()));
+			cargoRecepcionVirtualRequest.setEstadoDoc("0");
+			cargoRecepcionVirtualRequest.setcObservacion(sObservacionRechazar != null ? sObservacionRechazar : "");
+			cargoRecepcionVirtualRequest.setfFechaRecep("");
+			cargoRecepcionVirtualRequest.setfFechaRecha(fechaFormat);
 
-      		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));	
-      		String output;
-      		
-      		while ((output = br.readLine()) != null) {
-      			System.out.println(output);
-      		}
+			ObjectMapper ow = new ObjectMapper();
+			String json = ow.writeValueAsString(cargoRecepcionVirtualRequest);
 
-      		conn.disconnect();
+			OutputStream os = conn.getOutputStream();
+			os.write(json.getBytes());
+			os.flush();
 
-  	  } catch (MalformedURLException e) {
-  		e.printStackTrace();
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+			String output;
 
-  	  } catch (IOException e) {
-  		e.printStackTrace();
-  	  }
+			while ((output = br.readLine()) != null) {
+				System.out.println(output);
+			}
+
+			conn.disconnect();
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return "true";
 	}
-	
-	public String reabrirDocumentoAtendido(){
-                log.debug("-> [Action] DocumentoAction - reabrirDocumentoAtendido():String ");
+
+	public String reabrirDocumentoAtendido() {
+		log.debug("-> [Action] DocumentoAction - reabrirDocumentoAtendido():String ");
 
 		mapSession = ActionContext.getContext().getSession();
 		String nombrePC = (String) mapSession.get("nombrePC");
 
 		Usuario usuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-		
+
 		if (iIdDoc == null) {
 			log.error("No se especifico ningun documento, no se puede atender.");
 			return Action.ERROR;
 		}
 
 		Documento documento = documentoService.findByIdDocumento(iIdDoc);
-                documentoService.reabrirDocumentoAtendido(usuario, documento, nombrePC);
+		documentoService.reabrirDocumentoAtendido(usuario, documento, nombrePC);
 
 		return "true";
 	}
 
-	
-
-	/**REN: Mover documento a otro expediente ------------------------------------------------*/
+	/**
+	 * REN: Mover documento a otro expediente
+	 * ------------------------------------------------
+	 */
 	public String cambiarReferenciaDocumento() {
 		log.debug("-> [Action] DocumentoAction - cambiarReferenciaDocumento():String ");
 
@@ -5905,22 +6261,29 @@ public class DocumentoAction {
 						log.debug("Tipo de busqueda seleccionada {}", tipoBusqueda);
 						if (tipoBusqueda == 'C') {
 							mapSession = ActionContext.getContext().getSession();
-							Usuario usuario = usuarioService.findByIdUsuario(((Usuario)mapSession.get(Constantes.SESSION_USUARIO)).getIdusuario());
+							Usuario usuario = usuarioService.findByIdUsuario(
+									((Usuario) mapSession.get(Constantes.SESSION_USUARIO)).getIdusuario());
 							String nombrePC = (String) mapSession.get("nombrePC");
-							documentoService.copiarReferencia(documento, expediente, expedienteNuevo, unico,usuario, nombrePC);
-							log.info("El documento " + documento.getNumeroDocumento() + " ha sido copiado al expediente " + expedienteNuevo.getNroexpediente());
+							documentoService.copiarReferencia(documento, expediente, expedienteNuevo, unico, usuario,
+									nombrePC);
+							log.info("El documento " + documento.getNumeroDocumento()
+									+ " ha sido copiado al expediente " + expedienteNuevo.getNroexpediente());
 						} else {
 							mapSession = ActionContext.getContext().getSession();
-							//Usuario usuario = usuarioService.findByIdUsuario(((Usuario)mapSession.get(Constantes.SESSION_USUARIO)).getIdusuario());
+							// Usuario usuario =
+							// usuarioService.findByIdUsuario(((Usuario)mapSession.get(Constantes.SESSION_USUARIO)).getIdusuario());
 							String nombrePC = (String) mapSession.get("nombrePC");
-							documentoService.cambiarReferencia(documento, expediente, expedienteNuevo, unico,null, nombrePC);
-							log.info("El documento " + documento.getNumeroDocumento() + " ha sido referenciado al expediente " + expedienteNuevo.getNroexpediente());
+							documentoService.cambiarReferencia(documento, expediente, expedienteNuevo, unico, null,
+									nombrePC);
+							log.info("El documento " + documento.getNumeroDocumento()
+									+ " ha sido referenciado al expediente " + expedienteNuevo.getNroexpediente());
 						}
 					} catch (RuntimeException e) {
 						log.error(e.getMessage(), e);
 						return "false";
 					}
-					//log.info("El documento "+documento.getNumeroDocumento()+" ha sido referenciado al expediente "+expedienteNuevo.getNroexpediente());
+					// log.info("El documento "+documento.getNumeroDocumento()+" ha sido
+					// referenciado al expediente "+expedienteNuevo.getNroexpediente());
 
 					return "true";
 				}
@@ -5945,28 +6308,29 @@ public class DocumentoAction {
 			log.error("No se especifico ningun expediente destino, no se puede referenciar.");
 			return Action.ERROR;
 		}
-                
-                return "true";
-               
+
+		return "true";
+
 	}
 
 	/**
 	 * Prepara los valores predeterminados de un expediente partiendo de otro
+	 * 
 	 * @author Erik Candela
 	 */
 	public String loadNuevoExpedienteUF() {
 		log.debug("-> [Action] DocumentoAction - loadNuevoExpedienteUF():String ");
 
 		this.objDD = new DocumentoDetail();
-		//this.objDD.setsNroExpediente(expedienteService.getMaxReferencia());
-		int idExpedienteOrigen = Integer.parseInt(ServletActionContext.getRequest().getParameter("idExpediente").toString());
+		// this.objDD.setsNroExpediente(expedienteService.getMaxReferencia());
+		int idExpedienteOrigen = Integer
+				.parseInt(ServletActionContext.getRequest().getParameter("idExpediente").toString());
 		this.lstDocumento = documentoService.getDocumentosPorExpediente(idExpedienteOrigen);
 		String idProceso = ServletActionContext.getRequest().getParameter("idProceso").toString();
 		this.objDD.setIIdProceso(Integer.decode(idProceso));
 		return Action.SUCCESS;
 
 	}
-
 
 	public String viewInfoPrincipal() {
 		log.debug("-> [Action] DocumentoAction - viewInfoPrincipal():String ");
@@ -5980,7 +6344,8 @@ public class DocumentoAction {
 		mapSession = ActionContext.getContext().getSession();
 		documento = documentoService.findByIdDocumento(iIdDoc);
 		if (documento.getExpediente().getCliente().getTipoIdentificacion().getNombre().compareTo("RUC") == 0) {
-			this.objConcesionario = this.concesionarioService.findByRUC(documento.getExpediente().getCliente().getNumeroIdentificacion());
+			this.objConcesionario = this.concesionarioService
+					.findByRUC(documento.getExpediente().getCliente().getNumeroIdentificacion());
 			if (this.objConcesionario == null) {
 				this.objConcesionario = new Concesionario();
 				this.objConcesionario.setIdConcesionario(0);
@@ -6031,16 +6396,20 @@ public class DocumentoAction {
 		documento = documentoService.findByIdDocumento(iIdDoc);
 
 		if (documento.getExpediente().getCliente().getTipoIdentificacion().getNombre().equals(Constantes.TipoDoc_DNI)) {
-			StringBuilder nombre = new StringBuilder(documento.getExpediente().getCliente().getNumeroIdentificacion()).append(" - ").append(documento.getExpediente().getCliente().getNombres()).append(" ").append(documento.getExpediente().getCliente().getApellidoPaterno()).append(" ").append(documento.getExpediente().getCliente().getApellidoMaterno());
+			StringBuilder nombre = new StringBuilder(documento.getExpediente().getCliente().getNumeroIdentificacion())
+					.append(" - ").append(documento.getExpediente().getCliente().getNombres()).append(" ")
+					.append(documento.getExpediente().getCliente().getApellidoPaterno()).append(" ")
+					.append(documento.getExpediente().getCliente().getApellidoMaterno());
 			remitenteObservacion = nombre.toString();
 		} else {
-			remitenteObservacion = new StringBuilder(documento.getExpediente().getCliente().getNumeroIdentificacion()).append(" - ").append(documento.getExpediente().getCliente().getRazonSocial()).toString();
+			remitenteObservacion = new StringBuilder(documento.getExpediente().getCliente().getNumeroIdentificacion())
+					.append(" - ").append(documento.getExpediente().getCliente().getRazonSocial()).toString();
 		}
 		Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 		usuarioLogueado = objUsuario.getNombres() + " " + objUsuario.getApellidos();
-		
+
 		List<Trazabilidaddocumento> listaTrazabilidad = trazabilidadDocumentoService.findByIdDocumento(iIdDoc);
-		
+
 		if (listaTrazabilidad != null && listaTrazabilidad.size() > 0) {
 			objUsuario = listaTrazabilidad.get(0).getRemitente();
 			usuarioRegistro = objUsuario.getNombres() + " " + objUsuario.getApellidos();
@@ -6052,16 +6421,24 @@ public class DocumentoAction {
 			}
 		}
 
-		Expedientestor objExpedienteStor = expedienteStorService.findByIdExpediente(documento.getExpediente().getIdexpediente());
+		Expedientestor objExpedienteStor = expedienteStorService
+				.findByIdExpediente(documento.getExpediente().getIdexpediente());
 		if (objExpedienteStor != null) {
-			this.codSala = (objExpedienteStor.getSala() != null ? objExpedienteStor.getSala().getIdsala().toString() : "");
-			this.codEstado = (objExpedienteStor.getEstado() != null ? objExpedienteStor.getEstado().getIdestado().toString() : "");
+			this.codSala = (objExpedienteStor.getSala() != null ? objExpedienteStor.getSala().getIdsala().toString()
+					: "");
+			this.codEstado = (objExpedienteStor.getEstado() != null
+					? objExpedienteStor.getEstado().getIdestado().toString()
+					: "");
 
-
-			Resolucionjaru objResolucionJaru = resolucionJaruService.findByIdExpedienteStor(objExpedienteStor.getIdexpediente());
+			Resolucionjaru objResolucionJaru = resolucionJaruService
+					.findByIdExpedienteStor(objExpedienteStor.getIdexpediente());
 			if (objResolucionJaru != null) {
-				this.codResultado = (objResolucionJaru.getResultado() != null ? objResolucionJaru.getResultado().getIdtiporesultado().toString() : "");
-				this.codVocal = (objResolucionJaru.getVocal() != null ? objResolucionJaru.getVocal().getIdvocal().toString() : "");
+				this.codResultado = (objResolucionJaru.getResultado() != null
+						? objResolucionJaru.getResultado().getIdtiporesultado().toString()
+						: "");
+				this.codVocal = (objResolucionJaru.getVocal() != null
+						? objResolucionJaru.getVocal().getIdvocal().toString()
+						: "");
 				this.fechaSesion = objResolucionJaru.getFechasesion();
 				this.fechaNotiReclamante = objResolucionJaru.getFechanotificacionreclamante();
 				this.fechaNotiConcesionario = objResolucionJaru.getFechanotificacionconcesionario();
@@ -6069,112 +6446,108 @@ public class DocumentoAction {
 			}
 		}
 
-
-
 		return Action.SUCCESS;
 	}
-        
-       
-	public String goModificarExpediente(){
+
+	public String goModificarExpediente() {
 		log.debug("-> [Action] DocumentoAction - goModificarExpediente():String ");
 		objDocumento = documentoService.findByIdDocumento(iIdDoc);
-                return Action.SUCCESS;
-	}
-        
-        public String goModificarLegajo(){
-		log.debug("-> [Action] DocumentoAction - goModificarLegajo():String ");
-		//objDocumento = documentoService.findByIdDocumento(iIdDoc);
-                return Action.SUCCESS;
+		return Action.SUCCESS;
 	}
 
-	public void doModificarExpediente(){
+	public String goModificarLegajo() {
+		log.debug("-> [Action] DocumentoAction - goModificarLegajo():String ");
+		// objDocumento = documentoService.findByIdDocumento(iIdDoc);
+		return Action.SUCCESS;
+	}
+
+	public void doModificarExpediente() {
 		log.debug("-> [Action] DocumentoAction - doModificarExpediente():void ");
-                mapSession = ActionContext.getContext().getSession();
-                Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                Serie serie = new Serie();
-                serie.setIdserie(idserie);
+		mapSession = ActionContext.getContext().getSession();
+		Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
+		Serie serie = new Serie();
+		serie.setIdserie(idserie);
 		objExpediente = expedienteService.findByIdExpediente(iIdExp);
 		objExpediente.setFechamodificacion(new Date());
-                objExpediente.setUsuariomodificacion(objUsuario.getIdusuario());
-                objExpediente.setSerie(serie);
+		objExpediente.setUsuariomodificacion(objUsuario.getIdusuario());
+		objExpediente.setSerie(serie);
 		objExpediente.setObservacion(ultimaObservacion);
 		objExpediente.setAsunto(asuntoObservacion);
 		expedienteService.saveExpediente(objExpediente);
 	}
 
-	public String goModificarDocumento(){
+	public String goModificarDocumento() {
 		log.debug("-> [Action] DocumentoAction - goModificarDocumento():String ");
 		objDocumento = documentoService.findByIdDocumento(iIdDoc);
 		objDD = new DocumentoDetail();
-		try{
+		try {
 			objDD.setStrFechaDocumento(new SimpleDateFormat("dd/MM/yyyy").format(objDocumento.getFechaDocumento()));
-		}catch(Exception e){
-			log.error("No se pudo parsear la fecha "+e.getMessage());
+		} catch (Exception e) {
+			log.error("No se pudo parsear la fecha " + e.getMessage());
 			objDD.setStrFechaDocumento("");
 		}
 		return Action.SUCCESS;
 	}
 
-	public void doModificarDocumento(){
+	public void doModificarDocumento() {
 		log.debug("-> [Action] DocumentoAction - doModificarDocumento():void ");
 		objDocumento = documentoService.findByIdDocumento(iIdDoc);
 		objDocumento.setAsunto(asuntoObservacion);
 		objDocumento.setObservacion(ultimaObservacion);
 		objDocumento.setReferenciados(referencia);
-		objDocumento.setConfidencial(confidencialDocMod==null?Constantes.No:confidencialDocMod);
+		objDocumento.setConfidencial(confidencialDocMod == null ? Constantes.No : confidencialDocMod);
 
-		try{
+		try {
 			objDocumento.setFechaDocumento(new SimpleDateFormat("yyyy-MM-dd").parse(objDD.getStrFechaDocumento()));
-		
-		}catch(Exception e){
-			log.error("No se pudo parsear la fecha "+e.getMessage());
+
+		} catch (Exception e) {
+			log.error("No se pudo parsear la fecha " + e.getMessage());
 		}
 
 		documentoService.saveDocumento(objDocumento);
 	}
 
-	public String goBandejaDXE(){
+	public String goBandejaDXE() {
 		log.debug("-> [Action] DocumentoAction - goBandejaDXE():String ");
 		return "bandeja";
 	}
 
-	public void guardarSeguimientoUsuario(){
+	public void guardarSeguimientoUsuario() {
 		log.debug("-> [Action] DocumentoAction - guardarSeguimientoUsuario():void ");
 		mapSession = ActionContext.getContext().getSession();
 		Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
-                SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
+		SeguimientoXUsuario seguimiento = new SeguimientoXUsuario();
 		seguimiento.setIdDocumento(iIdDoc);
-                seguimiento.setIdUsuario(objUsuario.getIdUsuarioPerfil());
-                seguimiento.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
-                seguimiento.setCargoPropietario(objUsuario.getIdFuncionPerfil());
-                
-		if(agregar){
-                        seguimiento.setEstado("A");
-                        seguimiento.setFechaCreacion(new Date());
-                        seguimiento.setUsuarioCreacion(objUsuario.getIdusuario());
-                	seguimientoXUsuarioService.guardarSeguimiento(seguimiento);
-                }else{
-                        if (idseguimientos!=null && !idseguimientos.equals("")){
-                           seguimiento = seguimientoXUsuarioService.findByIdSeguimiento(idseguimientos);
-                           seguimiento.setEstado("I");
-			   seguimiento.setFechaModificacion(new Date());
-                           seguimiento.setUsuarioModificacion(objUsuario.getIdusuario());
-                	   seguimientoXUsuarioService.guardarSeguimiento(seguimiento);
-                        }else{
-                           List<SeguimientoXUsuario> list =  seguimientoXUsuarioService.buscarSeguimientoXUsuario(seguimiento);
-                           for(int i=0;i<list.size();i++){
-                               list.get(i).setEstado("I");
-                               list.get(i).setFechaModificacion(new Date());
-                               list.get(i).setUsuarioModificacion(objUsuario.getIdusuario());
-                               seguimientoXUsuarioService.guardarSeguimiento(list.get(i));
-                           }
-                        }
-                        
-                        
+		seguimiento.setIdUsuario(objUsuario.getIdUsuarioPerfil());
+		seguimiento.setUnidadPropietario(objUsuario.getIdUnidadPerfil());
+		seguimiento.setCargoPropietario(objUsuario.getIdFuncionPerfil());
+
+		if (agregar) {
+			seguimiento.setEstado("A");
+			seguimiento.setFechaCreacion(new Date());
+			seguimiento.setUsuarioCreacion(objUsuario.getIdusuario());
+			seguimientoXUsuarioService.guardarSeguimiento(seguimiento);
+		} else {
+			if (idseguimientos != null && !idseguimientos.equals("")) {
+				seguimiento = seguimientoXUsuarioService.findByIdSeguimiento(idseguimientos);
+				seguimiento.setEstado("I");
+				seguimiento.setFechaModificacion(new Date());
+				seguimiento.setUsuarioModificacion(objUsuario.getIdusuario());
+				seguimientoXUsuarioService.guardarSeguimiento(seguimiento);
+			} else {
+				List<SeguimientoXUsuario> list = seguimientoXUsuarioService.buscarSeguimientoXUsuario(seguimiento);
+				for (int i = 0; i < list.size(); i++) {
+					list.get(i).setEstado("I");
+					list.get(i).setFechaModificacion(new Date());
+					list.get(i).setUsuarioModificacion(objUsuario.getIdusuario());
+					seguimientoXUsuarioService.guardarSeguimiento(list.get(i));
+				}
+			}
+
 		}
 	}
 
-	public String imprimirProveido(){
+	public String imprimirProveido() {
 		log.debug("-> [Action] DocumentoAction - imprimirProveido():String ");
 
 		mapSession = ActionContext.getContext().getSession();
@@ -6183,24 +6556,31 @@ public class DocumentoAction {
 
 		Integer traza;
 
-		if(sOpcion != null && sOpcion.equals("enviados") && idtrazabilidaddocumento!=null){
+		if (sOpcion != null && sOpcion.equals("enviados") && idtrazabilidaddocumento != null) {
 			traza = idtrazabilidaddocumento;
-		}else{
-			if(documento.getDocumentoreferencia() != null){
-				/**Es una copia para trabajo----------------------------------------------------------------------------------*/
-				traza=trazabilidadDocumentoService.findByMaxtrazabyIddocumento(documento.getDocumentoreferencia()).get(0).getIdtrazabilidaddocumento();
-			}else{
-				traza=trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).get(0).getIdtrazabilidaddocumento();
+		} else {
+			if (documento.getDocumentoreferencia() != null) {
+				/**
+				 * Es una copia para
+				 * trabajo----------------------------------------------------------------------------------
+				 */
+				traza = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(documento.getDocumentoreferencia())
+						.get(0).getIdtrazabilidaddocumento();
+			} else {
+				traza = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).get(0)
+						.getIdtrazabilidaddocumento();
 			}
 		}
 
-		lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(iIdDoc,traza);
+		lstTrazabilidadCopia = trazabilidadcopiaService.buscarUsuarioCopia(iIdDoc, traza);
 
 		StringBuilder cadenaCC = new StringBuilder();
-		if(lstTrazabilidadCopia!=null && lstTrazabilidadCopia.size()>0){
-			for(int i=0; i<lstTrazabilidadCopia.size(); i++){
-				if(i!=0) cadenaCC.append(", ");
-				cadenaCC.append( lstTrazabilidadCopia.get(i).getDestinatario().getApellidos()+" "+lstTrazabilidadCopia.get(i).getDestinatario().getNombres());
+		if (lstTrazabilidadCopia != null && lstTrazabilidadCopia.size() > 0) {
+			for (int i = 0; i < lstTrazabilidadCopia.size(); i++) {
+				if (i != 0)
+					cadenaCC.append(", ");
+				cadenaCC.append(lstTrazabilidadCopia.get(i).getDestinatario().getApellidos() + " "
+						+ lstTrazabilidadCopia.get(i).getDestinatario().getNombres());
 			}
 		}
 
@@ -6209,171 +6589,185 @@ public class DocumentoAction {
 		if (documento != null) {
 			Expediente expediente = documento.getExpediente();
 			if (expediente != null) {
-				//Proceso proceso = expediente.getProceso();
-				//if (proceso != null) {
-				//	Tipoproceso tipoProceso = proceso.getTipoproceso();
-				//	if (tipoProceso != null) {
-						Rol rol = objUsuario.getRol();
-						String nombreRol = Constantes.ROL_USUARIO_FINAL;
-						if (rol != null) {
-							nombreRol = rol.getNombre();
-						}
+				// Proceso proceso = expediente.getProceso();
+				// if (proceso != null) {
+				// Tipoproceso tipoProceso = proceso.getTipoproceso();
+				// if (tipoProceso != null) {
+				Rol rol = objUsuario.getRol();
+				String nombreRol = Constantes.ROL_USUARIO_FINAL;
+				if (rol != null) {
+					nombreRol = rol.getNombre();
+				}
 
-						if(documento.getDocumentoreferencia() != null){
-							/**Es una copia de apoyo---------------------------------------------------------*/
-							objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), nombreRol);
-                                                        
-                                                        Usuarioxunidadxfuncion usuarioxunidadxfuncion  = new Usuarioxunidadxfuncion();
-                                                        usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
-                                                        usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
-                                                        usuarioxunidadxfuncion.setIdfuncion(objUsuario.getIdFuncionPerfil());
-                                                        
-							Trazabilidadapoyo tapoyo = trazabilidadapoyoService.buscarUltimaDelegacionUsuario(usuarioxunidadxfuncion, iIdDoc);
-							String comentario = "";
-							if(tapoyo != null){
-								objDD.setStrAsunto(tapoyo.getAsunto() != null ? tapoyo.getAsunto() : objDD.getStrAsunto());
-								objDD.setStrDestinatario(tapoyo.getDestinatario().getNombres() + " " + tapoyo.getDestinatario().getApellidos());
-								comentario = tapoyo.getTexto() != null ? tapoyo.getTexto() : "";
+				if (documento.getDocumentoreferencia() != null) {
+					/**
+					 * Es una copia de
+					 * apoyo---------------------------------------------------------
+					 */
+					objDD = documentoService.getDocumentDetailOptimized(documento.getDocumentoreferencia(), nombreRol);
+
+					Usuarioxunidadxfuncion usuarioxunidadxfuncion = new Usuarioxunidadxfuncion();
+					usuarioxunidadxfuncion.setIdusuario(objUsuario.getIdUsuarioPerfil());
+					usuarioxunidadxfuncion.setIdunidad(objUsuario.getIdUnidadPerfil());
+					usuarioxunidadxfuncion.setIdfuncion(objUsuario.getIdFuncionPerfil());
+
+					Trazabilidadapoyo tapoyo = trazabilidadapoyoService
+							.buscarUltimaDelegacionUsuario(usuarioxunidadxfuncion, iIdDoc);
+					String comentario = "";
+					if (tapoyo != null) {
+						objDD.setStrAsunto(tapoyo.getAsunto() != null ? tapoyo.getAsunto() : objDD.getStrAsunto());
+						objDD.setStrDestinatario(
+								tapoyo.getDestinatario().getNombres() + " " + tapoyo.getDestinatario().getApellidos());
+						comentario = tapoyo.getTexto() != null ? tapoyo.getTexto() : "";
+					}
+					if (objDD.getStrContenido() == null) {
+						objDD.setStrContenido(comentario);
+					} else {
+						objDD.setStrContenido(comentario + "<br />" + objDD.getStrContenido());
+					}
+				} else {
+					objDD = documentoService.getDocumentDetailOptimized(getIIdDoc(), nombreRol);
+				}
+
+				if (cadenaCC.length() != 0) {
+					objDD.setCadenaCC(cadenaCC.toString());
+				}
+
+				Integer id_ = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia()
+						: documento.getIdDocumento();
+				archivos = archivoService.getArchivoListPorDocumento(id_).get("upload1");
+				// archivos = archivoService.getArchivoListPorDocumento(iIdDoc).get("upload1");
+
+				if (sOpcion != null && sOpcion.equals("enviados") && idtrazabilidaddocumento != null) {
+					Trazabilidaddocumento trazabilidad = trazabilidadDocumentoService
+							.findTrabilidadbyId(idtrazabilidaddocumento);
+					objDD.setStrAsunto(trazabilidad.getAsunto());
+					objDD.setStrDestinatario(trazabilidad.getDestinatario().getNombreCompleto());
+					objDD.setStrContenido(trazabilidad.getContenido());
+				} else if (sOpcion != null && sOpcion.equals("informativos") && iIdNotificacion != null) {
+					Notificacion notificacion = notificacionService.buscarObjPorID(iIdNotificacion);
+					try {
+						objDD.setStrAsunto(notificacion.getAsunto());
+						Trazabilidadcopia t = trazabilidadcopiaService
+								.buscarPorNotificacion(notificacion.getIdnotificacion());
+						Trazabilidaddocumento td = trazabilidadDocumentoService
+								.findByIdTrazabilidadDocumento(t.getIdorigen().getIdtrazabilidaddocumento());
+						objDD.setStrDestinatario(td.getDestinatario().getNombreCompleto());
+						List<Trazabilidadcopia> list = trazabilidadcopiaService
+								.buscarPorOrigen(t.getIdorigen().getIdtrazabilidaddocumento(), 'D');
+						String valor = "";
+
+						for (int i = 0; i < list.size(); i++) {
+							if (i == list.size() - 1) {
+								for (int j = 0; j <= i - 1; j++) {
+									if (list.get(i).getDestinatario().getIdusuario() == list.get(j).getDestinatario()
+											.getIdusuario())
+										break;
+								}
+								valor = valor + list.get(i).getDestinatario().getNombreCompleto();
+							} else {
+								for (int j = 0; j <= i - 1; j++) {
+									if (list.get(i).getDestinatario().getIdusuario() == list.get(j).getDestinatario()
+											.getIdusuario())
+										break;
+								}
+								valor = valor + list.get(i).getDestinatario().getNombreCompleto() + ";";
 							}
-							if(objDD.getStrContenido() == null){
-								objDD.setStrContenido(comentario);
-							}else{
-								objDD.setStrContenido(comentario+ "<br />" +objDD.getStrContenido());
-							}
-						}else{
-							objDD = documentoService.getDocumentDetailOptimized(getIIdDoc(), nombreRol);
 						}
 
-						if(cadenaCC.length()!=0){
-							objDD.setCadenaCC(cadenaCC.toString());
-						}
+						objDD.setCadenaCC(valor);
+						objDD.setStrContenido(notificacion.getContenido());
+					} catch (Exception ex) {
+						objDD.setStrAsunto(notificacion.getAsunto());
+						objDD.setStrDestinatario(notificacion.getIdusuario().getNombreCompleto());
+						objDD.setStrContenido(notificacion.getContenido());
+					}
 
-						Integer id_ = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia() : documento.getIdDocumento();
-						archivos = archivoService.getArchivoListPorDocumento(id_).get("upload1");
-						//archivos = archivoService.getArchivoListPorDocumento(iIdDoc).get("upload1");
-
-						if(sOpcion != null && sOpcion.equals("enviados") && idtrazabilidaddocumento!=null){
-							Trazabilidaddocumento trazabilidad = trazabilidadDocumentoService.findTrabilidadbyId(idtrazabilidaddocumento);
-							objDD.setStrAsunto(trazabilidad.getAsunto());
-							objDD.setStrDestinatario(trazabilidad.getDestinatario().getNombreCompleto());
-							objDD.setStrContenido(trazabilidad.getContenido());
-						}else if(sOpcion != null && sOpcion.equals("informativos") && iIdNotificacion!=null){
-							Notificacion notificacion = notificacionService.buscarObjPorID(iIdNotificacion);
-							try{
-								objDD.setStrAsunto(notificacion.getAsunto());
-								Trazabilidadcopia t = trazabilidadcopiaService.buscarPorNotificacion(notificacion.getIdnotificacion());
-								Trazabilidaddocumento td = trazabilidadDocumentoService.findByIdTrazabilidadDocumento(t.getIdorigen().getIdtrazabilidaddocumento());
-								objDD.setStrDestinatario(td.getDestinatario().getNombreCompleto());
-								List<Trazabilidadcopia> list = trazabilidadcopiaService.buscarPorOrigen(t.getIdorigen().getIdtrazabilidaddocumento(), 'D');
-								String valor = "";
-
-								for(int i=0;i<list.size();i++){
-									if (i==list.size()-1){
-										for(int j=0;j<= i-1;j++){
-											if (list.get(i).getDestinatario().getIdusuario()==list.get(j).getDestinatario().getIdusuario())
-												break;
-										}
-										valor = valor + list.get(i).getDestinatario().getNombreCompleto();
-									}else{
-										for(int j=0;j<= i-1;j++){
-											if (list.get(i).getDestinatario().getIdusuario()==list.get(j).getDestinatario().getIdusuario())
-												break;
-										}
-	                            	    valor = valor + list.get(i).getDestinatario().getNombreCompleto() + ";";
-									}
-	                            }
-
-								objDD.setCadenaCC(valor);
-								objDD.setStrContenido(notificacion.getContenido());
-                            }catch(Exception ex){
-                            	objDD.setStrAsunto(notificacion.getAsunto());
-    							objDD.setStrDestinatario(notificacion.getIdusuario().getNombreCompleto());
-    							objDD.setStrContenido(notificacion.getContenido());
-                            }
-
-							/*objDD.setStrAsunto(notificacion.getAsunto());
-							objDD.setStrDestinatario(notificacion.getIdusuario().getNombreCompleto());
-							objDD.setStrContenido(notificacion.getContenido());*/
-						}else if(sOpcion != null && sOpcion.equals("multiples") && idTrazabilidadapoyo!=null){
-							Trazabilidadapoyo trazapo = new Trazabilidadapoyo();
-			            	trazapo = trazabilidadapoyoService.findByIdTrazabilidadApoyo(idTrazabilidadapoyo);
-			            	objDD.setStrAsunto(trazapo.getAsunto());
-			            	objDD.setStrDestinatario(trazapo.getDestinatario().getNombreCompleto());
-			            	objDD.setStrContenido(trazapo.getTexto());
-						}
-				//	}
-				//}
+					/*
+					 * objDD.setStrAsunto(notificacion.getAsunto());
+					 * objDD.setStrDestinatario(notificacion.getIdusuario().getNombreCompleto());
+					 * objDD.setStrContenido(notificacion.getContenido());
+					 */
+				} else if (sOpcion != null && sOpcion.equals("multiples") && idTrazabilidadapoyo != null) {
+					Trazabilidadapoyo trazapo = new Trazabilidadapoyo();
+					trazapo = trazabilidadapoyoService.findByIdTrazabilidadApoyo(idTrazabilidadapoyo);
+					objDD.setStrAsunto(trazapo.getAsunto());
+					objDD.setStrDestinatario(trazapo.getDestinatario().getNombreCompleto());
+					objDD.setStrContenido(trazapo.getTexto());
+				}
+				// }
+				// }
 			} else {
 				log.debug("Excecion nulo");
 
 			}
-			//objDD.setStrAsunto(documento.getExpediente().getAsunto());
-
-
+			// objDD.setStrAsunto(documento.getExpediente().getAsunto());
 
 			objDD.setIIdDocumento(iIdDoc);
 		}
 		return "proveido";
 	}
 
-	public String generarCargoTicket(){
-		cargo = documentoService.obtenerCargo(idDocumento);
-		return "cargo";
-	}
-        
-        public String generarCargo(){
+	public String generarCargoTicket() {
 		cargo = documentoService.obtenerCargo(idDocumento);
 		return "cargo";
 	}
 
-    public String verArchivoAlfresco(String sURL, Integer idDoc) {
+	public String generarCargo() {
+		cargo = documentoService.obtenerCargo(idDocumento);
+		return "cargo";
+	}
+
+	public String verArchivoAlfresco(String sURL, Integer idDoc) {
 		log.debug("-> [Action] DocumentoAction - verArchivoAlfresco():String ");
 		mapSession = ActionContext.getContext().getSession();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		log.debug("Ruta Archivo Alfresco [" + sURL + "]");
 		String ipPublica = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.IP_PUBLICA);
 		String dominioPublico = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.DOMINIO_PUBLICO);
-		String alfrescoHostPublico = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST_PUBLICO);
-		String forward=alfrescoWebServiceClient.obtenerLinkContenido(sURL);
+		String alfrescoHostPublico = SigedProperties
+				.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_HOST_PUBLICO);
+		String forward = alfrescoWebServiceClient.obtenerLinkContenido(sURL);
 		try {
 			URL urlReq = new URL(HttpUtils.getRequestURL(request).toString());
-			log.debug("URL ["+urlReq.toExternalForm()+"] Host ["+urlReq.getHost()+"]");
+			log.debug("URL [" + urlReq.toExternalForm() + "] Host [" + urlReq.getHost() + "]");
 
 			URL url = new URL(forward);
-			if(urlReq.getHost().equals(ipPublica) || urlReq.getHost().equals(dominioPublico)){
+			if (urlReq.getHost().equals(ipPublica) || urlReq.getHost().equals(dominioPublico)) {
 				forward = forward.replace(url.getHost(), alfrescoHostPublico);
-				log.debug("Reemplazando IP por ["+alfrescoHostPublico+"]");
+				log.debug("Reemplazando IP por [" + alfrescoHostPublico + "]");
 			}
 
-			try{
+			try {
 				LogOperacion logOperacion = new LogOperacion();
-				logOperacion.setIddocumento((Integer)idDoc);
+				logOperacion.setIddocumento((Integer) idDoc);
 				logOperacion.setIdusuario(((Usuario) mapSession.get(Constantes.SESSION_USUARIO)).getIdusuario());
-				logOperacion.setOpcion((String)mapSession.get("sTipoGrid"));
-				logOperacion.setNombrepc((String)mapSession.get("nombrePC"));
+				logOperacion.setOpcion((String) mapSession.get("sTipoGrid"));
+				logOperacion.setNombrepc((String) mapSession.get("nombrePC"));
 				logOperacion.setNombrefile(sURL.substring(sURL.lastIndexOf("/") + 1, sURL.length()));
 				logOperacion.setFechaoperacion(new Date());
 				logOperacionService.saveLogOperacion(logOperacion);
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 
-
 		return forward;
 	}
 
-	/**WCARRASCO Metodo que llama  para establecer el archivo principal  -----------------------------------------------*/
-	public String goArchivoPrincipal(){
+	/**
+	 * WCARRASCO Metodo que llama para establecer el archivo principal
+	 * -----------------------------------------------
+	 */
+	public String goArchivoPrincipal() {
 		log.debug("-> [Action] DocumentoAction - goArchivoPrincipal():String ");
-		log.debug("Mostrar iIdDoc"+iIdDoc);
-             
-        try{
-			mapSession=ActionContext.getContext().getSession();
+		log.debug("Mostrar iIdDoc" + iIdDoc);
+
+		try {
+			mapSession = ActionContext.getContext().getSession();
 
 			Usuario objUsuario = null;
 
@@ -6383,31 +6777,35 @@ public class DocumentoAction {
 				log.error("Expiro la sesion");
 				return Action.ERROR;
 			}
-			if(iIdDoc!=null){
+			if (iIdDoc != null) {
 
 				objDocumento = documentoService.findByIdDocumento(iIdDoc);
 
-				if(objDocumento.getDocumentoreferencia() != null){
-					listArchivo = archivoService.buscarArchivoXAutorPDF(objUsuario.getIdusuario(), objDocumento.getDocumentoreferencia());
-				}else {
+				if (objDocumento.getDocumentoreferencia() != null) {
+					listArchivo = archivoService.buscarArchivoXAutorPDF(objUsuario.getIdusuario(),
+							objDocumento.getDocumentoreferencia());
+				} else {
 					listArchivo = archivoService.buscarArchivoXAutorPDF(objUsuario.getIdusuario(), iIdDoc);
 				}
 
 			}
 
-		}catch(Exception e){
-			log.error(e.getMessage(),e);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 			return Action.ERROR;
 		}
 
 		return Action.SUCCESS;
 
 	}
-	
-	/**WCARRASCO Metodo que se encarga de colocar los archivos seleccionados como inactivos----------------------------------------*/
-	public void doSetPrincipalArchivo(){
+
+	/**
+	 * WCARRASCO Metodo que se encarga de colocar los archivos seleccionados como
+	 * inactivos----------------------------------------
+	 */
+	public void doSetPrincipalArchivo() {
 		log.debug("-> [Action] DocumentoAction - doSetPrincipalArchivo():String ");
-		mapSession=ActionContext.getContext().getSession();
+		mapSession = ActionContext.getContext().getSession();
 
 		Usuario objUsuario = null;
 
@@ -6417,15 +6815,15 @@ public class DocumentoAction {
 			log.error("Expiro la sesion");
 		}
 
-		if(arrIdArchivos != null && arrIdArchivos.length > 0){
-			for(Integer idArchivo : arrIdArchivos){
+		if (arrIdArchivos != null && arrIdArchivos.length > 0) {
+			for (Integer idArchivo : arrIdArchivos) {
 				archivo = archivoService.findById(idArchivo);
-				log.debug("idArchivo"+idArchivo);
+				log.debug("idArchivo" + idArchivo);
 				archivoService.updatePrincipalByArchivo(idArchivo, Constantes.ARCHIVO_PRINCIPAL);
 				listArchivo = archivoService.findLstByIdDocumento(archivo.getDocumento().getIdDocumento());
-				for(int i=0; i<listArchivo.size(); i++){
+				for (int i = 0; i < listArchivo.size(); i++) {
 					Archivo arch = listArchivo.get(i);
-					if(arch.getIdArchivo() != idArchivo && arch.getPrincipal()=='S'){
+					if (arch.getIdArchivo() != idArchivo && arch.getPrincipal() == 'S') {
 						archivoService.updatePrincipalByArchivo(arch.getIdArchivo(), Constantes.ARCHIVO_NOPRINCIPAL);
 					}
 				}
@@ -6434,20 +6832,19 @@ public class DocumentoAction {
 	}
 
 	/**
-	 * [ACTION]
-	 * Metodo que llama a la ventana de cambiar clave de acceso.
+	 * [ACTION] Metodo que llama a la ventana de cambiar clave de acceso.
+	 * 
 	 * @return
 	 */
-	public String verCambiarClave(){
+	public String verCambiarClave() {
 		log.debug("-> [Action] DocumentoAction - verCambiarClave():String ");
 		return "cambiarClave";
 	}
 
 	/**
-	 * [ACTION]
-	 * Metodo que guarda la nueva clave de acceso una vez validada
+	 * [ACTION] Metodo que guarda la nueva clave de acceso una vez validada
 	 */
-	public void actualizarClave(){
+	public void actualizarClave() {
 		log.debug("-> [Action] DocumentoAction - actualizarClave():void ");
 		Usuario objUsuario = null;
 		mapSession = ActionContext.getContext().getSession();

@@ -51,7 +51,7 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 		return documentoPIDEDAO.getDespachoByVcuo(vcuo);
 	}
 	@Override
-	@Transactional("transactionManagerInteroperabilidad")
+	@Transactional
 	public IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE) {
 		return documentoPIDEDAO.updateIotdtcDespachoPIDE(objIotdtcDespachoPIDE);
 	}
@@ -67,6 +67,10 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public IotdtmDocExternoPIDE getDocExternoByCuo(String vcuo) {
 		return documentoPIDEDAO.getDocExternoByCuo(vcuo);
 	}
+	public IotdtmDocExternoPIDE getDocExternoBySidemext(Integer sidemiext) {
+		return documentoPIDEDAO.getDocExternoBySidemext(sidemiext);
+	}
+	
 	
 
 	@Override

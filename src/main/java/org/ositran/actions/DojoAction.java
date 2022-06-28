@@ -217,6 +217,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.ositran.cmis.api.AlfrescoApiWs;
+import com.ositran.pide.requestssoap.WSPideValidarEntidad;
 
 import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.service.SeguridadService;
@@ -2745,7 +2746,6 @@ public class DojoAction {
 		}
 
 		List lstItem = gridColumnaXUsuarioService.getItems(sTipoGrid, objUsuario, null);
-		
 		List<Item> list1 = lstItem;
 		
 
@@ -2782,7 +2782,7 @@ public class DojoAction {
 
 
 		objJSON.setStructure(gridColumnaXUsuarioService.getEstructura(sTipoGrid, objUsuario));
-
+		
 		return objJSON;
 	}
 
@@ -3372,6 +3372,7 @@ public class DojoAction {
 		mapSession = ActionContext.getContext().getSession();
 		Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
 		List<Item> items = new ArrayList<Item>();
+		IotdtcRecepcion iotdtcRecepcion = null;
 
 		try {
 			for (int i = 0; i < lista.length; i++) {
@@ -3386,7 +3387,12 @@ public class DojoAction {
 
 			for (int i = 0; i < lista.length; i++) {
 				if (!lista[i].equals("")) {
+//					log.info("--------------new Integer(lista[i])-----------" + new Integer(lista[i]));
 					Documento d = documentoService.findByIdDocumento(new Integer(lista[i]));
+					if(d.getID_EXTERNO() == 1) {
+						iotdtcRecepcion = recepcionVirtualDAO.findByIdDoc(new Integer(lista[i]));
+					}
+					
 					List<Archivo> listArchivos = null;
 
 					if (accionEjecutar.equals("F")) {
@@ -3437,13 +3443,16 @@ public class DojoAction {
 							} else {
 								datos = datos + "N";
 							}
-
+							
+							if(iotdtcRecepcion != null) {
+								item.setVcuo(iotdtcRecepcion.getVcuo() == null ? "nVcuo" : iotdtcRecepcion.getVcuo());
+							}
 							log.info("Archivo a firmar (datos):" + datos);
 							item.setIdArchivo(datos);
 							item.setRecepcionado(d.getRecepcionado() == null ? "" : d.getRecepcionado());
 							item.setObjectId(listArchivos.get(j).getObjectId());
 							item.setIdCodigo(d.getID_CODIGO().toString());
-
+							item.setIddocumento(String.valueOf(d.getIdDocumento()));
 							item.setRutaOrigen(rutaOrigen + File.separator + "ConCodigoQr");
 							item.setRutaDestino(rutaDestino);
 							item.setRutaImagen(rutaImagen);
@@ -3701,6 +3710,70 @@ public class DojoAction {
 
 		return "1";
 	}
+	
+	@SMDMethod
+
+	public String generateQrPreSignetOnlyFirma(List<ItemFirmar> items, String accionEjecutar) {
+		String ALFRESCO_ROOT = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOT);
+		String POR_FIRMAR = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.FIRMAS_RUTA_PORFIRMAR);
+
+		try {
+			for (ItemFirmar itemFirmar : items) {
+				String estadoFirma = Constantes.ESTADO_FIRMA.get(itemFirmar.getObjectId());
+				if (estadoFirma != null && estadoFirma.equals("1")) {
+					return "2";
+				}
+				else {
+					Constantes.ESTADO_FIRMA.put(itemFirmar.getObjectId(), "1");
+				}
+			}
+			
+			for (ItemFirmar itemFirmar : items) {
+				log.info("itemFirmar............" + itemFirmar);
+				String nombreArchivo = itemFirmar.getArchivo();
+				String fullPathPorFirmar = POR_FIRMAR + nombreArchivo;
+				String fullPathPorFirmarQr = POR_FIRMAR + "ConCodigoQr" + File.separator +  nombreArchivo;
+				
+				System.out.println("-------------fullPathPorFirmar-------- " + fullPathPorFirmar);
+				System.out.println("---------fullPathPorFirmarQr------- " +fullPathPorFirmarQr);
+				
+				List<Archivo> list1 = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(),
+					Integer.valueOf(itemFirmar.getCodigoId()));
+//				list1.get(0).setFlagFirma(1);
+				System.out.println("-------------Guardo el archivo firmado--------------");
+				archivoService.saveArchivo(list1.get(0));
+
+				if (!list1.get(0).getEstado().equals("F") && !list1.get(0).getEstado().equals("V")) {
+					log.info("============================= Aqui se crea el QR ===============================");
+					String qrCodeText = ALFRESCO_ROOT + list1.get(0).getRutaAlfresco();
+					String nombreArchivoQr = nombreArchivo.replace(".pdf", "_qr.png");
+					String filePathImagen = POR_FIRMAR + nombreArchivoQr;
+					int size = 66;
+					String fileType = "png";
+					File qrFile = new File(filePathImagen);
+					try {
+//						DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					log.info("========== Aqui se pega el Qr en el documento ===========");
+					DojoAction.manipulatePdfSinCuerpo(fullPathPorFirmar, fullPathPorFirmarQr);
+				}
+			}
+		} catch (Exception e) {
+			for (ItemFirmar itemFirmar1 : items) {
+				List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar1.getObjectId(),Integer.valueOf(itemFirmar1.getCodigoId()));
+//				list2.get(0).setFlagFirma(0);
+				archivoService.saveArchivo(list2.get(0));
+			}
+			System.out.println("-----------------No guardo el archivo------------------");
+			
+			return "0";
+		}
+
+		return "1";
+	}
 	@SMDMethod
 	public void cambiarEstadoFirma(List<ItemFirmar> items) {
 	for (ItemFirmar itemFirmar : items) {
@@ -3852,6 +3925,30 @@ public class DojoAction {
 			return "2";
 		}
 	}
+	@SuppressWarnings("null")
+	@SMDMethod
+	public String validarEntidad(Integer idinstitucion) {
+		//buscar cliente 
+		Cliente cliente = clienteService.findByIdCliente(idinstitucion);
+	
+		WSPideValidarEntidad validarEntidad = new WSPideValidarEntidad();
+		String response = null;
+		System.out.println("-----------------cleinte encontrado ------------------- " + cliente);
+		if(cliente!= null) {
+			System.out.println("RUC-CLIENET----------------------------" +cliente.getNumeroIdentificacion());
+			try {
+				System.out.println("-------------------------ingreso al try----------------------------------------");
+				response = validarEntidad.validarEntidadSOAP(cliente.getNumeroIdentificacion(),"D");
+				System.out.println("---------------respuesta de servicio");
+				System.out.println(response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return response;
+	}
 	
 	@SMDMethod
 	public String deleteFirmaArchivo(List<ItemFirmar> items) {
@@ -3922,6 +4019,31 @@ public class DojoAction {
 						"D.S. 026-2016-PCM. Su autenticidad e integridad pueden ser contrastadas", 160, 20, 0);
 				content.showTextAligned(PdfContentByte.ALIGN_LEFT, "leyendo el código QR.", 160, 10, 0);
 				content.endText();
+			}
+
+			pdfStamper.close();
+			pdfReader.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void manipulatePdfSinCuerpo(String rutaProcedenciaPdf, String rutaDestinoPdf) {
+		try {
+			PdfReader pdfReader = new PdfReader(rutaProcedenciaPdf);
+
+			PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileOutputStream(rutaDestinoPdf));
+
+			// put content under
+			for (int i = 1; i <= pdfReader.getNumberOfPages(); i++) {
+//				Image image = Image.getInstance(rutaImagen);
+				PdfContentByte content = pdfStamper.getUnderContent(i);
+//				image.setAbsolutePosition(355f, 0f);
+
+				// Text over the existing page
+				BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
 			}
 
 			pdfStamper.close();

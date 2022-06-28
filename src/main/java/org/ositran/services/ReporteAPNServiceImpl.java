@@ -36,6 +36,7 @@ public class ReporteAPNServiceImpl implements ReporteAPNService {
 	private ReporteAPNDAO reporteAPNDAO;
 
 	public List<FilaHojaRuta> generarHojaRuta(Integer idDocumento){
+		log.debug("----------------GET HOJA RUTA-------------");
 		return reporteAPNDAO.getHojaRuta(idDocumento);
 	}
         

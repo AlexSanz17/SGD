@@ -9,27 +9,52 @@
 		<script type="text/javascript" src="js/siged/upload.js"></script>
 		<script type="text/javascript">
 			var i =0;
+			
+// 			 archivoPrincipal.addEventListener("change", function(){
+//              	console.log("principal ---------------" +archivoPrincipal.files[0]);
+// 					console.log("anexo ---------------" +archivoAnexo.files[0]);
+			    	 
+             
+//              });
 			function AA_Adjuntar(tipo) {
-                if(dijit.byId("dlgProgresBar")!=null){
-					dijit.byId("dlgProgresBar").show();
-				}
-
-                dojo.io.iframe.send({
-					handleAs: "text/html",
-				    form: dojo.byId("AA_frmUploadFile"),
-				    content: {
-				    	iIdUpload: 2,
-                        iIdDoc : "<s:property value='iIdDoc' />",
-                        tipo: tipo
-				    },
-				    handle: function(data) {
-                        dojo.byId("AA_archivos").innerHTML = divPanel(data, tipo);
-                        
-                        if(dijit.byId("dlgProgresBar")!=null){
-				          dijit.byId("dlgProgresBar").hide() ;
-				        }
-				    }
-				});
+			
+				var sizemax= false;
+				var archivoPrincipal = document.getElementById("aa_fchooser_principal");
+				var archivoAnexo = document.getElementById("aa_fchooser");
+				 
+				if( "<s:property value='flagPide' />"  == "1" && archivoPrincipal.files[0].size >= "<s:property value='@org.ositran.utils.Constantes@PIDE_FILE_SIZE' /> " ){
+		    		  sizemax = true;
+		    		  alert("El documento Principal sobrepasa el peso limite para documentos PIDE.");
+               }else{
+            	   sizemax = false;
+               }
+		    	console.log(sizemax)
+				
+               
+                if(!sizemax){
+	                if(dijit.byId("dlgProgresBar")!=null){
+						dijit.byId("dlgProgresBar").show();
+					}
+                	dojo.io.iframe.send({
+    					handleAs: "text/html",
+    				    form: dojo.byId("AA_frmUploadFile"),
+    				    content: {
+    				    	iIdUpload: 2,
+                            iIdDoc : "<s:property value='iIdDoc' />",
+                            tipo: tipo
+    				    },
+    				    handle: function(data) {
+    				    	
+    	                        dojo.byId("AA_archivos").innerHTML = divPanel(data, tipo);
+    	                        
+    	                        if(dijit.byId("dlgProgresBar")!=null){
+    					          dijit.byId("dlgProgresBar").hide() ;
+    					        
+    				    		
+    				    	}
+    				    }
+    				});
+                }
 			}
 
 			function AA_Registrar(idButton){
@@ -51,9 +76,12 @@
                     }else{
                         var enviar =  true;
                         var camposdelForm =document.getElementById("AA_archivos");
+                        var archivoPrincipal = document.getElementById("aa_fchooser_principal");
                         var filesinput = camposdelForm.getElementsByTagName("a") ;
                         var archivos= filesinput.length;
-
+                        console.log(archivoPrincipal.files);
+						
+                      
                         if(archivos < 1){
                           alert("Es necesario subir al menos un archivo.");
                           enviar =  false;
@@ -66,7 +94,8 @@
                            dojo.xhrPost({
                               url: "doAdjuntarArchivo.action",
                          	  content:{
-                              	iIdDoc : "<s:property value='iIdDoc' />"
+                              	iIdDoc : "<s:property value='iIdDoc' />",
+                              	sizeDoc: archivoPrincipal.files[0].size
                            	  },
 	                           load: function(data) {
 	                                if(dijit.byId("contentPaneDetail")){
@@ -218,7 +247,7 @@
                         <table  border="1" bordercolor="#669BCD" bgcolor="#ffffff">
                            <s:if test="#session._USUARIO.idRolPerfil != @org.ositran.utils.Constantes@COD_ROL_MENSAJERIA">   
                               <s:if test="proyecto != @org.ositran.utils.Constantes@DOCUMENTO_PROYECTO || (proyecto == @org.ositran.utils.Constantes@DOCUMENTO_PROYECTO && destinatarioIgualRemitente == false)">   
-                                  <s:if test="codigoVirtual == null && archivoPrincipal == null">
+                                  <s:if test="codigoVirtual == null && archivoPrincipal == null ">
                                         <tr>
                                              <td width="8px"></td>
                                              <td width="165px" align="left"> 

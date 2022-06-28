@@ -23,6 +23,7 @@ public interface DocumentoPIDEDAO {
 	IotdtcDespachoPIDE updateIotdtcDespachoPIDE(IotdtcDespachoPIDE objIotdtcDespachoPIDE);
 	List<IotdtmDocExternoPIDE> findAllDocExterno();
 	IotdtmDocExternoPIDE getDocExternoByCuo(String vcuo);
+	IotdtmDocExternoPIDE getDocExternoBySidemext(Integer sidemiext) ;
 	IotdtmDocExternoPIDE updateIotdtmDocExternoPIDE(IotdtmDocExternoPIDE objIotdtmDocExternoPIDE);
 	List<IotdtdDocPrincipalPIDE> findAllDocPrincipal();
 	IotdtdDocPrincipalPIDE getDocPrincipalByCuo(String vcuo);

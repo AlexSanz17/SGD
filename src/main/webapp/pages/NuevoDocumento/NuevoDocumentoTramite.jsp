@@ -375,8 +375,11 @@
         	 dijit.byId("fsClienteInstitucionTramite").attr("readOnly", true);
         	 dijit.byId("fsClienteEmpresaTramite").attr("readOnly", true);
         	 dijit.byId("fsClientePersonaTramite").attr("readOnly", true);
-
-             dijit.byId("objDD.asuntoExpedienteTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
+			
+        	 var asuntoExpediente = '"<s:property value='recepcionVirtual.vasu' escape='false'/>"';
+        	 var asuntoExpedienteSComilla =  asuntoExpediente.replaceAll("\"", "");
+//         	 console.log(asuntoExpedienteSComilla);
+             dijit.byId("objDD.asuntoExpedienteTramite").setValue(asuntoExpedienteSComilla);
              dijit.byId("objDD.asuntoExpedienteTramite").attr("readOnly", true);
              dijit.byId("objDD.iIdSerieTramite").attr("value", "1");
              
@@ -384,7 +387,7 @@
              dijit.byId("objDocumento.tipoDocumento.idtipodocumentoTramite").attr("readOnly", true);
              dijit.byId("objDD.strNroDocumentoTramite").setValue("<s:property value='recepcionVirtual.vnumdoc' escape='false'/>");
              dijit.byId("objDD.strNroDocumentoTramite").attr("readOnly", true);
-             dijit.byId("objDD.strAsuntoTramite").setValue("<s:property value='recepcionVirtual.vasu' escape='false'/>");
+             dijit.byId("objDD.strAsuntoTramite").setValue(asuntoExpedienteSComilla);
              dijit.byId("objDD.strAsuntoTramite").attr("readOnly", true);
              dijit.byId("objDD.prioridadTramite").attr("value","1");
              
@@ -444,6 +447,7 @@
  
          function llenarCampos(){ //MODIFICAR
              document.getElementById("mostrarExpedientesAbiertos").value = "HIDE";
+         
              dijit.byId("objDD.strNroDocumentoTramite").setValue("<s:property value='documento.numeroDocumento' escape='false' />");
              dijit.byId("objDD.esTipoRecepcionTramite").setValue("<s:property value='documento.recepcionado' />");
              document.getElementById("objDD.iIdDocumento").value = "<s:property value='idDocumento' />";

@@ -25,8 +25,18 @@ import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class RecepcionMPVServiceImpl implements RecepcionMPVService {    
 	RecepcionMPVDAO recepcionMPVDAO;
+	private String PROXY_HOST = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_HOST);
+	private String PROXY_ACTIVE = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_ACTIVE);
+	private String PROXY_PORT = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT);
+	private String SERVICIO_RECEPCION_MPV = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.SERVICIO_RECEPCION_MPV);
 
     public RecepcionMPVDAO getRecepcionMPVDAO() {
 		return recepcionMPVDAO;
@@ -62,12 +72,13 @@ public class RecepcionMPVServiceImpl implements RecepcionMPVService {
 	public CargoRecepcionMPVResponse enviarCargo(CargoRecepcionMPVRequest cargoRecepcionMPVRequest) {
     	CargoRecepcionMPVResponse cargoRecepcionMPVResponse = new CargoRecepcionMPVResponse();
     	
-    	
+    	String proxy_address = PROXY_HOST;
+		int proxy_port = Integer.parseInt(PROXY_PORT);
 
     	try {
-    		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1", 8080));
+    		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxy_address, proxy_port));
     		
-    		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
+    		URL url = new URL(SERVICIO_RECEPCION_MPV);
     		HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
     		conn.setDoOutput(true);
     		conn.setRequestMethod("POST");

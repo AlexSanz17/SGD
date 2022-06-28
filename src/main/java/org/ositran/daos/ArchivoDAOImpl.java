@@ -120,6 +120,16 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 		return em.createNamedQuery("Archivo.buscarArchivoExterno").setParameter("objectId", objectId)
 				.setParameter("nroTramite", nroTramite).setParameter("clave", clave).getResultList();
 	}
+	@SuppressWarnings("unchecked")
+	public List<Archivo> buscarArchivoAnexoByIdDocumento(Integer iddocumento) {
+		return em.createNamedQuery("Archivo.buscarArchivoAnexoByIdDocumento").setParameter("iddocumento", iddocumento)
+				.getResultList();
+	}
+	@SuppressWarnings("unchecked")
+	public List<Archivo> buscarArchivoCargoByIdDocumento(Integer iddocumento) {
+		return em.createNamedQuery("Archivo.buscarArchivoCargoByIdDocumento").setParameter("iddocumento", iddocumento)
+				.getResultList();
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite) {

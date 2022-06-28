@@ -203,7 +203,7 @@ public class VirtualAction {
 	        objDD = new DocumentoDetail();
 	        objDD.setStrAsunto(despacho.getVasu());
 	        objDD.setArchivoCargo("");
-	        System.out.println("========0viewDocDespachoVirtual====2=======");
+//	        System.out.println("========0viewDocDespachoVirtual====2=======");
 	        if (despacho.getSidemiext().getBcarstdrec()!=null){
 	            objDD.setArchivoCargo(d.getID_CODIGO() + "_CARGO_VIRTUAL_" + d.getTipoDocumento().getNombre() + ".pdf");  
 	        }
@@ -220,9 +220,18 @@ public class VirtualAction {
 	        objDD.setCuo(despacho.getSidemiext().getVcuo());
 	        objDD.setIIdDocumento(despacho.getSidemiext().getIddocumento());
 	        objDD.setiIdDocumentoReferencia(d.getDocumentoreferencia());
-	        
             List<ArchivoAdjunto> list = new ArrayList<ArchivoAdjunto>();
-
+            
+            //buscar archivo anexo
+            List<Archivo> archivo = archivoService.buscarArchivoAnexoByIdDocumento(despacho.getSidemiext().getIddocumento());
+            if(archivo.size() > 0 && archivo != null) {
+            	 objDD.setIdArchivoAnexo(archivo.get(0).getIdArchivo());
+                 objDD.setRutaAlfrescoAnexo(archivo.get(0).getRutaAlfresco());
+                 objDD.setObjectIdAnexo(archivo.get(0).getObjectId());
+            	objDD.setNombreAnexo(archivo.get(0).getNombre());
+            }
+           
+            
 	        if (despacho.getIotdtdAnexoList() != null && despacho.getIotdtdAnexoList().size() > 0){
 	            for (IotdtdAnexo anexo : despacho.getIotdtdAnexoList()){
 	            	ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
@@ -232,7 +241,7 @@ public class VirtualAction {
 	                list.add(archivoAdjunto);
 	            }
 	        }
-	        System.out.println("========0viewDocDespachoVirtual====3=======");
+//	        System.out.println("========0viewDocDespachoVirtual====3=======");
             objDD.setListAnexos(list);
 
 	        if (despacho.getSidemiext().getCflgest() == 'P') {
@@ -326,7 +335,7 @@ public class VirtualAction {
 		}
 		System.out.println("-------enviar cargo ---------" + enviarCargo);
 		
-		return enviarCargo;
+		return "true";
 
 	}
     
@@ -411,13 +420,23 @@ public class VirtualAction {
 		            }
 		        }
 		        
+		        //buscar archivo anexo
+	            List<Archivo> archivo = archivoService.buscarArchivoCargoByIdDocumento(recepcion.getSidrecext().getIddocumento());
+	            if(archivo.size() >0) {
+	            	
+	            	objDD.setIdArchivoAnexo(archivo.get(0).getIdArchivo());
+	            	objDD.setRutaAlfrescoAnexo(archivo.get(0).getRutaAlfresco());
+	            	objDD.setObjectIdAnexo(archivo.get(0).getObjectId());
+	            	
+	            }
+		        
 	            List<ArchivoAdjunto> list = new ArrayList<ArchivoAdjunto>();
 
 		        if (recepcion.getIotdtdAnexoList() != null && recepcion.getIotdtdAnexoList().size() > 0) {
 		            for (IotdtdAnexo anexo : recepcion.getIotdtdAnexoList()){
 		            	ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
 		            	archivoAdjunto.setNombreArchivo(anexo.getVnomdoc());
-		            	archivoAdjunto.setRutaArchivo("");
+		            	archivoAdjunto.setRutaArchivo(recepcion.getVurldocanx());
 		            	archivoAdjunto.setTamanoArchivo("");
 		                list.add(archivoAdjunto);
 		            }

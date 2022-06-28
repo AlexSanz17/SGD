@@ -3464,13 +3464,15 @@ public class DocumentoDAOImpl implements DocumentoDAO {
         objUsuario.setIdUsuarioPerfil(fila.getPropietario().getIdusuario());
         objUsuario.setIdUnidadPerfil(fila.getUnidadpropietario());
         objUsuario.setIdFuncionPerfil(fila.getCargopropietario());
-               
+            
         uuf.setNroTramite(fila.getNroTramite());
         uuf.setId(fila.getId());
         uuf.setTipodocumento(fila.getIdtipodocumento().toString());
         uuf.setOrigen(fila.getOrigen());
         uuf.setTipoalerta(fila.getTipoalerta());
-        uuf.setRemitente(fila.getRemitente().getNombreCompleto());
+        if(fila.getRemitente() != null) {
+        	uuf.setRemitente(fila.getRemitente().getNombreCompleto());
+        }
         uuf.setIdPropietario(fila.getPropietario().getIdusuario().toString());
         uuf.setPropietario(fila.getPropietario().getNombreCompleto());
         uuf.setArea(fila.getDesunidadremitente());

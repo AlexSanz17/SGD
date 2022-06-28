@@ -190,8 +190,17 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     private Integer codigoVirtual;
     private String flagVerExpediente;
     private AdjuntoMPVService adjuntoMPVService;
+    private Cliente objCliente;
 
-    public AdjuntoMPVService getAdjuntoMPVService() {
+    public Cliente getObjCliente() {
+		return objCliente;
+	}
+
+	public void setObjCliente(Cliente objCliente) {
+		this.objCliente = objCliente;
+	}
+
+	public AdjuntoMPVService getAdjuntoMPVService() {
 		return adjuntoMPVService;
 	}
 
@@ -666,7 +675,9 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
         
         
         if(idDocumento != null){ 
+
             documento = documentoService.findByIdDocumento(idDocumento);
+            objCliente = clienteService.findByIdCliente(documento.getID_CLIENTE());
             if (tipoTransaccion!=null && tipoTransaccion.equals("M")){
               DocumentoReunion documentoReunion = new DocumentoReunion();
               documentoReunion.setIdDocumento(idDocumento);

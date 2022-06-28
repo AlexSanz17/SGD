@@ -36,6 +36,7 @@ function uploadIt(iIdUpload,dig) {
    if (iIdUpload == null)
       iIdUpload = 1;
    // Modificado por Germán Enríquez para que valide el nombre de archivo
+      console.log("archivo-----------" + document.getElementsByName("upload")[0])
    if(dig){
       var archivo=document.getElementsByName("upload")[0].value;
       var separador=archivo.lastIndexOf("\\");

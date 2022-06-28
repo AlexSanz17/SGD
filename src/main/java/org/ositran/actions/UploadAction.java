@@ -6,6 +6,8 @@ import com.btg.ositran.siged.domain.Documento;
 import com.btg.ositran.siged.domain.FirmaArchivo;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
+
+import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.config.StrutsProperties;
 import gob.ositran.siged.config.StrutsProperties.SigedPropertyEnum;
 import gob.ositran.siged.util.MessagePropertiesEnum;
@@ -58,7 +60,8 @@ public class UploadAction {
     private DocumentoService documentoService;
     private FirmaArchivoDAO firmaArchivoDAO;
     private String cargoTramite;
-
+    private String TAMANO__MAX_PIDE = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.TAMANO__MAX_PIDE);
 
     public String getCargoTramite() {
         return cargoTramite;
@@ -237,6 +240,9 @@ public class UploadAction {
     public String uploadFile() throws Exception {
         String[] filenamePrincipalVarios = null;
         String[] filenameCargoVarios = null;
+        
+        
+        Documento documentoPide = documentoService.findByIdDocumento(iIdDoc);
         try {
             if(filenamePrincipal!=null)
                 filenamePrincipalVarios = filenamePrincipal.split(", ");
@@ -321,6 +327,7 @@ public class UploadAction {
             }
             
             long max_file_size = StrutsProperties.getLongProperty(SigedPropertyEnum.MULTIPART_MAX_SIZE);
+            
             String extension = "";
             
             int cantidadArchivos = 0;
@@ -337,32 +344,52 @@ public class UploadAction {
             for(int cantDoc=0;cantDoc<cantidadArchivos;cantDoc++)
             {
                 if(filePrincipal!=null && tipo.equals("P")){
-                    int indice_i = filenamePrincipalVarios[cantDoc].indexOf('.');
+                    int indice_i = filenamePrincipalVarios[cantDoc].lastIndexOf('.');
                     int indice_f = filenamePrincipalVarios[cantDoc].length();
                     extension = filenamePrincipalVarios[cantDoc].substring(indice_i, indice_f);
+//                    
+//                    System.out.println("--------------------archuivo principal----------------------");
+//                    System.out.println(filenamePrincipalVarios[cantDoc].toString());
                 }
 
                 if(filenameCargo!=null && tipo.equals("C")){
-                    int indice_i = filenameCargoVarios[cantDoc].indexOf('.');
+                    int indice_i = filenameCargoVarios[cantDoc].lastIndexOf('.');
                     int indice_f = filenameCargoVarios[cantDoc].length();
                     extension = filenameCargoVarios[cantDoc].substring(indice_i, indice_f);
                 }
 
                 if(filenameProyecto!=null && tipo.equals("Y")){
-                    int indice_i = filenameProyecto.indexOf('.');
+                    int indice_i = filenameProyecto.lastIndexOf('.');
                     int indice_f = filenameProyecto.length();
                     extension = filenameProyecto.substring(indice_i, indice_f);
                 }
+             
+//                if(documentoPide.getCodTipoInstitucion() == 1 && documentoPide.getTipoDocumento().getIdtipodocumento() == 15) {
+//                    if( filePrincipal != null && filePrincipal.get(cantDoc).length() >= max_file_size_pide) {
+//                    	System.out.println("----tamano de file es mayor establecido------------------" +filePrincipal.get(cantDoc).length());
+//                 	 		mapUpload = uploadService.refrescarListaUpload(mapUpload, iIdUpload);
+//                 	 		this.mensaje = " <font color=\"#FF0000\"><b>El documento Principal sobrepasa el tamaño limite para documentos PIDE</b></font>";
+//                 	 		mapSession.put(Constantes.MENSAJE_UPLOAD, "<font color=\"#FF0000\"><b>" + this.mensaje + "</b></font>");
+//                 	 				
+//         	 			}
+//                 	}
+                
 
                 if(val){  
                     mapUpload = uploadService.refrescarListaUpload(mapUpload, iIdUpload);
                     this.mensaje = " <font color=\"#FF0000\"><b>No es posible agregar el mismo archivo </b></font>";
                     mapSession.put(Constantes.MENSAJE_UPLOAD, this.mensaje);
-                }else if ((filenameCargo != null && filenameCargoVarios[cantDoc].length() >= max_file_size) || (filenameProyecto != null && filenameProyecto.length() >= max_file_size) || (file != null && file.length() >= max_file_size) || (filePrincipal != null && filePrincipal.get(cantDoc).length() >= max_file_size)) {
+                }
+                else if ((filenameCargo != null && filenameCargoVarios[cantDoc].length() >= max_file_size) || (filenameProyecto != null && filenameProyecto.length() >= max_file_size) || (file != null && file.length() >= max_file_size) || (filePrincipal != null && filePrincipal.get(cantDoc).length() >= max_file_size)) {
                     mapUpload = uploadService.refrescarListaUpload(mapUpload, iIdUpload);
                     this.mensaje = messageSource.getMessage(MessagePropertiesEnum.STRUTS_ERROR_FILE_TOO_LARGE);
+//                    this.mensaje = " <font color=\"#FF0000\"><b>El documento Principal sobrepasa el tamaño limite </b></font>";
                     mapSession.put(Constantes.MENSAJE_UPLOAD, "<font color=\"#FF0000\"><b>" + this.mensaje + "</b></font>");
-                }else if (filePrincipal!=null && tipo.equals("P") && !extension.toUpperCase().equals(".PDF")){
+                    
+                } 
+                	
+                
+                 else if (filePrincipal!=null && tipo.equals("P") && !extension.toUpperCase().equals(".PDF")){
                     mapUpload = uploadService.refrescarListaUpload(mapUpload, iIdUpload);
                     this.mensaje = " <font color=\"#FF0000\"><b>El documento Principal debe ser un archivo con formato PDF </b></font>";
                     mapSession.put(Constantes.MENSAJE_UPLOAD, this.mensaje);
@@ -378,7 +405,10 @@ public class UploadAction {
                         this.mensaje = " <font color=\"#FF0000\"><b>El cargo debe ser un archivo con formato PDF </b></font>";
                     }    
                     mapSession.put(Constantes.MENSAJE_UPLOAD, this.mensaje);
-                }else{    
+                } 
+             
+                
+                else {    
                     mapSession.remove(Constantes.MENSAJE_UPLOAD);
 
                     if (file!=null || filePrincipal!=null || fileCargo!=null || fileProyecto!=null){
@@ -435,7 +465,7 @@ public class UploadAction {
                                         }
                                     }      
                                 }
-
+                                
                                 if (existe){
                                      mapUpload = uploadService.refrescarListaUpload(mapUpload, iIdUpload);
                                      this.mensaje = "<font color=\"#FF0000\"><b>Ya existe un documento principal</b></font>";

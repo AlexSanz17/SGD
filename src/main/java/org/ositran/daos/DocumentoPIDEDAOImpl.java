@@ -85,8 +85,27 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 
 	@Override
 	public List<IotdtmDocExternoPIDE> findAllDocExterno() {
-		Query query = entityManager.createNamedQuery("IotdtmDocExternoPIDE.findAllRecepcion");
+		Query query = null;
+		try {
+			query = entityManager.createNamedQuery("IotdtmDocExternoPIDE.findAll");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return query.getResultList();
+	}
+	public IotdtmDocExternoPIDE getDocExternoBySidemext(Integer sidemiext) {
+		IotdtmDocExternoPIDE iotdtmDocExternoPIDE = null;
+		try {
+			 Query query = entityManager.createNamedQuery("IotdtmDocExternoPIDE.findBySidemiext");
+			query.setParameter("sidemiext", sidemiext);
+			iotdtmDocExternoPIDE =  (IotdtmDocExternoPIDE) query.getSingleResult();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return iotdtmDocExternoPIDE ;
 	}
 	
 	public IotdtmDocExternoPIDE getDocExternoByCuo(String vcuo) {

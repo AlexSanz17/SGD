@@ -104,8 +104,15 @@ public class DocumentoReferenciaDAOImpl implements DocumentoReferenciaDAO{
         
         public List<DocumentoReferencia> getAllReferenciaDocumento(Integer idDocumento){
             log.debug("DocumentoReferenciaDAOImpl::getAllReferenciaDocumento-idDocumento");
-	    String sql = "SELECT f FROM DocumentoReferencia f WHERE f.idDocumento =" + idDocumento;
-	    return em.createQuery(sql).getResultList();
+            List<DocumentoReferencia> lstDocumentoReferencia = null;
+            try {
+            	 String sql = "SELECT f FROM DocumentoReferencia f WHERE f.idDocumento =" + idDocumento;
+            	 lstDocumentoReferencia =  em.createQuery(sql).getResultList();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+	   return lstDocumentoReferencia;
 	}
         
         //****************************** PARA ATENER DOCUMENTO AL PROCESAR DERIVAR ****************************************

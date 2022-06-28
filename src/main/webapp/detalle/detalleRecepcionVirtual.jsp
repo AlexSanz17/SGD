@@ -62,9 +62,12 @@
               window.open(url);
           }    
           
-          function verArchivoCargo(codigo) {
-              var fecha = new Date();
-              window.open("<%=request.getContextPath()%>/verDocumento.png?idCodigo=" +codigo + "&accion=abrirCargoRecepcionVirtual&fecha=" + fecha );
+          function verArchivoCargo(idArchivo,url, objectId) {
+//               var fecha = new Date();
+<%--               window.open("<%=request.getContextPath()%>/verDocumento.png?idCodigo=" +codigo + "&accion=abrirCargoRecepcionVirtual&fecha=" + fecha ); --%>
+					var fecha = new Date();
+					window.open("<%=request.getContextPath()%>/verDocumento.png?idArchivo=" +idArchivo + "&url=" + url + "&objectId="+ objectId  + "&accion=abrirDocumento&fecha=" + fecha.getTime());
+
           }     
           
           function verArchivoAnexo(url) {
@@ -175,7 +178,7 @@
                                
                                <s:if test="objDD.archivoCargo != null && objDD.archivoCargo != ''">
                                	  <div class="div-adjunto">
-	                                  <a onclick="verArchivoCargo('<s:property value='objDD.idCodigo' />');" alt="Ver Archivo Cargo">
+	                                  <a onclick="verArchivoCargo('<s:property value="objDD.idArchivoAnexo"/>', '<s:property value='objDD.rutaAlfrescoAnexo' />', '<s:property value='objDD.objectIdAnexo' />');" alt="Ver Archivo Cargo">
 	                                  	 <b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_CARGO_TV" />"><s:property value="objDD.archivoCargo" /></font></b> [<s:property value="objDD.tamanoCargo" />]
 	                                  </a>
                                   </div>
@@ -187,7 +190,7 @@
                                   </div>
                                   <s:iterator value="objDD.listAnexos">
                                   	 <div class="div-adjunto">
-                                   		<a onclick="verArchivoAnexo('<s:property value="rutaArchivo" /><s:property value="nombreArchivo" />');" alt="Ver Archivo Anexo"><s:property value="nombreArchivo" /> [<s:property value="tamanoArchivo" />]</a>
+                                   		<a onclick="verArchivoAnexo('<s:property value="rutaArchivo" />');" alt="Ver Archivo Anexo"><s:property value="nombreArchivo" /> [<s:property value="tamanoArchivo" />]</a>
                                    	 </div>
                                   </s:iterator>
                                </s:if>

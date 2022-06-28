@@ -31,4 +31,6 @@ public interface ArchivoDAO {
    public List<Archivo> findByIdNombreEstado(Integer idDocumento, String nombre);
    public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite);
    public List<Archivo> buscarArchivoExterno(String objectId, Integer nroTramite, String clave);
+   public List<Archivo> buscarArchivoAnexoByIdDocumento(Integer iddocumento);
+   public List<Archivo> buscarArchivoCargoByIdDocumento(Integer iddocumento) ;
 }

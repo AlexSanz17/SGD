@@ -9,6 +9,20 @@
       <meta http-equiv="Content-Type" content="text/html; utf-8" />
       <link rel="stylesheet" type="text/css" href="css/estilo.css" />
       <link rel="stylesheet" type="text/css" href="js/dojo/dijit/themes/soria/soria.css" />
+      <style type="text/css">
+                @import "css/siged.css";
+                @import "css/sigedIconos.css";
+                @import "css/transferSelect.css";
+                @import "js/dojo/dojo/resources/dojo.css";
+                @import "js/dojo/dijit/themes/nihilo/nihilo.css";
+                @import "js/dojo/dojox/grid/resources/nihiloGrid.css";
+                @import "js/dojo/dijit/themes/soria/soria.css";
+                @import "js/dojo/dojox/grid/resources/soriaGrid.css";
+                @import "js/dojo/dijit/themes/tundra/tundra.css";
+                @import "js/dojo/dojox/grid/resources/tundraGrid.css";
+                @import "js/dojo/dojox/layout/resources/ExpandoPane.css";
+                @import "js/dojo/dojox/layout/resources/ToggleSplitter.css";
+            </style>
       <script type="text/javascript" src="js/dojo/dojo/dojo.js"></script>
       <script type="text/javascript" src="js/jquery.js"></script>
       <script type="text/javascript">
@@ -22,7 +36,11 @@
          dojo.require("dijit.form.ValidationTextBox");
 
          function enviarNotificacion() {
-             if (confirm("Desea notificar el documento " + "<s:property value='documento.numeroDocumento' /> ?")) {
+        	 var nro_documento = "<s:property value='documento.numeroDocumento' />" ;
+        	 var tipo_documento = "<s:property value='documento.tipoDocumento.nombre' />" 
+    
+        		 
+             if (confirm("Desea notificar el documento N° " + tipo_documento + " - " + nro_documento.substring(6).trim() + "  ?")) {
 // 				dijit.byId("dlgProgresBar").show();
             	 
             	 dojo.xhrPost({
@@ -32,7 +50,7 @@
 	                 },
 	                form: dojo.byId("frmNotificar"),
 	                load: function() {
-	                	alert("El documento " + "<s:property value='documento.numeroDocumento' />" + " ha sido notificado");
+	                	alert("El documento N° " +tipo_documento+" - " + nro_documento.substring(6).trim() + " ha sido notificado");
 		            	window.close();
 		            	window.opener.showGridInbox();
 		            	window.opener.refreshTabDXE();
@@ -71,8 +89,10 @@
                <td height="20"colspan="6" class="titulo" width="99%">
                   <table width="37%" border="0" height="20" align="left">
                      <tr>
-                        <td width="2%" align="center">
-                           		<img onclick="enviarNotificacion()"  src="images/rechazar.bmp" border="0" alt="Notificar"/>
+                        <td width="35%" align="center">
+<!--                            		<img onclick="enviarNotificacion()"  src="images/rechazar.bmp" border="0" alt="Notificar"/> -->
+                           		<span onclick="enviarNotificacion()" style="display: block; border: 1px solid gray;margin-top: 10px;  margin-left: 10px; border-radius: 5px; padding: 5px 8px 8px;cursor:pointer"> <img  src="images/sigedIconos/Imprimir.png" border="0"  alt="Notificar"/> Notificar </span>
+
                         </td>
                         <td width="55%" align="center" class="tituloRojo"></td>
                      </tr>
@@ -92,7 +112,7 @@
                               <tr>
                                  <td height="13" colspan="2" class="header" >
                                     <div align="center">
-										Notificar Documento <s:property value="documento.numeroDocumento" />
+										Notificar Documento <s:property value='documento.tipoDocumento.nombre' /> - <s:property value="documento.numeroDocumento" />
                                     </div>
                                  </td>
                               </tr>

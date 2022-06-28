@@ -692,7 +692,7 @@
       <action name="doUpload" method="upload" class="documentoAction">
          <result name="input">pages/digitalizador/pruebaArchDig.jsp</result>
          <result>pages/digitalizador/pruebaArchDig.jsp</result>
-         <result name="error">error.html</result>
+         <result name="error">error.html</result>	
       </action>
       <action name="doUploadUser" method="upload" class="documentoAction">
          <result name="input">pages/bandeja/pruebaArch.jsp</result>

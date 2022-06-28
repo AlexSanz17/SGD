@@ -871,14 +871,36 @@
              }
             
             function abrirNotificar() {
-            	if (<s:property value='objDD.pK_eIdCasilla' /> != 0) {
-            	 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600, top=20, left=70";
-                 var pagina = "goNotificar.action?idDocumento=" + "<s:property value='documento.idDocumento' />" + "&idCasilla="+ "<s:property value='objDD.pK_eIdCasilla' /> ";
-                 window.open(pagina, "Notificar Documento", opciones);
-            		
-            	} else {
-            		alert("Este cliente no tiene casilla");
-            	}
+            	var service = new dojo.rpc.JsonService("SMDAction.action");
+                var defered = service.validarTieneFirmaPrincipal("<s:property value='documento.idDocumento' />");
+                defered.addCallback(function(respuesta){
+     
+                     if (respuesta == '-2'){
+                       alert("El documento ya fue atendido");    
+                       showGridInbox(sTipoGridActual);
+                       return;
+                     }
+                     
+                     if (respuesta == '-3'){
+                       alert("El documento ya fue anulado");    
+                       showGridInbox(sTipoGridActual);
+                       return;
+                     }
+                                       
+                     if (respuesta == '0'){ 
+                        if (!confirm("El documento Principal no tiene una Firma Digital. ¿Desea notificarlo?")){ 
+                            return;
+                        }     
+                     }
+	            	if (<s:property value='objDD.pK_eIdCasilla' /> != 0) {
+	            	 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=800, height=600, top=20, left=70";
+	                 var pagina = "goNotificar.action?idDocumento=" + "<s:property value='documento.idDocumento' />" + "&idCasilla="+ "<s:property value='objDD.pK_eIdCasilla' /> ";
+	                 window.open(pagina, "Notificar Documento", opciones);
+	            		
+	            	} else {
+	            		alert("Este cliente no tiene casilla");
+	            	}
+                });
             }
 
             function guardarSeguimiento(agregar){
@@ -1049,7 +1071,7 @@
 	                    </s:if>
                             <div dojoType="dijit.form.Button"  onClick="abrirHojaFirma()" iconClass="siged16 iconoHojaRuta">Hoja de Firmas</div>
                             
-                            <s:if test="#session._USUARIO.idRolPerfil != 6 && documento.tipoDocumento.idtipodocumento == 15">
+                            <s:if test="#session._USUARIO.idRolPerfil != 6 && documento.tipoDocumento.idtipodocumento == 15 ">
                        			<div dojoType="dijit.form.Button"  onClick="abrirNotificar()" iconClass="siged16 iconoNotificar">Notificar</div>
                             </s:if>
                             

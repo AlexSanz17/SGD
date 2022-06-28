@@ -244,6 +244,51 @@ public class DocumentoDetail {
 	private String flagsideco;
 	private String cDniRepresentante;
 	private int pK_eIdCasilla;
+	private String esTipoRecepcionTramite;
+	private Integer idArchivoAnexo;
+	private String rutaAlfrescoAnexo;
+	private String objectIdAnexo;
+	private String nombreAnexo;
+
+	public String getNombreAnexo() {
+		return nombreAnexo;
+	}
+
+	public void setNombreAnexo(String nombreAnexo) {
+		this.nombreAnexo = nombreAnexo;
+	}
+
+	public Integer getIdArchivoAnexo() {
+		return idArchivoAnexo;
+	}
+
+	public void setIdArchivoAnexo(Integer idArchivoAnexo) {
+		this.idArchivoAnexo = idArchivoAnexo;
+	}
+
+	public String getRutaAlfrescoAnexo() {
+		return rutaAlfrescoAnexo;
+	}
+
+	public void setRutaAlfrescoAnexo(String rutaAlfrescoAnexo) {
+		this.rutaAlfrescoAnexo = rutaAlfrescoAnexo;
+	}
+
+	public String getObjectIdAnexo() {
+		return objectIdAnexo;
+	}
+
+	public void setObjectIdAnexo(String objectIdAnexo) {
+		this.objectIdAnexo = objectIdAnexo;
+	}
+
+	public String getEsTipoRecepcionTramite() {
+		return esTipoRecepcionTramite;
+	}
+
+	public void setEsTipoRecepcionTramite(String esTipoRecepcionTramite) {
+		this.esTipoRecepcionTramite = esTipoRecepcionTramite;
+	}
 
 	public int getpK_eIdCasilla() {
 		return pK_eIdCasilla;

@@ -11,6 +11,7 @@ public interface DocumentoReferenciaService {
       public List<DocumentoReferencia> getDocumentoRespuestaMultiple(Documento documento);   
       public List<DocumentoReferencia> getDocumentoAtenderRespuesta(Integer idDocumento); 
       public List<DocumentoReferencia> getDocumentoDerivarAtender(Usuario usuario, Integer idDocumento);
+      public List<DocumentoReferencia> getAllReferenciaDocumento(Integer idDocumento);
       public DocumentoReferencia getReferenciaDocumento(Integer idDocumento, Integer idReferencia);
       public DocumentoReferencia saveDocumentoReferencia(DocumentoReferencia objDocumento);
 }

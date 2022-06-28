@@ -70,7 +70,10 @@
           
           function verArchivoAnexo(url){
                window.open(url, "_blank"); 
-          } 
+//         	  var fecha = new Date();
+<%--               window.open("<%=request.getContextPath()%>/verDocumento.png?idArchivo=" +idArchivo + "&url=" + url + "&objectId="+ objectId  + "&accion=abrirDocumento&fecha=" + fecha.getTime()); --%>
+           }    
+          
           
           function abrirHojaRuta(){
             	var opciones="toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=900, height=700, top=50, left=200";
@@ -132,7 +135,7 @@
                                     </s:if>
                                     <s:if test="objDD.archivoAnexo != ''">
                                           Anexos:<br/> 
-                                         <a onclick="verArchivoAnexo('<s:property value="objDD.archivoAnexo"/>');" alt="Ver Archivo Anexo"> <s:property value="objDD.archivoAnexo"/> [<s:property value="objDD.cantAnexos"/>]<br /> </a>
+                                         <a onclick="verArchivoAnexo('<s:property value="objDD.archivoAnexo"/>');" alt="Ver Archivo Anexo"> <s:property value="objDD.nombreAnexo"/> [<s:property value="objDD.cantAnexos"/>]<br /> </a>
 <%--                                          <s:iterator value="objDD.listAnexos">  --%>
 <%--                                            &nbsp;&nbsp;  <s:property/><br/> --%>
 <%--                                          </s:iterator>     --%>

@@ -512,55 +512,60 @@ public class ReporteAPNAction {
 	    int iddoc = documento.getDocumentoreferencia() != null ? documento.getDocumentoreferencia() : idDocumento;
             hojaRuta = reporteAPNService.generarHojaRuta(iddoc);
 	    lstPrioridad = parametroService.findByTipo(Constantes.PARAMETRO_TIPO_PRIORIDAD);
-                
-        lstAdjuntos = new ArrayList<String>();
-        List<DocumentoAdjunto> lstDocumentoAdjunto =documentoAdjuntoDAO.findByListDocumentoAdjunto(iddoc);
-        List<Parametro> lstTipoAdjunto = parametroService.findByTipo(Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
-        List<Parametro> lstCopia = parametroService.findByTipo(Constantes.PARAMETRO_ADJUNTO_COPIA_ORIGINAL);
-        
-        if (lstDocumentoAdjunto!=null){
-              for(int i=0;i<lstDocumentoAdjunto.size();i++){
-                 String valor = ""; 
-                 for(int j=0;j<lstTipoAdjunto.size();j++){
-                   if (lstTipoAdjunto.get(j).getValor().equals(lstDocumentoAdjunto.get(i).getCodTipoAdj())){
-                       valor = lstTipoAdjunto.get(j).getDescripcion();
-                       for(int k=0;k<lstCopia.size();k++){
-                          if (lstCopia.get(k).getValor().equals(lstDocumentoAdjunto.get(i).getCopOrig())){
-                              valor = valor + " " + lstCopia.get(k).getDescripcion() + " (" + lstDocumentoAdjunto.get(i).getNroAdj() + ")";
-                              lstAdjuntos.add(valor);
-                              break;
-                          }
-                       }
-                       break;
-                   } 
-                 }      
-              }    
-        }
-        
-        if (codigoVirtual!=null){
-            IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
-            if (iotdtmDocExterno!=null && (iotdtmDocExterno.getSidemiext().getCflgest()=='R' || iotdtmDocExterno.getSidemiext().getCflgest()=='O' || iotdtmDocExterno.getSidemiext().getCflgest()=='S')){
-                listIotdtcDespacho = new ArrayList<IotdtcDespacho>();
-                listIotdtcDespacho.add(iotdtmDocExterno.getSidemiext());
+          
+        try {
+        	lstAdjuntos = new ArrayList<String>();
+            List<DocumentoAdjunto> lstDocumentoAdjunto =documentoAdjuntoDAO.findByListDocumentoAdjunto(iddoc);
+            List<Parametro> lstTipoAdjunto = parametroService.findByTipo(Constantes.PARAMETRO_TIPOS_DE_ADJUNTOS_MP);
+            List<Parametro> lstCopia = parametroService.findByTipo(Constantes.PARAMETRO_ADJUNTO_COPIA_ORIGINAL);
+            
+            if (lstDocumentoAdjunto!=null){
+                  for(int i=0;i<lstDocumentoAdjunto.size();i++){
+                     String valor = ""; 
+                     for(int j=0;j<lstTipoAdjunto.size();j++){
+                       if (lstTipoAdjunto.get(j).getValor().equals(lstDocumentoAdjunto.get(i).getCodTipoAdj())){
+                           valor = lstTipoAdjunto.get(j).getDescripcion();
+                           for(int k=0;k<lstCopia.size();k++){
+                              if (lstCopia.get(k).getValor().equals(lstDocumentoAdjunto.get(i).getCopOrig())){
+                                  valor = valor + " " + lstCopia.get(k).getDescripcion() + " (" + lstDocumentoAdjunto.get(i).getNroAdj() + ")";
+                                  lstAdjuntos.add(valor);
+                                  break;
+                              }
+                           }
+                           break;
+                       } 
+                     }      
+                  }    
             }
-        }else{
-            List<IotdtmDocExterno> lstIotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoProcesadoDespachoVirtual(documento.getID_CODIGO());
-            if (lstIotdtmDocExterno!=null && lstIotdtmDocExterno.size()>0){
-                listIotdtcDespacho = new ArrayList<IotdtcDespacho>();
-                for(int i=0;i<lstIotdtmDocExterno.size();i++){
-                    listIotdtcDespacho.add(lstIotdtmDocExterno.get(i).getSidemiext());
+            
+            if (codigoVirtual!=null){
+                IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(codigoVirtual);
+                if (iotdtmDocExterno!=null && (iotdtmDocExterno.getSidemiext().getCflgest()=='R' || iotdtmDocExterno.getSidemiext().getCflgest()=='O' || iotdtmDocExterno.getSidemiext().getCflgest()=='S')){
+                	listIotdtcDespacho = new ArrayList<IotdtcDespacho>();
+                    listIotdtcDespacho.add(iotdtmDocExterno.getSidemiext());
+                }
+            }else{
+                List<IotdtmDocExterno> lstIotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoProcesadoDespachoVirtual(documento.getID_CODIGO());
+                if (lstIotdtmDocExterno!=null && lstIotdtmDocExterno.size()>0){
+                    listIotdtcDespacho = new ArrayList<IotdtcDespacho>();
+                    for(int i=0;i<lstIotdtmDocExterno.size();i++){
+                        listIotdtcDespacho.add(lstIotdtmDocExterno.get(i).getSidemiext());
+                    }
                 }
             }
-        }
-        
-        if (documento.getNroVirtual()!=null){
-            IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(documento.getNroVirtual());
-            if (iotdtmDocExterno!=null){
-              documento.setVcuo(iotdtmDocExterno.getSidrecext().getVcuo());
-            }else{
-              documento.setVcuo("");
+            
+            if (documento.getNroVirtual()!=null){
+                IotdtmDocExterno iotdtmDocExterno = documentoExternoVirtualDAO.buscarDocumentoVirtual(documento.getNroVirtual());
+                if (iotdtmDocExterno.getSidrecext() !=null){
+                  documento.setVcuo(iotdtmDocExterno.getSidrecext().getVcuo());
+                }else{
+                  documento.setVcuo("");
+                }
             }
-        }
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
                
         return "HojaRuta";
 	}

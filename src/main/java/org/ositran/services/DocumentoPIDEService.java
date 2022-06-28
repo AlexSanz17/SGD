@@ -27,6 +27,7 @@ public interface DocumentoPIDEService {
 	IotdtdDocPrincipalPIDE getDocPrincipalByCuo(String vcuo);
 	IotdtdDocPrincipalPIDE updateIotdtdDocPrincipalPIDE(IotdtdDocPrincipalPIDE objIotdtdDocPrincipalPIDE);
 	List<IotdtdAnexoPIDE> getAllAnexo();
+	IotdtmDocExternoPIDE getDocExternoBySidemext(Integer sidemiext) ;
 	IotdtdAnexoPIDE getAnexoByCuo(String vcuo);
 	IotdtdAnexoPIDE updateIotdtdAnexoPIDE(IotdtdAnexoPIDE objIotdtdAnexoPIDE);
 

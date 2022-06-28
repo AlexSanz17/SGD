@@ -28,8 +28,19 @@ import com.ositran.ws.CargoTramite;
 import com.ositran.ws.ConsultaTramite;
 import com.ositran.ws.RespuestaConsultaTramite;
 
-public class WSPideCargoTramiteSOAP {
+import gob.ositran.siged.config.SigedProperties;
 
+public class WSPideCargoTramiteSOAP {
+	private String PROXY_HOST = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_HOST);
+	private String PROXY_ACTIVE = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_ACTIVE);
+	private String PROXY_PORT = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT);
+	
+//	  PROXY_ACTIVE("proxy.active"),
+//      PROXY_HOST("proxy.host"),
+//      PROXY_PORT("proxy.port"),
 	
 	public RespuestaConsultaTramite cargoTramiteSOAP(CargoTramite request, String co_par) throws  Exception
 	  {
@@ -49,13 +60,15 @@ public class WSPideCargoTramiteSOAP {
 	        String soapAction = "";
 
 	        //callSoapWebService(soapEndpointUrl, soapAction);
-	        
+	     
 	        try {
-	        	 String PROXY_ADDRESS = "proxy1";
-	             int PROXY_PORT = 8080;
+	        	
+	        		String proxy_address = PROXY_HOST;
+	        		int proxy_port = Integer.parseInt(PROXY_PORT);
+	        	
 	        	
 	             ///Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(socket.getInetAddress(), PROXY_PORT));
-	             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(PROXY_ADDRESS, PROXY_PORT));
+	             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxy_address, proxy_port));
 				 //sendSOAPMessage(soapEndpointUrl,proxy , soapAction);
 				
 				SOAPMessage message =  sendSOAPMessage(soapEndpointUrl,proxy , soapAction,request);

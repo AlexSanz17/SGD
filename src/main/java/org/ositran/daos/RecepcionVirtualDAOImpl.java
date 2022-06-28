@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -35,10 +36,10 @@ public class RecepcionVirtualDAOImpl implements RecepcionVirtualDAO {
     	 IotdtcRecepcion iotdtcRecepcion = null;
     	 try {
     		 iotdtcRecepcion = (IotdtcRecepcion) em.createNamedQuery("IotdtcRecepcion.findByIdDoc").setParameter("iddocumento", iddocumento).getSingleResult();
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (NoResultException e) {
+		   e.printStackTrace();
 		}
-         return iotdtcRecepcion;
+         return iotdtcRecepcion != null ? iotdtcRecepcion : null;
      }
      
      

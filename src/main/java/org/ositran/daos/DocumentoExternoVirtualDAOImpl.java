@@ -1,6 +1,8 @@
 package org.ositran.daos;
 
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+import com.btg.ositran.siged.domain.IotdtdAnexo;
+import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Usuario;
 
@@ -65,6 +67,7 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
     }
     
     public List<IotdtmDocExterno> buscarDespachoVirtual(Usuario objUsuario){
+    	System.out.println("--------despacho virtual---------------");
        try{ 
            String sql = "SELECT e FROM IotdtmDocExterno e where e.sidemiext.sidemiext is not null and e.sidemiext.cflgest not in ('X') order by e.sidemiext.dfecreg desc";
            return em.createQuery(sql).getResultList();
@@ -86,6 +89,16 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
            return null;
        }     
     }
+    public IotdtmDocExterno buscarDocumentoVirtualBySidemext(Integer sidemiext){
+        String sql = "SELECT e FROM IotdtmDocExterno e where e.sidemiext =" + sidemiext;
+        try{
+             return (IotdtmDocExterno)em.createQuery(sql).getSingleResult();
+        }catch(EntityNotFoundException e){
+            return null;
+        }catch(Exception e){
+            return null;
+        }     
+     }
     
     public List<IotdtmDocExterno> buscarDocumentoDespachoVirtual(Integer numero){
        String sql = "SELECT e FROM IotdtmDocExterno e where e.sidemiext.vnumregstd =" + numero + " and e.sidemiext.cflgest in ('P','E','S','R') order by e.sidemiext.dfecreg desc ";
@@ -165,4 +178,24 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
             return null;
         }
      }   
+    public IotdtdDocPrincipal buscarDocumentoPrincipalBySiddocext(Integer siddocext){
+        String sql = "SELECT e FROM IotdtdDocPrincipal e where e.siddocext =" + siddocext;
+        try{
+             return (IotdtdDocPrincipal)em.createQuery(sql).getSingleResult();
+        }catch(EntityNotFoundException e){
+            return null;
+        }catch(Exception e){
+            return null;
+        }     
+     }
+    public IotdtdAnexo buscarDocumentoAnexoBySiddocext(Integer siddocext){
+        String sql = "SELECT e FROM IotdtdAnexo e where e.siddocext =" + siddocext;
+        try{
+             return (IotdtdAnexo)em.createQuery(sql).getSingleResult();
+        }catch(EntityNotFoundException e){
+            return null;
+        }catch(Exception e){
+            return null;
+        }     
+     }
 }

@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import org.ositran.utils.Constantes;
+import org.springframework.transaction.annotation.Transactional;
 /**
  *
  * @author consultor_jti15
@@ -37,16 +38,20 @@ public class DocumentoAtendidoDAOImpl implements DocumentoAtendidoDAO {
 				.setParameter("idDocumentoAtendido", idDocumentoAtendido).getSingleResult();
         }
          
-    
+    @Transactional
     public void saveDocumento(DocumentoAtendido documentoAtendido){
             
-		if(documentoAtendido.getIddocumentoatendido()==null){
-                   em.persist(documentoAtendido); // Nuevo
-                   em.flush();
-                   em.refresh(documentoAtendido);
+		try {
+			if(documentoAtendido.getIddocumentoatendido()==null){
+                em.persist(documentoAtendido); // Nuevo
+                em.flush();
+                em.refresh(documentoAtendido);
 		}else{
 	 	   em.merge(documentoAtendido); // Actualizacion
-                   em.flush();
+                em.flush();
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
     
@@ -69,6 +74,8 @@ public class DocumentoAtendidoDAOImpl implements DocumentoAtendidoDAO {
 					 " AND e.fechaCreacion >= :fechaDesde AND e.fechaCreacion <= :fechaHasta ORDER BY e.fechaCreacion DESC";
                 }
                 
+                
+                
                 Calendar fechaDesde = Calendar.getInstance();
 		fechaDesde.setTimeInMillis(fechaDesde.getTimeInMillis() - 30*Constantes.MILISEGUNDOS_DIA);
 		fechaDesde.set(Calendar.HOUR_OF_DAY, 0);
@@ -79,7 +86,12 @@ public class DocumentoAtendidoDAOImpl implements DocumentoAtendidoDAO {
 		fechaHasta.set(Calendar.HOUR_OF_DAY, 23);
 		fechaHasta.set(Calendar.MINUTE, 59);
 		fechaHasta.set(Calendar.SECOND, 59);
-                
+		
+//		System.out.println(" -----------------fechas de------------");
+//		
+//		System.out.println(fechaHasta.getTime());
+//		System.out.println(fechaDesde.getTime());
+//                
                 if (objUsuario.getIdRolPerfil().toString().equals("4")){
                     return em.createQuery(sql)
                                           .setParameter("idUnidadPropietario", objUsuario.getIdUnidadPerfil())

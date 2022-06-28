@@ -5,7 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class Constantes{
+	
     public static final String AREAS_ACCESO_GENERAL="AREAS_ACCESO_GENERAL";
 
 	public static final String AUDITORIA_OPCION_GUARDAR="Guardar";
@@ -681,6 +684,8 @@ public class Constantes{
     
     public static final String ESTADOS_PIDE = "ESTADOS_PIDE";
     
+    public static final Integer PIDE_FILE_SIZE = Integer.valueOf(SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.PIDE_FILE_SIZE));
+
     public static final String URL_PIDE_TRAMITE_DESARROLLO = "http://200.48.76.125/wsiopidetramite/IOTramite?wsdl";
     public static final String URL_PIDE_TRAMITE_PRODUCCION = "https://ws3.pide.gob.pe/services/PcmIMgdTramite?wsdl";
     public static final String URL_PIDE_TRAMITE_OSITRAN    = "http://100.134.1.191:1050/wsiotramitesgd/Tramite?wsdl"; 

@@ -27,20 +27,9 @@ public class Test {
 
 	public static void main(String[] args) throws MalformedURLException, RemoteException {
 
-		String titulo = "REPORTE DE ";
-		String tipodocumento  = " ";
-		String tipodoc = "OFICIO - N° 000008-2022-MTC/20.6";
+		Date fecha = new Date(1655216790525);
 		
-		
-		if(tipodocumento == null || tipodocumento.equals("")) {
-			titulo += "DOCUMENTOS ";
-		}else if(tipodocumento != null && !tipodocumento.equals("")) {
-			String[] parte = tipodoc.split(" ");
-			tipodocumento =  parte[0];
-			titulo += tipodocumento +"S";
-		}
-		System.out.println(titulo);
-		
+		System.out.println(fecha);
 
 	}
 }

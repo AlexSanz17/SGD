@@ -1609,9 +1609,10 @@ var dataConfidencial = {
              jsId :"objDD.iNroFolios",
              name:  "objDD.iNroFolios",
              maxLength : "5",
-             required: false,
+             minLength:"1",
+             required: true,
              invalidMessage:"Ingrese nro de folios del documento",
-             regExp:"[0-9]{1,5}",
+             regExp:"[1-9]{1,5}",
              style: "width:70px",
              trim:"true"
 	}, "fsNroFolios");  
@@ -1663,6 +1664,7 @@ var dataConfidencial = {
         dijit.byId("objDD.concesionario").attr("value",CONCESIONARIA_INI);
         dijit.byId("objDD.iIdSerie").attr("value",SERIE_INI);
         dojo.byId("tbExpediente").style.display = "none";
+        validarEntidad();
      }
    }      
 });

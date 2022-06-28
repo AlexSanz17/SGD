@@ -18,9 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class RecepcionVirtualServiceImpl implements RecepcionVirtualService {    
 	RecepcionVirtualDAO recepcionVirtualDAO;
-
+	private String SERVICIO_RECEPCION_MPV = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.SERVICIO_RECEPCION_MPV);
     public RecepcionVirtualDAO getRecepcionVirtualDAO() {
         return recepcionVirtualDAO;
     }
@@ -41,7 +44,7 @@ public class RecepcionVirtualServiceImpl implements RecepcionVirtualService {
     	CargoRecepcionMPVResponse cargoRecepcionVirtualResponse = null;
     	
     	try {
-    		URL url = new URL("http://172.27.0.98:8090/api/WebApiExpediente/ActualizarRecepcionMPV");
+    		URL url = new URL(SERVICIO_RECEPCION_MPV);
     		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     		conn.setDoOutput(true);
     		conn.setRequestMethod("POST");

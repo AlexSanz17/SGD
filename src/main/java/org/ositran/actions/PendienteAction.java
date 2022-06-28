@@ -741,24 +741,29 @@ public class PendienteAction {
     		}else {
     			archivoFirmado = 0;
     		}
+    		 IotdtcRecepcion documentoCargo = null;
     		
     		  //Validar envio de Cargo
+    		 System.out.println("idDoc" +idDoc);
+
+    		 System.out.println("---------documnto-----" +documento.getVcuo());
+    		 if(objDD.getIIdTipoDocumento() == 15 && documento.getNroVirtual() != null) {
+    			 documentoCargo = recepcionVirtualDAO.findByIdDoc(idDoc);
+    			 System.out.println("documento encontrado");
+    			 String flgenvcar = "S";
+    			 if(documentoCargo != null) {
+    				 if(documentoCargo.getCflgenvcar() != null ) {
+    					 if(documentoCargo.getCflgenvcar().equals(flgenvcar.charAt(0))) {
+    						 archivoFirmado = 2;
+    					 }
+    				 }
+    			 }else {
+    				 archivoFirmado = 3;
+    			 }
+    			 System.out.println("------------archivoFirmado---------"+archivoFirmado);
+    		 }
            
-            IotdtcRecepcion documento = recepcionVirtualDAO.findByIdDoc(idDoc);
-            System.out.println("documento encontrado");
-//            System.out.println(documento);
-            String flgenvcar = "S";
-            if(documento != null) {
-            	if(documento.getCflgenvcar() != null ) {
-            		if(documento.getCflgenvcar().equals(flgenvcar.charAt(0))) {
-            			archivoFirmado = 2;
-            		}
-            	}
-            	
-            }else {
-            	archivoFirmado = 3;
-            }
-            System.out.println("------------archivoFirmado---------"+archivoFirmado);
+           
     	
     		
              

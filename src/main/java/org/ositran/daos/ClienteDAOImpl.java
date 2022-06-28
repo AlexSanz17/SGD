@@ -106,7 +106,13 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     public Cliente findByIdCliente(Integer iId) {  
     	log.info("findByIdCliente(iId):"+iId);
-         return (Cliente) getEm().createNamedQuery("Cliente.findById").setParameter("idcliente", iId).getSingleResult();
+    	Cliente cliente = null;
+        try {
+        	cliente = (Cliente) getEm().createNamedQuery("Cliente.findById").setParameter("idcliente", iId).getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        return cliente;
       }
 
     @Override

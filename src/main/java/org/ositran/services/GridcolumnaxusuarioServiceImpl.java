@@ -982,7 +982,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
             }
           }
           Collections.sort(data, Collections.reverseOrder());
-          _log.debug("-=================data======================" + data);
+//          _log.debug("-=================data======================" + data);
        
          return data;
     }
@@ -1067,8 +1067,10 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 	      }
              
               if (lstDespacho!=null){
+            	 
                 for(int i=0; i<lstDespacho.size();i++){
                     ItemUF uuf = new ItemUF();
+                   
                     try{
                        Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(lstDespacho.get(i).getCcodtipdoc());
                        uuf.setDocumento(tipoDocumento.getNombre() + " - " + lstDespacho.get(i).getVnumdoc());
@@ -1091,21 +1093,28 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                             IotdtmDocExterno despacho = documentoExternoVirtualDAO.buscarDocumentoVirtual(new Integer(lst.get(0))); 
                             Documento d = documentoService.findByIdDocumento(despacho.getSidemiext().getIddocumento());
                             if (d.getPropietario().getIdusuario().toString().equals(objUsuario.getIdUsuarioPerfil().toString()) && d.getUnidadpropietario().toString().equals(objUsuario.getIdUnidadPerfil().toString()) && d.getFlagMultiple()==null){
-                              uuf.setDerivar("images/ed_blank.gif");
+                            	
+                            	uuf.setDerivar("images/ed_blank.gif");
                             }else{
-                              uuf.setDerivar("images/derivar.gif");
+                            	
+                            	uuf.setDerivar("images/derivar.gif");
+                              
                             }  
                          }else{
+                        	
                             uuf.setDerivar("images/derivar.gif");
                          }
                     }else{
+                    	 
                          uuf.setDerivar("images/ed_blank.gif");
                     }
                     
                   
                     if (lstDespacho.get(i).getSidemiext().getCflgenv() == 'E'){
+                    	
                         uuf.setIntentos("images/rojo.png");
                     }else{
+                    	 
                         uuf.setIntentos("images/ed_blank.gif");
                     }
 
@@ -1118,7 +1127,9 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                     uuf.setFechacreacion(lstDespacho.get(i).getSidemiext().getDfecreg());
                     uuf.setCuo(lstDespacho.get(i).getSidemiext().getVcuo()==null?"":lstDespacho.get(i).getSidemiext().getVcuo());
                     data.add(uuf);
+                    
                 }
+             
               }  
               
               return data;

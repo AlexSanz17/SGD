@@ -74,6 +74,30 @@ public class SigedProperties {
         DIRECTORIO_ACTIVO_URL("directorio_activo.url"),
         DIRECTORIO_ACTIVO_DOMINIO("directorio_activo.dominio"),
         
+//        CASILLA VIRTUAL
+        CASILLA_ELECTRONICA_BUSCAR_CASILLA("casilla_electronica.buscar_casilla"),
+        CASILLA_ELECTRONICA_GENERAR_NOTIFICACION("casilla_electronica.generar_notificacion"),
+        CASILLA_GENERAR_CEDULA("casilla_electronica.generar_cedula"),
+        CASILLA_ENVIAR_NOTIFIACION_ELECTRONICA("casilla_electronica.enviar_notificacion"),
+        
+        //SERVICIO MESA DE PARTES VIRTUAL
+        SERVICIO_RECEPCION_MPV("servcio_recepcion_mpv.url"),
+        
+        //CONFIGURACION PROXY
+        PROXY_ACTIVE("proxy.active"),
+        PROXY_HOST("proxy.host"),
+        PROXY_PORT("proxy.port"),
+
+        //TAMAÑO MAXIMO DE DOCUMENTOS PIDE
+        TAMANO__MAX_PIDE("pide.max_size"),
+        
+        
+        //URL PARA MOSTRAR ANEXO
+        RUTA_ANEXO_PIDE("pide.ruta_anexo"),
+        USUARIO_ANEXO_PIDE("pide.usuario_ruta_anexo"),
+        PASSWORD_ANEXO_PIDE("pide.password_ruta_anexo"),
+        PATH_DIRECTORIO_ANEXO("pide.ruta_anexo_directorio"),
+        
         SIGED_INFOPUBLICA("siged.infopublica"),
         SIGED_LIBRORECLAMACION("siged.libroreclamacion"),
         
@@ -99,10 +123,7 @@ public class SigedProperties {
         FIRMAS_PARAMETROS_CHKTSA("firmas.parametros.chkTSA"),
         FIRMAS_PARAMETROS_RUTASTSA("firmas.parametros.rutasTSA"),
 
-        //PROXY PROPERTIES
-        PROXY_ACTIVE("proxy.active"),
-        PROXY_HOST("proxy.host"),
-        PROXY_PORT("proxy.port"),
+        PIDE_FILE_SIZE("pide.file_size"),
         
     	MPV_RUTA_ARCHIVO("mpv.rutaArchivo");
     	

@@ -54,6 +54,9 @@
     <bean id="documentoReferenciaDAO" class="org.ositran.daos.DocumentoReferenciaDAOImpl">
     </bean>
     
+    <bean id="documentoNotificacionDAO" class="org.ositran.daos.DocumentoNotificacionDAOImpl">
+    </bean>
+    
     <bean id="documentoReunionDAO" class="org.ositran.daos.DocumentoReunionDAOImpl">
     </bean>
     
@@ -430,6 +433,7 @@
         <property name="recepcionMPVService" ref="recepcionMPVService" />
         <property name="recepcionPIDEService" ref="recepcionPIDEService" />
         <property name="documentoPIDEService" ref="documentoPIDEService" />
+        <property name="documentoPIDEDAOjdbc" ref="documentoPIDEDAOjdbc" />
 	</bean>
 
 	<bean id="documentoxexpedienteService" class="org.ositran.services.DocumentoxexpedienteServiceImpl">
@@ -979,6 +983,9 @@
 		<constructor-arg ref="clienteService" />
 	</bean>
 
+	<bean id="documentoPIDEDAOjdbc" class="org.ositran.daos.DocumentoPIDEDAOjdbc">
+	     <property name="documentoPIDEService" ref="documentoPIDEService" />
+	</bean>
 	<bean id="documentoAction" scope="prototype" class="org.ositran.actions.DocumentoAction">
 		<constructor-arg ref="documentoService" />
 		<constructor-arg ref="procesoService" />
@@ -1030,6 +1037,7 @@
         <property name="firmaArchivoDAO" ref="firmaArchivoDAO" />
         <property name="documentoExternoVirtualDAO" ref="documentoExternoVirtualDAO" />
         <property name="recepcionVirtualService" ref="recepcionVirtualService" />
+         <property name="documentoNotificacionService" ref="documentoNotificacionService" />
 	</bean>
 
 	<bean id="dojoAction" scope="prototype" class="org.ositran.actions.DojoAction">
@@ -1329,7 +1337,11 @@
     <bean id="adjuntoMPVService" class="org.ositran.services.AdjuntoMPVServiceImpl">
         <property name="adjuntoMPVDAO" ref="adjuntoMPVDAO" />  
     </bean> 
-           
+    
+    <bean id="documentoNotificacionService" class="org.ositran.services.DocumentoNotificacionServiceImpl">
+    	<property name="documentoNotificacionDAO" ref="documentoNotificacionDAO" />
+    </bean>
+    
 	<bean id="nuevoDocumentoAction" scope="prototype" class="org.ositran.actions.NuevoDocumentoAction">
 		<constructor-arg ref="archivoPendienteService" />
 		<constructor-arg ref="documentoService" />
@@ -1495,6 +1507,8 @@
         <property name="maxPoolSize" value="10" />
         <property name="queueCapacity" value="25" />
     </bean>
+    
+  
     
     <!-- JBENGOA PROCESO WS -->
     <!--

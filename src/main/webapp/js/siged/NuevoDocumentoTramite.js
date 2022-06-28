@@ -646,7 +646,7 @@ dojo.addOnLoad(function() {
          jsId :"objDD.iNroFoliosPIDETramite",
          name:  "objDD.iNroFoliosPIDE",
          maxLength : "7",
-         required: false,
+         required: true,
          invalidMessage:"Ingrese nro de folios totales del documento",
          regExp:"[0-9]{1,7}",
          style: "width:70px",

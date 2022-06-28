@@ -54,6 +54,8 @@ import com.btg.ositran.siged.domain.Trazabilidadcopia;
 import com.btg.ositran.siged.domain.Trazabilidaddocumento;
 import com.btg.ositran.siged.domain.Usuario;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class NotificacionServiceImpl implements NotificacionService {
 	private static Logger log=LoggerFactory.getLogger(NotificacionServiceImpl.class);
 	private NotificacionDAO dao;
@@ -70,7 +72,13 @@ public class NotificacionServiceImpl implements NotificacionService {
     private EstadoService estadoService;
     private GridcolumnaxusuarioService gridColumnaXUsuarioService;
 	private UsuarioService usuarioService;
-
+	
+	//PROPERTIES SERVICIO NOTIFICACION ELCTRONICA
+	private String CASILLA_ELECTRONICA_BUSCAR_CASILLA  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.CASILLA_ELECTRONICA_BUSCAR_CASILLA);
+	private String CASILLA_ELECTRONICA_GENERAR_NOTIFICACION  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.CASILLA_ELECTRONICA_GENERAR_NOTIFICACION);
+	private String CASILLA_GENERAR_CEDULA  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.CASILLA_GENERAR_CEDULA);
+	private String CASILLA_ENVIAR_NOTIFIACION_ELECTRONICA  = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.CASILLA_ENVIAR_NOTIFIACION_ELECTRONICA);
+    
     public UsuarioService getUsuarioService() {
         return usuarioService;
     }
@@ -891,11 +899,16 @@ public class NotificacionServiceImpl implements NotificacionService {
 	}
 	
 	@Override
+	
+//	 CASILLA_ELECTRONICA_BUSCAR_CASILLA 
+//	 CASILLA_ELECTRONICA_GENERAR_NOTIFICACION  
+//	 CASILLA_GENERAR_CEDULA  
+//	 CASILLA_ENVIAR_NOTIFIACION_ELECTRONICA  
 	public String buscarCasillaElectronica(String uNroDocumento) {
 		String output = null;
 		
 		try {
-      	 	URL url_c = new URL("https://apigatewaydesa.pvn.gob.pe/api/v1/Notificacion/buscar-casilla-por-documento");
+      	 	URL url_c = new URL(CASILLA_ELECTRONICA_BUSCAR_CASILLA);
       		HttpURLConnection conn = (HttpURLConnection) url_c.openConnection();
       		conn.setDoOutput(true);
       		conn.setRequestMethod("POST");
@@ -926,8 +939,7 @@ public class NotificacionServiceImpl implements NotificacionService {
 		return output;
 	}
 	
-	@Override
-	public String generarNotificacionElectronica(String url, Integer idCasilla, Integer idAplicacion, String archivo, String observacion, Integer tipodocumento,
+	public String generarNotificacionElectronica(Integer idCasilla, Integer idAplicacion, String archivo, String observacion, Integer tipodocumento,
 			String nroDocumento, Integer idDocumento, String nroExpediente, Integer idExpediente, Integer idTipoNotificacion, Integer eOrden, Integer eUsuarioRegistro) {
 		System.out.println("Ejecutar segundo servicio");
 		String response = "";
@@ -957,7 +969,7 @@ public class NotificacionServiceImpl implements NotificacionService {
 			notificacion.put("eUsuarioRegistro", eUsuarioRegistro);
 			String notificacionJson = notificacion.toString();
 			log.info("generarNotificacionElectronica notificacionJson.........." + notificacionJson);
-			response = executeMultiPartRequest(url,f, notificacionJson, null);
+			response = executeMultiPartRequest(CASILLA_ELECTRONICA_GENERAR_NOTIFICACION,f, notificacionJson, null);
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -968,10 +980,10 @@ public class NotificacionServiceImpl implements NotificacionService {
 	}
 	
 	@Override
-	public String generarCedulaElectronica(String url, Integer PK_eIdNotificacion, String uUnidadOrganica, Integer eUsuarioActualizacion) {
+	public String generarCedulaElectronica(Integer PK_eIdNotificacion, String uUnidadOrganica, Integer eUsuarioActualizacion) {
 		String output = null;
 		try {
-    		URL url_c = new URL(url);
+    		URL url_c = new URL(CASILLA_GENERAR_CEDULA);
     		HttpURLConnection conn = (HttpURLConnection) url_c.openConnection();
     		conn.setDoOutput(true);
     		conn.setRequestMethod("PUT");
@@ -1006,11 +1018,11 @@ public class NotificacionServiceImpl implements NotificacionService {
 	}
 	
 	@Override
-	public String enviarNotificacionElectronica(String url, Integer PK_eIdNotificacion, String cCodProcesoFirma, Integer eUsuarioActualizacion) {
+	public String enviarNotificacionElectronica(Integer PK_eIdNotificacion, String cCodProcesoFirma, Integer eUsuarioActualizacion) {
 		String output = "";
 
 		try {
-    		URL url_c = new URL(url);
+    		URL url_c = new URL(CASILLA_ENVIAR_NOTIFIACION_ELECTRONICA);
     		HttpURLConnection conn = (HttpURLConnection) url_c.openConnection();
     		conn.setDoOutput(true);
     		conn.setRequestMethod("PUT");

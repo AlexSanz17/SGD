@@ -40,7 +40,7 @@
 			var accionEjecutar = document.getElementById("estado").value;
 			var procesoFirmado = 0;
 			var btnFirmar = document.querySelector(".btnFirmarInput")
-			
+			var vcuoPide = "";
 			function enviarArchivosAlfresco(resultado, sujeto){
 				if(archivosFirmaTemp.length>0){
 					archivosFirmaArray = archivosFirmaTemp;
@@ -52,8 +52,12 @@
 						dijit.byId("dlgProgresBar").hide();
 						
 						alert("Los documentos han sido firmados");
-					
+						
 						dijit.byId("dlgFirmar").hide();
+						 showGridInbox(sTipoGridActual);
+	       	              	window.close();
+			            	window.opener.showGridInbox();
+			            	window.opener.refreshTabDXE();
 					} else if (respuesta == "2"){
 						dijit.byId("dlgProgresBar").hide();
 						dijit.byId("dlgFirmar").hide();
@@ -84,8 +88,67 @@
 	// 				}
 	// 			}
 			}
-			
+			function firmarDoumento(){
+				if(vcuoPide != null){
+					console.log("-----------------------Firmar para PIDE---------------");
+					generateQrPreFirmadoRecepcionPIDE();
+				}else{
+					console.log("-----------------------Firmar normal---------------");
+					generateQrPreFirmado();
+				}
+			}
 			function generateQrPreFirmado() {
+				
+					btnFirmar.disabled = true;
+					dijit.byId("dlgProgresBar").show();
+					
+					if(archivosFirmaTemp.length>0){
+						archivosFirmaArray = archivosFirmaTemp;
+					}
+							
+	// 				Primero Paso: Validar que tenga el software de Firma
+					axios.get('https://localhost:9997/SignnetFirmaServicio/Test/https%3A%2F%2Fwsfirmadigital.pvn.gob.pe%3A8443%2FSignnetSignature%2Fcfg%2F')
+					  .then(function (response) {
+					    // handle success
+					    console.log(response);
+					    service.generateQrPreSignet(archivosFirmaArray, accionEjecutar).addCallback(function (respuesta) {
+							for (var i = 0; i < archivosFirmaArray.length; i++) {
+								console.log("generateQrPreSignet archivosFirmaArray.........." + archivosFirmaArray.length);
+							}
+							if(respuesta == "1"){		
+								document.getElementById("ssoForm").submit();
+	// 							dijit.byId("dlgProgresBar").hide();
+					    		
+								
+							} else if (respuesta == "2"){
+								alert("Firma en proceso, vuelva a intentarlo en unos minutos");
+								dijit.byId("dlgProgresBar").hide();
+								dijit.byId("dlgFirmar").hide();
+							} else {
+								alert("Ocurrió un error al subir a alfresco");
+							}
+				        });
+					    // ejecutar funcion
+					  })
+					  .catch(function (error) {
+					    // handle error
+					    alert("Debe de instalar el software de Firma");
+	// 				    Swal.fire({
+	// 				    	  position: 'center',
+	// 				    	  icon: 'warning',
+	// 				    	  title: 'Debe de instalar el software de Firma',
+	// 				    	  showConfirmButton: false,
+	// 				    	  timer: 1500
+	// 				    	})
+					    dijit.byId("dlgProgresBar").hide();
+						dijit.byId("dlgFirmar").hide();
+					    console.log(error);
+					  });
+				
+				
+			}
+			
+			function generateQrPreFirmadoRecepcionPIDE() {
 				btnFirmar.disabled = true;
 				dijit.byId("dlgProgresBar").show();
 				
@@ -98,10 +161,8 @@
 				  .then(function (response) {
 				    // handle success
 				    console.log(response);
-				    service.generateQrPreSignet(archivosFirmaArray, accionEjecutar).addCallback(function (respuesta) {
-						for (var i = 0; i < archivosFirmaArray.length; i++) {
-							console.log("generateQrPreSignet archivosFirmaArray.........." + archivosFirmaArray.length);
-						}
+				    service.generateQrPreSignetOnlyFirma(archivosFirmaArray, accionEjecutar).addCallback(function (respuesta) {
+				    	console.log("respuesta : " +respuesta);
 						if(respuesta == "1"){		
 							document.getElementById("ssoForm").submit();
 // 							dijit.byId("dlgProgresBar").hide();
@@ -129,12 +190,14 @@
 // 				    	})
 				    dijit.byId("dlgProgresBar").hide();
 					dijit.byId("dlgFirmar").hide();
+					console.log("error");
 				    console.log(error);
 				  });
 				
 			}
 			window.addEventListener("message", function (e) {
 				var rptJSON = JSON.parse(e.data);
+				console.log("----------respuesta JSON---");
 				console.log(rptJSON);
 	// 			if(rptJSON.resultado == "0"){
 					if(!enviadoAlfresco){
@@ -293,6 +356,8 @@
 			
 			dojo.addOnLoad(function () {
                 service.getArchivosFirmar("<s:property value='arrFileFirmar' />","<s:property value='accion' />").addCallback(function (objJSON) {
+                	vcuoPide = objJSON.items[0].vcuo == "nVcuo" ? null : objJSON.items[0].vcuo;
+                	console.log(vcuoPide);
 				   for(i=0; i<objJSON.items.length;i++){
 					   archivosFirma.push({archivo:objJSON.items[i].archivos,objectId:objJSON.items[i].objectId,codigoId:objJSON.items[i].idCodigo});
 					   archivosFirmaArray.push({ archivo:objJSON.items[i].archivos, objectId:objJSON.items[i].objectId,
@@ -399,7 +464,7 @@
 		<%-- 			onclick="enviarFirma('<%=archivo%>','<%=objectId%>','<%=idCodigo%>','<%=idFirmar%>','<%=archivosFirmar%>');" /> --%>
 		<input type="button" class="btn btn-primary btnFirmarInput"
 			style="width: 100px !important; cursor: pointer; margin: 10px 0px;" id="btnFirmar" name="btnFirmar"
-			value="Firmar" onclick="javascript:generateQrPreFirmado()" />
+			value="Firmar" onclick="javascript:firmarDoumento()" />
 		<iframe frameborder="0" name="iframeFirma" id="iframeFirma" width="700px" height="450px"></iframe>
 	</form>
 </body>

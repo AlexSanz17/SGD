@@ -140,6 +140,17 @@ public class Item {
     private String chkTSA;
     private String rutasTSA;
 	private Integer flagFirma;
+	private String vcuo;
+	public String getVcuo() {
+		return vcuo;
+	}
+
+	public void setVcuo(String vcuo) {
+		this.vcuo = vcuo;
+	}
+
+
+
 
     public Integer getFlagFirma() {
 		return flagFirma;
