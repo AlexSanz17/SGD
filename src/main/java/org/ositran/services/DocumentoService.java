@@ -49,7 +49,7 @@ public interface DocumentoService{
 
         public String enviarDocumentoVirtual(Integer idExterno, Usuario objUsuario) throws  Exception;
         
-        public String enviarCargoRecepcionVirtual(Integer idExterno, Date fechaCreacion) throws Exception;
+        public String enviarCargoRecepcionVirtual(Integer idExterno, Date fechaCreacion, String cflgest) throws Exception;
 	
         public Documento findByIdDocumento(Integer iIdDocumento);
         

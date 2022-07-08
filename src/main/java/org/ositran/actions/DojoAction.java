@@ -217,6 +217,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.ositran.cmis.api.AlfrescoApiWs;
+import com.ositran.pide.requests.WSPideEntidadClientProduccion;
 import com.ositran.pide.requestssoap.WSPideValidarEntidad;
 
 import gob.ositran.siged.config.SigedProperties;
@@ -362,6 +363,9 @@ public class DojoAction {
 
 	private final String REPOSITORIO_ID = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
+	private final String ENTORNO_PRODUCCION = SigedProperties
+			.getProperty(SigedProperties.SigedPropertyEnum.PIDE_ENTORNO_PRODUCCION);
+	
 	private FirmaArchivoService firmaArchivoService;
 
 	public DojoAction() {
@@ -3931,23 +3935,32 @@ public class DojoAction {
 		//buscar cliente 
 		Cliente cliente = clienteService.findByIdCliente(idinstitucion);
 	
-		WSPideValidarEntidad validarEntidad = new WSPideValidarEntidad();
 		String response = null;
-		System.out.println("-----------------cleinte encontrado ------------------- " + cliente);
+//		System.out.println("-----------------cleinte encontrado ------------------- " + cliente);
 		if(cliente!= null) {
-			System.out.println("RUC-CLIENET----------------------------" +cliente.getNumeroIdentificacion());
+//			System.out.println("RUC-CLIENET----------------------------" +cliente.getNumeroIdentificacion());
 			try {
 				System.out.println("-------------------------ingreso al try----------------------------------------");
-				response = validarEntidad.validarEntidadSOAP(cliente.getNumeroIdentificacion(),"D");
-				System.out.println("---------------respuesta de servicio");
-				System.out.println(response);
-			} catch (Exception e) {
+				if(!Boolean.valueOf(ENTORNO_PRODUCCION)) {
+					
+					WSPideValidarEntidad validarEntidad = new WSPideValidarEntidad();
+					response = validarEntidad.validarEntidadSOAP(cliente.getNumeroIdentificacion());
+					System.out.println("---------------respuesta de servicio");
+					System.out.println(response);
+				}else {
+					WSPideEntidadClientProduccion entidad = new WSPideEntidadClientProduccion();
+					response = entidad.validarEntidad(cliente.getNumeroIdentificacion());
+				} 
+			}catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
 		return response;
+		
+			
+		
 	}
 	
 	@SMDMethod
@@ -4252,8 +4265,8 @@ public class DojoAction {
 		} else if (sCodigo.equalsIgnoreCase(Constantes.RECURSO_RECEPCION_VIRTUAL_OBSERVADOS)) {
 			String nombrePC = (String) mapSession.get("nombrePC");
 			objDocumento = documentoService.updateLeido(iIdToUpdate, objUsuario, nombrePC);
-			log.debug("Documento actualizado con ID [" + objDocumento.getIdDocumento() + "] a estado leido ["
-					+ objDocumento.getLeido() + "]");
+//			log.debug("Documento actualizado con ID [" + objDocumento.getIdDocumento() + "] a estado leido ["
+//					+ objDocumento.getLeido() + "]");
 		}
 
 		return "done";

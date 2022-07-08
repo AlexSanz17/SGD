@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 
 import org.apache.axis.AxisFault;
 
+import gob.ositran.siged.config.SigedProperties;
 import pe.gob.segdi.wsiopidetramite.ws.CargoTramite;
 import pe.gob.segdi.wsiopidetramite.ws.ConsultaTramite;
 import pe.gob.segdi.wsiopidetramite.ws.IOTramite;
@@ -19,7 +20,7 @@ import pe.gob.segdi.wsiopidetramite.ws.RespuestaTramite;
 
 public class WSPideTramiteJavaWebClient {
 
-	public RespuestaConsultaTramite consultarTramite(ConsultaTramite request, String co_par) {
+	public RespuestaConsultaTramite consultarTramite(ConsultaTramite request) {
 
 		System.out.println("Consultar Tramite");
 		
@@ -36,10 +37,10 @@ public class WSPideTramiteJavaWebClient {
 		IOTramite iotramitePortType;
 		RespuestaConsultaTramite respuestaConsultaTramite = new RespuestaConsultaTramite();
 		try {
-			iotramitePortType = new IOTramiteServiceSoapBindingStub(new URL(iotramite.getIOTramitePortAddress()),
-					iotramite);
-			System.out.println("consultra tramite:");
-
+				iotramitePortType = new IOTramiteServiceSoapBindingStub(new URL(iotramite.getIOTramitePortAddress()),
+						iotramite);
+				System.out.println(iotramite.getIOTramitePortAddress());
+		
 			respuestaConsultaTramite = iotramitePortType.consultarTramiteResponse(request);
 
 			System.out.println("Resultado");
@@ -61,7 +62,7 @@ public class WSPideTramiteJavaWebClient {
 
 	}
 	
-	public RespuestaTramite recepcionarTramite(RecepcionTramite request, String co_par) {
+	public RespuestaTramite recepcionarTramite(RecepcionTramite request) {
 
 		System.out.println("Recepcionar Tramite");
 		
@@ -73,14 +74,14 @@ public class WSPideTramiteJavaWebClient {
 
 		System.out.println("obtener");
 
-		System.out.println(iotramite.getIOTramitePortAddress());
 
 		IOTramite iotramitePortType;
 		RespuestaTramite respuestaTramite = new RespuestaTramite();
 		try {
-			iotramitePortType = new IOTramiteServiceSoapBindingStub(new URL(iotramite.getIOTramitePortAddress()),
-					iotramite);
-
+				iotramitePortType = new IOTramiteServiceSoapBindingStub(new URL(iotramite.getIOTramitePortAddress()),
+						iotramite);
+				System.out.println(iotramite.getIOTramitePortAddress());
+		
 
 			respuestaTramite = iotramitePortType.recepcionarTramiteResponse(request);
 
@@ -103,7 +104,7 @@ public class WSPideTramiteJavaWebClient {
 
 	}
 	
-	public RespuestaCargoTramite cargoTramite(CargoTramite request, String co_par) {
+	public RespuestaCargoTramite cargoTramite(CargoTramite request) {
 
 		System.out.println("Cargo Tramite");
 		
@@ -117,12 +118,12 @@ public class WSPideTramiteJavaWebClient {
 
 		System.out.println(iotramite.getIOTramitePortAddress());
 
-		IOTramite iotramitePortType;
+		IOTramite iotramitePortType = null;
 		RespuestaCargoTramite respuestaTramite = new RespuestaCargoTramite();
 		try {
 			iotramitePortType = new IOTramiteServiceSoapBindingStub(new URL(iotramite.getIOTramitePortAddress()),
-					iotramite);
-
+						iotramite);
+		
 
 			respuestaTramite = iotramitePortType.cargoResponse(request);
 

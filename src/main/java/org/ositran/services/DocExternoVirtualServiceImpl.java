@@ -29,4 +29,12 @@ public class DocExternoVirtualServiceImpl implements DocExternoVirtualService{
 	        return docExternoVirtualDAO.findAll();
     }
 	
+	public List<IotdtmDocExterno> findSiddocextToMigrate(Integer sidreccext){
+        return docExternoVirtualDAO.findSiddocextToMigrate(sidreccext);
+}
+	public List<IotdtcDespacho> findVcuoRefObs(Integer iddocumento){
+        return docExternoVirtualDAO.findVcuoRefObs(iddocumento);
+}
+	
+	
 }

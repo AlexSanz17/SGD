@@ -30,6 +30,11 @@ public interface DocumentoPIDEService {
 	IotdtmDocExternoPIDE getDocExternoBySidemext(Integer sidemiext) ;
 	IotdtdAnexoPIDE getAnexoByCuo(String vcuo);
 	IotdtdAnexoPIDE updateIotdtdAnexoPIDE(IotdtdAnexoPIDE objIotdtdAnexoPIDE);
+	List<IotdtcRecepcionPIDE> getAllRecepcionToMigrate();
+	List<IotdtmDocExternoPIDE> getAllDocExternoToMigrate();
+	List<IotdtdDocPrincipalPIDE> getAllDocPrincipalToMigrate();
+	List<IotdtdAnexoPIDE> getAllAnexoToMigrate();
+	List<IotdtcDespachoPIDE> getAllDespachoToMigrate() ;
 
 	
 	

@@ -40,6 +40,15 @@ public class SigedProperties {
         ALFRESCO_ROOT("alfresco.root"),
         ALFRESCO_SPACE("alfresco.space"),
    
+        //DATOS BD
+        BD_URL_SGD("bd.url"),
+        BD_USUARIO_SGD("bd.usuario"),
+        BD_PASSWORD_SGD("bd.password"),
+        
+      //DATOS BD_PIDE
+        BD_URL_PIDE("bd.pide.url"),
+        BD_USUARIO_PIDE("bd.pide.usuario"),
+        BD_PASSWORD_PIDE("bd.pide.password"),
         
         FOLDER_MAIL("folder.mail"),
         DIRECTORIO_PLANTILLAS("folder.templates"),
@@ -123,9 +132,22 @@ public class SigedProperties {
         FIRMAS_PARAMETROS_CHKTSA("firmas.parametros.chkTSA"),
         FIRMAS_PARAMETROS_RUTASTSA("firmas.parametros.rutasTSA"),
 
+        //CONFIGURACION SERVICIOS PIDE
+        URL_PIDE_TRAMITE_DESARROLLO("pide.url_tramite_desarrollo"),
+        URL_PIDE_TRAMITE_PRODUCCION("pide.url_tramite_produccion"),
+        
+        URL_PIDE_ENTIDAD_DESARROLLO("pide.url_entidad_desarrollo"),
+        URL_PIDE_ENTIDAD_PRODUCCION("pide.url_entidad_produccion"),
+        
+        PIDE_ENTORNO_PRODUCCION("pide.entorno_produccion"),
+
+        
         PIDE_FILE_SIZE("pide.file_size"),
         
     	MPV_RUTA_ARCHIVO("mpv.rutaArchivo");
+    	
+    	
+    	
     	
     	
         private String key;

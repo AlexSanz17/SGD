@@ -56,6 +56,54 @@ public class DocumentoPIDEDAOImpl implements DocumentoPIDEDAO {
 		Query query = entityManager.createNamedQuery("IotdtcDespachoPIDE.findAll");
 		return query.getResultList();
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<IotdtcDespachoPIDE> getAllDespachoToMigrate() {
+		String sql = " SELECT e FROM IotdtcDespachoPIDE e where e.cflgest in ('R','O') and e.flginsert is null"; 
+		Query query = entityManager.createQuery(sql);
+		return (List<IotdtcDespachoPIDE>) query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<IotdtcRecepcionPIDE> getAllRecepcionToMigrate() {
+		String sql = " SELECT e FROM IotdtcRecepcionPIDE e"
+				+ " where e.cflgest = 'P' "
+				+ " and e.flginsert is null  " ;
+		Query query = entityManager.createQuery(sql);
+		return (List<IotdtcRecepcionPIDE>) query.getResultList();
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<IotdtmDocExternoPIDE> getAllDocExternoToMigrate() {
+		String sql = " SELECT e FROM IotdtmDocExternoPIDE e"
+				+ " where e.sidrecext in ( select f.sidrecext from IotdtcRecepcionPIDE f where f.cflgest = 'P' and f.flginsert is null ) ";
+		Query query = entityManager.createQuery(sql);
+		return (List<IotdtmDocExternoPIDE>) query.getResultList();
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<IotdtdDocPrincipalPIDE> getAllDocPrincipalToMigrate() {
+		String sql = " SELECT e FROM IotdtdDocPrincipalPIDE e"
+				+ " where e.siddocext in ( select f.siddocext from IotdtmDocExternoPIDE f where f.sidrecext in "
+				+ " ( select g.sidrecext from IotdtcRecepcionPIDE g where g.cflgest = 'P' and g.flginsert is null ) )";
+		Query query = entityManager.createQuery(sql);
+		return (List<IotdtdDocPrincipalPIDE>) query.getResultList();
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<IotdtdAnexoPIDE> getAllAnexoToMigrate() {
+		String sql = " SELECT e FROM IotdtdAnexoPIDE e"
+				+ " where e.siddocext in ( select f.siddocext from IotdtmDocExternoPIDE f where f.sidrecext in "
+				+ " ( select g.sidrecext from IotdtcRecepcionPIDE g where g.cflgest = 'P' and g.flginsert is null ) )";
+		Query query = entityManager.createQuery(sql);
+		return (List<IotdtdAnexoPIDE>) query.getResultList();
+		
+	}
+	
+	
 	
 	public IotdtcDespachoPIDE getDespachoByVcuo(String vcuo) {
 		Query query = entityManager.createNamedQuery("IotdtcDespachoPIDE.findByVcuo");

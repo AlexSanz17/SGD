@@ -2406,9 +2406,9 @@ var viewDetail=function(e){
       dijit.byId("dlgProgresBar").show() ;    
       sURL="doViewExpUsuarioFinal.action?iIdLegajo=";   
     }else if (sTipoGridActual==TIPO_GRID_RECEPCION_VIRTUAL_OBSERVADOS){
-      sURL="doViewDocUsuarioFinal.action?iIdDoc=";
-      buildTabDocumentosAdicionales("doViewDocReferenciales.action?iIdDoc=" + this.getItem(e.rowIndex).id+"&regresar=enviados&idGrid="+sTipoGridActual,"contentPaneDocumentosReferenciales","Documentos Vinculados");
-      buildTabDocumentosAdicionales("doViewDocAdicionales.action?iIdDoc=" + this.getItem(e.rowIndex).id+"&regresar=enviados&idGrid="+sTipoGridActual,"contentPaneDocumentosAdicionales","Carpeta ");
+      sURL="verDocumentoRechazadoMPV.action?iIdDoc=";
+//      buildTabDocumentosAdicionales("doViewDocReferenciales.action?iIdDoc=" + this.getItem(e.rowIndex).id+"&regresar=enviados&idGrid="+sTipoGridActual,"contentPaneDocumentosReferenciales","Documentos Vinculados");
+//      buildTabDocumentosAdicionales("doViewDocAdicionales.action?iIdDoc=" + this.getItem(e.rowIndex).id+"&regresar=enviados&idGrid="+sTipoGridActual,"contentPaneDocumentosAdicionales","Carpeta ");
     }
     
     for(r=0;r<100000;r++);

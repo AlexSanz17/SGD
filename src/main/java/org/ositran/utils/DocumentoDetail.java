@@ -249,6 +249,24 @@ public class DocumentoDetail {
 	private String rutaAlfrescoAnexo;
 	private String objectIdAnexo;
 	private String nombreAnexo;
+	private String nombreArchivoMPV;
+	private String rutaArchivoMPV;
+
+	public String getNombreArchivoMPV() {
+		return nombreArchivoMPV;
+	}
+
+	public void setNombreArchivoMPV(String nombreArchivoMPV) {
+		this.nombreArchivoMPV = nombreArchivoMPV;
+	}
+
+	public String getRutaArchivoMPV() {
+		return rutaArchivoMPV;
+	}
+
+	public void setRutaArchivoMPV(String rutaArchivoMPV) {
+		this.rutaArchivoMPV = rutaArchivoMPV;
+	}
 
 	public String getNombreAnexo() {
 		return nombreAnexo;

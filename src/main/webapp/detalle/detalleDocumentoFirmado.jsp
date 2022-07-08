@@ -297,7 +297,11 @@
                 }
                 
                 if (rol!=null && rol!='' && rol!="<s:property value='@org.ositran.utils.Constantes@COD_ROL_TRAMITE'/>" && rol!="<s:property value='@org.ositran.utils.Constantes@COD_ROL_LOCADOR'/>" && rol!="<s:property value='@org.ositran.utils.Constantes@COD_ROL_MENSAJERIA'/>" && "<s:property value='documento.proyecto' />"!="<s:property value='@org.ositran.utils.Constantes@DOCUMENTO_PROYECTO'/>"){
-                    var service = new dojo.rpc.JsonService("SMDAction.action");
+                	 if("<s:property value='archivoFirmado' /> " == 1){
+	                     	alert("El documento no puede ser derivado sin antes haber enviado el cargo");
+	                         return;
+                     }
+                	var service = new dojo.rpc.JsonService("SMDAction.action");
                     var defered = service.validarTieneFirmaPrincipal("<s:property value='documento.idDocumento' />");
                     defered.addCallback(function(respuesta){
                          if (respuesta == '-1'){
@@ -335,6 +339,10 @@
                          window.open(pagina, "Ventana", opciones);
                     });
                 }else{
+	                	 if("<s:property value='archivoFirmado' /> " == 1){
+	                     	alert("El documento no puede ser derivado sin antes haber enviado el cargo");
+	                         return;
+	                     }
                         var service = new dojo.rpc.JsonService("SMDAction.action");
                         var defered = service.validarTieneFirmaPrincipal(<s:property value='documento.idDocumento' />);
                         defered.addCallback(function(respuesta){
@@ -361,16 +369,17 @@
                                     if (!confirm("El número total de anexos virtuales no han sido cargados al Sistema SGD. ¿Desea Derivarlo?")){ 
                                        return;
                                    }
+                                    
                                 }
 
                                 if (respuesta == '0'){ 
                                     if (!confirm("El documento Principal no tiene una Firma Digital. ¿Desea Derivarlo?")){ 
                                         return;
                                     }  
-                                    if("<s:property value='archivoFirmado' /> " == 1){
-                                    	alert("El documento no puede ser derivado sin antes haber enviado el cargo");
-                                        return;
-                                    }
+//                                     if("<s:property value='archivoFirmado' /> " == 1){
+//                                     	alert("El documento no puede ser derivado sin antes haber enviado el cargo");
+//                                         return;
+//                                     }
                                 }
 
                                 var opciones = "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width=770, height=485, top=20, left=70";

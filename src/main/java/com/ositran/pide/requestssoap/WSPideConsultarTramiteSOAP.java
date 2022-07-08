@@ -38,13 +38,13 @@ public class WSPideConsultarTramiteSOAP {
 	private String PROXY_PORT = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT);
 	
-	public RespuestaConsultaTramite consultarTramiteSOAP(ConsultaTramite request, String co_par) throws  Exception
+	public pe.gob.segdi.wsiopidetramite.ws.RespuestaConsultaTramite consultarTramiteSOAP(pe.gob.segdi.wsiopidetramite.ws.ConsultaTramite request) throws  Exception
 	  {
-		RespuestaConsultaTramite respuestaConsultaTramiteSOAP = new RespuestaConsultaTramite();
+		pe.gob.segdi.wsiopidetramite.ws.RespuestaConsultaTramite respuestaConsultaTramiteSOAP = new pe.gob.segdi.wsiopidetramite.ws.RespuestaConsultaTramite();
 	    System.out.println("========proceso consultar tramite ");
-	    System.out.println("co_par" + co_par);
+	  
 	    try{
-	     if (co_par.equals("D")) {
+	   
 	    	System.out.println("========Obtener IOTramite===== ");
 	        System.out.println("=======Consultar tramite ===========");
 	        System.out.println(request.getVcuo());
@@ -90,13 +90,7 @@ public class WSPideConsultarTramiteSOAP {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        
-	        
-	     }else if (co_par.equals("P")) {
-	        //respuestaConsultaTramite = getIOTramiteProduccion().consultarTramiteResponse(request);
-	     }else if (co_par.equals("O")) {
-	        //respuestaConsultaTramite = getIOTramiteOsitran().consultarTramiteResponse(request.getVcuo());
-	     }
+	   
 	    }
 	    catch (Exception e){
 	        throw e;
@@ -104,7 +98,7 @@ public class WSPideConsultarTramiteSOAP {
 	    return respuestaConsultaTramiteSOAP;
 	  }
 	 
-		public SOAPMessage sendSOAPMessage(String url, final Proxy p, String soapAction,ConsultaTramite request) throws Exception {
+		public SOAPMessage sendSOAPMessage(String url, final Proxy p, String soapAction,pe.gob.segdi.wsiopidetramite.ws.ConsultaTramite request) throws Exception {
 	        SOAPConnectionFactory factory = SOAPConnectionFactory.newInstance();
 	        SOAPConnection connection = factory.createConnection();
 
@@ -152,7 +146,7 @@ public class WSPideConsultarTramiteSOAP {
 	        }
 	    }
 	 
-	 private SOAPMessage createSOAPRequest(String soapAction, ConsultaTramite request) throws Exception {
+	 private SOAPMessage createSOAPRequest(String soapAction, pe.gob.segdi.wsiopidetramite.ws.ConsultaTramite request) throws Exception {
 	        MessageFactory messageFactory = MessageFactory.newInstance();
 	        SOAPMessage soapMessage = messageFactory.createMessage();
 
@@ -171,7 +165,7 @@ public class WSPideConsultarTramiteSOAP {
 	        return soapMessage;
 	    }
 	 
-	 private void createSoapEnvelope(SOAPMessage soapMessage, ConsultaTramite request) throws SOAPException, IOException {
+	 private void createSoapEnvelope(SOAPMessage soapMessage, pe.gob.segdi.wsiopidetramite.ws.ConsultaTramite request) throws SOAPException, IOException {
 	        SOAPPart soapPart = soapMessage.getSOAPPart();
 	       
 	       String myNamespaceSgd = "ws";

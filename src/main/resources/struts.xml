@@ -287,12 +287,23 @@
 			<result name="input">pages/tramite/docRegistrados.jsp</result>
 			<result name="sinpermiso">blank.jsp</result>
 			<result name="error">error.html</result>
-                        <result name="errorsession">login.jsp</result>
+            <result name="errorsession">login.jsp</result>
 			<result name="login">login.jsp</result>
-                        <result name="detalleDocumentoRecObservado">detalle/detalleDocumentoRecObservado.jsp</result>
+            <result name="detalleDocumentoRecObservado">detalle/detalleDocumentoRecObservado.jsp</result>
 			<result>detalle/detalleDocumento.jsp</result>
 			<result name="intalio">detalle/detalleDocumentoIntalio.jsp</result>
 		</action>
+		
+		<action name="verDocumentoRechazadoMPV" method="verDocumentoRechazadoMPV" class="documentoAction">
+			<result name="sinpermiso">blank.jsp</result>
+			<result name="error">error.html</result>
+            <result name="errorsession">login.jsp</result>
+			<result name="login">login.jsp</result>
+            <result>detalle/detalleDocumentoRecObservado.jsp</result>
+		</action>
+		
+		
+	
 
 		<action name="doViewDocUsuarioFinalBandejaCompartida" method="viewDocUsuarioFinalBandejaCompartida" class="documentoAction">
 			<result name="input">pages/tramite/docRegistrados.jsp</result>
@@ -1291,6 +1302,18 @@
          </result>
          <result name="error">error.html</result>
       </action>
+      
+<!--       //informeobra -->
+      <action name="InformeObra_*" method="{1}" class="informeObraAction">
+			<result	name="nuevoInforme">pages/NuevoDocumento/informeObra.jsp</result>
+			<result name="error">error.html</result>
+		</action>
+	<action name="doRegistrarInformeObra" method="registrarInformeObra" class="informeObraAction">
+		<result>pages/NuevoDocumento/NuevoDocumento.jsp</result>
+<!-- 		<result name="informeRegistrado">pages/tramite/informeCargo.jsp</result> -->
+		<result name="error">error.html</result>
+		</action>
+      
    </package>
    <include file="mantenimiento.xml" />
    <include file="usuariofinal.xml" />

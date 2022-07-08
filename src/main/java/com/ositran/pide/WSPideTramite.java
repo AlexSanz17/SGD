@@ -26,6 +26,8 @@ import com.ositran.ws.RespuestaConsultaTramite;
 import com.ositran.ws.Tramite;
 import com.ositran.ws.Tramite_Service;
 
+import gob.ositran.siged.config.SigedProperties;
+
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.ositran.utils.Constantes;
@@ -121,11 +123,13 @@ public class WSPideTramite{
   private PcmIMgdTramitePortType getIOTramiteProduccion()
     throws MalformedURLException
   {
-      PcmIMgdTramite service = new PcmIMgdTramite(new URL(Constantes.URL_PIDE_TRAMITE_PRODUCCION));
+      PcmIMgdTramite service = new PcmIMgdTramite(new URL(SigedProperties
+  			.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_TRAMITE_PRODUCCION)));
       PcmIMgdTramitePortType entidad = service.getPcmIMgdTramiteHttpsSoap11Endpoint();
     
      BindingProvider bindingProvider = (BindingProvider)entidad;
-     bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", Constantes.URL_PIDE_TRAMITE_PRODUCCION);
+     bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", SigedProperties
+   			.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_TRAMITE_PRODUCCION));
     
     return entidad;
   }
@@ -143,7 +147,7 @@ public class WSPideTramite{
 	  http.getProxyAuthorization().setUserName("user proxy");
 	  http.getProxyAuthorization().setPassword("password proxy");*/
 	  
-    IOTramiteService service = new IOTramiteService(new URL(Constantes.URL_PIDE_TRAMITE_DESARROLLO));
+    IOTramiteService service = new IOTramiteService(new URL(SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_TRAMITE_DESARROLLO)));
     IOTramite entidad = service.getIOTramitePort();
    /* org.apache.cxf.endpoint.Client client = ClientProxy.getClient(entidad);
 	 HTTPConduit http = (HTTPConduit) client.getConduit();
@@ -151,7 +155,7 @@ public class WSPideTramite{
 	  http.getClient().setProxyServerPort(8080);*/
     
     BindingProvider bindingProvider = (BindingProvider)entidad;
-    bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", Constantes.URL_PIDE_TRAMITE_DESARROLLO);
+    bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_TRAMITE_DESARROLLO));
     
     return entidad;
   }

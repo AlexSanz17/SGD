@@ -34,6 +34,10 @@ public class AdjuntoMPVServiceImpl implements AdjuntoMPVService {
 	public Integer buscarNumFoliosPorIdRecepcion(Integer idRecepcion, Integer tipoArchivo) {
 		return adjuntoMPVDAO.buscarNumFoliosPorIdRecepcion(idRecepcion, tipoArchivo);
 	}
+	@Override
+	public List<IotdtdAdjuntoMPV> buscarAnexoPorIdRecepcion(Integer idRecepcion) {
+		return adjuntoMPVDAO.buscarAnexoPorIdRecepcion(idRecepcion);
+	}
 	
 	@Override
 	public Integer buscarNumFoliosTotalesPorIdRecepcion(Integer idRecepcion) {

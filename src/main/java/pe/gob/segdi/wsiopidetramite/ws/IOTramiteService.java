@@ -9,6 +9,7 @@ package pe.gob.segdi.wsiopidetramite.ws;
 
 public interface IOTramiteService extends javax.xml.rpc.Service {
     public java.lang.String getIOTramitePortAddress();
+    public java.lang.String getIOTramitePortAddressProduccion();
 
     public pe.gob.segdi.wsiopidetramite.ws.IOTramite getIOTramitePort() throws javax.xml.rpc.ServiceException;
 

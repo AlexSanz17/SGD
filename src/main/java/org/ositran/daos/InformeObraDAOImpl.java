@@ -22,7 +22,14 @@ public class InformeObraDAOImpl implements InformeObraDAO {
 
     @Override
     public void create(InformeObra informeObra) {
-        entityManager.persist(informeObra);
+    	System.out.println("---------------ingreso al meotod");
+    	try {
+    		  entityManager.persist(informeObra);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+      
     }
 
     @Override

@@ -356,6 +356,13 @@ var getButtonData = function(recurso) {
 		objRecurso.href = "pages/archivoCentral/bandejaPrestamos/principalBP.jsp";
 		objRecurso.title = "Bandeja de Prestamos";
 	}
+	 else if (recurso == "UsuFinBtnInformeObra") {
+		objRecurso.id = "tabNuevoDocumento";
+		objRecurso.href = "InformeObra_mostrarVistaInformeObra.action";
+		objRecurso.iconClass = "dijitEditorIcon dijitEditorIconCopy";
+		objRecurso.label = "Informe Obra";
+		objRecurso.title = "Informe Obra";
+		}
    return objRecurso;
 };
 

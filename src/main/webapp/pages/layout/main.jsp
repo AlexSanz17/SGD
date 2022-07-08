@@ -95,6 +95,8 @@
             
             arrRecursoTopButton.push({codigo:"UsuFinBtnNueDocPri", valor:<s:property value="#session._RECURSO.UsuFinBtnNueDocPri"/>});
             arrRecursoTopButton.push({codigo:"UsuFinBtnNueDocTra", valor:<s:property value="#session._RECURSO.UsuFinBtnNueDocTra"/>});
+            //agregamos infoObra
+            arrRecursoTopButton.push({codigo:"UsuFinBtnInformeObra",valor:<s:property value="#session._RECURSO.UsuFinBtnInformeObra"/>});
             arrRecursoTopButton.push({codigo:"MPBtnNueDocPri", valor:<s:property value="#session._RECURSO.MPBtnNueDocPri"/>});
             arrRecursoTopButton.push({codigo:"nvodocsas", valor:<s:property value="#session._RECURSO.nvodocsas"/>});
             arrRecursoTopButton.push({codigo:"UsuFinLstProcess", valor:<s:property value="#session._RECURSO.UsuFinLstProcess"/>});

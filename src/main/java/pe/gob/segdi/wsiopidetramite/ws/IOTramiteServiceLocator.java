@@ -7,6 +7,8 @@
 
 package pe.gob.segdi.wsiopidetramite.ws;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class IOTramiteServiceLocator extends org.apache.axis.client.Service implements pe.gob.segdi.wsiopidetramite.ws.IOTramiteService {
 
     public IOTramiteServiceLocator() {
@@ -26,11 +28,19 @@ public class IOTramiteServiceLocator extends org.apache.axis.client.Service impl
     // cambiar para el mapeo
     
     //private java.lang.String IOTramitePort_address = "http://192.168.21.11:8080/wsiopidetramite/IOTramite";
-    private java.lang.String IOTramitePort_address = "http://200.48.76.125/wsiopidetramite/IOTramite";
+    
+    
+    private java.lang.String IOTramitePort_address = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_TRAMITE_DESARROLLO);
+    private java.lang.String IOTramitePort_address_Produccion = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_TRAMITE_PRODUCCION);
 
     
     
-    public java.lang.String getIOTramitePortAddress() {
+    public java.lang.String getIOTramitePortAddressProduccion() {
+		return IOTramitePort_address_Produccion;
+	}
+
+
+	public java.lang.String getIOTramitePortAddress() {
         return IOTramitePort_address;
     }
 

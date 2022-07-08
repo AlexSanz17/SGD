@@ -1652,9 +1652,11 @@ var dataConfidencial = {
    crearBotonAdjuntar();
    if(TIPO_TRANSACCION+"" == "A"){
      llenarCamposReferencia();
+     validarEntidad();
    }else{
      if(TIPO_TRANSACCION+"" == "M"){ 
-       llenarCampos();            
+       llenarCampos();
+        validarEntidad();            
      }
      if(TIPO_TRANSACCION+"" == "N"){
         dijit.byId("objDD.prioridad").attr("value",PRIORIDAD_NORMAL);   
