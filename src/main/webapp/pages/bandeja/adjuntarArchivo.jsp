@@ -10,51 +10,72 @@
 		<script type="text/javascript">
 			var i =0;
 			
-// 			 archivoPrincipal.addEventListener("change", function(){
-//              	console.log("principal ---------------" +archivoPrincipal.files[0]);
-// 					console.log("anexo ---------------" +archivoAnexo.files[0]);
-			    	 
-             
-//              });
+
 			function AA_Adjuntar(tipo) {
 			
 				var sizemax= false;
 				var archivoPrincipal = document.getElementById("aa_fchooser_principal");
 				var archivoAnexo = document.getElementById("aa_fchooser");
 				 
-				if( "<s:property value='flagPide' />"  == "1" && archivoPrincipal.files[0].size >= "<s:property value='@org.ositran.utils.Constantes@PIDE_FILE_SIZE' /> " ){
+				if( "<s:property value='flagPide' />"  == "1" && archivoPrincipal !=  undefined  && archivoPrincipal.files[0].size >= "<s:property value='@org.ositran.utils.Constantes@PIDE_FILE_SIZE' /> " ){
 		    		  sizemax = true;
 		    		  alert("El documento Principal sobrepasa el peso limite para documentos PIDE.");
+		    		  return;
                }else{
             	   sizemax = false;
                }
 		    	console.log(sizemax)
 				
                
-                if(!sizemax){
-	                if(dijit.byId("dlgProgresBar")!=null){
-						dijit.byId("dlgProgresBar").show();
-					}
-                	dojo.io.iframe.send({
-    					handleAs: "text/html",
-    				    form: dojo.byId("AA_frmUploadFile"),
-    				    content: {
-    				    	iIdUpload: 2,
-                            iIdDoc : "<s:property value='iIdDoc' />",
-                            tipo: tipo
-    				    },
-    				    handle: function(data) {
+//                 if(!sizemax){
+// 	                if(dijit.byId("dlgProgresBar")!=null){
+// 						dijit.byId("dlgProgresBar").show();
+// 					}
+//                 	dojo.io.iframe.send({
+//     					handleAs: "text/html",
+//     				    form: dojo.byId("AA_frmUploadFile"),
+//     				    content: {
+//     				    	iIdUpload: 2,
+//                             iIdDoc : "<s:property value='iIdDoc' />",
+//                             tipo: tipo
+//     				    },
+//     				    handle: function(data) {
     				    	
-    	                        dojo.byId("AA_archivos").innerHTML = divPanel(data, tipo);
+//     	                        dojo.byId("AA_archivos").innerHTML = divPanel(data, tipo);
     	                        
-    	                        if(dijit.byId("dlgProgresBar")!=null){
-    					          dijit.byId("dlgProgresBar").hide() ;
+//     	                        if(dijit.byId("dlgProgresBar")!=null){
+//     					          dijit.byId("dlgProgresBar").hide() ;
     					        
     				    		
-    				    	}
-    				    }
-    				});
-                }
+//     				    	}
+//     				    }
+//     				});
+//                 }
+// 		    	if("<s:property value='flagPide' />"  != "1"){
+		    	 if(dijit.byId("dlgProgresBar")!=null){
+						dijit.byId("dlgProgresBar").show();
+					}
+             	dojo.io.iframe.send({
+ 					handleAs: "text/html",
+ 				    form: dojo.byId("AA_frmUploadFile"),
+ 				    content: {
+ 				    	iIdUpload: 2,
+                         iIdDoc : "<s:property value='iIdDoc' />",
+                         tipo: tipo
+ 				    },
+ 				    handle: function(data) {
+ 				    	
+ 	                        dojo.byId("AA_archivos").innerHTML = divPanel(data, tipo);
+ 	                        
+ 	                        if(dijit.byId("dlgProgresBar")!=null){
+ 					          dijit.byId("dlgProgresBar").hide() ;
+ 					        
+ 				    		
+ 				    	}
+ 				    }
+ 				});
+		    		
+// 		    	}
 			}
 
 			function AA_Registrar(idButton){
@@ -76,10 +97,9 @@
                     }else{
                         var enviar =  true;
                         var camposdelForm =document.getElementById("AA_archivos");
-                        var archivoPrincipal = document.getElementById("aa_fchooser_principal");
+                       
                         var filesinput = camposdelForm.getElementsByTagName("a") ;
                         var archivos= filesinput.length;
-                        console.log(archivoPrincipal.files);
 						
                       
                         if(archivos < 1){
@@ -94,8 +114,8 @@
                            dojo.xhrPost({
                               url: "doAdjuntarArchivo.action",
                          	  content:{
-                              	iIdDoc : "<s:property value='iIdDoc' />",
-                              	sizeDoc: archivoPrincipal.files[0].size
+                              	iIdDoc : "<s:property value='iIdDoc' />"
+                              
                            	  },
 	                           load: function(data) {
 	                                if(dijit.byId("contentPaneDetail")){

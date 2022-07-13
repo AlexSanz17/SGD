@@ -1309,7 +1309,8 @@
 			<result name="error">error.html</result>
 		</action>
 	<action name="doRegistrarInformeObra" method="registrarInformeObra" class="informeObraAction">
-		<result>pages/NuevoDocumento/NuevoDocumento.jsp</result>
+		<result name="input">pages/NuevoDocumento/informeObra.jsp</result>
+<!-- 		 <result>pages/cargo/cargoInformeObra.jsp</result> -->
 <!-- 		<result name="informeRegistrado">pages/tramite/informeCargo.jsp</result> -->
 		<result name="error">error.html</result>
 		</action>

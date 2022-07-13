@@ -9,12 +9,12 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import org.ositran.services.InformeObraService;
-
+import org.ositran.utils.InformeObraDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.btg.ositran.siged.domain.InformeObra;
-
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class InformeObraAction extends ActionSupport implements ServletRequestAware, ServletResponseAware {
@@ -152,34 +152,40 @@ public class InformeObraAction extends ActionSupport implements ServletRequestAw
     }
 
 	public String registrarInformeObra() throws Exception {
-		System.out.println("CONTRATO-.---------------" +contrato);
-		System.out.println("razonSocial-.---------------" +razonSocial);
-		System.out.println("ruc-.---------------" +ruc);
-		System.out.println("tipoObra-.---------------" +tipoObra);
-		System.out.println("fechaTermino-.---------------" +fechaTermino);
-		System.out.println("fechaInicio-.---------------" +fechaInicio);
-		System.out.println("-----------------ingreso");
-		InformeObra informeObra = new InformeObra();
-		System.out.println("-----------------ingreso");
-		informeObra.setContrato(contrato);
-		informeObra.setRazonSocial(razonSocial);
-		informeObra.setRuc(ruc);
-		informeObra.setTipoObra(tipoObra);
-		informeObra.setFechaInicio(Date.valueOf(fechaInicio));
-        informeObra.setFechatermino(Date.valueOf(fechaTermino));
-		informeObra.setMonto(Integer.valueOf(monto));
-	 	informeObra.setBeneficiarios(Integer.valueOf(beneficiarios));
-		informeObra.setDescripcion(descripcion);
-		informeObra.setFechaCreacion(Date.valueOf("2022-01-31"));
-		informeObra.setFechaModificacion(Date.valueOf("2022-01-31"));
-		System.out.println("-----------------informeObra" +informeObra);
-		informeObraService.create(informeObra);
-		System.out.println("-----------------guardo");
-
+		String response = null;
+		try {
+			
+			InformeObra informeObra = new InformeObra();
+			System.out.println("-----------------ingreso");
+			informeObra.setContrato(contrato);
+			informeObra.setRazonSocial(razonSocial);
+			informeObra.setRuc(ruc);
+			informeObra.setTipoObra(tipoObra);
+			informeObra.setFechaInicio(Date.valueOf(fechaInicio));
+			informeObra.setFechatermino(Date.valueOf(fechaTermino));
+			informeObra.setMonto(Integer.valueOf(monto));
+			informeObra.setBeneficiarios(Integer.valueOf(beneficiarios));
+			informeObra.setDescripcion(descripcion);
+			informeObra.setFechaCreacion(Date.valueOf("2022-01-31"));
+			informeObra.setFechaModificacion(Date.valueOf("2022-01-31"));
+			System.out.println("-----------------informeObra" +informeObra);
+			informeObraService.create(informeObra);
+			System.out.println("-----------------guardo");
+			
+//		InformeObraDetail objID = new InformeObraDetail();
+//		objID.setContrato(contrato);
+//		System.out.println("---------------objID-----------" +objID);
+			
 //		log.debug("InformeObraAction::registrarInformeObra()");
 //		log.info("contrato " + informeObra.getContrato() + "razonSocial " + informeObra.getRazonSocial());
-	    
-		return "registrarInformeObra";
+			
+			response =  "success";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response = "error";
+		}
+		return response;
 	}
 	
 	 public String mostrarVistaInformeObra() throws Exception { 

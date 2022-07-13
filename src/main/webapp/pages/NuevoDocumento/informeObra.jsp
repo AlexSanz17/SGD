@@ -22,7 +22,7 @@ padding: 2px;
 </head>
 <body>
 <form dojoType="dijit.form.Form" id="frmInformeObraTramite"
-jsId="frmInformeObraTramite" action="doRegistrarInformeObra"
+jsId="frmInformeObraTramite" 
 method="post">
 <table width="100%" border="0">
 <tr>
@@ -129,8 +129,9 @@ maxlength="25" />
 <td width="25%" align="right"></td>
 
 <td width="33%">
-<input type="submit"
-class="button" value="Aceptar" />
+<!-- <input type="submit"  -->
+<!-- class="button" value="Guardar" /> -->
+<button class="button" onClick="enviarArchivo()">Guardar</button>
 <input type="reset"
 class="button" onclick="javascript:window.close()" value="Cancelar" />
 </td>
@@ -141,5 +142,25 @@ class="button" onclick="javascript:window.close()" value="Cancelar" />
 </tr>
 </table>
 </form>
+<script>
+function enviarArchivo(){
+	console.log("-----------ingreso al envio------------")
+	      if(confirm("Esta seguro de realizar este registro ? ")){
+	    	  dojo.xhrPost({
+	 	    	 url:"doRegistrarInformeObra.action",
+	 	         form: dojo.byId("frmInformeObraTramite"),
+	 	         mimetype: "text/html",
+	 	         load: function() {
+	 	        	 alert("Se realizo el registro exitosamente");
+	 	           	          
+	 	        
+	 	         }
+	 	      });
+	      }else{
+	    	  return;
+	      }
+	 
+	}
+</script>
 </body>
 </html>

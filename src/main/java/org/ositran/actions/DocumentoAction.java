@@ -2823,14 +2823,20 @@ public class DocumentoAction {
 	public String goAdjuntarArchivo() {
 		log.debug("-> [Action] DocumentoAction - goAdjuntarArchivo():String ");
 		Documento d = documentoService.findByIdDocumento(iIdDoc);
-		Cliente cliente = clienteService.findByIdCliente(d.getID_CLIENTE());
-		if(d.getTipoDocumento().getIdtipodocumento() == 15 && d.getCodTipoInstitucion() == 1 && cliente.getFlagPide().equals("1")) {
-			flagPide = "1";
+		if(d.getID_CLIENTE() != null) {
+			Cliente cliente = clienteService.findByIdCliente(d.getID_CLIENTE());
+			if(d.getTipoDocumento().getIdtipodocumento() == 15 && d.getCodTipoInstitucion() == 1 && cliente.getFlagPide().equals("1")) {
+				flagPide = "1";
+			}
 		}
 		proyecto = d.getProyecto();
 		codigoVirtual = d.getNroVirtual();
+		
+		System.out.println("--------------------proyecto--------------------" +proyecto);
+		System.out.println("---------------codigoVirtual----------------------" +codigoVirtual);
 
-//		archivoPrincipal = archivoService.buscarArchivoPrincipalPorDocumento(d.getIdDocumento());
+		archivoPrincipal = archivoService.buscarArchivoPrincipalPorDocumento(d.getIdDocumento());
+		System.out.println("----------archivoPrincipal-----------------" +archivoPrincipal);
 //		log.info("archivoPrincipal" + archivoPrincipal);
 		try {
 			destinatarioIgualRemitente = false;
