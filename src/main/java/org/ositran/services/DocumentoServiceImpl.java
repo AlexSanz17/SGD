@@ -194,7 +194,7 @@ import com.ositran.ws.RespuestaTramite;
 import gob.ositran.siged.config.SigedProperties;
 import gob.ositran.siged.service.AlfrescoWebscriptService;
 import pe.gob.pvn.NotificacionCasillaVirtual;
-import pe.gob.pvn.TransferFile;
+import pe.gob.pvn.TransferFile1;
 
 public class DocumentoServiceImpl implements DocumentoService {
 	private String REPOSITORIO_ID = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.ALFRESCO_ROOTID);
@@ -3166,7 +3166,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 							
 							pathFirmado = FIRMAS_FIRMADOS + posicion[1];
 							
-							TransferFile transferFile = new TransferFile(RUTA_ANEXO_PIDE, USUARIO_ANEXO_PIDE, PASSWORD_ANEXO_PIDE);
+							TransferFile1 transferFile = new TransferFile1(RUTA_ANEXO_PIDE, USUARIO_ANEXO_PIDE, PASSWORD_ANEXO_PIDE);
 //							transferFile.Conexion("www.sofisisperu.com", "sofisisp", "6nFd24adT0");
 							
 							transferFile.uploadFile(pathFirmado, posicion[1], PATH_DIRECTORIO_ANEXO);

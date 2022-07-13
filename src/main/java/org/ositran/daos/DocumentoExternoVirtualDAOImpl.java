@@ -163,7 +163,7 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
     
     @Override
     public List<IotdtcRecepcionMPV> buscarObservadosMPV(){
-        String sql = "SELECT e FROM IotdtcRecepcionMPV e where e.cflgest = 'O' order by e.dfecreg desc";
+        String sql = "SELECT e FROM IotdtcRecepcionMPV e where e.cflgest = '							O' order by e.dfecreg desc";
  					 
         return em.createQuery(sql).getResultList();
     }
