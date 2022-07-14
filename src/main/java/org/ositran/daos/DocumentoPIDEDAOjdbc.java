@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.ositran.services.DocumentoPIDEService;
 
+import com.btg.ositran.siged.domain.IotdtcDespacho;
 import com.btg.ositran.siged.domain.IotdtcDespachoPIDE;
 import com.btg.ositran.siged.domain.IotdtcRecepcion;
 import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
@@ -19,9 +20,18 @@ import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.IotdtmDocExternoPIDE;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class DocumentoPIDEDAOjdbc {
 	private DocumentoPIDEService documentoPIDEService;
+	private String BD_URL_SGD = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.BD_URL_SGD);
+	private String BD_USUARIO_SGD = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.BD_USUARIO_SGD);
+	private String BD_PASSWORD_SGD = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.BD_PASSWORD_SGD);
 	
+	//Conexio PIDE
+	private String BD_URL_PIDE = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.BD_URL_PIDE);
+	private String BD_USUARIO_PIDE = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.BD_USUARIO_PIDE);
+	private String BD_PASSWORD_PIDE = SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.BD_PASSWORD_PIDE);
 	public DocumentoPIDEService getDocumentoPIDEService() {
 		return documentoPIDEService;
 	}
@@ -33,9 +43,9 @@ public class DocumentoPIDEDAOjdbc {
 	public void insertDespachoPIDE(IotdtcDespachoPIDE iotdtcDespachoPIDE) {
 		
 		
-		String dbURL = "jdbc:sqlserver://DBD9:1433;database=BD_PCM_INTEROPERABILIDAD;integratedSecurity=false";
-		String username = "u_sgd";
-		String password = "xyz456*";
+		String dbURL = BD_URL_PIDE;
+		String username = BD_USUARIO_PIDE;
+		String password = BD_PASSWORD_PIDE;
 		
 		System.out.println("realizar el insert");
 		Connection conn = null;
@@ -130,8 +140,8 @@ public class DocumentoPIDEDAOjdbc {
 //			System.out.println("getVobs " +iotdtcDespachoPIDE.getVobs() );
 			statement.setString(16, iotdtcDespachoPIDE.getVobs() != null ? iotdtcDespachoPIDE.getVobs(): null);
 			
-//			System.out.println("getVcuoref " +iotdtcDespachoPIDE.getVcuoref());
-			statement.setString(17, iotdtcDespachoPIDE.getVcuoref() != null ? iotdtcDespachoPIDE.getVdesanxstdrec(): null);
+			System.out.println("getVcuoref " +iotdtcDespachoPIDE.getVcuoref());
+			statement.setString(17, iotdtcDespachoPIDE.getVcuoref() != null ? iotdtcDespachoPIDE.getVcuoref(): null);
 			
 //			System.out.println("getCflgest " +iotdtcDespachoPIDE.getCflgest());		
 			statement.setString(18, iotdtcDespachoPIDE.getCflgest() != null ? String.valueOf(iotdtcDespachoPIDE.getCflgest()): null);
@@ -189,10 +199,86 @@ public class DocumentoPIDEDAOjdbc {
         }	
 		
    }
+	public void updateDespachoJOB(IotdtcDespacho iotdtcDespacho) {
+		String dbURL = BD_URL_SGD;
+		String username = BD_USUARIO_SGD;
+		String password = BD_PASSWORD_SGD;
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Connection conn = null;
+		
+		try {
+		conn = DriverManager.getConnection(dbURL, username, password);
+
+			 if (conn != null) {
+	             DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
+			
+			String sql =  "UPDATE [dbo].[IOTDTC_DESPACHO] SET BCARSTDREC = ?, CFLGENV = ? , CFLGEST = ?, CTIPDOCIDEREM = ?,"
+					+ " DFECENV = ?, DFECMOD = ? , DFECREG = ?, DFECREGSTDREC = ?, IDDOCUMENTO = ?, VANIOREGSTD = ?, VANIOREGSTDREC = ? , "
+					+ "VCODUNIORGREM = ?, VCUOREF = ?, VDESANXSTDREC = ? , VNOMENTREC =  ? , VNUMDOCIDEREM = ?, VNUMREGSTD = ?, VNUMREGSTDREC = ? , VOBS = ?, "
+					+ "VRUCENTREC = ?, VUNIORGREM = ?, VUNIORGSTDREC = ? , VUSUMOD = ? , VUSUREG = ?, VUSUREGSTDREC = ?  "
+					+ "WHERE VCUO = ?"  ;
+					
+			
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+
+			statement.setBytes(1, iotdtcDespacho.getBcarstdrec() != null ? iotdtcDespacho.getBcarstdrec() : null); 
+			statement.setString(2, iotdtcDespacho.getCflgenv() != null ? String.valueOf(iotdtcDespacho.getCflgenv()) : null); 
+			statement.setString(3, iotdtcDespacho.getCflgest() != null ? String.valueOf(iotdtcDespacho.getCflgest()) : null); 
+			statement.setString(4, iotdtcDespacho.getCtipdociderem() != null ? String.valueOf(iotdtcDespacho.getCtipdociderem()) : null); 
+			String getDfecenv = DATE_FORMAT.format(iotdtcDespacho.getDfecenv());	
+			statement.setString(5, getDfecenv != null ? getDfecenv : null); 
+			String getDfecmod = DATE_FORMAT.format(iotdtcDespacho.getDfecmod());	
+			statement.setString(6, getDfecmod != null ? getDfecmod : null); 
+			String getDfecreg = DATE_FORMAT.format(iotdtcDespacho.getDfecreg());	
+			statement.setString(7, getDfecreg != null ? getDfecreg : null); 
+			String getDfecregstdrec = DATE_FORMAT.format(iotdtcDespacho.getDfecregstdrec());	
+			statement.setString(8, getDfecregstdrec != null ? getDfecregstdrec : null); 
+			statement.setInt(9, iotdtcDespacho.getIddocumento() != null ? iotdtcDespacho.getIddocumento() : null); 
+			statement.setString(10, iotdtcDespacho.getVanioregstd() != null ? iotdtcDespacho.getVanioregstd()  : null); 
+			statement.setString(11, iotdtcDespacho.getVanioregstdrec() != null ? iotdtcDespacho.getVanioregstdrec()  : null); 
+			statement.setString(12, iotdtcDespacho.getVcoduniorgrem() != null ? iotdtcDespacho.getVcoduniorgrem()  : null); 
+			statement.setString(13, iotdtcDespacho.getVcuoref() != null ? iotdtcDespacho.getVcuoref()  : null); 
+			statement.setString(14, iotdtcDespacho.getVdesanxstdrec() != null ? iotdtcDespacho.getVdesanxstdrec()  : null);
+			statement.setString(15, iotdtcDespacho.getVnomentrec() != null ? iotdtcDespacho.getVnomentrec()  : null); 
+			statement.setString(16, iotdtcDespacho.getVnumdociderem() != null ? iotdtcDespacho.getVnumdociderem()  : null); 
+			statement.setString(17, iotdtcDespacho.getVnumregstd() != null ? iotdtcDespacho.getVnumregstd()  : null); 
+			statement.setString(18, iotdtcDespacho.getVnumregstdrec() != null ? iotdtcDespacho.getVnumregstdrec()  : null); 
+			statement.setString(19, iotdtcDespacho.getVobs() != null ? iotdtcDespacho.getVobs()  : null); 
+			statement.setString(20, iotdtcDespacho.getVrucentrec() != null ? iotdtcDespacho.getVrucentrec()  : null); 
+			statement.setString(21, iotdtcDespacho.getVuniorgrem() != null ? iotdtcDespacho.getVuniorgrem()  : null); 
+			statement.setString(22, iotdtcDespacho.getVuniorgstdrec() != null ? iotdtcDespacho.getVuniorgstdrec()  : null); 
+			statement.setString(23, iotdtcDespacho.getVusumod() != null ? iotdtcDespacho.getVusumod()  : null); 
+			statement.setString(24, iotdtcDespacho.getVusureg() != null ? iotdtcDespacho.getVusureg()  : null); 
+			statement.setString(25, iotdtcDespacho.getVusuregstdrec() != null ? iotdtcDespacho.getVusuregstdrec()  : null); 
+		
+			statement.setString(26, iotdtcDespacho.getVcuo() != null ? iotdtcDespacho.getVcuo() : null);  
+			
+			int rowsInserted = statement.executeUpdate();
+			if (rowsInserted > 0) {
+				System.out.println("Se actualizo IOTDTC_DESPACHO_JOB ");
+			}
+			 }
+			
+		} catch (SQLException ex) {
+			System.out.println("error en el insert"); 
+			ex.printStackTrace();
+		} finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }	
+	}
+	
+	
 	public void updateRecepcionPIDEJOB(IotdtcRecepcionPIDE iotdtcRecepcion) {
-		String dbURL = "jdbc:sqlserver://DBD9:1433;database=BD_PCM_INTEROPERABILIDAD;integratedSecurity=false";
-		String username = "u_sgd";
-		String password = "xyz456*";
+		String dbURL = BD_URL_PIDE;
+		String username = BD_USUARIO_PIDE;
+		String password = BD_PASSWORD_PIDE;
 		
 		System.out.println("realizar el update");
 		Connection conn = null;
@@ -231,10 +317,49 @@ public class DocumentoPIDEDAOjdbc {
             }
         }	
 	}
+	
+	public void updateDespachoPIDEJOB(IotdtcDespachoPIDE iotdtcDespachoPIDE) {
+		String dbURL = BD_URL_PIDE;
+		String username = BD_USUARIO_PIDE;
+		String password = BD_PASSWORD_PIDE;
+		
+		Connection conn = null;
+		
+		try {
+		conn = DriverManager.getConnection(dbURL, username, password);
+
+			 if (conn != null) {
+	             DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
+			
+			String sql =  "UPDATE [IDOSGD].[IOTDTC_DESPACHO] SET FLGINSERT = 1 WHERE VCUO = ?"  ;
+					
+			PreparedStatement statement = conn.prepareStatement(sql);
+
+			statement.setString(1, iotdtcDespachoPIDE.getVcuo() != null ? iotdtcDespachoPIDE.getVcuo() : null); 
+			
+			int rowsInserted = statement.executeUpdate();
+			if (rowsInserted > 0) {
+				System.out.println("Se actualizo IOTDTC_DESPACHO_PIDE_JOB ");
+			}
+			 }
+			
+		} catch (SQLException ex) {
+			System.out.println("error en el insert"); 
+			ex.printStackTrace();
+		} finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }	
+	}
 	public void updateRecepcionPIDE(IotdtcRecepcion iotdtcRecepcion) {
-		String dbURL = "jdbc:sqlserver://DBD9:1433;database=BD_PCM_INTEROPERABILIDAD;integratedSecurity=false";
-		String username = "u_sgd";
-		String password = "xyz456*";
+		String dbURL = BD_URL_PIDE;
+		String username = BD_USUARIO_PIDE;
+		String password = BD_PASSWORD_PIDE;
 		
 		System.out.println("realizar el update");
 		Connection conn = null;
@@ -275,9 +400,9 @@ public class DocumentoPIDEDAOjdbc {
 	}
 	
 	public void updateRecepcionEnvioCargoPIDE(IotdtcRecepcion iotdtcRecepcion) {
-		String dbURL = "jdbc:sqlserver://DBD9:1433;database=BD_PCM_INTEROPERABILIDAD;integratedSecurity=false";
-		String username = "u_sgd";
-		String password = "xyz456*";
+		String dbURL = BD_URL_PIDE;
+		String username = BD_USUARIO_PIDE;
+		String password = BD_PASSWORD_PIDE;
 		
 		System.out.println("realizar el update");
 		Connection conn = null;
@@ -288,8 +413,8 @@ public class DocumentoPIDEDAOjdbc {
 			 if (conn != null) {
 	             DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
 			
-			String sql =  "UPDATE [IDOSGD].[IOTDTC_RECEPCION] SET CFLGEST = 'R' , VNUMREGSTD = ? , VANIOREGSTD = ? , VUNIORGSTD = ? , VDESANXSTD = ?, "
-					+ "DFECREGSTD = ?, VUSUREGSTD = ?, BCARSTD = ?, DFECMOD = ?, CFLGENVCAR = 'S' WHERE VCUO = ?"  ;
+			String sql =  "UPDATE [IDOSGD].[IOTDTC_RECEPCION] SET  VNUMREGSTD = ? , VANIOREGSTD = ? , VUNIORGSTD = ? , VDESANXSTD = ?, "
+					+ "DFECREGSTD = ?, VUSUREGSTD = ?, BCARSTD = ?, DFECMOD = ?, CFLGENVCAR = 'S' , CFLGEST = ?  WHERE VCUO = ?"  ;
 					
 			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			System.out.println("asignar variables");
@@ -309,7 +434,8 @@ public class DocumentoPIDEDAOjdbc {
 			String getDfecmod = DATE_FORMAT.format(iotdtcRecepcion.getDfecmod());	
 //			System.out.println("fecha a ingresar  getDfecmod--------- " +getDfecregstd);
 			statement.setString(8, getDfecmod != null ? getDfecmod : null); 
-			statement.setString(9, iotdtcRecepcion.getVcuo() != null ? iotdtcRecepcion.getVcuo() : null); 
+			statement.setString(9, iotdtcRecepcion.getCflgest().toString() != null ? iotdtcRecepcion.getCflgest().toString()  : null); 
+			statement.setString(10, iotdtcRecepcion.getVcuo() != null ? iotdtcRecepcion.getVcuo() : null); 
 			System.out.println("ejecutar ");   
 			
 			int rowsInserted = statement.executeUpdate();
@@ -332,9 +458,9 @@ public class DocumentoPIDEDAOjdbc {
         }	
 	}
 	public void insertIotdtcDocExternoPIDE( String vcuo , IotdtmDocExterno  iotdtmDocExterno) {
-		String dbURL = "jdbc:sqlserver://DBD9:1433;database=BD_PCM_INTEROPERABILIDAD;integratedSecurity=false";
-		String username = "u_sgd";
-		String password = "xyz456*";
+		String dbURL = BD_URL_PIDE;
+		String username = BD_USUARIO_PIDE;
+		String password = BD_PASSWORD_PIDE;
 		IotdtcRecepcionPIDE iotdtcRecepcionPIDE = null;
 		IotdtcDespachoPIDE iotdtcDesachoPIDE = null;
 		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -422,9 +548,9 @@ public class DocumentoPIDEDAOjdbc {
          
 	}
 	public void insertIotdtcDocPrincipalPIDE( String vcuo , IotdtdDocPrincipal  iotdtmDocPrincipal) {
-		String dbURL = "jdbc:sqlserver://DBD9:1433;database=BD_PCM_INTEROPERABILIDAD;integratedSecurity=false";
-		String username = "u_sgd";
-		String password = "xyz456*";
+		String dbURL = BD_URL_PIDE;
+		String username = BD_USUARIO_PIDE;
+		String password = BD_PASSWORD_PIDE;
 		IotdtcRecepcionPIDE iotdtcRecepcionPIDE = null;
 		IotdtcDespachoPIDE iotdtcDesachoPIDE = null;
 		IotdtmDocExternoPIDE iotdtmDocExternoPIDE = null;
@@ -507,9 +633,9 @@ public class DocumentoPIDEDAOjdbc {
          
 	}
 	public void insertIotdtcDocAnexoPIDE( String vcuo , IotdtdAnexo  iotdtdAnexo) {
-		String dbURL = "jdbc:sqlserver://DBD9:1433;database=BD_PCM_INTEROPERABILIDAD;integratedSecurity=false";
-		String username = "u_sgd";
-		String password = "xyz456*";
+		String dbURL = BD_URL_PIDE;
+		String username = BD_USUARIO_PIDE;
+		String password = BD_PASSWORD_PIDE;
 		IotdtcRecepcionPIDE iotdtcRecepcionPIDE = null;
 		IotdtcDespachoPIDE iotdtcDesachoPIDE = null;
 		IotdtmDocExternoPIDE iotdtmDocExternoPIDE = null;

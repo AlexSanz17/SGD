@@ -38,20 +38,18 @@ public class WSPideValidarEntidad {
 	private String PROXY_PORT = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT);
 	
-	public String validarEntidadSOAP(String request, String co_par) throws  Exception
+	
+	public String validarEntidadSOAP(String request) throws  Exception
 	  {
 		
-	    System.out.println("========proceso consultar tramite ");
-	    System.out.println("co_par" + co_par);
 	    String response = "";
+	    String soapEndpointUrl = "";
 	    try{
-	     if (co_par.equals("D")) {
-	    	System.out.println("========Obtener IOTramite===== ");
+	    
 	        System.out.println("=======Consultar tramite ===========");
-	 
+	        soapEndpointUrl = SigedProperties
+	    			.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_ENTIDAD_DESARROLLO);
 	        
-	        
-	        String soapEndpointUrl = "http://200.48.76.125/wsentidad/Entidad";
 	        String soapAction = "";
 
 	        //callSoapWebService(soapEndpointUrl, soapAction);
@@ -86,13 +84,9 @@ public class WSPideValidarEntidad {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	    
 	        
-	        
-	     }else if (co_par.equals("P")) {
-	        //respuestaConsultaTramite = getIOTramiteProduccion().consultarTramiteResponse(request);
-	     }else if (co_par.equals("O")) {
-	        //respuestaConsultaTramite = getIOTramiteOsitran().consultarTramiteResponse(request.getVcuo());
-	     }
+	    
 	    }
 	    catch (Exception e){
 	        throw e;

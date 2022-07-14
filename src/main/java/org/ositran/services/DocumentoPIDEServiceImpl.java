@@ -35,6 +35,22 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public List<IotdtcRecepcionPIDE> getAllRecepcion() {
 		return documentoPIDEDAO.findAllRecepcion();
 	}
+	@Override
+	public List<IotdtcRecepcionPIDE> getAllRecepcionToMigrate() {
+		return documentoPIDEDAO.getAllRecepcionToMigrate();
+	}
+	@Override
+	public List<IotdtmDocExternoPIDE> getAllDocExternoToMigrate() {
+		return documentoPIDEDAO.getAllDocExternoToMigrate();
+	}
+	@Override
+	public List<IotdtdDocPrincipalPIDE> getAllDocPrincipalToMigrate() {
+		return documentoPIDEDAO.getAllDocPrincipalToMigrate();
+	}
+	@Override
+	public List<IotdtdAnexoPIDE> getAllAnexoToMigrate() {
+		return documentoPIDEDAO.getAllAnexoToMigrate();
+	}
 	public IotdtcRecepcionPIDE getRecepcionByVcuo(String vcuo) {
 		return documentoPIDEDAO.findRecepcionByVcuo(vcuo);
 	}
@@ -47,6 +63,11 @@ public class DocumentoPIDEServiceImpl implements DocumentoPIDEService {
 	public List<IotdtcDespachoPIDE> getAllDespacho() {
 		return documentoPIDEDAO.findAllDespacho();
 	}
+	@Override
+	public List<IotdtcDespachoPIDE> getAllDespachoToMigrate() {
+		return documentoPIDEDAO.getAllDespachoToMigrate();
+	}
+	
 	public IotdtcDespachoPIDE getDespachoByVcuo(String vcuo) {
 		return documentoPIDEDAO.getDespachoByVcuo(vcuo);
 	}

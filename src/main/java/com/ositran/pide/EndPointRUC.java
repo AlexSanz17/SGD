@@ -10,6 +10,9 @@ import com.ositran.ws.Entidad;
 import com.ositran.ws.EntidadBean;
 import com.ositran.ws.PcmIMgdEntidad;
 import com.ositran.ws.PcmIMgdEntidadPortType;
+
+import gob.ositran.siged.config.SigedProperties;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -67,11 +70,13 @@ public class EndPointRUC {
   }
   
   private Entidad getEntidadRUCDesarrollo() throws MalformedURLException{
-    EntidadService service = new EntidadService(new URL(Constantes.URL_PIDE_RUC_DESARROLLO));
+    EntidadService service = new EntidadService(new URL(SigedProperties
+  			.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_ENTIDAD_DESARROLLO)));
     Entidad entidad = service.getEntidadPort();
     
     BindingProvider bindingProvider = (BindingProvider)entidad;
-    bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", Constantes.URL_PIDE_RUC_DESARROLLO);
+    bindingProvider.getRequestContext().put("javax.xml.ws.service.endpoint.address", SigedProperties
+  			.getProperty(SigedProperties.SigedPropertyEnum.URL_PIDE_ENTIDAD_DESARROLLO));
     
     return entidad;
   }

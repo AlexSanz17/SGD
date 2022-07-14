@@ -1,5 +1,6 @@
 package org.ositran.daos;
 
+import com.btg.ositran.siged.domain.IotdtcDespacho;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtdAnexo;
 import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
@@ -9,6 +10,8 @@ import com.btg.ositran.siged.domain.Usuario;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+
+import org.ositran.dojo.BandejaRecepcionMPVObservados;
 
 public interface DocumentoExternoVirtualDAO {
 	public List<IotdtmDocExterno> findAll() ;
@@ -30,4 +33,8 @@ public interface DocumentoExternoVirtualDAO {
 	public List<IotdtcRecepcionMPV> buscarObservadosMPV();
 	public IotdtdDocPrincipal buscarDocumentoPrincipalBySiddocext(Integer siddocext);     
 	public IotdtdAnexo buscarDocumentoAnexoBySiddocext(Integer siddocext);
+	public List<IotdtmDocExterno> findSiddocextToMigrate(Integer sidreccext) ;
+	public List<IotdtcDespacho> findVcuoRefObs(Integer iddocumento) ;
+	  public List<BandejaRecepcionMPVObservados> buscarRechazadosMPV();
+	  public List<BandejaRecepcionMPVObservados> buscarRechazadosMPVDetalle(Integer sidrecext);
 }

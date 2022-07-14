@@ -23,6 +23,17 @@ public class DespachoVirtualServiceImpl implements  DespachoVirtualService{
     public IotdtcDespacho registrarDocumento(IotdtcDespacho despacho){
          return despachoVirtualDAO.registrarDocumento(despacho);
     }
+    @Transactional
+    public IotdtcDespacho actualizarDespacho(IotdtcDespacho despacho){
+        return despachoVirtualDAO.actualizarDespacho(despacho);
+   }
+    public IotdtcDespacho findByIdDocumento(Integer iddocumento){
+        return despachoVirtualDAO.findByIdDocumento(iddocumento);
+   }
+    public List<IotdtcDespacho> findVcuoRefObs(Integer iddocumento){
+        return despachoVirtualDAO.findVcuoRefObs(iddocumento);
+   }
+    
     
     public List<IotdtcDespacho> getAll(){
         return despachoVirtualDAO.findAll();

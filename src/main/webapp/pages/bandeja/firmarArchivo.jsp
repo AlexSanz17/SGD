@@ -90,14 +90,14 @@
 			}
 			function firmarDoumento(){
 				if(vcuoPide != null){
-					console.log("-----------------------Firmar para PIDE---------------");
+				
 					generateQrPreFirmadoRecepcionPIDE();
 				}else{
-					console.log("-----------------------Firmar normal---------------");
 					generateQrPreFirmado();
 				}
 			}
 			function generateQrPreFirmado() {
+					console.log("-----------------------Firmar normal---------------");
 				
 					btnFirmar.disabled = true;
 					dijit.byId("dlgProgresBar").show();
@@ -149,6 +149,7 @@
 			}
 			
 			function generateQrPreFirmadoRecepcionPIDE() {
+				console.log("-----------------------Firmar para PIDE---------------");
 				btnFirmar.disabled = true;
 				dijit.byId("dlgProgresBar").show();
 				

@@ -217,8 +217,8 @@ public class EntidadServiceSoapBindingStub extends org.apache.axis.client.Stub i
         
         // Asignar variables de proxy
  		AxisProperties.getProperties().put("proxySet","true");
- 	    AxisProperties.setProperty("http.proxyHost", "proxy1"); 
- 	    AxisProperties.setProperty("http.proxyPort", "8080"); 
+ 	    AxisProperties.setProperty("http.proxyHost", PROXY_HOST); 
+ 	    AxisProperties.setProperty("http.proxyPort", PROXY_PORT); 
  	    
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[1]);

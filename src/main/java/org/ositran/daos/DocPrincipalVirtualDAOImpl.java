@@ -36,7 +36,7 @@ public class DocPrincipalVirtualDAOImpl implements  DocPrincipalVirtualDAO{
     }
     
     public IotdtdDocPrincipal registrarPrincipal(IotdtdDocPrincipal principal){
-        if(principal.getSiddocpri() == null){
+        if(principal.getSiddocext() == null){
 	    em.persist(principal); 
 	    em.flush();
 	    em.refresh(principal);

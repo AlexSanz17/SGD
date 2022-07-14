@@ -14,6 +14,7 @@ import org.ositran.daos.GridXGridColumnaDAO;
 import org.ositran.daos.GridcolumnaxusuarioDAO;
 import org.ositran.daos.ParametroDAO;
 import org.ositran.daos.RolDAO;
+import org.ositran.dojo.BandejaRecepcionMPVObservados;
 import org.ositran.dojo.BusquedaAvanzada;
 import org.ositran.dojo.grid.Estructura;
 import org.ositran.dojo.grid.GridUsuario;
@@ -989,64 +990,37 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
     
     @SuppressWarnings("rawtypes")
 	public List getItems_Recepcion_Virtual_Observados(Usuario objUsuario, String obs, BusquedaAvanzada objFiltro) {
-	      _log.debug("-> [Service] GridcolumnaxusuarioService - getItems_Recepcion_Virtual():List ");
+	      _log.debug("-> [Service] GridcolumnaxusuarioService - getItems_Recepcion_Virtual_observados():List ");
           List<IotdtmDocExterno> lstRecepcion = null;
-          List<IotdtcRecepcionMPV> lstRecepcionMPV = null;
+          List<BandejaRecepcionMPVObservados> lstRecepcionMPV = null;
           List data = new ArrayList();
-                    
-          //Buscar de la tablas de PIDE    
-          lstRecepcion = documentoExternoVirtualDAO.buscarRecepcionVirtual(objUsuario);
-             
-          if (lstRecepcion!=null){
-            for(int i=0; i<lstRecepcion.size();i++){
-                ItemUF uuf = new ItemUF();
-                Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumentoPIDE(lstRecepcion.get(i).getCcodtipdoc());
-                uuf.setId(lstRecepcion.get(i).getSiddocext().intValue());
-                uuf.setDocumento(tipoDocumento.getNombre() + " - " + lstRecepcion.get(i).getVnumdoc());
-                uuf.setAsunto(lstRecepcion.get(i).getVasu());
-                uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, lstRecepcion.get(i).getSidrecext().getCflgest().toString()).getDescripcion());
-                uuf.setIdEstado(lstRecepcion.get(i).getSidrecext().getCflgest().toString());
-                uuf.setCliente(lstRecepcion.get(i).getVnomentemi());
-                uuf.setFechacreacion(lstRecepcion.get(i).getSidrecext().getDfecreg());
-                uuf.setNroTramiteVirtual(lstRecepcion.get(i).getSidrecext().getVnumregstd()==null?"":lstRecepcion.get(i).getSidrecext().getVnumregstd());
-                uuf.setCuo(lstRecepcion.get(i).getSidrecext().getVcuo());
-                uuf.setCuoRef(lstRecepcion.get(i).getSidrecext().getVcuoref());
-                
-                if (lstRecepcion.get(i).getSidrecext().getCflgenvcar()=='S'){
-                    uuf.setCargo("images/cargo.gif");
-                }else{
-                    uuf.setCargo("images/ed_blank.gif");
-                }
-                
-                data.add(uuf);
-            }
-          }
-          
+                             
          //Buscar de la tablas de MPV
-          lstRecepcionMPV = documentoExternoVirtualDAO.buscarObservadosMPV();
+          lstRecepcionMPV = documentoExternoVirtualDAO.buscarRechazadosMPV();
           
-          if (lstRecepcionMPV!=null){
-            for(IotdtcRecepcionMPV recepcionMpv:lstRecepcionMPV){
+          if (lstRecepcionMPV!=null && lstRecepcionMPV.size() > 0){
+            for(int i = 0; i< lstRecepcionMPV.size() ;i++){
+//            	System.out.println("-------------------------size-------------------" +lstRecepcionMPV.size());
+//            	System.out.println("-----------------lstRecepcionMPV.get(i).toString()----------------" +lstRecepcionMPV.get(i));
+//            	System.out.println("-------------sidercext-----------------" +lstRecepcionMPV.get(i).getSidrecext());
+//            	System.out.println("-------------asunto-----------------" +lstRecepcionMPV.get(i).getAsunto());
+//            	System.out.println("-------------estado-----------------" +lstRecepcionMPV.get(i).getEstado());
                 ItemUF uuf = new ItemUF();
-                Tipodocumento tipoDocumento = tipoDocumentoDAO.findByIdTipoDocumento(Integer.parseInt(recepcionMpv.getTipodocumento()));
-                uuf.setId(recepcionMpv.getSidrecext().intValue());
-                uuf.setDocumento(tipoDocumento.getNombre() + " - " + recepcionMpv.getNumerodocumento());
-                uuf.setAsunto(recepcionMpv.getAsunto());
-                uuf.setEstado(parametroDAO.findByTipoAndValue(Constantes.ESTADOS_PIDE, recepcionMpv.getCflgest().toString()).getDescripcion());
-                uuf.setIdEstado(recepcionMpv.getCflgest().toString());
-                uuf.setCliente(!recepcionMpv.getVnomentemi().equals("") ? recepcionMpv.getVnomentemi() : recepcionMpv.getDesRemitente());
-                uuf.setFechacreacion(recepcionMpv.getDfecreg());
+                
+                uuf.setId(lstRecepcionMPV.get(i).getSidrecext().intValue());
+                uuf.setDocumento(lstRecepcionMPV.get(i).getDocumento());
+                uuf.setAsunto(lstRecepcionMPV.get(i).getAsunto());
+                uuf.setEstado(lstRecepcionMPV.get(i).getEstado());
+//                uuf.setIdEstado(recepcionMpv.getCflgest().toString());
+                uuf.setCliente(lstRecepcionMPV.get(i).getCliente());
+                uuf.setFechacreacion(lstRecepcionMPV.get(i).getFechaRegistro());
+//                uff.set
+//                uuf.setfec
                 //uuf.setNroTramiteVirtual(recepcionMpv.getNumerodocumento()==null?"":recepcionMpv.getNumerodocumento());
-                uuf.setNroTramiteVirtual(recepcionMpv.getVnumregstd()==null?"":recepcionMpv.getVnumregstd());
-                uuf.setCuo("");
-                uuf.setCuoRef("");
-                
-                if (recepcionMpv.getCflgenvcar()=='S'){
-                    uuf.setCargo("images/cargo.gif");
-                }else{
-                    uuf.setCargo("images/ed_blank.gif");
-                }
-                
+                uuf.setNroTramiteVirtual(lstRecepcionMPV.get(i).getVirtual() );
+//                uuf.setNroTramite(lstRecepcionMPV.get(i).getNroTramite() == "" ? null : Integer.valueOf(lstRecepcionMPV.get(i).getNroTramite()));
+                uuf.setObservacionArchivar(lstRecepcionMPV.get(i).getObs());
+                              
                 data.add(uuf);
             }
           }

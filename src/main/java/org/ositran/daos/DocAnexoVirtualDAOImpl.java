@@ -25,7 +25,7 @@ public class DocAnexoVirtualDAOImpl implements DocAnexoVirtualDAO{
     
     public IotdtdAnexo registrarAnexo(IotdtdAnexo anexo){
 		
-       if(anexo.getSiddocanx() == null){
+       if(anexo.getSiddocext() == null){
 	    em.persist(anexo); 
 	    em.flush();
 	    em.refresh(anexo);

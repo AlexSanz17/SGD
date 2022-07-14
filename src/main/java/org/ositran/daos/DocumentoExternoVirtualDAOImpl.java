@@ -1,18 +1,24 @@
 package org.ositran.daos;
 
+import com.btg.ositran.siged.domain.IotdtcDespacho;
 import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
+import com.btg.ositran.siged.domain.IotdtcRecepcionPIDE;
 import com.btg.ositran.siged.domain.IotdtdAnexo;
 import com.btg.ositran.siged.domain.IotdtdDocPrincipal;
+import com.btg.ositran.siged.domain.IotdtdDocPrincipalPIDE;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
+import com.btg.ositran.siged.domain.TramiteDocumentario;
 import com.btg.ositran.siged.domain.Usuario;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
+import org.ositran.dojo.BandejaRecepcionMPVObservados;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -33,6 +39,47 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
   	     	 return query.getResultList();
   	          
     }
+    @SuppressWarnings("unchecked")
+    
+   	public List<IotdtmDocExterno> findSiddocextToMigrate(Integer siderccext) {    	 
+//  	     	 Query query = em.createNamedQuery("IotdtmDocExterno.findAll");
+//  	     	 return query.getResultList();
+  	   	String sql = " SELECT e FROM IotdtmDocExterno e, IotdtcRecepcion j where e.sidrecext.sidrecext = j.sidrecext and j.sidrecext = :sidrecext";
+  	   	
+//  	  SELECT i FROM IotdtmDocExternoPIDE i, IotdtcDespachoPIDE j where i.sidemiext.sidemiext = j.sidemiext and j.sidemiext = :sidemiext
+				
+		Query query = em.createQuery(sql);
+		query.setParameter("sidrecext", siderccext);
+		return (List<IotdtmDocExterno>) query.getResultList();
+		
+//		SELECT SIDDOCEXT FROM IOTDTM_DOC_EXTERNO WHERE SIDRECEXT = @SIDRECEXT
+    }
+  @SuppressWarnings("unchecked")
+    
+   	public List<IotdtcDespacho> findVcuoRefObs(Integer iddocumento) {    	 
+//  	     	 Query query = em.createNamedQuery("IotdtmDocExterno.findAll");
+//  	     	 return query.getResultList();
+  	   	String sql = " SELECT c FROM Documento a, DocumentoReferencia b, IotdtcDespacho c, IotdtmDocExterno d "
+  	   			+ "  where a.iddocumento = b.iddocumentoreferencia and c.sidemiext = d.sidemiext "
+  	   			+ " and a.nrovirtual = d.siddocext and b.iddocumento = :iddocumento";
+//  	  SELECT NROVIRTUAL ,VCUO, *
+//  	 FROM DOCUMENTO A, DOCUMENTOREFERENCIA B , IOTDTC_DESPACHO C , IOTDTM_DOC_EXTERNO D
+//  	 WHERE A.IDDOCUMENTO = B.IDDOCUMENTOREFERENCIA
+//  	 AND C.SIDEMIEXT = D.SIDEMIEXT
+//  	 AND A.NROVIRTUAL = D.SIDDOCEXT
+//  	 --AND A.IDDOCUMENTO = 1635
+//  	 AND B.IDDOCUMENTO = 1638
+
+				
+		Query query = em.createQuery(sql);
+		query.setParameter("iddocumento", iddocumento);
+		return (List<IotdtcDespacho>) query.getResultList();
+		
+//		SELECT SIDDOCEXT FROM IOTDTM_DOC_EXTERNO WHERE SIDRECEXT = @SIDRECEXT
+    }
+    
+    
+    
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesMigrarCargo(){
         String  sql = " SELECT e FROM IotdtmDocExterno e where e.sidemiext.cflgest in ('R') and e.sidemiext.bcarstdrec is not null and (select count(d.idDocumento) from Documento d, Archivo a where d.idDocumento = e.sidemiext.iddocumento and decode(d.documentoreferencia, null,d.idDocumento, d.documentoreferencia) = a.documento and a.estado = 'A' and a.principal = 'M') = 0 "; 
         return em.createQuery(sql).getResultList();  
@@ -124,7 +171,7 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
     
     public IotdtmDocExterno registrarDocumento(IotdtmDocExterno docExterno){
 		
-       if(docExterno.getSiddocext() == null){
+       if(docExterno.getSidrecext() == null){
 	    em.persist(docExterno); 
 	    em.flush();
 	    em.refresh(docExterno);
@@ -166,6 +213,180 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
         String sql = "SELECT e FROM IotdtcRecepcionMPV e where e.cflgest = '							O' order by e.dfecreg desc";
  					 
         return em.createQuery(sql).getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<BandejaRecepcionMPVObservados> buscarRechazadosMPV(){
+    	List<BandejaRecepcionMPVObservados>  lstBandejaRecepcionMPVObservados = null;
+    	List<Object> res = null;
+
+    	try {
+    		String sql = "SELECT "
+            		+ " A.sidrecext "
+            		+ ", '' as NROTRAMITE"
+            		+ ",   '' as virtual "
+            		+ ",  (TD.descripcion + ' - ' + REPLACE(A.numerodocumento,TD.descripcion,'')) as DOCUMENTO "
+            		+ ", A.asunto "
+            		+ ", (CASE WHEN A.cflgest = 'O' THEN 'Rechazado' END) as estado "
+            		+ ",   A.dfecreg  as FECHAREGISTRO "
+            		+ ",   (CASE WHEN A.dfecmod IS NOT NULL THEN  A.dfecmod ELSE A.dfecreg END) as FECHARECHAZO "
+            		+ ",   '' as CARPETA"
+            		+ ",   '' as ASUNTOCARPETA "
+            		+ ", (CASE WHEN A.vnomentemi = '' THEN A.desRemitente ELSE A.vnomentemi END) as  CLIENTE "
+            		+ ",  '' as CONTRATO"
+            		+ ", A.vobs as OBS "
+            		+ ", AD.rutaArchivo "
+            		+ ", AD.nombreArchivo  "
+            		+ " FROM IotdtcRecepcionMPV A , Tipodocumento TD , IotdtdAdjuntoMPV AD "
+            		+ " WHERE A.tipodocumento = TD.idtipodocumento "
+            		+ " AND A.sidrecext = AD.recepcion "
+            		+ " AND A.cflgest = 'O' "
+            		+ " AND AD.tipoArchivo = 1 "
+            		+ " ORDER BY A.dfecmod DESC";
+            Query q = em.createQuery(sql);
+//            em.cre(sql)
+            
+            System.out.println(sql.toString());
+     					 
+            res =  q.getResultList();
+            if(res!= null && res.size() > 0) {
+            	lstBandejaRecepcionMPVObservados = new ArrayList<BandejaRecepcionMPVObservados>();
+            	for(Object obj: res) {
+            		BandejaRecepcionMPVObservados b = new BandejaRecepcionMPVObservados();
+            		Object[] objectArray = (Object[]) obj;
+            		Object object1 = objectArray[0];
+					Object object2 = objectArray[1];
+					Object object3 = objectArray[2];
+					Object object4 = objectArray[3];
+					Object object5 = objectArray[4];
+					Object object6 = objectArray[5];
+					Object object7 = objectArray[6];
+					Object object8 = objectArray[7];
+					Object object9 = objectArray[8];
+					Object object10 = objectArray[9];
+					Object object11 = objectArray[10];
+					Object object12 = objectArray[11];
+					Object object13 = objectArray[12];
+					Object object14 = objectArray[13];
+					Object object15 = objectArray[14];
+					
+					Date fechaCreacion = (Date) object7;
+					Date fechaRechazo = (Date) object8;
+					b.setSidrecext((Integer) (object1==null?"":Integer.valueOf(object1.toString())));
+					b.setNroTramite(object2==null?"":object2.toString());
+					b.setVirtual(object3==null?"":object3.toString());
+					b.setDocumento(object4==null?"":object4.toString());
+					b.setAsunto(object5==null?"":object5.toString());
+					b.setEstado(object6==null?"":object6.toString());
+					b.setFechaRegistro(fechaCreacion);
+					b.setFechaRechazo(fechaRechazo);
+					b.setCarpeta(object9==null?"":object9.toString());
+					b.setAsuntoCarpeta(object10==null?"":object10.toString());
+					b.setCliente(object11==null?"":object11.toString());
+					b.setContrato(object12==null?"":object12.toString());
+					b.setObs(object13==null?"":object13.toString());
+					b.setRutaArchivo(object14==null?"":object14.toString());
+					b.setNombreArchivo(object15==null?"":object15.toString());
+//					
+					lstBandejaRecepcionMPVObservados.add(b);
+            	}
+            }
+            
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			lstBandejaRecepcionMPVObservados = null;
+		}
+        return lstBandejaRecepcionMPVObservados;
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<BandejaRecepcionMPVObservados> buscarRechazadosMPVDetalle(Integer sidrecext){
+    	List<BandejaRecepcionMPVObservados>  lstBandejaRecepcionMPVObservados = null;
+    	List<Object> res = null;
+
+    	try {
+    		String sql = "SELECT "
+            		+ " A.sidrecext "
+            		+ ", '' as NROTRAMITE"
+            		+ ",   '' as virtual "
+            		+ ",  (TD.descripcion + ' - ' + REPLACE(A.numerodocumento,TD.descripcion,'')) as DOCUMENTO "
+            		+ ", A.asunto "
+            		+ ", (CASE WHEN A.cflgest = 'O' THEN 'Rechazado' END) as estado "
+            		+ ",   A.dfecreg  as FECHAREGISTRO "
+            		+ ",   (CASE WHEN A.dfecmod IS NOT NULL THEN  A.dfecmod ELSE A.dfecreg END) as FECHARECHAZO "
+            		+ ",   '' as CARPETA"
+            		+ ",   '' as ASUNTOCARPETA "
+            		+ ", (CASE WHEN A.vnomentemi = '' THEN A.desRemitente ELSE A.vnomentemi END) as  CLIENTE "
+            		+ ",  '' as CONTRATO"
+            		+ ", A.vobs as OBS "
+            		+ ", AD.rutaArchivo "
+            		+ ", AD.nombreArchivo  "
+            		+ " FROM IotdtcRecepcionMPV A , Tipodocumento TD , IotdtdAdjuntoMPV AD "
+            		+ " WHERE A.tipodocumento = TD.idtipodocumento "
+            		+ " AND A.sidrecext = AD.recepcion "
+            		+ " AND A.cflgest = 'O' "
+            		+ " AND AD.tipoArchivo = 1 "
+            		+ " AND A.sidrecext = :sidrecext "
+            		+ " ORDER BY A.dfecmod DESC";
+            Query q = em.createQuery(sql);
+//            em.cre(sql)
+            q.setParameter("sidrecext", sidrecext);
+//            System.out.println(sql.toString());
+     					 
+            res =  q.getResultList();
+            if(res!= null && res.size() > 0) {
+            	lstBandejaRecepcionMPVObservados = new ArrayList<BandejaRecepcionMPVObservados>();
+            	for(Object obj: res) {
+            		BandejaRecepcionMPVObservados b = new BandejaRecepcionMPVObservados();
+            		Object[] objectArray = (Object[]) obj;
+            		Object object1 = objectArray[0];
+					Object object2 = objectArray[1];
+					Object object3 = objectArray[2];
+					Object object4 = objectArray[3];
+					Object object5 = objectArray[4];
+					Object object6 = objectArray[5];
+					Object object7 = objectArray[6];
+					Object object8 = objectArray[7];
+					Object object9 = objectArray[8];
+					Object object10 = objectArray[9];
+					Object object11 = objectArray[10];
+					Object object12 = objectArray[11];
+					Object object13 = objectArray[12];
+					Object object14 = objectArray[13];
+					Object object15 = objectArray[14];
+					
+					Date fechaCreacion = (Date) object7;
+					Date fechaRechazo = (Date) object8;
+					b.setSidrecext((Integer) (object1==null?"":Integer.valueOf(object1.toString())));
+					b.setNroTramite(object2==null?"":object2.toString());
+					b.setVirtual(object3==null?"":object3.toString());
+					b.setDocumento(object4==null?"":object4.toString());
+					b.setAsunto(object5==null?"":object5.toString());
+					b.setEstado(object6==null?"":object6.toString());
+					b.setFechaRegistro(fechaCreacion);
+					b.setFechaRechazo(fechaRechazo);
+					b.setCarpeta(object9==null?"":object9.toString());
+					b.setAsuntoCarpeta(object10==null?"":object10.toString());
+					b.setCliente(object11==null?"":object11.toString());
+					b.setContrato(object12==null?"":object12.toString());
+					b.setObs(object13==null?"":object13.toString());
+					b.setRutaArchivo(object14==null?"":object14.toString());
+					b.setNombreArchivo(object15==null?"":object15.toString());
+//					
+					lstBandejaRecepcionMPVObservados.add(b);
+            	}
+            }
+            
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			lstBandejaRecepcionMPVObservados = null;
+		}
+        return lstBandejaRecepcionMPVObservados;
     }
     
     public IotdtcRecepcionMPV buscarDocumentoVirtualMPV(Integer nroVirtual){

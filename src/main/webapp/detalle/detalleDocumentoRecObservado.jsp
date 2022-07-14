@@ -49,11 +49,17 @@
            
            
             
-            function verArchivo(idArchivo, url, objectId){
+            function verArchivo(url, nombreArchivo){
               var fecha = new Date();
-              window.open("<%=request.getContextPath()%>/verDocumento.png?idArchivo=" +idArchivo + "&url=" + url + "&objectId="+ objectId  + "&accion=abrirDocumento&fecha=" + fecha.getTime());
+              var rutaCompleta = url+nombreArchivo;
+              window.open(rutaCompleta, "_blank"); 
+<%--               window.open("<%=request.getContextPath()%>/verDocumento.png?idArchivo=" +idArchivo + "&url=" + url + "&objectId="+ objectId  + "&accion=abrirDocumento&fecha=" + fecha.getTime()); --%>
             }    
-            
+            function verArchivoAnexo(url, nombreArchivo){
+            	var rutaCompleta = url+nombreArchivo;
+            	 window.open(rutaCompleta, "_blank"); 
+            	
+            }
            
             function abrirHojaRuta(){
             	var opciones="toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=900, height=700, top=50, left=200";
@@ -76,7 +82,7 @@
             <tr>
                 <td colspan="6" align="left">
                     <div dojoType="dijit.Toolbar">
-                        <div dojoType="dijit.form.Button"  onClick="abrirHojaRuta()" iconClass="siged16 iconoHojaRuta">Hoja de Ruta</div>           
+<!--                         <div dojoType="dijit.form.Button"  onClick="abrirHojaRuta()" iconClass="siged16 iconoHojaRuta">Hoja de Ruta</div>            -->
                     </div>
                 </td>
             </tr>
@@ -87,7 +93,7 @@
                     <s:textfield name="objDD.cEstado" cssStyle="display:none" />
                     <s:textfield name="objDD.iIdCliente" cssStyle="display:none" />
                     <br />
-                    <b>Asunto:</b> <s:property value="documento.asunto" />
+                    <b>Asunto:</b> <s:property value="objDD.strAsunto" />
                     <s:if test="objDD.prioridad != null && objDD.prioridad!=''">
                         <br />  <b>Prioridad:</b> <img src="images/Prioridad_<s:property value="objDD.prioridad" />.png" />
                     </s:if>
@@ -101,7 +107,7 @@
                 </td>
                 <td colspan="2" style="width: 25%;" valign="top">
                     
-                    <s:if test="#session._UPLOADLIST.upload1 != null">
+<%--                     <s:if test="#session._UPLOADLIST.upload1 != null"> --%>
                         <table>
                             <tr>
                                 <td></td>
@@ -111,41 +117,52 @@
                                 <td></td>
 
                                 <td height="16" colspan="5" align="left" class="plomo">
-                                    <s:iterator value="#session._UPLOADLIST.upload1">
-                                           <s:if test="principal.equals('S')">
-                                               <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"> <b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_PRINCIPAL"/>"><s:property value="nombreReal"/> </font></b> [<s:property value="usuarioCarga.usuario"/>]<br />
-                                           </s:if>
-                                    </s:iterator>
+                                 		<a onclick="verArchivo('<s:property value="objDD.rutaArchivoMPV"/>','<s:property value="objDD.nombreArchivoMPV"/>')" alt="Ver Archivo"> 
+                                 		<b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_PRINCIPAL"/>"><s:property value="objDD.nombreArchivoMPV"/> </font></b> <br /> 
+<%--                                     <s:iterator value="#session._UPLOADLIST.upload1"> --%>
+<%--                                            <s:if test="principal.equals('S')"> --%>
+<%--                                                <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"> <b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_PRINCIPAL"/>"><s:property value="nombreReal"/> </font></b> [<s:property value="usuarioCarga.usuario"/>]<br /> --%>
+<%--                                            </s:if> --%>
+<%--                                     </s:iterator> --%>
+                                           <s:if test="objDD.cantAnexos > 0">
+			                                  <div class="div-adjunto">
+			                                   	 Anexos:
+			                                  </div>
+			                                  <s:iterator value="objDD.listAnexos">
+			                                  	 <div class="div-adjunto">
+			                                   		<a onclick="verArchivoAnexo('<s:property value="rutaArchivo" />', '<s:property value="nombreArchivo" />');" alt="Ver Archivo Anexo"><s:property value="nombreArchivo" /></a>
+			                                   	 </div>
+			                                  </s:iterator>
+			                               </s:if>
+<%--                                      <s:iterator value="#session._UPLOADLIST.upload1">                --%>
+<%--                                            <s:if test="principal.equals('N')"> --%>
+<%--                                                <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_ANEXO"/>"><s:property value="nombreReal"/></font></b> [<s:property value="usuarioCarga.usuario"/>]<br /> --%>
+<%--                                            </s:if>           --%>
+<%--                                     </s:iterator>  --%>
                                                    
-                                     <s:iterator value="#session._UPLOADLIST.upload1">               
-                                           <s:if test="principal.equals('N')">
-                                               <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_ANEXO"/>"><s:property value="nombreReal"/></font></b> [<s:property value="usuarioCarga.usuario"/>]<br />
-                                           </s:if>          
-                                    </s:iterator> 
+<%--                                     <s:iterator value="#session._UPLOADLIST.upload1">                --%>
+<%--                                            <s:if test="principal.equals('M')"> --%>
+<%--                                                <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_MP_CARGO"/>"><s:property value="nombreReal"/> </font></b> [<s:property value="usuarioCarga.usuario"/>]<br /> --%>
+<%--                                            </s:if> --%>
+<%--                                     </s:iterator>                   --%>
                                                    
-                                    <s:iterator value="#session._UPLOADLIST.upload1">               
-                                           <s:if test="principal.equals('M')">
-                                               <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_MP_CARGO"/>"><s:property value="nombreReal"/> </font></b> [<s:property value="usuarioCarga.usuario"/>]<br />
-                                           </s:if>
-                                    </s:iterator>                  
-                                                   
-                                    <s:iterator value="#session._UPLOADLIST.upload1">               
-                                           <s:if test="principal.equals('C')">
-                                               <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_CARGO"/>"><s:property value="nombreReal"/> </font></b> [<s:property value="usuarioCarga.usuario"/>]<br />
-                                           </s:if>
-                                    </s:iterator>               
+<%--                                     <s:iterator value="#session._UPLOADLIST.upload1">                --%>
+<%--                                            <s:if test="principal.equals('C')"> --%>
+<%--                                                <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><b><font color="<s:property value="@org.ositran.utils.Constantes@COLOR_DOCUMENTO_CARGO"/>"><s:property value="nombreReal"/> </font></b> [<s:property value="usuarioCarga.usuario"/>]<br /> --%>
+<%--                                            </s:if> --%>
+<%--                                     </s:iterator>                --%>
                                    
-                                    <s:iterator value="#session._UPLOADLIST.upload1">               
-                                           <s:if test="principal.equals('Y')">
-                                               <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><s:property value="nombreReal"/> [<s:property value="usuarioCarga.usuario"/>]<br />
-                                           </s:if>
-                                    </s:iterator> 
+<%--                                     <s:iterator value="#session._UPLOADLIST.upload1">                --%>
+<%--                                            <s:if test="principal.equals('Y')"> --%>
+<%--                                                <a onclick="verArchivo('<s:property value='idArchivo' />','<s:property value='rutaAlfresco' />', '<s:property value='objectId' />');" alt="Ver Archivo"><s:property value="nombreReal"/> [<s:property value="usuarioCarga.usuario"/>]<br /> --%>
+<%--                                            </s:if> --%>
+<%--                                     </s:iterator>  --%>
                                                    
                                                     
                                 </td>
                             </tr>
                         </table>
-                    </s:if>
+<%--                     </s:if> --%>
                 </td>
               
                 <td style="width: 25%" align="right" valign="top">
@@ -186,7 +203,7 @@
 								Nro. Documento
                                 </td>
                                 <td style="background-color:#ffffff;border: 1px #000 solid;width: 250px;">
-                                    <s:property value="documento.tipoDocumento.nombre" /> - <s:property value="documento.numeroDocumento" />
+                                    <s:property value="objDD.strNroDocumento" /> 
                                 </td>
                             </tr>
                             <tr style="height:20px;">
@@ -204,7 +221,7 @@
 								Cliente
                                     </td>
                                     <td style="background-color:#ffffff;border: 1px #000 solid;width: 250px;">
-                                        <s:property value="objDD.strRazonSocial" />
+                                        <s:property value="objDD.clientenombres" />
                                     </td>
                                 </tr>
                             </s:if>
@@ -214,7 +231,7 @@
 		               		Cliente
 			               </td>
 			                <td style="background-color:#ffffff;border: 1px #000 solid;width: 250px;">
-			               		<s:property value="" />
+			               		<s:property value="objDD.clientenombres" />
 			               </td>
                                   </tr>      
 	                       </s:else>         
@@ -292,16 +309,16 @@
                                                
                                             <script type="text/javascript">
                                             </script> 
-                                            <s:if test="objDD.cEstado == 'A'">  
+<%--                                             <s:if test="objDD.cEstado == 'A'">   --%>
                                                 <div>  
                                                     <p>
-                                                        Ud. ha registrado un(a) <font class="negrita"><s:property value="objDD.strTipoDocumento" /></font>
-                                                        Nro. <font class="negrita"><s:property value="objDD.strNroDocumento" /></font>
+                                                        Ud. ha rechazado un(a) <font class="negrita"><s:property value="objDD.strNroDocumento" /></font>
+                                                       
                                                         el dia <font class="negrita"><s:date name="objDD.strFecha" format="dd/MM/yyyy" /></font>
                                                         a las <font class="negrita"><s:date name="objDD.strFecha" format="HH:mm" /></font>
                                                     </p>
                                                 </div>  
-                                            </s:if>
+<%--                                             </s:if> --%>
                                         </td>
                                     </tr>
                                     <tr>

@@ -3355,7 +3355,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
             }if (bandeja.equals("M")){
                 sql.append(" AND f.estadorecepcionvirtual ='0' and f.autor.idusuario = :idUsuario");
             }if (bandeja.equals("F")){
-                sql.append(" AND f.estadorecepcionvirtual ='0' and f.firmado = 'S' ");
+                sql.append(" AND f.estadorecepcionvirtual in (0, 1) and f.firmado = 'S' ");
             }if (bandeja.equals("OBR")){
                 sql.append(" AND f.estadorecepcionvirtual !='0' AND f.autor.idusuario = :idUsuario AND f.numeroTrazabilidad = 1 ");
             }

@@ -28,10 +28,16 @@ public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
          return (IotdtcDespacho)em.createNamedQuery("IotdtcDespacho.findByVcuo")
 				.setParameter("vcuo", vcuo).getSingleResult();
      }
+     
+     public IotdtcDespacho findByIdDocumento(Integer iddocumento){
+         return (IotdtcDespacho)em.createNamedQuery("IotdtcDespacho.findByIdDocumento")
+				.setParameter("iddocumento", iddocumento).getSingleResult();
+     }
+    
     
      public IotdtcDespacho registrarDocumento(IotdtcDespacho despacho){
 		
-       if(despacho.getVcuo() == null){
+       if(despacho.getSidemiext() == null){
 	    em.persist(despacho); 
 	    em.flush();
 	    em.refresh(despacho);
@@ -42,11 +48,35 @@ public class DespachoVirtualDAOImpl implements DespachoVirtualDAO{
 	}
 		
        return despacho;
-    }    
+    }  
+     
+     public IotdtcDespacho actualizarDespacho(IotdtcDespacho despacho){
+ 		
+         if(despacho.getVcuo() != null){
+        	  em.merge(despacho); 
+        	    em.flush();
+  	}
+  		
+         return despacho;
+      }   
      @SuppressWarnings("unchecked")
  	public List<IotdtcDespacho> findAll() {    	 
      	 Query query = em.createNamedQuery("IotdtcDespacho.findAll");
      	 return query.getResultList();
           
       }
+     
+     @SuppressWarnings("unchecked")
+     
+    	public List<IotdtcDespacho> findVcuoRefObs(Integer iddocumento) {    	 
+   	   	String sql = " SELECT c FROM Documento a, DocumentoReferencia b, IotdtcDespacho c, IotdtmDocExterno d "
+   	   			+ "  where a.idDocumento = b.idDocumentoReferencia and c.sidemiext = d.sidemiext "
+   	   			+ " and a.nroVirtual = d.siddocext and b.idDocumento = :iddocumento";
+	
+ 		Query query = em.createQuery(sql);
+ 		query.setParameter("iddocumento", iddocumento);
+ 		return (List<IotdtcDespacho>) query.getResultList();
+ 		
+
+     }
 }

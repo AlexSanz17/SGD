@@ -898,7 +898,7 @@
 	                 window.open(pagina, "Notificar Documento", opciones);
 	            		
 	            	} else {
-	            		alert("Este cliente no tiene casilla");
+	            		alert("Este cliente no tiene asociado una casilla electrónica");
 	            	}
                 });
             }

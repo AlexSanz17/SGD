@@ -9,4 +9,7 @@ public interface DespachoVirtualDAO {
      public IotdtcDespacho registrarDocumento(IotdtcDespacho despacho);
      public IotdtcDespacho findByVcuo(String vcuo) ;
      public List<IotdtcDespacho> findAll();
+    IotdtcDespacho actualizarDespacho(IotdtcDespacho despacho);
+    public IotdtcDespacho findByIdDocumento(Integer iddocumento);
+    public List<IotdtcDespacho> findVcuoRefObs(Integer iddocumento) ;
 }

@@ -9,4 +9,5 @@ public interface AdjuntoMPVDAO {
 	public IotdtdAdjuntoMPV buscarPorIdAdjunto(Integer idAdjunto);
 	public Integer buscarNumFoliosPorIdRecepcion(Integer idRecepcion, Integer tipoArchivo);
 	public Integer buscarNumFoliosTotalesPorIdRecepcion(Integer idRecepcion);
+	public List<IotdtdAdjuntoMPV> buscarAnexoPorIdRecepcion(Integer idRecepcion) ;
 }

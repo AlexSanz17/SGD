@@ -9,6 +9,8 @@ package pe.gob.segdi.wsiopidetramite.ws;
 
 import org.apache.axis.AxisProperties;
 
+import gob.ositran.siged.config.SigedProperties;
+
 public class IOTramiteServiceSoapBindingStub extends org.apache.axis.client.Stub implements pe.gob.segdi.wsiopidetramite.ws.IOTramite {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
@@ -239,8 +241,8 @@ public class IOTramiteServiceSoapBindingStub extends org.apache.axis.client.Stub
         }
         // Asignar variables de proxy
   		AxisProperties.getProperties().put("proxySet","true");
-  	    AxisProperties.setProperty("http.proxyHost", "proxy1"); 
-  	    AxisProperties.setProperty("http.proxyPort", "8080"); 
+  	    AxisProperties.setProperty("http.proxyHost", SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.PROXY_HOST)); 
+  	    AxisProperties.setProperty("http.proxyPort", SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT)); 
       	    
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[0]);
@@ -279,8 +281,8 @@ public class IOTramiteServiceSoapBindingStub extends org.apache.axis.client.Stub
         
      // Asignar variables de proxy
  		AxisProperties.getProperties().put("proxySet","true");
- 	    AxisProperties.setProperty("http.proxyHost", "proxy1"); 
- 	    AxisProperties.setProperty("http.proxyPort", "8080"); 
+ 	    AxisProperties.setProperty("http.proxyHost", SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.PROXY_HOST)); 
+ 	    AxisProperties.setProperty("http.proxyPort", SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT)); 
         
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[1]);
@@ -360,8 +362,8 @@ public class IOTramiteServiceSoapBindingStub extends org.apache.axis.client.Stub
         }
      // Asignar variables de proxy
       		AxisProperties.getProperties().put("proxySet","true");
-      	    AxisProperties.setProperty("http.proxyHost", "proxy1"); 
-      	    AxisProperties.setProperty("http.proxyPort", "8080"); 
+      	    AxisProperties.setProperty("http.proxyHost", SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.PROXY_HOST)); 
+      	    AxisProperties.setProperty("http.proxyPort", SigedProperties.getProperty(SigedProperties.SigedPropertyEnum.PROXY_PORT)); 
         
         
         org.apache.axis.client.Call _call = createCall();

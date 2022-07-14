@@ -13,6 +13,7 @@
 		<property name="docAnexoVirtualService" ref="docAnexoVirtualService" />
 		<property name="documentoPIDEService" ref="documentoPIDEService" />		
 		<property name="despachoVirtualDAO" ref="despachoVirtualDAO" />	
+		 <property name="documentoPIDEDAOjdbc" ref="documentoPIDEDAOjdbc" />
 	</bean>
 
 	<!-- Job -->

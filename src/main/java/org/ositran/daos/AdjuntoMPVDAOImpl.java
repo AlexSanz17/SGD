@@ -12,6 +12,7 @@ import org.ositran.utils.Constantes;
 import org.springframework.stereotype.Repository;
 
 import com.btg.ositran.siged.domain.Archivo;
+import com.btg.ositran.siged.domain.IotdtcRecepcionMPV;
 import com.btg.ositran.siged.domain.IotdtdAdjuntoMPV;
 
 @Repository
@@ -38,6 +39,31 @@ public class AdjuntoMPVDAOImpl implements AdjuntoMPVDAO {
 		return (IotdtdAdjuntoMPV) entityManager.createNamedQuery("IotdtdAdjuntoMPV.buscarPorIdAdjunto").setParameter("idAdjunto", idAdjunto)
 			.getSingleResult();
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	
+	public List<IotdtdAdjuntoMPV> buscarAnexoPorIdRecepcion(Integer idRecepcion) {
+		List<IotdtdAdjuntoMPV> iotdtdAdjuntoMPV = null;
+		try {
+			iotdtdAdjuntoMPV = entityManager.createQuery("select e from IotdtdAdjuntoMPV e,IotdtcRecepcionMPV f  where  e.recepcion.sidrecext = f.sidrecext and e.tipoArchivo = 2 and f.sidrecext = :idRecepcion")
+					.setParameter("idRecepcion", idRecepcion)
+				.getResultList();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	return iotdtdAdjuntoMPV;
+	}
+//	SELECT i FROM IotdtmDocExternoPIDE i, IotdtcDespachoPIDE j where i.sidemiext.sidemiext = j.sidemiext and j.sidemiext = :sidemiext
+//	SELECT
+//	TIPOARCHIVO,
+//	IDRECEPCION
+//	, RUTAARCHIVO
+//	, NOMBREARCHIVO
+//	FROM IOTDTD_ADJUNTO_MPV
+//	WHERE IDRECEPCION = 15101
+//	AND TIPOARCHIVO = 2
+	
 	
 	@Override
 	public Integer buscarNumFoliosPorIdRecepcion(Integer idRecepcion, Integer tipoArchivo) {

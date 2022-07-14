@@ -38,8 +38,10 @@ import org.ositran.daos.ProveidoDAO;
 import org.ositran.daos.SeguimientoXFirmaDAO;
 import org.ositran.daos.TipoLegajoUnidadDAO;
 import org.ositran.daos.UnidadDAO;
+import org.ositran.dojo.BandejaRecepcionMPVObservados;
 import org.ositran.pojos.jasper.CargoReporte;
 import org.ositran.services.AccionService;
+import org.ositran.services.AdjuntoMPVService;
 import org.ositran.services.ArchivoService;
 import org.ositran.services.ClienteService;
 import org.ositran.services.ConcesionarioService;
@@ -96,6 +98,7 @@ import org.slf4j.LoggerFactory;
 import com.btg.ositran.siged.domain.Accion;
 import com.btg.ositran.siged.domain.Alerta;
 import com.btg.ositran.siged.domain.Archivo;
+import com.btg.ositran.siged.domain.ArchivoAdjunto;
 import com.btg.ositran.siged.domain.ArchivoPendiente;
 import com.btg.ositran.siged.domain.Cliente;
 import com.btg.ositran.siged.domain.Concesionario;
@@ -114,6 +117,7 @@ import com.btg.ositran.siged.domain.Documentoxexpediente;
 import com.btg.ositran.siged.domain.Expediente;
 import com.btg.ositran.siged.domain.Expedientestor;
 import com.btg.ositran.siged.domain.Favorito;
+import com.btg.ositran.siged.domain.IotdtdAdjuntoMPV;
 import com.btg.ositran.siged.domain.IotdtmDocExterno;
 import com.btg.ositran.siged.domain.Legajo;
 import com.btg.ositran.siged.domain.LegajoDocumento;
@@ -413,6 +417,15 @@ public class DocumentoAction {
 	private Usuario usuario;
 	private String idCasilla;
 	private String flagPide;
+	private AdjuntoMPVService adjuntoMPVService; 
+
+	public AdjuntoMPVService getAdjuntoMPVService() {
+		return adjuntoMPVService;
+	}
+
+	public void setAdjuntoMPVService(AdjuntoMPVService adjuntoMPVService) {
+		this.adjuntoMPVService = adjuntoMPVService;
+	}
 
 	private String SERVICIO_RECEPCION_MPV = SigedProperties
 			.getProperty(SigedProperties.SigedPropertyEnum.SERVICIO_RECEPCION_MPV);
@@ -2810,14 +2823,20 @@ public class DocumentoAction {
 	public String goAdjuntarArchivo() {
 		log.debug("-> [Action] DocumentoAction - goAdjuntarArchivo():String ");
 		Documento d = documentoService.findByIdDocumento(iIdDoc);
-		Cliente cliente = clienteService.findByIdCliente(d.getID_CLIENTE());
-		if(d.getTipoDocumento().getIdtipodocumento() == 15 && d.getCodTipoInstitucion() == 1 && cliente.getFlagPide().equals("1")) {
-			flagPide = "1";
+		if(d.getID_CLIENTE() != null) {
+			Cliente cliente = clienteService.findByIdCliente(d.getID_CLIENTE());
+			if(d.getTipoDocumento().getIdtipodocumento() == 15 && d.getCodTipoInstitucion() == 1 && cliente.getFlagPide().equals("1")) {
+				flagPide = "1";
+			}
 		}
 		proyecto = d.getProyecto();
 		codigoVirtual = d.getNroVirtual();
+		
+		System.out.println("--------------------proyecto--------------------" +proyecto);
+		System.out.println("---------------codigoVirtual----------------------" +codigoVirtual);
 
-//		archivoPrincipal = archivoService.buscarArchivoPrincipalPorDocumento(d.getIdDocumento());
+		archivoPrincipal = archivoService.buscarArchivoPrincipalPorDocumento(d.getIdDocumento());
+		System.out.println("----------archivoPrincipal-----------------" +archivoPrincipal);
 //		log.info("archivoPrincipal" + archivoPrincipal);
 		try {
 			destinatarioIgualRemitente = false;
@@ -3081,7 +3100,7 @@ public class DocumentoAction {
 			if (usuario == null) {
 				return "errorsession";
 			}
-
+			System.out.println("iIdDoc--------------" +iIdDoc);
 			documento = documentoService.findByIdDocumento(iIdDoc);
 //			clienteService.findByIdCliente(documento.getID_CLIENTE());
 			Integer counttraza = trazabilidadDocumentoService.findByMaxtrazabyIddocumento(iIdDoc).size();
@@ -3101,7 +3120,7 @@ public class DocumentoAction {
 			try {
 				destinatarioIgualRemitente = false;
 
-				if (documento.getAutor().getIdusuario().intValue() == usuario.getIdUsuarioPerfil().intValue()
+				if (documento.getAutor() != null && documento.getAutor().getIdusuario().intValue() == usuario.getIdUsuarioPerfil().intValue()
 						&& documento.getUnidadautor().intValue() == usuario.getIdUnidadPerfil())
 					destinatarioIgualRemitente = true;
 
@@ -3246,6 +3265,7 @@ public class DocumentoAction {
 					if (documento.getNroVirtual() == null) {
 						objDD.setFlagCodigoVirtual('2');
 					} else {
+						System.out.println("----------------------documento.getNroVirtual()------------------------" +documento.getNroVirtual());
 						IotdtmDocExterno recepcion = documentoExternoVirtualDAO
 								.buscarDocumentoVirtual(documento.getNroVirtual());
 
@@ -3254,7 +3274,7 @@ public class DocumentoAction {
 										|| recepcion.getSidrecext().getVnumregstd().trim().equals(""))) {
 							objDD.setFlagCodigoVirtual('3');
 						} else {
-							if (recepcion != null && (recepcion.getSidrecext().getCflgest() == 'O'
+							if (recepcion != null && recepcion.getSidrecext() != null && (recepcion.getSidrecext().getCflgest() == 'O'
 									|| recepcion.getSidrecext().getCflgest() == 'S')) {
 								objDD.setFlagCodigoVirtual('1');
 							} else {
@@ -3356,7 +3376,44 @@ public class DocumentoAction {
 
 		return Action.ERROR;
 	}
-
+	@SuppressWarnings("unused")
+	public String verDocumentoRechazadoMPV() {
+		 List<ArchivoAdjunto> list = new ArrayList<ArchivoAdjunto>();
+		System.out.println("-------------------iIdDoc----------------" +iIdDoc);
+		List<BandejaRecepcionMPVObservados> lstBandejaRecepcionMPVObservados =  documentoExternoVirtualDAO.buscarRechazadosMPVDetalle(iIdDoc);
+	
+		List<IotdtdAdjuntoMPV> lstIotdtdAdjuntoMPV = adjuntoMPVService.buscarAnexoPorIdRecepcion(iIdDoc);
+		System.out.println("---------------------------lista de adjuntos---------------------" +lstIotdtdAdjuntoMPV);
+		System.out.println("-------------------lstIotdtdAdjuntoMPV----------------" +lstIotdtdAdjuntoMPV.size());
+		
+//		System.out.println("-------------------size" +lstBandejaRecepcionMPVObservados.size());
+//		System.out.println("-------------------size" +lstBandejaRecepcionMPVObservados.get(0));
+//		System.out.println("---------------------objDD-------------" +objDD );
+		objDD = new DocumentoDetail();
+		objDD.setStrAsunto(lstBandejaRecepcionMPVObservados.get(0).getAsunto());
+		objDD.setStrNroDocumento(lstBandejaRecepcionMPVObservados.get(0).getDocumento());
+		objDD.setClientenombres(lstBandejaRecepcionMPVObservados.get(0).getCliente());
+		objDD.setStrFecha(lstBandejaRecepcionMPVObservados.get(0).getFechaRechazo());
+		objDD.setNombreArchivoMPV(lstBandejaRecepcionMPVObservados.get(0).getNombreArchivo());
+		objDD.setRutaArchivoMPV(lstBandejaRecepcionMPVObservados.get(0).getRutaArchivo());
+		System.out.println("---------------------objDD-------------" +objDD );
+		
+		if(lstIotdtdAdjuntoMPV.size() > 0 && lstIotdtdAdjuntoMPV != null) {
+			for(int i= 0; i< lstIotdtdAdjuntoMPV.size() ; i++) {
+				ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
+	            archivoAdjunto.setNombreArchivo(lstIotdtdAdjuntoMPV.get(i).getNombreArchivo());
+	            archivoAdjunto.setRutaArchivo(lstIotdtdAdjuntoMPV.get(i).getRutaArchivo());
+	            archivoAdjunto.setTamanoArchivo("");
+	            list.add(archivoAdjunto);
+			}
+			objDD.setCantAnexos(lstIotdtdAdjuntoMPV.size());
+			objDD.setListAnexos(list);
+		}
+//		lstBandejaRecepcionMPVObservados.get(0);
+		return Action.SUCCESS;
+		
+	}
+	
 	@SuppressWarnings("unused")
 	public String verDocumento() {
 		try {
