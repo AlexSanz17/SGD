@@ -3516,6 +3516,8 @@ public class DojoAction {
 			for (Item item : items) {
 				downloadDocumentByID(ALFRESCO_CMIS, USERADMIN, USERADMIN_CLAVE, item.getObjectId(),
 						item.getNombre().replace("|S", "").replace("|N", ""), rutaOrigen+File.separator);
+				downloadDocumentByID(ALFRESCO_CMIS, USERADMIN, USERADMIN_CLAVE, item.getObjectId(),
+						item.getNombre().replace("|S", "").replace("|N", ""), rutaOrigen+File.separator+"ConCodigoQr"+File.separator);
 			}
 
 			archivosJSON.setItems(items);
@@ -3683,7 +3685,7 @@ public class DojoAction {
 					Integer.valueOf(itemFirmar.getCodigoId()));
 //				list1.get(0).setFlagFirma(1);
 				archivoService.saveArchivo(list1.get(0));
-
+				
 				if (!list1.get(0).getEstado().equals("F") && !list1.get(0).getEstado().equals("V")) {
 					log.info("============================= Aqui se crea el QR ===============================");
 					String qrCodeText = ALFRESCO_ROOT + list1.get(0).getRutaAlfresco();
@@ -3692,14 +3694,16 @@ public class DojoAction {
 					int size = 66;
 					String fileType = "png";
 					File qrFile = new File(filePathImagen);
-					try {
-						DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
-					} catch (WriterException | IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					if(!qrFile.exists()) {
+						try {
+							DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
+						} catch (WriterException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						log.info("========== Aqui se pega el Qr en el documento ===========");
+						DojoAction.manipulatePdf(fullPathPorFirmar, fullPathPorFirmarQr, filePathImagen);
 					}
-					log.info("========== Aqui se pega el Qr en el documento ===========");
-					DojoAction.manipulatePdf(fullPathPorFirmar, fullPathPorFirmarQr, filePathImagen);
 				}
 			}
 		} catch (Exception e) {
@@ -3714,6 +3718,7 @@ public class DojoAction {
 
 		return "1";
 	}
+
 	
 	@SMDMethod
 
@@ -3747,23 +3752,30 @@ public class DojoAction {
 				System.out.println("-------------Guardo el archivo firmado--------------");
 				archivoService.saveArchivo(list1.get(0));
 
-				if (!list1.get(0).getEstado().equals("F") && !list1.get(0).getEstado().equals("V")) {
-					log.info("============================= Aqui se crea el QR ===============================");
-					String qrCodeText = ALFRESCO_ROOT + list1.get(0).getRutaAlfresco();
-					String nombreArchivoQr = nombreArchivo.replace(".pdf", "_qr.png");
-					String filePathImagen = POR_FIRMAR + nombreArchivoQr;
-					int size = 66;
-					String fileType = "png";
-					File qrFile = new File(filePathImagen);
-					try {
-//						DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					log.info("========== Aqui se pega el Qr en el documento ===========");
-					DojoAction.manipulatePdfSinCuerpo(fullPathPorFirmar, fullPathPorFirmarQr);
-				}
+				/*
+				 * JV: 18/07/2022
+				 * Se comentó la generación del codigo QR según requerimiento para todo servicio externo(PIDE) porque
+				 * no debe generarse codigo QR, dado que los documentos vienen con codigo QR externo.
+				 */
+//				if (!list1.get(0).getEstado().equals("F") && !list1.get(0).getEstado().equals("V")) {
+//					log.info("============================= Aqui se crea el QR ===============================");
+//					String qrCodeText = ALFRESCO_ROOT + list1.get(0).getRutaAlfresco();
+//					String nombreArchivoQr = nombreArchivo.replace(".pdf", "_qr.png");
+//					String filePathImagen = POR_FIRMAR + nombreArchivoQr;
+//					int size = 66;
+//					String fileType = "png";
+//					File qrFile = new File(filePathImagen);
+//					if(!qrFile.exists()) {
+//						try {
+////							DojoAction.createQRImage(qrFile, qrCodeText, size, fileType);
+//						} catch (Exception e1) {
+//							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+//						}
+//						log.info("========== Aqui se pega el Qr en el documento ===========");
+//						DojoAction.manipulatePdfSinCuerpo(fullPathPorFirmar, fullPathPorFirmarQr);
+//					}
+//				}
 			}
 		} catch (Exception e) {
 			for (ItemFirmar itemFirmar1 : items) {
