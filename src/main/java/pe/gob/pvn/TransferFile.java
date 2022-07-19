@@ -65,7 +65,7 @@ public class TransferFile {
 	}
 	public static void main(String[] args) throws Exception {
 		System.out.println("Start");
-		TransferFile1 ftpUploader = new TransferFile1("www.sofisisperu.com", "sofisisp", "6nFd24adT0");
+		TransferFile ftpUploader = new TransferFile("www.sofisisperu.com", "sofisisp", "6nFd24adT0");
 		//FTP server path is relative. So if FTP account HOME directory is "/home/pankaj/public_html/" and you need to upload 
 		// files to "/home/pankaj/public_html/wp-content/uploads/image2/", you should pass directory parameter as "/wp-content/uploads/image2/"
 		ftpUploader.uploadFile("\\\\\\\\WWWD4\\\\Documentos\\\\Firmados\\\\2022001313_ANX_PRUEBA.01.pdf", "prueba_01.pdf", "/public_html/sgd/");
