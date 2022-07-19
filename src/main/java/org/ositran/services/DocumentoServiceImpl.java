@@ -1920,7 +1920,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 
 //            		System.out.println(pcmCuoPortType.getCUO("172.27.0.113"));
 
-				vcuo = pcmCuoPortType.getCUO("1");
+				vcuo = pcmCuoPortType.getCUO("172.27.0.113");
 //				pcmCuoPortType.getCUOEntidad(vcuoRef, s)
 				List<IotdtcDespacho> lstIotdtcDespacho = despachoVirtualDAO.findVcuoRefObs(d.getIdDocumento());
 					if( lstIotdtcDespacho.size() > 0 && lstIotdtcDespacho!=null) {
