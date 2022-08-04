@@ -23,10 +23,10 @@ public interface DocumentoExternoVirtualDAO {
     public IotdtmDocExterno registrarDocumento(IotdtmDocExterno docExterno);
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesMigrarCargo();
     public List<IotdtmDocExterno> buscarDocumentosEnviadosPendientesAtencion();
-    public List<IotdtmDocExterno> buscarDocumentoProcesadoDespachoVirtual(Integer numero);
+    public List<IotdtmDocExterno> buscarDocumentoProcesadoDespachoVirtual(String numero);
     public List<IotdtmDocExterno> buscarDocumentosRecepcionPendientesSubsanacion();
     public List<IotdtmDocExterno> buscarDocumentosDespachoPendientesSubsanacion();
-    public List<IotdtmDocExterno> buscarDocumentoDespachoVirtual(Integer numero);
+    public List<IotdtmDocExterno> buscarDocumentoDespachoVirtual(String numero);
     public List<String> buscarTramiteVirtual(String nroTramite);
     public List<IotdtcRecepcionMPV> buscarRecepcionMPV();
     public IotdtcRecepcionMPV buscarDocumentoVirtualMPV(Integer nroVirtual);

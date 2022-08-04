@@ -6144,26 +6144,33 @@ public class DocumentoServiceImpl implements DocumentoService {
 					objD.setEnumerado(Constantes.Si);
 				}
 
-				DateFormat formatoAno = new SimpleDateFormat("yyyy");
+				DateFormat formatoAno = new SimpleDateFormat("yy");
 				String sPrefijo = Constantes.PARAMETRO_TIPO_PREFIJONROTRAMITEPRODUCCION;
 				Integer nro = documentoDao.getNroTramiteDocumentario();
 				String sFormato = formatoAno.format(fecha)
 						.concat(parametroService.findByTipoUnico(sPrefijo).getValor());
+				System.out.println("-----------------------sFormato----------------" +sFormato);
+				System.out.println("-----------------------nro----------------" +nro.toString());
 				StringBuilder sbNroTramite = new StringBuilder((StringUtil.isEmpty(sFormato)) ? "" : sFormato);
 				sbNroTramite.replace(sFormato.length() - nro.toString().length(), sFormato.length(), nro.toString());
-				objD.setID_CODIGO(new Integer(sbNroTramite.toString()));
+				System.out.println("-----------------------sbNroTramite----------------" +sbNroTramite.toString());
+				objD.setID_CODIGO(sbNroTramite.toString());
 				documentoDao.saveDocumentoSequence(objD);
 				objDD.setNroTramite(objD.getID_CODIGO().toString());
 				objDD.setStrNroDocumento(objD.getNumeroDocumento());
 			} else {
-				DateFormat formatoAno = new SimpleDateFormat("yyyy");
+				DateFormat formatoAno = new SimpleDateFormat("yy");
 				Integer nro = documentoDao.getNroTramiteDocumentario();
 				String sPrefijo = Constantes.PARAMETRO_TIPO_PREFIJONROTRAMITEPRODUCCION;
 				String sFormato = formatoAno.format(fecha)
 						.concat(parametroService.findByTipoUnico(sPrefijo).getValor());
+				System.out.println("-----------------------sFormato----------------" +sFormato);
+				System.out.println("-----------------------nro----------------" +nro.toString());
 				StringBuilder sbNroTramite = new StringBuilder((StringUtil.isEmpty(sFormato)) ? "" : sFormato);
 				sbNroTramite.replace(sFormato.length() - nro.toString().length(), sFormato.length(), nro.toString());
-				objD.setID_CODIGO(new Integer(sbNroTramite.toString()));
+				System.out.println("-----------------------sbNroTramite----------------" +sbNroTramite.toString());
+//				objD.setID_CODIGO(new Integer(sbNroTramite.toString()));
+				objD.setID_CODIGO(sbNroTramite.toString());
 				objDD.setNroTramite(objD.getID_CODIGO().toString());
 				documentoDao.saveDocumentoSequence(objD);
 

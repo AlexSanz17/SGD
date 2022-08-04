@@ -18,7 +18,7 @@
 	<queryString language="plsql">
 		<![CDATA[]]>
 	</queryString>
-	<field name="nroTramite" class="java.lang.Integer"/>
+	<field name="nroTramite" class="java.lang.String"/>
 	<field name="documento" class="java.lang.String"/>
 	<field name="asunto" class="java.lang.String"/>
 	<field name="estado" class="java.lang.String"/>

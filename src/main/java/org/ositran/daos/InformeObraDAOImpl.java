@@ -6,9 +6,8 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import com.btg.ositran.siged.domain.InformeObra;
-
 @Repository
-public class InformeObraDAOImpl implements InformeObraDAO {
+public class InformeObraDAOImpl implements InformeObraDAO{
 	@PersistenceContext(unitName = "sigedPU")
 	private EntityManager entityManager;
 	
@@ -22,18 +21,11 @@ public class InformeObraDAOImpl implements InformeObraDAO {
 
     @Override
     public void create(InformeObra informeObra) {
-    	System.out.println("---------------ingreso al meotod");
-    	try {
-    		  entityManager.persist(informeObra);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-      
+        entityManager.persist(informeObra);
     }
 
     @Override
-    public InformeObra read(Long idInformeObra) {
+    public InformeObra read(Integer idInformeObra) {
         return entityManager.find(InformeObra.class, idInformeObra);
     }
     
@@ -43,7 +35,8 @@ public class InformeObraDAOImpl implements InformeObraDAO {
     }
 
     @Override
-    public void delete(Long idInformeObra) {
+    public void delete(Integer idInformeObra) {
     	entityManager.remove(idInformeObra);
     }	
+
 }

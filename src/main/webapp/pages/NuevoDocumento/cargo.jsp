@@ -382,20 +382,20 @@
                             </table>
                         </td>
                     </tr>
-                    <s:if test="objDD.idExterno==1">
-                        <tr align="center">
-                            <td width="1%" align="center">&nbsp;</td>
-                            <td width="99%" colspan="2" align="left">
-                                <%--<a href="<s:url action="NuevoDocumento_inicio"></s:url>" target="_parent"><img border="0" src="images/aceptar.bmp" alt="Aceptar" /></a>--%>
-                                <%-- <a href="#" onclick="imprimir('cargo');return false;"><img border="0" src="images/imprimir.jpg" alt="Imprimir" /></a>--%>
-                                <button dojoType="dijit.form.Button"
-                                   type="button"
-                                   iconClass="siged16 sigedSave16"
-                                   onClick="showCargoTicket"
-                                   showLabel="true">Imprimir</button>
-                            </td>
-                        </tr>
-                    </s:if>            
+<%--                     <s:if test="objDD.idExterno==1"> --%>
+<!--                         <tr align="center"> -->
+<!--                             <td width="1%" align="center">&nbsp;</td> -->
+<!--                             <td width="99%" colspan="2" align="left"> -->
+<%--                                 <a href="<s:url action="NuevoDocumento_inicio"></s:url>" target="_parent"><img border="0" src="images/aceptar.bmp" alt="Aceptar" /></a> --%>
+<%--                                 <a href="#" onclick="imprimir('cargo');return false;"><img border="0" src="images/imprimir.jpg" alt="Imprimir" /></a> --%>
+<!--                                 <button dojoType="dijit.form.Button" -->
+<!--                                    type="button" -->
+<!--                                    iconClass="siged16 sigedSave16" -->
+<!--                                    onClick="showCargoTicket" -->
+<!--                                    showLabel="true">Imprimir</button> -->
+<!--                             </td> -->
+<!--                         </tr> -->
+<%--                     </s:if>             --%>
                     <tr>
                         <td colspan="3"><br></td>            
                     </tr>        

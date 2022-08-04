@@ -29,7 +29,7 @@ public interface ArchivoDAO {
    public int updatePrincipal(Integer iIdArchivo , Character principal);
    public Archivo updateArchivo( Archivo objT);
    public List<Archivo> findByIdNombreEstado(Integer idDocumento, String nombre);
-   public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite);
+   public List<Archivo> buscarArchivosObjectId(String objectId, String nroTramite);
    public List<Archivo> buscarArchivoExterno(String objectId, Integer nroTramite, String clave);
    public List<Archivo> buscarArchivoAnexoByIdDocumento(Integer iddocumento);
    public List<Archivo> buscarArchivoCargoByIdDocumento(Integer iddocumento) ;

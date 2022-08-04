@@ -132,7 +132,7 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite) {
+	public List<Archivo> buscarArchivosObjectId(String objectId, String nroTramite) {
 		return em.createNamedQuery("Archivo.buscarArchivosObjectId").setParameter("objectId", objectId)
 				.setParameter("nroTramite", nroTramite).getResultList();
 	}

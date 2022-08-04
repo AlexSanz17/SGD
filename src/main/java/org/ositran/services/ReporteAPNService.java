@@ -44,7 +44,7 @@ public interface ReporteAPNService {
 
 	List<NodoDocConsolidadoReporteAPN4> getListaConsolidadoReporteAPN4(String objFiltro,Integer unidad);
 
-	public List<TrazabilidadDocumentaria> generarTramiteDocumentario(Integer grupo);
+	public List<TrazabilidadDocumentaria> generarTramiteDocumentario(String grupo);
 
 	public List<ReporteAPN10> getListaReporteAPN10(String idAreaOrigen,
 			String fechaDesde, String fechaHasta);

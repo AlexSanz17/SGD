@@ -70,7 +70,8 @@
 
           }     
           
-          function verArchivoAnexo(url) {
+          function verArchivoAnexo(ruta, nombreArchivo) {
+        	  var url = ruta+ nombreArchivo;
                window.open(url, "_blank"); 
           }     
           
@@ -190,7 +191,7 @@
                                   </div>
                                   <s:iterator value="objDD.listAnexos">
                                   	 <div class="div-adjunto">
-                                   		<a onclick="verArchivoAnexo('<s:property value="rutaArchivo" />');" alt="Ver Archivo Anexo"><s:property value="nombreArchivo" /> [<s:property value="tamanoArchivo" />]</a>
+                                   		<a onclick="verArchivoAnexo('<s:property value="rutaArchivo" />', '<s:property value="nombreArchivo" />');" alt="Ver Archivo Anexo"><s:property value="nombreArchivo" /> [<s:property value="tamanoArchivo" />]</a>
                                    	 </div>
                                   </s:iterator>
                                </s:if>

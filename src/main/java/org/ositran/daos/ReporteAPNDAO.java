@@ -38,7 +38,7 @@ public interface ReporteAPNDAO {
 	List<NodoDocReporteAPN8> getListaNodosDocumentoReporteAPN8(Integer idExpediente);
 	List<NodoDocReporteAPN4> getListaDocReporteAPN4(String idAreaOrigen);
 	List<NodoDocConsolidadoReporteAPN4> getListaConsolidadoReporteAPN4(String objFiltro,Integer unidad);
-	public List<TrazabilidadDocumentaria> getTramiteDocumentario(Integer grupo);
+	public List<TrazabilidadDocumentaria> getTramiteDocumentario(String grupo);
         public List<FilaHojaFirma> getHojaFirma(Integer idDocumento);
 	public List<ReporteAPN10> getListaReporteAPN10(String idAreaOrigen,
 			String fechaDesde, String fechaHasta);

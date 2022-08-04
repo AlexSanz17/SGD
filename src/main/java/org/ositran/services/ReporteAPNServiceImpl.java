@@ -44,7 +44,7 @@ public class ReporteAPNServiceImpl implements ReporteAPNService {
 		return reporteAPNDAO.getHojaFirma(idDocumento);
 	}
 
-	public List<TrazabilidadDocumentaria> generarTramiteDocumentario(Integer grupo){
+	public List<TrazabilidadDocumentaria> generarTramiteDocumentario(String grupo){
 		return reporteAPNDAO.getTramiteDocumentario(grupo);
 	}
 

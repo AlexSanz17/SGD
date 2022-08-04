@@ -1,7 +1,6 @@
 package org.ositran.services;
 
 import org.ositran.daos.InformeObraDAO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,7 @@ public class InformeObraServiceImpl implements InformeObraService {
 
     @Override
     @Transactional
-    public InformeObra read(Long idInformeObra) {
+    public InformeObra read(Integer idInformeObra) {
     	return informeObraDAO.read(idInformeObra);
     }
     
@@ -41,7 +40,7 @@ public class InformeObraServiceImpl implements InformeObraService {
 
     @Override
     @Transactional
-    public void delete(Long idInformeObra) {
+    public void delete(Integer idInformeObra) {
     	informeObraDAO.delete(idInformeObra);
     }
 }

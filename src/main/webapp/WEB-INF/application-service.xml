@@ -1584,20 +1584,16 @@
         <property name="seguridadService" ref="seguridadService" />
     </bean>
     
-    <bean id="informeObraDAO" class="org.ositran.daos.InformeObraDAOImpl"></bean>
+ 	<bean id="informeObraDAO" class="org.ositran.daos.InformeObraDAOImpl"></bean>
     <bean id="informeObraService" class="org.ositran.services.InformeObraServiceImpl">
 			<property name="informeObraDAO" ref="informeObraDAO" />
-			<!-- <property name="tipoInformeObraDAO" ref="tipoInformeObraDAO" /> -->
 	</bean>
-    <!-- <bean id="sessionCheckInterceptor" class="org.ositran.filters.SessionCheckInterceptor">
-    </bean> -->
     
-    <bean id="informeObraAction" scope="prototype" class="org.ositran.actions.InformeObraAction">
+     <bean id="informeObraAction" scope="prototype" class="org.ositran.actions.InformeObraAction">
 		<property name="informeObraService" ref="informeObraService" />
-		<!-- <property name="tipoInformeObraService"
-		ref="tipoInformeObraService" /> -->
+		
 	</bean>
-    
+	
     <aop:config>
         <aop:advisor pointcut="execution(* gob.ositran.siged.service.*.*(..)) or execution(* org.ositran.services.*.*(..))" advice-ref="timingAdvice"/>
         <aop:aspect id="alfrescoTicketAspect" ref="alfrescoTicketBean">

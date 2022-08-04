@@ -125,6 +125,7 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
 	private List<String> condestinatarios;
 	private List<String> concopias;
     private IotdtmDocExterno recepcionVirtual;
+    private Integer siddocext;
     private IotdtcRecepcionMPV recepcionMPV;
 	private ArchivopendienteService archivoPendienteService;
 	private DocumentoService documentoService;
@@ -192,7 +193,15 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
     private AdjuntoMPVService adjuntoMPVService;
     private Cliente objCliente;
 
-    public Cliente getObjCliente() {
+    public Integer getSiddocext() {
+		return siddocext;
+	}
+
+	public void setSiddocext(Integer siddocext) {
+		this.siddocext = siddocext;
+	}
+
+	public Cliente getObjCliente() {
 		return objCliente;
 	}
 
@@ -780,6 +789,10 @@ public class NuevoDocumentoAction extends ActionSupport implements ServletReques
             if (documento.getNroVirtual()!=null){
                 tipoTransaccion = "MR";
                 recepcionVirtual = documentoExternoVirtualDAO.buscarDocumentoVirtual(documento.getNroVirtual());
+                
+//                log.info("Ingresando a siddocext:"+siddocext);
+//                log.info("recepcion------" +recepcionVirtual.getSiddocext());
+               
             }
         }
 

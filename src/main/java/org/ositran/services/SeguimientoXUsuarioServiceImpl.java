@@ -57,7 +57,7 @@ public class SeguimientoXUsuarioServiceImpl implements SeguimientoXUsuarioServic
 				uuf.setAsuntoExpediente(fila.getAsuntoExpediente());
 				uuf.setDocumento(fila.getDocumento());
 				uuf.setEstado(fila.getEstado());
-				uuf.setNroTramite(fila.getNroTramite());
+				uuf.setNroTramite(fila.getNroTramite().toString());
 				uuf.setExpediente(fila.getExpediente());
                                 uuf.setExterno("-1");
                                 uuf.setTipodocumento(fila.getIdtipodocumento().toString());

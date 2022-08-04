@@ -911,7 +911,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 		  objItem.setAsuntoExpediente(fila.getAsuntoExpediente());
                   objItem.setFechaatender(fila.getFechaCreacion());
                   objItem.setEstado(fila.getEstado());
-                  objItem.setNroTramite(fila.getNroTramite());
+                  objItem.setNroTramite(fila.getNroTramite().toString());
                   lstItem.add(objItem);
               }
               
@@ -1131,7 +1131,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
 		  objItem.setAsuntoExpediente(fila.getAsuntoExpediente());
                   objItem.setFechaanulacion(fila.getFechaCreacion());
                   objItem.setEstado(fila.getEstado());
-                  objItem.setNroTramite(fila.getNroTramite());
+                  objItem.setNroTramite(fila.getNroTramite().toString());
                   lstItem.add(objItem);
               }
               
@@ -1225,7 +1225,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                         objItem.setDestinatario(fila.getDestinatario());
                         objItem.setIdDestinatario(fila.getIdDestinatario().toString());
                         objItem.setExpediente(fila.getNroExpediente());
-                        objItem.setNroTramite(fila.getNroTramite());
+                        objItem.setNroTramite(fila.getNroTramite().toString());
                         objItem.setAsuntoExpediente(fila.getAsuntoExpediente());
                         objItem.setTipoEnvio(fila.getTipoEnvio());
                         objItem.setEstado(fila.getEstado());
@@ -1677,6 +1677,7 @@ public class GridcolumnaxusuarioServiceImpl implements GridcolumnaxusuarioServic
                           item.setCliente("");
 			
                         item.setFechalimite(documento.getFechaLimiteAtencion());
+                        
 			items.add(item);
 		}
 		return items;

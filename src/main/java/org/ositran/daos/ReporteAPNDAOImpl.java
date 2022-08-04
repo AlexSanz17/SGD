@@ -593,8 +593,8 @@ public class ReporteAPNDAOImpl implements ReporteAPNDAO {
 
 
 	@SuppressWarnings("unchecked")
-	public List<TrazabilidadDocumentaria> getTramiteDocumentario(Integer grupo){
-		String  sql =  "select  grupo, origen, destino, estado from trazabilidad_documentaria where grupo=" + grupo;
+	public List<TrazabilidadDocumentaria> getTramiteDocumentario(String grupo){
+		String  sql =  "select  grupo, origen, destino, estado from trazabilidad_documentaria where grupo= '" + grupo+" ' ";
 
 		//Query q = em.createNativeQuery(sql.toString());
 		log.info("SQL:" + sql.toString());

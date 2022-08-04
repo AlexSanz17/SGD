@@ -49,7 +49,7 @@ public class ItemUF implements Comparable<ItemUF>{
     private String expBtn;
     private String despachado;
     private String externo;
-    private int nroTramite;
+    private String nroTramite;
     private String nroTramiteVirtual;
     private String nroTramiteEntidad;
     private int origen;
@@ -229,11 +229,11 @@ public class ItemUF implements Comparable<ItemUF>{
         this.fechacreacion = fechacreacion;
     }
 
-    public int getNroTramite() {
+    public String getNroTramite() {
         return nroTramite;
     }
 
-    public void setNroTramite(int nroTramite) {
+    public void setNroTramite(String nroTramite) {
         this.nroTramite = nroTramite;
     }
 

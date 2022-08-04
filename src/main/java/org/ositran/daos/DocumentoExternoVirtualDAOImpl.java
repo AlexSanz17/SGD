@@ -147,8 +147,8 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
         }     
      }
     
-    public List<IotdtmDocExterno> buscarDocumentoDespachoVirtual(Integer numero){
-       String sql = "SELECT e FROM IotdtmDocExterno e where e.sidemiext.vnumregstd =" + numero + " and e.sidemiext.cflgest in ('P','E','S','R') order by e.sidemiext.dfecreg desc ";
+    public List<IotdtmDocExterno> buscarDocumentoDespachoVirtual(String numero){
+       String sql = "SELECT e FROM IotdtmDocExterno e where e.sidemiext.vnumregstd = '" + numero + "' and e.sidemiext.cflgest in ('P','E','S','R') order by e.sidemiext.dfecreg desc ";
        try{				
             return em.createQuery(sql).getResultList();
        }catch(EntityNotFoundException e){
@@ -158,8 +158,8 @@ public class DocumentoExternoVirtualDAOImpl implements DocumentoExternoVirtualDA
        }     
     }
     
-    public List<IotdtmDocExterno> buscarDocumentoProcesadoDespachoVirtual(Integer numero){
-       String sql = "SELECT e FROM IotdtmDocExterno e where e.sidemiext.vnumregstd =" + numero + " and e.sidemiext.cflgest in ('R','O','S') order by e.sidemiext.dfecreg desc ";
+    public List<IotdtmDocExterno> buscarDocumentoProcesadoDespachoVirtual(String numero){
+       String sql = "SELECT e FROM IotdtmDocExterno e where e.sidemiext.vnumregstd = '" + numero + "' and e.sidemiext.cflgest in ('R','O','S') order by e.sidemiext.dfecreg desc ";
        try{				
             return em.createQuery(sql).getResultList();
        }catch(EntityNotFoundException e){

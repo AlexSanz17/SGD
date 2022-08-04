@@ -388,12 +388,20 @@ var mostrarDocumentosFirmar = function(valores, accionEjecutar){
             	    draggable:"true",
             	    style:"display:none;height:450px;width:700px;overflow:auto;",
             	    title:"Los Documentos a "  + cabecera,  
+//            	    onHide: function() {
+//				      console.log("prueba");
+//				   }
         		    onClose: dojo.hitch(this, function() {
                         dijit.byId("dlgFirmar").hide();
         		        dijit.byId("dlgFirmar").destroyRecursive();
         		    })
                 });
     		}
+    		
+//    		dijit.byId("dlgFirmar").on('hide', function() {
+//            	console.log('closed');
+//    
+//        	});
 	       dijit.byId("dlgFirmar").attr("title", "Documentos a " + cabecera);	
            dijit.byId("dlgFirmar").attr("content", data);
 	       dijit.byId("dlgFirmar").show();
@@ -402,7 +410,6 @@ var mostrarDocumentosFirmar = function(valores, accionEjecutar){
 //			}, 1000);
 	    },
 		error: function(error) {
-	        console.log(error);
 	    }
 	});
 }

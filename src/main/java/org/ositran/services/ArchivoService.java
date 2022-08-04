@@ -20,7 +20,7 @@ public interface ArchivoService {
    public List<Archivo> findArchivosxFirmar(Integer idDocumento , Usuario usuario);
    public List<Archivo> findArchivosxVisar(Integer idDocumento , Usuario usuario);
    public Archivo findByCriteria(Integer iIdDoc, String strNombre) throws RuntimeException;
-   public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite);
+   public List<Archivo> buscarArchivosObjectId(String objectId, String nroTramite);
    public List<Archivo> buscarDocumentosPublicar(String nroTramite);
    public List<Archivo> buscarArchivoExterno(String objectId, Integer nroTramite, String clave);
    public List<Archivo> findArchivoPrincipalFirmardo(Integer idDocumento , Usuario usuario);

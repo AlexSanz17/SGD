@@ -296,6 +296,7 @@ showTBODY = function(tbToShow) {
 };*/
 
 submitForm = function() {
+
         if(dijit.byId("dlgProgresBar")!=null){
            dijit.byId("dlgProgresBar").show() ;
         }
@@ -306,12 +307,14 @@ submitForm = function() {
         
         var myForm = dijit.byId("frmNuevoDocumentoTramite");
         if (!myForm.validate()) {
+			
              if(dijit.byId("dlgProgresBar")!=null){
                  dijit.byId("dlgProgresBar").hide() ;
                  }
-             return;
+                 
+     
         }
-        
+       
         var x = document.getElementById("idListaPara");
         document.getElementById("objDD.listaDerivacionPara").value = "";
         
@@ -332,7 +335,9 @@ submitForm = function() {
         }   
         
         if (dijit.byId("objDD.esTipoRecepcionTramite").attr("value") == "O"){
+	
            if  (dijit.byId("objDD.strObservacionTramite").attr("value")==''){
+	
                 alert("Debe ingresar la observación del documento");
                 if(dijit.byId("dlgProgresBar")!=null){
                      dijit.byId("dlgProgresBar").hide() ;
@@ -344,16 +349,19 @@ submitForm = function() {
         x = document.getElementById("idListaCC");
         document.getElementById("objDD.listaDerivacionCC").value = "";
         if (x!=null && x!= "" && x.options.length>0){
+	
            for (var i=0; i<x.options.length;i++){
              if (document.getElementById("objDD.listaDerivacionCC").value == ""){
+		
                document.getElementById("objDD.listaDerivacionCC").value = x.options[i].value;     
              }else{
                document.getElementById("objDD.listaDerivacionCC").value = document.getElementById("objDD.listaDerivacionCC").value + "|" + x.options[i].value;       
              }          
            }
         }
-    
+ 
         if(campos==undefined || campos==""){
+	
              enviarArchivo();
              dijit.byId("btnRegistrarDocumentoTramiteTop").attr("disabled", true);
              dijit.byId("btnRegistrarDocumentoTramiteBottom").attr("disabled", true);
@@ -363,6 +371,7 @@ submitForm = function() {
 function enviarArchivo(){
     if (!bIsPosting) {
       bIsPosting = true;
+      dijit.byId("dlgProgresBar").show()
       dojo.xhrPost({
          
          form: dojo.byId("frmNuevoDocumentoTramite"),

@@ -6,7 +6,7 @@ import org.ositran.utils.Constantes;
 
 public class Item { 
     private String archivos; 
-    private int nroTramite;
+    private String nroTramite;
     private String idArchivo;
     private String recepcionado;
 	private Date fecharecepcion;
@@ -502,7 +502,7 @@ public class Item {
 			String sClienteRazonSocial, String sClienteNombres,
 			String sClienteApellidoPaterno, String sClienteApellidoMaterno,
 			String tipoDocumento, String documento,
-                        char estado, String asuntoExpediente, Integer codTipoInstitucion, Integer nroTramite, Integer nroOrigen){
+                        char estado, String asuntoExpediente, Integer codTipoInstitucion, String nroTramite, Integer nroOrigen){
             
                 this.id = iIdNotificacion;
 		this.leido = cLeido;
@@ -1308,11 +1308,11 @@ public class Item {
 		this.excprioridad = excprioridad;
 	}
         
-    public int getNroTramite() {
+    public String getNroTramite() {
         return nroTramite;
     }
 
-    public void setNroTramite(int nroTramite) {
+    public void setNroTramite(String nroTramite) {
         this.nroTramite = nroTramite;
     }
     

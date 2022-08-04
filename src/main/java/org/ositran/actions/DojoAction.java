@@ -1266,9 +1266,10 @@ public class DojoAction {
 					+ UUID.randomUUID().toString().concat(".xls");
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 			Map<String, Object> m = null;
-
+			System.out.println("---------------------------------entro.................");
 			if (lstItem != null && lstItem.size() > 0) {
 				for (Item item : lstItem) {
+					
 					m = new HashMap<String, Object>();
 					m.put("nroTramite", item.getNroTramite());
 					m.put("documento", item.getNrodocumento());
@@ -1289,8 +1290,9 @@ public class DojoAction {
 				HashMap map = new HashMap();
 				String titulo = "REPORTE DE ";
 				String tipodocumento  = "";
-				
+			
 				if(objFiltro.getTipoDocumento() == null || objFiltro.getTipoDocumento().equals("")) {
+				
 					titulo += "DOCUMENTOS ";
 				}else if(objFiltro.getTipoDocumento() != null && !objFiltro.getTipoDocumento().equals("")) {
 						String[] parte = lstItem.get(0).getNrodocumento().split(" ");
@@ -1332,11 +1334,12 @@ public class DojoAction {
 				
 				JRXlsExporter exporter = new JRXlsExporter();
 				JasperPrint print = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(list));
+				
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
 						request.getRealPath("/") + "export/" + fileName);
 				exporter.exportReport();
-				
+			
 				return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 				+ request.getContextPath() + "/export/" + fileName;
 			}
@@ -2481,7 +2484,8 @@ public class DojoAction {
 			if (d.getNroVirtual() != null) {
 				int contador = 0;
 				IotdtmDocExterno recepcion = documentoExternoVirtualDAO.buscarDocumentoVirtual(d.getNroVirtual());
-				if (!recepcion.getSnumanx().toString().equals("0")) {
+				System.out.println("----------------recepcion--------------" +recepcion);
+				if (recepcion != null && !recepcion.getSnumanx().toString().equals("0")) {
 					if (recepcion.getSnumanx().intValue() > 0) {
 						List<Archivo> lst = archivoService.findLstByIdDocumento(
 								d.getDocumentoreferencia() == null ? d.getIdDocumento() : d.getDocumentoreferencia());
@@ -3343,7 +3347,7 @@ public class DojoAction {
 				// datos[0]:String objectId, datos[1]:String fechaFirma(dd/MM/yyyy HH:mm:ss),
 				// datos[2]:String estado(1,2), datos[3]:Integer nroTramite
 				FirmaArchivo firmaArchivo = new FirmaArchivo();
-				List<Archivo> list = archivoService.buscarArchivosObjectId(datos[0], Integer.valueOf(datos[3]));
+				List<Archivo> list = archivoService.buscarArchivosObjectId(datos[0], datos[3]);
 				firmaArchivo.setIdArchivo(list.get(0).getIdArchivo());
 				firmaArchivo.setEstado("N");
 				if (datos[2].equals("1"))
@@ -3682,7 +3686,7 @@ public class DojoAction {
 				String fullPathPorFirmarQr = POR_FIRMAR + "ConCodigoQr" + File.separator +  nombreArchivo;
 
 				List<Archivo> list1 = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(),
-					Integer.valueOf(itemFirmar.getCodigoId()));
+					itemFirmar.getCodigoId());
 //				list1.get(0).setFlagFirma(1);
 				archivoService.saveArchivo(list1.get(0));
 				
@@ -3708,7 +3712,7 @@ public class DojoAction {
 			}
 		} catch (Exception e) {
 			for (ItemFirmar itemFirmar1 : items) {
-				List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar1.getObjectId(),Integer.valueOf(itemFirmar1.getCodigoId()));
+				List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar1.getObjectId(),itemFirmar1.getCodigoId());
 //				list2.get(0).setFlagFirma(0);
 				archivoService.saveArchivo(list2.get(0));
 			}
@@ -3747,7 +3751,7 @@ public class DojoAction {
 				System.out.println("---------fullPathPorFirmarQr------- " +fullPathPorFirmarQr);
 				
 				List<Archivo> list1 = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(),
-					Integer.valueOf(itemFirmar.getCodigoId()));
+					itemFirmar.getCodigoId());
 //				list1.get(0).setFlagFirma(1);
 				System.out.println("-------------Guardo el archivo firmado--------------");
 				archivoService.saveArchivo(list1.get(0));
@@ -3779,7 +3783,7 @@ public class DojoAction {
 			}
 		} catch (Exception e) {
 			for (ItemFirmar itemFirmar1 : items) {
-				List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar1.getObjectId(),Integer.valueOf(itemFirmar1.getCodigoId()));
+				List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar1.getObjectId(),itemFirmar1.getCodigoId());
 //				list2.get(0).setFlagFirma(0);
 				archivoService.saveArchivo(list2.get(0));
 			}
@@ -3829,7 +3833,7 @@ public class DojoAction {
 			final File firmado = new File(newFullPathFirmado);
 
 			List<Archivo> list = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(),
-				Integer.valueOf(itemFirmar.getCodigoId()));
+				itemFirmar.getCodigoId());
 
 			mapSession = ActionContext.getContext().getSession();
 			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);
@@ -3915,7 +3919,7 @@ public class DojoAction {
 				} catch (Exception e) {
 					
 					for (ItemFirmar itemFirmar2 : items) {
-						List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar2.getObjectId(),Integer.valueOf(itemFirmar2.getCodigoId()));
+						List<Archivo> list2 = archivoService.buscarArchivosObjectId(itemFirmar2.getObjectId(),itemFirmar2.getCodigoId());
 						list2.get(0).setFlagFirma(0);
 						archivoService.saveArchivo(list2.get(0));
 					}
@@ -3979,7 +3983,7 @@ public class DojoAction {
 	public String deleteFirmaArchivo(List<ItemFirmar> items) {
 		for (ItemFirmar itemFirmar : items) {
 			List<Archivo> list = archivoService.buscarArchivosObjectId(itemFirmar.getObjectId(),
-				Integer.valueOf(itemFirmar.getCodigoId()));
+				itemFirmar.getCodigoId());
 
 			mapSession = ActionContext.getContext().getSession();
 			Usuario objUsuario = (Usuario) mapSession.get(Constantes.SESSION_USUARIO);

@@ -2096,7 +2096,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
 		*/
 		StringBuilder sql = new StringBuilder(
 				"SELECT DISTINCT "
-				+ " D.iddocumento	, D.ID_CLIENTE	, D.ID_CODIGO	, D.ID_EXTERNO	, D.aniofiscal	, D.asunto	, D.bandeja"	
+				+ " D.iddocumento	, D.ID_CLIENTE	, D.ID_CODIGO 	, D.ID_EXTERNO	, D.aniofiscal	, D.asunto	, D.bandeja"	
 				+ ", D.cargopropietario	, D.codCargoRemitente	, D.codinfraestructura	, D.codmateria"	
 				+ ", D.codRemitente	, D.codTipoInstitucion	, D.confidencial	, CONVERT(VARCHAR,D.contenido) as contenido	"
 				+ ", D.creaexpediente	, D.delexpediente	, D.desCargoRemitente	, D.desRemitente"
@@ -3390,8 +3390,10 @@ public class DocumentoDAOImpl implements DocumentoDAO {
         		",IdFuncionPerfil:"+objUsuario.getIdFuncionPerfil()+",fechaDia:"+fechaDia.getTime());
 
             if(items == true){
+
                 try {
                     List<FilaBandejaUF> temp = q.getResultList();
+                    System.out.println("----------temp-------------" +temp.toString());
                     
                     if(temp != null && !temp.isEmpty()){
                         if(bandeja.equals("R") || bandeja.equals("F") || bandeja.equals("NT") || bandeja.equals("ND") || bandeja.equals("NU")){
@@ -3465,7 +3467,7 @@ public class DocumentoDAOImpl implements DocumentoDAO {
         objUsuario.setIdUnidadPerfil(fila.getUnidadpropietario());
         objUsuario.setIdFuncionPerfil(fila.getCargopropietario());
             
-        uuf.setNroTramite(fila.getNroTramite());
+        uuf.setNroTramite(fila.getNroTramite().toString());
         uuf.setId(fila.getId());
         uuf.setTipodocumento(fila.getIdtipodocumento().toString());
         uuf.setOrigen(fila.getOrigen());

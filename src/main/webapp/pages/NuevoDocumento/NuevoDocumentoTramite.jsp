@@ -410,9 +410,17 @@
           
          function llenarCamposModificarRecepcionVirtual(){ 
             llenarCampos();
-            dojo.byId("tbNroFoliosPIDETramite").style.display = "";  
-            dijit.byId("objDD.iNroFoliosPIDETramite").attr("value", "<s:property value='recepcionVirtual.snumfol' />");
-            dijit.byId("objDD.iNroFoliosPIDETramite").attr("required", true);
+           
+           
+            if ("<s:property value='recepcionVirtual.siddocext' />" == ""){
+	            dojo.byId("tbNroFoliosPIDETramite").style.display = "none";  
+	            
+            	
+            }else{
+            	  dojo.byId("tbNroFoliosPIDETramite").style.display = "";  
+  	            dijit.byId("objDD.iNroFoliosPIDETramite").attr("value", "<s:property value='recepcionVirtual.snumfol' />");
+  	            dijit.byId("objDD.iNroFoliosPIDETramite").attr("required", true);
+            }
             
             dijit.byId("objDD.iNroFoliosTramite").attr("required", false);
             dijit.byId("objDD.iNroFoliosOriginalesTramite").attr("required", false);
@@ -446,10 +454,11 @@
          }    
  
          function llenarCampos(){ //MODIFICAR
+        	
              document.getElementById("mostrarExpedientesAbiertos").value = "HIDE";
-         
+//              document.getElementById("tbNroFoliosPIDETramite").style.display = "none";  
              dijit.byId("objDD.strNroDocumentoTramite").setValue("<s:property value='documento.numeroDocumento' escape='false' />");
-             dijit.byId("objDD.esTipoRecepcionTramite").setValue("<s:property value='documento.recepcionado' />");
+//              dijit.byId("objDD.esTipoRecepcionTramite").setValue("<s:property value='documento.recepcionado' />");
              document.getElementById("objDD.iIdDocumento").value = "<s:property value='idDocumento' />";
              dijit.byId("objDD.iIdSerieTramite").attr("value", "<s:property value='expediente.serie.idserie' />");
              

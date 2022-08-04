@@ -130,7 +130,7 @@ public class ArchivoServiceImpl implements ArchivoService{
     public List<Archivo> buscarArchivoCargoByIdDocumento(Integer iddocumento){
     	return archivoDAO.buscarArchivoCargoByIdDocumento(iddocumento);
     }
-    public List<Archivo> buscarArchivosObjectId(String objectId, Integer nroTramite){
+    public List<Archivo> buscarArchivosObjectId(String objectId, String nroTramite){
         return archivoDAO.buscarArchivosObjectId(objectId, nroTramite);
     }
         

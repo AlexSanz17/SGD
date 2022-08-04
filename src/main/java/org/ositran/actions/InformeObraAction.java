@@ -7,20 +7,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
-
 import org.ositran.services.InformeObraService;
-import org.ositran.utils.InformeObraDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.btg.ositran.siged.domain.InformeObra;
-import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class InformeObraAction extends ActionSupport implements ServletRequestAware, ServletResponseAware {
-//	private InformeObra informeObra;
+private InformeObra informeObra;
 	private InformeObraService informeObraService;
-	
 	private String contrato;
 	private String razonSocial;
 	private String ruc;
@@ -33,33 +29,9 @@ public class InformeObraAction extends ActionSupport implements ServletRequestAw
 	private String fechaCreacion;
 	private String fechaModificacion;
 	
-//	private final Logger log = LoggerFactory.getLogger(DocumentoAction.class);
-    
-	@Override
-	public void setServletResponse(HttpServletResponse response) {
-	}
-
-	@Override
-	public void setServletRequest(HttpServletRequest request) {
-	}
-	
-//	public InformeObra getInformeObra() {
-//		return informeObra;
-//	}
-//
-//	public void setInformeObra(InformeObra informeObra) {
-//		this.informeObra = informeObra;
-//	}
-
-	public InformeObraService getInformeObraService() {
-		return informeObraService;
-	}
-
-	public void setInformeObraService(InformeObraService informeObraService) {
-		this.informeObraService = informeObraService;
-	}
-
-	public String getContrato() {
+private final Logger log = LoggerFactory.getLogger(DocumentoAction.class);
+        
+      public String getContrato() {
 		return contrato;
 	}
 
@@ -147,53 +119,53 @@ public class InformeObraAction extends ActionSupport implements ServletRequestAw
 		this.fechaModificacion = fechaModificacion;
 	}
 	
-	public String mostrarInformeObra() throws Exception {
-        return "mostrarInformeObra";
+	public InformeObraService getInformeObraService() {
+		return informeObraService;
+	}
+	
+public void setInformeObraService(InformeObraService informeObraService) {
+		this.informeObraService = informeObraService;
+	}
+	
+	public String mostrarVistaInformeObra() throws Exception {
+        log.debug("InformeObraAction::mostrarVistaInformeObra()");
+  log.info("contrato " + contrato + "razonSocial " + razonSocial);
+        return "nuevoInforme";
     }
 
 	public String registrarInformeObra() throws Exception {
-		String response = null;
-		try {
-			
-			InformeObra informeObra = new InformeObra();
-			System.out.println("-----------------ingreso");
-			informeObra.setContrato(contrato);
-			informeObra.setRazonSocial(razonSocial);
-			informeObra.setRuc(ruc);
-			informeObra.setTipoObra(tipoObra);
-			informeObra.setFechaInicio(Date.valueOf(fechaInicio));
-			informeObra.setFechatermino(Date.valueOf(fechaTermino));
-			informeObra.setMonto(Integer.valueOf(monto));
-			informeObra.setBeneficiarios(Integer.valueOf(beneficiarios));
-			informeObra.setDescripcion(descripcion);
-			informeObra.setFechaCreacion(Date.valueOf("2022-01-31"));
-			informeObra.setFechaModificacion(Date.valueOf("2022-01-31"));
-			System.out.println("-----------------informeObra" +informeObra);
-			informeObraService.create(informeObra);
-			System.out.println("-----------------guardo");
-			
-//		InformeObraDetail objID = new InformeObraDetail();
-//		objID.setContrato(contrato);
-//		System.out.println("---------------objID-----------" +objID);
-			
-//		log.debug("InformeObraAction::registrarInformeObra()");
-//		log.info("contrato " + informeObra.getContrato() + "razonSocial " + informeObra.getRazonSocial());
-			
-			response =  "success";
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			response = "error";
-		}
-		return response;
+		InformeObra  informeObra = new InformeObra();
+
+		informeObra.setContrato(contrato);
+		informeObra.setRazonSocial(razonSocial);
+		informeObra.setRuc(ruc);
+		informeObra.setTipoObra(tipoObra);
+		informeObra.setFechaInicio(Date.valueOf(fechaInicio));
+						      informeObra.setFechatermino(Date.valueOf(fechaTermino));
+		informeObra.setMonto(Integer.valueOf(monto));
+			 informeObra.setBeneficiarios(Integer.valueOf(beneficiarios));
+		informeObra.setDescripcion(descripcion);
+		informeObra.setFechaCreacion(Date.valueOf("2022-01-31"));
+		informeObra.setFechaModificacion(Date.valueOf("2022-01-31"));
+		
+		informeObraService.create(informeObra);
+
+		log.debug("InformeObraAction::registrarInformeObra()");
+log.info("contrato " + informeObra.getContrato() + "razonSocial " + informeObra.getRazonSocial());
+	    
+		return "informeRegistrado";
 	}
 	
-	 public String mostrarVistaInformeObra() throws Exception { 
-//	        log.debug("InformeObraAction::mostrarVistaInformeObra()");
-//	  log.info("contrato " + contrato + "razonSocial " +
-//	razonSocial); 
-	        return "nuevoInforme";
-	    }
+	@Override
+	public void setServletResponse(HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+	}
 
-	
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		
+	}
 }
+
